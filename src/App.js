@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <a href="/login/google">Login to Google</a>
+      <a href="http://localhost:8080/login/google">Login to Google</a>
     </div>
   );
 }
