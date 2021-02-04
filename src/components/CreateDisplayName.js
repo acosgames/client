@@ -4,17 +4,11 @@ import {
     withRouter,
 } from "react-router-dom";
 
-import { createDisplayName } from '../../actions/person';
+import { createDisplayName } from '../actions/person';
 
 class CreateDisplayName extends Component {
     constructor(props) {
         super(props);
-
-        let apikey = this.props.match.params['apikey'];
-
-        if (apikey) {
-            this.props.history.replace('/createplayer');
-        }
 
         this.state = {
             displayname: ""

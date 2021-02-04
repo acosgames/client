@@ -3,8 +3,8 @@ import { Component } from "react";
 import {
     withRouter,
 } from "react-router-dom";
-import GameList from "../games/gamelist";
-
+import GameList from "./GameList";
+import MainMenu from './MainMenu';
 class MainPage extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +16,13 @@ class MainPage extends Component {
     render() {
         return (
             <div>
-                <GameList />
+                <table>
+                    <tr>
+                        <td><MainMenu /></td>
+                        <td><GameList /></td>
+                    </tr>
+                </table>
+
             </div>
         )
     }
