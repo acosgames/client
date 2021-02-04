@@ -19,13 +19,13 @@ function App() {
   return (
     <div>
       <Router>
-        <Switch>
-          <Route path="/createplayer/:apikey?" component={CreateDisplayName} />
-          <Route exactpath="/login" component={SocialLogin} />
-          <Route exactpath="/success/:apikey?" component={MainPage} />
-          <Route exactpath="/" component={MainPage} />
-
-        </Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route exact path="/dev/profile/:id?" component={CreateDisplayName} />
+        <Route exact path="/dev/game/create" component={CreateDisplayName} />
+        <Route exact path="/dev/game/:id" component={CreateDisplayName} />
+        <Route exact path="/player/create" component={CreateDisplayName} />
+        <Route exact path="/" component={SocialLogin} />
+        <Route exact path="/games" component={MainPage} />
       </Router>
     </div>
   );

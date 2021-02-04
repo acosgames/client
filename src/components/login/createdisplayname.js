@@ -4,6 +4,7 @@ import {
     withRouter,
 } from "react-router-dom";
 
+import { createDisplayName } from '../../actions/person';
 
 class CreateDisplayName extends Component {
     constructor(props) {
@@ -20,8 +21,13 @@ class CreateDisplayName extends Component {
         }
     }
 
-    onSubmit(e) {
+    async onSubmit(e) {
         console.log(e);
+        let displayname = this.state.displayname;
+        let user = await createDisplayName(displayname);
+        if (user.code == 'E_EXISTS_DISPLAYNAME') {
+            this.setState({ error: `The name '${displayname}' already exists.` })
+        }
     }
     onChange(e) {
         console.log(e.target.value);
@@ -31,11 +37,21 @@ class CreateDisplayName extends Component {
     }
 
     render() {
+        let hasError = (this.state.error && this.state.error.length > 0);
         return (
             <div>
                 <h3>Choose Display Name</h3>
+
                 <input type="text" onChange={this.onChange.bind(this)} value={this.state.displayname} />
+
                 <button onClick={this.onSubmit.bind(this)}>Submit</button>
+                {
+                    hasError && (
+                        <div>
+                            <span>{this.state.error}</span>
+                        </div>
+                    )
+                }
             </div>
         )
     }

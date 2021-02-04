@@ -3,9 +3,8 @@ import { Component } from "react";
 import {
     withRouter,
 } from "react-router-dom";
-import GameList from "../games/gamelist";
 
-class MainPage extends Component {
+class GameList extends Component {
     constructor(props) {
         super(props);
 
@@ -16,11 +15,11 @@ class MainPage extends Component {
     render() {
         return (
             <div>
-                <GameList />
+                <h3>Find a game to play!</h3>
+
             </div>
         )
     }
 }
 
-export default withRouter(MainPage);
-
+export default withRouter(GameList);

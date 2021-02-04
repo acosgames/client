@@ -1,9 +1,13 @@
 import axios from 'axios';
 
+const instance = axios.create({
+    withCredentials: true
+})
+
 
 export async function GET(url) {
     try {
-        let response = await axios.get(url, APIKEY());
+        let response = await instance.get(url, APIKEY());
         return response;
     }
     catch (e) {
@@ -14,7 +18,7 @@ export async function GET(url) {
 
 export async function POST(url, data) {
     try {
-        let response = await axios.post(url, data, APIKEY());
+        let response = await instance.post(url, data, APIKEY());
         return response;
     }
     catch (e) {
