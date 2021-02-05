@@ -29,7 +29,7 @@ class DeveloperDashboard extends Component {
                         <td><a href="/games">Find Games</a></td>
                     </tr>
                     <tr>
-                        <td><a href="/dev/profile">Developer Home</a></td>
+                        <td><a href="/dev/">Developer Dashboard</a></td>
                     </tr>
                 </table>
 
