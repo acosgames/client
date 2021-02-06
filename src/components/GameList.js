@@ -14,9 +14,8 @@ class GameList extends Component {
 
     render() {
         return (
-            <div>
+            <div id="gamelist">
                 <h3>Find a game to play!</h3>
-
             </div>
         )
     }

@@ -5,9 +5,9 @@ const instance = axios.create({
 })
 
 
-export async function GET(url) {
+export async function GET(url, extras) {
     try {
-        let response = await instance.get(url, APIKEY());
+        let response = await instance.get(url, HEADERS(extras));
         return response;
     }
     catch (e) {
@@ -16,9 +16,9 @@ export async function GET(url) {
     return null;
 }
 
-export async function POST(url, data) {
+export async function POST(url, data, extras) {
     try {
-        let response = await instance.post(url, data, APIKEY());
+        let response = await instance.post(url, data, HEADERS(extras));
         return response;
     }
     catch (e) {
@@ -27,10 +27,11 @@ export async function POST(url, data) {
     return null;
 }
 
-export function APIKEY() {
+export function HEADERS(extras) {
     return {
         headers: {
             'X-API-KEY': ''
-        }
+        },
+        ...extras
     }
 }

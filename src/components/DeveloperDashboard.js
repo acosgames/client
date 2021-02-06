@@ -23,15 +23,8 @@ class DeveloperDashboard extends Component {
     */
     render() {
         return (
-            <div>
-                <table>
-                    <tr>
-                        <td><a href="/games">Find Games</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="/dev/">Developer Dashboard</a></td>
-                    </tr>
-                </table>
+            <div id="devdash">
+
 
             </div>
         )

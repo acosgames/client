@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,6 +6,7 @@ import {
   Link
 } from "react-router-dom";
 
+import MainMenu from './components/MainMenu'
 import MainPage from './components/MainPage';
 import SocialLogin from './components/SocialLogin';
 import CreateDisplayName from './components/CreateDisplayName';
@@ -19,23 +20,37 @@ import flatstore from 'flatstore';
 
 flatstore.set('user', {});
 
-function App() {
-  return (
-    <div>
-      <Router>
-        <Switch>
-          <Route exact path="/" component={MainPage} />
-          <Route exact path="/dev/game/create" component={CreateGame} />
-          <Route exact path="/dev/game/:id" component={CreateDisplayName} />
-          <Route exact path="/dev/:id?" component={DeveloperDashboard} />
+class App extends Component {
+  constructor(props) {
+    super(props);
 
-          <Route exact path="/player/create" component={CreateDisplayName} />
-          <Route exact path="/" component={SocialLogin} />
-          <Route exact path="/games" component={MainPage} />
-        </Switch>
-      </Router>
-    </div>
-  );
+  }
+
+  render() {
+    return (
+      <div id="app">
+        <Router>
+          <table id="wrapper">
+            <tr>
+              <td>
+                <MainMenu />
+              </td>
+              <td>
+                <Switch>
+                  <Route exact path="/" component={MainPage} />
+                  <Route exact path="/dev/game/create" component={CreateGame} />
+                  <Route exact path="/dev/game/:id" component={CreateDisplayName} />
+                  <Route exact path="/dev/:id?" component={DeveloperDashboard} />
+                  <Route exact path="/player/create" component={CreateDisplayName} />
+                  <Route exact path="/games" component={MainPage} />
+                </Switch>
+              </td>
+            </tr>
+          </table>
+        </Router>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default flatstore.connect(['user'])(App);

@@ -3,6 +3,9 @@ import { Component } from "react";
 import {
     withRouter,
 } from "react-router-dom";
+import SocialLogin from "./SocialLogin";
+
+import './styles/MainPage.css';
 
 class MainMenu extends Component {
     constructor(props) {
@@ -14,16 +17,14 @@ class MainMenu extends Component {
 
     render() {
         return (
-            <div>
-                <table>
-                    <tr>
-                        <td><a href="/games">Find Games</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="/dev/dashboard">Developer Dashboard</a></td>
-                    </tr>
-                </table>
+            <div id="mainmenu">
+                <ul>
+                    <li><a href="/games">Find Games</a></li>
+                    <li><a href="/dev">Developer Dashboard</a></li>
+                    <li><a href="/dev/game/create">Create Game</a></li>
+                </ul>
 
+                <SocialLogin />
             </div>
         )
     }
