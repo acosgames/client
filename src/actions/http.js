@@ -6,25 +6,13 @@ const instance = axios.create({
 
 
 export async function GET(url, extras) {
-    try {
-        let response = await instance.get(url, HEADERS(extras));
-        return response;
-    }
-    catch (e) {
-        console.error(e);
-    }
-    return null;
+    let response = await instance.get(url, HEADERS(extras));
+    return response;
 }
 
 export async function POST(url, data, extras) {
-    try {
-        let response = await instance.post(url, data, HEADERS(extras));
-        return response;
-    }
-    catch (e) {
-        console.error(e);
-    }
-    return null;
+    let response = await instance.post(url, data, HEADERS(extras));
+    return response;
 }
 
 export function HEADERS(extras) {

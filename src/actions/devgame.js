@@ -1,4 +1,6 @@
-import { POST } from './http';
+import { POST, GET } from './http';
+
+import { validateSimple } from 'forkoff-shared/util/validation';
 
 import fs from 'flatstore';
 fs.set('devgameimages', []);
@@ -9,8 +11,80 @@ export async function addImages(images) {
     fs.set('devgameimages', images);
 }
 
-export async function updateGame(name, value) {
+
+export async function findGame(gameid) {
+    try {
+        let response = await GET('/dev/find/game/' + gameid);
+        let game = response.data;
+
+        fs.set('devgameerror', []);
+        console.log(game);
+        fs.set('devgame', game);
+        return game;
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+            fs.set('devgameerror', [data]);
+        }
+    }
+    return null;
+}
+
+export async function updateGameImages() {
+    // let images = fs.get('devgameimages');
+
+    // let progress = {
+    //     onUploadProgress: progressEvent => console.log(progressEvent.loaded)
+    // };
+
+    // var formData = new FormData();
+    // images.forEach((image) => {
+    //     formData.append("images", image.file);
+    // })
+}
+
+export async function updateGame() {
+    try {
+        let newGame = fs.get('devgame');
+
+        let errors = validateSimple('game', newGame);
+        if (errors.length > 0) {
+            fs.set('devgameerror', errors);
+            return newGame;
+        }
+
+        let response = await POST('/dev/update/game', newGame);
+        let game = response.data;
+
+        fs.set('devgameerror', []);
+        console.log(game);
+        return game;
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+            fs.set('devgameerror', [data]);
+        }
+    }
+    return null;
+}
+
+export async function updateGameField(name, value) {
     let game = fs.get('devgame');
+
+    let errors = validateSimple(game);
+    if (errors.length > 0) {
+        fs.set('devgameerror', errors);
+        return game;
+    }
+
     game[name] = value;
 
     fs.set('devgame', game);
@@ -18,37 +92,39 @@ export async function updateGame(name, value) {
     console.log(game);
 }
 
+
 export async function createGame(progressCB) {
 
     try {
         let newGame = fs.get('devgame');
-        // let images = fs.get('devgameimages');
 
-        // let progress = {
-        //     onUploadProgress: progressEvent => console.log(progressEvent.loaded)
-        // };
-
-        // var formData = new FormData();
-        // images.forEach((image) => {
-        //     formData.append("images", image.file);
-        // })
+        let errors = validateSimple('game', newGame);
+        if (errors.length > 0) {
+            fs.set('devgameerror', errors);
+            return newGame;
+        }
 
         let response = await POST('/dev/create/game', newGame);
         let game = response.data;
 
-        if (game.ecode) {
-            fs.set('devgameerror', game);
-            //TODO: add notification here for error codes
-            console.log(game);
-            return null;
-        }
-
-        //fs.set('devgame', game);
+        fs.set('devgameerror', []);
         console.log(game);
         return game;
     }
     catch (e) {
         console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+
+            //const { request, ...errorObject } = response; // take everything but 'request'
+            //console.log(errorObject);
+
+            fs.set('devgameerror', [data]);
+        }
+
+
     }
     return null;
 }
