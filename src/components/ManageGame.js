@@ -120,7 +120,7 @@ class ManageGame extends Component {
                     value={this.props.devgame.servergit || ''}
                     onChange={this.inputChange.bind(this)} /><br />
 
-                <button onClick={this.onSubmit.bind(this)}>Submit</button>
+                <button onClick={this.onSubmit.bind(this)}>Save</button>
                 {
                     hasError && (
                         <div>

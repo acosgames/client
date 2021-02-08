@@ -34,17 +34,38 @@ export async function findGame(gameid) {
     return null;
 }
 
-export async function updateGameImages() {
-    // let images = fs.get('devgameimages');
+export async function uploadImages() {
+    try {
+        let images = fs.get('devgameimages');
 
-    // let progress = {
-    //     onUploadProgress: progressEvent => console.log(progressEvent.loaded)
-    // };
+        let progress = {
+            onUploadProgress: progressEvent => console.log(progressEvent.loaded)
+        };
 
-    // var formData = new FormData();
-    // images.forEach((image) => {
-    //     formData.append("images", image.file);
-    // })
+        var formData = new FormData();
+        images.forEach((image) => {
+            formData.append("images", image.file);
+        })
+
+        formData.append('count', "" + images.length);
+
+        let response = await POST('/dev/update/game/images', formData);
+        let game = response.data;
+        console.log(game);
+
+        return game;
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+            fs.set('devgameerror', [data]);
+        }
+        throw e;
+    }
+
 }
 
 export async function updateGame() {
@@ -59,6 +80,11 @@ export async function updateGame() {
 
         let response = await POST('/dev/update/game', newGame);
         let game = response.data;
+
+        let imageResponse = await uploadImages();
+        let gameWithImages = response.data;
+
+        console.log(gameWithImages);
 
         fs.set('devgameerror', []);
         console.log(game);
