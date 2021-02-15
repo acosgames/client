@@ -23,6 +23,7 @@ class CreateDisplayName extends Component {
             this.setState({ error: `The name '${displayname}' already exists.` })
         }
     }
+
     onChange(e) {
         console.log(e.target.value);
         let name = e.target.value;

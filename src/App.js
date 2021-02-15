@@ -10,9 +10,9 @@ import MainMenu from './components/MainMenu'
 import MainPage from './components/MainPage';
 import SocialLogin from './components/SocialLogin';
 import CreateDisplayName from './components/CreateDisplayName';
-import DeveloperDashboard from "./components/DeveloperDashboard";
-import CreateGame from "./components/CreateGame";
-import ManageGame from "./components/ManageGame";
+import DevDashboard from "./components/DevDashboard";
+import DevCreateGame from "./components/DevCreateGame";
+import DevManageGame from "./components/DevManageGame";
 
 import './App.css';
 
@@ -40,9 +40,9 @@ class App extends Component {
                 <td>
                   <Switch>
                     <Route exact path="/" component={MainPage} />
-                    <Route exact path="/dev/game/create" component={CreateGame} />
-                    <Route exact path="/dev/game/:gameid" component={ManageGame} />
-                    <Route exact path="/dev/:id?" component={DeveloperDashboard} />
+                    <Route exact path="/dev/game/create" component={DevCreateGame} />
+                    <Route exact path="/dev/game/:gameid" component={DevManageGame} />
+                    <Route exact path="/dev/:id?" component={DevDashboard} />
                     <Route exact path="/player/create" component={CreateDisplayName} />
                     <Route exact path="/games" component={MainPage} />
                   </Switch>
@@ -56,4 +56,4 @@ class App extends Component {
   }
 }
 
-export default flatstore.connect(['user'])(App);
+export default flatstore.connect([])(App);

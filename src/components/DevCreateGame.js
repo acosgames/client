@@ -3,26 +3,25 @@ import { Component, Fragment } from "react";
 import {
     withRouter,
 } from "react-router-dom";
-import ImageUpload from "./ImageUpload";
+import DevImageUpload from "./DevImageUpload";
 
-import { updateGameField, updateGame, findGame } from '../actions/devgame';
+import { updateGameField, createGame } from '../actions/devgame';
 import fs from 'flatstore';
 
 import errorMessage from 'forkoff-shared/model/errorcodes';
 
-class ManageGame extends Component {
+class DevCreateGame extends Component {
     constructor(props) {
         super(props);
 
-        let gameid = props.match.params.gameid;
-        findGame(gameid);
+
         this.state = {
         }
     }
 
     async onSubmit(e) {
         //console.log(e);
-        let game = await updateGame();
+        let game = await createGame();
         if (!game) {
             return;
         }
@@ -72,65 +71,55 @@ class ManageGame extends Component {
         let hasError = (this.props.devgameerror && this.props.devgameerror.length > 0);
         return (
             <div id="creategame" className="inputform">
-                <h3>Finish up, so you can publish.</h3>
-
-                <ImageUpload images={this.props.devgameimages}></ImageUpload>
+                <h3>Alright, lets set up your game.</h3>
 
                 {hasError && this.displayError()}
+
                 <input
                     type="text"
                     name="name"
                     placeholder="Game Name"
                     maxLength="60"
-                    value={this.props.devgame.name || ''}
-                    onChange={this.inputChange.bind(this)} /><br />
-                <input
-                    type="text"
-                    disabled
-                    name="version"
-                    placeholder="Version"
-                    maxLength="12"
-                    value={this.props.devgame.version || '1'} /><br />
+                    onChange={this.inputChange.bind(this)} />
+                <br />
+
                 <input
                     type="text"
                     name="shortdesc"
                     placeholder="Short Description"
                     maxLength="80"
-                    value={this.props.devgame.shortdesc || ''}
-                    onChange={this.inputChange.bind(this)} /><br />
+                    onChange={this.inputChange.bind(this)} />
+                <br />
                 <textarea
                     type="text"
                     name="longdesc"
                     placeholder="Long Description"
                     maxLength="1200"
-                    value={this.props.devgame.longdesc || ''}
-                    onChange={this.inputChange.bind(this)}></textarea><br />
+                    onChange={this.inputChange.bind(this)}>
+                </textarea>
+                <br />
                 <input
                     type="text"
-                    name="clientgit"
+                    name="git_client"
                     placeholder="Client Git URL"
                     maxLength="255"
-                    value={this.props.devgame.clientgit || ''}
-                    onChange={this.inputChange.bind(this)} /><br />
+                    onChange={this.inputChange.bind(this)} />
+                <br />
                 <input
                     type="text"
-                    name="servergit"
+                    name="git_server"
                     placeholder="Server Git URL (optional)"
                     maxLength="255"
-                    value={this.props.devgame.servergit || ''}
-                    onChange={this.inputChange.bind(this)} /><br />
+                    onChange={this.inputChange.bind(this)} />
+                <br />
 
-                <button onClick={this.onSubmit.bind(this)}>Save</button>
-                {
-                    hasError && (
-                        <div>
-                            <span>{this.state.error}</span>
-                        </div>
-                    )
-                }
+                <button
+                    onClick={this.onSubmit.bind(this)}>
+                    Submit
+                </button>
             </div>
         )
     }
 }
 
-export default withRouter(fs.connect(['devgame', 'devgameerror', 'devgameimages'])(ManageGame));
+export default withRouter(fs.connect(['devgame', 'devgameerror'])(DevCreateGame));

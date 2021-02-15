@@ -4,7 +4,7 @@ import {
     withRouter,
 } from "react-router-dom";
 
-class DeveloperDashboard extends Component {
+class DevDashboard extends Component {
     constructor(props) {
         super(props);
 
@@ -31,5 +31,5 @@ class DeveloperDashboard extends Component {
     }
 }
 
-export default withRouter(DeveloperDashboard);
+export default withRouter(DevDashboard);
 
