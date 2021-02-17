@@ -5,12 +5,12 @@ import {
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
 
-import { updateGameField, createGame } from '../actions/devgame';
+import { updateServerField, createServer } from '../actions/devgame';
 import fs from 'flatstore';
 
 import errorMessage from 'forkoff-shared/model/errorcodes';
 
-class DevCreateGame extends Component {
+class DevCreateServer extends Component {
     constructor(props) {
         super(props);
 
@@ -21,19 +21,19 @@ class DevCreateGame extends Component {
 
     async onSubmit(e) {
         //console.log(e);
-        let game = await createGame();
+        let game = await createServer();
         if (!game) {
             return;
         }
 
-        this.props.history.replace('/dev/game/' + game.gameid);
+        // this.props.history.replace('/dev/game/' + game.gameid);
     }
 
     inputChange(e) {
         let name = e.target.name;
         let value = e.target.value;
 
-        updateGameField(name, value);
+        updateServerField(name, value);
     }
 
     onChange(key, value, group) {
@@ -75,44 +75,6 @@ class DevCreateGame extends Component {
 
                 {hasError && this.displayError()}
 
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Game Name"
-                    maxLength="60"
-                    onChange={this.inputChange.bind(this)} />
-                <br />
-
-                <input
-                    type="text"
-                    name="shortdesc"
-                    placeholder="Short Description"
-                    maxLength="80"
-                    onChange={this.inputChange.bind(this)} />
-                <br />
-                <textarea
-                    type="text"
-                    name="longdesc"
-                    placeholder="Long Description"
-                    maxLength="1200"
-                    onChange={this.inputChange.bind(this)}>
-                </textarea>
-                <br />
-                <input
-                    type="text"
-                    name="git_client"
-                    placeholder="Client Git URL"
-                    maxLength="255"
-                    onChange={this.inputChange.bind(this)} />
-                <br />
-                <input
-                    type="text"
-                    name="git_server"
-                    placeholder="Server Git URL (optional)"
-                    maxLength="255"
-                    onChange={this.inputChange.bind(this)} />
-                <br />
-
                 <button
                     onClick={this.onSubmit.bind(this)}>
                     Submit
@@ -122,4 +84,4 @@ class DevCreateGame extends Component {
     }
 }
 
-export default withRouter(fs.connect(['devgame', 'devgameerror'])(DevCreateGame));
+export default withRouter(fs.connect(['devserver', 'devservererror'])(DevCreateServer));

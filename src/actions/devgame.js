@@ -182,7 +182,7 @@ export async function updateGame() {
     try {
         let newGame = fs.get('devgame');
 
-        let errors = validateSimple('game', newGame);
+        let errors = validateSimple('game_info', newGame);
         if (errors.length > 0) {
             fs.set('devgameerror', errors);
             return newGame;
@@ -231,7 +231,7 @@ export async function updateGame() {
 export async function updateGameField(name, value) {
     let game = fs.get('devgame');
 
-    let errors = validateSimple(game);
+    let errors = validateSimple('game_info', game);
     if (errors.length > 0) {
         fs.set('devgameerror', errors);
         return game;
@@ -247,7 +247,7 @@ export async function updateGameField(name, value) {
 export async function updateClientField(name, value) {
     let client = fs.get('devclient');
 
-    let errors = validateSimple(client);
+    let errors = validateSimple('game_client', client);
     if (errors.length > 0) {
         fs.set('devclienterror', errors);
         return client;
@@ -263,7 +263,7 @@ export async function updateClientField(name, value) {
 export async function updateServerField(name, value) {
     let server = fs.get('devserver');
 
-    let errors = validateSimple(server);
+    let errors = validateSimple('game_server', server);
     if (errors.length > 0) {
         fs.set('devservererror', errors);
         return server;
@@ -279,6 +279,7 @@ export async function updateServerField(name, value) {
 export async function createClient(progressCB) {
 
     try {
+        let game = fs.get('devgame');
         let newClient = fs.get('devclient');
 
         let errors = validateSimple('game_client', newClient);
@@ -287,12 +288,12 @@ export async function createClient(progressCB) {
             return newClient;
         }
 
-        let response = await POST('/dev/create/client', newClient);
-        let game = response.data;
+        let response = await POST('/dev/create/client/' + game.gameid, newClient);
+        let client = response.data;
 
         fs.set('devclienterror', []);
-        console.log(game);
-        return game;
+        console.log(client);
+        return client;
     }
     catch (e) {
         console.error(e);
@@ -312,12 +313,50 @@ export async function createClient(progressCB) {
     return null;
 }
 
+
+export async function createServer(progressCB) {
+
+    try {
+        let game = fs.get('devgame');
+        let newServer = fs.get('devserver');
+
+        let errors = validateSimple('game_server', newServer);
+        if (errors.length > 0) {
+            fs.set('devservererror', errors);
+            return newServer;
+        }
+
+        let response = await POST('/dev/create/server/' + game.gameid, newServer);
+        let server = response.data;
+
+        fs.set('devservererror', []);
+        console.log(server);
+        return server;
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+
+            //const { request, ...errorObject } = response; // take everything but 'request'
+            //console.log(errorObject);
+
+            fs.set('devservererror', [data]);
+        }
+
+
+    }
+    return null;
+}
+
 export async function createGame(progressCB) {
 
     try {
         let newGame = fs.get('devgame');
 
-        let errors = validateSimple('game', newGame);
+        let errors = validateSimple('game_info', newGame);
         if (errors.length > 0) {
             fs.set('devgameerror', errors);
             return newGame;

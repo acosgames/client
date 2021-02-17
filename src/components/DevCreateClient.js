@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
 
-import { updateGameField, createClient } from '../actions/devgame';
+import { updateClientField, createClient } from '../actions/devgame';
 import fs from 'flatstore';
 
 import errorMessage from 'forkoff-shared/model/errorcodes';
@@ -25,14 +25,14 @@ class DevCreateClient extends Component {
             return;
         }
 
-        this.props.history.replace('/dev/client/' + game.gameid);
+        // this.props.history.replace('/dev/client/' + game.gameid);
     }
 
     inputChange(e) {
         let name = e.target.name;
         let value = e.target.value;
 
-        updateGameField(name, value);
+        updateClientField(name, value);
     }
 
     onChange(key, value, group) {

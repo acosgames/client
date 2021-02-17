@@ -113,14 +113,14 @@ class DevManageGame extends Component {
                         value={this.props.devgame.longdesc || ''}
                         onChange={this.inputChange.bind(this)}></textarea>
                     <br />
-                    <input
+                    {/* <input
                         type="text"
                         name="git_client"
                         placeholder="Client Git URL"
                         maxLength="255"
                         value={this.props.devgame.git_client || ''}
                         onChange={this.inputChange.bind(this)} />
-                    <br />
+                    <br /> */}
                     <input
                         type="text"
                         name="git_server"
