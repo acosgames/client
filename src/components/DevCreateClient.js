@@ -10,6 +10,8 @@ import fs from 'flatstore';
 
 import errorMessage from 'forkoff-shared/model/errorcodes';
 
+fs.set('devclient', {});
+
 class DevCreateClient extends Component {
     constructor(props) {
         super(props);

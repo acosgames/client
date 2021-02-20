@@ -8,13 +8,13 @@ fs.set('devgameimages', []);
 fs.set('devgame', {});
 fs.set('devgameerror', []);
 
-fs.set('devclientsimages', {});
-fs.set('devclients', {});
-fs.set('devclientserror', []);
+fs.set('devClientsImages', []);
+fs.set('devClients', []);
+fs.set('devClientsError', []);
 
-fs.set('devclientimages', []);
-fs.set('devclient', {});
-fs.set('devclienterror', []);
+fs.set('devServerImages', []);
+fs.set('devServers', []);
+fs.set('devServerError', []);
 
 function imagesToMap(images) {
     let obj = {};
@@ -112,6 +112,15 @@ export async function findClients(gameid) {
     return null;
 }
 
+function rowsToMap(list) {
+    let map = {};
+    for (var i = 0; i < list.length; i++) {
+        let obj = list[i];
+        map[obj.id] = obj;
+    }
+    return map;
+}
+
 export async function findGame(gameid) {
     try {
         let response = await GET('/dev/find/game/' + gameid);
@@ -130,6 +139,12 @@ export async function findGame(gameid) {
         fs.set('devgameerror', []);
         console.log(game);
         fs.set('devgame', game);
+
+        fs.set('devClientsCnt', game.clients.length);
+        fs.set('devServersCnt', game.servers.length);
+        fs.set('devClients', rowsToMap(game.clients));
+        fs.set('devServers', rowsToMap(game.servers));
+
         return game;
     }
     catch (e) {

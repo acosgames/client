@@ -56,4 +56,4 @@ class App extends Component {
   }
 }
 
-export default flatstore.connect([])(App);
+export default App;
