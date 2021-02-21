@@ -29,10 +29,15 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export async function addImages(nextImages) {
+
+
+export async function addImages(imgstore, nextImages, uploadFunc) {
 
     let game = fs.get('devgame');
-    let curImages = fs.get('devgameimages');
+    let curImages = fs.get(imgstore);
+    if (!curImages)
+        return;
+
     let curMap = imagesToMap(curImages);
     let nextMap = imagesToMap(nextImages);
 
@@ -53,28 +58,15 @@ export async function addImages(nextImages) {
     }
 
     if (added.length > 0) {
-        var preview_images = null;
 
-        for (var i = 0; i < added.length; i++) {
-            let image = added[i];
-            let response = await uploadImage(game.gameid, image);
-            preview_images = response.images;
-            console.log(preview_images);
-        }
+        if (uploadFunc) {
+            uploadFunc(added, nextImages);
 
-        if (preview_images) {
-            for (var i = 0; i < preview_images.length; i++) {
-                if (nextImages[i]) {
-                    let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + game.gameid + '/preview/' + preview_images[i];
-
-                    nextImages[i].data_url = url;
-                }
-            }
         }
     }
 
 
-    fs.set('devgameimages', nextImages);
+    fs.set(imgstore, nextImages);
 }
 
 export async function findClients(gameid) {
@@ -91,7 +83,7 @@ export async function findClients(gameid) {
                     let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + client.gameid + '/clients/preview/' + list[i];
                     images.push({ data_url: url, file: {} });
                 }
-                fs.set('devclientimages-' + client.id, images);
+                fs.set('devclientimages_' + client.id, images);
             }
         }
 
@@ -141,8 +133,21 @@ export async function findGame(gameid) {
         fs.set('devgame', game);
 
         fs.set('devClientsCnt', game.clients.length);
-        fs.set('devServersCnt', game.servers.length);
         fs.set('devClients', rowsToMap(game.clients));
+        for (var i = 0; i < game.clients.length; i++) {
+            let client = game.clients[i];
+            if (client.preview_images) {
+                let images = [];
+                let list = client.preview_images.split(',');
+                for (var j = 0; j < list.length; j++) {
+                    let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + client.gameid + '/client/' + client.id + '/' + list[j];
+                    images.push({ data_url: url, file: {} });
+                }
+                fs.set('devclientimages_' + client.id, images);
+            }
+        }
+
+        fs.set('devServersCnt', game.servers.length);
         fs.set('devServers', rowsToMap(game.servers));
 
         return game;
@@ -159,7 +164,105 @@ export async function findGame(gameid) {
     return null;
 }
 
-export async function uploadImage(gameid, image) {
+export async function uploadClientBundle(client, file) {
+
+    let progress = {
+        onUploadProgress: progressEvent => {
+            console.log(progressEvent.loaded)
+        }
+    };
+
+    var formData = new FormData();
+    formData.append('clientid', client.id);
+    formData.append('gameid', client.gameid);
+    //images.forEach(image => {
+    formData.append("bundle", file);
+    //})
+
+    let response = await POST('/dev/update/client/bundle/' + client.id, formData, progress);
+    let game = response.data;
+    console.log(game);
+
+}
+
+
+export async function uploadClientImages(images, nextImages) {
+    var client = fs.get('devclient');
+    var preview_images = null;
+    for (var i = 0; i < images.length; i++) {
+        let image = images[i];
+
+        let response = await uploadClientImage(client, image);
+        preview_images = response.images;
+        console.log(preview_images);
+    }
+
+    if (preview_images) {
+        for (var i = 0; i < preview_images.length; i++) {
+            if (nextImages[i]) {
+                let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + client.gameid + '/client/' + client.id + '/' + preview_images[i];
+                nextImages[i].data_url = url;
+            }
+        }
+    }
+}
+
+export async function uploadClientImage(client, image) {
+    try {
+        let progress = {
+            onUploadProgress: progressEvent => {
+                console.log(progressEvent.loaded)
+            }
+        };
+
+        var formData = new FormData();
+        formData.append('clientid', client.id);
+        formData.append('gameid', client.gameid);
+        //images.forEach(image => {
+        formData.append("images", image.file);
+        //})
+
+        let response = await POST('/dev/update/client/images/' + client.id, formData, progress);
+        let game = response.data;
+        console.log(game);
+
+        return game;
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+            fs.set('devgameerror', [data]);
+        }
+        throw e;
+    }
+
+}
+
+export async function uploadGameImages(images, nextImages) {
+    var game = fs.get('devgame');
+    var preview_images = null;
+    for (var i = 0; i < images.length; i++) {
+        let image = images[i];
+
+        let response = await uploadGameImage(game.gameid, image);
+        preview_images = response.images;
+        console.log(preview_images);
+    }
+
+    if (preview_images) {
+        for (var i = 0; i < preview_images.length; i++) {
+            if (nextImages[i]) {
+                let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + game.gameid + '/preview/' + preview_images[i];
+                nextImages[i].data_url = url;
+            }
+        }
+    }
+}
+
+export async function uploadGameImage(gameid, image) {
     try {
         let progress = {
             onUploadProgress: progressEvent => {

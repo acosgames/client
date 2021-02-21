@@ -4,8 +4,9 @@ import {
     withRouter,
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
-import { updateGameField, updateGame } from '../actions/devgame';
+import { updateGameField, updateGame, uploadGameImages } from '../actions/devgame';
 import fs from 'flatstore';
+
 
 import errorMessage from 'forkoff-shared/model/errorcodes';
 
@@ -69,7 +70,9 @@ class DevManageGameFields extends Component {
             <div id="devmanagegamefields" className="inputform">
                 <h3>Finish up, so you can publish.</h3>
 
-                <DevImageUpload />
+                <DevImageUpload
+                    imgstore='devgameimages'
+                    uploadFunc={uploadGameImages} />
 
                 {hasError && this.displayError()}
 

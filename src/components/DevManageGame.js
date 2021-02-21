@@ -27,6 +27,7 @@ class DevManageGame extends Component {
                 <DevManageGameFields />
 
                 <div id="manageclients">
+                    <h3>Add your client bundle.</h3>
                     <DevCreateClient />
                     <DevClientList />
                 </div>

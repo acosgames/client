@@ -1,19 +1,22 @@
 import React, { Component, Fragment } from 'react';
 import ImageUploading from 'react-images-uploading';
 import fs from 'flatstore';
-
 import { addImages } from '../actions/devgame';
+
 import DevImageUploadBox from './DevImageUploadBox';
 
 class DevImageUpload extends Component {
     constructor(props) {
         super(props);
         this.maxNumber = 1;
+
+        fs.set(props.imgstore, []);
     }
 
     onChange(imageList, addUpdateIndex) {
         console.log(imageList, addUpdateIndex);
-        addImages(imageList);
+        if (this.props.uploadFunc)
+            addImages(this.props.imgstore, imageList, this.props.uploadFunc);
     };
 
     drawImageBoxes(imageList, isDragging, dragProps, onImageUpload, onImageUpdate, onImageRemove) {
@@ -42,7 +45,7 @@ class DevImageUpload extends Component {
             <div className="App">
                 <ImageUploading
                     multiple
-                    value={this.props.devgameimages}
+                    value={this.props[this.props.imgstore]}
                     onChange={this.onChange.bind(this)}
                     maxNumber={this.maxNumber}
                     dataURLKey="data_url"
@@ -75,4 +78,10 @@ class DevImageUpload extends Component {
     }
 }
 
-export default fs.connect(['devgameimages'])(DevImageUpload);
+let onCustomWatched = ownProps => {
+    return [ownProps.imgstore];
+};
+
+export default fs.connect([], onCustomWatched)(DevImageUpload);
+
+// export default fs.connect(['devgameimages'])(DevImageUpload);

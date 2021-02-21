@@ -11,6 +11,7 @@ import fs from 'flatstore';
 import errorMessage from 'forkoff-shared/model/errorcodes';
 
 fs.set('devclient', {});
+fs.set('showCreateClient', false);
 
 class DevCreateClient extends Component {
     constructor(props) {
@@ -28,6 +29,15 @@ class DevCreateClient extends Component {
         }
 
         // this.props.history.replace('/dev/client/' + game.gameid);
+    }
+
+    async onAddClient(e) {
+        fs.set('showCreateClient', true);
+    }
+
+    async onCancel(e) {
+        fs.set('devclient', {});
+        fs.set('showCreateClient', false);
     }
 
     inputChange(e) {
@@ -69,10 +79,20 @@ class DevCreateClient extends Component {
         - Withdrawn (reason) //could be done by admin or by owner
     */
     render() {
+
+        if (!this.props.showCreateClient) {
+            return (
+                <button
+                    onClick={this.onAddClient.bind(this)}>
+                    Add Client
+                </button>
+            )
+        }
+
         let hasError = (this.props.devclienterror && this.props.devclienterror.length > 0);
         return (
             <div id="createclient" className="inputform">
-                <h3>Add your client bundle.</h3>
+
 
                 {hasError && this.displayError()}
 
@@ -100,12 +120,17 @@ class DevCreateClient extends Component {
                 <br />
 
                 <button
+                    onClick={this.onCancel.bind(this)}>
+                    Cancel
+                </button>
+                <button
                     onClick={this.onSubmit.bind(this)}>
                     Submit
                 </button>
+
             </div>
         )
     }
 }
 
-export default withRouter(fs.connect(['devclient', 'devclienterror'])(DevCreateClient));
+export default withRouter(fs.connect(['devclient', 'devclienterror', 'showCreateClient'])(DevCreateClient));
