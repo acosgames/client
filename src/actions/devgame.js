@@ -133,19 +133,10 @@ export async function findGame(gameid) {
         fs.set('devgame', game);
 
         fs.set('devClientsCnt', game.clients.length);
-        fs.set('devClients', rowsToMap(game.clients));
         for (var i = 0; i < game.clients.length; i++) {
-            let client = game.clients[i];
-            if (client.preview_images) {
-                let images = [];
-                let list = client.preview_images.split(',');
-                for (var j = 0; j < list.length; j++) {
-                    let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + client.gameid + '/client/' + client.id + '/' + list[j];
-                    images.push({ data_url: url, file: {} });
-                }
-                fs.set('devclientimages_' + client.id, images);
-            }
+            updateClient(game.clients[i]);
         }
+
 
         fs.set('devServersCnt', game.servers.length);
         fs.set('devServers', rowsToMap(game.servers));
@@ -164,6 +155,30 @@ export async function findGame(gameid) {
     return null;
 }
 
+function updateClient(client) {
+    let game = fs.get('devgame');
+    let clients = game.clients;
+    if (!clients)
+        return;
+
+    fs.set('devClients-' + client.id, client);
+
+    var storageURL = 'https://f000.backblazeb2.com/file/fivesecondgames/';
+    var storagePath = client.gameid + '/client/' + client.id + '/'
+    if (client.preview_images) {
+        let images = [];
+        let list = client.preview_images.split(',');
+        for (var j = 0; j < list.length; j++) {
+            let url = storageURL + storagePath + list[j];
+            images.push({ data_url: url, file: {} });
+        }
+        fs.set('devclientimages_' + client.id, images);
+
+        let bundleURL = storageURL + storagePath + client.build_client;
+        fs.set('devClientBundle_' + client.id, bundleURL);
+    }
+}
+
 export async function uploadClientBundle(client, file) {
 
     let progress = {
@@ -180,9 +195,13 @@ export async function uploadClientBundle(client, file) {
     //})
 
     let response = await POST('/dev/update/client/bundle/' + client.id, formData, progress);
-    let game = response.data;
-    console.log(game);
+    let updatedClient = response.data;
 
+    updateClient(updatedClient);
+
+    console.log(updatedClient);
+
+    return updatedClient
 }
 
 
@@ -223,10 +242,11 @@ export async function uploadClientImage(client, image) {
         //})
 
         let response = await POST('/dev/update/client/images/' + client.id, formData, progress);
-        let game = response.data;
-        console.log(game);
+        let client = response.data;
+        updateClient(client);
+        console.log(client);
 
-        return game;
+        return client;
     }
     catch (e) {
         console.error(e);
