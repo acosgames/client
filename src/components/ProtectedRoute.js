@@ -2,6 +2,7 @@ import { Component } from "react";
 
 import {
     Route,
+    Redirect,
     withRouter,
 } from "react-router-dom";
 import fs from 'flatstore';
@@ -17,8 +18,13 @@ class ProtectedRoute extends Component {
 
     render() {
         if (!this.props.user) {
-            return <SocialLogin />
+            return <Redirect to="/login"></Redirect>
         }
+
+        if (this.props.verify && !this.props.verify(this.props.user)) {
+            return <Redirect to={this.props.redirectTo || "/login"}></Redirect>
+        }
+
         let Child = this.props.component;
         return (
             <Route exact={this.props.exact} path={this.props.path}>

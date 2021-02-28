@@ -9,6 +9,7 @@ import {
 import MainMenu from './components/MainMenu'
 import MainPage from './components/MainPage';
 import SocialLogin from './components/SocialLogin';
+import DevLogin from './components/DevLogin';
 import CreateDisplayName from './components/CreateDisplayName';
 import DevDashboard from "./components/DevDashboard";
 import DevCreateGame from "./components/DevCreateGame";
@@ -28,6 +29,7 @@ class App extends Component {
     super(props);
 
     getUser();
+
   }
 
   render() {
@@ -43,10 +45,34 @@ class App extends Component {
                 <td>
                   <Switch>
                     <Route exact path="/" component={MainPage} />
-                    <ProtectedRoute exact path="/dev/game/create" component={DevCreateGame} />
-                    <ProtectedRoute exact path="/dev/game/:gameid" component={DevManageGame} />
-                    <ProtectedRoute exact path="/dev/:id?" component={DevDashboard} />
-                    <ProtectedRoute exact path="/player/create" component={CreateDisplayName} />
+                    <Route exact path="/login" component={SocialLogin} />
+                    <Route exact path="/dev/login" component={DevLogin} />
+                    <ProtectedRoute
+                      exact
+                      path="/dev/game/create"
+                      component={DevCreateGame}
+                      verify={(user) => user.isdev}
+                      redirectTo="/dev/login"
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/dev/game/:gameid"
+                      component={DevManageGame}
+                      verify={(user) => 'github' in user}
+                      redirectTo="/dev/login"
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/dev/:id?"
+                      component={DevDashboard}
+                      verify={(user) => 'github' in user}
+                      redirectTo="/dev/login"
+                    />
+                    <ProtectedRoute
+                      exact
+                      path="/player/create"
+                      component={CreateDisplayName}
+                    />
                     <Route exact path="/games" component={MainPage} />
                   </Switch>
                 </td>

@@ -15,7 +15,20 @@ class DevDashboard extends Component {
         this.state = {
         }
 
-        findDevGames(this.props.user.id)
+
+    }
+
+    showInvitation() {
+        let user = this.props.user;
+        if (user.isdev) {
+            return <h4>Organization: fivesecondgames</h4>
+        }
+
+        return (
+            <div>
+                <span><a class="button" href="https://github.com/orgs/fivesecondgames/invitation">Accept Invitation</a> to Github Organization "fivescondgames"</span>
+            </div>
+        )
     }
 
     listGames() {
@@ -44,7 +57,7 @@ class DevDashboard extends Component {
     render() {
         return (
             <div id="devdash">
-
+                {this.showInvitation()}
                 <ul>
                     {this.listGames()}
                 </ul>
