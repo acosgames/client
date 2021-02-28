@@ -82,7 +82,13 @@ class DevCreateGame extends Component {
                     maxLength="60"
                     onChange={this.inputChange.bind(this)} />
                 <br />
-
+                <input
+                    type="text"
+                    name="shortid"
+                    placeholder="Slug Name (lower a-z and - only)"
+                    maxLength="32"
+                    onChange={this.inputChange.bind(this)} />
+                <br />
                 <input
                     type="text"
                     name="shortdesc"

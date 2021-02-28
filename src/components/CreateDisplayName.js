@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import { createDisplayName } from '../actions/person';
+import fs from 'flatstore';
 
 class CreateDisplayName extends Component {
     constructor(props) {
@@ -19,9 +20,30 @@ class CreateDisplayName extends Component {
         console.log(e);
         let displayname = this.state.displayname;
         let user = await createDisplayName(displayname);
-        if (user.code == 'E_EXISTS_DISPLAYNAME') {
+        if (user.ecode == 'E_EXISTS_DISPLAYNAME') {
             this.setState({ error: `The name '${displayname}' already exists.` })
         }
+        else if (user.ecode == 'E_PERSON_DUPENAME') {
+            this.setState({ error: `The name '${displayname}' already exists.` })
+        }
+        else {
+
+            this.redirect();
+        }
+    }
+
+    redirect() {
+        let history = fs.get('pagehistory');
+
+        let previous = history[history.length - 2] || history[history.length - 1];
+        if (previous.pathname.indexOf('/player/create') > -1) {
+            this.props.history.push('/games');
+            return;
+        }
+
+        this.props.history.goBack();
+        history.pop();
+        fs.set('pagehistory', history);
     }
 
     onChange(e) {

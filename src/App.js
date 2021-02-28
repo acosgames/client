@@ -13,24 +13,27 @@ import CreateDisplayName from './components/CreateDisplayName';
 import DevDashboard from "./components/DevDashboard";
 import DevCreateGame from "./components/DevCreateGame";
 import DevManageGame from "./components/DevManageGame";
-
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 import flatstore from 'flatstore';
 
+import { getUser } from './actions/person';
 
-flatstore.set('user', {});
+flatstore.set('user', null);
+
 
 class App extends Component {
   constructor(props) {
     super(props);
 
+    getUser();
   }
 
   render() {
     return (
       <div id="app">
-        <Router>
+        <Router >
           <table id="wrapper">
             <tbody>
               <tr>
@@ -40,10 +43,10 @@ class App extends Component {
                 <td>
                   <Switch>
                     <Route exact path="/" component={MainPage} />
-                    <Route exact path="/dev/game/create" component={DevCreateGame} />
-                    <Route exact path="/dev/game/:gameid" component={DevManageGame} />
-                    <Route exact path="/dev/:id?" component={DevDashboard} />
-                    <Route exact path="/player/create" component={CreateDisplayName} />
+                    <ProtectedRoute exact path="/dev/game/create" component={DevCreateGame} />
+                    <ProtectedRoute exact path="/dev/game/:gameid" component={DevManageGame} />
+                    <ProtectedRoute exact path="/dev/:id?" component={DevDashboard} />
+                    <ProtectedRoute exact path="/player/create" component={CreateDisplayName} />
                     <Route exact path="/games" component={MainPage} />
                   </Switch>
                 </td>

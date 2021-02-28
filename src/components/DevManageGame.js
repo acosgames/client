@@ -4,7 +4,7 @@ import {
     withRouter,
 } from "react-router-dom";
 import DevManageGameFields from "./DevManageGameFields";
-import DevCreateClient from "./DevCreateClient";
+import DevClientBundle from "./DevClientBundle";
 import DevCreateServer from './DevCreateServer';
 import DevClientList from './DevClientList';
 import { findGame } from '../actions/devgame';
@@ -26,15 +26,30 @@ class DevManageGame extends Component {
 
                 <DevManageGameFields />
 
-                <div id="manageclients">
-                    <h3>Add your client bundle.</h3>
-                    <DevCreateClient />
-                    <DevClientList />
+                <div id="testenv">
+                    <h2>Test Environment</h2>
+                    <div id="manageclients">
+                        <h3>Add your client bundle.</h3>
+                        <DevClientBundle env="test" />
+                    </div>
+
+                    <div id="manageservers">
+                        <DevCreateServer env="test" />
+                    </div>
                 </div>
 
-                <div id="manageservers">
-                    <DevCreateServer />
-                </div>
+                {/* <div id="prodenv">
+                    <h2>Production Environment</h2>
+                    <div id="manageclients">
+                        <h3>Add your client bundle.</h3>
+                        <DevClientBundle env="test" />
+                    </div>
+
+                    <div id="manageservers">
+                        <DevCreateServer env="test" />
+                    </div>
+                </div> */}
+
             </div>
 
         )

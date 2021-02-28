@@ -1,6 +1,6 @@
 import { POST, GET, POSTFORM } from './http';
 
-import { validateSimple } from 'forkoff-shared/util/validation';
+import { validateSimple, validateField } from 'forkoff-shared/util/validation';
 import { genShortId } from 'forkoff-shared/util/idgen';
 
 import fs from 'flatstore';
@@ -113,6 +113,25 @@ function rowsToMap(list) {
     return map;
 }
 
+export async function findDevGames(userid) {
+    try {
+        let response = await GET('/dev/games/' + userid);
+        let games = response.data;
+
+        fs.set('devgames', games);
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+            fs.set('devgameerror', [data]);
+        }
+    }
+    return null;
+}
+
 export async function findGame(gameid) {
     try {
         let response = await GET('/dev/find/game/' + gameid);
@@ -161,7 +180,7 @@ function updateClient(client) {
     if (!clients)
         return;
 
-    fs.set('devClients-' + client.id, client);
+    fs.set('devClients-' + client.env, client);
 
     var storageURL = 'https://f000.backblazeb2.com/file/fivesecondgames/';
     var storagePath = client.gameid + '/client/' + client.id + '/'
@@ -369,13 +388,18 @@ export async function updateGame() {
 export async function updateGameField(name, value) {
     let game = fs.get('devgame');
 
-    let errors = validateSimple('game_info', game);
+    let prev = game[name];
+    game[name] = value;
+
+
+
+    let errors = validateField('game_info', game);
     if (errors.length > 0) {
         fs.set('devgameerror', errors);
+        game[name] = prev;
+        fs.set('devgame', game);
         return game;
     }
-
-    game[name] = value;
 
     fs.set('devgame', game);
 

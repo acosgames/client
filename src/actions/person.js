@@ -1,4 +1,5 @@
-import { POST } from './http';
+import { GET, POST } from './http';
+import fs from 'flatstore';
 
 
 export async function createDisplayName(displayname) {
@@ -11,6 +12,23 @@ export async function createDisplayName(displayname) {
     }
     catch (e) {
         console.error(e);
+        return e.response.data;
+    }
+    return null;
+}
+
+export async function getUser() {
+    try {
+        let response = await GET('/person');
+        let user = response.data;
+        console.log(user);
+        fs.set('user', user);
+
+        return user;
+    }
+    catch (e) {
+        console.error(e);
+        return e.response.data;
     }
     return null;
 }
