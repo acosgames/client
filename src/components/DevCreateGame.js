@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
 
-import { updateGameField, createGame } from '../actions/devgame';
+import { updateGameField, createGame, clearGameFields } from '../actions/devgame';
 import fs from 'flatstore';
 
 import errorMessage from 'forkoff-shared/model/errorcodes';
@@ -14,6 +14,7 @@ class DevCreateGame extends Component {
     constructor(props) {
         super(props);
 
+        clearGameFields();
 
         this.state = {
         }

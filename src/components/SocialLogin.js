@@ -4,6 +4,7 @@ import fs from 'flatstore';
 import {
     Link,
     withRouter,
+    Redirect,
 } from "react-router-dom";
 
 class SocialLogin extends Component {
@@ -13,7 +14,7 @@ class SocialLogin extends Component {
     render() {
         let user = this.props.user;
         if (user && user.apikey && user.apikey.length > 0 && user.apikey != 'undefined') {
-            return <Fragment></Fragment>
+            return <Redirect to="/games"></Redirect>
         }
         return (
             <div id="social">

@@ -35,15 +35,22 @@ class CreateDisplayName extends Component {
     redirect() {
         let history = fs.get('pagehistory');
 
-        let previous = history[history.length - 2] || history[history.length - 1];
-        if (previous.pathname.indexOf('/player/create') > -1) {
-            this.props.history.push('/games');
+        if (this.props.user.github_id) {
+            this.props.history.push('/dev');
             return;
         }
 
-        this.props.history.goBack();
-        history.pop();
-        fs.set('pagehistory', history);
+        this.props.history.push('/games');
+
+        // let previous = history[history.length - 2] || history[history.length - 1];
+        // if (previous.pathname.indexOf('/player/create') > -1) {
+        //     this.props.history.push('/games');
+        //     return;
+        // }
+
+        // this.props.history.goBack();
+        // history.pop();
+        // fs.set('pagehistory', history);
     }
 
     onChange(e) {

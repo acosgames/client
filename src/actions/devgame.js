@@ -119,6 +119,8 @@ export async function findDevGames(userid) {
         let games = response.data;
 
         fs.set('devgames', games);
+
+        return games;
     }
     catch (e) {
         console.error(e);
@@ -513,6 +515,9 @@ export async function createServer(progressCB) {
     return null;
 }
 
+export async function clearGameFields() {
+    fs.set('devgame', {});
+}
 export async function createGame(progressCB) {
 
     try {

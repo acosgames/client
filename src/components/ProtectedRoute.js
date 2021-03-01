@@ -17,11 +17,16 @@ class ProtectedRoute extends Component {
     }
 
     render() {
-        if (!this.props.user) {
+
+        if (!this.props.user && this.props.location.pathname.indexOf("/login") == -1) {
             return <Redirect to="/login"></Redirect>
         }
 
-        if (this.props.verify && !this.props.verify(this.props.user)) {
+        if (this.props.user && !this.props.user.displayname && this.props.location.pathname.indexOf("/player/create") == -1) {
+            return <Redirect to="/player/create"></Redirect>
+        }
+
+        if (this.props.user && this.props.verify && !this.props.verify(this.props.user) && this.props.location.pathname.indexOf("/login")) {
             return <Redirect to={this.props.redirectTo || "/login"}></Redirect>
         }
 
@@ -34,5 +39,5 @@ class ProtectedRoute extends Component {
     }
 }
 
-export default withRouter(fs.connect(['user'])(ProtectedRoute));
+export default withRouter(fs.connect(['user', 'userid'])(ProtectedRoute));
 

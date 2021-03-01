@@ -42,8 +42,6 @@ class MainMenu extends Component {
                     <li><Link to="/dev">Developer Dashboard</Link></li>
                     <li><Link to="/dev/game/create">Create Game</Link></li>
                 </ul>
-
-                <SocialLogin />
             </div>
         )
     }
