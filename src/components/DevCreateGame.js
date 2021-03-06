@@ -105,7 +105,7 @@ class DevCreateGame extends Component {
                     onChange={this.inputChange.bind(this)}>
                 </textarea>
                 <br />
-                <input
+                {/* <input
                     type="text"
                     name="git_client"
                     placeholder="Client Git URL"
@@ -118,7 +118,7 @@ class DevCreateGame extends Component {
                     placeholder="Server Git URL (optional)"
                     maxLength="255"
                     onChange={this.inputChange.bind(this)} />
-                <br />
+                <br /> */}
 
                 <button
                     onClick={this.onSubmit.bind(this)}>

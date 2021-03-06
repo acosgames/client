@@ -526,7 +526,7 @@ export async function createGame(progressCB) {
         let errors = validateSimple('game_info', newGame);
         if (errors.length > 0) {
             fs.set('devgameerror', errors);
-            return newGame;
+            return null;
         }
 
         let response = await POST('/dev/create/game', newGame);
