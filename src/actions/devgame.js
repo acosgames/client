@@ -1,7 +1,7 @@
 import { POST, GET, POSTFORM } from './http';
 
-import { validateSimple, validateField } from 'forkoff-shared/util/validation';
-import { genShortId } from 'forkoff-shared/util/idgen';
+import { validateSimple, validateField } from 'fsg-shared/util/validation';
+import { genShortId } from 'fsg-shared/util/idgen';
 
 import fs from 'flatstore';
 fs.set('devgameimages', []);

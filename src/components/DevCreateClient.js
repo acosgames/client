@@ -8,7 +8,7 @@ import DevImageUpload from "./DevImageUpload";
 import { updateClientField, createClient } from '../actions/devgame';
 import fs from 'flatstore';
 
-import errorMessage from 'forkoff-shared/model/errorcodes';
+import errorMessage from 'fsg-shared/model/errorcodes';
 
 fs.set('devclient', {});
 fs.set('showCreateClient', false);

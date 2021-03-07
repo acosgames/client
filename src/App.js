@@ -15,6 +15,7 @@ import DevDashboard from "./components/DevDashboard";
 import DevCreateGame from "./components/DevCreateGame";
 import DevManageGame from "./components/DevManageGame";
 import ProtectedRoute from './components/ProtectedRoute';
+import GamePanel from './components/GamePanel';
 import './App.css';
 
 import flatstore from 'flatstore';
@@ -53,6 +54,11 @@ class App extends Component {
                       exact
                       path="/"
                       component={MainPage}
+                    />
+                    <Route
+                      exact
+                      path="/game/"
+                      component={GamePanel}
                     />
                     <Route
                       exact

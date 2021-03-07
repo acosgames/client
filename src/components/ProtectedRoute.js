@@ -18,9 +18,9 @@ class ProtectedRoute extends Component {
 
     render() {
 
-        if (!this.props.user && this.props.location.pathname.indexOf("/login") == -1) {
-            return <Redirect to="/login"></Redirect>
-        }
+        // if (!this.props.user && this.props.location.pathname.indexOf("/login") == -1) {
+        //     return <Redirect to="/login"></Redirect>
+        // }
 
         if (this.props.user && !this.props.user.displayname && this.props.location.pathname.indexOf("/player/create") == -1) {
             return <Redirect to="/player/create"></Redirect>

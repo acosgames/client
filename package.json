@@ -1,5 +1,5 @@
 {
-  "name": "forkoff-client",
+  "name": "fsg-client",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8080",
@@ -9,7 +9,8 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "flatstore": "^1.0.2",
-    "forkoff-shared": "file:../forkoff-shared",
+    "fsg-shared": "file:../fsg-shared",
+    "http-proxy-middleware": "^1.0.6",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",
     "react": "^17.0.1",
