@@ -6,7 +6,7 @@ import history from "./history";
 export async function createDisplayName(displayname) {
 
     try {
-        let response = await POST('/person/create/displayname', { displayname });
+        let response = await POST('/api/v1/person/create/displayname', { displayname });
         let user = response.data;
 
         let existing = fs.get('user');
@@ -28,7 +28,7 @@ export async function createDisplayName(displayname) {
 export async function getUserProfile() {
     try {
 
-        let response = await GET('/person');
+        let response = await GET('/api/v1/person');
         let user = response.data;
 
         if (user.ecode) {

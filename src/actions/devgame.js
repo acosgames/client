@@ -71,7 +71,7 @@ export async function addImages(imgstore, nextImages, uploadFunc) {
 
 export async function findClients(gameid) {
     try {
-        let response = await GET('/dev/find/clients/' + gameid);
+        let response = await GET('/api/v1/dev/find/clients/' + gameid);
         let clients = response.data;
 
         for (var i = 0; i < clients.length; i++) {
@@ -115,7 +115,7 @@ function rowsToMap(list) {
 
 export async function findDevGames(userid) {
     try {
-        let response = await GET('/dev/games/' + userid);
+        let response = await GET('/api/v1/dev/games/' + userid);
         let games = response.data;
 
         fs.set('devgames', games);
@@ -136,7 +136,7 @@ export async function findDevGames(userid) {
 
 export async function findGame(gameid) {
     try {
-        let response = await GET('/dev/find/game/' + gameid);
+        let response = await GET('/api/v1/dev/find/game/' + gameid);
         let game = response.data;
 
         if (game.preview_images) {
@@ -215,7 +215,7 @@ export async function uploadClientBundle(client, file) {
     formData.append("bundle", file);
     //})
 
-    let response = await POST('/dev/update/client/bundle/' + client.id, formData, progress);
+    let response = await POST('/api/v1/dev/update/client/bundle/' + client.id, formData, progress);
     let updatedClient = response.data;
 
     updateClient(updatedClient);
@@ -262,7 +262,7 @@ export async function uploadClientImage(client, image) {
         formData.append("images", image.file);
         //})
 
-        let response = await POST('/dev/update/client/images/' + client.id, formData, progress);
+        let response = await POST('/api/v1/dev/update/client/images/' + client.id, formData, progress);
         let client = response.data;
         updateClient(client);
         console.log(client);
@@ -318,7 +318,7 @@ export async function uploadGameImage(gameid, image) {
         formData.append("images", image.file);
         //})
 
-        let response = await POST('/dev/update/game/images/' + gameid, formData, progress);
+        let response = await POST('/api/v1/dev/update/game/images/' + gameid, formData, progress);
         let game = response.data;
         console.log(game);
 
@@ -363,7 +363,7 @@ export async function updateGame() {
         // console.log(response.data);
 
 
-        let response = await POST('/dev/update/game', newGame);
+        let response = await POST('/api/v1/dev/update/game', newGame);
         let game = response.data;
 
         //let imageResponse = await uploadImages();
@@ -452,7 +452,7 @@ export async function createClient(progressCB) {
             return newClient;
         }
 
-        let response = await POST('/dev/create/client/' + game.gameid, newClient);
+        let response = await POST('/api/v1/dev/create/client/' + game.gameid, newClient);
         let client = response.data;
 
         fs.set('devclienterror', []);
@@ -490,7 +490,7 @@ export async function createServer(progressCB) {
             return newServer;
         }
 
-        let response = await POST('/dev/create/server/' + game.gameid, newServer);
+        let response = await POST('/api/v1/dev/create/server/' + game.gameid, newServer);
         let server = response.data;
 
         fs.set('devservererror', []);
@@ -529,7 +529,7 @@ export async function createGame(progressCB) {
             return null;
         }
 
-        let response = await POST('/dev/create/game', newGame);
+        let response = await POST('/api/v1/dev/create/game', newGame);
         let game = response.data;
 
         fs.set('devgameerror', []);

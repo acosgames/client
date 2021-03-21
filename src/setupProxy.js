@@ -7,5 +7,5 @@ module.exports = function (app) {
         changeOrigin: true,
     });
     app.use('/iframe', target);
-    app.use('/person', target);
+    app.use('/api/*', target);
 };
