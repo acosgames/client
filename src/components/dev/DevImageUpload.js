@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import ImageUploading from 'react-images-uploading';
 import fs from 'flatstore';
-import { addImages } from '../actions/devgame';
+import { addImages } from '../../actions/devgame';
 
 import DevImageUploadBox from './DevImageUploadBox';
 

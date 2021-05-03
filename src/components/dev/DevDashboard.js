@@ -1,6 +1,6 @@
 import { Component } from "react";
 
-import { findDevGames } from '../actions/devgame';
+import { findDevGames } from '../../actions/devgame';
 
 import {
     Link,
@@ -20,13 +20,13 @@ class DevDashboard extends Component {
 
     showInvitation() {
         let user = this.props.user;
-        if (user.isdev) {
+        if (user && user.isdev) {
             return <h4>Organization: fivesecondgames</h4>
         }
 
         return (
             <div>
-                <span><a class="button" href="https://github.com/orgs/fivesecondgames/invitation">Accept Invitation</a> to Github Organization "fivescondgames"</span>
+                <span><a className="button" href="https://github.com/orgs/fivesecondgames/invitation">Accept Invitation</a> to Github Organization "fivescondgames"</span>
             </div>
         )
     }

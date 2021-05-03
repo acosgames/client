@@ -4,7 +4,7 @@ import {
     Link,
     withRouter,
 } from "react-router-dom";
-import SocialLogin from "./SocialLogin";
+import SocialLogin from "./login/SocialLogin";
 
 import fs from 'flatstore';
 

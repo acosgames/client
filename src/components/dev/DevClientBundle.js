@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import fs from 'flatstore';
 import DevImageUpload from './DevImageUpload'
-import { updateGameField, updateGame, uploadClientBundle } from '../actions/devgame';
+import { updateGameField, updateGame, uploadClientBundle } from '../../actions/devgame';
 import moment from 'moment-timezone';
 
 class DevClientBundle extends Component {

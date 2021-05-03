@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
 
-import { updateServerField, createServer } from '../actions/devgame';
+import { updateServerField, createServer } from '../../actions/devgame';
 import fs from 'flatstore';
 
 import errorMessage from 'fsg-shared/model/errorcodes';

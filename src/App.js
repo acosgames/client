@@ -8,14 +8,14 @@ import {
 
 import MainMenu from './components/MainMenu'
 import MainPage from './components/MainPage';
-import SocialLogin from './components/SocialLogin';
-import DevLogin from './components/DevLogin';
-import CreateDisplayName from './components/CreateDisplayName';
-import DevDashboard from "./components/DevDashboard";
-import DevCreateGame from "./components/DevCreateGame";
-import DevManageGame from "./components/DevManageGame";
-import ProtectedRoute from './components/ProtectedRoute';
-import GamePanel from './components/GamePanel';
+import SocialLogin from './components/login/SocialLogin';
+import DevLogin from './components/dev/DevLogin';
+import CreateDisplayName from './components/login/CreateDisplayName';
+import DevDashboard from "./components/dev/DevDashboard";
+import DevCreateGame from "./components/dev/DevCreateGame";
+import DevManageGame from "./components/dev/DevManageGame";
+import ProtectedRoute from './components/login/ProtectedRoute';
+import GamePanel from './components/gamepanel/GamePanel';
 import './App.css';
 
 import flatstore from 'flatstore';

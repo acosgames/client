@@ -4,7 +4,7 @@ import {
     withRouter,
 } from "react-router-dom";
 
-import { createDisplayName } from '../actions/person';
+import { createDisplayName } from '../../actions/person';
 import fs from 'flatstore';
 
 class CreateDisplayName extends Component {

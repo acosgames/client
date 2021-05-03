@@ -7,7 +7,7 @@ import DevManageGameFields from "./DevManageGameFields";
 import DevClientBundle from "./DevClientBundle";
 import DevCreateServer from './DevCreateServer';
 import DevClientList from './DevClientList';
-import { findGame } from '../actions/devgame';
+import { findGame } from '../../actions/devgame';
 
 class DevManageGame extends Component {
     constructor(props) {

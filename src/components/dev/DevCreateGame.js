@@ -5,17 +5,16 @@ import {
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
 
-import { updateClientField, createClient } from '../actions/devgame';
+import { updateGameField, createGame, clearGameFields } from '../../actions/devgame';
 import fs from 'flatstore';
 
 import errorMessage from 'fsg-shared/model/errorcodes';
 
-fs.set('devclient', {});
-fs.set('showCreateClient', false);
-
-class DevCreateClient extends Component {
+class DevCreateGame extends Component {
     constructor(props) {
         super(props);
+
+        clearGameFields();
 
         this.state = {
         }
@@ -23,28 +22,19 @@ class DevCreateClient extends Component {
 
     async onSubmit(e) {
         //console.log(e);
-        let game = await createClient();
+        let game = await createGame();
         if (!game) {
             return;
         }
 
-        // this.props.history.replace('/dev/client/' + game.gameid);
-    }
-
-    async onAddClient(e) {
-        fs.set('showCreateClient', true);
-    }
-
-    async onCancel(e) {
-        fs.set('devclient', {});
-        fs.set('showCreateClient', false);
+        this.props.history.replace('/dev/game/' + game.gameid);
     }
 
     inputChange(e) {
         let name = e.target.name;
         let value = e.target.value;
 
-        updateClientField(name, value);
+        updateGameField(name, value);
     }
 
     onChange(key, value, group) {
@@ -52,7 +42,7 @@ class DevCreateClient extends Component {
     }
 
     displayError() {
-        let errors = this.props.devclienterror;
+        let errors = this.props.devgameerror;
         if (!errors)
             return <Fragment></Fragment>
 
@@ -79,58 +69,64 @@ class DevCreateClient extends Component {
         - Withdrawn (reason) //could be done by admin or by owner
     */
     render() {
-
-        if (!this.props.showCreateClient) {
-            return (
-                <button
-                    onClick={this.onAddClient.bind(this)}>
-                    Add Client
-                </button>
-            )
-        }
-
-        let hasError = (this.props.devclienterror && this.props.devclienterror.length > 0);
+        let hasError = (this.props.devgameerror && this.props.devgameerror.length > 0);
         return (
-            <div id="createclient" className="inputform">
-
+            <div id="creategame" className="inputform">
+                <h3>Alright, lets set up your game.</h3>
 
                 {hasError && this.displayError()}
 
                 <input
                     type="text"
                     name="name"
-                    placeholder="Theme Name"
+                    placeholder="Game Name"
                     maxLength="60"
+                    onChange={this.inputChange.bind(this)} />
+                <br />
+                <input
+                    type="text"
+                    name="shortid"
+                    placeholder="Slug Name (lower a-z and - only)"
+                    maxLength="32"
+                    onChange={this.inputChange.bind(this)} />
+                <br />
+                <input
+                    type="text"
+                    name="shortdesc"
+                    placeholder="Short Description"
+                    maxLength="80"
                     onChange={this.inputChange.bind(this)} />
                 <br />
                 <textarea
                     type="text"
-                    name="description"
-                    placeholder="Theme Description"
+                    name="longdesc"
+                    placeholder="Long Description"
                     maxLength="1200"
                     onChange={this.inputChange.bind(this)}>
                 </textarea>
                 <br />
-                <input
+                {/* <input
                     type="text"
                     name="git_client"
                     placeholder="Client Git URL"
                     maxLength="255"
                     onChange={this.inputChange.bind(this)} />
                 <br />
+                <input
+                    type="text"
+                    name="git_server"
+                    placeholder="Server Git URL (optional)"
+                    maxLength="255"
+                    onChange={this.inputChange.bind(this)} />
+                <br /> */}
 
-                <button
-                    onClick={this.onCancel.bind(this)}>
-                    Cancel
-                </button>
                 <button
                     onClick={this.onSubmit.bind(this)}>
                     Submit
                 </button>
-
             </div>
         )
     }
 }
 
-export default withRouter(fs.connect(['devclient', 'devclienterror', 'showCreateClient'])(DevCreateClient));
+export default withRouter(fs.connect(['devgame', 'devgameerror'])(DevCreateGame));

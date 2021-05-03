@@ -3,7 +3,7 @@ import { Component } from "react";
 import {
     withRouter,
 } from "react-router-dom";
-import GameList from "./GameList";
+import GameList from "./gamepanel/GameList";
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
@@ -25,6 +25,9 @@ class MainPage extends Component {
         let cookies = {};
         document.cookie.split(';').forEach(v => {
             let pair = v.split('=');
+            if (!pair || !pair[0])
+                return;
+
             cookies[pair[0].trim()] = pair[1].trim();
         })
         return cookies;
@@ -32,7 +35,7 @@ class MainPage extends Component {
 
     connect() {
         let cookies = this.parseCookies();
-        this.client = new W3CWebSocket('ws://127.0.0.1:9001/g/1234', cookies['X-API-KEY'], 'http://localhost:3000', {});
+        this.client = new W3CWebSocket('ws://127.0.0.1:9002/g/1234', cookies['X-API-KEY'], 'http://localhost:3000', {});
         this.client.onopen = (err) => {
             console.log(err);
             console.log('WebSocket Client Connected');

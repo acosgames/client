@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import fs from 'flatstore';
 import DevImageUpload from './DevImageUpload'
-import { updateGameField, updateGame, uploadClientImages } from '../actions/devgame';
+import { updateGameField, updateGame, uploadClientImages } from '../../actions/devgame';
 import DevClientBundle from './DevClientBundle';
 class DevClientListItem extends Component {
     constructor(props) {

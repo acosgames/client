@@ -4,7 +4,7 @@ import {
     withRouter,
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
-import { updateGameField, updateGame, uploadGameImages } from '../actions/devgame';
+import { updateGameField, updateGame, uploadGameImages } from '../../actions/devgame';
 import fs from 'flatstore';
 
 

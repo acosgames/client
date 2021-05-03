@@ -39,5 +39,5 @@ class ProtectedRoute extends Component {
     }
 }
 
-export default withRouter(fs.connect(['user', 'userid'])(ProtectedRoute));
+export default withRouter(fs.connect(['user'])(ProtectedRoute));
 
