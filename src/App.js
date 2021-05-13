@@ -15,7 +15,7 @@ import DevDashboard from "./components/dev/DevDashboard";
 import DevCreateGame from "./components/dev/DevCreateGame";
 import DevManageGame from "./components/dev/DevManageGame";
 import ProtectedRoute from './components/login/ProtectedRoute';
-import GamePanel from './components/gamepanel/GamePanel';
+import GamePanel from './components/games/GamePanel';
 import './App.css';
 
 import flatstore from 'flatstore';
@@ -57,7 +57,7 @@ class App extends Component {
                     />
                     <Route
                       exact
-                      path="/game/"
+                      path="/game/:game_slug"
                       component={GamePanel}
                     />
                     <Route

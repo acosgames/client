@@ -25,16 +25,10 @@ export async function POST(url, data, extras) {
 export function HEADERS(extras) {
     if (extras) {
         return {
-            headers: {
-                'X-API-KEY': ''
-            },
             ...extras
         }
     }
 
     return {
-        headers: {
-            'X-API-KEY': ''
-        }
     }
 }

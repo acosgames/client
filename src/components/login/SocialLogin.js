@@ -1,4 +1,4 @@
-import { Component, Fragment } from "react";
+import React, { Component, Fragment } from "react";
 import fs from 'flatstore';
 
 import {
@@ -6,14 +6,20 @@ import {
     withRouter,
     Redirect,
 } from "react-router-dom";
+import Logout from "./Logout";
 
 class SocialLogin extends Component {
     constructor(props) {
         super(props);
     }
     render() {
+
+        if (!this.props.userCheckedLogin) {
+            return <React.Fragment></React.Fragment>
+        }
         let user = this.props.user;
         if (user && user.apikey && user.apikey.length > 0 && user.apikey != 'undefined') {
+            return <Logout></Logout>
             return <Redirect to="/games"></Redirect>
         }
         return (
@@ -29,4 +35,4 @@ class SocialLogin extends Component {
     }
 }
 
-export default withRouter(fs.connect(['user'])(SocialLogin));
+export default withRouter(fs.connect(['userCheckedLogin'])(SocialLogin));
