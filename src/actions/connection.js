@@ -69,7 +69,7 @@ export async function reconnect() {
     await wsConnect();
 
 }
-export async function wsJoinGame(gameid, private_key) {
+export async function wsJoinGame(game_slug, private_key) {
     let ws = fs.get('ws');
     let game = fs.get('game');
     if (!ws || !ws.isReady || game) {
@@ -78,7 +78,7 @@ export async function wsJoinGame(gameid, private_key) {
 
     await reconnect();
 
-    let payload = { join: gameid }
+    let payload = { action: 'join', game_slug }
     if (private_key)
         payload.private_key = private_key;
     let msg = encode(payload);

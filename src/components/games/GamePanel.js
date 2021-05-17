@@ -22,7 +22,7 @@ class GamePanel extends Component {
 
         this.sent = 0;
         let game_slug = props.match.params.game_slug;
-        setTimeout(() => { joinGame(game_slug) }, 3000);
+        setTimeout(() => { joinGame(game_slug) }, 1000);
 
     }
 
