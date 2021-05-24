@@ -86,11 +86,32 @@ class DevManageGameFields extends Component {
                 <br />
                 <input
                     type="text"
+                    name="game_slug"
+                    placeholder="Slug Name (lower a-z and - only)"
+                    maxLength="32"
+                    value={this.props.devgame.game_slug || ''}
+                    onChange={this.inputChange.bind(this)} />
+                <br />
+                <label for="version">Version</label>
+                <input
+                    type="text"
                     disabled
                     name="version"
+                    id="version"
                     placeholder="Version"
                     maxLength="12"
                     value={this.props.devgame.version || '1'} />
+                <br />
+                <label for="maxplayers">Max players</label>
+                <input
+                    type="number"
+                    name="maxplayers"
+                    id="maxplayers"
+                    placeholder="Max Players"
+                    min="1"
+                    max="1000"
+                    value={this.props.devgame.maxplayers || '2'}
+                    onChange={this.inputChange.bind(this)} />
                 <br />
                 <input
                     type="text"
@@ -110,20 +131,13 @@ class DevManageGameFields extends Component {
                 <br />
                 <input
                     type="text"
-                    name="git_client"
-                    placeholder="Client Git URL"
+                    name="git"
+                    placeholder="Git URL for this project"
                     maxLength="255"
                     value={this.props.devgame.git_client || ''}
                     onChange={this.inputChange.bind(this)} />
                 <br />
-                <input
-                    type="text"
-                    name="git_server"
-                    placeholder="Server Git URL (optional)"
-                    maxLength="255"
-                    value={this.props.devgame.git_server || ''}
-                    onChange={this.inputChange.bind(this)} />
-                <br />
+
 
                 <button onClick={this.onSubmit.bind(this)}>Save</button>
                 {
@@ -133,6 +147,13 @@ class DevManageGameFields extends Component {
                         </div>
                     )
                 }
+
+                <div className="deploy-info">
+                    <div className="deploy-cmd">
+                        <h5>Ready to deploy? Simply run this command from your development environment.</h5>
+                        <pre>npm run deploy {this.props.devgame.apikey}</pre>
+                    </div>
+                </div>
             </div>
 
 

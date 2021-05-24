@@ -26,10 +26,10 @@ class DevClientBundle extends Component {
             return (
                 <div className="devclient">
                     <label>Build Version: </label>
-                    <span>{this.props.clientversion || 1}</span>
+                    <span>{this.props.version || 1}</span>
                     <br />
                     <label>Target Server: </label>
-                    <span>{this.props.serverversion || 1}</span>
+                    <span>{this.props.version || 1}</span>
                     <br />
                     <label>Updated: </label>
                     <span>{moment.utc(this.props.tsupdate).tz(moment.tz.guess()).format("MMM DD, YYYY - h:mm A")}</span>

@@ -85,7 +85,7 @@ class DevCreateGame extends Component {
                 <br />
                 <input
                     type="text"
-                    name="shortid"
+                    name="game_slug"
                     placeholder="Slug Name (lower a-z and - only)"
                     maxLength="32"
                     onChange={this.inputChange.bind(this)} />

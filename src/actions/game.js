@@ -23,6 +23,21 @@ export async function findGames() {
     }
 }
 
+export async function findGame(game_slug) {
+    try {
+        let response = await GET('/api/v1/game/' + game_slug);
+        let game = response.data;
+        if (game.ecode) {
+            throw game.ecode;
+        }
+        fs.set(game_slug, game || null);
+    }
+    catch (e) {
+        console.error(e);
+        fs.set(game_slug, null);
+    }
+}
+
 let hJoining = 0;
 
 export async function joinGame(game_slug) {

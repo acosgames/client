@@ -113,9 +113,9 @@ class DevCreateClient extends Component {
                 <br />
                 <input
                     type="text"
-                    name="git_client"
-                    placeholder="Client Git URL"
-                    maxLength="255"
+                    name="git"
+                    placeholder="Git URL for this project"
+                    maxLength="500"
                     onChange={this.inputChange.bind(this)} />
                 <br />
 

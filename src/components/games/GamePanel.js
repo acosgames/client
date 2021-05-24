@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 
 import {
     withRouter,
@@ -8,7 +8,7 @@ import Connection from "./Connection";
 import '../styles/GameScreen.css';
 import fs from 'flatstore';
 import { wsJoinGame } from "../../actions/connection";
-import { joinGame } from "../../actions/game";
+import { joinGame, findGame } from "../../actions/game";
 
 fs.set('iframe', null);
 
@@ -22,13 +22,30 @@ class GamePanel extends Component {
 
         this.sent = 0;
         let game_slug = props.match.params.game_slug;
+
+        let games = fs.get('games') || [];
+        if (games.length == 0) {
+            findGame(game_slug);
+        }
+        else {
+            this.game = null;
+            for (var i = 0; i < games.length; i++) {
+                if (games[i].game_slug == game_slug) {
+                    this.game = games[i];
+                    break;
+                }
+            }
+        }
         setTimeout(() => { joinGame(game_slug) }, 1000);
 
     }
 
-
-
     render() {
+        if (!this.props.game) {
+            return (<React.Fragment />)
+        }
+        console.log("Game data: " + this.game);
+        let srcUrl = `http://localhost:8080/iframe/${this.props.game.gameid}/${this.props.game.version}`;
         return (
             <div id="gamepanel">
 
@@ -42,7 +59,7 @@ class GamePanel extends Component {
                     this.iframe = c;
                     fs.set('iframe', c);
                 }}
-                    src="http://localhost:3001"
+                    src={srcUrl}
                     sandbox="allow-scripts" >
                 </iframe>
 
@@ -52,4 +69,16 @@ class GamePanel extends Component {
     }
 }
 
-export default withRouter(GamePanel);
+let onCustomWatched = ownProps => {
+    let game_slug = ownProps.match.params.game_slug;
+    return [game_slug];
+};
+let onCustomProps = (key, value, store, ownProps) => {
+    // let game_slug = ownProps.match.params.game_slug;
+    return {
+        game: value
+    };
+};
+export default fs.connect([], onCustomWatched, onCustomProps)(GamePanel);
+
+// export default withRouter(fs.connect(['games'])(GamePanel));
