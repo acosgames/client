@@ -44,7 +44,7 @@ class GamePanel extends Component {
         if (!this.props.game) {
             return (<React.Fragment />)
         }
-        console.log("Game data: " + this.game);
+        console.log("Game data: " + this.props.game);
         let srcUrl = `http://localhost:8080/iframe/${this.props.game.gameid}/${this.props.game.version}`;
         return (
             <div id="gamepanel">

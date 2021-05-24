@@ -1,7 +1,7 @@
 import { POST, GET, POSTFORM } from './http';
 
 import { validateSimple, validateField } from 'fsg-shared/util/validation';
-import { genShortId } from 'fsg-shared/util/idgen';
+// import { genShortId } from 'fsg-shared/util/idgen.js';
 
 import fs from 'flatstore';
 fs.set('devgameimages', []);
@@ -153,14 +153,14 @@ export async function findGame(gameid) {
         console.log(game);
         fs.set('devgame', game);
 
-        fs.set('devClientsCnt', game.clients.length);
-        for (var i = 0; i < game.clients.length; i++) {
-            updateClient(game.clients[i]);
-        }
+        // fs.set('devClientsCnt', game.clients.length);
+        // for (var i = 0; i < game.clients.length; i++) {
+        //     updateClient(game.clients[i]);
+        // }
 
 
-        fs.set('devServersCnt', game.servers.length);
-        fs.set('devServers', rowsToMap(game.servers));
+        // fs.set('devServersCnt', game.servers.length);
+        // fs.set('devServers', rowsToMap(game.servers));
 
         return game;
     }
