@@ -31,6 +31,8 @@ export async function findGame(game_slug) {
             throw game.ecode;
         }
         fs.set(game_slug, game || null);
+
+        await downloadGame(game.gameid, game.version);
     }
     catch (e) {
         console.error(e);
@@ -54,3 +56,22 @@ export async function joinGame(game_slug) {
     // hJoining = setTimeout(() => { joinGame(game_slug) }, 3000);
 }
 
+
+export async function downloadGame(gameid, version) {
+    let url = `https://f000.backblazeb2.com/file/fivesecondgames/${gameid}/client/client.bundle.${version}.js`
+
+    return new Promise(async (rs, rj) => {
+        try {
+            let res = await fetch(url, { headers: { 'Content-Type': 'application/javascript' } })
+            let blob = await res.text();
+            //let file = window.URL.createObjectURL(blob);
+            fs.set('jsgame', blob);
+            rs(blob);
+        }
+        catch (e) {
+            console.error(e);
+            rj(e);
+        }
+    })
+
+}
