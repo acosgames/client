@@ -76,6 +76,7 @@ class GamePanel extends Component {
                 </body>
             </html>
         `;
+        srcUrl = 'https://f000.backblazeb2.com/file/fivesecondgames/iframe.html';
 
         return (
             <div id="gamepanel">

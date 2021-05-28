@@ -62,11 +62,11 @@ export async function downloadGame(gameid, version) {
 
     return new Promise(async (rs, rj) => {
         try {
-            let res = await fetch(url, { headers: { 'Content-Type': 'application/javascript' } })
-            let blob = await res.text();
+            // let res = await fetch(url, { headers: { 'Content-Type': 'application/javascript' } })
+            // let blob = await res.text();
             //let file = window.URL.createObjectURL(blob);
-            fs.set('jsgame', blob);
-            rs(blob);
+            fs.set('jsgame', true);
+            rs(true);
         }
         catch (e) {
             console.error(e);
