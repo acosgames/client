@@ -36,7 +36,7 @@ class GamePanel extends Component {
                 }
             }
 
-            downloadGame(this.game.gameid, this.game.version);
+            //downloadGame(this.game.gameid, this.game.version);
         }
         setTimeout(() => { joinGame(game_slug) }, 1000);
 
@@ -58,26 +58,26 @@ class GamePanel extends Component {
             return (<React.Fragment />)
         }
         console.log("Game data: " + game);
-        let srcUrl = `http://localhost:8080/iframe/${game.gameid}/${game.version}`;
-        srcUrl = 'data:text/html,';
-        srcUrl += `
-            <!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <meta charset="utf-8" />
-                    <title>FiveSecondGames - Client Simulator</title>
-                    <meta name="description" content="FiveSecondGames Client Simulator" />
-                    <meta name="author" content="fsg" />
-                    <meta http-equiv="Content-Security-Policy" content="script-src 'self' f000.backblazeb2.com 'unsafe-inline';" />
-                </head>
-                <body>
-                    <div id="root"></div>
-                    <script src="${this.props.jsgame}"></script>
-                </body>
-            </html>
-        `;
-        srcUrl = 'https://f000.backblazeb2.com/file/fivesecondgames/iframe.html';
-        srcUrl = 'https://f000.backblazeb2.com/file/fivesecondgames/6796538598029000704/client/client.bundle.36.html';
+        // let srcUrl = `http://localhost:8080/iframe/${game.gameid}/${game.version}`;
+        // srcUrl = 'data:text/html,';
+        // srcUrl += `
+        //     <!DOCTYPE html>
+        //     <html lang="en">
+        //         <head>
+        //             <meta charset="utf-8" />
+        //             <title>FiveSecondGames - Client Simulator</title>
+        //             <meta name="description" content="FiveSecondGames Client Simulator" />
+        //             <meta name="author" content="fsg" />
+        //             <meta http-equiv="Content-Security-Policy" content="script-src 'self' f000.backblazeb2.com 'unsafe-inline';" />
+        //         </head>
+        //         <body>
+        //             <div id="root"></div>
+        //             <script src="${this.props.jsgame}"></script>
+        //         </body>
+        //     </html>
+        // `;
+        // srcUrl = 'https://f000.backblazeb2.com/file/fivesecondgames/iframe.html';
+        let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/client/client.bundle.${game.version}.html`;
         return (
             <div id="gamepanel">
 
@@ -87,17 +87,19 @@ class GamePanel extends Component {
                 }}>
                     Parent Button
                     </button> */}
-                <iframe className="gamescreen" ref={(c) => {
-                    this.iframe = c;
-                    fs.set('iframe', c);
-                }}
+                <iframe 
+                    className="gamescreen" 
+                    // ref={(c) => {
+                    //     this.iframe = c;
+                    //     fs.set('iframe', c);
+                    // }}
                     src={srcUrl}
                     sandbox="allow-scripts"
-                    onLoad={() => {
+                    // onLoad={() => {
 
-                        console.log(this.iframe);
-                    }} >
-                </iframe>
+                    //     console.log(this.iframe);
+                    // }} 
+                />
 
                 <Connection></Connection>
             </div>
