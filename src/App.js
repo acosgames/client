@@ -62,6 +62,11 @@ class App extends Component {
                     />
                     <Route
                       exact
+                      path="/game/:game_slug/:beta"
+                      component={GamePanel}
+                    />
+                    <Route
+                      exact
                       path="/login"
                       component={SocialLogin}
                     />

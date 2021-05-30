@@ -4,7 +4,7 @@ import { validateSimple, validateField } from 'fsg-shared/util/validation';
 // import { genShortId } from 'fsg-shared/util/idgen';
 
 import fs from 'flatstore';
-import { wsJoinGame } from './connection';
+import { wsJoinGame, wsJoinBetaGame } from './connection';
 
 fs.set('games', []);
 
@@ -42,12 +42,18 @@ export async function findGame(game_slug) {
 
 let hJoining = 0;
 
-export async function joinGame(game_slug) {
+export async function joinGame(game_slug, beta) {
 
     clearTimeout(hJoining);
 
     try {
-        wsJoinGame(game_slug);
+        if (beta) {
+            wsJoinBetaGame(game_slug);
+        }
+        else {
+            wsJoinGame(game_slug);
+        }
+
     }
     catch (e) {
         console.error(e);

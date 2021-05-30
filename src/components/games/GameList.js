@@ -18,6 +18,16 @@ class GameList extends Component {
         findGames();
     }
 
+    renderGame(game) {
+        let beta;
+        if (game.latest_version > game.version) {
+            beta = <Link to={"/game/" + game.game_slug + "/beta"}>(Beta)</Link>
+        }
+        return (
+            <li key={game.game_slug}><Link to={"/game/" + game.game_slug}>{game.name}</Link> {beta}</li>
+        )
+    }
+
     render() {
         let games = this.props.games || [];
 
@@ -26,7 +36,7 @@ class GameList extends Component {
                 <h3>Find a game to play!</h3>
 
                 {
-                    games.map(game => (<li><Link to={"/game/" + game.game_slug}>{game.name}</Link></li>))
+                    games.map(game => (this.renderGame(game)))
                 }
             </div>
         )

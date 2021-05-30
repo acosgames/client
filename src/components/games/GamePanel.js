@@ -21,16 +21,17 @@ class GamePanel extends Component {
         }
 
         this.sent = 0;
-        let game_slug = props.match.params.game_slug;
+        this.game_slug = props.match.params.game_slug;
+        this.beta = props.match.params.beta;
 
         let games = fs.get('games') || [];
         if (games.length == 0) {
-            findGame(game_slug);
+            findGame(this.game_slug);
         }
         else {
             this.game = null;
             for (var i = 0; i < games.length; i++) {
-                if (games[i].game_slug == game_slug) {
+                if (games[i].game_slug == this.game_slug) {
                     this.game = games[i];
                     break;
                 }
@@ -38,7 +39,7 @@ class GamePanel extends Component {
 
             //downloadGame(this.game.gameid, this.game.version);
         }
-        setTimeout(() => { joinGame(game_slug) }, 1000);
+        setTimeout(() => { joinGame(this.game_slug, this.beta) }, 1000);
 
     }
 
@@ -77,7 +78,11 @@ class GamePanel extends Component {
         //     </html>
         // `;
         // srcUrl = 'https://f000.backblazeb2.com/file/fivesecondgames/iframe.html';
-        let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/client/client.bundle.${game.version}.html`;
+        let version = game.version;
+        if (this.beta)
+            version = game.latest_version;
+
+        let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/client/client.bundle.${version}.html`;
         return (
             <div id="gamepanel">
 
@@ -87,18 +92,18 @@ class GamePanel extends Component {
                 }}>
                     Parent Button
                     </button> */}
-                <iframe 
-                    className="gamescreen" 
-                    // ref={(c) => {
-                    //     this.iframe = c;
-                    //     fs.set('iframe', c);
-                    // }}
+                <iframe
+                    className="gamescreen"
+                    ref={(c) => {
+                        this.iframe = c;
+                        fs.set('iframe', c);
+                    }}
                     src={srcUrl}
                     sandbox="allow-scripts"
-                    // onLoad={() => {
+                // onLoad={() => {
 
-                    //     console.log(this.iframe);
-                    // }} 
+                //     console.log(this.iframe);
+                // }} 
                 />
 
                 <Connection></Connection>

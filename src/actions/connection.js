@@ -7,7 +7,7 @@ import fs from 'flatstore';
 fs.set('iframe', null);
 fs.set('ws', null);
 fs.set('game', null);
-
+fs.set('room_slug', null);
 
 export function attachToFrame() {
     window.addEventListener(
@@ -21,10 +21,10 @@ export function detachFromFrame() {
     window.removeEventListener('message', recvFrameMessage, false);
 }
 
-export function sendFrameMessage(action, payload) {
+export function sendFrameMessage(msg) {
     let iframe = fs.get('iframe');
     if (iframe)
-        iframe.contentWindow.postMessage({ action, payload }, '*');
+        iframe.contentWindow.postMessage(msg, '*');
 }
 
 
@@ -42,6 +42,8 @@ export function recvFrameMessage(evt) {
     let ws = fs.get('ws');
 
     if (ws) {
+        let room_slug = fs.get('room_slug');
+        action.meta = { room_slug };
         let buffer = encode(action);
         console.log("Sending Action: ", action);
         ws.send(buffer);
@@ -70,6 +72,23 @@ export async function reconnect() {
     await wsConnect();
 
 }
+
+export async function wsJoinBetaGame(game_slug, private_key) {
+    let ws = fs.get('ws');
+    let game = fs.get('game');
+    if (!ws || !ws.isReady || game) {
+        return;
+    }
+
+    await reconnect();
+
+    let action = { type: 'join', payload: { beta: true, game_slug, private_key } }
+    let msg = encode(action);
+    console.log("Joining Beta: ", action);
+    ws.send(msg)
+}
+
+
 export async function wsJoinGame(game_slug, private_key) {
     let ws = fs.get('ws');
     let game = fs.get('game');
@@ -79,9 +98,7 @@ export async function wsJoinGame(game_slug, private_key) {
 
     await reconnect();
 
-    let action = { type: 'join', game_slug, payload: {private_key} }
-    if (private_key)
-        action.private_key = private_key;
+    let action = { type: 'join', payload: { game_slug, private_key } }
     let msg = encode(action);
     console.log("Joining: ", action);
     ws.send(msg)
@@ -96,6 +113,7 @@ export async function wsConnect(url, onMessage, onOpen, onError) {
     }
     // let cookies = parseCookies();
     var client = new W3CWebSocket(url || 'ws://127.0.0.1:9002', user.apikey, 'http://localhost:3000', {});
+    client.binaryType = 'arraybuffer'
     client.isReady = false;
 
     client.onopen = onOpen || ((err) => {
@@ -112,8 +130,8 @@ export async function wsConnect(url, onMessage, onOpen, onError) {
         console.log(evt);
         client.isReady = false;
     }
-    client.onerror = onError || ((error) => {
-        console.error(error);
+    client.onerror = onError || ((error, data) => {
+        console.error(error, data);
     });
 
     client.onmessage = onMessage || wsIncomingMessage;
@@ -126,14 +144,34 @@ export async function wsConnect(url, onMessage, onOpen, onError) {
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
     let ws = fs.get('ws');
-    let buffer = await message.data.arrayBuffer();
+    let buffer = await message.data;
     let msg = decode(buffer);
-    console.log("Recevied Message: ", msg);
+    if (!msg) {
+        console.error("Error: Unable to decode buffer of size " + buffer.byteLength);
+        return;
+    }
 
-    let localPlayer = msg.players[user.userid];
-    // if (localPlayer) note.textContent = 'Status: ingame';
-    console.log('Game: ', msg);
+    if (msg.type == 'join') {
+        console.log("Player Joined: ", msg);
+        fs.set('room_slug', msg.payload.room_slug);
+        return;
+    }
 
-    msg.local = Object.assign({}, user, localPlayer);
-    sendFrameMessage(msg);
+    if (msg.type != 'update') {
+        console.log("Unknown type: ", msg);
+        return;
+    }
+    console.log("Server Update: ", msg);
+
+    if (msg.players) {
+        msg.local = msg.players[user.shortid];
+        msg.local.id = user.shortid;
+    } else {
+        msg.local = { name: user.displayname, id: user.shortid };
+    }
+
+    let out = { local: msg.local, ...msg.payload };
+
+
+    sendFrameMessage(out);
 }

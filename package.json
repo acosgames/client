@@ -19,9 +19,9 @@
     "websocket": "^1.0.33"
   },
   "scripts": {
-    "start": "concurrently npm:build:dev npm:sync",
+    "start": "./node_modules/.bin/concurrently npm:build:dev npm:sync",
     "build:dev": "./node_modules/.bin/webpack --config webpack/dev.config.js --watch ./src",
-    "build:prod": "./node_modules/.bin/webpack --config webpack/prod.config.js --watch ./src",
+    "build:prod": "./node_modules/.bin/webpack --config webpack/prod.config.js",
     "sync": "browser-sync start --no-ghost-mode --ws --port 8000 --proxy localhost:8080 --files=./src/* --files=../fsg-api/public/* --ignore=node_modules",
     "build": "react-scripts build",
     "test": "react-scripts test",
