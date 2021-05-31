@@ -39,9 +39,10 @@ class GamePanel extends Component {
 
             //downloadGame(this.game.gameid, this.game.version);
         }
-        setTimeout(() => { joinGame(this.game_slug, this.beta) }, 1000);
 
     }
+
+
 
     async componentDidMount() {
         let game = this.props.game;
@@ -55,8 +56,8 @@ class GamePanel extends Component {
         if (!game)
             game = this.game;
 
-        if (!game || !this.props.jsgame) {
-            return (<React.Fragment />)
+        if (!game) {
+            return (<div>Loading...</div>)
         }
         console.log("Game data: " + game);
         // let srcUrl = `http://localhost:8080/iframe/${game.gameid}/${game.version}`;
@@ -98,6 +99,9 @@ class GamePanel extends Component {
                         this.iframe = c;
                         fs.set('iframe', c);
                     }}
+                    onLoad={() => {
+                        joinGame(this.game_slug, this.beta);
+                    }}
                     src={srcUrl}
                     sandbox="allow-scripts"
                 // onLoad={() => {
@@ -114,12 +118,12 @@ class GamePanel extends Component {
 
 let onCustomWatched = ownProps => {
     let game_slug = ownProps.match.params.game_slug;
-    return [game_slug, 'jsgame'];
+    return [game_slug];
 };
 let onCustomProps = (key, value, store, ownProps) => {
     // let game_slug = ownProps.match.params.game_slug;
-    if (key == 'jsgame')
-        return { jsgame: value }
+    // if (key == 'jsgame')
+    //     return { jsgame: value }
 
     return {
         game: value

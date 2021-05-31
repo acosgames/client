@@ -16,13 +16,14 @@
     "react-dom": "^17.0.2",
     "react-images-uploading": "^3.1.2",
     "react-router-dom": "^5.2.0",
+    "wait-on": "^5.3.0",
     "websocket": "^1.0.33"
   },
   "scripts": {
     "start": "./node_modules/.bin/concurrently npm:build:dev npm:sync",
     "build:dev": "./node_modules/.bin/webpack --config webpack/dev.config.js --watch ./src",
     "build:prod": "./node_modules/.bin/webpack --config webpack/prod.config.js",
-    "sync": "browser-sync start --no-ghost-mode --ws --port 8000 --proxy localhost:8080 --files=./src/* --files=../fsg-api/public/* --ignore=node_modules",
+    "sync": "./node_modules/.bin/wait-on http://localhost:8080/ && browser-sync start --no-ghost-mode --ws --port 8000 --proxy localhost:8080 --files=./src/* --files=../fsg-api/public/* --ignore=node_modules",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

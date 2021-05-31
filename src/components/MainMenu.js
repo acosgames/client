@@ -10,6 +10,7 @@ import fs from 'flatstore';
 
 import './styles/MainPage.css';
 import Logout from "./login/Logout";
+import LeaveGame from "./games/LeaveGame";
 
 fs.set('pagehistory', []);
 
@@ -56,6 +57,7 @@ class MainMenu extends Component {
 
                 </ul>
                 {<SocialLogin user={this.props.user}></SocialLogin>}
+                <LeaveGame></LeaveGame>
             </div>
         )
     }

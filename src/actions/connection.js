@@ -73,6 +73,23 @@ export async function reconnect() {
 
 }
 
+export async function wsLeaveGame(room_slug) {
+
+    let ws = fs.get('ws');
+    if (!ws || !ws.isReady) {
+        return;
+    }
+
+    await reconnect();
+
+    let action = { type: 'leave', meta: { room_slug } }
+    let msg = encode(action);
+    console.log("Leaving: ", action);
+    ws.send(msg)
+
+    fs.set('room_slug', null);
+}
+
 export async function wsJoinBetaGame(game_slug, private_key) {
     let ws = fs.get('ws');
     let game = fs.get('game');
@@ -122,6 +139,7 @@ export async function wsConnect(url, onMessage, onOpen, onError) {
 
         if (client.readyState == client.OPEN) {
             client.isReady = true;
+            sendPing(client);
         }
 
     });
@@ -141,6 +159,36 @@ export async function wsConnect(url, onMessage, onOpen, onError) {
     return client;
 }
 
+var latencyStart = 0;
+var latency = 0;
+
+function sendPing(ws) {
+    latencyStart = new Date().getTime();
+
+    let action = { type: 'ping', payload: latencyStart }
+    let msg = encode(action);
+    console.log("Ping: ", action);
+    ws.send(msg);
+}
+
+function onPong(message) {
+    let serverOffset = message.payload.offset;
+    let serverTime = message.payload.serverTime;
+    let currentTime = new Date().getTime();
+    latency = currentTime - latencyStart;
+    let offsetTime = currentTime - serverTime;
+    let realTime = currentTime + offsetTime + Math.ceil(latency / 2);
+    console.log('Latency Start: ', latencyStart);
+    console.log('Latency: ', latency);
+    console.log('Offset Time: ', offsetTime);
+    console.log('Server Offset: ', serverOffset);
+    console.log('Server Time: ', serverTime);
+    console.log('Client Time: ', currentTime);
+    console.log('Real Time: ', realTime);
+
+    fs.set('latency', latency);
+}
+
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
     let ws = fs.get('ws');
@@ -151,13 +199,25 @@ async function wsIncomingMessage(message) {
         return;
     }
 
+    if (msg.type == 'pong') {
+        onPong(msg);
+        return;
+    }
+
     if (msg.type == 'join') {
         console.log("Player Joined: ", msg);
         fs.set('room_slug', msg.payload.room_slug);
         return;
     }
 
-    if (msg.type != 'update') {
+    if (msg.type == 'kicked') {
+        console.log("You were kicked from game!", msg);
+    }
+    else if (msg.type == 'finish') {
+        console.log("FINISHED GAME!", msg);
+        //return;
+    }
+    else if (msg.type != 'update') {
         console.log("Unknown type: ", msg);
         return;
     }
