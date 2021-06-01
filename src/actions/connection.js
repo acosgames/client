@@ -33,7 +33,7 @@ export function recvFrameMessage(evt) {
     let origin = evt.origin;
     let source = evt.source;
     if (!action.payload || !action.type) return;
-    console.log('Received from origin:' + origin, action);
+    console.log('[iframe]: ', action);
     // let msg = data.payload;
     // if (msg.indexOf("Hello") > -1) {
     //     this.send('connected', 'Welcome to 5SG!');
@@ -45,7 +45,7 @@ export function recvFrameMessage(evt) {
         let room_slug = fs.get('room_slug');
         action.meta = { room_slug };
         let buffer = encode(action);
-        console.log("Sending Action: ", action);
+        console.log("[Outgoing] Action: ", action);
         ws.send(buffer);
     }
 }
@@ -84,7 +84,7 @@ export async function wsLeaveGame(room_slug) {
 
     let action = { type: 'leave', meta: { room_slug } }
     let msg = encode(action);
-    console.log("Leaving: ", action);
+    console.log("[Outgoing] Leaving: ", action);
     ws.send(msg)
 
     fs.set('room_slug', null);
@@ -101,7 +101,7 @@ export async function wsJoinBetaGame(game_slug, private_key) {
 
     let action = { type: 'join', payload: { beta: true, game_slug, private_key } }
     let msg = encode(action);
-    console.log("Joining Beta: ", action);
+    console.log("[Outgoing] Joining Beta: ", action);
     ws.send(msg)
 }
 
@@ -117,7 +117,7 @@ export async function wsJoinGame(game_slug, private_key) {
 
     let action = { type: 'join', payload: { game_slug, private_key } }
     let msg = encode(action);
-    console.log("Joining: ", action);
+    console.log("[Outgoing] Joining: ", action);
     ws.send(msg)
 }
 
@@ -167,7 +167,7 @@ function sendPing(ws) {
 
     let action = { type: 'ping', payload: latencyStart }
     let msg = encode(action);
-    console.log("Ping: ", action);
+    console.log("[Outgoing] Ping: ", action);
     ws.send(msg);
 }
 
@@ -205,23 +205,22 @@ async function wsIncomingMessage(message) {
     }
 
     if (msg.type == 'join') {
-        console.log("Player Joined: ", msg);
-        fs.set('room_slug', msg.payload.room_slug);
-        return;
+        console.log("[Incoming] Joined: ", msg);
+        fs.set('room_slug', msg.meta.room_slug);
     }
 
-    if (msg.type == 'kicked') {
-        console.log("You were kicked from game!", msg);
+    else if (msg.type == 'kicked') {
+        console.log("[Incoming] You were kicked from game!", msg);
     }
     else if (msg.type == 'finish') {
-        console.log("FINISHED GAME!", msg);
+        console.log("[Incoming] Game completed!", msg);
         //return;
     }
     else if (msg.type != 'update') {
-        console.log("Unknown type: ", msg);
+        console.log("[Incoming] Unknown type: ", msg);
         return;
     }
-    console.log("Server Update: ", msg);
+    console.log("[Incoming] Update: ", msg);
 
     if (msg.players) {
         msg.local = msg.players[user.shortid];
