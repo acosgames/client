@@ -43,7 +43,7 @@ export function recvFrameMessage(evt) {
 
     if (ws) {
         let room_slug = fs.get('room_slug');
-        action.meta = { room_slug };
+        action.room_slug = room_slug;
         let buffer = encode(action);
         console.log("[Outgoing] Action: ", action);
         ws.send(buffer);
