@@ -42,6 +42,7 @@ export function recvFrameMessage(evt) {
     let ws = fs.get('ws');
 
     if (ws) {
+        console.time('ActionLoop');
         let room_slug = fs.get('room_slug');
         action.room_slug = room_slug;
         let buffer = encode(action);
@@ -82,7 +83,7 @@ export async function wsLeaveGame(room_slug) {
 
     await reconnect();
 
-    let action = { type: 'leave', meta: { room_slug } }
+    let action = { type: 'leave', room_slug }
     let msg = encode(action);
     console.log("[Outgoing] Leaving: ", action);
     ws.send(msg)
@@ -222,15 +223,15 @@ async function wsIncomingMessage(message) {
     }
     console.log("[Incoming] Update: ", msg);
 
-    if (msg.players) {
-        msg.local = msg.players[user.shortid];
+    if (msg.payload.players) {
+        msg.local = msg.payload.players[user.shortid];
         msg.local.id = user.shortid;
     } else {
         msg.local = { name: user.displayname, id: user.shortid };
     }
 
-    let out = { local: msg.local, ...msg.payload };
+    let out = { local: msg.local, meta: msg.meta, ...msg.payload };
 
-
+    console.timeEnd('ActionLoop');
     sendFrameMessage(out);
 }
