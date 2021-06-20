@@ -59,7 +59,7 @@ class GamePanel extends Component {
         if (!game) {
             return (<div>Loading...</div>)
         }
-        console.log("Game data: " + game);
+        console.log("Game data: ", game);
         // let srcUrl = `http://localhost:8080/iframe/${game.gameid}/${game.version}`;
         // srcUrl = 'data:text/html,';
         // srcUrl += `
