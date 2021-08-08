@@ -207,7 +207,7 @@ async function wsIncomingMessage(message) {
 
     if (msg.type == 'join') {
         console.log("[Incoming] Joined: ", msg);
-        fs.set('room_slug', msg.meta.room_slug);
+        fs.set('room_slug', msg.room_slug);
     }
 
     else if (msg.type == 'kicked') {
@@ -230,7 +230,7 @@ async function wsIncomingMessage(message) {
         msg.local = { name: user.displayname, id: user.shortid };
     }
 
-    let out = { local: msg.local, meta: msg.meta, ...msg.payload };
+    let out = { local: msg.local, room_slug: msg.room_slug, ...msg.payload };
 
     console.timeEnd('ActionLoop');
     sendFrameMessage(out);
