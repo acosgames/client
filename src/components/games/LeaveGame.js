@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import fs from 'flatstore';
-import { wsLeaveGame } from "../../actions/connection";
+import { wsLeaveGame, wsJoinGame, wsJoinBetaGame } from "../../actions/connection";
 
 class LeaveGame extends Component {
     constructor(props) {
@@ -21,10 +21,19 @@ class LeaveGame extends Component {
         if (!this.props.room_slug) {
             return (<React.Fragment></React.Fragment>)
         }
+
+        if (this.props.events && this.props.events.gameover) {
+            let game = fs.get('game');
+            console.log("LeaveGame: game is: ", game);
+            return (
+                <button onClick={() => { wsJoinBetaGame(this.props.room_slug) }}>Leave Game</button>
+            )
+        }
+
         return (
             <button onClick={() => { wsLeaveGame(this.props.room_slug) }}>Leave Game</button>
         )
     }
 }
 
-export default withRouter(fs.connect(['room_slug'])(LeaveGame));
+export default withRouter(fs.connect(['room_slug', 'events'])(LeaveGame));

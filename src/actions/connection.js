@@ -3,11 +3,14 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode } from 'fsg-shared/util/encoder';
 import fs from 'flatstore';
+import delta from '../util/delta';
 
 fs.set('iframe', null);
 fs.set('ws', null);
 fs.set('game', null);
+fs.set('gamestate', {});
 fs.set('room_slug', null);
+fs.set('games', null);
 
 export function attachToFrame() {
     window.addEventListener(
@@ -88,6 +91,7 @@ export async function wsLeaveGame(room_slug) {
     console.log("[Outgoing] Leaving: ", action);
     ws.send(msg)
 
+    fs.set('gamestate', {});
     fs.set('room_slug', null);
 }
 
@@ -148,6 +152,7 @@ export async function wsConnect(url, onMessage, onOpen, onError) {
     client.onclose = (evt) => {
         console.log(evt);
         client.isReady = false;
+        fs.set('gamestate', {});
     }
     client.onerror = onError || ((error, data) => {
         console.error(error, data);
@@ -193,6 +198,7 @@ function onPong(message) {
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
     let ws = fs.get('ws');
+    let gamestate = fs.get('gamestate');
     let buffer = await message.data;
     let msg = decode(buffer);
     if (!msg) {
@@ -223,6 +229,12 @@ async function wsIncomingMessage(message) {
     }
     console.log("[Incoming] Update: ", msg);
 
+    if (msg.payload) {
+        console.log("[Previous State]: ", gamestate);
+        msg.payload = delta.merge(gamestate, msg.payload);
+        fs.set('gamestate', msg.payload);
+    }
+
     if (msg.payload.players) {
         msg.local = msg.payload.players[user.shortid];
         msg.local.id = user.shortid;
@@ -231,6 +243,7 @@ async function wsIncomingMessage(message) {
     }
 
     let out = { local: msg.local, room_slug: msg.room_slug, ...msg.payload };
+
 
     console.timeEnd('ActionLoop');
     sendFrameMessage(out);
