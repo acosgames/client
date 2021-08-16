@@ -130,7 +130,8 @@ export async function wsConnect(url, onMessage, onOpen, onError) {
 
     let ws = fs.get('ws');
     let user = fs.get('user');
-    if (ws) {
+    //if connecting or open, don't try to connect
+    if (ws && ws.readyState <= 1) {
         return;
     }
     // let cookies = parseCookies();
@@ -149,13 +150,17 @@ export async function wsConnect(url, onMessage, onOpen, onError) {
 
     });
 
-    client.onclose = (evt) => {
+    client.onclose = async (evt) => {
         console.log(evt);
         client.isReady = false;
         fs.set('gamestate', {});
+
+        await reconnect();
     }
-    client.onerror = onError || ((error, data) => {
+    client.onerror = onError || (async (error, data) => {
         console.error(error, data);
+
+        await reconnect();
     });
 
     client.onmessage = onMessage || wsIncomingMessage;
