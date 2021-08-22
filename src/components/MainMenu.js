@@ -8,7 +8,7 @@ import SocialLogin from "./login/SocialLogin";
 
 import fs from 'flatstore';
 
-import './styles/MainPage.css';
+import './styles/MainPage.scss';
 import Logout from "./login/Logout";
 import LeaveGame from "./games/LeaveGame";
 
@@ -43,19 +43,16 @@ class MainMenu extends Component {
 
         return (
             <div id="mainmenu">
-                <ul>
+                <Link to="/games">Find Games</Link>
+                {
+                    this.props.user && this.props.user.isdev && (
+                        <React.Fragment>
+                            <Link to="/dev">Developers</Link>
 
-                    <li><Link to="/games">Find Games</Link></li>
-                    {
-                        this.props.user && this.props.user.isdev && (
-                            <React.Fragment>
-                                <li><Link to="/dev">Developer Dashboard</Link></li>
-                                <li><Link to="/dev/game/create">Create Game</Link></li>
-                            </React.Fragment>
-                        )
-                    }
+                        </React.Fragment>
+                    )
+                }
 
-                </ul>
                 {<SocialLogin user={this.props.user}></SocialLogin>}
                 <LeaveGame></LeaveGame>
             </div>

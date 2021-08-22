@@ -31,8 +31,8 @@ export async function findGame(game_slug) {
             throw game.ecode;
         }
         fs.set(game_slug, game || null);
+        fs.set('game', game || null);
 
-        await downloadGame(game.gameid, game.version);
     }
     catch (e) {
         console.error(e);
@@ -43,6 +43,8 @@ export async function findGame(game_slug) {
 let hJoining = 0;
 
 export async function joinGame(game_slug, beta) {
+
+    await downloadGame(game.gameid, game.version);
 
     clearTimeout(hJoining);
 

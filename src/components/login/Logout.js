@@ -18,15 +18,12 @@ class Logout extends Component {
         if (!user)
             return (<React.Fragment></React.Fragment>)
         return (
-            <ul>
-                <li>
-                    <a onClick={() => {
-                        logout();
-                    }}>
-                        Logout
-                    </a>
-                </li>
-            </ul>);
+            <a onClick={() => {
+                logout();
+            }}>
+                Logout
+            </a>
+        );
     }
 }
 

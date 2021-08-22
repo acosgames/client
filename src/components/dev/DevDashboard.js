@@ -38,11 +38,12 @@ class DevDashboard extends Component {
         for (var i = 0; i < games.length; i++) {
             let game = games[i];
             elems.push((
-                <li className="devgame-item">
-                    <Link to={'/dev/game/' + game.gameid}>{game.name}</Link>
-                </li>
+
+                <Link to={'/dev/game/' + game.gameid}>{game.name}</Link>
+
             ))
         }
+        elems.push(<Link to="/dev/game/create">Create Game</Link>);
         return elems;
     }
     /*
