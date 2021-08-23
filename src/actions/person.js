@@ -48,15 +48,15 @@ export async function logout() {
 export async function getUserProfile() {
     try {
 
-        fs.set('userCheckedLogin', false);
+        // fs.set('userCheckedLogin', false);
 
         let response = await GET('/api/v1/person');
         let user = response.data;
 
-        if (user.ecode) {
-            fs.set('userCheckedLogin', true);
-            return null;
-        }
+        // if (user.ecode) {
+        //     fs.set('userCheckedLogin', true);
+        //     return null;
+        // }
         console.log(user);
 
         fs.set('user', user);
@@ -68,11 +68,11 @@ export async function getUserProfile() {
         if (!user.displayname || user.displayname.length == 0) {
             history.push('/player/create');
         }
-        fs.set('userCheckedLogin', true);
+        // fs.set('userCheckedLogin', true);
         return user;
     }
     catch (e) {
-        fs.set('userCheckedLogin', true);
+        // fs.set('userCheckedLogin', true);
         console.error(e);
         return e.response.data;
     }

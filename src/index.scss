@@ -2,14 +2,22 @@
 
 @import './components/styles/constants.scss';
 
+* {
+    box-sizing: border-box;
+}
 html,
-body {
+body,
+#root,
+#app {
     height: 100%;
     width: 100%;
+}
+html,
+body {
     padding: 0;
     margin: 0;
-    background-color: #000000;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
     font-size: 16px;
     font-weight: 400;
     font-family: Lato, sans-serif;
@@ -17,7 +25,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 a {
-    color: #fff;
+    color: #000;
     text-decoration: none;
     cursor: pointer;
 }
@@ -37,6 +45,11 @@ code {
     width: 100%;
     height: 3rem;
     background-color: #2c394b;
+}
+
+#wrapper-content {
+    width: 100%;
+    height: 100%;
 }
 
 #mainmenu {
@@ -66,7 +79,7 @@ code {
     color: #fff;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 768px) {
     html,
     body {
         font-size: 14px;
@@ -76,7 +89,7 @@ code {
     }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
     html,
     body {
         font-size: 12px;
@@ -223,7 +236,29 @@ code {
     border: 0;
 }
 
+#gameframe {
+    //padding: 10px;
+    background: red;
+    //box-sizing: border-box;
+    //resize: horizontal;
+    //border: 1px dashed;
+    //overflow: auto;
+    max-width: 1200px;
+    //height: calc(100vh - 16px);
+    position: relative;
+}
 #gamepanel {
-    height: 100%;
     width: 100%;
+    padding-bottom: 56.25%;
+}
+
+#gamepanel-wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+}
+#gamepanel-wrapper > iframe {
 }

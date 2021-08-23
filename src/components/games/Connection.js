@@ -22,7 +22,7 @@ class Connection extends Component {
     }
 
     render() {
-        if (this.props.user && this.props.user.apikey)
+        if (this.props.user && this.props.user.token)
             wsConnect();
 
         return (

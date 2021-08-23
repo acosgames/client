@@ -17,9 +17,7 @@ class GamePanel extends Component {
         super(props);
 
         this.iframe = null;
-        this.state = {
-        }
-
+        this.state = {}
         this.sent = 0;
         this.game_slug = props.match.params.game_slug;
         this.beta = props.match.params.beta;
@@ -36,81 +34,49 @@ class GamePanel extends Component {
                     break;
                 }
             }
-
-            //downloadGame(this.game.gameid, this.game.version);
         }
-
     }
-
-
 
     async componentDidMount() {
         let game = this.props.game;
         if (!game)
             game = this.game;
-
     }
 
     render() {
-        let game = this.props.game;
-        if (!game)
-            game = this.game;
+        let game_slug = this.props.match.params.game_slug;
+        let game = fs.get(game_slug);
 
         if (!game) {
             return (<div>Loading...</div>)
         }
         console.log("Game data: ", game);
-        // let srcUrl = `http://localhost:8080/iframe/${game.gameid}/${game.version}`;
-        // srcUrl = 'data:text/html,';
-        // srcUrl += `
-        //     <!DOCTYPE html>
-        //     <html lang="en">
-        //         <head>
-        //             <meta charset="utf-8" />
-        //             <title>FiveSecondGames - Client Simulator</title>
-        //             <meta name="description" content="FiveSecondGames Client Simulator" />
-        //             <meta name="author" content="fsg" />
-        //             <meta http-equiv="Content-Security-Policy" content="script-src 'self' f000.backblazeb2.com 'unsafe-inline';" />
-        //         </head>
-        //         <body>
-        //             <div id="root"></div>
-        //             <script src="${this.props.jsgame}"></script>
-        //         </body>
-        //     </html>
-        // `;
-        // srcUrl = 'https://f000.backblazeb2.com/file/fivesecondgames/iframe.html';
+
         let version = game.version;
         if (this.beta)
             version = game.latest_version;
 
         let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/client/client.bundle.${version}.html`;
         return (
-            <div id="gamepanel">
+            <div id="gameframe">
+                <div id="gamepanel">
 
-                {/* <h3>Let's Play</h3> */}
-                {/* <button onClick={() => {
-                    this.send('ping', 'ping');
-                }}>
-                    Parent Button
-                    </button> */}
-                <iframe
-                    className="gamescreen"
-                    ref={(c) => {
-                        this.iframe = c;
-                        fs.set('iframe', c);
-                    }}
-                    onLoad={() => {
-                        joinGame(this.game_slug, this.beta);
-                    }}
-                    src={srcUrl}
-                    sandbox="allow-scripts"
-                // onLoad={() => {
-
-                //     console.log(this.iframe);
-                // }} 
-                />
-
-                <Connection></Connection>
+                </div>
+                <div id="gamepanel-wrapper">
+                    <iframe
+                        className="gamescreen"
+                        ref={(c) => {
+                            this.iframe = c;
+                            fs.set('iframe', c);
+                        }}
+                        onLoad={() => {
+                            joinGame(game, game.istest);
+                        }}
+                        src={srcUrl}
+                        sandbox="allow-scripts"
+                    />
+                    <Connection></Connection>
+                </div>
             </div>
         )
     }
@@ -121,14 +87,8 @@ let onCustomWatched = ownProps => {
     return [game_slug];
 };
 let onCustomProps = (key, value, store, ownProps) => {
-    // let game_slug = ownProps.match.params.game_slug;
-    // if (key == 'jsgame')
-    //     return { jsgame: value }
-
     return {
         game: value
     };
 };
 export default fs.connect([], onCustomWatched, onCustomProps)(GamePanel);
-
-// export default withRouter(fs.connect(['games'])(GamePanel));

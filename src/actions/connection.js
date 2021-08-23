@@ -4,7 +4,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode } from 'fsg-shared/util/encoder';
 import fs from 'flatstore';
 import delta from '../util/delta';
-
+import history from "./history";
 fs.set('iframe', null);
 fs.set('ws', null);
 fs.set('game', null);
@@ -69,22 +69,26 @@ export function recvFrameMessage(evt) {
 
 export async function reconnect() {
     let ws = fs.get('ws');
-    if (!ws || ws.isReady) {
-        return;
+    if (ws && ws.isReady) {
+        return ws;
     }
 
-    await wsConnect();
+    try {
+        ws = await wsConnect();
+    }
+    catch (e) {
+        console.error(e);
+        return null;
+    }
 
+    return ws;
 }
 
 export async function wsLeaveGame(room_slug) {
-
-    let ws = fs.get('ws');
+    let ws = await reconnect();
     if (!ws || !ws.isReady) {
         return;
     }
-
-    await reconnect();
 
     let action = { type: 'leave', room_slug }
     let msg = encode(action);
@@ -95,79 +99,90 @@ export async function wsLeaveGame(room_slug) {
     fs.set('room_slug', null);
 }
 
-export async function wsJoinBetaGame(game_slug, private_key) {
-    let ws = fs.get('ws');
-    let game = fs.get('game');
-    if (!ws || !ws.isReady || game) {
+export async function wsJoinBetaGame(game, private_key) {
+    let ws = await reconnect();
+    if (!ws || !ws.isReady || !game) {
         return;
     }
 
-    await reconnect();
+    if (!game || !game.game_slug) {
+        console.error("Game is invalid.  Something went wrong.");
+        return;
+    }
 
-    let action = { type: 'join', payload: { beta: true, game_slug, private_key } }
+    let action = { type: 'join', payload: { beta: true, game_slug: game.game_slug, private_key } }
     let msg = encode(action);
     console.log("[Outgoing] Joining Beta: ", action);
     ws.send(msg)
 }
 
 
-export async function wsJoinGame(game_slug, private_key) {
-    let ws = fs.get('ws');
-    let game = fs.get('game');
-    if (!ws || !ws.isReady || game) {
+export async function wsJoinGame(game, private_key) {
+    let ws = await reconnect();
+    if (!ws || !ws.isReady) {
         return;
     }
 
-    await reconnect();
+    if (!game || !game.game_slug) {
+        console.error("Game is invalid.  Something went wrong.");
+        return;
+    }
 
-    let action = { type: 'join', payload: { game_slug, private_key } }
+    // let game = fs.get('game');
+    let action = { type: 'join', payload: { game_slug: game.game_slug, private_key } }
     let msg = encode(action);
     console.log("[Outgoing] Joining: ", action);
     ws.send(msg)
 }
 
-export async function wsConnect(url, onMessage, onOpen, onError) {
-
-    let ws = fs.get('ws');
-    let user = fs.get('user');
-    //if connecting or open, don't try to connect
-    if (ws && ws.readyState <= 1) {
-        return;
-    }
-    // let cookies = parseCookies();
-    var client = new W3CWebSocket(url || 'ws://127.0.0.1:9002', user.apikey, 'http://localhost:3000', {});
-    client.binaryType = 'arraybuffer'
-    client.isReady = false;
-
-    client.onopen = onOpen || ((err) => {
-        console.log(err);
-        console.log('WebSocket Client Connected');
-
-        if (client.readyState == client.OPEN) {
-            client.isReady = true;
-            sendPing(client);
+export function wsConnect(url, onMessage, onOpen, onError) {
+    return new Promise((rs, rj) => {
+        let ws = fs.get('ws');
+        let user = fs.get('user');
+        //if connecting or open, don't try to connect
+        if (ws && ws.readyState <= 1) {
+            rs(ws);
+            return;
         }
-
-    });
-
-    client.onclose = async (evt) => {
-        console.log(evt);
+        // let cookies = parseCookies();
+        var client = new W3CWebSocket(url || 'ws://127.0.0.1:9002', user.token, 'http://localhost:3000', {});
+        client.binaryType = 'arraybuffer'
         client.isReady = false;
-        fs.set('gamestate', {});
 
-        await reconnect();
-    }
-    client.onerror = onError || (async (error, data) => {
-        console.error(error, data);
+        client.onopen = onOpen || ((err) => {
+            console.log(err);
+            console.log('WebSocket Client Connected');
 
-        await reconnect();
+            if (rs)
+                rs(client);
+
+            if (client.readyState == client.OPEN) {
+                client.isReady = true;
+                sendPing(client);
+            }
+
+        });
+
+        client.onclose = async (evt) => {
+            console.log(evt);
+            client.isReady = false;
+            fs.set('gamestate', {});
+
+            if (rj)
+                rj(evt);
+            await reconnect();
+        }
+        client.onerror = onError || (async (error, data) => {
+            console.error(error, data);
+            if (rj)
+                rj(evt);
+            await reconnect();
+        });
+
+        client.onmessage = onMessage || wsIncomingMessage;
+
+        fs.set('ws', client);
     });
-
-    client.onmessage = onMessage || wsIncomingMessage;
-
-    fs.set('ws', client);
-
-    return client;
 }
 
 var latencyStart = 0;
@@ -175,7 +190,6 @@ var latency = 0;
 
 function sendPing(ws) {
     latencyStart = new Date().getTime();
-
     let action = { type: 'ping', payload: latencyStart }
     let msg = encode(action);
     console.log("[Outgoing] Ping: ", action);
@@ -196,13 +210,13 @@ function onPong(message) {
     console.log('Server Time: ', serverTime);
     console.log('Client Time: ', currentTime);
     console.log('Real Time: ', realTime);
-
     fs.set('latency', latency);
 }
 
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
     let ws = fs.get('ws');
+    let game = fs.get('game');
     let gamestate = fs.get('gamestate');
     let buffer = await message.data;
     let msg = decode(buffer);
@@ -216,9 +230,24 @@ async function wsIncomingMessage(message) {
         return;
     }
 
+    if (msg.type == 'joining') {
+        fs.set('room_slug', msg.room_slug);
+        if (!game) {
+            console.error("Game not found. Cannot join unknown game.");
+            return;
+        }
+        history.push('/game/' + game.game_slug + '/' + msg.room_slug);
+        return;
+    }
+
     if (msg.type == 'join') {
         console.log("[Incoming] Joined: ", msg);
         fs.set('room_slug', msg.room_slug);
+        if (!game) {
+            console.error("Game not found. Cannot join unknown game.");
+            return;
+        }
+        history.push('/game/' + game.game_slug + '/' + msg.room_slug);
     }
 
     else if (msg.type == 'kicked') {
@@ -228,6 +257,9 @@ async function wsIncomingMessage(message) {
         console.log("[Incoming] Game completed!", msg);
         //return;
     }
+    else if (msg.type == 'private') {
+        console.log("[Incoming] Private State: ", msg);
+    }
     else if (msg.type != 'update') {
         console.log("[Incoming] Unknown type: ", msg);
         return;
@@ -236,7 +268,14 @@ async function wsIncomingMessage(message) {
 
     if (msg.payload) {
         console.log("[Previous State]: ", gamestate);
-        msg.payload = delta.merge(gamestate, msg.payload);
+        if (msg.type == 'private') {
+            let player = msg.payload.players[user.shortid]
+            player = delta.merge(player, msg.payload);
+            msg.payload.players[user.shortid] = player;
+        }
+        else {
+            msg.payload = delta.merge(gamestate, msg.payload);
+        }
         fs.set('gamestate', msg.payload);
     }
 

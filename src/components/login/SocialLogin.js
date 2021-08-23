@@ -14,13 +14,12 @@ class SocialLogin extends Component {
     }
     render() {
 
-        if (!this.props.userCheckedLogin) {
-            return <React.Fragment></React.Fragment>
-        }
+        // if (!this.props.userCheckedLogin) {
+        //     return <React.Fragment></React.Fragment>
+        // }
         let user = this.props.user;
-        if (user && user.apikey && user.apikey.length > 0 && user.apikey != 'undefined') {
+        if (user) {
             return <Logout></Logout>
-            return <Redirect to="/games"></Redirect>
         }
         return (
             <div id="social">

@@ -18,7 +18,7 @@ class GameInfo extends Component {
         }
 
         let game_slug = props.match.params.game_slug;
-        let game = fs.get('game');
+        let game = fs.get(game_slug);
         if (!game) {
             findGame(game_slug)
         }
@@ -30,15 +30,26 @@ class GameInfo extends Component {
     }
 
     handleJoin() {
-        let game = fs.get('game');
+        let game_slug = this.props.match.params.game_slug;
+        let game = fs.get(game_slug);
         if (!game)
             return
 
-        joinGame(game.game_slug, game.istest);
+        joinGame(game);
+    }
+
+    handleJoinBeta() {
+        let game_slug = this.props.match.params.game_slug;
+        let game = fs.get(game_slug);
+        if (!game)
+            return
+
+        joinGame(game, true);
     }
 
     render() {
-        let game = this.props.game;
+        let game_slug = this.props.match.params.game_slug;
+        let game = fs.get(game_slug);
         if (!game) {
             //fs.set('game', null);
             return <React.Fragment></React.Fragment>
@@ -63,7 +74,8 @@ class GameInfo extends Component {
                 <h5>{game.shortdesc}</h5>
                 <p>{game.longdesc}</p>
                 <div id="game-join-ranked">
-                    <button onClick={() => { this.handleJoin() }}>Join</button>
+                    <button onClick={() => { this.handleJoin() }}>Join Ranked</button>
+                    <button onClick={() => { this.handleJoinBeta() }}>Join Beta</button>
                 </div>
             </div>
         )

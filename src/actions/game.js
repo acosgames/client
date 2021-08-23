@@ -42,18 +42,23 @@ export async function findGame(game_slug) {
 
 let hJoining = 0;
 
-export async function joinGame(game_slug, beta) {
+export async function joinGame(game, istest) {
 
-    await downloadGame(game.gameid, game.version);
+    let game_slug = game.game_slug;
+    let version = game.version;
+    if (istest) {
+        version = game.latest_version;
+    }
+    await downloadGame(game.gameid, version);
 
     clearTimeout(hJoining);
 
     try {
-        if (beta) {
-            wsJoinBetaGame(game_slug);
+        if (istest) {
+            wsJoinBetaGame(game);
         }
         else {
-            wsJoinGame(game_slug);
+            wsJoinGame(game);
         }
 
     }
