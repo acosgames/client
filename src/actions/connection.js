@@ -4,7 +4,8 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode } from 'fsg-shared/util/encoder';
 import fs from 'flatstore';
 import delta from '../util/delta';
-import history from "./history";
+// import { useHistory } from 'react-router-dom';
+// import history from "./history";
 fs.set('iframe', null);
 fs.set('ws', null);
 fs.set('game', null);
@@ -94,9 +95,11 @@ export async function wsLeaveGame(room_slug) {
     let msg = encode(action);
     console.log("[Outgoing] Leaving: ", action);
     ws.send(msg)
-
+    let history = fs.get('history');
+    let game = fs.get('game');
     fs.set('gamestate', {});
     fs.set('room_slug', null);
+    history.push('/game/' + game.game_slug);
 }
 
 export async function wsJoinBetaGame(game, private_key) {
@@ -173,9 +176,9 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             await reconnect();
         }
         client.onerror = onError || (async (error, data) => {
-            console.error(error, data);
+            console.error(error);
             if (rj)
-                rj(evt);
+                rj(error);
             await reconnect();
         });
 
@@ -218,6 +221,8 @@ async function wsIncomingMessage(message) {
     let ws = fs.get('ws');
     let game = fs.get('game');
     let gamestate = fs.get('gamestate');
+    let history = fs.get('history');
+
     let buffer = await message.data;
     let msg = decode(buffer);
     if (!msg) {
@@ -236,7 +241,11 @@ async function wsIncomingMessage(message) {
             console.error("Game not found. Cannot join unknown game.");
             return;
         }
-        history.push('/game/' + game.game_slug + '/' + msg.room_slug);
+        //let history = useHistory();
+        let urlPath = '/game/' + game.game_slug + '/' + msg.room_slug;
+        if (window.location.href.indexOf(urlPath) == -1)
+            history.push(urlPath);
+        //history.push('/game/' + game.game_slug + '/' + msg.room_slug);
         return;
     }
 
@@ -247,7 +256,12 @@ async function wsIncomingMessage(message) {
             console.error("Game not found. Cannot join unknown game.");
             return;
         }
-        history.push('/game/' + game.game_slug + '/' + msg.room_slug);
+
+        let urlPath = '/game/' + game.game_slug + '/' + msg.room_slug;
+        if (window.location.href.indexOf(urlPath) == -1)
+            history.push(urlPath);
+
+        // history.push('/game/' + game.game_slug + '/' + msg.room_slug);
     }
 
     else if (msg.type == 'kicked') {

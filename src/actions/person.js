@@ -1,7 +1,7 @@
 import { GET, POST } from './http';
 import fs from 'flatstore';
 import { findDevGames } from './devgame';
-import history from "./history";
+// import history from "./history";
 
 export async function createDisplayName(displayname) {
 
@@ -66,6 +66,7 @@ export async function getUserProfile() {
 
 
         if (!user.displayname || user.displayname.length == 0) {
+            let history = fs.get('history');
             history.push('/player/create');
         }
         // fs.set('userCheckedLogin', true);
@@ -74,7 +75,8 @@ export async function getUserProfile() {
     catch (e) {
         // fs.set('userCheckedLogin', true);
         console.error(e);
-        return e.response.data;
+        //if( e )
+        //return e.response.data;
     }
     return null;
 }

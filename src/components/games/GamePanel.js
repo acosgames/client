@@ -44,6 +44,7 @@ class GamePanel extends Component {
     }
 
     render() {
+        let mode = this.props.match.params.mode;
         let game_slug = this.props.match.params.game_slug;
         let game = fs.get(game_slug);
 
@@ -53,7 +54,7 @@ class GamePanel extends Component {
         console.log("Game data: ", game);
 
         let version = game.version;
-        if (this.beta)
+        if (this.beta && mode == 'beta')
             version = game.latest_version;
 
         let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/client/client.bundle.${version}.html`;
@@ -91,4 +92,4 @@ let onCustomProps = (key, value, store, ownProps) => {
         game: value
     };
 };
-export default fs.connect([], onCustomWatched, onCustomProps)(GamePanel);
+export default withRouter(fs.connect([], onCustomWatched, onCustomProps)(GamePanel));
