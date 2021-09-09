@@ -71,7 +71,7 @@ class GamePanel extends Component {
                             fs.set('iframe', c);
                         }}
                         onLoad={() => {
-                            joinGame(game, game.istest);
+                            //joinGame(game, game.istest);
                         }}
                         src={srcUrl}
                         sandbox="allow-scripts"

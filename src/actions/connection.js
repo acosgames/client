@@ -242,7 +242,8 @@ async function wsIncomingMessage(message) {
             return;
         }
         //let history = useHistory();
-        let urlPath = '/game/' + game.game_slug + '/' + msg.room_slug;
+        let beta = msg.beta ? '/beta' : '';
+        let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
         if (window.location.href.indexOf(urlPath) == -1)
             history.push(urlPath);
         //history.push('/game/' + game.game_slug + '/' + msg.room_slug);
@@ -257,7 +258,8 @@ async function wsIncomingMessage(message) {
             return;
         }
 
-        let urlPath = '/game/' + game.game_slug + '/' + msg.room_slug;
+        let beta = msg.beta ? '/beta' : '';
+        let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
         if (window.location.href.indexOf(urlPath) == -1)
             history.push(urlPath);
 
