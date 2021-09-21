@@ -7,7 +7,7 @@ import {
 import Connection from "./Connection";
 import '../styles/GameScreen.css';
 import fs from 'flatstore';
-import { wsJoinGame } from "../../actions/connection";
+import { wsJoinGame, wsJoinRoom } from "../../actions/connection";
 import { joinGame, findGame, downloadGame } from "../../actions/game";
 
 fs.set('iframe', null);
@@ -21,10 +21,12 @@ class GamePanel extends Component {
         this.sent = 0;
         this.game_slug = props.match.params.game_slug;
         this.beta = props.match.params.beta;
+        this.room_slug = props.match.params.room_slug;
 
         let games = fs.get('games') || [];
         if (games.length == 0) {
             findGame(this.game_slug);
+            wsJoinRoom(this.room_slug);
         }
         else {
             this.game = null;
@@ -53,8 +55,10 @@ class GamePanel extends Component {
         }
         console.log("Game data: ", game);
 
+        fs.set('iframe_' + game_slug, false);
+
         let version = game.version;
-        if (this.beta && mode == 'beta')
+        if (mode == 'beta')
             version = game.latest_version;
 
         let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/client/client.bundle.${version}.html`;
@@ -71,6 +75,7 @@ class GamePanel extends Component {
                             fs.set('iframe', c);
                         }}
                         onLoad={() => {
+                            fs.set('iframe_' + game_slug, true);
                             //joinGame(game, game.istest);
                         }}
                         src={srcUrl}

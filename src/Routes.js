@@ -67,7 +67,7 @@ var Routes = () => {
                 exact
                 path="/dev/game/create"
                 component={DevCreateGame}
-                verify={(user) => user.isdev}
+                verify={(user) => true}
                 redirectTo="/dev/login"
             />
             <ProtectedRoute

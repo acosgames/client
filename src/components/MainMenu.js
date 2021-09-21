@@ -45,7 +45,7 @@ class MainMenu extends Component {
             <div id="mainmenu">
                 <Link to="/games">Find Games</Link>
                 {
-                    this.props.user && this.props.user.isdev && (
+                    this.props.user && this.props.user.github && (
                         <React.Fragment>
                             <Link to="/dev">Developers</Link>
 

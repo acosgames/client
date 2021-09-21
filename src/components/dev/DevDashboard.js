@@ -58,7 +58,7 @@ class DevDashboard extends Component {
     render() {
         return (
             <div id="devdash">
-                {this.showInvitation()}
+                {/* {this.showInvitation()} */}
                 <ul>
                     {this.listGames()}
                 </ul>

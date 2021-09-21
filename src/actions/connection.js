@@ -27,8 +27,23 @@ export function detachFromFrame() {
 
 export function sendFrameMessage(msg) {
     let iframe = fs.get('iframe');
-    if (iframe)
+    let game = fs.get('game');
+    let game_slug = game.game_slug;
+    let loaded = fs.get('iframe_' + game_slug);
+    if (!loaded) {
+        setTimeout(() => {
+            sendFrameMessage(msg);
+        }, 20)
+        return;
+    }
+    if (iframe) {
+        //next frame
+        // setTimeout(() => {
         iframe.contentWindow.postMessage(msg, '*');
+        // }, 1000)
+
+    }
+
 }
 
 
@@ -116,6 +131,26 @@ export async function wsJoinBetaGame(game, private_key) {
     let action = { type: 'join', payload: { beta: true, game_slug: game.game_slug, private_key } }
     let msg = encode(action);
     console.log("[Outgoing] Joining Beta: ", action);
+    console.timeEnd('ActionLoop');
+    ws.send(msg)
+}
+
+export async function wsJoinRoom(room_slug, private_key) {
+    let ws = await reconnect();
+    if (!ws || !ws.isReady) {
+        setTimeout(() => { wsJoinRoom(room_slug) }, 500);
+        return;
+    }
+
+    if (!room_slug) {
+        console.error("Room slug is invalid.  Something went wrong.");
+        return;
+    }
+
+    // let game = fs.get('game');
+    let action = { type: 'join', payload: { room_slug, private_key } }
+    let msg = encode(action);
+    console.log("[Outgoing] Joining Room: ", action);
     ws.send(msg)
 }
 
@@ -250,7 +285,7 @@ async function wsIncomingMessage(message) {
         return;
     }
 
-    if (msg.type == 'join') {
+    if (msg.type == 'joined') {
         console.log("[Incoming] Joined: ", msg);
         fs.set('room_slug', msg.room_slug);
         if (!game) {
@@ -265,7 +300,9 @@ async function wsIncomingMessage(message) {
 
         // history.push('/game/' + game.game_slug + '/' + msg.room_slug);
     }
-
+    else if (msg.type == 'join') {
+        console.log("[Incoming] Player joined the game!", msg);
+    }
     else if (msg.type == 'kicked') {
         console.log("[Incoming] You were kicked from game!", msg);
     }
@@ -280,7 +317,8 @@ async function wsIncomingMessage(message) {
         console.log("[Incoming] Unknown type: ", msg);
         return;
     }
-    console.log("[Incoming] Update: ", msg);
+    else
+        console.log("[Incoming] Update: ", msg);
 
     if (msg.payload) {
         console.log("[Previous State]: ", gamestate);
