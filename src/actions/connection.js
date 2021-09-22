@@ -63,7 +63,9 @@ export function recvFrameMessage(evt) {
     if (ws) {
         console.time('ActionLoop');
         let room_slug = fs.get('room_slug');
+        let gamestate = fs.get('gamestate');
         action.room_slug = room_slug;
+        action.seq = gamestate.timer.seq;
         let buffer = encode(action);
         console.log("[Outgoing] Action: ", action);
         ws.send(buffer);
@@ -130,6 +132,7 @@ export async function wsJoinBetaGame(game, private_key) {
 
     let action = { type: 'join', payload: { beta: true, game_slug: game.game_slug, private_key } }
     let msg = encode(action);
+    fs.set('joining', 'game');
     console.log("[Outgoing] Joining Beta: ", action);
     console.timeEnd('ActionLoop');
     ws.send(msg)
@@ -146,6 +149,16 @@ export async function wsJoinRoom(room_slug, private_key) {
         console.error("Room slug is invalid.  Something went wrong.");
         return;
     }
+
+    let joining = fs.get('joining');
+    if (joining == 'game') {
+        fs.set('joining', null);
+        return;
+    }
+
+    let storedRoomSlug = fs.get('room_slug');
+    if (storedRoomSlug == room_slug)
+        return;
 
     // let game = fs.get('game');
     let action = { type: 'join', payload: { room_slug, private_key } }
@@ -167,6 +180,7 @@ export async function wsJoinGame(game, private_key) {
     }
 
     // let game = fs.get('game');
+    fs.set('joining', 'game');
     let action = { type: 'join', payload: { game_slug: game.game_slug, private_key } }
     let msg = encode(action);
     console.log("[Outgoing] Joining: ", action);
@@ -271,7 +285,7 @@ async function wsIncomingMessage(message) {
     }
 
     if (msg.type == 'joining') {
-        fs.set('room_slug', msg.room_slug);
+        //fs.set('room_slug', msg.room_slug);
         if (!game) {
             console.error("Game not found. Cannot join unknown game.");
             return;
