@@ -130,7 +130,7 @@ export async function wsJoinBetaGame(game, private_key) {
         return;
     }
 
-    let action = { type: 'join', payload: { beta: true, game_slug: game.game_slug, private_key } }
+    let action = { type: 'join', payload: { beta: true, ranked: false, game_slug: game.game_slug, private_key } }
     let msg = encode(action);
     fs.set('joining', 'game');
     console.log("[Outgoing] Joining Beta: ", action);
@@ -138,10 +138,30 @@ export async function wsJoinBetaGame(game, private_key) {
     ws.send(msg)
 }
 
-export async function wsJoinRoom(room_slug, private_key) {
+
+export async function wsJoinGame(game, private_key) {
     let ws = await reconnect();
     if (!ws || !ws.isReady) {
-        setTimeout(() => { wsJoinRoom(room_slug) }, 500);
+        return;
+    }
+
+    if (!game || !game.game_slug) {
+        console.error("Game is invalid.  Something went wrong.");
+        return;
+    }
+
+    // let game = fs.get('game');
+    fs.set('joining', 'game');
+    let action = { type: 'join', payload: { ranked: true, game_slug: game.game_slug, private_key } }
+    let msg = encode(action);
+    console.log("[Outgoing] Joining: ", action);
+    ws.send(msg)
+}
+
+export async function wsRejoinRoom(room_slug, private_key) {
+    let ws = await reconnect();
+    if (!ws || !ws.isReady) {
+        setTimeout(() => { wsRejoinRoom(room_slug) }, 500);
         return;
     }
 
@@ -164,26 +184,6 @@ export async function wsJoinRoom(room_slug, private_key) {
     let action = { type: 'join', payload: { room_slug, private_key } }
     let msg = encode(action);
     console.log("[Outgoing] Joining Room: ", action);
-    ws.send(msg)
-}
-
-
-export async function wsJoinGame(game, private_key) {
-    let ws = await reconnect();
-    if (!ws || !ws.isReady) {
-        return;
-    }
-
-    if (!game || !game.game_slug) {
-        console.error("Game is invalid.  Something went wrong.");
-        return;
-    }
-
-    // let game = fs.get('game');
-    fs.set('joining', 'game');
-    let action = { type: 'join', payload: { game_slug: game.game_slug, private_key } }
-    let msg = encode(action);
-    console.log("[Outgoing] Joining: ", action);
     ws.send(msg)
 }
 
@@ -279,60 +279,52 @@ async function wsIncomingMessage(message) {
         return;
     }
 
-    if (msg.type == 'pong') {
-        onPong(msg);
-        return;
-    }
-
-    if (msg.type == 'joining') {
-        //fs.set('room_slug', msg.room_slug);
-        if (!game) {
-            console.error("Game not found. Cannot join unknown game.");
+    switch (msg.type) {
+        case 'pong':
+            onPong(msg);
             return;
-        }
-        //let history = useHistory();
-        let beta = msg.beta ? '/beta' : '';
-        let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
-        if (window.location.href.indexOf(urlPath) == -1)
-            history.push(urlPath);
-        //history.push('/game/' + game.game_slug + '/' + msg.room_slug);
-        return;
-    }
-
-    if (msg.type == 'joined') {
-        console.log("[Incoming] Joined: ", msg);
-        fs.set('room_slug', msg.room_slug);
-        if (!game) {
-            console.error("Game not found. Cannot join unknown game.");
+        case 'joining':
+            if (!game) {
+                console.error("Game not found. Cannot join unknown game.");
+                return;
+            }
+            let beta = msg.beta ? '/beta' : '';
+            let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
+            if (window.location.href.indexOf(urlPath) == -1)
+                history.push(urlPath);
             return;
-        }
+        case 'joined':
+            console.log("[Incoming] Joined: ", msg);
+            fs.set('room_slug', msg.room_slug);
+            if (!game) {
+                console.error("Game not found. Cannot join unknown game.");
+                return;
+            }
 
-        let beta = msg.beta ? '/beta' : '';
-        let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
-        if (window.location.href.indexOf(urlPath) == -1)
-            history.push(urlPath);
-
-        // history.push('/game/' + game.game_slug + '/' + msg.room_slug);
+            beta = msg.beta ? '/beta' : '';
+            urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
+            if (window.location.href.indexOf(urlPath) == -1)
+                history.push(urlPath);
+            break;
+        case 'join':
+            console.log("[Incoming] Player joined the game!", msg);
+            break;
+        case 'kicked':
+            console.log("[Incoming] You were kicked from game!", msg);
+            break;
+        case 'finish':
+            console.log("[Incoming] Game completed!", msg);
+            break;
+        case 'private':
+            console.log("[Incoming] Private State: ", msg);
+            break;
+        case 'update':
+            console.log("[Incoming] Update: ", msg);
+            break;
+        default:
+            console.log("[Incoming] Unknown type: ", msg);
+            return;
     }
-    else if (msg.type == 'join') {
-        console.log("[Incoming] Player joined the game!", msg);
-    }
-    else if (msg.type == 'kicked') {
-        console.log("[Incoming] You were kicked from game!", msg);
-    }
-    else if (msg.type == 'finish') {
-        console.log("[Incoming] Game completed!", msg);
-        //return;
-    }
-    else if (msg.type == 'private') {
-        console.log("[Incoming] Private State: ", msg);
-    }
-    else if (msg.type != 'update') {
-        console.log("[Incoming] Unknown type: ", msg);
-        return;
-    }
-    else
-        console.log("[Incoming] Update: ", msg);
 
     if (msg.payload) {
         console.log("[Previous State]: ", gamestate);

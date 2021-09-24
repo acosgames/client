@@ -109,8 +109,30 @@ class DevManageGameFields extends Component {
                     id="maxplayers"
                     placeholder="Max Players"
                     min="1"
-                    max="1000"
+                    max="100"
                     value={this.props.devgame.maxplayers || '2'}
+                    onChange={this.inputChange.bind(this)} />
+                <br />
+
+                <label for="minplayers">Min players</label>
+                <input
+                    type="number"
+                    name="minplayers"
+                    id="minplayers"
+                    placeholder="Min Players"
+                    min="1"
+                    max="100"
+                    value={this.props.devgame.minplayers || '2'}
+                    onChange={this.inputChange.bind(this)} />
+                <br />
+                <label for="teams">Team names</label>
+                <input
+                    type="text"
+                    name="teams"
+                    id="teams"
+                    placeholder="i.e. Red, Blue"
+                    maxLength="80"
+                    value={this.props.devgame.teams || ''}
                     onChange={this.inputChange.bind(this)} />
                 <br />
                 <input
@@ -134,7 +156,7 @@ class DevManageGameFields extends Component {
                     name="git"
                     placeholder="Git URL for this project"
                     maxLength="255"
-                    value={this.props.devgame.git_client || ''}
+                    value={this.props.devgame.git || ''}
                     onChange={this.inputChange.bind(this)} />
                 <br />
 
