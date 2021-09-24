@@ -4,7 +4,7 @@ import { validateSimple, validateField } from 'fsg-shared/util/validation';
 // import { genShortId } from 'fsg-shared/util/idgen';
 
 import fs from 'flatstore';
-import { wsJoinGame, wsJoinBetaGame } from './connection';
+import { wsJoinRankedGame, wsJoinBetaGame } from './connection';
 
 fs.set('games', []);
 
@@ -58,7 +58,7 @@ export async function joinGame(game, istest) {
             wsJoinBetaGame(game);
         }
         else {
-            wsJoinGame(game);
+            wsJoinRankedGame(game);
         }
 
     }

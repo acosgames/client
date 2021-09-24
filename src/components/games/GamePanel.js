@@ -7,7 +7,7 @@ import {
 import Connection from "./Connection";
 import '../styles/GameScreen.css';
 import fs from 'flatstore';
-import { wsJoinGame, wsJoinRoom } from "../../actions/connection";
+import { wsJoinRankedGame, wsRejoinRoom } from "../../actions/connection";
 import { joinGame, findGame, downloadGame } from "../../actions/game";
 
 fs.set('iframe', null);
@@ -26,7 +26,7 @@ class GamePanel extends Component {
         let games = fs.get('games') || [];
         if (games.length == 0) {
             findGame(this.game_slug);
-            wsJoinRoom(this.room_slug);
+            wsRejoinRoom(this.room_slug);
         }
         else {
             this.game = null;

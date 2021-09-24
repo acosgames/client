@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 
 import fs from 'flatstore';
-import { wsLeaveGame, wsJoinGame, wsJoinBetaGame } from "../../actions/connection";
+import { wsLeaveGame, wsJoinRankedGame, wsJoinBetaGame } from "../../actions/connection";
 
 class LeaveGame extends Component {
     constructor(props) {

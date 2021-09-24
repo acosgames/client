@@ -119,72 +119,89 @@ export async function wsLeaveGame(room_slug) {
     history.push('/game/' + game.game_slug);
 }
 
-export async function wsJoinBetaGame(game, private_key) {
+export async function wsJoinGame(mode, game_slug) {
     let ws = await reconnect();
     if (!ws || !ws.isReady || !game) {
         return;
     }
 
-    if (!game || !game.game_slug) {
-        console.error("Game is invalid.  Something went wrong.");
+    if (!game_slug) {
+        console.error("Game [" + game_slug + "] is invalid.  Something went wrong.");
         return;
     }
 
-    let action = { type: 'join', payload: { beta: true, ranked: false, game_slug: game.game_slug, private_key } }
+    let action = { type: 'joingame', payload: { mode, game_slug } }
     let msg = encode(action);
+    ws.send(msg);
+
     fs.set('joining', 'game');
-    console.log("[Outgoing] Joining Beta: ", action);
+    console.log("[Outgoing] Joining " + mode + ": ", action);
     console.timeEnd('ActionLoop');
-    ws.send(msg)
 }
 
-
-export async function wsJoinGame(game, private_key) {
+export async function wsJoinRoom(room_slug, private_key) {
     let ws = await reconnect();
-    if (!ws || !ws.isReady) {
-        return;
-    }
-
-    if (!game || !game.game_slug) {
-        console.error("Game is invalid.  Something went wrong.");
-        return;
-    }
-
-    // let game = fs.get('game');
-    fs.set('joining', 'game');
-    let action = { type: 'join', payload: { ranked: true, game_slug: game.game_slug, private_key } }
-    let msg = encode(action);
-    console.log("[Outgoing] Joining: ", action);
-    ws.send(msg)
-}
-
-export async function wsRejoinRoom(room_slug, private_key) {
-    let ws = await reconnect();
-    if (!ws || !ws.isReady) {
-        setTimeout(() => { wsRejoinRoom(room_slug) }, 500);
+    if (!ws || !ws.isReady || !game) {
         return;
     }
 
     if (!room_slug) {
-        console.error("Room slug is invalid.  Something went wrong.");
+        console.error("Room [" + room_slug + "] is invalid.  Something went wrong.");
         return;
     }
 
-    let joining = fs.get('joining');
-    if (joining == 'game') {
-        fs.set('joining', null);
-        return;
-    }
-
-    let storedRoomSlug = fs.get('room_slug');
-    if (storedRoomSlug == room_slug)
-        return;
-
-    // let game = fs.get('game');
-    let action = { type: 'join', payload: { room_slug, private_key } }
+    let action = { type: 'joinroom', payload: { room_slug, private_key } }
     let msg = encode(action);
-    console.log("[Outgoing] Joining Room: ", action);
-    ws.send(msg)
+    ws.send(msg);
+
+    fs.set('joining', 'game');
+    console.log("[Outgoing] Joining room [" + room_slug + "]: ", action);
+    console.timeEnd('ActionLoop');
+}
+
+export async function wsSpectateGame(game_slug) {
+    let ws = await reconnect();
+    if (!ws || !ws.isReady || !game) {
+        return;
+    }
+
+    if (!game_slug) {
+        console.error("Game [" + game_slug + "] is invalid.  Something went wrong.");
+        return;
+    }
+
+    let action = { type: 'spectate', payload: { game_slug } }
+    let msg = encode(action);
+    ws.send(msg);
+
+    fs.set('joining', 'game');
+    console.log("[Outgoing] Spectating [" + game_slug + "]: ", action);
+    console.timeEnd('ActionLoop');
+}
+
+export async function wsJoinBetaGame(game) {
+    wsJoinGame('beta', game.game_slug);
+}
+
+
+export async function wsJoinRankedGame(game) {
+    wsJoinGame('ranked', game.game_slug);
+}
+
+export async function wsJoinPublicGame(game) {
+    wsJoinGame('public', game.game_slug);
+}
+
+export async function wsJoin(room_slug) {
+    wsJoinRoom(room_slug);
+}
+
+export async function wsJoinPrivate(room_slug, private_key) {
+    wsJoinRoom(room_slug, private_key);
+}
+
+export async function wsRejoinRoom(room_slug, private_key) {
+    wsJoinRoom(room_slug, private_key);
 }
 
 export function wsConnect(url, onMessage, onOpen, onError) {
