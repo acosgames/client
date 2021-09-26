@@ -121,7 +121,7 @@ export async function wsLeaveGame(room_slug) {
 
 export async function wsJoinGame(mode, game_slug) {
     let ws = await reconnect();
-    if (!ws || !ws.isReady || !game) {
+    if (!ws || !ws.isReady) {
         return;
     }
 
@@ -141,7 +141,8 @@ export async function wsJoinGame(mode, game_slug) {
 
 export async function wsJoinRoom(room_slug, private_key) {
     let ws = await reconnect();
-    if (!ws || !ws.isReady || !game) {
+    if (!ws || !ws.isReady) {
+        setTimeout(() => { wsJoinRoom(room_slug, private_key); }, 1000);
         return;
     }
 
@@ -300,16 +301,16 @@ async function wsIncomingMessage(message) {
         case 'pong':
             onPong(msg);
             return;
-        case 'joining':
-            if (!game) {
-                console.error("Game not found. Cannot join unknown game.");
-                return;
-            }
-            let beta = msg.beta ? '/beta' : '';
-            let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
-            if (window.location.href.indexOf(urlPath) == -1)
-                history.push(urlPath);
-            return;
+        // case 'joining':
+        //     if (!game) {
+        //         console.error("Game not found. Cannot join unknown game.");
+        //         return;
+        //     }
+        //     let beta = msg.mode == 'beta' ? '/beta' : '';
+        //     let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
+        //     if (window.location.href.indexOf(urlPath) == -1)
+        //         history.push(urlPath);
+        //     return;
         case 'joined':
             console.log("[Incoming] Joined: ", msg);
             fs.set('room_slug', msg.room_slug);
@@ -318,8 +319,8 @@ async function wsIncomingMessage(message) {
                 return;
             }
 
-            beta = msg.beta ? '/beta' : '';
-            urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
+            let beta = msg.mode == 'beta' ? '/beta' : '';
+            let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
             if (window.location.href.indexOf(urlPath) == -1)
                 history.push(urlPath);
             break;
