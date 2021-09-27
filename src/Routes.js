@@ -40,17 +40,17 @@ var Routes = () => {
             />
             <Route
                 exact
-                path="/game/:game_slug"
+                path="/g/:game_slug"
                 component={GameInfo}
             />
             <Route
                 exact
-                path="/game/:game_slug/:room_slug"
+                path="/g/:game_slug/:room_slug"
                 component={GamePanel}
             />
             <Route
                 exact
-                path="/game/:game_slug/:mode/:room_slug"
+                path="/g/:game_slug/:mode/:room_slug"
                 component={GamePanel}
             />
             <Route

@@ -26,7 +26,7 @@ class GameInfo extends Component {
     }
 
     handleGoBack() {
-        this.props.history.push("/game/s");
+        this.props.history.push("/games");
     }
 
     handleJoin() {

@@ -13,6 +13,10 @@ fs.set('gamestate', {});
 fs.set('room_slug', null);
 fs.set('games', null);
 
+fs.set('queues', []);
+fs.set('joinrooms', {})
+fs.set('rooms', {});
+
 export function attachToFrame() {
     window.addEventListener(
         'message',
@@ -26,11 +30,12 @@ export function detachFromFrame() {
 }
 
 export function sendFrameMessage(msg) {
-    let iframe = fs.get('iframe');
-    let game = fs.get('game');
-    let game_slug = game.game_slug;
-    let loaded = fs.get('iframe_' + game_slug);
-    if (!loaded) {
+    let room_slug = msg.room_slug;
+    let room = fs.get('rooms-' + room_slug);
+    let iframe = fs.get('iframes-' + room_slug);
+
+    let iframeLoaded = fs.get('iframesLoaded-' + room_slug);
+    if (!iframeLoaded) {
         setTimeout(() => {
             sendFrameMessage(msg);
         }, 20)
@@ -85,6 +90,8 @@ export function recvFrameMessage(evt) {
 //     return cookies;
 // }
 
+var reconnectTimeout = 0;
+
 export async function reconnect() {
     let ws = fs.get('ws');
     if (ws && ws.isReady) {
@@ -92,7 +99,11 @@ export async function reconnect() {
     }
 
     try {
+        // if (reconnectTimeout)
+        //     clearTimeout(reconnectTimeout);
+        // reconnectTimeout = setTimeout(async () => { 
         ws = await wsConnect();
+        // }, 500);
     }
     catch (e) {
         console.error(e);
@@ -116,7 +127,7 @@ export async function wsLeaveGame(room_slug) {
     let game = fs.get('game');
     fs.set('gamestate', {});
     fs.set('room_slug', null);
-    history.push('/game/' + game.game_slug);
+    history.push('/g/' + game.game_slug);
 }
 
 export async function wsJoinGame(mode, game_slug) {
@@ -130,7 +141,12 @@ export async function wsJoinGame(mode, game_slug) {
         return;
     }
 
-    let action = { type: 'joingame', payload: { mode, game_slug } }
+    let queues = fs.get('queues');
+    let payload = { mode, game_slug };
+    queues.push(payload)
+    fs.set('queues', queues);
+
+    let action = { type: 'joingame', payload }
     let msg = encode(action);
     ws.send(msg);
 
@@ -139,7 +155,7 @@ export async function wsJoinGame(mode, game_slug) {
     console.timeEnd('ActionLoop');
 }
 
-export async function wsJoinRoom(room_slug, private_key) {
+export async function wsJoinRoom(game_slug, room_slug, private_key) {
     let ws = await reconnect();
     if (!ws || !ws.isReady) {
         setTimeout(() => { wsJoinRoom(room_slug, private_key); }, 1000);
@@ -151,12 +167,14 @@ export async function wsJoinRoom(room_slug, private_key) {
         return;
     }
 
-    let action = { type: 'joinroom', payload: { room_slug, private_key } }
+    let joinrooms = fs.get('joinrooms');
+    joinrooms[room_slug] = { private_key, game_slug }
+    let action = { type: 'joinroom', payload: { game_slug, room_slug, private_key } }
     let msg = encode(action);
     ws.send(msg);
 
     fs.set('joining', 'game');
-    console.log("[Outgoing] Joining room [" + room_slug + "]: ", action);
+    console.log("[Outgoing] Joining room [" + room_slug + "]: ", game_slug, action);
     console.timeEnd('ActionLoop');
 }
 
@@ -193,26 +211,42 @@ export async function wsJoinPublicGame(game) {
     wsJoinGame('public', game.game_slug);
 }
 
-export async function wsJoin(room_slug) {
-    wsJoinRoom(room_slug);
+export async function wsJoin(game_slug, room_slug) {
+    wsJoinRoom(game_slug, room_slug);
 }
 
-export async function wsJoinPrivate(room_slug, private_key) {
-    wsJoinRoom(room_slug, private_key);
+export async function wsJoinPrivate(game_slug, room_slug, private_key) {
+    wsJoinRoom(game_slug, room_slug, private_key);
 }
 
-export async function wsRejoinRoom(room_slug, private_key) {
-    wsJoinRoom(room_slug, private_key);
+export async function wsRejoinRoom(game_slug, room_slug, private_key) {
+    wsJoinRoom(game_slug, room_slug, private_key);
 }
 
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 export function wsConnect(url, onMessage, onOpen, onError) {
-    return new Promise((rs, rj) => {
+    return new Promise(async (rs, rj) => {
         let ws = fs.get('ws');
         let user = fs.get('user');
+
+        // if (!user) {
+        //     //let ws = await reconnect();
+        //     rs(ws);
+        //     return;
+        // }
         //if connecting or open, don't try to connect
         if (ws && ws.readyState <= 1) {
+            //let ws = await reconnect();
             rs(ws);
             return;
+        }
+
+        while (!user) {
+            await sleep(1000);
+            user = fs.get('user');
         }
         // let cookies = parseCookies();
         var client = new W3CWebSocket(url || 'ws://127.0.0.1:9002', user.token, 'http://localhost:3000', {});
@@ -307,7 +341,7 @@ async function wsIncomingMessage(message) {
         //         return;
         //     }
         //     let beta = msg.mode == 'beta' ? '/beta' : '';
-        //     let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
+        //     let urlPath = '/g/' + game.game_slug + beta + '/' + msg.room_slug;
         //     if (window.location.href.indexOf(urlPath) == -1)
         //         history.push(urlPath);
         //     return;
@@ -319,8 +353,16 @@ async function wsIncomingMessage(message) {
                 return;
             }
 
+            let joinrooms = fs.get('joinrooms');
+            delete joinrooms[msg.room_slug];
+            fs.set('joinrooms', joinrooms);
+
+            let rooms = fs.get('rooms');
+            rooms[msg.room_slug] = msg;
+            fs.set('rooms', rooms);
+
             let beta = msg.mode == 'beta' ? '/beta' : '';
-            let urlPath = '/game/' + game.game_slug + beta + '/' + msg.room_slug;
+            let urlPath = '/g/' + msg.game_slug + beta + '/' + msg.room_slug;
             if (window.location.href.indexOf(urlPath) == -1)
                 history.push(urlPath);
             break;

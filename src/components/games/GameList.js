@@ -22,13 +22,13 @@ class GameList extends Component {
 
     handleClick(game) {
         fs.set('game', game);
-        this.props.history.push("/game/" + game.game_slug);
+        this.props.history.push("/g/" + game.game_slug);
     }
 
     renderGame(game) {
         let beta;
         if (game.latest_version > game.version) {
-            beta = <Link to={"/game/" + game.game_slug + "/beta"}>(Beta)</Link>
+            beta = <Link to={"/g/" + game.game_slug + "/beta"}>(Beta)</Link>
         }
         let imgUrl = 'https://f000.backblazeb2.com/file/fivesecondgames/placeholder.png';
         if (game.preview_images && game.preview_images.length > 0)

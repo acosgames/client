@@ -260,5 +260,22 @@ code {
     right: 0;
     z-index: 99;
 }
+
+#gameloading-wrapper {
+    background-color: #eee;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+#gameloading > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 #gamepanel-wrapper > iframe {
 }

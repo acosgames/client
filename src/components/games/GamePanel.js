@@ -8,9 +8,11 @@ import Connection from "./Connection";
 import '../styles/GameScreen.css';
 import fs from 'flatstore';
 import { wsJoinRankedGame, wsRejoinRoom } from "../../actions/connection";
-import { joinGame, findGame, downloadGame } from "../../actions/game";
+import { joinGame, findGame, downloadGame, findAndRejoin } from "../../actions/game";
 
-fs.set('iframe', null);
+// fs.set('iframe', null);
+fs.set('iframes', {});
+fs.set('iframesLoaded', {});
 
 class GamePanel extends Component {
     constructor(props) {
@@ -25,8 +27,8 @@ class GamePanel extends Component {
 
         let games = fs.get('games') || [];
         if (games.length == 0) {
-            findGame(this.game_slug);
-            wsRejoinRoom(this.room_slug);
+            findAndRejoin(this.game_slug, this.room_slug);
+
         }
         else {
             this.game = null;
@@ -37,6 +39,12 @@ class GamePanel extends Component {
                 }
             }
         }
+
+        let iframesLoaded = fs.get('iframesLoaded');
+        if (!iframesLoaded[this.room_slug]) {
+            iframesLoaded[this.room_slug] = false;
+            fs.set('iframesLoaded', iframesLoaded);
+        }
     }
 
     async componentDidMount() {
@@ -45,56 +53,97 @@ class GamePanel extends Component {
             game = this.game;
     }
 
+    renderIframe(room) {
+
+        if (!room)
+            return (<React.Fragment></React.Fragment>)
+
+        let room_slug = room.room_slug;
+        let gameid = room.gameid;
+        let version = room.version;
+        let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${gameid}/client/client.bundle.${version}.html`;
+
+
+
+        return (
+            <div id="gamepanel-wrapper">
+                <iframe
+                    className="gamescreen"
+                    ref={(c) => {
+                        this.iframe = c;
+
+                        let iframes = fs.get('iframes');
+                        iframes[room_slug] = c;
+                        fs.set('iframes', iframes);
+
+                    }}
+                    onLoad={() => {
+                        //joinGame(game, game.istest);
+                        let iframesLoaded = fs.get('iframesLoaded');
+                        iframesLoaded[room_slug] = true;
+                        fs.set('iframesLoaded', iframesLoaded);
+                    }}
+                    src={srcUrl}
+                    sandbox="allow-scripts"
+                />
+                <Connection></Connection>
+            </div>
+        )
+    }
+
+    renderLoadingScreen(room) {
+
+        let game = fs.get('game');
+
+
+
+        let iframesLoaded = fs.get('iframesLoaded');
+
+        if (room && iframesLoaded[room.room_slug])
+            return (<React.Fragment></React.Fragment>)
+
+        let gamename = game ? game.name : room ? room.game_slug : '';
+        return (
+            <div id="gameloading-wrapper">
+                <div id="gameloading">
+                    <h2>{gamename}</h2>
+                    <h3>Loading...</h3>
+                </div>
+            </div>
+        )
+    }
+
     render() {
-        let mode = this.props.match.params.mode;
-        let game_slug = this.props.match.params.game_slug;
-        let game = fs.get(game_slug);
 
-        if (!game) {
-            return (<div>Loading...</div>)
-        }
-        console.log("Game data: ", game);
+        let room = this.props.room;
 
-        fs.set('iframe_' + game_slug, false);
-
-        let version = game.version;
-        if (mode == 'beta')
-            version = game.latest_version;
-
-        let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/client/client.bundle.${version}.html`;
         return (
             <div id="gameframe">
                 <div id="gamepanel">
 
                 </div>
-                <div id="gamepanel-wrapper">
-                    <iframe
-                        className="gamescreen"
-                        ref={(c) => {
-                            this.iframe = c;
-                            fs.set('iframe', c);
-                        }}
-                        onLoad={() => {
-                            fs.set('iframe_' + game_slug, true);
-                            //joinGame(game, game.istest);
-                        }}
-                        src={srcUrl}
-                        sandbox="allow-scripts"
-                    />
-                    <Connection></Connection>
-                </div>
+                {this.renderLoadingScreen(room)}
+                {this.renderIframe(room)}
             </div>
         )
     }
 }
 
 let onCustomWatched = ownProps => {
-    let game_slug = ownProps.match.params.game_slug;
-    return [game_slug];
+    let room_slug = ownProps.match.params.room_slug;
+    return ['rooms-' + room_slug, 'iframesLoaded-' + room_slug];
 };
 let onCustomProps = (key, value, store, ownProps) => {
+    let room_slug = ownProps.match.params.room_slug;
+    if (key == 'rooms-' + room_slug)
+        key = 'room';
+    else if (key == 'iframesLoaded-' + room_slug)
+        key = 'loaded';
+    if (!value)
+        return {};
+
     return {
-        game: value
+        [key]: value
     };
 };
 export default withRouter(fs.connect([], onCustomWatched, onCustomProps)(GamePanel));
