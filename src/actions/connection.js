@@ -130,6 +130,21 @@ export async function wsLeaveGame(room_slug) {
     history.push('/g/' + game.game_slug);
 }
 
+export async function wsLeaveQueue() {
+    let ws = await reconnect();
+    if (!ws || !ws.isReady) {
+        return;
+    }
+
+    fs.set('queues', []);
+
+    let action = { type: 'leavequeue' }
+    let msg = encode(action);
+    ws.send(msg);
+
+    console.log("[Outgoing] Leave Queue ", action);
+}
+
 export async function wsJoinGame(mode, game_slug) {
     let ws = await reconnect();
     if (!ws || !ws.isReady) {
@@ -143,8 +158,10 @@ export async function wsJoinGame(mode, game_slug) {
 
     let queues = fs.get('queues');
     let payload = { mode, game_slug };
-    queues.push(payload)
-    fs.set('queues', queues);
+    if (!queues.find(q => (q.mode == mode && q.game_slug == game_slug))) {
+        queues.push(payload)
+        fs.set('queues', queues);
+    }
 
     let action = { type: 'joingame', payload }
     let msg = encode(action);
@@ -335,16 +352,17 @@ async function wsIncomingMessage(message) {
         case 'pong':
             onPong(msg);
             return;
-        // case 'joining':
-        //     if (!game) {
-        //         console.error("Game not found. Cannot join unknown game.");
-        //         return;
-        //     }
-        //     let beta = msg.mode == 'beta' ? '/beta' : '';
-        //     let urlPath = '/g/' + game.game_slug + beta + '/' + msg.room_slug;
-        //     if (window.location.href.indexOf(urlPath) == -1)
-        //         history.push(urlPath);
-        //     return;
+        case 'notexist':
+            let currentPath = window.location.href;
+            let currentParts = currentPath.split('/g/');
+            if (currentParts.length > 1) {
+                let gamemode = currentParts[1].split('/');
+                let game_slug = gamemode[0];
+
+                history.push('/g/' + game_slug);
+            }
+
+            break;
         case 'joined':
             console.log("[Incoming] Joined: ", msg);
             fs.set('room_slug', msg.room_slug);
@@ -360,6 +378,8 @@ async function wsIncomingMessage(message) {
             let rooms = fs.get('rooms');
             rooms[msg.room_slug] = msg;
             fs.set('rooms', rooms);
+
+            fs.set('queues', []);
 
             let beta = msg.mode == 'beta' ? '/beta' : '';
             let urlPath = '/g/' + msg.game_slug + beta + '/' + msg.room_slug;

@@ -60,22 +60,24 @@ class GameInfo extends Component {
             imgUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/preview/${game.preview_images}`;
 
         return (
-            <div id="game-grid-wrapper">
-                <img src={imgUrl} width="300" />
-                <h3>{game.name} <span>{game.version}</span></h3>
-                <div className="game-info-attributes">
-                    <div className="game-info-attribute">
-                        <label>Maxplayers</label> <span>{game.maxplayers}</span>
+            <div id="game-info">
+                <div id="game-info-content">
+                    <img src={imgUrl} width="300" />
+                    <h3>{game.name} <span>Build: {game.version}</span></h3>
+                    <div className="game-info-attributes">
+                        <div className="game-info-attribute">
+                            <label>Min Players</label> <span>{game.minplayers}</span>
+                        </div>
+                        <div className="game-info-attribute">
+                            <label>Max Players</label> <span>{game.maxplayers}</span>
+                        </div>
                     </div>
-                    <div className="game-info-attribute">
-                        <label>Maxplayers</label> <span>{game.maxplayers}</span>
+                    <h5>{game.shortdesc}</h5>
+                    <p>{game.longdesc}</p>
+                    <div id="game-join-ranked">
+                        <button onClick={() => { this.handleJoin() }}>Join Ranked</button>
+                        <button onClick={() => { this.handleJoinBeta() }}>Join Beta</button>
                     </div>
-                </div>
-                <h5>{game.shortdesc}</h5>
-                <p>{game.longdesc}</p>
-                <div id="game-join-ranked">
-                    <button onClick={() => { this.handleJoin() }}>Join Ranked</button>
-                    <button onClick={() => { this.handleJoinBeta() }}>Join Beta</button>
                 </div>
             </div>
         )

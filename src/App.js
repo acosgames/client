@@ -8,9 +8,9 @@ import {
 
 import MainMenu from './components/MainMenu'
 import Routes from './Routes';
-import './App.css';
 
 import { getUserProfile } from './actions/person';
+import QueuePanel from "./components/games/QueuePanel";
 
 
 
@@ -32,12 +32,15 @@ class App extends Component {
               <MainMenu />
             </div>
 
+
             <div id="wrapper-content">
 
               <Switch>
                 <Routes></Routes>
               </Switch>
+              <QueuePanel />
             </div>
+
           </div>
         </BrowserRouter>
       </div>

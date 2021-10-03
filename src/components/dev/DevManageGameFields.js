@@ -92,7 +92,7 @@ class DevManageGameFields extends Component {
                     value={this.props.devgame.game_slug || ''}
                     onChange={this.inputChange.bind(this)} />
                 <br />
-                <label for="version">Version</label>
+                <label htmlFor="version">Version</label>
                 <input
                     type="text"
                     disabled
@@ -102,7 +102,7 @@ class DevManageGameFields extends Component {
                     maxLength="12"
                     value={this.props.devgame.version || '1'} />
                 <br />
-                <label for="maxplayers">Max players</label>
+                <label htmlFor="maxplayers">Max players</label>
                 <input
                     type="number"
                     name="maxplayers"
@@ -114,7 +114,7 @@ class DevManageGameFields extends Component {
                     onChange={this.inputChange.bind(this)} />
                 <br />
 
-                <label for="minplayers">Min players</label>
+                <label htmlFor="minplayers">Min players</label>
                 <input
                     type="number"
                     name="minplayers"
@@ -125,7 +125,7 @@ class DevManageGameFields extends Component {
                     value={this.props.devgame.minplayers || '2'}
                     onChange={this.inputChange.bind(this)} />
                 <br />
-                <label for="teams">Team names</label>
+                <label htmlFor="teams">Team names</label>
                 <input
                     type="text"
                     name="teams"
