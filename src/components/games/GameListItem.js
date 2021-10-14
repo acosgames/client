@@ -29,7 +29,7 @@ function GameListItem(props) {
 
     return (
         <div className="game-item" key={game.game_slug} onClick={handleClick}>
-            <img src={imgUrl} width="128" />
+            <img alt={gameName} src={imgUrl} />
             <div className="game-title"><span>{gameName}</span></div>
             <div className="game-attributes">
                 <ul>
