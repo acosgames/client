@@ -1,6 +1,7 @@
 import {
     Route,
-    useHistory
+    useHistory,
+    Switch
 } from "react-router-dom";
 
 import ProtectedRoute from './components/login/ProtectedRoute';
@@ -27,7 +28,7 @@ var Routes = () => {
     flatstore.set('history', history);
 
     return (
-        <>
+        <Switch>
             <ProtectedRoute
                 exact
                 path="/player/create"
@@ -64,14 +65,14 @@ var Routes = () => {
                 component={DevLogin}
             />
             <ProtectedRoute
-                exact
+
                 path="/dev/game/create"
                 component={DevCreateGame}
                 verify={(user) => true}
                 redirectTo="/dev/login"
             />
             <ProtectedRoute
-                exact
+
                 path="/dev/game/:gameid"
                 component={DevManageGame}
                 verify={(user) => 'github' in user}
@@ -90,7 +91,7 @@ var Routes = () => {
                 path="/games"
                 component={MainPage}
             />
-        </>
+        </Switch>
     )
 }
 

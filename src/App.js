@@ -11,7 +11,9 @@ import Routes from './Routes';
 
 import { getUserProfile } from './actions/person';
 import QueuePanel from "./components/games/QueuePanel";
+import fs from 'flatstore';
 
+fs.delimiter('>');
 
 
 class App extends Component {

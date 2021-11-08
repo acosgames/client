@@ -53,11 +53,12 @@ export async function getUserProfile() {
         let response = await GET('/api/v1/person');
         let user = response.data;
 
-        // if (user.ecode) {
-        //     fs.set('userCheckedLogin', true);
-        //     return null;
-        // }
-        console.log(user);
+        if (user.ecode) {
+            console.error('Login failed. Please login again.');
+            fs.set('loginFailed', user);
+            return null;
+        }
+        console.log('getUserProfile', user);
 
         fs.set('user', user);
         fs.set('userid', user.id);
@@ -74,7 +75,7 @@ export async function getUserProfile() {
     }
     catch (e) {
         // fs.set('userCheckedLogin', true);
-        console.error(e);
+        console.error('getUserProfile', e);
         //if( e )
         //return e.response.data;
     }

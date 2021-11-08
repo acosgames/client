@@ -15,8 +15,11 @@ class Logout extends Component {
     }
     render() {
         let user = this.props.user;
-        if (!user)
-            return (<React.Fragment></React.Fragment>)
+
+        if (!this.props.user) {
+            return (<Link to="/login">Login</Link>)
+        }
+
         return (
             <a onClick={() => {
                 logout();

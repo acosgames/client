@@ -39,11 +39,11 @@ class DevDashboard extends Component {
             let game = games[i];
             elems.push((
 
-                <Link key={'devgames-' + game.gameid} to={'/dev/game/' + game.gameid}>{game.name}</Link>
+                <li key={'devgames-' + game.gameid}><Link to={'/dev/game/' + game.gameid}>{game.name}</Link></li>
 
             ))
         }
-        elems.push(<Link key={'devgamescreate'} to="/dev/game/create">Create Game</Link>);
+        elems.push(<li key={'devgamescreate'}><Link to="/dev/game/create">Create Game</Link></li>);
         return elems;
     }
     /*

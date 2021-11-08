@@ -26,7 +26,7 @@ class DevManageGame extends Component {
 
                 <DevManageGameFields />
 
-                <div id="testenv">
+                {/* <div id="testenv">
                     <h2>Test Environment</h2>
                     <div id="manageclients">
                         <h3>Add your client bundle.</h3>
@@ -36,7 +36,7 @@ class DevManageGame extends Component {
                     <div id="manageservers">
                         <DevCreateServer env="test" />
                     </div>
-                </div>
+                </div> */}
 
                 {/* <div id="prodenv">
                     <h2>Production Environment</h2>

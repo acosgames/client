@@ -53,7 +53,9 @@ class MainMenu extends Component {
                     )
                 }
 
-                {<SocialLogin user={this.props.user}></SocialLogin>}
+                <Logout></Logout>
+
+                {/* {<SocialLogin user={this.props.user}></SocialLogin>} */}
                 <LeaveGame></LeaveGame>
             </div>
         )

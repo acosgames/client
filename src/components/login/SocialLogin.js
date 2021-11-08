@@ -24,9 +24,11 @@ class SocialLogin extends Component {
         return (
             <div id="social">
                 <h4>Login to Play!</h4>
-                <a href="http://localhost:8080/login/google">with Google</a>
-                <a href="http://localhost:8080/login/microsoft">with Microsft</a>
-                <a href="http://localhost:8080/login/github">with GitHub as Developer</a>
+                <ul>
+                    <li><a href="http://localhost:8080/login/google">with Google</a></li>
+                    <li><a href="http://localhost:8080/login/microsoft">with Microsft</a></li>
+                    <li><a href="http://localhost:8080/login/github">with GitHub as Developer</a></li>
+                </ul>
             </div>
         )
     }

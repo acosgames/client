@@ -18,8 +18,12 @@ class GameInfo extends Component {
         }
 
         let game_slug = props.match.params.game_slug;
-        let game = fs.get(game_slug);
-        if (!game) {
+        try {
+            let game = fs.get(game_slug);
+            if (!game)
+                findGame(game_slug)
+        }
+        catch (e) {
             findGame(game_slug)
         }
 

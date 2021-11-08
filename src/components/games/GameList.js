@@ -29,7 +29,7 @@ class GameList extends Component {
                 <h3>Find a game to play!</h3>
                 <div id="game-grid">
                     {
-                        games.map(game => (<GameListItem game={game}></GameListItem>))
+                        games.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
                     }
                 </div>
             </div>

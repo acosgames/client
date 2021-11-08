@@ -28,12 +28,14 @@ class ProtectedRoute extends Component {
             !this.props.user.displayname &&
             this.props.location.pathname.indexOf("/player/create") == -1
         )
-        if (needsPlayerName) {
-            return <Redirect to="/player/create"></Redirect>
-        }
+
 
         if (this.props.user && this.props.verify && !this.props.verify(this.props.user) && this.props.location.pathname.indexOf("/login")) {
             return <Redirect to={this.props.redirectTo || "/login"}></Redirect>
+        }
+
+        if (needsPlayerName) {
+            return <Redirect to="/player/create"></Redirect>
         }
 
         let Child = this.props.component;

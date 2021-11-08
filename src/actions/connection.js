@@ -31,10 +31,10 @@ export function detachFromFrame() {
 
 export function sendFrameMessage(msg) {
     let room_slug = msg.room_slug;
-    let room = fs.get('rooms-' + room_slug);
-    let iframe = fs.get('iframes-' + room_slug);
+    let room = fs.get('rooms>' + room_slug);
+    let iframe = fs.get('iframes>' + room_slug);
 
-    let iframeLoaded = fs.get('iframesLoaded-' + room_slug);
+    let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
     if (!iframeLoaded) {
         setTimeout(() => {
             sendFrameMessage(msg);
