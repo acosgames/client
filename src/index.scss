@@ -1,5 +1,6 @@
 // @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Oswald:400,700');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap');
 
 @import './components/styles/constants.scss';
 
@@ -17,16 +18,16 @@ html,
 body {
     padding: 0;
     margin: 0;
-    background-color: #fff;
-    color: #000;
+    background-color: #000;
+    color: #fff;
     font-size: 16px;
     font-weight: 400;
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Inter', 'Oswald', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 a {
-    color: #000;
+    color: #fff;
     text-decoration: none;
     cursor: pointer;
 }
@@ -45,7 +46,13 @@ code {
 #wrapper-header {
     width: 100%;
     height: 3rem;
-    background-color: rgb(0, 52, 104);
+    z-index: 5;
+    box-shadow: rgba(0, 0, 0, 0.9) 0px 1px 2px 0px, rgba(0, 0, 0, 0.9) 0px 0px 2px 0px;
+    background-color: #09090a;
+    // background-color: rgb(0, 52, 104);
+}
+
+#wrapper-header {
 }
 
 #wrapper-content {
@@ -67,19 +74,23 @@ code {
     display: block;
     padding-left: 1rem;
     padding-right: 1rem;
-    font-size: 1rem;
+    font-size: 0.8125rem;
     line-height: 3rem;
-    font-weight: 400;
-    color: #dadada;
-    background-color: rgb(0, 52, 104);
+    font-weight: 700;
+    color: #fff;
+    background-color: #09090a;
+    // background-color: rgb(0, 52, 104);
     text-decoration-thickness: auto;
     text-size-adjust: 100%;
     transition: background-color 200ms;
 }
 
+#mainmenu a.active {
+    border-bottom: 2px solid #94ff97;
+}
 #mainmenu a:hover {
-    background-color: #001b47;
-    color: #fff;
+    // background-color: #001b47;
+    color: #94ff97;
 }
 
 @media screen and (max-width: 768px) {
@@ -150,6 +161,7 @@ code {
     width: 100%;
     height: 100%;
     display: flex;
+    flex-wrap: wrap;
     // grid-template-columns: 160px 160px 160px 160px 160px 160px 160px 160px 160px 160px;
     // grid-column-gap: 1rem;
     // grid-row-gap: 1rem;
@@ -163,34 +175,44 @@ code {
 .game-item {
     // width: 100%;
     // height: 100%;
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    // height: 150px;
+    margin-top: 4px;
+    margin-bottom: 1rem;
     padding: 0.3125rem;
     // margin-left: 10px;
     // margin-right: 10px;
     position: relative;
     cursor: pointer;
-    transition: transform 200ms;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // flex-direction: column;
+
+    flex: 0 0 auto;
 }
 
 .game-item:hover {
-    transform: scale(1.1, 1.1);
+    // border-top: 6px solid #94ff97;
+    // border-right: 6px solid #94ff97;
+    // transform: scale(1.05, 1.05);
+}
+.game-item:hover img {
+    transform: scale(0.95, 0.95);
 }
 .game-item:hover > .game-title {
-    background-color: #ff4c29;
+    // background-color: #ff4c29;
 }
 .game-item:hover > .game-title span {
+    color: #94ff97;
 }
 
 .game-item img {
     width: 150px;
     height: 150px;
     display: block;
+    transition: transform 200ms;
     // width: 100%;
     // height: 100%;
     // border-radius: 4px;
@@ -201,13 +223,14 @@ code {
     // position: absolute;
     // bottom: 0px;
     // left: 0px;
-    margin-top: -24px;
+    // margin-top: -24px;
+    // color: #6acd64;
     width: 150px;
     font-size: 18px;
     // max-height: 128px;
     font-weight: 700;
 
-    background-color: rgb(0, 52, 104);
+    // background-color: rgb(0, 52, 104);
     /* opacity: 0.2; */
 
     overflow: hidden;
@@ -216,12 +239,12 @@ code {
 
 .game-title span {
     display: block;
-    font-weight: normal;
     width: 100%;
     height: 100%;
-    font-size: 16px;
+    font-size: 13px;
+    font-weight: 700;
     line-height: 24px;
-    color: #f3df47;
+    color: #fff;
     text-decoration: none;
     text-align: center;
 }
@@ -246,6 +269,7 @@ code {
 }
 
 .game-attributes ul li span {
+    color: #ccc;
 }
 
 .imagebox {
@@ -334,12 +358,9 @@ code {
 #gamepanel-wrapper > iframe {
 }
 
-#wrapper-header {
-    z-index: 5;
-}
-
 #wrapper-content {
     z-index: 5;
+    // background-color: #000;
 }
 #wrapper-freeform {
     position: absolute;

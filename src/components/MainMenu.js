@@ -40,14 +40,23 @@ class MainMenu extends Component {
     render() {
 
         this.updateHistory();
+        let urlPath = this.props.location.pathname;
+        let classFindGames = '';
+        if (urlPath.includes('/games') || urlPath == '/' || urlPath.includes('/g/')) {
+            classFindGames = 'active';
+        }
+        let classDevelopers = '';
+        if (urlPath.includes('/dev')) {
+            classDevelopers = 'active';
+        }
 
         return (
             <div id="mainmenu">
-                <Link to="/games">Find Games</Link>
+                <Link to="/games" className={classFindGames}>Find Games</Link>
                 {
                     this.props.user && this.props.user.github && (
                         <React.Fragment>
-                            <Link to="/dev">Developers</Link>
+                            <Link to="/dev" className={classDevelopers}>Developers</Link>
 
                         </React.Fragment>
                     )

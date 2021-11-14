@@ -341,7 +341,7 @@ export async function updateGame() {
     try {
         let newGame = fs.get('devgame');
 
-        let errors = validateSimple('game_info', newGame);
+        let errors = validateSimple('update-game_info', newGame);
         if (errors.length > 0) {
             fs.set('devgameerror', errors);
             return newGame;
@@ -395,7 +395,7 @@ export async function updateGameField(name, value) {
 
 
 
-    let errors = validateField('game_info', game);
+    let errors = validateField('update-game_info', game);
     if (errors.length > 0) {
         fs.set('devgameerror', errors);
         game[name] = prev;
@@ -523,7 +523,7 @@ export async function createGame(progressCB) {
     try {
         let newGame = fs.get('devgame');
 
-        let errors = validateSimple('game_info', newGame);
+        let errors = validateSimple('create-game_info', newGame);
         if (errors.length > 0) {
             fs.set('devgameerror', errors);
             return null;

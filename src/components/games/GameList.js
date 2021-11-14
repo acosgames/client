@@ -26,7 +26,7 @@ class GameList extends Component {
 
         return (
             <div id="game-grid-wrapper">
-                <h3>Find a game to play!</h3>
+                <h3>All Games</h3>
                 <div id="game-grid">
                     {
                         games.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
