@@ -59,9 +59,9 @@ class GameInfo extends Component {
             return <React.Fragment></React.Fragment>
         }
 
-        let imgUrl = 'https://f000.backblazeb2.com/file/fivesecondgames/placeholder.png';
+        let imgUrl = 'https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png';
         if (game.preview_images && game.preview_images.length > 0)
-            imgUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${game.gameid}/preview/${game.preview_images}`;
+            imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${game.gameid}/preview/${game.preview_images}`;
 
         return (
             <div id="game-info">

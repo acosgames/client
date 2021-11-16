@@ -61,7 +61,7 @@ class GamePanel extends Component {
         let room_slug = room.room_slug;
         let gameid = room.gameid;
         let version = room.version;
-        let srcUrl = `https://f000.backblazeb2.com/file/fivesecondgames/${gameid}/client/client.bundle.${version}.html`;
+        let srcUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${gameid}/client/client.bundle.${version}.html`;
 
 
 
@@ -131,13 +131,13 @@ class GamePanel extends Component {
 
 let onCustomWatched = ownProps => {
     let room_slug = ownProps.match.params.room_slug;
-    return ['rooms-' + room_slug, 'iframesLoaded-' + room_slug];
+    return ['rooms>' + room_slug, 'iframesLoaded>' + room_slug];
 };
 let onCustomProps = (key, value, store, ownProps) => {
     let room_slug = ownProps.match.params.room_slug;
-    if (key == 'rooms-' + room_slug)
+    if (key == 'rooms>' + room_slug)
         key = 'room';
-    else if (key == 'iframesLoaded-' + room_slug)
+    else if (key == 'iframesLoaded>' + room_slug)
         key = 'loaded';
     if (!value)
         return {};

@@ -76,7 +76,7 @@ export async function joinGame(game, istest) {
 
 
 export async function downloadGame(gameid, version) {
-    let url = `https://f000.backblazeb2.com/file/fivesecondgames/${gameid}/client/client.bundle.${version}.js`
+    let url = `https://cdn.fivesecondgames.com/file/fivesecondgames/${gameid}/client/client.bundle.${version}.js`
 
     return new Promise(async (rs, rj) => {
         try {

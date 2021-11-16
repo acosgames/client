@@ -80,7 +80,7 @@ export async function findClients(gameid) {
                 let images = [];
                 let list = client.preview_images.split(',');
                 for (var i = 0; i < list.length; i++) {
-                    let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + client.gameid + '/clients/preview/' + list[i];
+                    let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + client.gameid + '/clients/preview/' + list[i];
                     images.push({ data_url: url, file: {} });
                 }
                 fs.set('devclientimages_' + client.id, images);
@@ -143,7 +143,7 @@ export async function findGame(gameid) {
             let images = [];
             let list = game.preview_images.split(',');
             for (var i = 0; i < list.length; i++) {
-                let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + game.gameid + '/preview/' + list[i];
+                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + game.gameid + '/preview/' + list[i];
                 images.push({ data_url: url, file: {} });
             }
             fs.set('devgameimages', images);
@@ -184,7 +184,7 @@ function updateClient(client) {
 
     fs.set('devClients-' + client.env, client);
 
-    var storageURL = 'https://f000.backblazeb2.com/file/fivesecondgames/';
+    var storageURL = 'https://cdn.fivesecondgames.com/file/fivesecondgames/';
     var storagePath = client.gameid + '/client/' + client.id + '/'
     if (client.preview_images) {
         let images = [];
@@ -240,7 +240,7 @@ export async function uploadClientImages(images, nextImages) {
     if (preview_images) {
         for (var i = 0; i < preview_images.length; i++) {
             if (nextImages[i]) {
-                let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + client.gameid + '/client/' + client.id + '/' + preview_images[i];
+                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + client.gameid + '/client/' + client.id + '/' + preview_images[i];
                 nextImages[i].data_url = url;
             }
         }
@@ -296,7 +296,7 @@ export async function uploadGameImages(images, nextImages) {
     if (preview_images) {
         for (var i = 0; i < preview_images.length; i++) {
             if (nextImages[i]) {
-                let url = 'https://f000.backblazeb2.com/file/fivesecondgames/' + game.gameid + '/preview/' + preview_images[i];
+                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + game.gameid + '/preview/' + preview_images[i];
                 nextImages[i].data_url = url;
             }
         }

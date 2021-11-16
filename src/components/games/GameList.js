@@ -24,12 +24,20 @@ class GameList extends Component {
     render() {
         let games = this.props.games || [];
 
+        let productionGames = games.filter(v => v.status == 3);
+        let betaGames = games.filter(v => v.status == 2);
         return (
             <div id="game-grid-wrapper">
-                <h3>All Games</h3>
+                <h3>All Ranked Games</h3>
                 <div id="game-grid">
                     {
-                        games.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
+                        productionGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
+                    }
+                </div>
+                <h3>Games in Beta</h3>
+                <div id="game-grid">
+                    {
+                        betaGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
                     }
                 </div>
             </div>
