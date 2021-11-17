@@ -543,3 +543,58 @@ code {
     border-radius: 4px;
     margin-right: 0.2rem;
 }
+
+.form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form .form-row {
+    margin-bottom: 1rem;
+    display: block;
+    width: 300px;
+}
+
+.form-row label {
+    margin: 0.5rem 0;
+    font-size: 0.8rem;
+    color: #94ff97;
+    display: block;
+}
+
+.form-row input {
+    width: 15rem;
+    display: block;
+    padding-left: 0.5rem;
+    line-height: 2.5rem;
+    height: 2.5rem;
+    border-style: double;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.form-row textarea {
+    width: 15rem;
+    min-height: 15rem;
+    display: block;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.form-row button {
+    width: 10rem;
+    height: 3rem;
+    border: 0;
+}
+.form-row button.submit {
+    background-color: #63ed56;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'Inter', 'Oswald', sans-serif;
+}
+.form-row button.submit:hover {
+    background-color: #52c548;
+}
+.form-row button.submit:active {
+    background-color: #94ff97;
+}
