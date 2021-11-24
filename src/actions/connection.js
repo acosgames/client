@@ -70,7 +70,13 @@ export function recvFrameMessage(evt) {
         let room_slug = fs.get('room_slug');
         let gamestate = fs.get('gamestate');
         action.room_slug = room_slug;
-        action.seq = gamestate.timer.seq;
+        if (gamestate && gamestate.timer)
+            action.seq = gamestate.timer.seq || 0;
+        else
+            action.seq = 0;
+        if (action.payload && action.payload.cell) {
+            action.payload.cell = 100;
+        }
         let buffer = encode(action);
         console.log("[Outgoing] Action: ", action);
         ws.send(buffer);
@@ -287,7 +293,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
         client.onclose = async (evt) => {
             console.log(evt);
             client.isReady = false;
-            fs.set('gamestate', {});
+            // fs.set('gamestate', {});
 
             if (rj)
                 rj(evt);
@@ -400,6 +406,9 @@ async function wsIncomingMessage(message) {
             break;
         case 'update':
             console.log("[Incoming] Update: ", msg);
+            break;
+        case 'error':
+            console.log("[Incoming] Error: ", msg);
             break;
         default:
             console.log("[Incoming] Unknown type: ", msg);

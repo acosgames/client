@@ -104,7 +104,7 @@ function QueuePanel(props) {
                         <div id="queue-tab-cancel" onClick={onCancel}>&times;</div>
                         <div id="queue-searching">Searching</div>
                         <div id="queue-loader">
-                            <div class="loader-inner line-scale-pulse-out-rapid">
+                            <div className="loader-inner line-scale-pulse-out-rapid">
                                 <div></div>
                                 <div></div>
                                 <div></div>
@@ -128,7 +128,7 @@ function QueuePanel(props) {
                                         <span className="queue-game-title">{game_slug}</span>
                                         {
                                             modes.map(m => (
-                                                <span className="queue-game-mode">{m}</span>
+                                                <span key={game_slug + "-" + m + "-mode"} className="queue-game-mode">{m}</span>
                                             ))
                                         }
                                     </li>
