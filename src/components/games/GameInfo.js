@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import { Redirect } from 'react-router';
 
-import '../styles/GameList.scss'
 import fs from 'flatstore';
 import { findGame, joinGame } from "../../actions/game";
 
@@ -63,6 +62,10 @@ class GameInfo extends Component {
         if (game.preview_images && game.preview_images.length > 0)
             imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${game.gameid}/preview/${game.preview_images}`;
 
+        let playerCntRange = game.minplayers + '-' + game.maxplayers;
+        if (game.minplayers == game.maxplayers)
+            playerCntRange = game.minplayers;
+
         return (
             <div id="game-info">
                 <div id="game-info-content">
@@ -70,10 +73,7 @@ class GameInfo extends Component {
                     <h3>{game.name} <span>Build: {game.version}</span></h3>
                     <div className="game-info-attributes">
                         <div className="game-info-attribute">
-                            <label>Min Players</label> <span>{game.minplayers}</span>
-                        </div>
-                        <div className="game-info-attribute">
-                            <label>Max Players</label> <span>{game.maxplayers}</span>
+                            <label>Seats</label> <span>{playerCntRange}</span>
                         </div>
                     </div>
                     <h5>{game.shortdesc}</h5>

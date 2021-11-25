@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
 
-import CustomInput from '../materialui/CustomInput/CustomInput.js';
 
 import { updateGameField, createGame, clearGameFields } from '../../actions/devgame';
 import fs from 'flatstore';
@@ -78,19 +77,12 @@ class DevCreateGame extends Component {
 
                 {hasError && this.displayError()}
 
-                <CustomInput
-                    id="float"
-                    inputProps={{
-                        placeholder: "Game Name",
-                        name: "name",
-                        onChange: this.inputChange.bind(this),
-                        maxLength: "60"
-                    }}
-                    formControlProps={{
-                        fullWidth: true
-                    }}
-                />
-
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Game Name"
+                    maxLength="60"
+                    onChange={this.inputChange.bind(this)} />
                 <br />
                 <input
                     type="text"

@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald:400,700');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700&display=swap');
 
-@import './components/styles/constants.scss';
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 * {
     box-sizing: border-box;
@@ -68,6 +68,42 @@ code {
     height: 100%;
     position: relative;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#mainmenu ul {
+    display:flex;
+    list-style: none; 
+    margin: 0; 
+padding: 0; 
+}
+#mainmenu ul.menu-nav {
+    flex: 4;
+}
+#mainmenu ul.menu-nav {
+    flex: 1;
+}
+
+#mainmenu ul ul {
+    display:none;
+}
+
+#mainmenu ul li {
+    flex: auto;
+    display:flex;
+}
+
+#mainmenu ul li.actions {
+    flex:1;
+    
+}
+
+#mainmenu ul li.actions a {
+    align-items: center;
+    line-height: normal;
+    display:flex;
 }
 
 #mainmenu a {

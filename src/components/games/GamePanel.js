@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 
 import Connection from "./Connection";
-import '../styles/GameScreen.css';
 import fs from 'flatstore';
 import { wsJoinRankedGame, wsRejoinRoom } from "../../actions/connection";
 import { joinGame, findGame, downloadGame, findAndRejoin } from "../../actions/game";

@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import { Redirect } from 'react-router';
 
-import '../styles/GameList.scss'
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";
