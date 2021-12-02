@@ -67,7 +67,10 @@ class GameInfo extends Component {
             playerCntRange = game.minplayers;
 
         return (
-            <div id="game-info">
+            <div id="game-info" onClick={(e) => {
+                if (e.target == e.currentTarget)
+                    this.props.history.push('/g');
+            }}>
                 <div id="game-info-content">
                     <img src={imgUrl} width="300" />
                     <h3>{game.name} <span>Build: {game.version}</span></h3>

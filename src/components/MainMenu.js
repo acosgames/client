@@ -18,6 +18,7 @@ class MainMenu extends Component {
         super(props);
 
         this.state = {
+            menuActive: false
         }
     }
 
@@ -36,12 +37,16 @@ class MainMenu extends Component {
 
 
     }
+
+    clickMenu = () => {
+        this.setState({ menuActive: !this.state.menuActive });
+    }
     render() {
 
         this.updateHistory();
         let urlPath = this.props.location.pathname;
         let classFindGames = '';
-        if (urlPath.includes('/games') || urlPath == '/' || urlPath.includes('/g/')) {
+        if (urlPath == '/' || urlPath.includes('/g')) {
             classFindGames = 'active';
         }
         let classDevelopers = '';
@@ -52,38 +57,47 @@ class MainMenu extends Component {
         return (
             <div id="mainmenu">
                 <ul id="menu-nav">
-                    <li><Link to="/games" className={classFindGames}><span class="material-icons">
-                        home
-                    </span>
-                    </Link></li>
+                    <li>
+                        <Link to="/g" className={classFindGames}>
+                            <span className="logo-txt">FSG</span>
+                            {/* <span className="material-icons">
+                                home
+                            </span> */}
+                        </Link>
+                    </li>
                 </ul>
                 <ul id="menu-actions">
                     <li className="actions">
                         <a href="">
-                            <span class="material-icons">
+                            <span className="material-icons">
                                 vibration
                             </span>
                         </a>
                     </li>
-                    <li className="actions">
-                        <a href="">
-                            <span class="material-icons">
+                    <li className="actions hasmenu">
+                        <a onClick={this.clickMenu}>
+                            <span className="material-icons">
                                 account_circle
                             </span>
-                            ▼
+                            <span className="indicator-down">▼</span>
                         </a>
-                        <ul>
-                            {
-                                this.props.user && this.props.user.github && (
-                                    <li>
-                                        <Link to="/dev" className={classDevelopers}>Developers</Link>
-                                    </li>
-                                )
-                            }
-                            <li><Logout></Logout></li>
-                            {/* {<SocialLogin user={this.props.user}></SocialLogin>} */}
-                            <li><LeaveGame></LeaveGame></li>
-                        </ul>
+                        {
+                            this.state.menuActive && (
+                                <ul className="submenu">
+                                    {
+                                        this.props.user && this.props.user.github && (
+                                            <li>
+                                                <Link to="/dev" className={classDevelopers}>Developers</Link>
+                                            </li>
+                                        )
+                                    }
+                                    <li><Logout></Logout></li>
+                                    {/* {<SocialLogin user={this.props.user}></SocialLogin>} */}
+                                    <li><LeaveGame></LeaveGame></li>
+                                </ul>
+                            )
+                        }
+
                     </li>
                 </ul>
             </div>

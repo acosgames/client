@@ -8,6 +8,7 @@ import Connection from "./Connection";
 import fs from 'flatstore';
 import { wsJoinRankedGame, wsRejoinRoom } from "../../actions/connection";
 import { joinGame, findGame, downloadGame, findAndRejoin } from "../../actions/game";
+import LeaveGame from "./LeaveGame";
 
 // fs.set('iframe', null);
 fs.set('iframes', {});
@@ -86,6 +87,7 @@ class GamePanel extends Component {
                     sandbox="allow-scripts"
                 />
                 <Connection></Connection>
+                <LeaveGame></LeaveGame>
             </div>
         )
     }

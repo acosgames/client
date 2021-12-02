@@ -40,7 +40,7 @@ class CreateDisplayName extends Component {
             return;
         }
 
-        this.props.history.push('/games');
+        this.props.history.push('/g');
 
         // let previous = history[history.length - 2] || history[history.length - 1];
         // if (previous.pathname.indexOf('/player/create') > -1) {

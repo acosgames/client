@@ -27,7 +27,7 @@ class GameList extends Component {
         let betaGames = games.filter(v => v.status == 2);
         return (
             <div id="game-grid-wrapper">
-                <h3>All Ranked Games</h3>
+                <h3>Games</h3>
                 <div id="game-grid">
                     {
                         productionGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
