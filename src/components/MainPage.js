@@ -35,7 +35,7 @@ class MainPage extends Component {
         return (
             <div id="mainpage">
                 <GameList />
-                {this.renderGameInfo()}
+                {/* {this.renderGameInfo()} */}
             </div>
         )
     }

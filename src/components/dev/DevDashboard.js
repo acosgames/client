@@ -7,6 +7,7 @@ import {
     withRouter,
 } from "react-router-dom";
 import fs from 'flatstore';
+import SLink from "../widgets/SLink";
 
 class DevDashboard extends Component {
     constructor(props) {
@@ -39,11 +40,11 @@ class DevDashboard extends Component {
             let game = games[i];
             elems.push((
 
-                <li key={'devgames-' + game.gameid}><Link to={'/dev/game/' + game.gameid}>{game.name}</Link></li>
+                <li key={'devgames-' + game.gameid}><SLink to={'/dev/game/' + game.gameid}>{game.name}</SLink></li>
 
             ))
         }
-        elems.push(<li key={'devgamescreate'}><Link to="/dev/game/create">Create Game</Link></li>);
+        elems.push(<li key={'devgamescreate'}><SLink to="/dev/game/create">Create Game</SLink></li>);
         return elems;
     }
     /*

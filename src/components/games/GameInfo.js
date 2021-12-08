@@ -8,6 +8,8 @@ import { Redirect } from 'react-router';
 
 import fs from 'flatstore';
 import { findGame, joinGame } from "../../actions/game";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'
 
 class GameInfo extends Component {
     constructor(props) {
@@ -74,13 +76,17 @@ class GameInfo extends Component {
                 <div id="game-info-content">
                     <img src={imgUrl} width="300" />
                     <h3>{game.name} <span>Build: {game.version}</span></h3>
+
+                    <h4>{game.shortdesc}</h4>
                     <div className="game-info-attributes">
                         <div className="game-info-attribute">
-                            <label>Seats</label> <span>{playerCntRange}</span>
+                            <span>{playerCntRange}</span> <label>Seats</label>
                         </div>
                     </div>
-                    <h5>{game.shortdesc}</h5>
-                    <p>{game.longdesc}</p>
+                    <hr />
+                    <div id="game-info-longdesc">
+                        <ReactMarkdown children={game.longdesc} remarkPlugins={[remarkGfm]}></ReactMarkdown>
+                    </div>
                     <div id="game-join-ranked">
                         <button onClick={() => { this.handleJoin() }}>Join Ranked</button>
                         <button onClick={() => { this.handleJoinBeta() }}>Join Beta</button>

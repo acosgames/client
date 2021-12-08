@@ -47,7 +47,7 @@ var Routes = () => {
             <Route
                 exact
                 path="/g/:game_slug"
-                component={MainPage}
+                component={GameInfo}
             />
             <Route
                 exact

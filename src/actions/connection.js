@@ -74,9 +74,9 @@ export function recvFrameMessage(evt) {
             action.seq = gamestate.timer.seq || 0;
         else
             action.seq = 0;
-        if (action.payload && action.payload.cell) {
-            action.payload.cell = 100;
-        }
+        // if (action.payload && action.payload.cell) {
+        //     action.payload.cell = 100;
+        // }
         let buffer = encode(action);
         console.log("[Outgoing] Action: ", action);
         ws.send(buffer);

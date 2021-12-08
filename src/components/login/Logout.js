@@ -8,6 +8,7 @@ import {
     withRouter,
     Redirect,
 } from "react-router-dom";
+import SLink from "../widgets/SLink";
 
 class Logout extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class Logout extends Component {
         let user = this.props.user;
 
         if (!this.props.user) {
-            return (<Link to="/login">Login</Link>)
+            return (<SLink to="/login">Login</SLink>)
         }
 
         return (

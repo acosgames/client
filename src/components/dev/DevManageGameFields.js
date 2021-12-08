@@ -9,6 +9,9 @@ import fs from 'flatstore';
 
 
 import errorMessage from 'fsg-shared/model/errorcodes';
+import Markdown from "../widgets/Markdown";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'
 
 class DevManageGameFields extends Component {
     constructor(props) {
@@ -158,14 +161,21 @@ class DevManageGameFields extends Component {
                 </div>
                 <div className="form-row">
                     <label htmlFor="longdesc">Long Description</label>
-                    <textarea
-                        type="text"
-                        name="longdesc"
-                        id="longdesc"
-                        placeholder="Long Description"
-                        maxLength="1200"
-                        value={this.props.devgame.longdesc || ''}
-                        onChange={this.inputChange.bind(this)}></textarea>
+                    <div id="game-info-longdesc">
+                        <Markdown
+                            type="text"
+                            name="longdesc"
+                            id="longdesc"
+                            placeholder="Long Description"
+                            maxLength="5000"
+                            value={this.props.devgame.longdesc || ''}
+                        // onChange={this.inputChange.bind(this)}
+                        ></Markdown>
+
+
+                        {/* <ReactMarkdown children={this.props.devgame.longdesc} remarkPlugins={[remarkGfm]}></ReactMarkdown> */}
+
+                    </div>
                 </div>
                 <div className="form-row">
                     <label htmlFor="git">Git URL for issues</label>

@@ -13,6 +13,9 @@ import LeaveGame from "./games/LeaveGame";
 
 fs.set('pagehistory', []);
 
+import SLink from './widgets/SLink';
+
+
 class MainMenu extends Component {
     constructor(props) {
         super(props);
@@ -49,60 +52,89 @@ class MainMenu extends Component {
         if (urlPath == '/' || urlPath.includes('/g')) {
             classFindGames = 'active';
         }
-        let classDevelopers = '';
-        if (urlPath.includes('/dev')) {
-            classDevelopers = 'active';
-        }
+
+        let history = fs.get('history');
 
         return (
             <div id="mainmenu">
                 <ul id="menu-nav">
                     <li>
-                        <Link to="/g" className={classFindGames}>
+                        <SLink to="/g" className={classFindGames}>
                             <span className="logo-txt">FSG</span>
                             {/* <span className="material-icons">
                                 home
                             </span> */}
-                        </Link>
+                        </SLink>
                     </li>
                 </ul>
                 <ul id="menu-actions">
                     <li className="actions">
-                        <a href="">
+                        <SLink to="">
                             <span className="material-icons">
                                 vibration
                             </span>
-                        </a>
+                        </SLink>
                     </li>
-                    <li className="actions hasmenu">
-                        <a onClick={this.clickMenu}>
-                            <span className="material-icons">
-                                account_circle
-                            </span>
-                            <span className="indicator-down">▼</span>
-                        </a>
-                        {
-                            this.state.menuActive && (
-                                <ul className="submenu">
-                                    {
-                                        this.props.user && this.props.user.github && (
-                                            <li>
-                                                <Link to="/dev" className={classDevelopers}>Developers</Link>
-                                            </li>
-                                        )
-                                    }
-                                    <li><Logout></Logout></li>
-                                    {/* {<SocialLogin user={this.props.user}></SocialLogin>} */}
-                                    <li><LeaveGame></LeaveGame></li>
-                                </ul>
-                            )
-                        }
+                    {
+                        this.props.user && (
+                            <ProfileMenu
+                                user={this.props.user}
+                                menuActive={this.state.menuActive}
+                                onClick={this.clickMenu}
+                                urlPath={urlPath} />
+                        )
+                    }
+                    {
+                        !this.props.user && (
+                            <li className="actions">
+                                <SLink to="/login">
+                                    <span className="material-icons">
+                                        login
+                                    </span>
+                                </SLink>
+                            </li>
+                        )
+                    }
 
-                    </li>
                 </ul>
             </div>
         )
     }
+}
+
+function ProfileMenu({ user, menuActive, onClick, urlPath }) {
+    let classDevelopers = '';
+    if (urlPath.includes('/dev')) {
+        classDevelopers = 'active';
+    }
+
+    return (
+        <li className="actions hasmenu">
+            <a onClick={onClick}>
+                <span className="material-icons">
+                    account_circle
+                </span>
+                <span className="indicator-down">▼</span>
+            </a>
+            {
+                menuActive && (
+                    <ul className="submenu">
+                        {
+                            user && user.github && (
+                                <li>
+                                    <SLink to="/dev" className={classDevelopers}>Developers</SLink>
+                                </li>
+                            )
+                        }
+                        <li><Logout></Logout></li>
+                        {/* {<SocialLogin user={this.props.user}></SocialLogin>} */}
+                        <li><LeaveGame></LeaveGame></li>
+                    </ul>
+                )
+            }
+
+        </li>
+    )
 }
 
 export default withRouter(fs.connect(['user'])(MainMenu));
