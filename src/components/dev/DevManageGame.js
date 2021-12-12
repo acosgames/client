@@ -24,35 +24,8 @@ class DevManageGame extends Component {
     render() {
 
         return (
-            <VStack>
-                <Heading>Manage Game</Heading>
-                <DevManageGameFields />
+            <DevManageGameFields />
 
-                {/* <div id="testenv">
-                    <h2>Test Environment</h2>
-                    <div id="manageclients">
-                        <h3>Add your client bundle.</h3>
-                        <DevClientBundle env="test" />
-                    </div>
-
-                    <div id="manageservers">
-                        <DevCreateServer env="test" />
-                    </div>
-                </div> */}
-
-                {/* <div id="prodenv">
-                    <h2>Production Environment</h2>
-                    <div id="manageclients">
-                        <h3>Add your client bundle.</h3>
-                        <DevClientBundle env="test" />
-                    </div>
-
-                    <div id="manageservers">
-                        <DevCreateServer env="test" />
-                    </div>
-                </div> */}
-
-            </VStack>
 
         )
     }

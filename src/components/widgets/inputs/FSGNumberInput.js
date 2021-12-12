@@ -4,23 +4,30 @@ import {
     NumberInputStepper,
     NumberIncrementStepper,
     NumberDecrementStepper,
+    Text,
+    HStack,
 } from '@chakra-ui/react'
 import { FormControl, FormLabel, FormHelperText } from "@chakra-ui/form-control";
 import { updateGameField } from '../../../actions/devgame';
 
 function FSGNumberInput(props) {
 
-    const inputChange = (value) => {
-        let name = props.name;
-
-        updateGameField(name, value, 'create-game_info', 'devgame', 'devgameerror');
-    }
 
     return (
         <FormControl as='fieldset' mb="0">
-            <FormLabel as='legend' color="gray.400">{props.title}</FormLabel>
+            <FormLabel as='legend' color="gray.400" fontWeight="bold">
+                <HStack>
+                    <Text>{props.title}</Text>
+                    {props.required && (
+                        <Text display="inline-block" color="red.800">*</Text>
+                    )}
+                </HStack>
+            </FormLabel>
 
-            <NumberInput defaultValue={2} min={props.min} max={props.max}
+            <NumberInput
+                // defaultValue={2} 
+                min={props.min}
+                max={props.max}
                 name={props.name}
                 id={props.id}
                 placeholder={props.placeholder}
@@ -29,6 +36,7 @@ function FSGNumberInput(props) {
                 size={props.size || 'md'}
                 onChange={props.onChange}
                 disabled={props.disabled}
+                bgColor="gray.800"
             >
                 <NumberInputField />
                 <NumberInputStepper>

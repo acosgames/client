@@ -13,8 +13,12 @@ import {
 
 import fs from 'flatstore';
 import SLink from '../widgets/SLink';
-
+import { logout } from '../../actions/person';
+import { useHistory } from 'react-router-dom';
 function NavForUser(props) {
+
+    const history = useHistory();
+
     return (
 
         <Menu>

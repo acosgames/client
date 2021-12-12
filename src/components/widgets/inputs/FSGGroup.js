@@ -14,15 +14,16 @@ function FSGGroup(props) {
                 // pl="0.4rem"
                 // pr="0.4rem"
                 pt="4"
-                fontSize="large"
-                fontWeight="900"
-                color="gray.500">
+                pb="1rem"
+                fontSize="2xl"
+                fontWeight="800"
+                color={props.color || "gray.300"}>
                 {props.title}
             </Heading>
             <VStack
                 // as='fieldset'
-                pl="3rem"
-                pr="3rem"
+                pl={['0.5rem', '2rem', "3rem"]}
+                pr={['0.5rem', '2rem', "3rem"]}
                 pt="1rem"
                 pb="1rem"
                 // divider={<StackDivider borderColor='gray.700' ml="-3rem" mr="-3rem" mt="2rem" mb="`2rem" />}

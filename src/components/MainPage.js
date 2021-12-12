@@ -14,6 +14,7 @@ class MainPage extends Component {
         this.state = {
         }
 
+
     }
 
     renderGameInfo() {

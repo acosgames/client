@@ -538,6 +538,7 @@ export async function createServer(progressCB) {
 
 export async function clearGameFields() {
     fs.set('devgame', {});
+    fs.set('devgameerror', []);
 }
 export async function createGame(progressCB) {
 

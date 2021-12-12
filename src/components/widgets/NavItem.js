@@ -23,7 +23,7 @@ function NavItem({ location, icon, url, title, description, active, navSize }) {
             mt={0}
             flexDir="column"
             w="100%"
-            alignItems={navSize == "small" ? "center" : "flex-start"}
+            alignItems={['center', 'center', 'flex-start']}
         >
             <Menu placement="right">
                 <Link
@@ -31,13 +31,13 @@ function NavItem({ location, icon, url, title, description, active, navSize }) {
                     backgroundColor={active && "#2b3549"}
                     p={3}
                     _hover={{ textDecor: 'none', backgroundColor: "#2b3549" }}
-                    w={navSize == "large" && "100%"}
+                    w={[null, null, '100%']}
                     to={url}
                 >
                     <MenuButton w="100%">
                         <Flex>
                             <Icon as={icon} fontSize="xl" color={active ? "#82AAAD" : "gray.500"} />
-                            <Text ml={2} display={navSize == "small" ? "none" : "flex"}>{title}</Text>
+                            <Text ml={2} display={['none', 'none', 'flex']}>{title}</Text>
                         </Flex>
                     </MenuButton>
                 </Link>

@@ -1,10 +1,10 @@
-import { Component, Fragment } from "react";
+import { Component, Fragment, useRef, useState, useEffect } from "react";
 
 import {
     withRouter,
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
-import { updateGameField, updateGame, uploadGameImages } from '../../actions/devgame';
+import { updateGameField, updateGame, uploadGameImages, clearGameFields } from '../../actions/devgame';
 import fs from 'flatstore';
 
 
@@ -15,14 +15,29 @@ import remarkGfm from 'remark-gfm';
 
 import FSGTextInput from '../widgets/inputs/FSGTextInput'
 import FSGNumberInput from '../widgets/inputs/FSGNumberInput'
-import { Heading, VStack, Center } from "@chakra-ui/layout";
+import { StackDivider, Box, Heading, HStack, VStack, Center, Text } from "@chakra-ui/layout";
 import FSGGroup from "../widgets/inputs/FSGGroup";
 import FSGSubmit from "../widgets/inputs/FSGSubmit";
 import { useToast } from "@chakra-ui/react";
 
+import schema from 'fsg-shared/model/schema.json';
+
 function DevManageGameFields(props) {
 
+    const [loaded, setLoaded] = useState(false);
+
+    useEffect(() => {
+        clearGameFields();
+        setLoaded(true);
+    }, [loaded])
+
+    const myRef = useRef(null)
+    const executeScroll = () => myRef.current.scrollIntoView()
     const toast = useToast();
+
+
+    const rules = schema['update-game_info'];
+
     const onSubmit = async (e) => {
         //console.log(e);
         try {
@@ -33,13 +48,22 @@ function DevManageGameFields(props) {
                 toast({
                     title: "Fix errors to continue",
                     status: 'error',
-                    isClosable: true
+                    isClosable: true,
+                    duration: 1200
                 })
+
+                executeScroll();
 
                 return;
             }
 
-            this.props.history.replace('/dev/game/' + props.devgame.gameid);
+            toast({
+                title: "Successfully saved",
+                status: 'success',
+                isClosable: true,
+                duration: 1200
+            })
+            // props.history.replace('/dev/game/' + props.devgame.gameid);
         }
         catch (e) {
             console.error(e);
@@ -54,8 +78,8 @@ function DevManageGameFields(props) {
         updateGameField(name, value, 'update-game_info', 'devgame', 'devgameerror');
     }
 
-    const onMarkdownChange = (value) => {
-        updateGameField('longdesc', value, 'update-game_info', 'devgame', 'devgameerror');
+    const onChangeByName = (name, value) => {
+        updateGameField(name, value, 'update-game_info', 'devgame', 'devgameerror');
     }
     const onChange = (key, value, group) => {
         console.log(key, value, group);
@@ -68,7 +92,7 @@ function DevManageGameFields(props) {
 
         let errorElems = [];
         errors.forEach((error, id) => {
-            errorElems.push((<li key={id}>{errorMessage(error)}</li>))
+            errorElems.push((<Text color="red.600" key={id}>{errorMessage(error)}</Text>))
         })
 
         return errorElems;
@@ -91,7 +115,24 @@ function DevManageGameFields(props) {
 
     let hasError = (props.devgameerror && props.devgameerror.length > 0);
     return (
-        <VStack align='stretch'>
+        <VStack align='stretch' w="100%">
+            <VStack>
+                <Heading>Manage Game </Heading>
+                <Heading as="h5" size="lg" color="gray.400">{props.devgame.game_slug}</Heading>
+                <HStack divider={<StackDivider />} color="gray.500">
+                    <HStack>
+                        <Text>Published:</Text><Text fontWeight="bold">v{props.devgame.version}</Text>
+                    </HStack>
+                    <HStack>
+                        <Text>Beta:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
+                    </HStack>
+                </HStack>
+            </VStack>
+
+            <Box pb="2rem" pt="3rem" width="100%" align="right">
+                <FSGSubmit onClick={onSubmit}></FSGSubmit>
+            </Box>
+
             <FSGGroup title="Featured Image">
                 <Center>
                     <DevImageUpload
@@ -100,9 +141,18 @@ function DevManageGameFields(props) {
                 </Center>
             </FSGGroup>
 
-            {hasError && (
-                <FSGGroup title="Errors">{displayError()}</FSGGroup>
-            )}
+            {
+                hasError && (
+                    <>
+                        <a ref={myRef} name="errors"></a>
+                        <FSGGroup title="Errors" color="red.600">
+                            <VStack textAlign="left" pl="0">
+                                {displayError()}
+                            </VStack>
+                        </FSGGroup>
+                    </>
+                )
+            }
 
             <FSGGroup title="Game Details">
                 <FSGTextInput
@@ -110,38 +160,8 @@ function DevManageGameFields(props) {
                     id="name"
                     title="Game Name"
                     maxLength="60"
+                    required={rules['name'].required}
                     value={props.devgame.name || ''}
-                    onChange={inputChange}
-                />
-
-                <FSGTextInput
-                    type="text"
-                    name="game_slug"
-                    id="game_slug"
-                    title="Slug Name (lower a-z and - only)"
-                    maxLength="32"
-                    value={props.devgame.game_slug || ''}
-                    helpText="Slug will appear in the URL "
-                    onChange={inputChange}
-                />
-                <FSGNumberInput
-                    type="text"
-                    disabled
-                    name="version"
-                    id="version"
-                    title="Published Version"
-                    maxLength="12"
-                    value={props.devgame.version || '0'}
-                    onChange={inputChange} />
-
-                <FSGNumberInput
-                    type="text"
-                    disabled
-                    name="version"
-                    id="version"
-                    title="Beta Version"
-                    maxLength="12"
-                    value={props.devgame.latest_version || '0'}
                     onChange={inputChange}
                 />
 
@@ -150,7 +170,8 @@ function DevManageGameFields(props) {
                     name="shortdesc"
                     id="shortdesc"
                     title="Short Description"
-                    maxLength="80"
+                    maxLength="120"
+                    required={rules['shortdesc'].required}
                     value={props.devgame.shortdesc || ''}
                     onChange={inputChange}
                 />
@@ -161,8 +182,11 @@ function DevManageGameFields(props) {
                     id="longdesc"
                     title="Long Description"
                     maxLength="5000"
+                    required={rules['longdesc'].required}
                     value={props.devgame.longdesc || ''}
-                    onChange={onMarkdownChange}
+                    onChange={(e) => {
+                        onChangeByName('longdesc', e)
+                    }}
                 />
             </FSGGroup>
 
@@ -174,8 +198,11 @@ function DevManageGameFields(props) {
                     title="Max Players"
                     min="1"
                     max="100"
+                    required={rules['maxplayers'].required}
                     value={props.devgame.maxplayers || '2'}
-                    onChange={inputChange} />
+                    onChange={(e) => {
+                        onChangeByName('maxplayers', e)
+                    }} />
                 <FSGNumberInput
                     type="number"
                     name="minplayers"
@@ -183,17 +210,20 @@ function DevManageGameFields(props) {
                     title="Min Players"
                     min="1"
                     max="100"
+                    required={rules['minplayers'].required}
                     value={props.devgame.minplayers || '2'}
-                    onChange={inputChange} />
+                    onChange={(e) => {
+                        onChangeByName('minplayers', e)
+                    }} />
                 <FSGTextInput
                     type="text"
                     name="teams"
                     id="teams"
                     title="i.e. Red, Blue"
                     maxLength="80"
+                    required={rules['teams'].required}
                     value={props.devgame.teams || ''}
                     onChange={inputChange} />
-
             </FSGGroup>
 
             <FSGGroup title="Game Support">
@@ -204,14 +234,17 @@ function DevManageGameFields(props) {
                     title="Github Repo for Issues"
                     placeholder="https://github.com/myname/myrepo"
                     maxLength="255"
+                    required={rules.git?.required}
                     value={props.devgame.git || ''}
                     onChange={inputChange} />
             </FSGGroup>
 
+            <Box pb="2rem" pt="3rem" width="100%" align="right">
+                <FSGSubmit onClick={onSubmit}></FSGSubmit>
+            </Box>
 
-            <FSGSubmit onClick={onSubmit}></FSGSubmit>
 
-        </VStack>
+        </VStack >
 
     )
 

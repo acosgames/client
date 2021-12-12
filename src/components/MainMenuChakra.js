@@ -11,7 +11,7 @@ import SLink from './widgets/SLink';
 import fs from 'flatstore';
 import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
-import { useHistory } from 'react-router-dom';
+
 
 
 const NavLink = ({ children }) => (
@@ -51,7 +51,7 @@ function MainMenuChakra() {
     //     classFindGames = 'active';
     // }
 
-    const history = useHistory();
+
     const user = fs.get('user');
 
     return (
