@@ -1,0 +1,57 @@
+import {
+    Route,
+    useHistory,
+    Switch
+} from "react-router-dom";
+
+import ProtectedRoute from './components/login/ProtectedRoute';
+
+import MainPage from './components/MainPage';
+import SocialLogin from './components/login/SocialLogin';
+import DevLogin from './components/dev/DevLogin';
+import CreateDisplayName from "./components/login/CreateDisplayName";
+import DevMyGames from "./components/dev/DevMyGames";
+import DevCreateGame from "./components/dev/DevCreateGame";
+import DevManageGame from "./components/dev/DevManageGame";
+
+import GamePanel from './components/games/GamePanel';
+import GameInfo from "./components/games/GameInfo";
+
+// import history from "./actions/history";
+import flatstore from 'flatstore';
+
+var RoutesDev = () => {
+
+
+
+    return (
+        <>
+            <Switch>
+                <ProtectedRoute
+
+                    path="/dev/game/create"
+                    component={DevCreateGame}
+                    verify={(user) => true}
+                    redirectTo="/dev/login"
+                />
+                <ProtectedRoute
+
+                    path="/dev/game/:gameid"
+                    component={DevManageGame}
+                    verify={(user) => 'github' in user}
+                    redirectTo="/dev/login"
+                />
+                <ProtectedRoute
+                    exact
+                    path="/dev/:id?"
+                    component={DevMyGames}
+                    verify={(user) => 'github' in user}
+                    redirectTo="/dev/login"
+                />
+
+            </Switch>
+        </>
+    )
+}
+
+export default RoutesDev;

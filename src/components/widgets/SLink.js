@@ -8,7 +8,9 @@ var SLink = (props) => {
 
     let to = props.to;
     return (
-        <a onClick={() => { history.push(to); }} {...props}>{props.children}</a>
+        <a onClick={() => {
+            history.push(to);
+        }} {...props}>{props.children}</a>
     )
 }
 

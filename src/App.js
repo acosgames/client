@@ -6,12 +6,14 @@ import {
   Link
 } from "react-router-dom";
 
-import MainMenu from './components/MainMenu'
+import MainMenuChakra from './components/MainMenuChakra'
 import Routes from './Routes';
 
 import { getUserProfile } from './actions/person';
 import QueuePanel from "./components/games/QueuePanel";
 import fs from 'flatstore';
+import Sidebar from './components/widgets/Sidebar';
+import { Box, Flex, HStack } from "@chakra-ui/layout";
 
 fs.delimiter('>');
 
@@ -26,26 +28,29 @@ class App extends Component {
 
   render() {
     return (
-      <div id="app">
-        <BrowserRouter>
-          <div id="wrapper">
 
-            <div id="wrapper-header">
-              <MainMenu />
-            </div>
+      <BrowserRouter>
+
+        <MainMenuChakra />
+
+        <Flex id="wrapper" direction="row">
+          <Route
+            path="/dev*"
+            component={() => (
+              <Sidebar />
+            )}
+          />
+
+          <Box display="inline-block" width="100%" pl={12} pr={12} pt={6}>
+            <Switch>
+              <Routes></Routes>
+            </Switch>
+          </Box>
 
 
-            <div id="wrapper-content">
-
-              <Switch>
-                <Routes></Routes>
-              </Switch>
-              <QueuePanel />
-            </div>
-
-          </div>
-        </BrowserRouter>
-      </div>
+        </Flex>
+        <QueuePanel />
+      </BrowserRouter>
     );
   }
 }

@@ -14,6 +14,7 @@
 .mde-header .mde-tabs button {
   border-radius: 2px;
   margin: 6px 3px;
+  padding: 3px;
   background-color: transparent;
   border: 1px solid transparent;
   cursor: pointer;
@@ -23,6 +24,18 @@
 }
 .mde-header .mde-tabs button.selected {
   border: 1px solid #c8ccd0;
+}
+
+.chakra-ui-dark {
+  .mde-header .mde-tabs button.selected {
+    background-color: #555;
+  }
+}
+
+.chakra-ui-light {
+  .mde-header .mde-tabs button.selected {
+    background-color: #eee;
+  }
 }
 .mde-header .svg-icon {
   width: 1em;
@@ -55,7 +68,7 @@
   margin: 0;
   border: none;
   background: none;
-  color: #242729;
+  // color: #242729;
 }
 
 @keyframes tooltip-appear {

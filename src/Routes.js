@@ -10,12 +10,14 @@ import MainPage from './components/MainPage';
 import SocialLogin from './components/login/SocialLogin';
 import DevLogin from './components/dev/DevLogin';
 import CreateDisplayName from "./components/login/CreateDisplayName";
-import DevDashboard from "./components/dev/DevDashboard";
+import DevMyGames from "./components/dev/DevMyGames";
 import DevCreateGame from "./components/dev/DevCreateGame";
 import DevManageGame from "./components/dev/DevManageGame";
 
 import GamePanel from './components/games/GamePanel';
 import GameInfo from "./components/games/GameInfo";
+
+import RoutesDev from './RoutesDev';
 
 // import history from "./actions/history";
 import flatstore from 'flatstore';
@@ -64,12 +66,21 @@ var Routes = () => {
                 path="/login"
                 component={SocialLogin}
             />
+
             <Route
+
+                path="/dev*"
+                component={RoutesDev}
+                verify={(user) => true}
+                redirectTo="/login"
+            />
+
+            {/* <Route
                 exact
                 path="/dev/login"
                 component={DevLogin}
-            />
-            <ProtectedRoute
+            /> */}
+            {/* <ProtectedRoute
 
                 path="/dev/game/create"
                 component={DevCreateGame}
@@ -86,10 +97,10 @@ var Routes = () => {
             <ProtectedRoute
                 exact
                 path="/dev/:id?"
-                component={DevDashboard}
+                component={DevMyGames}
                 verify={(user) => 'github' in user}
                 redirectTo="/dev/login"
-            />
+            /> */}
 
             <Route
                 exact

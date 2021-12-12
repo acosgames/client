@@ -4,6 +4,7 @@ import { validateSimple, validateField } from 'fsg-shared/util/validation';
 // import { genShortId } from 'fsg-shared/util/idgen.js';
 
 import fs from 'flatstore';
+import { useToast } from '@chakra-ui/react';
 fs.set('devgameimages', []);
 fs.set('devgame', {});
 fs.set('devgameerror', []);
@@ -344,8 +345,10 @@ export async function updateGame() {
         let errors = validateSimple('update-game_info', newGame);
         if (errors.length > 0) {
             fs.set('devgameerror', errors);
-            return newGame;
+            return null;
         }
+
+
 
         // var formData = new FormData();
         // for (var key in newGame) {
@@ -387,26 +390,44 @@ export async function updateGame() {
     return null;
 }
 
-export async function updateGameField(name, value) {
-    let game = fs.get('devgame');
+export async function updateGameField(name, value, group, key, errorkey) {
+    let game = fs.get(key);
 
     let prev = game[name];
     game[name] = value;
 
-
-
-    let errors = validateField('update-game_info', game);
+    let errors = validateField(group, game);
     if (errors.length > 0) {
-        fs.set('devgameerror', errors);
+        fs.set(errorkey, errors);
         game[name] = prev;
-        fs.set('devgame', game);
+        fs.set(key, game);
         return game;
     }
 
-    fs.set('devgame', game);
+    fs.set(key, game);
 
     console.log(game);
 }
+// export async function updateGameField(name, value, group, key, errorkey) {
+//     let game = fs.get('devgame');
+
+//     let prev = game[name];
+//     game[name] = value;
+
+
+
+//     let errors = validateField('update-game_info', game);
+//     if (errors.length > 0) {
+//         fs.set('devgameerror', errors);
+//         game[name] = prev;
+//         fs.set('devgame', game);
+//         return game;
+//     }
+
+//     fs.set('devgame', game);
+
+//     console.log(game);
+// }
 
 export async function updateClientField(name, value) {
     let client = fs.get('devclient');

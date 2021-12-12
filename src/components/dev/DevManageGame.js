@@ -4,15 +4,17 @@ import {
     withRouter,
 } from "react-router-dom";
 import DevManageGameFields from "./DevManageGameFields";
-import DevClientBundle from "./DevClientBundle";
-import DevCreateServer from './DevCreateServer';
-import DevClientList from './DevClientList';
-import { findGame } from '../../actions/devgame';
-
+// import DevClientBundle from "./DevClientBundle";
+// import DevCreateServer from './DevCreateServer';
+// import DevClientList from './DevClientList';
+import { clearGameFields, findGame } from '../../actions/devgame';
+import { Heading, VStack } from "@chakra-ui/react";
+// import { Flex } from "@chakra-ui/layout";
 class DevManageGame extends Component {
     constructor(props) {
         super(props);
 
+        clearGameFields();
         let gameid = props.match.params.gameid;
         findGame(gameid);
         this.state = {
@@ -22,8 +24,8 @@ class DevManageGame extends Component {
     render() {
 
         return (
-            <div id="devmanagegame">
-
+            <VStack>
+                <Heading>Manage Game</Heading>
                 <DevManageGameFields />
 
                 {/* <div id="testenv">
@@ -50,7 +52,7 @@ class DevManageGame extends Component {
                     </div>
                 </div> */}
 
-            </div>
+            </VStack>
 
         )
     }

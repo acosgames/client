@@ -83,14 +83,15 @@ class GameInfo extends Component {
                             <span>{playerCntRange}</span> <label>Seats</label>
                         </div>
                     </div>
-                    <hr />
-                    <div id="game-info-longdesc">
-                        <ReactMarkdown children={game.longdesc} remarkPlugins={[remarkGfm]}></ReactMarkdown>
-                    </div>
                     <div id="game-join-ranked">
                         <button onClick={() => { this.handleJoin() }}>Join Ranked</button>
                         <button onClick={() => { this.handleJoinBeta() }}>Join Beta</button>
                     </div>
+                    <hr />
+                    <div id="game-info-longdesc">
+                        <ReactMarkdown children={game.longdesc} remarkPlugins={[remarkGfm]}></ReactMarkdown>
+                    </div>
+
                 </div>
             </div>
         )

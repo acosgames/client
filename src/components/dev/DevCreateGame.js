@@ -10,6 +10,9 @@ import { updateGameField, createGame, clearGameFields } from '../../actions/devg
 import fs from 'flatstore';
 
 import errorMessage from 'fsg-shared/model/errorcodes';
+import FSGTextInput from "../widgets/inputs/FSGTextInput";
+import FSGSubmit from "../widgets/inputs/FSGSubmit";
+import { Divider, Heading } from "@chakra-ui/layout";
 
 class DevCreateGame extends Component {
     constructor(props) {
@@ -21,7 +24,7 @@ class DevCreateGame extends Component {
         }
     }
 
-    async onSubmit(e) {
+    onSubmit = async (e) => {
         //console.log(e);
         let game = await createGame();
         if (!game) {
@@ -35,7 +38,7 @@ class DevCreateGame extends Component {
         let name = e.target.name;
         let value = e.target.value;
 
-        updateGameField(name, value);
+        updateGameField(name, value, 'create-game_info', 'devgame', 'devgameerror');
     }
 
     onChange(key, value, group) {
@@ -73,58 +76,40 @@ class DevCreateGame extends Component {
         let hasError = (this.props.devgameerror && this.props.devgameerror.length > 0);
         return (
             <div id="creategame" className="inputform">
-                <h3>Alright, lets set up your game.</h3>
-
+                <Heading>Alright, lets set up your game.</Heading>
+                <Divider mt="2" mb="30" />
                 {hasError && this.displayError()}
 
-                <input
-                    type="text"
+                <FSGTextInput
                     name="name"
-                    placeholder="Game Name"
+                    id="name"
+                    title="Game Name"
                     maxLength="60"
-                    onChange={this.inputChange.bind(this)} />
-                <br />
-                <input
-                    type="text"
+                    value={this.props.devgame.name || ''}
+                    onChange={this.inputChange.bind(this)}
+                />
+                <FSGTextInput
                     name="game_slug"
-                    placeholder="Slug Name (lower a-z and - only)"
+                    id="game_slug"
+                    title="Slug Name (lower a-z and - only)"
                     maxLength="32"
-                    onChange={this.inputChange.bind(this)} />
-                <br />
-                <input
-                    type="text"
-                    name="shortdesc"
-                    placeholder="Short Description"
-                    maxLength="80"
-                    onChange={this.inputChange.bind(this)} />
-                <br />
-                <textarea
-                    type="text"
-                    name="longdesc"
-                    placeholder="Long Description"
-                    maxLength="1200"
-                    onChange={this.inputChange.bind(this)}>
-                </textarea>
-                <br />
-                {/* <input
-                    type="text"
-                    name="git_client"
-                    placeholder="Client Git URL"
-                    maxLength="255"
-                    onChange={this.inputChange.bind(this)} />
-                <br />
-                <input
-                    type="text"
-                    name="git_server"
-                    placeholder="Server Git URL (optional)"
-                    maxLength="255"
-                    onChange={this.inputChange.bind(this)} />
-                <br /> */}
+                    value={this.props.devgame.game_slug || ''}
+                    onChange={this.inputChange.bind(this)}
+                />
 
-                <button
-                    onClick={this.onSubmit.bind(this)}>
-                    Submit
-                </button>
+                <FSGTextInput
+                    name="shortdesc"
+                    id="shortdesc"
+                    title="Short Description"
+                    maxLength="80"
+                    value={this.props.devgame.shortdesc || ''}
+                    onChange={this.inputChange.bind(this)}
+                />
+
+
+                <FSGSubmit
+                    onClick={this.onSubmit} />
+
             </div>
         )
     }
