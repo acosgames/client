@@ -34,6 +34,7 @@ var Routes = () => {
             <ProtectedRoute
                 exact
                 path="/player/create"
+                verify={(user) => !user.displayname}
                 component={CreateDisplayName}
             />
             <Route

@@ -11,6 +11,8 @@ import SLink from './widgets/SLink';
 import fs from 'flatstore';
 import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
+import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -28,7 +30,7 @@ const NavLink = ({ children }) => (
     </Link>
 );
 
-function MainMenuChakra() {
+function MainMenuChakra(props) {
 
     const updateHistory = () => {
         let history = fs.get('pagehistory');
@@ -41,6 +43,8 @@ function MainMenuChakra() {
         fs.set('pagehistory', history);
     }
 
+    const history = useHistory();
+
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -51,14 +55,19 @@ function MainMenuChakra() {
     //     classFindGames = 'active';
     // }
 
+    const refPath = props.location.pathname;
+    if (refPath.indexOf("/login") == -1) {
+        fs.set('refPath', refPath);
+        console.log(refPath);
+    }
 
-    const user = fs.get('user');
+    const user = props.user;
 
     return (
         <>
             <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                    <Box><SLink to="/g" className="">
+                    <Box><SLink to="/" className="">
                         <span className="logo-txt">FSG</span>
                         {/* <span className="material-icons">
                                 home
@@ -82,4 +91,4 @@ function MainMenuChakra() {
     );
 }
 
-export default fs.connect(['user'])(MainMenuChakra);
+export default withRouter(fs.connect(['user'])(MainMenuChakra));

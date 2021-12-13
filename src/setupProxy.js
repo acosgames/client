@@ -14,8 +14,13 @@ module.exports = function (app) {
         target: 'http://localhost:8080/assets',
         changeOrigin: true,
     });
+    let loginTarget = createProxyMiddleware({
+        target: 'http://localhost:8080/login',
+        changeOrigin: true,
+    });
 
     app.use('/iframe', target);
     app.use('/api', apiTarget);
     app.use('/assets', staticTarget);
+    app.use('/login', loginTarget);
 };

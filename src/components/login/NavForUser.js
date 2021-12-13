@@ -8,7 +8,8 @@ import {
     MenuItem,
     MenuList,
     Button,
-    Icon
+    Icon,
+    chakra
 } from '@chakra-ui/react'
 
 import fs from 'flatstore';
@@ -18,6 +19,8 @@ import { useHistory } from 'react-router-dom';
 function NavForUser(props) {
 
     const history = useHistory();
+
+    const ChakraSLink = chakra(SLink)
 
     return (
 
@@ -47,15 +50,18 @@ function NavForUser(props) {
                 </Center>
                 <br />
                 <MenuDivider />
-                <MenuItem>
-                    <SLink to="/dev">
+
+                <MenuItem p='0'>
+                    <ChakraSLink to="/dev" width="100%" p="0.4rem 0.8rem">
                         Developer Zone
-                    </SLink>
+                    </ChakraSLink>
                 </MenuItem>
-                <MenuItem>
-                    <SLink to="/profile">
+
+
+                <MenuItem p='0'>
+                    <ChakraSLink to="/profile" width="100%" p="0.4rem 0.8rem">
                         Account Settings
-                    </SLink>
+                    </ChakraSLink>
                 </MenuItem>
                 <MenuItem onClick={async () => {
                     let success = await logout();

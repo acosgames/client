@@ -4,7 +4,7 @@ import { validateSimple, validateField } from 'fsg-shared/util/validation';
 // import { genShortId } from 'fsg-shared/util/idgen.js';
 
 import fs from 'flatstore';
-import { useToast } from '@chakra-ui/react';
+import { toast, useToast } from '@chakra-ui/react';
 fs.set('devgameimages', []);
 fs.set('devgame', {});
 fs.set('devgameerror', []);
@@ -540,6 +540,16 @@ export async function clearGameFields() {
     fs.set('devgame', {});
     fs.set('devgameerror', []);
 }
+
+export async function sendGithubInvite() {
+    let response = await POST('/api/v1/dev/invite/github', {});
+    let json = response.data;
+    if (json && json.status && json.status == 'success') {
+        return true;
+    }
+    return false;
+}
+
 export async function createGame(progressCB) {
 
     try {

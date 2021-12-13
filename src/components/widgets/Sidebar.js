@@ -36,7 +36,7 @@ function Sidebar() {
         <Flex
             pos="sticky"
             left="0"
-            h="95vh"
+            h="100%"
             marginTop="0"
             id="wrapper-sidebar"
             // boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
@@ -86,15 +86,20 @@ function Sidebar() {
 
                     </Flex>
                 </Flex>
-                <Divider mt="10px" mb="10px" />
-                <Center w="100%" >
-                    <Link href={`https://github.com/${userProfile?.github}`} >
-                        <HStack>
-                            <Icon as={IoLogoGithub} fontSize="24" />
-                            {userProfile && (<Text display={['none', 'none', 'flex']}>@{userProfile?.github}</Text>)}
-                        </HStack>
-                    </Link>
-                </Center>
+                {userProfile && userProfile.github && (
+                    <>
+                        <Divider mt="10px" mb="10px" />
+                        <Center w="100%" >
+                            <Link href={`https://github.com/${userProfile?.github}`} >
+                                <HStack>
+                                    <Icon as={IoLogoGithub} fontSize="24" />
+                                    {userProfile && (<Text display={['none', 'none', 'flex']}>@{userProfile?.github}</Text>)}
+                                </HStack>
+                            </Link>
+                        </Center>
+                    </>
+                )}
+
             </Flex>
         </Flex >
     )

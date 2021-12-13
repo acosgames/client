@@ -27,25 +27,35 @@ var RoutesDev = () => {
     return (
         <>
             <Switch>
+                <Route
+
+                    path="/dev/login"
+                    component={DevLogin}
+                />
                 <ProtectedRoute
 
                     path="/dev/game/create"
                     component={DevCreateGame}
-                    verify={(user) => true}
+                    verify={(user) => {
+                        return (user['isdev'])
+                    }}
                     redirectTo="/dev/login"
                 />
                 <ProtectedRoute
 
                     path="/dev/game/:gameid"
                     component={DevManageGame}
-                    verify={(user) => 'github' in user}
+                    verify={(user) => {
+                        return (user['isdev'])
+                    }}
                     redirectTo="/dev/login"
                 />
                 <ProtectedRoute
-                    exact
-                    path="/dev/:id?"
+                    path="/dev*"
                     component={DevMyGames}
-                    verify={(user) => 'github' in user}
+                    verify={(user) => {
+                        return (user['isdev'])
+                    }}
                     redirectTo="/dev/login"
                 />
 

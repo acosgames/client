@@ -13,7 +13,7 @@ import { Text, Box, Heading, HStack, Icon, IconButton, VStack, Divider, Spacer, 
 
 import {
     FiCopy,
-    FiEdit, FiTrash
+    FiEdit, FiPlus, FiPlusCircle, FiTrash
 } from 'react-icons/fi'
 import DevMyGameListItem from "./DevMyGameListItem";
 
@@ -49,6 +49,29 @@ function DevMyGames(props) {
             ))
         }
 
+        if (games.length == 0) {
+            elems.push(
+                <VStack key={"dev-nogames-found"} spacing="2rem">
+                    <Heading size="2xl">No games found.</Heading>
+                    <Heading color="gray.400" size="lg">Are you ready to create a game?</Heading>
+                    <Box mt="2rem">
+                        <SLink to="/dev/game/create/">
+                            <HStack>
+                                <IconButton
+                                    bgColor="brand.500"
+                                    _hover={{ bg: "brand.600" }}
+                                    _active={{ bg: "brand.900" }}
+                                    size="lg"
+                                    icon={<FiPlus />}
+                                    isRound={true} />
+                                <Text>Create Game</Text>
+                            </HStack>
+                        </SLink>
+                    </Box>
+                </VStack>
+            )
+        }
+
         return elems;
     }
     /*
@@ -63,7 +86,10 @@ function DevMyGames(props) {
 
     return (
         <>
-            <Heading as="h2">My Games</Heading>
+            {props.devgames && props.devgames.length > 0 && (
+                <Heading as="h2">My Games</Heading>
+            )}
+
             <VStack align="left" mt="5" spacing="1rem" divider={<Divider mt="1rem" mb="1rem" />}>
                 {listGames()}
             </VStack>

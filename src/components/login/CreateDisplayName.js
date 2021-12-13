@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useState } from "react";
 
 import {
     withRouter,
@@ -6,41 +6,72 @@ import {
 
 import { createDisplayName } from '../../actions/person';
 import fs from 'flatstore';
+import { Heading, VStack, Text } from "@chakra-ui/react";
+import FSGTextInput from "../widgets/inputs/FSGTextInput";
+import FSGSubmit from "../widgets/inputs/FSGSubmit";
+import FSGGroup from "../widgets/inputs/FSGGroup";
 
-class CreateDisplayName extends Component {
-    constructor(props) {
-        super(props);
+function CreateDisplayName(props) {
 
-        this.state = {
-            displayname: ""
-        }
-    }
+    const [displayName, setDisplayName] = useState('');
+    const [error, setError] = useState(null);
 
-    async onSubmit(e) {
+    const onSubmit = async (e) => {
         console.log(e);
-        let displayname = this.state.displayname;
-        let user = await createDisplayName(displayname);
-        if (user.ecode == 'E_EXISTS_DISPLAYNAME') {
-            this.setState({ error: `The name '${displayname}' already exists.` })
-        }
-        else if (user.ecode == 'E_PERSON_DUPENAME') {
-            this.setState({ error: `The name '${displayname}' already exists.` })
-        }
-        else {
 
-            this.redirect();
-        }
-    }
-
-    redirect() {
-        let history = fs.get('pagehistory');
-
-        if (this.props.user.github_id) {
-            this.props.history.push('/dev');
+        if (displayName.length < 3) {
+            setError({ message: `The name '${displayName}' is too short.` });
             return;
         }
 
-        this.props.history.push('/g');
+        let user = await createDisplayName(displayName);
+
+        if (!user) {
+            setError({ message: `Server not working. Please try again.` });
+            return;
+        }
+
+        if (user.ecode) {
+
+            switch (user.ecode) {
+                case 'E_PERSON_EXISTSNAME':
+                    setError({ message: `You already have a display name.` });
+
+                    break;
+                case 'E_EXISTS_DISPLAYNAME':
+                    setError({ message: `The name '${displayName}' already exists.` });
+                    break;
+                case 'E_PERSON_DUPENAME':
+                    setError({ message: `The name '${displayName}' already exists.` });
+                    break;
+                case 'E_MISSING_DISPLAYNAME':
+                    setError({ message: `Please enter a display name.` });
+                    break;
+                case 'E_DISPLAYNAME_TOOSHORT':
+                    setError({ message: `The name '${displayName}' is too short.` });
+                    break;
+                default:
+                    setError({ message: `[${user.ecode}] Server not working. Please try again.` });
+                    break;
+            }
+        }
+        else {
+
+            // fs.set('user')
+            // setTimeout(redirect, 1000);
+            redirect();
+        }
+    }
+
+    const redirect = () => {
+
+        let user = fs.get('user');
+
+        if (user && (user.isdev || user.github)) {
+            props.history.push('/dev');
+        }
+        else
+            props.history.push('/g');
 
         // let previous = history[history.length - 2] || history[history.length - 1];
         // if (previous.pathname.indexOf('/player/create') > -1) {
@@ -53,32 +84,36 @@ class CreateDisplayName extends Component {
         // fs.set('pagehistory', history);
     }
 
-    onChange(e) {
+    const onChange = (e) => {
         console.log(e.target.value);
         let name = e.target.value;
         name = name.replace(/[^A-Za-z0-9\_]/ig, '');
-        this.setState({ displayname: name });
+        setDisplayName(name);
     }
 
-    render() {
-        let hasError = (this.state.error && this.state.error.length > 0);
-        return (
-            <div>
-                <h3>Choose Display Name</h3>
-
-                <input type="text" onChange={this.onChange.bind(this)} value={this.state.displayname} />
-
-                <button onClick={this.onSubmit.bind(this)}>Submit</button>
+    let hasError = (error);
+    return (
+        <VStack>
+            <Heading>Choose a player name</Heading>
+            <FSGGroup>
+                <FSGTextInput
+                    onChange={onChange}
+                    maxLength="32"
+                    title="Display Name"
+                    value={displayName} />
+                <FSGSubmit onClick={onSubmit} title="Create" loadingText="Creating" />
                 {
                     hasError && (
-                        <div>
-                            <span>{this.state.error}</span>
-                        </div>
+                        <Text color="red.600">
+                            {error.message}
+                        </Text>
                     )
                 }
-            </div>
-        )
-    }
+            </FSGGroup>
+        </VStack>
+
+    )
+
 }
 
 export default withRouter(CreateDisplayName);

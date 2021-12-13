@@ -34,12 +34,19 @@ class App extends Component {
         <MainMenuChakra />
 
         <Flex id="wrapper" direction="row">
-          <Route
-            path="/dev*"
-            component={() => (
-              <Sidebar />
-            )}
-          />
+          <Switch>
+            <Route path="/dev/login"
+              component={() => (
+                <></>
+              )} />
+            <Route
+              path="/dev*"
+              component={() => (
+                <Sidebar />
+              )}
+            />
+          </Switch>
+
 
           <Box display="inline-block" width="100%" pl={12} pr={12} pt={6}>
             <Switch>

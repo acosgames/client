@@ -9,6 +9,7 @@ import { Redirect } from 'react-router';
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";
+import { Flex, Heading, VStack, Wrap } from "@chakra-ui/react";
 
 class GameList extends Component {
     constructor(props) {
@@ -26,20 +27,38 @@ class GameList extends Component {
         let productionGames = games.filter(v => v.status == 3);
         let betaGames = games.filter(v => v.status == 2);
         return (
-            <div id="game-grid-wrapper">
-                <h3>Games</h3>
-                <div id="game-grid">
-                    {
-                        productionGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
-                    }
-                </div>
-                <h3>Games in Beta</h3>
-                <div id="game-grid">
-                    {
-                        betaGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
-                    }
-                </div>
-            </div>
+            <VStack width="100%" align="left" spacing="4rem">
+                <VStack align="left">
+                    <Heading as="h1" size="lg">Games</Heading>
+                    <Wrap w="100%" spacing="1rem">
+                        {
+                            productionGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
+                        }
+                    </Wrap>
+                </VStack>
+                <VStack align="left">
+                    <Heading as="h1" size="lg">Needs Testing</Heading>
+                    <Flex w="100%">
+                        {
+                            betaGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
+                        }
+                    </Flex>
+                </VStack>
+            </VStack>
+            // <div id="game-grid-wrapper">
+            //     <h3>Games</h3>
+            //     <div id="game-grid">
+            //         {
+            //             productionGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
+            //         }
+            //     </div>
+            //     <h3>Games in Beta</h3>
+            //     <div id="game-grid">
+            //         {
+            //             betaGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
+            //         }
+            //     </div>
+            // </div>
         )
     }
 }

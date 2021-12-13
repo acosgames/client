@@ -14,7 +14,17 @@ const fonts = {
     //body: '"Inter", "Oswald", sans-serif;'
 }
 
+const colors = {
+    brand: {
+        100: "#94ff97",
+        500: "#63ed56",
+        600: "#52c548",
+        700: "#63ed56",
+        900: "#63ed56"
+    }
+}
+
 // 3. extend the theme
-const theme = extendTheme({ config, fonts })
+const theme = extendTheme({ config, fonts, colors })
 
 export default theme
