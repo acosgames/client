@@ -16,9 +16,10 @@ import DevManageGame from "./components/dev/DevManageGame";
 
 import GamePanel from './components/games/GamePanel';
 import GameInfo from "./components/games/GameInfo";
+import LoginSuccess from './components/login/LoginSuccess';
 
 import RoutesDev from './RoutesDev';
-
+import fs from 'flatstore';
 // import history from "./actions/history";
 import flatstore from 'flatstore';
 
@@ -28,6 +29,14 @@ var Routes = () => {
     const history = useHistory();
 
     flatstore.set('history', history);
+
+    const refPath = history.location.pathname;
+    if (refPath.indexOf("/login") == -1) {
+        let curPath = localStorage.getItem("refPath");
+        console.log("current", curPath);
+        localStorage.setItem('refPath', refPath);
+        console.log("next", refPath);
+    }
 
     return (
         <Switch>
@@ -63,17 +72,32 @@ var Routes = () => {
                 component={GamePanel}
             />
             <Route
-                exact
+
+                path="/login/success"
+                component={LoginSuccess}
+            />
+
+            <Route
+
                 path="/login"
                 component={SocialLogin}
             />
 
             <Route
+                exact
+                path="/dev/login"
+                component={DevLogin}
+            />
+
+            <ProtectedRoute
 
                 path="/dev*"
                 component={RoutesDev}
-                verify={(user) => true}
-                redirectTo="/login"
+                verify={
+                    (user) => {
+                        return user.isdev || user.github
+                    }}
+                redirectTo="/dev/login"
             />
 
             {/* <Route

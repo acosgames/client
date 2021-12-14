@@ -17,7 +17,7 @@ export default function Markdown(props) {
     const [selectedTab, setSelectedTab] = React.useState("write");
     return (
         <FormControl as='fieldset' mb="0">
-            <FormLabel as='legend' color="gray.400">{props.title}</FormLabel>
+            <FormLabel as='legend' color="gray.300" fontWeight="bold">{props.title}</FormLabel>
             <ReactMde
                 minEditorHeight={300}
                 maxEditorHeight={600}

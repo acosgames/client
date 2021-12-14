@@ -15,7 +15,7 @@ function FSGNumberInput(props) {
 
     return (
         <FormControl as='fieldset' mb="0">
-            <FormLabel as='legend' color="gray.400" fontWeight="bold">
+            <FormLabel as='legend' color="gray.300" fontWeight="bold">
                 <HStack>
                     <Text>{props.title}</Text>
                     {props.required && (

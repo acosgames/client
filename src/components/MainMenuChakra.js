@@ -55,13 +55,7 @@ function MainMenuChakra(props) {
     //     classFindGames = 'active';
     // }
 
-    const refPath = props.location.pathname;
-    if (refPath.indexOf("/login") == -1) {
-        fs.set('refPath', refPath);
-        console.log(refPath);
-    }
-
-    const user = props.user;
+    const loggedIn = props.loggedIn;
 
     return (
         <>
@@ -80,8 +74,8 @@ function MainMenuChakra(props) {
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                             </Button> */}
 
-                            {user && <NavForUser />}
-                            {!user && <NavForGuest />}
+                            {loggedIn && <NavForUser />}
+                            {!loggedIn && <NavForGuest />}
 
                         </Stack>
                     </Flex>
@@ -91,4 +85,4 @@ function MainMenuChakra(props) {
     );
 }
 
-export default withRouter(fs.connect(['user'])(MainMenuChakra));
+export default withRouter(fs.connect(['loggedIn'])(MainMenuChakra));

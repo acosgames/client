@@ -25,6 +25,7 @@ import NavItem from './NavItem'
 import { withRouter } from 'react-router'
 import { PlusSquareIcon } from '@chakra-ui/icons'
 import fs from 'flatstore';
+import { FaDiscord } from 'react-icons/fa'
 
 function Sidebar() {
     const [navSize, changeNavSize] = useState("large")
@@ -90,15 +91,24 @@ function Sidebar() {
                     <>
                         <Divider mt="10px" mb="10px" />
                         <Center w="100%" >
-                            <Link href={`https://github.com/${userProfile?.github}`} >
-                                <HStack>
+                            <Link textDecoration={"none"} href={`https://github.com/${userProfile?.github}`} >
+                                <VStack align="center">
                                     <Icon as={IoLogoGithub} fontSize="24" />
                                     {userProfile && (<Text display={['none', 'none', 'flex']}>@{userProfile?.github}</Text>)}
-                                </HStack>
+                                </VStack>
                             </Link>
                         </Center>
                     </>
                 )}
+                <Divider mt="10px" mb="10px" />
+                <Center w="100%" >
+                    <Link textDecoration={"none"} target="_blank" href={'https://discord.gg/ydHkCcNgHD'} >
+                        <VStack align="center">
+                            <Icon as={FaDiscord} fontSize="24" />
+                            <Text align="center">Questions? <br />Join us on Discord</Text>
+                        </VStack>
+                    </Link>
+                </Center>
 
             </Flex>
         </Flex >

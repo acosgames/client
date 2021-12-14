@@ -115,24 +115,25 @@ function DevManageGameFields(props) {
 
     let hasError = (props.devgameerror && props.devgameerror.length > 0);
     return (
-        <VStack align='stretch' w="100%">
-            <VStack>
-                <Heading>Manage Game </Heading>
-                <Heading as="h5" size="lg" color="gray.400">{props.devgame.game_slug}</Heading>
-                <HStack divider={<StackDivider />} color="gray.500">
-                    <HStack>
-                        <Text>Published:</Text><Text fontWeight="bold">v{props.devgame.version}</Text>
+        <VStack align='left' w={["100%", '100%', '90%', '70%']} spacing="1rem">
+            <HStack>
+                <VStack align="left" width="80%">
+                    <Heading>Manage Game </Heading>
+                    <Heading as="h5" size="lg" color="gray.400">{props.devgame.game_slug}</Heading>
+                    <HStack divider={<StackDivider />} color="gray.500">
+                        <HStack>
+                            <Text>Published:</Text><Text fontWeight="bold">v{props.devgame.version}</Text>
+                        </HStack>
+                        <HStack>
+                            <Text>Beta:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
+                        </HStack>
                     </HStack>
-                    <HStack>
-                        <Text>Beta:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
-                    </HStack>
-                </HStack>
-            </VStack>
+                </VStack>
 
-            <Box pb="2rem" pt="3rem" width="100%" align="right">
-                <FSGSubmit onClick={onSubmit}></FSGSubmit>
-            </Box>
-
+                <Box pb="0rem" pt="0rem" width="100%" align="right">
+                    <FSGSubmit onClick={onSubmit}></FSGSubmit>
+                </Box>
+            </HStack>
             <FSGGroup title="Featured Image">
                 <Center>
                     <DevImageUpload
@@ -219,14 +220,14 @@ function DevManageGameFields(props) {
                     type="text"
                     name="teams"
                     id="teams"
-                    title="i.e. Red, Blue"
+                    title="Teams (i.e. Red, Blue)"
                     maxLength="80"
                     required={rules['teams'].required}
                     value={props.devgame.teams || ''}
                     onChange={inputChange} />
             </FSGGroup>
 
-            <FSGGroup title="Game Support">
+            {/* <FSGGroup title="Game Support">
                 <FSGTextInput
                     type="text"
                     name="git"
@@ -237,9 +238,9 @@ function DevManageGameFields(props) {
                     required={rules.git?.required}
                     value={props.devgame.git || ''}
                     onChange={inputChange} />
-            </FSGGroup>
+            </FSGGroup> */}
 
-            <Box pb="2rem" pt="3rem" width="100%" align="right">
+            <Box pb="3rem" pt="1rem" width="100%" align="right">
                 <FSGSubmit onClick={onSubmit}></FSGSubmit>
             </Box>
 

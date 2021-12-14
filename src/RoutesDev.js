@@ -27,11 +27,7 @@ var RoutesDev = () => {
     return (
         <>
             <Switch>
-                <Route
 
-                    path="/dev/login"
-                    component={DevLogin}
-                />
                 <ProtectedRoute
 
                     path="/dev/game/create"

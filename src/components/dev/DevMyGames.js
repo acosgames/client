@@ -90,7 +90,7 @@ function DevMyGames(props) {
                 <Heading as="h2">My Games</Heading>
             )}
 
-            <VStack align="left" mt="5" spacing="1rem" divider={<Divider mt="1rem" mb="1rem" />}>
+            <VStack align="left" width={['100%']} mt="5" spacing="1rem" divider={<Divider mt="1rem" mb="1rem" />}>
                 {listGames()}
             </VStack>
         </>

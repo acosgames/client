@@ -29,9 +29,15 @@ class ProtectedRoute extends Component {
             this.props.location.pathname.indexOf("/player/create") == -1
         )
 
-        if (!this.props.user)
+        let loggedIn = fs.get('loggedIn');
+        if (typeof loggedIn === 'undefined') {
             return <></>
-        let validated = this.props.verify(this.props.user);
+        }
+
+        if (!loggedIn)
+            return <Redirect to={this.props.redirectTo || "/login"}></Redirect>
+
+        let validated = this.props.verify && this.props.verify(this.props.user);
 
         if (this.props.user && !validated && this.props.location.pathname.indexOf(this.props.redirectTo || "/login") != 0) {
             return <Redirect to={this.props.redirectTo || "/login"}></Redirect>

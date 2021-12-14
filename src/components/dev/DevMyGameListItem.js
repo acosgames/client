@@ -1,7 +1,9 @@
-import { Box, Image, HStack, VStack, IconButton, Spacer, Text, useClipboard, Icon, Container } from "@chakra-ui/react";
+import { Box, Image, HStack, VStack, IconButton, Spacer, Text, useClipboard, Icon, Container, StackDivider, Link, Wrap, Flex } from "@chakra-ui/react";
 import { FiCopy, FiEdit, FiHeart, FiUsers } from "react-icons/fi";
 import SLink from "../widgets/SLink";
 import { useToast } from '@chakra-ui/react'
+import { IoBuild, IoCode, IoCodeWorking, IoDocument } from "react-icons/io5";
+import { FaGithub } from "react-icons/fa";
 
 function DevMyGameListItem(props) {
 
@@ -16,61 +18,85 @@ function DevMyGameListItem(props) {
 
     return (
         <Box>
-            <HStack align="stretch">
-                <Image src={imageURL} alt={"Icon for " + props.name} w="72px" h="72px" />
-                <VStack
-                    align="stretch"
-                    pl="0.5rem"
-                >
+            <Wrap align="stretch">
+                <Flex justifyItems={['left', 'left']}>
                     <SLink to={'/dev/game/' + props.gameid}>
-                        <Text fontSize="2xl" fontWeight="600">{props.name}</Text>
+                        <Image src={imageURL} alt={"Icon for " + props.name} minWidth={['72px']} maxW={['72px']} h={['72px']} />
                     </SLink>
-                    <HStack pl="1rem" spacing="2rem" >
-                        <HStack>
-                            <Icon color="gray.500" as={FiUsers} />
-                            <Text color="gray.400">{props.count || 0}</Text>
-                        </HStack>
-                        <HStack>
-                            <Icon color="gray.500" as={FiHeart} />
-                            <Text color="gray.400">{props.votes || 0}</Text>
-                        </HStack>
-                    </HStack>
 
-                    <div className="deploy-info">
-                        <div className="deploy-cmd">
-                            {/* <h5>Ready to deploy? Simply run this command from your development environment.</h5> */}
-                            <HStack>
-                                <Box bgColor="gray.900" p="0.4rem">
-                                    <pre>{displayedCmd}</pre>
-                                </Box>
-
-                                <IconButton onClick={(e) => {
-                                    onCopy(e);
-                                    setTimeout(() => {
-
-                                        toast({
-                                            title: 'Copied!',
-                                            description: "To deploy, run command in your terminal at project folder",
-                                            status: 'success',
-                                            duration: 4000,
-                                            isClosable: true,
-                                        })
-
-                                    }, 20)
-
-                                }} icon={<FiCopy />} size="sm" isRound="true" />
-
+                    <VStack
+                        align="stretch"
+                        pl="0.5rem"
+                    >
+                        <Box >
+                            <SLink to={'/dev/game/' + props.gameid}>
+                                <Text pl={['1rem', '1rem', '0', '0']} align={['left', 'left']} fontSize="2xl" fontWeight="600">{props.name}</Text>
+                            </SLink>
+                        </Box>
+                        <Wrap pl="1rem">
+                            <HStack pr={['1rem', '2rem', "2rem", "2rem"]}>
+                                <HStack >
+                                    <Icon color="gray.500" as={FiUsers} />
+                                    <Text color="gray.400">{props.count || 0}</Text>
+                                </HStack>
+                                <HStack>
+                                    <Icon color="gray.500" as={FiHeart} />
+                                    <Text color="gray.400">{props.votes || 0}</Text>
+                                </HStack>
+                            </HStack>
+                            <HStack pr={['1rem', '2rem', "2rem", "2rem"]}>
+                                <HStack>
+                                    <Icon color="gray.500" as={IoCode} />
+                                    <Text color="gray.400">v{props.version || 0}</Text>
+                                </HStack>
+                                <HStack>
+                                    <Icon color="gray.500" as={IoCodeWorking} />
+                                    <Text color="gray.400">v{props.latest_version || 0}</Text>
+                                </HStack>
+                            </HStack>
+                            <HStack pr={['1rem', '1rem', "1rem", "1rem"]}>
+                                <Icon color="gray.500" as={FaGithub} />
+                                <Text color="gray.400"><Link target="_blank" href={`https://github.com/fivesecondgames/${props.game_slug}/issues`}>issues</Link></Text>
                             </HStack>
 
-                        </div>
-                    </div>
-                </VStack>
-                <Spacer />
-                <SLink to={`/dev/game/${props.gameid}`}>
-                    <IconButton icon={<FiEdit />} size="lg" isRound="true" />
-                </SLink>
+                            <HStack>
+                                <Icon color="gray.500" as={IoDocument} />
+                                <Text color="gray.400"><SLink to={`/g/${props.game_slug}`}>listing</SLink></Text>
+                            </HStack>
+                        </Wrap>
 
-            </HStack>
+                        <div className="deploy-info">
+                            <div className="deploy-cmd">
+                                {/* <h5>Ready to deploy? Simply run this command from your development environment.</h5> */}
+                                <HStack>
+                                    <Box bgColor="gray.900" p="0.4rem">
+                                        <pre>{displayedCmd}</pre>
+                                    </Box>
+
+                                    <IconButton onClick={(e) => {
+                                        onCopy(e);
+                                        setTimeout(() => {
+
+                                            toast({
+                                                title: 'Copied!',
+                                                description: "To deploy, run command in your terminal at project folder",
+                                                status: 'success',
+                                                duration: 4000,
+                                                isClosable: true,
+                                            })
+
+                                        }, 20)
+
+                                    }} icon={<FiCopy />} size="sm" isRound="true" />
+
+                                </HStack>
+
+                            </div>
+                        </div>
+                    </VStack>
+                </Flex>
+
+            </Wrap >
         </Box >
     )
 }

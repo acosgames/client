@@ -35,8 +35,12 @@ export async function logout() {
             return false;
         }
 
-        fs.set('user', null);
+        fs.set('rooms', []);
+        fs.set('room', null);
+        fs.set('loggedIn', false);
+        fs.set('user', {});
         fs.set('userid', 0);
+
         return true;
     }
     catch (e) {
@@ -55,13 +59,16 @@ export async function getUserProfile() {
 
         if (user.ecode) {
             console.error('Login failed. Please login again.');
-            fs.set('loginFailed', user);
+            fs.set('loggedIn', false);
+            fs.set('user', {});
             return null;
         }
         console.log('getUserProfile', user);
 
+        fs.set('loggedIn', true);
         fs.set('user', user);
         fs.set('userid', user.id);
+
         if (user.isdev)
             await findDevGames(user.id)
 
@@ -75,6 +82,10 @@ export async function getUserProfile() {
     }
     catch (e) {
         // fs.set('userCheckedLogin', true);
+        console.error('Login failed. Please login again.');
+        fs.set('loggedIn', false);
+        fs.set('user', {});
+
         console.error('getUserProfile', e);
         //if( e )
         //return e.response.data;
