@@ -48,7 +48,7 @@ class App extends Component {
           </Switch>
 
 
-          <Box display="inline-block" width="100%" pl={12} pr={12} pt={6}>
+          <Box display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={6}>
             <Switch>
               <Routes></Routes>
             </Switch>

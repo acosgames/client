@@ -732,13 +732,13 @@ code {
   .mde-preview-content {
     //   background: #777;
     // background-color: #333;
-    margin: 1rem 0;
-    padding: 1rem;
+    // margin: 1rem 0;
+
     p {
       margin-bottom: 1rem;
     }
     table {
-      border: 1px solid #000;
+      border: 1px solid --chakra-colors-gray-800;
       border-color: #000;
       border-collapse: collapse;
       border-spacing: 0px;

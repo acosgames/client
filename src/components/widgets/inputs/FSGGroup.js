@@ -9,15 +9,15 @@ function FSGGroup(props) {
     return (
         <VStack align='stretch' width="100%">
             <Heading
-                as='h2'
+                as={props.as || 'h2'}
                 // ml="0rem"
                 // pl="0.4rem"
                 // pr="0.4rem"
 
-                pt="4"
-                pb="0.5rem"
-                fontSize="2xl"
-                fontWeight="800"
+                pt={props.pt || "4"}
+                pb={props.pb || "0.5rem"}
+                fontSize={props.fontSize || "2xl"}
+                fontWeight={props.fontWeight || "800"}
                 color={props.color || "gray.100"}>
                 {props.title}
             </Heading>
