@@ -10,7 +10,7 @@ const config = {
 }
 
 const fonts = {
-    heading: '"Inter", "Oswald", sans-serif;',
+    // heading: '"Inter", "Oswald", sans-serif;',
     //body: '"Inter", "Oswald", sans-serif;'
 }
 

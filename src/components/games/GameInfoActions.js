@@ -1,8 +1,15 @@
 import { Flex, Center, Wrap, Button, IconButton, HStack, VStack, Icon, Text, Box, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, useToast, useShortcut } from '@chakra-ui/react'
-import { FiUsers, FaThumbsUp, FaThumbsDown, FaGithub, IoWarningSharp } from '@react-icons';
+
+import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
+import { FaThumbsDown } from "@react-icons/all-files/fa/FaThumbsDown";
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+// import { IoWarningSharp } from "@react-icons/all-files/io/IoWarningSharp";
+
+// import { FaThumbsUp, FaThumbsDown, FaGithub, IoWarningSharp } from '@react-icons';
 import { useState } from 'react';
 
 import { rateGame, reportGame } from '../../actions/game';
+import { WarningIcon } from '@chakra-ui/icons';
 
 
 function GameInfoActions(game) {
@@ -108,7 +115,7 @@ function GameInfoActions(game) {
                         <Menu>
                             <MenuButton as={Button} color={"gray.500"} size="sm" variant="clear">
                                 <HStack spacing="0.2rem">
-                                    <Icon as={IoWarningSharp} />
+                                    <Icon as={WarningIcon} />
                                     <Text as="span" color="gray.500">{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
                                 </HStack>
 

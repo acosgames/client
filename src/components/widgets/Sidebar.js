@@ -15,14 +15,12 @@ import {
     Center
 } from '@chakra-ui/react'
 
-// import { FiHome } from "@react-icons/all-files/fi/FiHome";
-// import { IoDocuments } from "@react-icons/all-files/io5/IoDocuments";
-// import { IoLogoGithub } from "@react-icons/all-files/io5/IoLogoGithub";
-// import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
+import { FiHome } from "@react-icons/all-files/fi/FiHome";
+import { IoDocuments } from "@react-icons/all-files/io5/IoDocuments";
+import { IoLogoGithub } from "@react-icons/all-files/io5/IoLogoGithub";
+import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
 
-import { FiHome } from '@react-icons'
-import { FaDiscord } from '@react-icons'
-import { IoDocuments, IoLogoGithub } from '@react-icons'
+// import { IoDocuments, IoLogoGithub, FiHome, FaDiscord } from '@react-icons'
 import { PlusSquareIcon } from '@chakra-ui/icons'
 
 import NavItem from './NavItem'

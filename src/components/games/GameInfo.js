@@ -10,18 +10,9 @@ import { getUser } from '../../actions/person';
 import { findGame, findGamePerson } from "../../actions/game";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
-import { HStack, VStack, Image, Icon, Text, Heading, Center, Wrap, Box, Link, IconButton, Button, Spacer, Flex, Divider, Menu, MenuItem, MenuList, MenuButton, Grid } from "@chakra-ui/react";
+import { VStack, Image, Text, Heading, Center, Box, Flex } from "@chakra-ui/react";
 
-// import { FiUsers } from "@react-icons/all-files/fi/FiUsers";
-// import { IoWarningSharp } from "@react-icons/all-files/io5/IoWarningSharp";
-// import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
-// import { FaPlay } from "@react-icons/all-files/fa/FaPlay";
-// import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
-// import { FaThumbsDown } from "@react-icons/all-files/fa/FaThumbsDown";
 
-import { FiUsers } from "@react-icons";
-import { IoWarningSharp } from "@react-icons";
-import { FaGithub, FaPlay, FaThumbsDown, FaThumbsUp, FaCaretDown } from "@react-icons";
 import SLink from "../widgets/SLink";
 import FSGGroup from "../widgets/inputs/FSGGroup";
 import FSGRead from "../widgets/inputs/FSGRead";

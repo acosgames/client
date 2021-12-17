@@ -2,17 +2,14 @@ import { Box, Image, HStack, VStack, IconButton, Spacer, Text, useClipboard, Ico
 import SLink from "../widgets/SLink";
 import { useToast } from '@chakra-ui/react'
 
-// import { IoCode } from "@react-icons/all-files/io5/IoCode";
-// import { IoCodeWorking } from "@react-icons/all-files/io5/IoCodeWorking";
-// import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
-// import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
-// import { FiCopy } from "@react-icons/all-files/fi/FiCopy";
-// import { FiHeart } from "@react-icons/all-files/fi/IoDocument";
-// import { FiUsers } from "@react-icons/all-files/fi/FiUsers";
-
-import { IoCode, IoCodeWorking, IoDocument } from "@react-icons";
-import { FaGithub } from "@react-icons";
-import { FiCopy, FiHeart, FiUsers } from "@react-icons";
+import { IoCode } from "@react-icons/all-files/io5/IoCode";
+import { IoCodeWorking } from "@react-icons/all-files/io5/IoCodeWorking";
+import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+import { FiCopy } from "@react-icons/all-files/fi/FiCopy";
+import { FiHeart } from "@react-icons/all-files/fi/FiHeart";
+import { FiUsers } from "@react-icons/all-files/fi/FiUsers";
+// import { FaGithub, FiCopy, FiHeart, FiUsers, IoCode, IoCodeWorking, IoDocument } from "@react-icons";
 
 function DevMyGameListItem(props) {
 

@@ -14,14 +14,14 @@ import {
     Box,
 } from "@chakra-ui/react";
 
-// import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
-// import { FiCheckSquare } from "@react-icons/all-files/fi/FiCheckSquare";
-// import { FiDownload } from "@react-icons/all-files/fi/FiDownload";
-// import { FiRefreshCw } from "@react-icons/all-files/fi/FiRefreshCw";
-// import { FiSquare } from "@react-icons/all-files/fi/FiSquare";
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+import { FiCheckSquare } from "@react-icons/all-files/fi/FiCheckSquare";
+import { FiDownload } from "@react-icons/all-files/fi/FiDownload";
+import { FiRefreshCw } from "@react-icons/all-files/fi/FiRefreshCw";
+import { FiSquare } from "@react-icons/all-files/fi/FiSquare";
 
-import { FaGithub } from "@react-icons";
-import { FiCheckSquare, FiDownload, FiRefreshCw, FiSquare } from "@react-icons";
+
+// import { FaGithub, FiCheckSquare, FiDownload, FiRefreshCw, FiSquare } from "@react-icons";
 
 import { sendGithubInvite } from "../../actions/devgame";
 import SLink from "../widgets/SLink";
