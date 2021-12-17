@@ -98,11 +98,28 @@ export function recvFrameMessage(evt) {
 
 var reconnectTimeout = 0;
 
-export async function reconnect() {
+export async function disconnect() {
+    let ws = fs.get('ws');
+    if (!ws)
+        return;
+
+    let rooms = fs.get('rooms');
+    if (!rooms || Object.keys(rooms).length == 0)
+        ws.close();
+
+    fs.set('ws', null);
+    console.log("Disconnected from server.");
+}
+export async function reconnect(isNew) {
     let ws = fs.get('ws');
     if (ws && ws.isReady) {
         return ws;
     }
+
+    let rooms = fs.get('rooms');
+    if (!isNew && (!rooms || Object.keys(rooms).length == 0))
+        return disconnect();
+
 
     try {
         // if (reconnectTimeout)
@@ -133,6 +150,9 @@ export async function wsLeaveGame(room_slug) {
     let game = fs.get('game');
     fs.set('gamestate', {});
     fs.set('room_slug', null);
+
+    await disconnect();
+
     history.push('/g/' + game.game_slug);
 }
 
@@ -148,11 +168,14 @@ export async function wsLeaveQueue() {
     let msg = encode(action);
     ws.send(msg);
 
+
+    await disconnect();
+
     console.log("[Outgoing] Leave Queue ", action);
 }
 
 export async function wsJoinGame(mode, game_slug) {
-    let ws = await reconnect();
+    let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
         return;
     }
@@ -179,7 +202,7 @@ export async function wsJoinGame(mode, game_slug) {
 }
 
 export async function wsJoinRoom(game_slug, room_slug, private_key) {
-    let ws = await reconnect();
+    let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
         setTimeout(() => { wsJoinRoom(room_slug, private_key); }, 1000);
         return;
@@ -202,7 +225,7 @@ export async function wsJoinRoom(game_slug, room_slug, private_key) {
 }
 
 export async function wsSpectateGame(game_slug) {
-    let ws = await reconnect();
+    let ws = await reconnect(true);
     if (!ws || !ws.isReady || !game) {
         return;
     }

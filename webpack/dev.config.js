@@ -1,6 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 var ENTRY_FILE = './src/index.js';
 var OUTPUT_PATH = '../../fsg-api/public';
 
@@ -48,7 +50,15 @@ module.exports = {
                         ],
                         "plugins": [
                             "@babel/plugin-proposal-object-rest-spread",
-
+                            [
+                                "import",
+                                {
+                                    "libraryName": "@react-icons",
+                                    "camel2DashComponentName": false,
+                                    "transformToDefaultImport": false,
+                                    "customName": require('path').resolve(__dirname, './react-icons.js')
+                                }
+                            ]
                         ]
                     }
                 }
@@ -63,6 +73,7 @@ module.exports = {
         new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,
         }),
+        // new BundleAnalyzerPlugin()
 
     ]
 };

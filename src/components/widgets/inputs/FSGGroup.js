@@ -14,26 +14,26 @@ function FSGGroup(props) {
                 // pl="0.4rem"
                 // pr="0.4rem"
 
-                pt={props.pt || "4"}
-                pb={props.pb || "0.5rem"}
-                fontSize={props.fontSize || "2xl"}
-                fontWeight={props.fontWeight || "800"}
-                color={props.color || "gray.100"}>
+                pt={props.hpt || "4"}
+                pb={props.hpb || "0.5rem"}
+                fontSize={props.hfontSize || "2xl"}
+                fontWeight={props.hfontWeight || "800"}
+                color={props.hcolor || "gray.100"}>
                 {props.title}
             </Heading>
             <VStack
                 // as='fieldset'
-                pl={['0.5rem', '2rem', "3rem"]}
-                pr={['0.5rem', '2rem', "3rem"]}
-                pt="1rem"
-                pb="1rem"
+                pl={props.pl || ['0.5rem', '2rem', "3rem"]}
+                pr={props.pr || ['0.5rem', '2rem', "3rem"]}
+                pt={props.pt || "1rem"}
+                pb={props.pb || "1rem"}
                 // divider={<StackDivider borderColor='gray.700' ml="-3rem" mr="-3rem" mt="2rem" mb="`2rem" />}
-                border={`1px solid #000`}
+                // border={`1px solid #000`}
                 // borderColor="#171c26"
-                spacing="2rem"
-                bgColor="gray.900"
-                color="gray.100"
-                borderRadius="14px">
+                spacing={props.spacing || "2rem"}
+                bgColor={props.bgColor || "gray.900"}
+                color={props.color || "gray.100"}
+                borderRadius={props.borderRadius || "14px"}>
 
                 {props.children}
                 {

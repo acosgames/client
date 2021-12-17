@@ -14,18 +14,22 @@ import {
     Link,
     Center
 } from '@chakra-ui/react'
-import {
-    FiMenu,
-    FiHome,
-    FiGithub,
-    FiExternalLink
-} from 'react-icons/fi'
-import { IoDocuments, IoLogoGithub, IoPawOutline } from 'react-icons/io5'
+
+// import { FiHome } from "@react-icons/all-files/fi/FiHome";
+// import { IoDocuments } from "@react-icons/all-files/io5/IoDocuments";
+// import { IoLogoGithub } from "@react-icons/all-files/io5/IoLogoGithub";
+// import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
+
+import { FiHome } from '@react-icons'
+import { FaDiscord } from '@react-icons'
+import { IoDocuments, IoLogoGithub } from '@react-icons'
+import { PlusSquareIcon } from '@chakra-ui/icons'
+
 import NavItem from './NavItem'
 import { withRouter } from 'react-router'
-import { PlusSquareIcon } from '@chakra-ui/icons'
+
 import fs from 'flatstore';
-import { FaDiscord } from 'react-icons/fa'
+
 
 function Sidebar() {
     const [navSize, changeNavSize] = useState("large")

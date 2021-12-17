@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, useEffect } from "react";
 
 import {
     withRouter,
@@ -6,53 +6,65 @@ import {
 import { Redirect } from 'react-router';
 
 import fs from 'flatstore';
-import { findGame, joinGame } from "../../actions/game";
+import { getUser } from '../../actions/person';
+import { findGame, findGamePerson } from "../../actions/game";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
-import { HStack, VStack, Image, Icon, Text, Heading, Center, Wrap, Box, Link, IconButton, Button, Spacer, Flex, Divider } from "@chakra-ui/react";
+import { HStack, VStack, Image, Icon, Text, Heading, Center, Wrap, Box, Link, IconButton, Button, Spacer, Flex, Divider, Menu, MenuItem, MenuList, MenuButton, Grid } from "@chakra-ui/react";
 
-import { FiHeart, FiUsers } from "react-icons/fi";
-import { IoCode, IoCodeWorking, IoDocument, IoWarningSharp } from "react-icons/io5";
-import { FaGithub, FaGofore, FaPlay, FaRestroom, FaThumbsDown, FaThumbsUp } from "react-icons/fa";
+// import { FiUsers } from "@react-icons/all-files/fi/FiUsers";
+// import { IoWarningSharp } from "@react-icons/all-files/io5/IoWarningSharp";
+// import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+// import { FaPlay } from "@react-icons/all-files/fa/FaPlay";
+// import { FaThumbsUp } from "@react-icons/all-files/fa/FaThumbsUp";
+// import { FaThumbsDown } from "@react-icons/all-files/fa/FaThumbsDown";
+
+import { FiUsers } from "@react-icons";
+import { IoWarningSharp } from "@react-icons";
+import { FaGithub, FaPlay, FaThumbsDown, FaThumbsUp, FaCaretDown } from "@react-icons";
 import SLink from "../widgets/SLink";
 import FSGGroup from "../widgets/inputs/FSGGroup";
-import FSGTextInput from "../widgets/inputs/FSGTextInput";
+import FSGRead from "../widgets/inputs/FSGRead";
+// import FSGTextInput from "../widgets/inputs/FSGTextInput";
 
-import GameInfoReviews from './GameInfoReviews'
+import GameInfoActions from './GameInfoActions'
+import GameInfoJoinButton from './GameInfoJoinButton'
 
 
 function GameInfo(props) {
     const game_slug = props.match.params.game_slug;
-    try {
-        let game = fs.get(game_slug);
-        if (!game)
-            findGame(game_slug)
-    }
-    catch (e) {
-        findGame(game_slug)
-    }
+
+    useEffect(async () => {
+        let test = 1;
+        let user = await getUser();
+
+
+        try {
+            let game = fs.get(game_slug);
+            if (!game) {
+                if (!user) {
+                    await findGame(game_slug)
+                }
+                else
+                    await findGamePerson(game_slug);
+            }
+
+        }
+        catch (e) {
+            if (!user) {
+                await findGame(game_slug)
+            }
+            else
+                await findGamePerson(game_slug);
+        }
+    }, [])
+
 
     const handleGoBack = () => {
         props.history.push("/games");
     }
 
-    const handleJoin = () => {
-        //let game_slug = props.match.params.game_slug;
-        let game = fs.get(game_slug);
-        if (!game)
-            return
 
-        joinGame(game);
-    }
-
-    const handleJoinBeta = () => {
-        //let game_slug = props.match.params.game_slug;
-        let game = fs.get(game_slug);
-        if (!game)
-            return
-
-        joinGame(game, true);
-    }
 
 
     // let game_slug = props.match.params.game_slug;
@@ -73,7 +85,8 @@ function GameInfo(props) {
     return (
         <Center>
             <VStack maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
-                <HStack w="100%" alignItems={'flex-start'}>
+
+                <Flex w="100%" >
                     <Box
                         _after={{
                             content: '""',
@@ -81,7 +94,7 @@ function GameInfo(props) {
                             paddingBottom: '100%'
                         }}
                         position="relative"
-                        w={['60%', '300px']}
+                        w={['128px', '160px', '256px']}
                     >
                         <Image
                             position="absolute"
@@ -93,88 +106,78 @@ function GameInfo(props) {
                         />
                     </Box>
 
-                    <Flex height="100%" width="100%" direction={'column'} pl="1rem" align="left" spacing="0" alignItems="stretch">
-                        <Heading>{game.name}</Heading>
-                        <Text pt="0.5rem" fontSize="xl" fontWeight="bold">{game.shortdesc}</Text>
-                        <Text color="gray.500" >version {game.version}</Text>
 
-                        <HStack alignItems="top" pt="1rem">
-                            <Box>
-                                <Text>Created by @joetex</Text>
+                    <Flex ml="1rem" direction="column" alignSelf={'stretch'} w="100%" position="relative">
+                        <Heading fontSize={['xl', '2xl']}>{game.name}</Heading>
 
-                                <VStack align="left" h="100%">
-                                    <HStack>
-                                        <HStack pr="1rem">
-                                            <Icon color="gray.300" fontSize="18px" as={FiUsers} />
-                                            <Text color="gray.300" fontSize="18px">{game.count || 0} playing</Text>
-                                        </HStack>
-                                    </HStack>
-                                    <HStack>
-                                        <Icon color="gray.300" as={FaGithub} />
-                                        <Text color="gray.300"><Link target="_blank" href={`https://github.com/fivesecondgames/${game.game_slug}/issues`}>Submit an Issue</Link></Text>
-                                    </HStack>
-                                </VStack>
-                            </Box>
-                            <Spacer />
-                            <Box display={['block', 'block', 'none']}>
-                                <VStack h='100%' pr={[0]}>
-                                    <IconButton icon={<FaThumbsUp />} />
-                                    <Text>{game.votes || 0} votes</Text>
-                                    <IconButton icon={<FaThumbsDown />} />
-                                </VStack>
-                            </Box>
-                            <Box display={['none', 'none', 'block']}>
-                                <HStack h='100%' pr={[0]}>
-                                    <IconButton icon={<FaThumbsUp />} />
-                                    <Text>{game.votes || 0} votes</Text>
-                                    <IconButton icon={<FaThumbsDown />} />
-                                </HStack>
-                            </Box>
+                        <Text as="h5" pt="0.5rem" fontSize={['md', 'lg']} fontWeight="bold">{game.shortdesc}</Text>
+                        <Text as="span" color="gray.500" >version {game.version}</Text>
 
-                        </HStack>
-
-                        {/* <Button
-                        onClick={() => {
-                            setAcceptInvite(true);
-                        }}
-                        bgColor="brand.500"
-                        _hover={{ bg: "brand.600" }}
-                        _active={{ bg: "brand.900" }}
-                        //disabled={acceptInvite}
-                        w={"full"}
-                        justifyContent={"center"}
-                        variant={"outline"}
-                        leftIcon={<FaPlay size="2rem" />} >
-                </Button> */}
-                        <HStack>
-                            <IconButton
-                                mt="1rem"
-                                bgColor="brand.500"
-                                _hover={{ bg: "brand.600" }}
-                                _active={{ bg: "brand.900" }}
-                                size="lg"
-                                width={['100%', '75%', "50%"]}
-                                icon={<FaPlay />}
-                                isRound={true}><Text>Join</Text></IconButton>
-                            <Spacer />
-                            <Button ml={0} mr={0} color={'red.800'} size="xs" variant="clear">
-                                <Icon as={IoWarningSharp} mr={0.5} />
-                                <Text as="span" color="red.800">Report</Text>
-                            </Button>
-                        </HStack>
-
+                        <Box flexGrow={'1'}>
+                            <Text as="span" >Created by @joetex</Text>
+                        </Box>
+                        <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
+                            <GameInfoJoinButton {...game} />
+                        </Box>
                     </Flex>
-                </HStack >
-                <FSGGroup fontSize="1.2rem" title="Game Information">
+
+
+                </Flex>
+                <Flex display={['flex', 'flex', 'none']} pt="1rem" h="100%" flex="1" w="100%">
+                    <GameInfoJoinButton {...game} />
+                </Flex>
+
+                <GameInfoActions {...game} />
+
+                <FSGGroup fontSize="1.2rem" title="Description" hfontSize="1rem">
                     <Box align="left" id="game-info-longdesc">
-                        <ReactMarkdown children={game.longdesc} remarkPlugins={[remarkGfm]}></ReactMarkdown>
+                        <ReactMarkdown
+                            allowed
+                            allowedElements={[
+                                "strong",
+                                "span",
+                                "emphasis",
+                                "i",
+                                "b",
+                                "p",
+                                "strike",
+                                "s",
+                                "del",
+                                "div",
+                                "table", "thead", "tbody", "tr", "th", "td"
+                            ]}
+                            children={game.longdesc}
+                            remarkPlugins={[remarkGfm]}></ReactMarkdown>
                     </Box>
                 </FSGGroup>
 
+                <FSGGroup title="Release" spacing="1rem" hfontSize="1rem">
+                    <FSGRead disabled={true}
+                        size="xs"
+                        title="Release Date"
+                        value={game.tsinsert}
+                    />
+                    <FSGRead disabled={true}
+                        size="xs"
+                        title="Last Updated"
+                        value={game.tsupdate}
+                    />
+                    <FSGRead disabled={true}
+                        size="xs"
+                        title="Build Version"
+                        value={game.version}
+                    />
+                    <FSGRead disabled={true}
+                        size="xs"
+                        title="Experimental Version"
+                        value={game.latest_version}
+                    />
+                </FSGGroup>
+                {/* 
                 <FSGGroup fontSize="1.2rem" title="Reviews">
 
                     <GameInfoReviews game_slug={game.game_slug} />
-                </FSGGroup>
+                </FSGGroup> */}
 
             </VStack >
         </Center >

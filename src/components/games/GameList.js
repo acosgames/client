@@ -32,7 +32,7 @@ class GameList extends Component {
                     <Heading as="h1" size="lg">Games</Heading>
                     <Wrap w="100%" spacing="1rem">
                         {
-                            productionGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
+                            productionGames.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }
                     </Wrap>
                 </VStack>
@@ -40,7 +40,7 @@ class GameList extends Component {
                     <Heading as="h1" size="lg">Needs Testing</Heading>
                     <Flex w="100%">
                         {
-                            betaGames.map(game => (<GameListItem key={"gamelistitem-" + game.gameid} game={game}></GameListItem>))
+                            betaGames.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }
                     </Flex>
                 </VStack>

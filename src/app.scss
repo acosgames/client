@@ -1,6 +1,6 @@
 // @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 // @import url("https://fonts.googleapis.com/css?family=Oswald:400,500,700");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 // @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
@@ -13,6 +13,7 @@ body,
 #app {
   //   height: 100%;
   width: 100%;
+  background-color: red;
 }
 html,
 body {
@@ -22,7 +23,7 @@ body {
   //   color: #fff;
   //   font-size: 16px;
   //   font-weight: 400;
-  font-family: "Inter", "Oswald", sans-serif;
+  // font-family: "Inter", "Oswald", sans-serif;
   //   -webkit-font-smoothing: antialiased;
   //   -moz-osx-font-smoothing: grayscale;
 }
@@ -738,7 +739,7 @@ code {
       margin-bottom: 1rem;
     }
     table {
-      border: 1px solid --chakra-colors-gray-800;
+      border: 1px solid --chakra-colors-gray-500;
       border-color: #000;
       border-collapse: collapse;
       border-spacing: 0px;

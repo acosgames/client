@@ -40,6 +40,23 @@ export async function findGame(game_slug) {
     }
 }
 
+export async function findGamePerson(game_slug) {
+    try {
+        let response = await GET('/api/v1/game/person/' + game_slug);
+        let game = response.data;
+        if (game.ecode) {
+            throw game.ecode;
+        }
+        fs.set(game_slug, game || null);
+        fs.set('game', game || null);
+
+    }
+    catch (e) {
+        console.error(e);
+        fs.set(game_slug, null);
+    }
+}
+
 export async function findAndRejoin(game_slug, room_slug) {
     await findGame(game_slug);
     wsRejoinRoom(game_slug, room_slug);
@@ -92,4 +109,30 @@ export async function downloadGame(gameid, version) {
         }
     })
 
+}
+
+
+
+export async function reportGame(game_slug, reportType) {
+
+    let request = await POST('/api/v1/game/report', {
+        game_slug,
+        reportType
+    });
+    let response = request.data;
+
+
+    return response;
+}
+
+export async function rateGame(game_slug, vote, previousVote) {
+
+    let request = await POST('/api/v1/game/rate', {
+        game_slug,
+        vote,
+        previousVote,
+    });
+    let response = request.data;
+
+    return response;
 }

@@ -49,6 +49,19 @@ export async function logout() {
     }
 }
 
+export async function getUser() {
+    let user = fs.get('user');
+    if (!user) {
+        user = await getUserProfile();
+    }
+
+    if (!user) {
+        return false;
+    }
+
+    return user;
+}
+
 export async function getUserProfile() {
     try {
 
@@ -91,4 +104,9 @@ export async function getUserProfile() {
         //return e.response.data;
     }
     return null;
+}
+
+
+export async function requestCreateRoom() {
+
 }

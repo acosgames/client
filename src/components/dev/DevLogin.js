@@ -5,7 +5,7 @@ import {
     withRouter,
 } from "react-router-dom";
 import {
-    Button, Text, chakra, Heading, VStack, Center,
+    Button, Text, Heading, VStack, Center,
     Link,
     useToast,
     IconButton,
@@ -13,8 +13,16 @@ import {
     Icon,
     Box,
 } from "@chakra-ui/react";
-import { FaGithub } from "react-icons/fa";
-import { FiCheck, FiCheckSquare, FiDownload, FiRefreshCw, FiSquare } from "react-icons/fi";
+
+// import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
+// import { FiCheckSquare } from "@react-icons/all-files/fi/FiCheckSquare";
+// import { FiDownload } from "@react-icons/all-files/fi/FiDownload";
+// import { FiRefreshCw } from "@react-icons/all-files/fi/FiRefreshCw";
+// import { FiSquare } from "@react-icons/all-files/fi/FiSquare";
+
+import { FaGithub } from "@react-icons";
+import { FiCheckSquare, FiDownload, FiRefreshCw, FiSquare } from "@react-icons";
+
 import { sendGithubInvite } from "../../actions/devgame";
 import SLink from "../widgets/SLink";
 
@@ -67,13 +75,13 @@ function DevLogin(props) {
                     <Heading as="h3" size="md" color="gray.100">Step 1:</Heading>
                     <Heading as="h3" size="md" color="gray.400">Login to GitHub to begin</Heading>
                 </HStack>
-                <chakra.a href="/login/github?ref=/dev" w="full">
+                <a href="/login/github?ref=/dev" w="full">
                     <Button disabled={!showLogin} w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
 
                         <Text ml="4rem">Sign in with github</Text>
 
                     </Button>
-                </chakra.a>
+                </a>
                 <VStack filter={!loggedIn ? "blur(2px)" : ''} align="left" w='100%' position="relative">
                     <Box position="absolute" w="100%" h="100%" display={loggedIn ? 'none' : 'block'} zIndex="2" >
                         &nbsp;
@@ -99,7 +107,7 @@ function DevLogin(props) {
                         <Heading as="h3" size="md" color="gray.100">Step 3:</Heading>
                         <Heading as="h3" size="md" color="gray.400">Accept invite to fivesecondgames organization</Heading>
                     </HStack>
-                    <chakra.a target="_blank" href="https://github.com/orgs/fivesecondgames/invitation" w="full">
+                    <a target="_blank" href="https://github.com/orgs/fivesecondgames/invitation" w="full">
                         <Button
                             onClick={() => {
                                 setAcceptInvite(true);
@@ -111,7 +119,7 @@ function DevLogin(props) {
                             leftIcon={<FiDownload />} >
                             <Text ml="4rem">Accept invite to 'fivesecondgames' organization</Text>
                         </Button>
-                    </chakra.a>
+                    </a>
 
                     <HStack pt="2rem">
                         <Icon color={'yellow.500'} fontSize="xl" as={FiSquare} />

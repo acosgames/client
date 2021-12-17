@@ -1,22 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
+
 import App from './App';
 
 import theme from './theme'
 import { ColorModeScript, ChakraProvider } from "@chakra-ui/react"
-
+import './app.scss';
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   // <React.StrictMode>
-  <>
-    <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} useSystemColorMode={theme.config.useSystemColorMode} />
 
-      <App />
-    </ChakraProvider>
-  </>,
+  <ChakraProvider theme={theme}>
+    <ColorModeScript initialColorMode={theme.config.initialColorMode} useSystemColorMode={theme.config.useSystemColorMode} />
+
+    <App />
+  </ChakraProvider>
+  ,
   // </React.StrictMode>,
   document.getElementById('root')
 );

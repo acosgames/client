@@ -1,4 +1,4 @@
-import { Component, Fragment, useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
 import {
     withRouter,
@@ -10,8 +10,8 @@ import fs from 'flatstore';
 
 import errorMessage from 'fsg-shared/model/errorcodes';
 import Markdown from "../widgets/inputs/Markdown";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+// import ReactMarkdown from 'react-markdown';
+// import remarkGfm from 'remark-gfm';
 
 import FSGTextInput from '../widgets/inputs/FSGTextInput'
 import FSGNumberInput from '../widgets/inputs/FSGNumberInput'
@@ -88,7 +88,7 @@ function DevManageGameFields(props) {
     const displayError = () => {
         let errors = props.devgameerror;
         if (!errors)
-            return <Fragment></Fragment>
+            return <></>
 
         let errorElems = [];
         errors.forEach((error, id) => {

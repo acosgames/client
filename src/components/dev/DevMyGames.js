@@ -1,6 +1,3 @@
-import { Component } from "react";
-
-import { findDevGames } from '../../actions/devgame';
 
 import {
     Link,
@@ -11,10 +8,11 @@ import fs from 'flatstore';
 import SLink from "../widgets/SLink";
 import { Text, Box, Heading, HStack, Icon, IconButton, VStack, Divider, Spacer, useClipboard } from "@chakra-ui/react";
 
+// import { FiPlus } from "@react-icons/all-files/fi/FiPlus";
+
 import {
-    FiCopy,
-    FiEdit, FiPlus, FiPlusCircle, FiTrash
-} from 'react-icons/fi'
+    FiPlus
+} from '@react-icons'
 import DevMyGameListItem from "./DevMyGameListItem";
 
 function DevMyGames(props) {
