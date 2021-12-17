@@ -2,7 +2,7 @@
   "name": "fsg-client",
   "version": "0.1.0",
   "private": true,
-  "sideEffects": false,
+  "sideEffects": ["./src/app.scss", "./src/components/widgets/inputs/Markdown.scss"],
   "proxy": "http://localhost:8080",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",

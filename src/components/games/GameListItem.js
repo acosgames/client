@@ -8,9 +8,9 @@ import fs from 'flatstore';
 import { useEffect } from "react";
 import { VStack, Image, Text, HStack, Icon } from "@chakra-ui/react";
 
-import { IoPeople } from "@react-icons/all-files/io5/IoPeople";
+// import { IoPeople } from "@react-icons/all-files/io5/IoPeople";
 
-// import { IoPeople } from "@react-icons";
+import { IoPeople } from "@react-icons";
 
 function GameListItem(props) {
 

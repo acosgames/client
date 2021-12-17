@@ -50,15 +50,15 @@ module.exports = {
                         ],
                         "plugins": [
                             "@babel/plugin-proposal-object-rest-spread",
-                            // [
-                            //     "import",
-                            //     {
-                            //         "libraryName": "@react-icons",
-                            //         "camel2DashComponentName": false,
-                            //         "transformToDefaultImport": false,
-                            //         "customName": require('path').resolve(__dirname, './react-icons.js')
-                            //     }
-                            // ]
+                            [
+                                "import",
+                                {
+                                    "libraryName": "@react-icons",
+                                    "camel2DashComponentName": false,
+                                    "transformToDefaultImport": false,
+                                    "customName": require('path').resolve(__dirname, './react-icons.js')
+                                }
+                            ]
                         ]
                     }
                 }
