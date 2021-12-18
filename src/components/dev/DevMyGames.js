@@ -72,7 +72,7 @@ function DevMyGames(props) {
     /*
         Dashboard
         - Published games with stats
-        - beta games with stats
+        - experimental games with stats
         - create new game
         - documentation
         - exmaple code

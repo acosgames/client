@@ -9,6 +9,8 @@ import fs from 'flatstore';
 import { wsJoinRankedGame, wsRejoinRoom } from "../../actions/connection";
 import { joinGame, findGame, downloadGame, findAndRejoin } from "../../actions/game";
 import LeaveGame from "./LeaveGame";
+import { Box, Button, IconButton } from "@chakra-ui/react";
+import { BsArrowsFullscreen } from '@react-icons';
 
 // fs.set('iframe', null);
 fs.set('iframes', {});
@@ -18,11 +20,12 @@ class GamePanel extends Component {
     constructor(props) {
         super(props);
 
+        this.gamepanel = null;
         this.iframe = null;
         this.state = {}
         this.sent = 0;
         this.game_slug = props.match.params.game_slug;
-        this.beta = props.match.params.beta;
+        this.experimental = props.match.params.experimental;
         this.room_slug = props.match.params.room_slug;
 
         let games = fs.get('games') || [];
@@ -47,6 +50,20 @@ class GamePanel extends Component {
         }
     }
 
+
+
+    /* When the openFullscreen() function is executed, open the video in fullscreen.
+    Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
+    openFullscreen(elem) {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+        }
+    }
+
     async componentDidMount() {
         let game = this.props.game;
         if (!game)
@@ -66,7 +83,17 @@ class GamePanel extends Component {
 
 
         return (
-            <div id="gamepanel-wrapper">
+            <Box
+                position="absolute"
+                top="0"
+                bottom="0"
+                left="0"
+                right="0"
+                bg="white"
+                // id="gamepanel-wrapper"
+                ref={(c) => {
+                    this.gamepanel = c;
+                }}>
                 <iframe
                     className="gamescreen"
                     ref={(c) => {
@@ -87,8 +114,9 @@ class GamePanel extends Component {
                     sandbox="allow-scripts"
                 />
                 <Connection></Connection>
+                <IconButton icon={<BsArrowsFullscreen />} onClick={() => { this.openFullscreen(this.gamepanel) }}>Full Screen</IconButton>
                 <LeaveGame></LeaveGame>
-            </div>
+            </Box>
         )
     }
 
@@ -120,9 +148,11 @@ class GamePanel extends Component {
 
         return (
             <div id="gameframe">
-                <div id="gamepanel">
+                <Box
+                    w="100%"
+                    pb="56.25%">
 
-                </div>
+                </Box>
                 {this.renderLoadingScreen(room)}
                 {this.renderIframe(room)}
             </div>

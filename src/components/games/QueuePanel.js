@@ -3,75 +3,30 @@ import React, { Component, useState } from "react";
 // import { useSpring, animated } from 'react-spring';
 import fs from 'flatstore';
 import { wsLeaveQueue } from "../../actions/connection";
-import { HStack, Text, VStack, Center, IconButton } from "@chakra-ui/react";
+import { HStack, Text, VStack, Center, IconButton, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Input, Button, Box, Badge, Divider } from "@chakra-ui/react";
 import LoaderLineUp from '../widgets/loaders/LoaderLineUp';
 import LoaderShimmer from '../widgets/loaders/LoaderShimmer';
 import { IoCloseCircleOutline } from '@react-icons'
 
 function QueuePanel(props) {
 
-
     const [isOpen, setOpen] = useState(false);
-    // const [dragging, setDragging] = useState(false);
-    // const [relY, setRelY] = useState(0);
-    // const [curY, setCurY] = useState(0);
-    // const [springProps, setSpringProps] = useSpring(() => ({
-    //     config: { mass: 1, damping: 1, friction: 20, tension: 500 },
-    //     from: { y: 160 }
-    // }));
-    // var myRef = React.createRef();
+    const btnRef = React.useRef()
 
     const onClick = (e) => {
         setOpen(!isOpen);
-        // setSpringProps({ y: isOpen ? 100 : 160 })
+    }
+
+    const onClose = (e) => {
+        setOpen(false);
     }
 
     const onCancel = (e) => {
         setOpen(false);
-        // setSpringProps({ y: 60 })
         wsLeaveQueue();
-
     }
-
-    /*
-    // calculate relative position to the mouse and set dragging=true
-    const onMouseDown = (e) => {
-        if (e.button !== 0) return;
-        let pos = { left: myRef.current.offsetLeft, top: myRef.current.offsetTop }
-
-        setDragging(true);
-        setRelY(e.pageY - pos.top);
-        setCurY(0);
-
-        e.stopPropagation();
-        e.preventDefault();
-    }
-
-    const onMouseUp = (e) => {
-
-        if (curY <= 60) {
-            setOpen(true);
-        }
-
-        setDragging(false);
-
-        e.stopPropagation();
-        e.preventDefault();
-    }
-
-    const onMouseMove = (e) => {
-        if (!dragging) return;
-
-        setCurY(e.pageY - relY);
-
-        myRef.current.style.transform = `translate(0px, ${-curY}px)`
-        e.stopPropagation();
-        e.preventDefault();
-    }
-    */
 
     let queues = props.queues;
-
     // queues = queues || [];
     let panelClass = isOpen ? 'open' : '';
 
@@ -91,13 +46,59 @@ function QueuePanel(props) {
     }
 
     return (
-        <Center zIndex={3} position="fixed" top="0.5rem" width="50%" align="center" justifyItems={'center'} left="25%">
-            <VStack width="100%">
-                <LoaderShimmer title="SEARCHING" />
-                <LoaderLineUp />
-            </VStack>
-            <IconButton position="absolute" right="0" onClick={onCancel} icon={<IoCloseCircleOutline />} size="sm" isRound="true" />
-        </Center>
+        <>
+            <Center zIndex={3} position="fixed" top="0.5rem" width="50%" align="center" justifyItems={'center'} left="25%">
+                <VStack width="100%" spacing="0.2rem">
+                    <Button ref={btnRef} bg="gray.900" onClick={onClick} variant='outline'>
+                        <Text p="0.3rem" as="span" lineHeight={'1rem'} color="white" fontWeight={'bolder'}>
+                            SEARCHING
+                        </Text>
+                    </Button>
+                    <LoaderLineUp />
+                </VStack>
+                <IconButton position="absolute" right="0" onClick={onCancel} icon={<IoCloseCircleOutline />} size="sm" isRound="true" />
+            </Center>
+            <Drawer
+                isOpen={isOpen}
+                placement='right'
+                onClose={onClose}
+                finalFocusRef={btnRef}
+            >
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader>Queue</DrawerHeader>
+
+                    <DrawerBody>
+                        <VStack divider={<Divider />} spacing="1rem">
+                            {
+                                gameList.map(game_slug => {
+                                    let modes = queueMap[game_slug]
+                                    return (
+                                        <VStack key={'queueitem-' + game_slug}>
+                                            <Text color="brand.100" as="span" fontWeight={'bold'}>{game_slug}</Text>
+                                            <HStack>
+                                                {
+                                                    modes.map(m => (
+                                                        <Badge title={m} key={game_slug + "-" + m + "-mode"}>{m}</Badge>
+                                                    ))
+                                                }
+                                            </HStack>
+                                        </VStack>
+                                    )
+                                })
+                            }
+                        </VStack>
+                    </DrawerBody>
+                    {/* 
+                    <DrawerFooter>
+                        <Button variant='outline' mr={3} onClick={onCancel}>
+                            Leave Queue
+                        </Button>
+                    </DrawerFooter> */}
+                </DrawerContent>
+            </Drawer>
+        </>
         // <animated.div id="queue-panel" style={springProps} ref={myRef}>
         //     <div id="queue-header" >
         //         <div id="queue-header-content">

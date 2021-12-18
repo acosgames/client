@@ -245,7 +245,7 @@ export async function wsSpectateGame(game_slug) {
 }
 
 export async function wsJoinBetaGame(game) {
-    wsJoinGame('beta', game.game_slug);
+    wsJoinGame('experimental', game.game_slug);
 }
 
 
@@ -410,8 +410,8 @@ async function wsIncomingMessage(message) {
 
             fs.set('queues', []);
 
-            let beta = msg.mode == 'beta' ? '/beta' : '';
-            let urlPath = '/g/' + msg.game_slug + beta + '/' + msg.room_slug;
+            let experimental = msg.mode == 'experimental' ? '/experimental' : '';
+            let urlPath = '/g/' + msg.game_slug + experimental + '/' + msg.room_slug;
             if (window.location.href.indexOf(urlPath) == -1)
                 history.push(urlPath);
             break;

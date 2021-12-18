@@ -10,8 +10,7 @@ import { getUser } from '../../actions/person';
 import { findGame, findGamePerson } from "../../actions/game";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
-import { VStack, Image, Text, Heading, Center, Box, Flex } from "@chakra-ui/react";
-
+import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton } from "@chakra-ui/react";
 
 import SLink from "../widgets/SLink";
 import FSGGroup from "../widgets/inputs/FSGGroup";
@@ -20,7 +19,6 @@ import FSGRead from "../widgets/inputs/FSGRead";
 
 import GameInfoActions from './GameInfoActions'
 import GameInfoJoinButton from './GameInfoJoinButton'
-import GameInfoPlayer from './GameInfoPlayer'
 
 function GameInfo(props) {
     const game_slug = props.match.params.game_slug;
@@ -51,9 +49,7 @@ function GameInfo(props) {
     }, [])
 
 
-    const handleGoBack = () => {
-        props.history.push("/games");
-    }
+
 
 
 
@@ -75,113 +71,119 @@ function GameInfo(props) {
         playerCntRange = game.minplayers;
 
     return (
-        <Center>
-            <VStack width="100%" maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
-
-                <Flex w="100%" >
-                    <Box
-                        _after={{
-                            content: '""',
-                            display: 'block',
-                            paddingBottom: '100%'
-                        }}
-                        position="relative"
-                        w={['128px', '160px', '256px']}
-                    >
-                        <Image
-                            position="absolute"
-                            width="100%"
-                            height="100%"
-                            objectFit={'fill'}
-                            src={imgUrl}
-                            w="100%"
-                        />
-                    </Box>
+        <>
 
 
-                    <Flex ml="1rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
-                        <Heading fontSize={['xl', '2xl']}>{game.name}</Heading>
 
-                        <Text as="h5" pt="0.5rem" fontSize={['md', 'lg']} fontWeight="bold">{game.shortdesc}</Text>
-                        <Text as="span" color="gray.500" fontSize="xs">version {game.version}</Text>
+            <Center>
 
-                        <Box flexGrow={'1'}>
-                            <Text as="span" fontSize="xs">Created by @joetex</Text>
+                <VStack width="100%" maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
+
+                    <Flex w="100%" >
+                        <Box
+                            _after={{
+                                content: '""',
+                                display: 'block',
+                                paddingBottom: '100%'
+                            }}
+                            position="relative"
+                            w={['128px', '160px', '256px']}
+                        >
+                            <Image
+                                position="absolute"
+                                width="100%"
+                                height="100%"
+                                objectFit={'fill'}
+                                src={imgUrl}
+                                w="100%"
+                            />
                         </Box>
-                        {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
+
+
+                        <Flex ml="1rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
+                            <Heading fontSize={['xl', '2xl']}>{game.name}</Heading>
+
+                            <Text as="h5" pt="0.5rem" fontSize={['md', 'lg']} fontWeight="bold">{game.shortdesc}</Text>
+                            <Text as="span" color="gray.500" fontSize="xs">version {game.version}</Text>
+
+                            <Box flexGrow={'1'}>
+                                <Text as="span" fontSize="xs">Created by @joetex</Text>
+                            </Box>
+                            {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Box> */}
-                        <Box mt="1rem" display={['none', 'none', 'block']}>
-                            <GameInfoActions {...game} {...playerStats} />
-                        </Box>
+                            <Box mt="1rem" display={['none', 'none', 'block']}>
+                                <GameInfoActions {...game} {...playerStats} />
+                            </Box>
+                        </Flex>
+
+
                     </Flex>
 
 
-                </Flex>
-
-
-                <Box display={['block', 'block', 'none']}>
-                    <Center>
-                        <GameInfoActions {...game} {...playerStats} />
-                    </Center>
-                </Box>
-
-                <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%">
-                    <GameInfoJoinButton {...game} {...playerStats} />
-                </Flex>
-
-                <FSGGroup fontSize="1.2rem" title="Description" hfontSize="1rem">
-                    <Box align="left" id="game-info-longdesc">
-                        <ReactMarkdown
-                            allowed
-                            allowedElements={[
-                                "strong",
-                                "span",
-                                "emphasis",
-                                "i",
-                                "b",
-                                "p",
-                                "strike",
-                                "s",
-                                "del",
-                                "div",
-                                "table", "thead", "tbody", "tr", "th", "td"
-                            ]}
-                            children={game.longdesc}
-                            remarkPlugins={[remarkGfm]}></ReactMarkdown>
+                    <Box display={['block', 'block', 'none']}>
+                        <Center>
+                            <GameInfoActions {...game} {...playerStats} />
+                        </Center>
                     </Box>
-                </FSGGroup>
 
-                <FSGGroup title="Release" spacing="1rem" hfontSize="1rem">
-                    <FSGRead disabled={true}
-                        size="xs"
-                        title="Release Date"
-                        value={game.tsinsert}
-                    />
-                    <FSGRead disabled={true}
-                        size="xs"
-                        title="Last Updated"
-                        value={game.tsupdate}
-                    />
-                    <FSGRead disabled={true}
-                        size="xs"
-                        title="Build Version"
-                        value={game.version}
-                    />
-                    <FSGRead disabled={true}
-                        size="xs"
-                        title="Experimental Version"
-                        value={game.latest_version}
-                    />
-                </FSGGroup>
-                {/* 
+                    <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%">
+                        <GameInfoJoinButton {...game} {...playerStats} />
+                    </Flex>
+
+                    <FSGGroup fontSize="1.2rem" title="Description" hfontSize="1rem">
+                        <Box align="left" id="game-info-longdesc">
+                            <ReactMarkdown
+                                allowed
+                                allowedElements={[
+                                    "strong",
+                                    "span",
+                                    "emphasis",
+                                    "i",
+                                    "b",
+                                    "p",
+                                    "strike",
+                                    "s",
+                                    "del",
+                                    "div",
+                                    "table", "thead", "tbody", "tr", "th", "td"
+                                ]}
+                                children={game.longdesc}
+                                remarkPlugins={[remarkGfm]}></ReactMarkdown>
+                        </Box>
+                    </FSGGroup>
+
+                    <FSGGroup title="Release" spacing="1rem" hfontSize="1rem">
+                        <FSGRead disabled={true}
+                            size="xs"
+                            title="Release Date"
+                            value={game.tsinsert}
+                        />
+                        <FSGRead disabled={true}
+                            size="xs"
+                            title="Last Updated"
+                            value={game.tsupdate}
+                        />
+                        <FSGRead disabled={true}
+                            size="xs"
+                            title="Build Version"
+                            value={game.version}
+                        />
+                        <FSGRead disabled={true}
+                            size="xs"
+                            title="Experimental Version"
+                            value={game.latest_version}
+                        />
+                    </FSGGroup>
+                    {/* 
                 <FSGGroup fontSize="1.2rem" title="Reviews">
+                
+                <GameInfoReviews game_slug={game.game_slug} />
+            </FSGGroup> */}
 
-                    <GameInfoReviews game_slug={game.game_slug} />
-                </FSGGroup> */}
-
-            </VStack >
-        </Center >
+                </VStack >
+            </Center >
+        </>
         // <div id="game-info" onClick={(e) => {
         //     if (e.target == e.currentTarget)
         //         this.props.history.push('/g');
