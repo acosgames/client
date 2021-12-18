@@ -7,6 +7,7 @@ import fs from 'flatstore';
 import { wsJoinRankedGame, wsJoinBetaGame, wsRejoinRoom } from './connection';
 
 fs.set('games', []);
+fs.set('stats', {});
 
 export async function findGames() {
     try {
@@ -43,12 +44,21 @@ export async function findGame(game_slug) {
 export async function findGamePerson(game_slug) {
     try {
         let response = await GET('/api/v1/game/person/' + game_slug);
-        let game = response.data;
-        if (game.ecode) {
-            throw game.ecode;
+        let result = response.data;
+        if (result.ecode) {
+            throw result.ecode;
         }
-        fs.set(game_slug, game || null);
-        fs.set('game', game || null);
+
+        if (!result.game) {
+            throw 'E_GAMENOTFOUND';
+        }
+
+        let stats = fs.get('stats');
+        stats[game_slug] = result.player;
+        fs.set('stats', stats);
+
+        fs.set(game_slug, result.game || null);
+        fs.set('game', result.game || null);
 
     }
     catch (e) {
@@ -71,9 +81,9 @@ export async function joinGame(game, istest) {
     if (istest) {
         version = game.latest_version;
     }
-    await downloadGame(game.gameid, version);
+    // await downloadGame(game.gameid, version);
 
-    clearTimeout(hJoining);
+    // clearTimeout(hJoining);
 
     try {
         if (istest) {

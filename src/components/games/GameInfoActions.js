@@ -83,65 +83,65 @@ function GameInfoActions(game) {
 
 
     return (
-        <Center>
-            <Flex wrap={'wrap'} alignItems={'center'} justifyContent={'center'} pt="1rem">
-                <HStack spacing="2rem" pr="1.5rem" pb="1rem">
-                    <HStack h='100%' pr={[0]}>
-                        <Tooltip label="Yes">
-                            <IconButton icon={<FaThumbsUp />} onClick={onLike} color={liked ? 'brand.500' : 'white'} />
-                        </Tooltip>
-                        <Text>{votes}</Text>
-                        <Tooltip label="No">
-                            <IconButton icon={<FaThumbsDown />} onClick={onDislike} color={disliked ? 'red.300' : 'white'} />
-                        </Tooltip>
-                    </HStack>
-                    <HStack ml="1.5rem">
-                        {/* <Icon color="gray.300" fontSize={['sm', 'md']} as={FiUsers} /> */}
-                        <Text color="white" fontSize={['sm', 'md']}>{game.count || 0} PLAYING</Text>
 
-                    </HStack>
-                </HStack>
-                <HStack pb="1rem">
-                    <Tooltip label="Discuss issues on GitHub">
-                        <HStack>
-
-                            <Icon color="white" as={FaGithub} />
-                            <Text color="white"><Link target="_blank" href={`https://github.com/fivesecondgames/${game.game_slug}/issues`}>DISCUSS</Link></Text>
-
-                        </HStack>
+        <Flex wrap={'wrap'} spacing="0" alignItems={['center', 'center', 'left']} justifyContent={['center', 'center', 'left']}>
+            <HStack spacing="0">
+                <HStack h='100%' spacing="0.5rem" pr="1rem">
+                    <Tooltip label="Yes">
+                        <IconButton icon={<FaThumbsUp />} onClick={onLike} color={liked ? 'brand.100' : 'white'} />
                     </Tooltip>
-                    <Box alignContent={'right'}>
-
-                        <Menu>
-                            <MenuButton as={Button} color={"gray.500"} size="sm" variant="clear">
-                                <HStack spacing="0.2rem">
-                                    <Icon as={IoWarningSharp} />
-                                    <Text as="span" color="gray.500">{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
-                                </HStack>
-
-                            </MenuButton>
-                            <MenuList>
-                                <MenuItem
-                                    color={report == 1 ? 'red.300' : 'white'}
-                                    onClick={() => {
-                                        onReport(1)
-                                    }}>Does not work</MenuItem>
-                                <MenuItem
-                                    color={report == 2 ? 'red.300' : 'white'}
-                                    onClick={() => {
-                                        onReport(2)
-                                    }}>Inappropriate</MenuItem>
-                                <MenuItem
-                                    color={report == 3 ? 'red.300' : 'white'}
-                                    onClick={() => {
-                                        onReport(3)
-                                    }}>Spam</MenuItem>
-                            </MenuList>
-                        </Menu>
-                    </Box>
+                    <Text color="white" fontSize={'1.2rem'} fontWeight={'500'}>{votes}</Text>
+                    <Tooltip label="No">
+                        <IconButton icon={<FaThumbsDown />} onClick={onDislike} color={disliked ? 'red.300' : 'white'} />
+                    </Tooltip>
                 </HStack>
-            </Flex>
-        </Center>
+                <HStack spacing="0" pr="1rem" alignContent={'center'} alignItems={'center'}>
+                    {/* <Icon color="gray.300" fontSize={['sm', 'md']} as={FiUsers} /> */}
+                    <Text lineHeight={'1.2rem'} color="white" fontWeight={'500'} fontSize={['1.2rem']} >{game.count || 0}</Text>
+                    <Text lineHeight={'1.2rem'} color="white" fontSize={['1rem']} pl={'0.4rem'}>PLAYING</Text>
+
+                </HStack>
+            </HStack>
+            <HStack spacing="0">
+                <Tooltip label="Discuss issues on GitHub">
+                    <HStack spacing="0.2rem" pr="1rem" alignContent={'center'}>
+
+                        <Icon color="white" as={FaGithub} fontSize={'1.2rem'} />
+                        <Text color="white"><Link target="_blank" href={`https://github.com/fivesecondgames/${game.game_slug}/issues`}>DISCUSS</Link></Text>
+
+                    </HStack>
+                </Tooltip>
+                <Box alignContent={'right'} >
+
+                    <Menu>
+                        <MenuButton as={Button} color={"gray.500"} size="sm" variant="clear" p={0}>
+                            <HStack spacing="0.2rem" alignContent={'center'}>
+                                <Icon as={IoWarningSharp} fontSize="1.2rem" />
+                                <Text as="span" color="gray.500">{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
+                            </HStack>
+
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem
+                                color={report == 1 ? 'red.300' : 'white'}
+                                onClick={() => {
+                                    onReport(1)
+                                }}>Does not work</MenuItem>
+                            <MenuItem
+                                color={report == 2 ? 'red.300' : 'white'}
+                                onClick={() => {
+                                    onReport(2)
+                                }}>Inappropriate</MenuItem>
+                            <MenuItem
+                                color={report == 3 ? 'red.300' : 'white'}
+                                onClick={() => {
+                                    onReport(3)
+                                }}>Spam</MenuItem>
+                        </MenuList>
+                    </Menu>
+                </Box>
+            </HStack>
+        </Flex>
 
 
     )

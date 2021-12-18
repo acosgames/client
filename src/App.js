@@ -58,7 +58,7 @@ class App extends Component {
 
 
         </Flex>
-        <QueuePanel />
+
       </BrowserRouter>
     );
   }

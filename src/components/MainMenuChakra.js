@@ -14,7 +14,7 @@ import NavForUser from './login/NavForUser';
 import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import { useHistory } from 'react-router-dom';
 
-
+import QueuePanel from './games/QueuePanel';
 
 const NavLink = ({ children }) => (
     <Link
@@ -67,7 +67,7 @@ function MainMenuChakra(props) {
                                 home
                             </span> */}
                     </SLink></Box>
-
+                    <QueuePanel />
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>
                             {/* <Button onClick={toggleColorMode}>

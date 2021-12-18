@@ -40,6 +40,7 @@ export async function logout() {
         fs.set('loggedIn', false);
         fs.set('user', {});
         fs.set('userid', 0);
+        fs.set('stats', {});
 
         return true;
     }

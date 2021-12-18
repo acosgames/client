@@ -1,8 +1,12 @@
 import React, { Component, useState } from "react";
 
-import { useSpring, animated } from 'react-spring';
+// import { useSpring, animated } from 'react-spring';
 import fs from 'flatstore';
 import { wsLeaveQueue } from "../../actions/connection";
+import { HStack, Text, VStack, Center, IconButton } from "@chakra-ui/react";
+import LoaderLineUp from '../widgets/loaders/LoaderLineUp';
+import LoaderShimmer from '../widgets/loaders/LoaderShimmer';
+import { IoCloseCircleOutline } from '@react-icons'
 
 function QueuePanel(props) {
 
@@ -11,20 +15,20 @@ function QueuePanel(props) {
     // const [dragging, setDragging] = useState(false);
     // const [relY, setRelY] = useState(0);
     // const [curY, setCurY] = useState(0);
-    const [springProps, setSpringProps] = useSpring(() => ({
-        config: { mass: 1, damping: 1, friction: 20, tension: 500 },
-        from: { y: 160 }
-    }));
-    var myRef = React.createRef();
+    // const [springProps, setSpringProps] = useSpring(() => ({
+    //     config: { mass: 1, damping: 1, friction: 20, tension: 500 },
+    //     from: { y: 160 }
+    // }));
+    // var myRef = React.createRef();
 
     const onClick = (e) => {
         setOpen(!isOpen);
-        setSpringProps({ y: isOpen ? 100 : 160 })
+        // setSpringProps({ y: isOpen ? 100 : 160 })
     }
 
     const onCancel = (e) => {
         setOpen(false);
-        setSpringProps({ y: 60 })
+        // setSpringProps({ y: 60 })
         wsLeaveQueue();
 
     }
@@ -87,59 +91,66 @@ function QueuePanel(props) {
     }
 
     return (
-        <animated.div id="queue-panel" style={springProps} ref={myRef}>
-            <div id="queue-header" >
-                <div id="queue-header-content">
+        <Center zIndex={3} position="fixed" top="0.5rem" width="50%" align="center" justifyItems={'center'} left="25%">
+            <VStack width="100%">
+                <LoaderShimmer title="SEARCHING" />
+                <LoaderLineUp />
+            </VStack>
+            <IconButton position="absolute" right="0" onClick={onCancel} icon={<IoCloseCircleOutline />} size="sm" isRound="true" />
+        </Center>
+        // <animated.div id="queue-panel" style={springProps} ref={myRef}>
+        //     <div id="queue-header" >
+        //         <div id="queue-header-content">
 
-                    <div
-                        id="queue-tab"
+        //             <div
+        //                 id="queue-tab"
 
-                        onClick={onClick}
-                    // onMouseDown={onMouseDown}
-                    // onMouseUp={onMouseUp}
-                    // onMouseMove={onMouseMove}
-                    // onMouseOut={onMouseUp}
-                    >
-                        {/* <div id="queue-tab-divet"></div> */}
-                        <div id="queue-tab-cancel" onClick={onCancel}>&times;</div>
-                        <div id="queue-searching">Searching</div>
-                        <div id="queue-loader">
-                            <div className="loader-inner line-scale-pulse-out-rapid">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="queue-content"
-            // onClick={onClick}
-            >
-                <div id="queue-games">
-                    <ul>
-                        {
-                            gameList.map(game_slug => {
-                                let modes = queueMap[game_slug]
-                                return (
-                                    <li key={game_slug}>
-                                        <span className="queue-game-title">{game_slug}</span>
-                                        {
-                                            modes.map(m => (
-                                                <span key={game_slug + "-" + m + "-mode"} className="queue-game-mode">{m}</span>
-                                            ))
-                                        }
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
-                </div>
-            </div>
+        //                 onClick={onClick}
+        //             // onMouseDown={onMouseDown}
+        //             // onMouseUp={onMouseUp}
+        //             // onMouseMove={onMouseMove}
+        //             // onMouseOut={onMouseUp}
+        //             >
+        //                 {/* <div id="queue-tab-divet"></div> */}
+        //                 <div id="queue-tab-cancel" onClick={onCancel}>&times;</div>
+        //                 <div id="queue-searching">Searching</div>
+        //                 <div id="queue-loader">
+        //                     <div className="loader-inner line-scale-pulse-out-rapid">
+        //                         <div></div>
+        //                         <div></div>
+        //                         <div></div>
+        //                         <div></div>
+        //                         <div></div>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     </div>
+        //     <div id="queue-content"
+        //     // onClick={onClick}
+        //     >
+        //         <div id="queue-games">
+        //             <ul>
+        //                 {
+        //                     gameList.map(game_slug => {
+        //                         let modes = queueMap[game_slug]
+        //                         return (
+        //                             <li key={game_slug}>
+        //                                 <span className="queue-game-title">{game_slug}</span>
+        //                                 {
+        //                                     modes.map(m => (
+        //                                         <span key={game_slug + "-" + m + "-mode"} className="queue-game-mode">{m}</span>
+        //                                     ))
+        //                                 }
+        //                             </li>
+        //                         )
+        //                     })
+        //                 }
+        //             </ul>
+        //         </div>
+        //     </div>
 
-        </animated.div>
+        // </animated.div>
     )
 
 }

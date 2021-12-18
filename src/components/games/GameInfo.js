@@ -20,7 +20,7 @@ import FSGRead from "../widgets/inputs/FSGRead";
 
 import GameInfoActions from './GameInfoActions'
 import GameInfoJoinButton from './GameInfoJoinButton'
-
+import GameInfoPlayer from './GameInfoPlayer'
 
 function GameInfo(props) {
     const game_slug = props.match.params.game_slug;
@@ -33,7 +33,7 @@ function GameInfo(props) {
         try {
             let game = fs.get(game_slug);
             if (!game) {
-                if (!user) {
+                if (!user || !user.shortid) {
                     await findGame(game_slug)
                 }
                 else
@@ -42,7 +42,7 @@ function GameInfo(props) {
 
         }
         catch (e) {
-            if (!user) {
+            if (!user || !user.shortid) {
                 await findGame(game_slug)
             }
             else
@@ -59,6 +59,7 @@ function GameInfo(props) {
 
 
     // let game_slug = props.match.params.game_slug;
+    let playerStats = fs.get('stats>' + game_slug) || {};
     let game = fs.get(game_slug);
     if (!game) {
         //fs.set('game', null);
@@ -75,7 +76,7 @@ function GameInfo(props) {
 
     return (
         <Center>
-            <VStack maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
+            <VStack width="100%" maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
 
                 <Flex w="100%" >
                     <Box
@@ -98,27 +99,36 @@ function GameInfo(props) {
                     </Box>
 
 
-                    <Flex ml="1rem" direction="column" alignSelf={'stretch'} w="100%" position="relative">
+                    <Flex ml="1rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
                         <Heading fontSize={['xl', '2xl']}>{game.name}</Heading>
 
                         <Text as="h5" pt="0.5rem" fontSize={['md', 'lg']} fontWeight="bold">{game.shortdesc}</Text>
-                        <Text as="span" color="gray.500" >version {game.version}</Text>
+                        <Text as="span" color="gray.500" fontSize="xs">version {game.version}</Text>
 
                         <Box flexGrow={'1'}>
-                            <Text as="span" >Created by @joetex</Text>
+                            <Text as="span" fontSize="xs">Created by @joetex</Text>
                         </Box>
-                        <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
-                            <GameInfoJoinButton {...game} />
+                        {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
+                            <GameInfoJoinButton {...game} {...playerStats} />
+                        </Box> */}
+                        <Box mt="1rem" display={['none', 'none', 'block']}>
+                            <GameInfoActions {...game} {...playerStats} />
                         </Box>
                     </Flex>
 
 
                 </Flex>
-                <Flex display={['flex', 'flex', 'none']} pt="1rem" h="100%" flex="1" w="100%">
-                    <GameInfoJoinButton {...game} />
-                </Flex>
 
-                <GameInfoActions {...game} />
+
+                <Box display={['block', 'block', 'none']}>
+                    <Center>
+                        <GameInfoActions {...game} {...playerStats} />
+                    </Center>
+                </Box>
+
+                <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%">
+                    <GameInfoJoinButton {...game} {...playerStats} />
+                </Flex>
 
                 <FSGGroup fontSize="1.2rem" title="Description" hfontSize="1rem">
                     <Box align="left" id="game-info-longdesc">
