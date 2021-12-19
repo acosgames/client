@@ -6,21 +6,54 @@ import { validateSimple, validateField } from 'fsg-shared/util/validation';
 import fs from 'flatstore';
 import { wsJoinRankedGame, wsJoinBetaGame, wsRejoinRoom } from './connection';
 
-fs.set('games', []);
-fs.set('stats', {});
+fs.set('rankList', []);
+fs.set('experimentalList', []);
+
+fs.set('game', null);
+fs.set('games', {});
+fs.set('player_stats', {});
+
+
+export async function sortGames(games) {
+
+    let rankList = [];
+    let experimentalList = [];
+
+    for (var game_slug in games) {
+        let game = games[game_slug];
+        if (game.version > 0) {
+            rankList.push(game);
+        }
+        if (!game.version) {
+            experimentalList.push(game);
+        }
+    }
+
+    fs.set('rankList', rankList);
+    fs.set('experimentalList', experimentalList);
+}
+
 
 export async function findGames() {
     try {
         let response = await GET('/api/v1/games');
-        let games = response.data;
-        if (games.ecode) {
-            throw games.ecode;
+        let result = response.data;
+        if (result.ecode) {
+            throw result.ecode;
         }
-        fs.set('games', games || []);
+
+        let games = fs.get('games');
+        for (var game of result) {
+            games[game.game_slug] = game;
+        }
+
+        sortGames(games);
+
+        fs.set('games', games || {});
     }
     catch (e) {
         console.error(e);
-        fs.set('games', []);
+        fs.set('games', {});
     }
 }
 
@@ -31,14 +64,16 @@ export async function findGame(game_slug) {
         if (game.ecode) {
             throw game.ecode;
         }
-        fs.set(game_slug, game || null);
+        fs.set('games>' + game_slug, game);
         fs.set('game', game || null);
 
+        return game;
     }
     catch (e) {
         console.error(e);
-        fs.set(game_slug, null);
+        fs.set('game', null);
     }
+    return null;
 }
 
 export async function findGamePerson(game_slug) {
@@ -53,17 +88,21 @@ export async function findGamePerson(game_slug) {
             throw 'E_GAMENOTFOUND';
         }
 
-        let stats = fs.get('stats');
-        stats[game_slug] = result.player;
-        fs.set('stats', stats);
+        let player_stats = fs.get('player_stats') || {};
+        if (result.player) {
+            player_stats[game_slug] = result.player;
+            fs.set('player_stats', player_stats);
+        }
 
-        fs.set(game_slug, result.game || null);
-        fs.set('game', result.game || null);
+
+        // fs.set(game_slug, result.game || null);
+        fs.set('games>' + game_slug, result.game);
+        fs.set('game', result.game || {});
 
     }
     catch (e) {
         console.error(e);
-        fs.set(game_slug, null);
+        fs.set(game_slug, {});
     }
 }
 

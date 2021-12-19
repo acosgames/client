@@ -13,7 +13,7 @@ function GameInfoJoinButton(props) {
 
     const handleJoin = () => {
         //let game_slug = props.match.params.game_slug;
-        let game = fs.get(props.game_slug);
+        let game = fs.get('game');
         if (!game)
             return
 
@@ -22,7 +22,7 @@ function GameInfoJoinButton(props) {
 
     const handleJoinBeta = () => {
         //let game_slug = props.match.params.game_slug;
-        let game = fs.get(props.game_slug);
+        let game = fs.get('game');
         if (!game)
             return
 
@@ -54,13 +54,13 @@ function GameInfoJoinButton(props) {
             >
                 <Text
                     display={props.played >= 10 ? 'block' : 'none'}
-                    color="white"
+                    color="yellow.100"
                     fontSize={['1rem']}
                     fontWeight="bold"
                     lineHeight={'2rem'}
                     align="center">{rating} </Text>
                 <Text
-                    color="white"
+                    color="yellow.100"
                     fontSize={['1rem',]}
                     fontWeight={'bolder'}
                     lineHeight="2rem"

@@ -22,17 +22,17 @@ class GameList extends Component {
     }
 
     render() {
-        let games = this.props.games || [];
-
-        let productionGames = games.filter(v => v.status == 3);
-        let betaGames = games.filter(v => v.status == 2);
+        let rankList = this.props.rankList || [];
+        let experimentalList = this.props.experimentalList || [];
+        // let productionGames = games.filter(v => v.status == 3);
+        // let betaGames = games.filter(v => v.status == 2);
         return (
             <VStack width="100%" align="left" spacing="4rem">
                 <VStack align="left">
                     <Heading as="h1" size="lg">Games</Heading>
                     <Wrap w="100%" spacing="1rem">
                         {
-                            productionGames.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
+                            rankList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }
                     </Wrap>
                 </VStack>
@@ -40,7 +40,7 @@ class GameList extends Component {
                     <Heading as="h1" size="lg">Needs Testing</Heading>
                     <Flex w="100%">
                         {
-                            betaGames.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
+                            experimentalList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }
                     </Flex>
                 </VStack>
@@ -63,4 +63,4 @@ class GameList extends Component {
     }
 }
 
-export default withRouter(fs.connect(['games'])(GameList));
+export default withRouter(fs.connect(['rankList', 'experimentalList'])(GameList));

@@ -26,11 +26,12 @@ function GameInfo(props) {
     useEffect(async () => {
         let test = 1;
         let user = await getUser();
-
+        let player_stats = fs.get('player_stats');
+        let player_stat = player_stats[game_slug];
 
         try {
-            let game = fs.get(game_slug);
-            if (!game) {
+            let game = fs.get('game');
+            if (!game || !player_stat) {
                 if (!user || !user.shortid) {
                     await findGame(game_slug)
                 }
@@ -46,7 +47,7 @@ function GameInfo(props) {
             else
                 await findGamePerson(game_slug);
         }
-    }, [])
+    })
 
 
 
@@ -55,8 +56,9 @@ function GameInfo(props) {
 
 
     // let game_slug = props.match.params.game_slug;
-    let playerStats = fs.get('stats>' + game_slug) || {};
-    let game = fs.get(game_slug);
+    let player_stats = fs.get('player_stats');
+    let playerStats = player_stats[game_slug] || {};
+    let game = props.game;
     if (!game) {
         //fs.set('game', null);
         return <React.Fragment></React.Fragment>

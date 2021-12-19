@@ -28,8 +28,9 @@ class GamePanel extends Component {
         this.experimental = props.match.params.experimental;
         this.room_slug = props.match.params.room_slug;
 
-        let games = fs.get('games') || [];
-        if (games.length == 0) {
+        let games = fs.get('games');
+
+        if (Object.keys(games).length == 0) {
             findAndRejoin(this.game_slug, this.room_slug);
 
         }

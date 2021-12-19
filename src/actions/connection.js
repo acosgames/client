@@ -409,6 +409,7 @@ async function wsIncomingMessage(message) {
             fs.set('rooms', rooms);
 
             fs.set('queues', []);
+            fs.set('gamestate', {});
 
             let experimental = msg.mode == 'experimental' ? '/experimental' : '';
             let urlPath = '/g/' + msg.game_slug + experimental + '/' + msg.room_slug;
@@ -441,14 +442,35 @@ async function wsIncomingMessage(message) {
     if (msg.payload) {
         console.log("[Previous State]: ", gamestate);
         if (msg.type == 'private') {
-            let player = msg.payload.players[user.shortid]
+            let player = gamestate.players[user.shortid]
             player = delta.merge(player, msg.payload);
-            msg.payload.players[user.shortid] = player;
+
+            let rooms = fs.get('rooms');
+            let room = rooms[msg.room_slug];
+            //UPDATE PLAYER STATS FOR THIS GAME
+            if (room.mode == 'rank' && msg.payload._played) {
+                let player_stats = fs.get('player_stats');
+                let player_stat = player_stats[game.game_slug]
+                if (player_stat) {
+                    player_stat.win = msg.payload._win;
+                    player_stat.loss = msg.payload._loss;
+                    player_stat.tie = msg.payload._tie;
+                    player_stat.played = msg.payload._played;
+                    player_stat.rating = player.rating;
+
+                }
+                fs.set('player_stats', player_stats);
+            }
+
+            gamestate.players[user.shortid] = player;
+            fs.set('gamestate', gamestate);
+            return;
         }
         else {
             msg.payload = delta.merge(gamestate, msg.payload);
+            fs.set('gamestate', msg.payload);
         }
-        fs.set('gamestate', msg.payload);
+
     }
 
     if (msg.payload.players) {
@@ -463,4 +485,45 @@ async function wsIncomingMessage(message) {
 
     console.timeEnd('ActionLoop');
     sendFrameMessage(out);
+
+    postIncomingMessage(msg)
 }
+
+async function postIncomingMessage(msg) {
+    switch (msg.type) {
+        case 'finish':
+            let rooms = fs.get('rooms');
+            let room = rooms[msg.room_slug];
+            let game = fs.get('game');
+            let gamestate = fs.get('gamestate');
+            let user = fs.get('user');
+
+            if (room.mode == 'rank') {
+                let player = msg.payload.players[user.shortid];
+
+                let player_stats = fs.get('player_stats');
+                let player_stat = player_stats[game.game_slug] || {};
+                if (player_stat) {
+                    player_stat.rating = player.rating;
+                    player_stat.ratingTxt = player.ratingTxt;
+                    player_stats[game.game_slug] = player_stat;
+                }
+                fs.set('player_stats', player_stats);
+            }
+
+
+            fs.set('gamestate', {});
+
+            break;
+        case 'error':
+            fs.set('gamestate', {});
+            break;
+        case 'kicked':
+            fs.set('gamestate', {});
+            break;
+        case 'join':
+
+            break;
+    }
+}
+
