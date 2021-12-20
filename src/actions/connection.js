@@ -11,7 +11,7 @@ fs.set('ws', null);
 fs.set('game', null);
 fs.set('gamestate', {});
 fs.set('room_slug', null);
-fs.set('games', null);
+fs.set('games', {});
 
 fs.set('queues', []);
 fs.set('joinrooms', {})
@@ -51,6 +51,12 @@ export function sendFrameMessage(msg) {
 
 }
 
+export function sendLoadMessage(room_slug, gameid, version) {
+    let iframe = fs.get('iframes>' + room_slug);
+    if (iframe)
+        iframe.current.contentWindow.postMessage({ type: 'load', payload: { gameid, version } }, '*');
+}
+
 
 export function recvFrameMessage(evt) {
     let action = evt.data;
@@ -66,7 +72,7 @@ export function recvFrameMessage(evt) {
     let ws = fs.get('ws');
 
     if (ws) {
-        console.time('ActionLoop');
+        // console.time('ActionLoop');
         let room_slug = fs.get('room_slug');
         let gamestate = fs.get('gamestate');
         action.room_slug = room_slug;
@@ -198,7 +204,7 @@ export async function wsJoinGame(mode, game_slug) {
 
     fs.set('joining', 'game');
     console.log("[Outgoing] Joining " + mode + ": ", action);
-    console.timeEnd('ActionLoop');
+    // console.timeEnd('ActionLoop');
 }
 
 export async function wsJoinRoom(game_slug, room_slug, private_key) {
@@ -221,7 +227,7 @@ export async function wsJoinRoom(game_slug, room_slug, private_key) {
 
     fs.set('joining', 'game');
     console.log("[Outgoing] Joining room [" + room_slug + "]: ", game_slug, action);
-    console.timeEnd('ActionLoop');
+    // console.timeEnd('ActionLoop');
 }
 
 export async function wsSpectateGame(game_slug) {
@@ -241,7 +247,7 @@ export async function wsSpectateGame(game_slug) {
 
     fs.set('joining', 'game');
     console.log("[Outgoing] Spectating [" + game_slug + "]: ", action);
-    console.timeEnd('ActionLoop');
+    // console.timeEnd('ActionLoop');
 }
 
 export async function wsJoinBetaGame(game) {
@@ -381,6 +387,9 @@ async function wsIncomingMessage(message) {
         case 'pong':
             onPong(msg);
             return;
+        case 'ready':
+            console.log("iframe is ready!");
+            return;
         case 'notexist':
             let currentPath = window.location.href;
             let currentParts = currentPath.split('/g/');
@@ -483,7 +492,7 @@ async function wsIncomingMessage(message) {
     let out = { local: msg.local, room_slug: msg.room_slug, ...msg.payload };
 
 
-    console.timeEnd('ActionLoop');
+    // console.timeEnd('ActionLoop');
     sendFrameMessage(out);
 
     postIncomingMessage(msg)

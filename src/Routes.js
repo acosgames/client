@@ -22,6 +22,7 @@ import RoutesDev from './RoutesDev';
 import fs from 'flatstore';
 // import history from "./actions/history";
 import flatstore from 'flatstore';
+import GameScreen from "./components/games/GameScreen";
 
 var Routes = () => {
 
@@ -64,12 +65,12 @@ var Routes = () => {
             <Route
                 exact
                 path="/g/:game_slug/:room_slug"
-                component={GamePanel}
+                component={GameScreen}
             />
             <Route
                 exact
                 path="/g/:game_slug/:mode/:room_slug"
-                component={GamePanel}
+                component={GameScreen}
             />
             <Route
 

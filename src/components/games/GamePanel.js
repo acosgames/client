@@ -6,7 +6,7 @@ import {
 
 import Connection from "./Connection";
 import fs from 'flatstore';
-import { wsJoinRankedGame, wsRejoinRoom } from "../../actions/connection";
+import { sendLoadMessage, wsJoinRankedGame, wsRejoinRoom } from "../../actions/connection";
 import { joinGame, findGame, downloadGame, findAndRejoin } from "../../actions/game";
 import LeaveGame from "./LeaveGame";
 import { Box, Button, IconButton } from "@chakra-ui/react";
@@ -53,17 +53,7 @@ class GamePanel extends Component {
 
 
 
-    /* When the openFullscreen() function is executed, open the video in fullscreen.
-    Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
-    openFullscreen(elem) {
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen();
-        }
-    }
+
 
     async componentDidMount() {
         let game = this.props.game;
@@ -80,7 +70,7 @@ class GamePanel extends Component {
         let gameid = room.gameid;
         let version = room.version;
         let srcUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${gameid}/client/client.bundle.${version}.html`;
-
+        srcUrl = '/iframe';
 
 
         return (
@@ -110,6 +100,8 @@ class GamePanel extends Component {
                         let iframesLoaded = fs.get('iframesLoaded');
                         iframesLoaded[room_slug] = true;
                         fs.set('iframesLoaded', iframesLoaded);
+
+                        sendLoadMessage(room_slug, gameid, version);
                     }}
                     src={srcUrl}
                     sandbox="allow-scripts"
