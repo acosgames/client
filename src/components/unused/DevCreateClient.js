@@ -113,9 +113,9 @@ class DevCreateClient extends Component {
                 <br />
                 <input
                     type="text"
-                    name="git"
-                    placeholder="Git URL for this project"
-                    maxLength="500"
+                    name="opensource"
+                    placeholder="Will the project be open source?"
+                    maxLength="3"
                     onChange={this.inputChange.bind(this)} />
                 <br />
 

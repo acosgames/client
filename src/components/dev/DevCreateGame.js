@@ -58,6 +58,8 @@ function DevCreateGame(props) {
                 isClosable: true,
                 duration: 1200
             })
+
+            props.history.replace('/dev/game/' + game.gameid);
             // props.history.replace('/dev/game/' + props.devgame.gameid);
         }
         catch (e) {
@@ -66,7 +68,7 @@ function DevCreateGame(props) {
 
 
 
-        props.history.replace('/dev/game/' + game.gameid);
+
     }
 
     const inputChange = (e) => {

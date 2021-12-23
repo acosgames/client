@@ -134,7 +134,7 @@ function DevManageGameFields(props) {
                     <FSGSubmit onClick={onSubmit}></FSGSubmit>
                 </Box>
             </HStack>
-            <FSGGroup title="Featured Image">
+            <FSGGroup hfontSize="md" title="Featured Image">
                 <Center>
                     <DevImageUpload
                         imgstore='devgameimages'
@@ -146,7 +146,7 @@ function DevManageGameFields(props) {
                 hasError && (
                     <>
                         <a ref={myRef} name="errors"></a>
-                        <FSGGroup title="Errors" color="red.600">
+                        <FSGGroup hfontSize="md" title="Errors" color="red.600">
                             <VStack textAlign="left" pl="0">
                                 {displayError()}
                             </VStack>
@@ -155,7 +155,7 @@ function DevManageGameFields(props) {
                 )
             }
 
-            <FSGGroup title="Game Details">
+            <FSGGroup hfontSize="md" title="Game Details">
                 <FSGTextInput
                     name="name"
                     id="name"
@@ -191,7 +191,7 @@ function DevManageGameFields(props) {
                 />
             </FSGGroup>
 
-            <FSGGroup title="Game Configuration">
+            <FSGGroup hfontSize="md" title="Game Configuration">
                 <FSGNumberInput
                     type="number"
                     name="maxplayers"

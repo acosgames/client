@@ -17,6 +17,9 @@ fs.set('queues', []);
 fs.set('joinrooms', {})
 fs.set('rooms', {});
 
+var messageQueue = {};
+var onResize = null;
+
 export function attachToFrame() {
     window.addEventListener(
         'message',
@@ -29,29 +32,63 @@ export function detachFromFrame() {
     window.removeEventListener('message', recvFrameMessage, false);
 }
 
+export function fastForwardMessages() {
+
+    // let room_slug = msg.room_slug;
+    let room_slug = fs.get('room_slug');
+    let iframes = fs.get('iframes') || {}
+    let iframe = iframes[room_slug];
+
+    if (iframe) {
+
+
+        let mq = messageQueue[room_slug];
+        if (mq && mq.length > 0) {
+            console.log("Forwarding queued messages to iframe.");
+            for (var i = 0; i < mq.length; i++) {
+                iframe.current.contentWindow.postMessage(mq[i], '*');
+                console.log(mq[i]);
+            }
+            delete messageQueue[room_slug];
+        }
+
+        onResize();
+    }
+}
+
 export function sendFrameMessage(msg) {
+
     let room_slug = msg.room_slug;
     let room = fs.get('rooms>' + room_slug);
-    let iframe = fs.get('iframes>' + room_slug);
+    let iframes = fs.get('iframes') || {}
+    let iframe = iframes[room_slug];
 
-    let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
-    if (!iframeLoaded) {
-        setTimeout(() => {
-            sendFrameMessage(msg);
-        }, 20)
+    // let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
+    if (!iframe) {
+        if (!messageQueue[room_slug])
+            messageQueue[room_slug] = [];
+
+        messageQueue[room_slug].push(msg);
+        // setTimeout(() => {
+        //     sendFrameMessage(msg);
+        // }, 20)
         return;
     }
+
     if (iframe) {
+
+
         //next frame
         // setTimeout(() => {
-        iframe.contentWindow.postMessage(msg, '*');
+        iframe.current.contentWindow.postMessage(msg, '*');
         // }, 1000)
 
     }
 
 }
 
-export function sendLoadMessage(room_slug, gameid, version) {
+export function sendLoadMessage(room_slug, gameid, version, runCallback) {
+    onResize = runCallback;
     let iframe = fs.get('iframes>' + room_slug);
     if (iframe)
         iframe.current.contentWindow.postMessage({ type: 'load', payload: { gameid, version } }, '*');
@@ -64,6 +101,16 @@ export function recvFrameMessage(evt) {
     let source = evt.source;
     if (!action.payload || !action.type) return;
     console.log('[iframe]: ', action);
+
+    let room_slug = fs.get('room_slug');
+
+    let iframesLoaded = fs.get('iframesLoaded') || {};
+    if (action.type == 'ready') {
+        // iframesLoaded[room_slug] = true;
+        // fs.set('iframesLoaded', iframesLoaded);
+
+        fastForwardMessages();
+    }
     // let msg = data.payload;
     // if (msg.indexOf("Hello") > -1) {
     //     this.send('connected', 'Welcome to 5SG!');
@@ -482,7 +529,7 @@ async function wsIncomingMessage(message) {
 
     }
 
-    if (msg.payload.players) {
+    if (msg.payload && msg.payload.players) {
         msg.local = msg.payload.players[user.shortid];
         msg.local.id = user.shortid;
     } else {

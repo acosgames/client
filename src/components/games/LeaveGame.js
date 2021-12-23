@@ -9,6 +9,8 @@ import fs from 'flatstore';
 import { wsLeaveGame, wsJoinRankedGame, wsJoinBetaGame } from "../../actions/connection";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { IconButton } from "@chakra-ui/react";
+import { IoExitOutline } from '@react-icons';
 
 var timeout = 0;
 var longPressDelay = 3000;
@@ -61,17 +63,20 @@ function LeaveGame(props) {
     }
 
     return (
-        <button
-            className="btn-forfeit"
-            onMouseDown={onStart}
-            onTouchStart={onStart}
-            onMouseUp={onClear}
-            onMouseLeave={onClear}
-            onTouchMove={onClear}
-            onTouchEnd={onClear}
-            onClickCapture={clickCaptureHandler}
+        <IconButton
+            onClick={onSuccess}
+            icon={<IoExitOutline />}
+            size="sm"
+        // className="btn-forfeit"
+        // onMouseDown={onStart}
+        // onTouchStart={onStart}
+        // onMouseUp={onClear}
+        // onMouseLeave={onClear}
+        // onTouchMove={onClear}
+        // onTouchEnd={onClear}
+        // onClickCapture={clickCaptureHandler}
         >
-            <CircularProgressbar
+            {/* <CircularProgressbar
                 value={percentage}
                 text={`Forfeit`}
                 styles={buildStyles({
@@ -81,8 +86,8 @@ function LeaveGame(props) {
                     // pathTransition:
                     //     percentage === 0 ? "none" : "stroke-dashoffset 3s"
                 })}
-            />
-        </button>
+            /> */}
+        </IconButton>
     )
 
 }

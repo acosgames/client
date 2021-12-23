@@ -59,7 +59,7 @@ function MainMenuChakra(props) {
 
     return (
         <>
-            <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+            <Box display={props.gamepanel ? 'none' : 'block'} bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <Box><SLink to="/" className="">
                         <span className="logo-txt">FSG</span>
@@ -85,4 +85,4 @@ function MainMenuChakra(props) {
     );
 }
 
-export default withRouter(fs.connect(['loggedIn'])(MainMenuChakra));
+export default withRouter(fs.connect(['loggedIn', 'gamepanel'])(MainMenuChakra));

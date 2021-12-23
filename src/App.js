@@ -8,6 +8,7 @@ import {
 
 import MainMenuChakra from './components/MainMenuChakra'
 import Routes from './Routes';
+import RoutesGame from './RoutesGame';
 
 import { getUserProfile } from './actions/person';
 import QueuePanel from "./components/games/QueuePanel";
@@ -50,11 +51,13 @@ class App extends Component {
           </Switch>
 
 
-          <Box display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={6}>
-            <Switch>
-              <Routes></Routes>
-            </Switch>
-          </Box>
+
+          <Switch>
+            <Route path="/g/*"
+              component={RoutesGame} />
+            <Route path="*" component={Routes} />
+          </Switch>
+
 
 
         </Flex>

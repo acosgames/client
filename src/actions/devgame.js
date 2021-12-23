@@ -7,6 +7,7 @@ import fs from 'flatstore';
 import { toast, useToast } from '@chakra-ui/react';
 fs.set('devgameimages', []);
 fs.set('devgame', {});
+fs.set('devgames', []);
 fs.set('devgameerror', []);
 
 fs.set('devClientsImages', []);
@@ -585,3 +586,61 @@ export async function createGame(progressCB) {
     }
     return null;
 }
+
+
+export async function deployToProduction(game) {
+
+    try {
+        let deployGame = {
+            gameid: game.gameid,
+            version: game.latest_version
+        }
+        let response = await POST('/api/v1/dev/deploy/game', deployGame);
+        let gameResult = response.data;
+
+        if (!gameResult.version) {
+            fs.set('devgameerror', [{ ecode: 'E_DEPLOYERROR', payload: 'Unknown' }])
+            return;
+        }
+
+        let dgame = fs.get('devgame');
+        game.version = gameResult.version;
+        fs.set('devgame', game);
+
+        let dgames = fs.get('devgames');
+        for (var i = 0; i < dgames.length; i++) {
+            let g = dgames[i];
+            if (g.gameid == game.gameid) {
+                g.version = gameResult.version;
+                dgames[i] = g;
+                fs.set('devgames', dgames);
+                break;
+            }
+        }
+
+
+
+
+        fs.set('devgameerror', []);
+        console.log(gameResult);
+        return gameResult;
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+
+            //const { request, ...errorObject } = response; // take everything but 'request'
+            //console.log(errorObject);
+
+            fs.set('devgameerror', [data]);
+        }
+
+
+    }
+    return null;
+}
+
+

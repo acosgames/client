@@ -40,7 +40,7 @@
     "build:prod": "./node_modules/.bin/webpack --config webpack/prod.config.js",
     "watch": "./node_modules/.bin/run-s waiton sync",
     "waiton": "./node_modules/.bin/wait-on http://localhost:8080/",
-    "sync": "browser-sync start --no-ghost-mode --ws --port 8000 --proxy localhost:8080 --files=./src/* --files=../fsg-api/public/* --ignore=node_modules",
+    "sync": "browser-sync start --no-notify --no-ghost-mode --ws --port 8000 --proxy localhost:8080 --files=./src/* --files=../fsg-api/public/* --ignore=node_modules",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

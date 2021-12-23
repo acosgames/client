@@ -21,15 +21,15 @@ import LoginSuccess from './components/login/LoginSuccess';
 import RoutesDev from './RoutesDev';
 import fs from 'flatstore';
 // import history from "./actions/history";
-import flatstore from 'flatstore';
 import GameScreen from "./components/games/GameScreen";
+import { Box } from "@chakra-ui/react";
 
 var Routes = () => {
 
 
     const history = useHistory();
 
-    flatstore.set('history', history);
+    fs.set('history', history);
 
     const refPath = history.location.pathname;
     if (refPath.indexOf("/login") == -1) {
@@ -39,74 +39,63 @@ var Routes = () => {
         console.log("next", refPath);
     }
 
+    let iframe = fs.get('iframe');
+
     return (
-        <Switch>
-            <ProtectedRoute
-                exact
-                path="/player/create"
-                verify={(user) => !user.displayname}
-                component={CreateDisplayName}
-            />
-            <Route
-                exact
-                path="/"
-                component={MainPage}
-            />
-            <Route
-                exact
-                path="/g"
-                component={MainPage}
-            />
-            <Route
-                exact
-                path="/g/:game_slug"
-                component={GameInfo}
-            />
-            <Route
-                exact
-                path="/g/:game_slug/:room_slug"
-                component={GameScreen}
-            />
-            <Route
-                exact
-                path="/g/:game_slug/:mode/:room_slug"
-                component={GameScreen}
-            />
-            <Route
+        <Box display="inline-block" width="100%" pl={iframe ? 0 : [3, 4, 12]} pr={iframe ? 0 : [3, 4, 12]} pt={6}>
+            <Switch>
+                <ProtectedRoute
+                    exact
+                    path="/player/create"
+                    verify={(user) => !user.displayname}
+                    component={CreateDisplayName}
+                />
+                <Route
+                    exact
+                    path="/"
+                    component={MainPage}
+                />
+                <Route
+                    exact
+                    path="/g"
+                    component={MainPage}
+                />
 
-                path="/login/success"
-                component={LoginSuccess}
-            />
+                <Route
 
-            <Route
+                    path="/login/success"
+                    component={LoginSuccess}
+                />
 
-                path="/login"
-                component={SocialLogin}
-            />
+                <Route
 
-            <Route
-                exact
-                path="/dev/login"
-                component={DevLogin}
-            />
+                    path="/login"
+                    component={SocialLogin}
+                />
 
-            <ProtectedRoute
+                <Route
+                    exact
+                    path="/dev/login"
+                    component={DevLogin}
+                />
 
-                path="/dev*"
-                component={RoutesDev}
-                verify={
-                    (user) => {
-                        return user.isdev || user.github
-                    }}
-                redirectTo="/dev/login"
-            />
+                <ProtectedRoute
 
-            {/* <Route
+                    path="/dev*"
+                    component={RoutesDev}
+                    verify={
+                        (user) => {
+                            return user.isdev || user.github
+                        }}
+                    redirectTo="/dev/login"
+                />
+
+                {/* <Route
                 exact
                 path="/dev/login"
                 component={DevLogin}
             /> */}
-            {/* <ProtectedRoute
+                {/* <ProtectedRoute
 
                 path="/dev/game/create"
                 component={DevCreateGame}
@@ -128,12 +117,13 @@ var Routes = () => {
                 redirectTo="/dev/login"
             /> */}
 
-            <Route
-                exact
-                path="/games"
-                component={MainPage}
-            />
-        </Switch>
+                <Route
+                    exact
+                    path="/games"
+                    component={MainPage}
+                />
+            </Switch>
+        </Box>
     )
 }
 

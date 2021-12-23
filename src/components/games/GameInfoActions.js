@@ -95,12 +95,11 @@ function GameInfoActions(game) {
                         <IconButton icon={<FaThumbsDown />} onClick={onDislike} color={disliked ? 'red.300' : 'white'} />
                     </Tooltip>
                 </HStack>
-                <HStack spacing="0" pr="1rem" alignContent={'center'} alignItems={'center'}>
-                    {/* <Icon color="gray.300" fontSize={['sm', 'md']} as={FiUsers} /> */}
+                {/* <HStack spacing="0" pr="1rem" alignContent={'center'} alignItems={'center'}>
                     <Text lineHeight={'1.2rem'} color="white" fontWeight={'500'} fontSize={['1.2rem']} >{game.count || 0}</Text>
                     <Text lineHeight={'1.2rem'} color="white" fontSize={['1rem']} pl={'0.4rem'}>PLAYING</Text>
 
-                </HStack>
+                </HStack> */}
             </HStack>
             <HStack spacing="0">
                 <Tooltip label="Discuss issues on GitHub">

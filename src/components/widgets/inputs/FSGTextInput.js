@@ -25,11 +25,14 @@ function FSGTextInput(props) {
             <Input
                 name={props.name}
                 id={props.id}
+                ref={props.ref}
                 placeholder={props.placeholder}
                 maxLength={props.maxLength}
                 value={props.value || ''}
-                size={props.size || 'md'}
+                size={props.size}
+                width={props.width}
                 onChange={props.onChange}
+                onFocus={props.onFocus}
                 disabled={props.disabled}
                 bgColor="gray.800"
             />

@@ -1,11 +1,15 @@
 
-import { Box } from '@chakra-ui/react';
+import { Box, IconButton } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { findAndRejoin } from '../../actions/game';
+import Connection from './Connection';
 import GameScreenIframe from './GameScreenIframe';
+import GameScreenActions from './GameScreenActions';
 
+import LeaveGame from './LeaveGame';
+import { BsArrowsFullscreen } from '@react-icons';
 
 function GameScreen(props) {
 
@@ -29,14 +33,23 @@ function GameScreen(props) {
                 }
             }
         }
-    })
+
+        fs.set('iframes', null);
+        fs.set('gamepanel', null);
+        fs.set('gamewrapper', null);
+    }, [])
 
 
 
 
     return (
-        <Box>
+        <Box w="100%" h="100%" position="relative">
+
             <GameScreenIframe {...props.room} />
+            <GameScreenActions room={props.room} game={props.game} />
+            <Connection></Connection>
+
+
         </Box>
     )
 
@@ -45,12 +58,17 @@ function GameScreen(props) {
 
 let onCustomWatched = ownProps => {
     let room_slug = ownProps.match.params.room_slug;
-    return ['rooms>' + room_slug];
+    let game_slug = ownProps.match.params.game_slug;
+    return ['rooms>' + room_slug, 'games>' + game_slug];
 };
 let onCustomProps = (key, value, store, ownProps) => {
     let room_slug = ownProps.match.params.room_slug;
+    let game_slug = ownProps.match.params.game_slug;
     if (key == 'rooms>' + room_slug)
         key = 'room';
+
+    if (key == 'games>' + game_slug)
+        key = 'game';
 
     if (!value)
         return {};

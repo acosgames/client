@@ -143,7 +143,7 @@ class GamePanel extends Component {
             <div id="gameframe">
                 <Box
                     w="100%"
-                    pb="56.25%">
+                    pb="75%">
 
                 </Box>
                 {this.renderLoadingScreen(room)}

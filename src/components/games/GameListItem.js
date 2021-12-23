@@ -48,10 +48,10 @@ function GameListItem(props) {
                 alt={gameName}
                 src={imgUrl} borderRadius={'50%'} />
             <Text>{gameName}</Text>
-            <HStack>
+            {/* <HStack>
                 <Icon as={IoPeople} />
                 <Text>{abbrevNumber(game.activePlayers * game.maxplayers)}</Text>
-            </HStack>
+            </HStack> */}
         </VStack>
         // <div className="game-item" >
 

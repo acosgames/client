@@ -73,7 +73,7 @@ function GameInfo(props) {
         playerCntRange = game.minplayers;
 
     return (
-        <>
+        <Box display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={6}>
 
 
 
@@ -109,7 +109,7 @@ function GameInfo(props) {
                             <Text as="span" color="gray.500" fontSize="xs">version {game.version}</Text>
 
                             <Box flexGrow={'1'}>
-                                <Text as="span" fontSize="xs">Created by @joetex</Text>
+                                <Text as="span" fontSize="xs">Created by @{game.displayname}</Text>
                             </Box>
                             {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
                             <GameInfoJoinButton {...game} {...playerStats} />
@@ -185,7 +185,7 @@ function GameInfo(props) {
 
                 </VStack >
             </Center >
-        </>
+        </Box>
         // <div id="game-info" onClick={(e) => {
         //     if (e.target == e.currentTarget)
         //         this.props.history.push('/g');
