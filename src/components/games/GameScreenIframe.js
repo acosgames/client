@@ -19,7 +19,7 @@ function GameScreenIframe(room) {
         return <></>
 
     const room_slug = room.room_slug;
-    const gameid = room.gameid;
+    const game_slug = room.game_slug;
     const version = room.version;
     const srcUrl = '/iframe';
 
@@ -109,7 +109,7 @@ function GameScreenIframe(room) {
                         fs.set('iframes', iframes);
                         fs.set('gamepanel', gamescreenRef);
                         fs.set('gamewrapper', gamewrapperRef);
-                        sendLoadMessage(room_slug, gameid, version, onResize);
+                        sendLoadMessage(room_slug, game_slug, version, onResize);
                         onResize();
                     }}
                     src={srcUrl}

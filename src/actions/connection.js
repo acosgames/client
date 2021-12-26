@@ -1,7 +1,7 @@
 
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { encode, decode } from 'fsg-shared/util/encoder';
+import { encode, decode, defaultDict } from 'fsg-shared/util/encoder';
 import fs from 'flatstore';
 import delta from '../util/delta';
 // import { useHistory } from 'react-router-dom';
@@ -41,14 +41,21 @@ export function fastForwardMessages() {
 
     if (iframe) {
 
+        let gamestate = fs.get('gamestate') || {};
 
         let mq = messageQueue[room_slug];
         if (mq && mq.length > 0) {
             console.log("Forwarding queued messages to iframe.");
-            for (var i = 0; i < mq.length; i++) {
-                iframe.current.contentWindow.postMessage(mq[i], '*');
-                console.log(mq[i]);
-            }
+            // for (var i = 0; i < mq.length; i++) {
+
+            //     gamestate = delta.merge(gamestate, mq[i]);
+            let last = mq[mq.length - 1];
+
+            // }
+
+            iframe.current.contentWindow.postMessage(last, '*');
+            console.log(last);
+
             delete messageQueue[room_slug];
         }
 
@@ -87,11 +94,11 @@ export function sendFrameMessage(msg) {
 
 }
 
-export function sendLoadMessage(room_slug, gameid, version, runCallback) {
+export function sendLoadMessage(room_slug, game_slug, version, runCallback) {
     onResize = runCallback;
     let iframe = fs.get('iframes>' + room_slug);
     if (iframe)
-        iframe.current.contentWindow.postMessage({ type: 'load', payload: { gameid, version } }, '*');
+        iframe.current.contentWindow.postMessage({ type: 'load', payload: { game_slug, version } }, '*');
 }
 
 
@@ -103,8 +110,9 @@ export function recvFrameMessage(evt) {
     console.log('[iframe]: ', action);
 
     let room_slug = fs.get('room_slug');
-
+    let gamestate = fs.get('gamestate');
     let iframesLoaded = fs.get('iframesLoaded') || {};
+
     if (action.type == 'ready') {
         // iframesLoaded[room_slug] = true;
         // fs.set('iframesLoaded', iframesLoaded);
@@ -120,8 +128,7 @@ export function recvFrameMessage(evt) {
 
     if (ws) {
         // console.time('ActionLoop');
-        let room_slug = fs.get('room_slug');
-        let gamestate = fs.get('gamestate');
+
         action.room_slug = room_slug;
         if (gamestate && gamestate.timer)
             action.seq = gamestate.timer.seq || 0;
@@ -227,6 +234,24 @@ export async function wsLeaveQueue() {
     console.log("[Outgoing] Leave Queue ", action);
 }
 
+export async function wsSend(action, game_slug) {
+    let ws = fs.get('ws');
+    if (!ws)
+        return;
+
+    // if (game_slug) {
+    //     let storedDict = localStorage.getItem(game_slug + '/dict') || [];
+    //     action.dict = storedDict.length;
+    // }
+    // else {
+    //     action.dict = 0;
+    // }
+
+    let msg = encode(action);
+    ws.send(msg); 0
+
+}
+
 export async function wsJoinGame(mode, game_slug) {
     let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
@@ -246,8 +271,8 @@ export async function wsJoinGame(mode, game_slug) {
     }
 
     let action = { type: 'joingame', payload }
-    let msg = encode(action);
-    ws.send(msg);
+
+    wsSend(action);
 
     fs.set('joining', 'game');
     console.log("[Outgoing] Joining " + mode + ": ", action);
@@ -448,6 +473,36 @@ async function wsIncomingMessage(message) {
             }
 
             break;
+
+        case 'inrooms':
+            console.log("[Incoming] InRooms: ", msg);
+            if (msg.payload && Array.isArray(msg.payload) && msg.payload.length > 0) {
+                let room = msg.payload[0];
+
+                fs.set('room_slug', room.room_slug);
+                if (!game) {
+                    console.error("Game not found. Cannot join unknown game.");
+                    return;
+                }
+
+                let joinrooms = fs.get('joinrooms');
+                if (joinrooms[room.room_slug])
+                    delete joinrooms[room.room_slug];
+                fs.set('joinrooms', joinrooms);
+
+                let rooms = fs.get('rooms');
+                rooms[room.room_slug] = room;
+                fs.set('rooms', rooms);
+
+                fs.set('queues', []);
+                fs.set('gamestate', {});
+
+                let experimental = room.mode == 'experimental' ? '/experimental' : '';
+                let urlPath = '/g/' + room.game_slug + experimental + '/' + room.room_slug;
+                if (window.location.href.indexOf(urlPath) == -1)
+                    history.push(urlPath);
+            }
+            break;
         case 'joined':
             console.log("[Incoming] Joined: ", msg);
             fs.set('room_slug', msg.room_slug);
@@ -531,7 +586,8 @@ async function wsIncomingMessage(message) {
 
     if (msg.payload && msg.payload.players) {
         msg.local = msg.payload.players[user.shortid];
-        msg.local.id = user.shortid;
+        if (msg.local)
+            msg.local.id = user.shortid;
     } else {
         msg.local = { name: user.displayname, id: user.shortid };
     }

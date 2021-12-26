@@ -33,7 +33,7 @@ function GameListItem(props) {
 
     var imgUrl = 'https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png';
     if (game.preview_images && game.preview_images.length > 0)
-        imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${game.gameid}/preview/${game.preview_images}`;
+        imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${game.game_slug}/preview/${game.preview_images}`;
 
     let gameName = game.name;
     if (gameName.length > 20) {

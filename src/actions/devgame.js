@@ -145,7 +145,7 @@ export async function findGame(gameid) {
             let images = [];
             let list = game.preview_images.split(',');
             for (var i = 0; i < list.length; i++) {
-                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + game.gameid + '/preview/' + list[i];
+                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + game.game_slug + '/preview/' + list[i];
                 images.push({ data_url: url, file: {} });
             }
             fs.set('devgameimages', images);
@@ -290,7 +290,7 @@ export async function uploadGameImages(images, nextImages) {
     for (var i = 0; i < images.length; i++) {
         let image = images[i];
 
-        let response = await uploadGameImage(game.gameid, image);
+        let response = await uploadGameImage(game.game_slug, image);
         preview_images = response.images;
         console.log(preview_images);
     }
@@ -298,14 +298,14 @@ export async function uploadGameImages(images, nextImages) {
     if (preview_images) {
         for (var i = 0; i < preview_images.length; i++) {
             if (nextImages[i]) {
-                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + game.gameid + '/preview/' + preview_images[i];
+                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + game.game_slug + '/preview/' + preview_images[i];
                 nextImages[i].data_url = url;
             }
         }
     }
 }
 
-export async function uploadGameImage(gameid, image) {
+export async function uploadGameImage(game_slug, image) {
     try {
         let progress = {
             onUploadProgress: progressEvent => {
@@ -314,13 +314,13 @@ export async function uploadGameImage(gameid, image) {
         };
 
         var formData = new FormData();
-        formData.append('gameid', gameid);
+        formData.append('game_slug', game_slug);
 
         //images.forEach(image => {
         formData.append("images", image.file);
         //})
 
-        let response = await POST('/api/v1/dev/update/game/images/' + gameid, formData, progress);
+        let response = await POST('/api/v1/dev/update/game/images/' + game_slug, formData, progress);
         let game = response.data;
         console.log(game);
 

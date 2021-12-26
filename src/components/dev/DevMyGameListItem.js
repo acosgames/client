@@ -77,7 +77,7 @@ function DevMyGameListItem(props) {
 
     let imgUrl = 'https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png';
     if (props.preview_images && props.preview_images.length > 0)
-        imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${props.gameid}/preview/${props.preview_images}`;
+        imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${props.game_slug}/preview/${props.preview_images}`;
 
     // let imageURL = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + props.gameid + '/preview/' + props.preview_images;
 

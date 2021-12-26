@@ -39,7 +39,7 @@ function DevMyGames(props) {
             let game = games[i];
             elems.push((
 
-                <DevMyGameListItem key={'devgames-' + game.gameid} {...game} />
+                <DevMyGameListItem key={'devgames-' + game.game_slug} {...game} />
 
             ))
         }

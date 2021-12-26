@@ -67,9 +67,9 @@ class GamePanel extends Component {
             return (<React.Fragment></React.Fragment>)
 
         let room_slug = room.room_slug;
-        let gameid = room.gameid;
+        let game_slug = room.game_slug;
         let version = room.version;
-        let srcUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${gameid}/client/client.bundle.${version}.html`;
+        let srcUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${game_slug}/client/client.bundle.${version}.html`;
         srcUrl = '/iframe';
 
 
@@ -101,7 +101,7 @@ class GamePanel extends Component {
                         iframesLoaded[room_slug] = true;
                         fs.set('iframesLoaded', iframesLoaded);
 
-                        sendLoadMessage(room_slug, gameid, version);
+                        sendLoadMessage(room_slug, game_slug, version);
                     }}
                     src={srcUrl}
                     sandbox="allow-scripts"
