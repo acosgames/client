@@ -328,7 +328,7 @@ export async function wsJoinBetaGame(game) {
 
 
 export async function wsJoinRankedGame(game) {
-    wsJoinGame('ranked', game.game_slug);
+    wsJoinGame('rank', game.game_slug);
 }
 
 export async function wsJoinPublicGame(game) {
@@ -568,6 +568,8 @@ async function wsIncomingMessage(message) {
                     player_stat.tie = msg.payload._tie;
                     player_stat.played = msg.payload._played;
                     player_stat.rating = player.rating;
+                    if (player.ratingTxt)
+                        player_stat.ratingTxt = player.ratingTxt;
 
                 }
                 fs.set('player_stats', player_stats);
@@ -610,7 +612,7 @@ async function postIncomingMessage(msg) {
             let gamestate = fs.get('gamestate');
             let user = fs.get('user');
 
-            if (room.mode == 'rank') {
+            if (room.mode == 1) {
                 let player = msg.payload.players[user.shortid];
 
                 let player_stats = fs.get('player_stats');

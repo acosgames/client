@@ -98,7 +98,9 @@ export async function findGamePerson(game_slug) {
         // fs.set(game_slug, result.game || null);
         fs.set('games>' + game_slug, result.game);
         fs.set('game', result.game || {});
-
+        fs.set('top10', result.top10 || []);
+        fs.set('leaderboard', result.lb || []);
+        fs.set('leaderboardCount', result.lbCount || []);
     }
     catch (e) {
         console.error(e);

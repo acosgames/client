@@ -87,7 +87,9 @@ function DevMyGameListItem(props) {
                 <Wrap align="stretch" flexGrow={1}>
                     <Flex justifyItems={['left', 'left']}>
                         <SLink to={'/dev/game/' + props.gameid}>
-                            <Image src={imgUrl} alt={"Icon for " + props.name} minWidth={['72px']} maxW={['72px']} h={['72px']} />
+                            <Image src={imgUrl} alt={"Icon for " + props.name} minWidth={['72px']} maxW={['72px']} h={['72px']}
+                                fallbackSrc='https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png'
+                            />
                         </SLink>
 
                         <VStack

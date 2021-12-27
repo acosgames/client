@@ -19,13 +19,14 @@ import FSGRead from "../widgets/inputs/FSGRead";
 
 import GameInfoActions from './GameInfoActions'
 import GameInfoJoinButton from './GameInfoJoinButton'
-
+import GameInfoTop10 from './GameInfoTop10'
 function GameInfo(props) {
     const game_slug = props.match.params.game_slug;
 
     useEffect(async () => {
         let test = 1;
         let user = await getUser();
+        fs.set('gamepanel', null);
         let player_stats = fs.get('player_stats');
         let player_stat = player_stats[game_slug];
 
@@ -97,6 +98,7 @@ function GameInfo(props) {
                                 height="100%"
                                 objectFit={'fill'}
                                 src={imgUrl}
+                                fallbackSrc='https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png'
                                 w="100%"
                             />
                         </Box>
@@ -132,6 +134,7 @@ function GameInfo(props) {
                     <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%">
                         <GameInfoJoinButton {...game} {...playerStats} />
                     </Flex>
+                    <GameInfoTop10 />
 
                     <FSGGroup fontSize="1.2rem" title="Description" hfontSize="1rem">
                         <Box align="left" id="game-info-longdesc">
