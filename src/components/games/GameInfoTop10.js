@@ -98,7 +98,7 @@ function GameInfoTop10(props) {
                     </Tbody>
                 </Table>
                 <Box w="100%">
-                    <Text color="gray.500" align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.500">{playerGameStats.ranking}</Text> of {lbCount} on
+                    <Text color="gray.500" align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.500">{playerGameStats?.ranking || -1}</Text> of {lbCount} on
                         <Text as="span" > /g/{game.game_slug}</Text></Text>
                 </Box>
 

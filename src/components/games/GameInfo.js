@@ -32,7 +32,14 @@ function GameInfo(props) {
 
         try {
             let game = fs.get('game');
-            if (!game || !player_stat) {
+            if (!game || game.game_slug != game_slug || !player_stat) {
+
+                game = fs.get('games>' + game_slug);
+                if (game && game.longdesc) {
+                    fs.set('game', game);
+                    return;
+                }
+
                 if (!user || !user.shortid) {
                     await findGame(game_slug)
                 }
@@ -60,7 +67,7 @@ function GameInfo(props) {
     let player_stats = fs.get('player_stats');
     let playerStats = player_stats[game_slug] || {};
     let game = props.game;
-    if (!game) {
+    if (!game || game.game_slug != game_slug) {
         //fs.set('game', null);
         return <React.Fragment></React.Fragment>
     }

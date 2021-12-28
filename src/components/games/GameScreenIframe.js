@@ -23,8 +23,24 @@ function GameScreenIframe(room) {
     const version = room.version;
     const srcUrl = '/iframe';
 
+    // let room = fs.get('rooms>' + room_slug);
+    let game = fs.get('games>' + game_slug);
+
+    let screentype = game.screentype;
+    let resow = game.resow;
+    let resoh = game.resoh;
+    let screenwidth = game.screenwidth;
+
+    if (room.mode == 'experimental') {
+        screentype = game.latest_screentype;
+        resow = game.latest_resow;
+        resoh = game.latest_resoh;
+        screenwidth = game.latest_screenwidth;
+    }
+    let screenheight = (resoh / resow) * screenwidth;
+
     var scaled = room.scaled || 1;
-    var CONTENT_WIDTH = 1920;
+    var CONTENT_WIDTH = screenwidth;
     var timestamp = 0;
     var THROTTLE = 0;
     // useEffect(() => {
@@ -33,6 +49,7 @@ function GameScreenIframe(room) {
     //     fs.set('gamepanel', null);
     //     fs.set('gamewrapper', null);
     // }
+
 
     // })
     const transformStr = (obj) => {
@@ -72,21 +89,21 @@ function GameScreenIframe(room) {
         let windowHeight = isFullscreen ? window.screen.height : document.documentElement.clientHeight;
         let windowWidth = isFullscreen ? window.screen.width : document.documentElement.clientWidth;
         // windowHeight -= 32;
-        let wsteps = Math.floor(windowWidth / 16);
-        let hsteps = Math.floor(windowHeight / 9);
+        let wsteps = Math.floor(windowWidth / resow);
+        let hsteps = Math.floor(windowHeight / resoh);
         let steps = (wsteps > hsteps ? hsteps : wsteps);
-        let bgWidth = Math.round(steps * 16);
-        let bgHeight = Math.round(steps * 9);
+        let bgWidth = Math.round(steps * resow);
+        let bgHeight = Math.round(steps * resoh);
 
         gamescreenRef.current.style.width = bgWidth + 'px';
         gamescreenRef.current.style.height = bgHeight + 'px';
 
         let scale = bgWidth / CONTENT_WIDTH;
-        if (scaled) {
+        if (screentype == 2) {
             iframeRef.current.setAttribute('style', transformStr({
                 scale: scale,
                 translateZ: '0'
-            }) + '; transform-origin: left top; width:1920px; height:1080px;');
+            }) + `; transform-origin: left top; width:${screenwidth}px; height:${screenheight} px;`);
         } else {
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }

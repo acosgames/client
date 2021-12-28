@@ -106,7 +106,7 @@ export function recvFrameMessage(evt) {
     let action = evt.data;
     let origin = evt.origin;
     let source = evt.source;
-    if (!action.payload || !action.type) return;
+    if (typeof action.payload === 'undefined' || !action.type) return;
     console.log('[iframe]: ', action);
 
     let room_slug = fs.get('room_slug');
@@ -196,7 +196,7 @@ export async function reconnect(isNew) {
     return ws;
 }
 
-export async function wsLeaveGame(room_slug) {
+export async function wsLeaveGame(game_slug, room_slug) {
     let ws = await reconnect();
     if (!ws || !ws.isReady) {
         return;
@@ -207,13 +207,12 @@ export async function wsLeaveGame(room_slug) {
     console.log("[Outgoing] Leaving: ", action);
     ws.send(msg)
     let history = fs.get('history');
-    let game = fs.get('game');
     fs.set('gamestate', {});
     fs.set('room_slug', null);
 
     await disconnect();
 
-    history.push('/g/' + game.game_slug);
+    history.push('/g/' + game_slug);
 }
 
 export async function wsLeaveQueue() {
@@ -443,8 +442,6 @@ function onPong(message) {
 
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
-    let ws = fs.get('ws');
-    let game = fs.get('game');
     let gamestate = fs.get('gamestate');
     let history = fs.get('history');
 
@@ -455,6 +452,12 @@ async function wsIncomingMessage(message) {
         return;
     }
 
+    let rooms = fs.get('rooms');
+    let room_slug = msg.room_slug;
+    let room = null;
+    if (room_slug) {
+        room = rooms[room_slug];
+    }
     switch (msg.type) {
         case 'pong':
             onPong(msg);
@@ -480,7 +483,7 @@ async function wsIncomingMessage(message) {
                 let room = msg.payload[0];
 
                 fs.set('room_slug', room.room_slug);
-                if (!game) {
+                if (!room) {
                     console.error("Game not found. Cannot join unknown game.");
                     return;
                 }
@@ -501,15 +504,16 @@ async function wsIncomingMessage(message) {
                 let urlPath = '/g/' + room.game_slug + experimental + '/' + room.room_slug;
                 if (window.location.href.indexOf(urlPath) == -1)
                     history.push(urlPath);
+                return;
             }
             break;
         case 'joined':
             console.log("[Incoming] Joined: ", msg);
             fs.set('room_slug', msg.room_slug);
-            if (!game) {
-                console.error("Game not found. Cannot join unknown game.");
-                return;
-            }
+            // if (!room) {
+            //     console.error("Game not found. Cannot join unknown game.");
+            //     return;
+            // }
 
             let joinrooms = fs.get('joinrooms');
             delete joinrooms[msg.room_slug];
@@ -561,7 +565,7 @@ async function wsIncomingMessage(message) {
             //UPDATE PLAYER STATS FOR THIS GAME
             if (room.mode == 'rank' && msg.payload._played) {
                 let player_stats = fs.get('player_stats');
-                let player_stat = player_stats[game.game_slug]
+                let player_stat = player_stats[room.game_slug]
                 if (player_stat) {
                     player_stat.win = msg.payload._win;
                     player_stat.loss = msg.payload._loss;
@@ -608,7 +612,6 @@ async function postIncomingMessage(msg) {
         case 'finish':
             let rooms = fs.get('rooms');
             let room = rooms[msg.room_slug];
-            let game = fs.get('game');
             let gamestate = fs.get('gamestate');
             let user = fs.get('user');
 
@@ -616,11 +619,11 @@ async function postIncomingMessage(msg) {
                 let player = msg.payload.players[user.shortid];
 
                 let player_stats = fs.get('player_stats');
-                let player_stat = player_stats[game.game_slug] || {};
+                let player_stat = player_stats[room.game_slug] || {};
                 if (player_stat) {
                     player_stat.rating = player.rating;
                     player_stat.ratingTxt = player.ratingTxt;
-                    player_stats[game.game_slug] = player_stat;
+                    player_stats[room.game_slug] = player_stat;
                 }
                 fs.set('player_stats', player_stats);
             }

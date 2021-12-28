@@ -55,7 +55,7 @@ function GameScreenActions(props) {
     }
 
     const onForfeit = (elem) => {
-        wsLeaveGame(room_slug);
+        wsLeaveGame(game_slug, room_slug);
     }
 
     const dragElement = (elmnt, iframe) => {
