@@ -60,14 +60,21 @@ export async function findGames() {
 export async function findGame(game_slug) {
     try {
         let response = await GET('/api/v1/game/' + game_slug);
-        let game = response.data;
-        if (game.ecode) {
-            throw game.ecode;
+        let result = response.data;
+        if (result.ecode) {
+            throw result.ecode;
         }
-        fs.set('games>' + game_slug, game);
-        fs.set('game', game || null);
+        // fs.set('games>' + game_slug, game);
+        // fs.set('game', game || null);
 
-        return game;
+        fs.set('games>' + game_slug, result.game);
+        fs.set('game', result.game || {});
+        fs.set('top10', result.top10 || []);
+        fs.set('leaderboard', []);
+        fs.set('leaderboardCount', result.lbCount || []);
+
+
+        return result;
     }
     catch (e) {
         console.error(e);

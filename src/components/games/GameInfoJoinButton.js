@@ -30,6 +30,13 @@ function GameInfoJoinButton(props) {
     }
 
     let user = fs.get('user');
+    let player_stats = fs.get('player_stats');
+    let game = fs.get('game');
+    let playerGameStats = player_stats[game.game_slug];
+
+
+
+
     let isValidUser = user && user.shortid;
 
     let version = props.version || 0;
@@ -39,6 +46,10 @@ function GameInfoJoinButton(props) {
     let rating = props.played >= 10 ? '(' + props.rating + ')' : '';
     let ratingTxt = props.played >= 10 ? props.ratingTxt : 'UNRANKED';
     ratingTxt = ratingTxt.toUpperCase();
+
+    if (props.played >= 10 && playerGameStats.ranking == 1)
+        ratingTxt = 'SUPREME GRAND MASTER';
+
     // hasExtra = false;
 
     return (

@@ -21,7 +21,14 @@ function GameInfoPlayer(game) {
         return <></>
     }
 
+    let player_stats = fs.get('player_stats');
+    let game = fs.get('game');
+    let playerGameStats = player_stats[game.game_slug];
+
+
     let ratingTxt = game.played < 10 ? 'Unranked' : game.rating;
+    if (playerGameStats.ranking == 1)
+        ratingTxt = 'SUPREME MASTER';
     return (
         <Flex spacing="0" w="100%">
 

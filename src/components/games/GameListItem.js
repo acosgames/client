@@ -27,7 +27,7 @@ function GameListItem(props) {
     }
 
     const handleClick = () => {
-        fs.set('game', game);
+        // fs.set('game', game);
         props.history.push("/g/" + game.game_slug);
     }
 
