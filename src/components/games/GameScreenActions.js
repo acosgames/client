@@ -17,6 +17,7 @@ function GameScreenActions(props) {
     const mode = props.match.params.mode;
     const room_slug = props.match.params.room_slug;
 
+    var mounted = true;
     const [opacity, setOpacity] = useState(1);
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isMouseDown, setIsMouseDown] = useState(false);
@@ -43,6 +44,8 @@ function GameScreenActions(props) {
     const updateOpacity = (op) => {
         setOpacity(op);
         let timer = setTimeout(() => {
+            if (!mounted)
+                return;
             setOpacity(0.2);
         }, 5000)
         setTimer1(timer);
@@ -122,6 +125,8 @@ function GameScreenActions(props) {
             setIsMouseDown(false);
             mdown = false;
             let timer = setTimeout(() => {
+                if (!mounted)
+                    return;
                 mmove = false;
                 setDragging(false);
             }, 300)
@@ -136,6 +141,7 @@ function GameScreenActions(props) {
         updateOpacity(1);
 
         return () => {
+            mounted = false;
             if (timer1)
                 clearTimeout(timer1);
             if (timer2)

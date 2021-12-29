@@ -127,7 +127,10 @@ function GameScreenIframe(room) {
                         fs.set('gamepanel', gamescreenRef);
                         fs.set('gamewrapper', gamewrapperRef);
                         sendLoadMessage(room_slug, game_slug, version, onResize);
-                        onResize();
+                        setTimeout(() => {
+
+                            onResize();
+                        }, 1000);
                     }}
                     src={srcUrl}
                     sandbox="allow-scripts"

@@ -24,7 +24,7 @@ function NavForUser(props) {
 
     return (
 
-        <Menu modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
+        <Menu placement='right-start' modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
             <MenuButton
                 as={Button}
                 rounded={'full'}

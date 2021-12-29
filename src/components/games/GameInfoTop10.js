@@ -39,7 +39,7 @@ function GameInfoTop10(props) {
         fixed.sort((a, b) => a.rank - b.rank);
 
         for (var player of fixed) {
-            let isLocalPlayer = user.displayname == player.value;
+            let isLocalPlayer = user?.displayname == player.value;
             let isPast5Rank = player.rank == 5 && playerGameStats.ranking > 5;
             elems.push(
                 <Tr key={'leaderboard-' + player.value}>

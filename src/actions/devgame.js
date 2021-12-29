@@ -2,7 +2,7 @@ import { POST, GET, POSTFORM } from './http';
 
 import { validateSimple, validateField } from 'fsg-shared/util/validation';
 // import { genShortId } from 'fsg-shared/util/idgen.js';
-
+import { getWithExpiry, setWithExpiry } from './cache';
 import fs from 'flatstore';
 import { toast, useToast } from '@chakra-ui/react';
 fs.set('devgameimages', []);
@@ -117,8 +117,13 @@ function rowsToMap(list) {
 
 export async function findDevGames(userid) {
     try {
-        let response = await GET('/api/v1/dev/games/' + userid);
-        let games = response.data;
+        let games = getWithExpiry('devgames');
+        if (!games) {
+            let response = await GET('/api/v1/dev/games/' + userid);
+            games = response.data;
+
+            setWithExpiry('devgames', games, 60);
+        }
 
         fs.set('devgames', games);
 

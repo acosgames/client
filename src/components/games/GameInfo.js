@@ -25,35 +25,37 @@ function GameInfo(props) {
 
     useEffect(async () => {
         let test = 1;
-        let user = await getUser();
+
         fs.set('gamepanel', null);
         let player_stats = fs.get('player_stats');
         let player_stat = player_stats[game_slug];
 
         try {
-            let game = fs.get('game');
-            if (!game || game.game_slug != game_slug || !player_stat) {
+            let curgame = fs.get('game');
+            let game = null;
+            let user = await getUser();
+            if (user && !player_stat) {
 
-                game = fs.get('games>' + game_slug);
-                if (game && game.longdesc) {
-                    fs.set('game', game);
-                    return;
-                }
-
-                if (!user || !user.shortid) {
-                    await findGame(game_slug)
-                }
-                else
-                    await findGamePerson(game_slug);
+                await findGamePerson(game_slug);
+                return;
             }
+
+            game = fs.get('games>' + game_slug);
+            if (game && game.longdesc && (!curgame || !curgame.longdesc)) {
+                fs.set('game', game);
+                return;
+            }
+
+            if (!curGame || curgame.game_slug != game_slug) {
+                await findGame(game_slug)
+                return;
+            }
+
+
 
         }
         catch (e) {
-            if (!user || !user.shortid) {
-                await findGame(game_slug)
-            }
-            else
-                await findGamePerson(game_slug);
+
         }
     })
 

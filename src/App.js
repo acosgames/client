@@ -10,7 +10,7 @@ import MainMenuChakra from './components/MainMenuChakra'
 import Routes from './Routes';
 import RoutesGame from './RoutesGame';
 
-import { getUserProfile } from './actions/person';
+import { getUser, getUserProfile } from './actions/person';
 import QueuePanel from "./components/games/QueuePanel";
 import fs from 'flatstore';
 import Sidebar from './components/widgets/Sidebar';
@@ -25,7 +25,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    getUserProfile();
+    getUser();
 
   }
 
@@ -36,7 +36,7 @@ class App extends Component {
 
         <MainMenuChakra />
 
-        <Flex id="wrapper" direction="row">
+        <Flex id="wrapper" direction="row" height="100%">
           <Switch>
             <Route path="/dev/login"
               component={() => (

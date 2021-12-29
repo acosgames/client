@@ -118,6 +118,10 @@ export function recvFrameMessage(evt) {
         // fs.set('iframesLoaded', iframesLoaded);
 
         fastForwardMessages();
+        let gamestatus = gamestate?.state?.gamestatus;
+        if (!gamestatus || gamestatus != 'pregame') {
+            return;
+        }
     }
     // let msg = data.payload;
     // if (msg.indexOf("Hello") > -1) {
@@ -478,7 +482,7 @@ async function wsIncomingMessage(message) {
             break;
 
         case 'inrooms':
-            console.log("[Incoming] InRooms: ", msg);
+            console.log("[Incoming] InRooms: ", JSON.parse(JSON.stringify(msg, null, 2)));
             if (msg.payload && Array.isArray(msg.payload) && msg.payload.length > 0) {
                 let room = msg.payload[0];
 
@@ -498,7 +502,12 @@ async function wsIncomingMessage(message) {
                 fs.set('rooms', rooms);
 
                 fs.set('queues', []);
-                fs.set('gamestate', {});
+
+                if (window.location.href.indexOf(room.room_slug) > -1) {
+                    if (room.payload)
+                        fs.set('gamestate', room.payload || {});
+                }
+
 
                 let experimental = room.mode == 'experimental' ? '/experimental' : '';
                 let urlPath = '/g/' + room.game_slug + experimental + '/' + room.room_slug;
@@ -508,7 +517,7 @@ async function wsIncomingMessage(message) {
             }
             break;
         case 'joined':
-            console.log("[Incoming] Joined: ", msg);
+            console.log("[Incoming] Joined: ", JSON.parse(JSON.stringify(msg, null, 2)));
             fs.set('room_slug', msg.room_slug);
             // if (!room) {
             //     console.error("Game not found. Cannot join unknown game.");
@@ -524,7 +533,7 @@ async function wsIncomingMessage(message) {
             fs.set('rooms', rooms);
 
             fs.set('queues', []);
-            fs.set('gamestate', {});
+            fs.set('gamestate', msg.payload || {});
 
             let experimental = msg.mode == 'experimental' ? '/experimental' : '';
             let urlPath = '/g/' + msg.game_slug + experimental + '/' + msg.room_slug;
@@ -532,25 +541,25 @@ async function wsIncomingMessage(message) {
                 history.push(urlPath);
             break;
         case 'join':
-            console.log("[Incoming] Player joined the game!", msg);
+            console.log("[Incoming] Player joined the game!", JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'kicked':
-            console.log("[Incoming] You were kicked from game!", msg);
+            console.log("[Incoming] You were kicked from game!", JSON.parse(JSON.stringify(msg, null, 2)));
             break;
-        case 'finish':
-            console.log("[Incoming] Game completed!", msg);
+        case 'gameover':
+            console.log("[Incoming] Game Over!", JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'private':
-            console.log("[Incoming] Private State: ", msg);
+            console.log("[Incoming] Private State: ", JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'update':
-            console.log("[Incoming] Update: ", msg);
+            console.log("[Incoming] Update: ", JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'error':
-            console.log("[Incoming] Error: ", msg);
+            console.log("[Incoming] Error: ", JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         default:
-            console.log("[Incoming] Unknown type: ", msg);
+            console.log("[Incoming] Unknown type: ", JSON.parse(JSON.stringify(msg, null, 2)));
             return;
     }
 
@@ -609,7 +618,7 @@ async function wsIncomingMessage(message) {
 
 async function postIncomingMessage(msg) {
     switch (msg.type) {
-        case 'finish':
+        case 'gameover':
             let rooms = fs.get('rooms');
             let room = rooms[msg.room_slug];
             let gamestate = fs.get('gamestate');

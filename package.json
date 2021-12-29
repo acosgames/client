@@ -2,7 +2,10 @@
   "name": "fsg-client",
   "version": "0.1.0",
   "private": true,
-  "sideEffects": ["./src/app.scss", "./src/components/widgets/inputs/Markdown.scss"],
+  "sideEffects": [
+    "./src/app.scss",
+    "./src/components/widgets/inputs/Markdown.scss"
+  ],
   "proxy": "http://localhost:8080",
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",
@@ -11,7 +14,7 @@
     "@react-icons/all-files": "^4.1.0",
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
-    "flatstore": "^1.0.10",
+    "flatstore": "^1.0.11",
     "framer-motion": "^4.1.17",
     "fsg-shared": "file:../fsg-shared",
     "history": "^5.0.1",

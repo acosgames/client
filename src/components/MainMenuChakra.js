@@ -73,10 +73,10 @@ function MainMenuChakra(props) {
                             {/* <Button onClick={toggleColorMode}>
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                             </Button> */}
-
-                            {loggedIn && <NavForUser />}
-                            {!loggedIn && <NavForGuest />}
-
+                            <Box>
+                                {loggedIn && <NavForUser />}
+                                {!loggedIn && <NavForGuest />}
+                            </Box>
                         </Stack>
                     </Flex>
                 </Flex>
