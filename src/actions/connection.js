@@ -1,7 +1,7 @@
 
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { encode, decode, defaultDict } from 'fsg-shared/util/encoder';
+import { encode, decode, defaultDict } from 'shared/util/encoder';
 import fs from 'flatstore';
 import delta from '../util/delta';
 // import { useHistory } from 'react-router-dom';

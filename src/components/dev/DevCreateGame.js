@@ -9,11 +9,11 @@ import DevImageUpload from "./DevImageUpload";
 import { updateGameField, createGame, clearGameFields } from '../../actions/devgame';
 import fs from 'flatstore';
 
-import errorMessage from 'fsg-shared/model/errorcodes';
+import errorMessage from 'shared/model/errorcodes';
 import FSGTextInput from "../widgets/inputs/FSGTextInput";
 import FSGSubmit from "../widgets/inputs/FSGSubmit";
 import { Divider, Heading } from "@chakra-ui/layout";
-import schema from 'fsg-shared/model/schema.json';
+import schema from 'shared/model/schema.json';
 import { Text, VStack, useToast, Box, Spacer } from "@chakra-ui/react";
 import FSGGroup from "../widgets/inputs/FSGGroup";
 

@@ -1,7 +1,7 @@
 import { POST, GET, POSTFORM } from './http';
 
-import { validateSimple, validateField } from 'fsg-shared/util/validation';
-// import { genShortId } from 'fsg-shared/util/idgen';
+import { validateSimple, validateField } from 'shared/util/validation';
+// import { genShortId } from 'shared/util/idgen';
 import config from '../config/config.json';
 import fs from 'flatstore';
 import { wsJoinRankedGame, wsJoinBetaGame, wsRejoinRoom } from './connection';

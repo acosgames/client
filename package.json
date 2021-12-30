@@ -1,5 +1,5 @@
 {
-  "name": "fsg-client",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
   "sideEffects": [
@@ -16,7 +16,7 @@
     "classnames": "^2.3.1",
     "flatstore": "^1.0.11",
     "framer-motion": "^4.1.17",
-    "fsg-shared": "file:../fsg-shared",
+    "shared": "file:../shared",
     "history": "^5.0.1",
     "http-proxy-middleware": "^1.0.6",
     "long": "^4.0.0",
@@ -43,7 +43,7 @@
     "build:prod": "./node_modules/.bin/webpack --config webpack/prod.config.js",
     "watch": "./node_modules/.bin/run-s waiton sync",
     "waiton": "./node_modules/.bin/wait-on http://localhost:8080/",
-    "sync": "browser-sync start --no-notify --no-ghost-mode --ws --port 8000 --proxy localhost:8080 --files=./src/* --files=../fsg-api/public/* --ignore=node_modules",
+    "sync": "browser-sync start --no-notify --no-ghost-mode --ws --port 8000 --proxy localhost:8080 --files=./src/* --files=../api/public/* --ignore=node_modules",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

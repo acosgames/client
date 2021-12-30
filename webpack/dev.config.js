@@ -4,7 +4,7 @@ const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var ENTRY_FILE = './src/index.js';
-var OUTPUT_PATH = '../../fsg-api/public';
+var OUTPUT_PATH = '../../api/public';
 
 module.exports = {
     mode: 'development',

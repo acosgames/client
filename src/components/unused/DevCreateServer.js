@@ -8,7 +8,7 @@ import DevImageUpload from "./DevImageUpload";
 import { updateServerField, createServer } from '../../actions/devgame';
 import fs from 'flatstore';
 
-import errorMessage from 'fsg-shared/model/errorcodes';
+import errorMessage from 'shared/model/errorcodes';
 
 class DevCreateServer extends Component {
     constructor(props) {

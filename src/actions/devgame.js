@@ -1,7 +1,7 @@
 import { POST, GET, POSTFORM } from './http';
 
-import { validateSimple, validateField } from 'fsg-shared/util/validation';
-// import { genShortId } from 'fsg-shared/util/idgen.js';
+import { validateSimple, validateField } from 'shared/util/validation';
+// import { genShortId } from 'shared/util/idgen.js';
 import { getWithExpiry, setWithExpiry } from './cache';
 import fs from 'flatstore';
 

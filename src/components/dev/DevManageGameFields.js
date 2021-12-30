@@ -8,7 +8,7 @@ import { updateGameField, updateGame, uploadGameImages, clearGameFields } from '
 import fs from 'flatstore';
 
 
-import errorMessage from 'fsg-shared/model/errorcodes';
+import errorMessage from 'shared/model/errorcodes';
 import Markdown from "../widgets/inputs/Markdown";
 // import ReactMarkdown from 'react-markdown';
 // import remarkGfm from 'remark-gfm';
@@ -20,7 +20,7 @@ import FSGGroup from "../widgets/inputs/FSGGroup";
 import FSGSubmit from "../widgets/inputs/FSGSubmit";
 import { useToast } from "@chakra-ui/react";
 
-import schema from 'fsg-shared/model/schema.json';
+import schema from 'shared/model/schema.json';
 
 function DevManageGameFields(props) {
 
