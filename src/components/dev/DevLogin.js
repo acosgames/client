@@ -66,7 +66,7 @@ function DevLogin(props) {
 
 
                 <Text as="p">
-                    Join our GitHub Organization at <Link fontWeight="bold" isExternal href="https://github.com/fivesecondgames">fivesecondgames</Link> and start creating and publishing games instantly.
+                    Join our GitHub Organization at <Link fontWeight="bold" isExternal href="https://github.com/acosgames">acosgames</Link> and start creating and publishing games instantly.
                     In the future, the org will be used to manage issues, code, and other purposes.
                 </Text>
 
@@ -89,7 +89,7 @@ function DevLogin(props) {
                     <HStack pt="2rem">
                         <Icon color={!sentInvite ? 'yellow.500' : 'green.500'} fontSize="xl" as={!sentInvite ? FiSquare : FiCheckSquare} />
                         <Heading as="h3" size="md" color="gray.100">Step 2:</Heading>
-                        <Heading as="h3" size="md" color="gray.400">Request invite to fivesecondgames organization</Heading>
+                        <Heading as="h3" size="md" color="gray.400">Request invite to acosgames organization</Heading>
                     </HStack>
 
                     <Button
@@ -99,15 +99,15 @@ function DevLogin(props) {
                         justifyContent={"left"}
                         variant={"outline"}
                         leftIcon={<FiDownload />} >
-                        <Text ml="4rem">Send GitHub invite for 'fivesecondgames' organization</Text>
+                        <Text ml="4rem">Send GitHub invite for 'acosgames' organization</Text>
                     </Button>
 
                     <HStack pt="2rem">
                         <Icon color={!acceptInvite ? 'yellow.500' : 'green.500'} fontSize="xl" as={!acceptInvite ? FiSquare : FiCheckSquare} />
                         <Heading as="h3" size="md" color="gray.100">Step 3:</Heading>
-                        <Heading as="h3" size="md" color="gray.400">Accept invite to fivesecondgames organization</Heading>
+                        <Heading as="h3" size="md" color="gray.400">Accept invite to acosgames organization</Heading>
                     </HStack>
-                    <a target="_blank" href="https://github.com/orgs/fivesecondgames/invitation" w="full">
+                    <a target="_blank" href="https://github.com/orgs/acosgames/invitation" w="full">
                         <Button
                             onClick={() => {
                                 setAcceptInvite(true);
@@ -117,7 +117,7 @@ function DevLogin(props) {
                             justifyContent={"left"}
                             variant={"outline"}
                             leftIcon={<FiDownload />} >
-                            <Text ml="4rem">Accept invite to 'fivesecondgames' organization</Text>
+                            <Text ml="4rem">Accept invite to 'acosgames' organization</Text>
                         </Button>
                     </a>
 

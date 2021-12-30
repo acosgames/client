@@ -4,6 +4,9 @@ import { validateSimple, validateField } from 'fsg-shared/util/validation';
 // import { genShortId } from 'fsg-shared/util/idgen.js';
 import { getWithExpiry, setWithExpiry } from './cache';
 import fs from 'flatstore';
+
+import config from '../config/config.json';
+
 import { toast, useToast } from '@chakra-ui/react';
 fs.set('devgameimages', []);
 fs.set('devgame', {});
@@ -82,7 +85,7 @@ export async function findClients(gameid) {
                 let images = [];
                 let list = client.preview_images.split(',');
                 for (var i = 0; i < list.length; i++) {
-                    let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + client.gameid + '/clients/preview/' + list[i];
+                    let url = config.https.cdn + client.gameid + '/clients/preview/' + list[i];
                     images.push({ data_url: url, file: {} });
                 }
                 fs.set('devclientimages_' + client.id, images);
@@ -150,7 +153,7 @@ export async function findGame(gameid) {
             let images = [];
             let list = game.preview_images.split(',');
             for (var i = 0; i < list.length; i++) {
-                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + game.game_slug + '/preview/' + list[i];
+                let url = config.https.cdn + game.game_slug + '/preview/' + list[i];
                 images.push({ data_url: url, file: {} });
             }
             fs.set('devgameimages', images);
@@ -191,7 +194,7 @@ function updateClient(client) {
 
     fs.set('devClients-' + client.env, client);
 
-    var storageURL = 'https://cdn.fivesecondgames.com/file/fivesecondgames/';
+    var storageURL = config.https.cdn;
     var storagePath = client.gameid + '/client/' + client.id + '/'
     if (client.preview_images) {
         let images = [];
@@ -247,7 +250,7 @@ export async function uploadClientImages(images, nextImages) {
     if (preview_images) {
         for (var i = 0; i < preview_images.length; i++) {
             if (nextImages[i]) {
-                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + client.gameid + '/client/' + client.id + '/' + preview_images[i];
+                let url = config.https.cdn + client.gameid + '/client/' + client.id + '/' + preview_images[i];
                 nextImages[i].data_url = url;
             }
         }
@@ -303,7 +306,7 @@ export async function uploadGameImages(images, nextImages) {
     if (preview_images) {
         for (var i = 0; i < preview_images.length; i++) {
             if (nextImages[i]) {
-                let url = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + game.game_slug + '/preview/' + preview_images[i];
+                let url = config.https.cdn + game.game_slug + '/preview/' + preview_images[i];
                 nextImages[i].data_url = url;
             }
         }

@@ -4,6 +4,8 @@ import {
     withRouter,
 } from "react-router-dom";
 
+import config from '../../config/config.json';
+
 import Connection from "./Connection";
 import fs from 'flatstore';
 import { sendLoadMessage, wsJoinRankedGame, wsRejoinRoom } from "../../actions/connection";
@@ -69,7 +71,7 @@ class GamePanel extends Component {
         let room_slug = room.room_slug;
         let game_slug = room.game_slug;
         let version = room.version;
-        let srcUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${game_slug}/client/client.bundle.${version}.html`;
+        let srcUrl = `${config.https.cdn}${game_slug}/client/client.bundle.${version}.html`;
         srcUrl = '/iframe';
 
 

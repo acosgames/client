@@ -9,7 +9,7 @@ function TermsAndConditions(props) {
 
             <p>Welcome to Five Second Games!</p>
 
-            <p>These terms and conditions outline the rules and regulations for the use of Five Second Games's Website, located at https://www.fivesecondgames.com.</p>
+            <p>These terms and conditions outline the rules and regulations for the use of Five Second Games's Website, located at https://www.acos.games.</p>
 
             <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use Five Second Games if you do not agree to take all of the terms and conditions stated on this page.</p>
 

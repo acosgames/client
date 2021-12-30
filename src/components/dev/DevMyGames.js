@@ -19,12 +19,12 @@ function DevMyGames(props) {
     const showInvitation = () => {
         let user = props.user;
         if (user && user.isdev) {
-            return <h4>Organization: fivesecondgames</h4>
+            return <h4>Organization: acosgames</h4>
         }
 
         return (
             <div>
-                <span><a className="button" href="https://github.com/orgs/fivesecondgames/invitation">Accept Invitation</a> to Github Organization "fivescondgames"</span>
+                <span><a className="button" href="https://github.com/orgs/acosgames/invitation">Accept Invitation</a> to Github Organization "acosgames"</span>
             </div>
         )
     }

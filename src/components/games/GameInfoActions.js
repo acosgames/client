@@ -106,7 +106,7 @@ function GameInfoActions(game) {
                     <HStack spacing="0.2rem" pr="1rem" alignContent={'center'}>
 
                         <Icon color="white" as={FaGithub} fontSize={'1.2rem'} />
-                        <Text color="white"><Link target="_blank" href={`https://github.com/fivesecondgames/${game.game_slug}/issues`}>DISCUSS</Link></Text>
+                        <Text color="white"><Link target="_blank" href={`https://github.com/acosgames/${game.game_slug}/issues`}>DISCUSS</Link></Text>
 
                     </HStack>
                 </Tooltip>

@@ -2,6 +2,7 @@ import { Box, Image, HStack, VStack, IconButton, Spacer, Text, useClipboard, Ico
 import SLink from "../widgets/SLink";
 import { useToast } from '@chakra-ui/react'
 
+import config from '../../config/config.json';
 // import { IoCode } from "@react-icons/all-files/io5/IoCode";
 // import { IoCodeWorking } from "@react-icons/all-files/io5/IoCodeWorking";
 // import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
@@ -75,11 +76,9 @@ function DevMyGameListItem(props) {
     }, [])
 
 
-    let imgUrl = 'https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png';
+    let imgUrl = config.https.cdn + 'placeholder.png';
     if (props.preview_images && props.preview_images.length > 0)
-        imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${props.game_slug}/preview/${props.preview_images}`;
-
-    // let imageURL = 'https://cdn.fivesecondgames.com/file/fivesecondgames/' + props.gameid + '/preview/' + props.preview_images;
+        imgUrl = `${config.https.cdn}${props.game_slug}/preview/${props.preview_images}`;
 
     return (
         <Box>
@@ -88,7 +87,7 @@ function DevMyGameListItem(props) {
                     <Flex justifyItems={['left', 'left']}>
                         <SLink to={'/dev/game/' + props.gameid}>
                             <Image src={imgUrl} alt={"Icon for " + props.name} minWidth={['72px']} maxW={['72px']} h={['72px']}
-                                fallbackSrc='https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png'
+                                fallbackSrc={config.https.cdn + 'placeholder.png'}
                             />
                         </SLink>
 
@@ -124,7 +123,7 @@ function DevMyGameListItem(props) {
                                 </HStack>
                                 <HStack pr={['1rem', '1rem', "1rem", "1rem"]}>
                                     <Icon color="gray.500" as={FaGithub} />
-                                    <Text color="gray.400"><Link target="_blank" href={`https://github.com/fivesecondgames/${props.game_slug}/issues`}>issues</Link></Text>
+                                    <Text color="gray.400"><Link target="_blank" href={`https://github.com/acosgames/${props.game_slug}/issues`}>issues</Link></Text>
                                 </HStack>
 
                                 <HStack>

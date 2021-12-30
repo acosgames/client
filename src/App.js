@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 
 import MainMenuChakra from './components/MainMenuChakra'
-import Routes from './Routes';
-import RoutesGame from './RoutesGame';
+import Routes from './routes/Routes';
+import RoutesGame from './routes/RoutesGame';
 
 import { getUser, getUserProfile } from './actions/person';
 import QueuePanel from "./components/games/QueuePanel";

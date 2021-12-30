@@ -4,6 +4,7 @@ import {
     withRouter,
 } from "react-router-dom";
 
+import config from '../../config/config.json';
 import fs from 'flatstore';
 import { useEffect } from "react";
 import { VStack, Image, Text, HStack, Icon } from "@chakra-ui/react";
@@ -31,9 +32,9 @@ function GameListItem(props) {
         props.history.push("/g/" + game.game_slug);
     }
 
-    var imgUrl = 'https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png';
+    var imgUrl = config.https.cdn + 'placeholder.png';
     if (game.preview_images && game.preview_images.length > 0)
-        imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${game.game_slug}/preview/${game.preview_images}`;
+        imgUrl = `${config.https.cdn}${game.game_slug}/preview/${game.preview_images}`;
 
     let gameName = game.name;
     if (gameName.length > 20) {
@@ -49,7 +50,7 @@ function GameListItem(props) {
                 minH={['140px', '140px', '140px', '140px']}
                 alt={gameName}
                 src={imgUrl}
-                fallbackSrc='https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png'
+                fallbackSrc={config.https.cdn + 'placeholder.png'}
             />
             <Text
                 as="h6" size="sm" fontWeight={'bold'}

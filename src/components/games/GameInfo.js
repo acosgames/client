@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import { Redirect } from 'react-router';
 
+import config from '../../config/config.json';
 import fs from 'flatstore';
 import { getUser } from '../../actions/person';
 import { findGame, findGamePerson } from "../../actions/game";
@@ -74,9 +75,9 @@ function GameInfo(props) {
         return <React.Fragment></React.Fragment>
     }
 
-    let imgUrl = 'https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png';
+    let imgUrl = config.https.cdn + 'placeholder.png';
     if (game.preview_images && game.preview_images.length > 0)
-        imgUrl = `https://cdn.fivesecondgames.com/file/fivesecondgames/${game.game_slug}/preview/${game.preview_images}`;
+        imgUrl = `${config.https.cdn}${game.game_slug}/preview/${game.preview_images}`;
 
     let playerCntRange = game.minplayers + '-' + game.maxplayers;
     if (game.minplayers == game.maxplayers)
@@ -107,7 +108,7 @@ function GameInfo(props) {
                                 height="100%"
                                 objectFit={'fill'}
                                 src={imgUrl}
-                                fallbackSrc='https://cdn.fivesecondgames.com/file/fivesecondgames/placeholder.png'
+                                fallbackSrc={config.https.cdn + 'placeholder.png'}
                                 w="100%"
                             />
                         </Box>
