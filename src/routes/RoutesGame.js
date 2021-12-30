@@ -8,8 +8,8 @@ import {
 // import history from "./actions/history";
 import fs from 'flatstore';
 
-import GameInfo from './components/games/GameInfo';
-import GameScreen from './components/games/GameScreen';
+import GameInfo from '../components/games/GameInfo';
+import GameScreen from '../components/games/GameScreen';
 
 
 var RoutesGame = () => {

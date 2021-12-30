@@ -60,7 +60,7 @@ class MainMenu extends Component {
                 <ul id="menu-nav">
                     <li>
                         <SLink to="/g" className={classFindGames}>
-                            <span className="logo-txt">FSG</span>
+                            <span className="logo-txt">ACOS</span>
                             {/* <span className="material-icons">
                                 home
                             </span> */}

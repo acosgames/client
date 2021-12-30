@@ -88,31 +88,77 @@ function GameScreenIframe(room) {
         let isFullscreen = checkFullScreen();
         let windowHeight = isFullscreen ? window.screen.height : document.documentElement.clientHeight;
         let windowWidth = isFullscreen ? window.screen.width : document.documentElement.clientWidth;
-        // windowHeight -= 32;
-        let wsteps = Math.floor(windowWidth / resow);
-        let hsteps = Math.floor(windowHeight / resoh);
-        let steps = (wsteps > hsteps ? hsteps : wsteps);
-        let bgWidth = Math.round(steps * resow);
-        let bgHeight = Math.round(steps * resoh);
+        var bgWidth = 0;//parseInt(getComputedStyle(maincontent).width, 10);
+        var bgHeight = 0;//parseInt(getComputedStyle(maincontent).height, 10);
+        var scale = 1;
 
-        gamescreenRef.current.style.width = bgWidth + 'px';
-        gamescreenRef.current.style.height = bgHeight + 'px';
+        let wsteps = (windowWidth / resow);
+        let hsteps = (windowHeight / resoh);
+        let steps = 0;
 
-        let scale = bgWidth / CONTENT_WIDTH;
-        if (screentype == 2) {
+        if (wsteps < hsteps) {
+            steps = wsteps
+        }
+        else {
+            steps = hsteps
+        }
+
+        bgWidth = (steps * resow);
+        bgHeight = (steps * resoh);
+
+
+
+
+        if (screentype == '3') {
+            gamescreenRef.current.style.width = bgWidth + 'px';
+            gamescreenRef.current.style.height = bgHeight + 'px';
+            scale = ((bgWidth / screenwidth));
+
             iframeRef.current.setAttribute('style', transformStr({
                 scale: scale,
                 translateZ: '0'
-            }) + `; transform-origin: left top; width:${screenwidth}px; height:${screenheight} px;`);
-        } else {
+            }) + `; transform-origin: left top; width:${screenwidth}px; height:${screenheight}px;`);
+        }
+        else if (screentype == '2') {
+            gamescreenRef.current.style.width = bgWidth + 'px';
+            gamescreenRef.current.style.height = bgHeight + 'px';
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }
+        else if (screentype == '1') {
+            gamescreenRef.current.style.width = windowWidth + 'px';
+            gamescreenRef.current.style.height = windowHeight + 'px';
+            iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
+        }
+
+
+        // let isFullscreen = checkFullScreen();
+        // let windowHeight = isFullscreen ? window.screen.height : document.documentElement.clientHeight;
+        // let windowWidth = isFullscreen ? window.screen.width : document.documentElement.clientWidth;
+        // // windowHeight -= 32;
+        // let wsteps = Math.floor(windowWidth / resow);
+        // let hsteps = Math.floor(windowHeight / resoh);
+        // let steps = (wsteps > hsteps ? hsteps : wsteps);
+        // let bgWidth = Math.round(steps * resow);
+        // let bgHeight = Math.round(steps * resoh);
+
+        // gamescreenRef.current.style.width = bgWidth + 'px';
+        // gamescreenRef.current.style.height = bgHeight + 'px';
+
+        // let scale = bgWidth / CONTENT_WIDTH;
+        // if (screentype == 2) {
+        //     iframeRef.current.setAttribute('style', transformStr({
+        //         scale: scale,
+        //         translateZ: '0'
+        //     }) + `; transform-origin: left top; width:${screenwidth}px; height:${screenheight} px;`);
+        // } else {
+        //     iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
+        // }
     }
 
     window.addEventListener('resize', onResize, false);
 
     return (
-        <VStack justifyContent={'center'} alignContent={'center'} w="100%" h="100%" ref={gamewrapperRef}>
+        <VStack justifyContent={'flex-start'} alignContent={'center'} w="100%" h="100%" ref={gamewrapperRef}>
             <Box
                 // bg="white"
                 ref={gamescreenRef}

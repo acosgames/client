@@ -1,6 +1,7 @@
 {
     "https": {
-        "cdn": "https://cdn.fivesecondgames.com/file/fivesecondgames/",
+        "cdn": "https://acospub.s3.us-west-000.backblazeb2.com/",
+        "cdn2": "https://cdn.fivesecondgames.com/file/fivesecondgames/",
         "api": "https://api.acos.games"
     }
     

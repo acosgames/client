@@ -39,7 +39,7 @@ function GameScreenInfo(props) {
     return (
         <Box>
             <VStack>
-                <Text as={'h4'} size={'md'}>In-Game Players</Text>
+                <Text as={'h4'} size={'md'}>Game Players</Text>
                 <Table variant='simple' size="sm">
                     <Thead>
                         <Tr>

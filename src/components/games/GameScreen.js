@@ -1,5 +1,5 @@
 
-import { Box, IconButton } from '@chakra-ui/react';
+import { Box, VStack, Text, IconButton, HStack, Spacer, Wrap } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -7,9 +7,10 @@ import { findAndRejoin } from '../../actions/game';
 import Connection from './Connection';
 import GameScreenIframe from './GameScreenIframe';
 import GameScreenActions from './GameScreenActions';
-
+import GameScreenInfo from './GameScreenInfo';
 import LeaveGame from './LeaveGame';
 import { BsArrowsFullscreen } from '@react-icons';
+import GameInfoTop10 from './GameInfoTop10';
 
 function GameScreen(props) {
 
@@ -46,7 +47,25 @@ function GameScreen(props) {
         <Box w="100%" h="100%" position="relative">
 
             <GameScreenIframe {...props.room} />
-            <GameScreenActions room={props.room} game={props.game} />
+            <VStack>
+                <GameScreenActions room={props.room} game={props.game} />
+                <Wrap alignItems={'flex-start'} justifyContent={'center'}>
+                    <Box>
+                        <VStack>
+                            <Text as={'h4'} size={'md'}>Global Leaderboard</Text>
+                            <GameInfoTop10 />
+                        </VStack>
+                    </Box>
+                    <Box w="2rem"></Box>
+
+                    <GameScreenInfo />
+
+
+
+                </Wrap>
+            </VStack>
+
+
             <Connection></Connection>
 
 

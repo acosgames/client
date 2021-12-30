@@ -62,7 +62,7 @@ function MainMenuChakra(props) {
             <Box display={props.gamepanel ? 'none' : 'block'} bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <Box><SLink to="/" className="">
-                        <span className="logo-txt">A Cup of Skill</span>
+                        <span className="logo-txt">A cup of skill</span>
                         {/* <span className="material-icons">
                                 home
                             </span> */}

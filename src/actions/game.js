@@ -4,6 +4,8 @@ import { validateSimple, validateField } from 'shared/util/validation';
 // import { genShortId } from 'shared/util/idgen';
 import config from '../config/config.json';
 import fs from 'flatstore';
+
+import { getUser } from './person';
 import { wsJoinRankedGame, wsJoinBetaGame, wsRejoinRoom } from './connection';
 
 fs.set('rankList', []);
@@ -116,7 +118,20 @@ export async function findGamePerson(game_slug) {
 }
 
 export async function findAndRejoin(game_slug, room_slug) {
-    await findGame(game_slug);
+
+    let player_stats = fs.get('player_stats');
+    let player_stat = player_stats[game_slug];
+    let user = await getUser();
+    if (user && !player_stat) {
+
+        await findGamePerson(game_slug);
+
+    }
+    else {
+        await findGame(game_slug);
+    }
+
+
     wsRejoinRoom(game_slug, room_slug);
 }
 
