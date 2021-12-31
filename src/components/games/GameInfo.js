@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import { Redirect } from 'react-router';
 
-import cfg from '../config/config.json';
+import cfg from '../../config/config.json';
 let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
 
 import fs from 'flatstore';
