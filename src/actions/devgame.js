@@ -5,7 +5,10 @@ import { validateSimple, validateField } from 'shared/util/validation';
 import { getWithExpiry, setWithExpiry } from './cache';
 import fs from 'flatstore';
 
-import config from '../config/config.json';
+import cfg from '../config/config.json';
+let config = cfg.local;
+if (process.env.ACOSENV == 'production')
+    config = config.prod;
 
 import { toast, useToast } from '@chakra-ui/react';
 fs.set('devgameimages', []);

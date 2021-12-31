@@ -112,6 +112,7 @@ function GameScreenIframe(room) {
         if (screentype == '3') {
             gamescreenRef.current.style.width = bgWidth + 'px';
             gamescreenRef.current.style.height = bgHeight + 'px';
+            gamewrapperRef.current.style.height = bgHeight + 'px';
             scale = ((bgWidth / screenwidth));
 
             iframeRef.current.setAttribute('style', transformStr({
@@ -122,11 +123,13 @@ function GameScreenIframe(room) {
         else if (screentype == '2') {
             gamescreenRef.current.style.width = bgWidth + 'px';
             gamescreenRef.current.style.height = bgHeight + 'px';
+            gamewrapperRef.current.style.height = bgHeight + 'px';
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }
         else if (screentype == '1') {
             gamescreenRef.current.style.width = windowWidth + 'px';
             gamescreenRef.current.style.height = windowHeight + 'px';
+            gamewrapperRef.current.style.height = windowHeight + 'px';
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }
 

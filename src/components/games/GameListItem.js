@@ -4,7 +4,10 @@ import {
     withRouter,
 } from "react-router-dom";
 
-import config from '../../config/config.json';
+import cfg from '../config/config.json';
+let config = cfg.local;
+if (process.env.ACOSENV == 'production')
+    config = config.prod;
 import fs from 'flatstore';
 import { useEffect } from "react";
 import { VStack, Image, Text, HStack, Icon } from "@chakra-ui/react";

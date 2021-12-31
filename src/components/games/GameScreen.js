@@ -1,7 +1,7 @@
 
-import { Box, VStack, Text, IconButton, HStack, Spacer, Wrap } from '@chakra-ui/react';
+import { Box, VStack, Text, IconButton, HStack, Spacer, Wrap, WrapItem } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { findAndRejoin } from '../../actions/game';
 import Connection from './Connection';
@@ -11,6 +11,8 @@ import GameScreenInfo from './GameScreenInfo';
 import LeaveGame from './LeaveGame';
 import { BsArrowsFullscreen } from '@react-icons';
 import GameInfoTop10 from './GameInfoTop10';
+import FSGGroup from '../widgets/inputs/FSGGroup';
+import GameScreenStarting from './GameScreenStarting';
 
 function GameScreen(props) {
 
@@ -18,7 +20,7 @@ function GameScreen(props) {
     const mode = props.match.params.mode;
     const room_slug = props.match.params.room_slug;
 
-
+    const gamescreenRef = useRef();
     const [game, setGame] = useState(null);
 
     useEffect(() => {
@@ -40,35 +42,41 @@ function GameScreen(props) {
         fs.set('gamewrapper', null);
     }, [])
 
-
+    useEffect(() => {
+        fs.set('fullScreenElem', gamescreenRef);
+    })
 
 
     return (
-        <Box w="100%" h="100%" position="relative">
+        <Box w="100%" h="100%" position="relative" ref={gamescreenRef}>
 
             <GameScreenIframe {...props.room} />
-            <VStack>
-                <GameScreenActions room={props.room} game={props.game} />
-                <Wrap alignItems={'flex-start'} justifyContent={'center'}>
-                    <Box>
-                        <VStack>
-                            <Text as={'h4'} size={'md'}>Global Leaderboard</Text>
-                            <GameInfoTop10 />
-                        </VStack>
-                    </Box>
-                    <Box w="2rem"></Box>
+            <VStack px="2rem" pb="2rem">
+                <FSGGroup title={props.game?.name || 'Game Info'}>
+                    <GameScreenActions room={props.room} game={props.game} />
 
-                    <GameScreenInfo />
+                    <Wrap justify={'center'} spacing="3rem">
+
+                        <WrapItem >
+                            <GameScreenInfo />
+                        </WrapItem>
+                        <WrapItem>
+                            <VStack justifyContent={'center'}>
+                                <Text as={'h4'} size={'md'} fontWeight={'bold'}>Global Leaderboard</Text>
+                                <GameInfoTop10 />
+                            </VStack>
+                        </WrapItem>
+
+                    </Wrap>
+                </FSGGroup>
 
 
-
-                </Wrap>
             </VStack>
 
 
             <Connection></Connection>
 
-
+            <GameScreenStarting />
         </Box>
     )
 

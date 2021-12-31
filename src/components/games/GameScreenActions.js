@@ -1,5 +1,5 @@
 
-import { Badge, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, IconButton, Input, Portal, useDisclosure, useShortcut } from '@chakra-ui/react';
+import { Badge, Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, IconButton, Input, Portal, Spacer, useDisclosure, useShortcut } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -40,29 +40,40 @@ function GameScreenActions(props) {
         wsLeaveGame(game_slug, room_slug);
     }
 
+    let gamestate = fs.get('gamestate') || {};//-events-gameover');
+    let events = gamestate?.events || {};
+    let isGameover = !!(events.gameover)
+
 
     return (
-        <Box >
+        <Flex w="100%">
+            <Box w='2px'>
 
-            <Button
-                colorScheme='red'
-                onClick={onForfeit}>
-                Forfeit Game
-            </Button>
-
-
-            <IconButton
-                colorScheme={'clear'}
-                icon={<BsArrowsFullscreen color="white" />}
-                onClick={() => {
-                    openFullscreen(props.gamewrapper)
-                }}
-            >
-                Full Screen
-            </IconButton>
+            </Box>
+            <Spacer />
+            <Box>
+                <Button
+                    colorScheme={isGameover ? 'yellow' : 'red'}
+                    onClick={onForfeit}>
+                    {isGameover ? 'Leave' : 'Forfeit'} Game
+                </Button>
+            </Box>
+            <Spacer />
+            <Box>
+                <IconButton
+                    ml="2rem"
+                    colorScheme={'clear'}
+                    icon={<BsArrowsFullscreen color="white" />}
+                    onClick={() => {
+                        openFullscreen(props.fullScreenElem)
+                    }}
+                >
+                    Full Screen
+                </IconButton>
+            </Box>
             {/* <LeaveGame></LeaveGame> */}
 
-        </Box >
+        </Flex >
     )
 
 
@@ -71,4 +82,4 @@ function GameScreenActions(props) {
 
 
 
-export default withRouter(fs.connect(['gamewrapper'])(GameScreenActions));
+export default withRouter(fs.connect(['fullScreenElem', 'gamestate>events'])(GameScreenActions));

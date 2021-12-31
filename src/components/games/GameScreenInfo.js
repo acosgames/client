@@ -39,12 +39,12 @@ function GameScreenInfo(props) {
     return (
         <Box>
             <VStack>
-                <Text as={'h4'} size={'md'}>Game Players</Text>
+                <Text as={'h4'} size={'md'} fontWeight={'bold'}>Game Players</Text>
                 <Table variant='simple' size="sm">
                     <Thead>
                         <Tr>
                             <Th>Player</Th>
-                            <Th isNumeric>Rank</Th>
+                            <Th isNumeric>Place</Th>
                             <Th isNumeric>Score</Th>
                         </Tr>
                     </Thead>

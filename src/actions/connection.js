@@ -2,6 +2,11 @@
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode, defaultDict } from 'shared/util/encoder';
+import cfg from '../config/config.json';
+let config = cfg.local;
+if (process.env.ACOSENV == 'production')
+    config = config.prod;
+
 import fs from 'flatstore';
 import delta from '../util/delta';
 // import { useHistory } from 'react-router-dom';
@@ -19,6 +24,52 @@ fs.set('rooms', {});
 
 var messageQueue = {};
 var onResize = null;
+
+var timerHandle = 0;
+
+export function timerLoop(cb) {
+
+    if (cb)
+        cb();
+
+    if (timerHandle) {
+        clearTimeout(timerHandle);
+        timerHandle = 0;
+    }
+
+
+    timerHandle = setTimeout(() => { timerLoop(cb) }, 100);
+
+    let gamestate = fs.get('gamestate') || {};
+    let timer = gamestate.timer;
+    if (!timer) {
+        clearTimeout(timerHandle);
+        timerHandle = 0;
+        return;
+
+    }
+
+    let deadline = timer.end;
+    if (!deadline)
+        return;
+
+    let now = (new Date()).getTime();
+    let elapsed = deadline - now;
+
+    if (elapsed <= 0) {
+        elapsed = 0;
+    }
+
+    fs.set('gameTimeleft', elapsed);
+
+    let state = gamestate.state;
+    let events = gamestate.events;
+    if (events?.gameover || state?.gamestatus == 'gamestart') {
+        clearTimeout(timerHandle);
+        timerHandle = 0;
+        return;
+    }
+}
 
 export function attachToFrame() {
     window.addEventListener(
@@ -376,6 +427,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             user = fs.get('user');
         }
         // let cookies = parseCookies();
+        url = config.https.ws;
         var client = new W3CWebSocket(url || 'ws://127.0.0.1:9002', user.token, 'http://localhost:3000', {});
         client.binaryType = 'arraybuffer'
         client.isReady = false;
@@ -524,6 +576,7 @@ async function wsIncomingMessage(message) {
             //     return;
             // }
 
+
             let joinrooms = fs.get('joinrooms');
             delete joinrooms[msg.room_slug];
             fs.set('joinrooms', joinrooms);
@@ -534,6 +587,9 @@ async function wsIncomingMessage(message) {
 
             fs.set('queues', []);
             fs.set('gamestate', msg.payload || {});
+            gamestate = msg.payload || {};
+
+            timerLoop();
 
             let experimental = msg.mode == 'experimental' ? '/experimental' : '';
             let urlPath = '/g/' + msg.game_slug + experimental + '/' + msg.room_slug;
@@ -576,11 +632,16 @@ async function wsIncomingMessage(message) {
                 let player_stats = fs.get('player_stats');
                 let player_stat = player_stats[room.game_slug]
                 if (player_stat) {
-                    player_stat.win = msg.payload._win;
-                    player_stat.loss = msg.payload._loss;
-                    player_stat.tie = msg.payload._tie;
-                    player_stat.played = msg.payload._played;
-                    player_stat.rating = player.rating;
+                    if (msg.payload._win)
+                        player_stat.win = msg.payload._win;
+                    if (msg.payload._loss)
+                        player_stat.loss = msg.payload._loss;
+                    if (msg.payload._tie)
+                        player_stat.tie = msg.payload._tie;
+                    if (msg.payload._played)
+                        player_stat.played = msg.payload._played;
+                    if (msg.payload.rating)
+                        player_stat.rating = player.rating;
                     if (player.ratingTxt)
                         player_stat.ratingTxt = player.ratingTxt;
 
@@ -630,15 +691,17 @@ async function postIncomingMessage(msg) {
                 let player_stats = fs.get('player_stats');
                 let player_stat = player_stats[room.game_slug] || {};
                 if (player_stat) {
-                    player_stat.rating = player.rating;
-                    player_stat.ratingTxt = player.ratingTxt;
+                    if (player.rating)
+                        player_stat.rating = player.rating;
+                    if (player.ratingTxt)
+                        player_stat.ratingTxt = player.ratingTxt;
                     player_stats[room.game_slug] = player_stat;
                 }
                 fs.set('player_stats', player_stats);
             }
 
 
-            fs.set('gamestate', {});
+            // fs.set('gamestate', {});
 
             break;
         case 'error':

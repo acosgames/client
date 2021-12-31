@@ -1,8 +1,20 @@
 {
-    "https": {
-        "cdn": "https://acospub.s3.us-west-000.backblazeb2.com/",
-        "cdn2": "https://cdn.fivesecondgames.com/file/fivesecondgames/",
-        "api": "https://api.acos.games"
+    "local": {
+        "https": {
+            "cdn": "https://cdn.acos.games/file/acospub/",
+            "cdn3": "https://acospub.s3.us-west-000.backblazeb2.com/",
+            "cdn2": "https://cdn.fivesecondgames.com/file/fivesecondgames/",
+            "api": "https://localhost:8000",
+            "ws": "ws://127.0.0.1:9002"
+        }
+    },
+    "prod": {
+        "https": {
+            "cdn": "https://cdn.acos.games/file/acospub/",
+            "cdn3": "https://acospub.s3.us-west-000.backblazeb2.com/",
+            "cdn2": "https://cdn.fivesecondgames.com/file/fivesecondgames/",
+            "api": "https://api.acos.games",
+            "ws": "ws://acos.games:9002"
+        }
     }
-    
 }

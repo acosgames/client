@@ -22,15 +22,16 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             },
             {
-                test: /\.(png|jpg|gif|svg)$/i,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192,
-                        },
-                    },
-                ],
+                test: /\.(png|jpg|gif|svg|woff2|woff)$/i,
+                type: 'asset/inline',
+                // use: [
+                //     {
+                //         loader: 'url-loader',
+                //         options: {
+                //             limit: 8192,
+                //         },
+                //     },
+                // ],
             },
             {
                 test: /\.(js|jsx|mjs)$/,
