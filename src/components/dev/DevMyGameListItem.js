@@ -3,7 +3,7 @@ import SLink from "../widgets/SLink";
 import { useToast } from '@chakra-ui/react'
 
 import cfg from '../../config/config.json';
-let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
 
 // import { IoCode } from "@react-icons/all-files/io5/IoCode";
 // import { IoCodeWorking } from "@react-icons/all-files/io5/IoCodeWorking";

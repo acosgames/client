@@ -6,7 +6,7 @@ import { getWithExpiry, setWithExpiry } from './cache';
 import fs from 'flatstore';
 
 import cfg from '../config/config.json';
-let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
 
 
 import { toast, useToast } from '@chakra-ui/react';

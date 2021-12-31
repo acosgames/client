@@ -3,9 +3,8 @@ import { POST, GET, POSTFORM } from './http';
 import { validateSimple, validateField } from 'shared/util/validation';
 // import { genShortId } from 'shared/util/idgen';
 import cfg from '../config/config.json';
-let config = cfg.local;
-if (process.env.NODE_ENV == 'production')
-    config = config.prod;
+let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
+
 import fs from 'flatstore';
 
 import { getUser } from './person';

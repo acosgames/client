@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 
 import cfg from '../../config/config.json';
-let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
 
 import fs from 'flatstore';
 import { useEffect } from "react";
