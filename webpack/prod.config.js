@@ -12,7 +12,7 @@ module.exports = {
     entry: { main: ENTRY_FILE },
     output: {
         path: path.resolve(__dirname, OUTPUT_PATH),
-        filename: 'client.bundle.js',
+        filename: 'bundle.js',
     },
     //node: { console: false, fs: 'empty', net: 'empty', tls: 'empty' },
     module: {
