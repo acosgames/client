@@ -1,14 +1,8 @@
 import { Flex, Box, Button, HStack, Text, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip } from '@chakra-ui/react'
 
 
-// import { FaCaretDown } from "@react-icons/all-files/fa/FaCaretDown";
-// import { FaPlay } from "@react-icons/all-files/fa/FaPlay";
 
-import { FaCaretDown, FaPlay } from '@react-icons';
-
-import { joinGame } from "../../actions/game";
 import fs from 'flatstore';
-import { getUser } from '../../actions/person';
 
 
 

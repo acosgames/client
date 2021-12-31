@@ -9,7 +9,6 @@ import GameScreenIframe from './GameScreenIframe';
 import GameScreenActions from './GameScreenActions';
 import GameScreenInfo from './GameScreenInfo';
 import LeaveGame from './LeaveGame';
-import { BsArrowsFullscreen } from '@react-icons';
 import GameInfoTop10 from './GameInfoTop10';
 import FSGGroup from '../widgets/inputs/FSGGroup';
 import GameScreenStarting from './GameScreenStarting';

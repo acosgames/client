@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import Logout from "./Logout";
 import { Heading, VStack, Button, Center, Text, chakra } from "@chakra-ui/react";
-import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from 'react-icons/fa';
+import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
 class SocialLogin extends Component {
     constructor(props) {
         super(props);

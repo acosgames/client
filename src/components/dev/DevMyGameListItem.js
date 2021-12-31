@@ -5,13 +5,6 @@ import { useToast } from '@chakra-ui/react'
 import cfg from '../../config/config.json';
 let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
 
-// import { IoCode } from "@react-icons/all-files/io5/IoCode";
-// import { IoCodeWorking } from "@react-icons/all-files/io5/IoCodeWorking";
-// import { IoDocument } from "@react-icons/all-files/io5/IoDocument";
-// import { FaGithub } from "@react-icons/all-files/fa/FaGithub";
-// import { FiCopy } from "@react-icons/all-files/fi/FiCopy";
-// import { FiHeart } from "@react-icons/all-files/fi/FiHeart";
-// import { FiUsers } from "@react-icons/all-files/fi/FiUsers";
 import { FaGithub, FiCopy, FiHeart, FiUsers, IoCode, IoCodeWorking, IoDocument, IoHelpCircleSharp } from "@react-icons";
 import { useEffect, useRef, useState } from "react";
 import { deployToProduction } from "../../actions/devgame";

@@ -15,10 +15,6 @@ import {
     Center
 } from '@chakra-ui/react'
 
-// import { FiHome } from "@react-icons/all-files/fi/FiHome";
-// import { IoDocuments } from "@react-icons/all-files/io5/IoDocuments";
-// import { IoLogoGithub } from "@react-icons/all-files/io5/IoLogoGithub";
-// import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord";
 
 import { IoDocuments, IoLogoGithub, FiHome, FaDiscord } from '@react-icons'
 import { PlusSquareIcon } from '@chakra-ui/icons'

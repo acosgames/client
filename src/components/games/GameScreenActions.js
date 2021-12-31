@@ -8,7 +8,7 @@ import Connection from './Connection';
 
 
 import LeaveGame from './LeaveGame';
-import { BsArrowsFullscreen, HiOutlineDotsCircleHorizontal } from '@react-icons';
+import { BsArrowsFullscreen } from '@react-icons';
 import { wsLeaveGame } from '../../actions/connection';
 
 const resizeEvent = new Event('resize');

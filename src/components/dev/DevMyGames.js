@@ -8,7 +8,6 @@ import fs from 'flatstore';
 import SLink from "../widgets/SLink";
 import { Text, Box, Heading, HStack, Icon, IconButton, VStack, Divider, Spacer, useClipboard } from "@chakra-ui/react";
 
-// import { FiPlus } from "@react-icons/all-files/fi/FiPlus";
 import { FiPlus } from '@react-icons'
 import DevMyGameListItem from "./DevMyGameListItem";
 

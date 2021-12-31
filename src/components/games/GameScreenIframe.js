@@ -1,7 +1,6 @@
 import { Box, IconButton, VStack } from '@chakra-ui/react';
 import Connection from './Connection';
 import LeaveGame from './LeaveGame';
-import { BsArrowsFullscreen } from '@react-icons';
 import { useEffect, useRef, useState } from 'react';
 import fs from 'flatstore';
 import { sendLoadMessage } from '../../actions/connection';

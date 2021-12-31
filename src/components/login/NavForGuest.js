@@ -15,8 +15,6 @@ import fs from 'flatstore';
 import SLink from '../widgets/SLink';
 
 
-// import { FiUser } from "@react-icons/all-files/fi/FiUser";
-
 import { FiUser } from '@react-icons';
 import { useHistory } from 'react-router-dom';
 

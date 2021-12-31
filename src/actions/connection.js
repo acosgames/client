@@ -3,7 +3,7 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode, defaultDict } from 'shared/util/encoder';
 import cfg from '../config/config.json';
-let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
 
 
 import fs from 'flatstore';
