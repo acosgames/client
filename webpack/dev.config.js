@@ -70,6 +70,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             "React": "react",
         }),
+        new webpack.DefinePlugin({ 'process.env.NODE_ENV': 'localhost' }),
         // new CompressPlugin(),
         new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,

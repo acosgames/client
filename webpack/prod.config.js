@@ -71,6 +71,10 @@ module.exports = {
         new webpack.ProvidePlugin({
             "React": "react",
         }),
+
+        // add the plugin to your plugins array
+        new webpack.DefinePlugin({ 'process.env.NODE_ENV': 'production' }),
+
         // new CompressPlugin(),
         // new webpack.optimize.LimitChunkCountPlugin({
         //     maxChunks: 1,
