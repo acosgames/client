@@ -6,9 +6,8 @@ import { getWithExpiry, setWithExpiry } from './cache';
 import fs from 'flatstore';
 
 import cfg from '../config/config.json';
-let config = cfg.local;
-if (process.env.NODE_ENV == 'production')
-    config = config.prod;
+let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+
 
 import { toast, useToast } from '@chakra-ui/react';
 fs.set('devgameimages', []);

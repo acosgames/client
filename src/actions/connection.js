@@ -3,9 +3,8 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode, defaultDict } from 'shared/util/encoder';
 import cfg from '../config/config.json';
-let config = cfg.local;
-if (process.env.NODE_ENV == 'production')
-    config = config.prod;
+let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+
 
 import fs from 'flatstore';
 import delta from '../util/delta';

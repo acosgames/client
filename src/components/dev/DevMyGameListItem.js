@@ -2,10 +2,9 @@ import { Box, Image, HStack, VStack, IconButton, Spacer, Text, useClipboard, Ico
 import SLink from "../widgets/SLink";
 import { useToast } from '@chakra-ui/react'
 
-import cfg from '../../config/config.json';
-let config = cfg.local;
-if (process.env.NODE_ENV == 'production')
-    config = config.prod;
+import cfg from '../config/config.json';
+let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+
 // import { IoCode } from "@react-icons/all-files/io5/IoCode";
 // import { IoCodeWorking } from "@react-icons/all-files/io5/IoCodeWorking";
 // import { IoDocument } from "@react-icons/all-files/io5/IoDocument";

@@ -5,10 +5,9 @@ import {
 } from "react-router-dom";
 import { Redirect } from 'react-router';
 
-import cfg from '../../config/config.json';
-let config = cfg.local;
-if (process.env.NODE_ENV == 'production')
-    config = config.prod;
+import cfg from '../config/config.json';
+let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+
 import fs from 'flatstore';
 import { getUser } from '../../actions/person';
 import { findGame, findGamePerson } from "../../actions/game";

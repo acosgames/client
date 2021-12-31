@@ -4,10 +4,9 @@ import {
     withRouter,
 } from "react-router-dom";
 
-import cfg from '../../config/config.json';
-let config = cfg.local;
-if (process.env.NODE_ENV == 'production')
-    config = config.prod;
+import cfg from '../config/config.json';
+let config = process.env.NODE_ENV == 'production' ? config.prod : cfg.local;
+
 
 import Connection from "./Connection";
 import fs from 'flatstore';
