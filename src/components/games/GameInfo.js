@@ -7,7 +7,7 @@ import { Redirect } from 'react-router';
 
 import cfg from '../../config/config.json';
 let config = cfg.local;
-if (process.env.ACOSENV == 'production')
+if (process.env.NODE_ENV == 'production')
     config = config.prod;
 import fs from 'flatstore';
 import { getUser } from '../../actions/person';

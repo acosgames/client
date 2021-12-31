@@ -7,7 +7,7 @@ import fs from 'flatstore';
 
 import cfg from '../config/config.json';
 let config = cfg.local;
-if (process.env.ACOSENV == 'production')
+if (process.env.NODE_ENV == 'production')
     config = config.prod;
 
 import { toast, useToast } from '@chakra-ui/react';

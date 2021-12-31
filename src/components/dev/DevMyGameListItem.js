@@ -4,7 +4,7 @@ import { useToast } from '@chakra-ui/react'
 
 import cfg from '../../config/config.json';
 let config = cfg.local;
-if (process.env.ACOSENV == 'production')
+if (process.env.NODE_ENV == 'production')
     config = config.prod;
 // import { IoCode } from "@react-icons/all-files/io5/IoCode";
 // import { IoCodeWorking } from "@react-icons/all-files/io5/IoCodeWorking";
