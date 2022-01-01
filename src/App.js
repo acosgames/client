@@ -4,12 +4,13 @@
 // import '@fontsource/roboto/700.css'
 // import '@fontsource/roboto/900.css'
 
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import {
   BrowserRouter,
   Switch,
   Route,
-  Link
+  Link,
+  useHistory
 } from "react-router-dom";
 
 import MainMenuChakra from './components/MainMenuChakra'
@@ -23,54 +24,43 @@ import Sidebar from './components/widgets/Sidebar';
 import { Box, Flex, HStack } from "@chakra-ui/layout";
 
 
-
 fs.delimiter('>');
 
+function App(props) {
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+  const history = useHistory();
+  fs.set('history', history);
 
+  useEffect(() => {
     getUser();
 
-  }
 
-  render() {
-    return (
+  }, [])
 
-      <BrowserRouter>
-
-        <MainMenuChakra />
-
-        <Flex id="wrapper" direction="row" height="100%">
-          <Switch>
-            <Route path="/dev/login"
-              component={() => (
-                <></>
-              )} />
-            <Route
-              path="/dev*"
-              component={() => (
-                <Sidebar />
-              )}
-            />
-          </Switch>
-
-
-
-          <Switch>
-            <Route path="/g/*"
-              component={RoutesGame} />
-            <Route path="*" component={Routes} />
-          </Switch>
-
-
-
-        </Flex>
-
-      </BrowserRouter>
-    );
-  }
+  return (
+    <BrowserRouter>
+      <MainMenuChakra />
+      <Flex id="wrapper" direction="row" height="100%">
+        <Switch>
+          <Route path="/dev/login"
+            component={() => (
+              <></>
+            )} />
+          <Route
+            path="/dev*"
+            component={() => (
+              <Sidebar />
+            )}
+          />
+        </Switch>
+        <Switch>
+          <Route path="/g/*"
+            component={RoutesGame} />
+          <Route path="*" component={Routes} />
+        </Switch>
+      </Flex>
+    </BrowserRouter>
+  );
 }
 
 export default App;

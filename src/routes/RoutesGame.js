@@ -14,9 +14,6 @@ import GameScreen from '../components/games/GameScreen';
 
 var RoutesGame = () => {
 
-    const history = useHistory();
-
-    fs.set('history', history);
 
 
     return (
