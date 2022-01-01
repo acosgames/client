@@ -2,6 +2,8 @@
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode, defaultDict } from 'shared/util/encoder';
+import { isUserLoggedIn } from './person';
+
 import cfg from '../config/config.json';
 let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
 
@@ -421,9 +423,12 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             return;
         }
 
-        while (!user) {
-            await sleep(1000);
-            user = fs.get('user');
+        if (!isUserLoggedIn()) {
+            let history = fs.get('history');
+            history.push('/login');
+            return;
+            // await sleep(1000);
+            // user = fs.get('user');
         }
         // let cookies = parseCookies();
         url = config.https.ws;

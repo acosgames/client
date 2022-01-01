@@ -124,7 +124,7 @@ export async function findAndRejoin(game_slug, room_slug) {
     let player_stats = fs.get('player_stats');
     let player_stat = player_stats[game_slug];
     let user = await getUser();
-    if (user && !player_stat) {
+    if (user && user.shortid && !player_stat) {
 
         await findGamePerson(game_slug);
 

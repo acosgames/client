@@ -73,14 +73,6 @@ class SocialLogin extends Component {
                     </chakra.a>
                 </VStack>
             </VStack >
-            // <div id="social">
-            //     <h4>Login to Play!</h4>
-            //     <ul>
-            //         <li><a href="http://localhost:8080/login/google">with Google</a></li>
-            //         <li><a href="http://localhost:8080/login/microsoft">with Microsft</a></li>
-            //         <li><a href="http://localhost:8080/login/github">with GitHub as Developer</a></li>
-            //     </ul>
-            // </div>
         )
     }
 }

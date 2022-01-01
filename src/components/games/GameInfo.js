@@ -37,7 +37,7 @@ function GameInfo(props) {
             let curgame = fs.get('game');
             let game = null;
             let user = await getUser();
-            if (user && !player_stat) {
+            if (user && user.shortid && !player_stat) {
 
                 await findGamePerson(game_slug);
                 return;
@@ -49,7 +49,7 @@ function GameInfo(props) {
                 return;
             }
 
-            if (!curGame || curgame.game_slug != game_slug) {
+            if (!curgame || curgame.game_slug != game_slug) {
                 await findGame(game_slug)
                 return;
             }

@@ -2,7 +2,7 @@ import { GET, POST } from './http';
 import fs from 'flatstore';
 import { findDevGames } from './devgame';
 // import history from "./history";
-import { getWithExpiry, setWithExpiry } from './cache';
+import { getWithExpiry, setWithExpiry, removeWithExpiry } from './cache';
 
 
 export async function createDisplayName(displayname) {
@@ -44,6 +44,8 @@ export async function logout() {
         fs.set('userid', 0);
         fs.set('player_stats', {});
 
+        removeWithExpiry('user');
+
         return true;
     }
     catch (e) {
@@ -52,6 +54,10 @@ export async function logout() {
     }
 }
 
+export function isUserLoggedIn() {
+    let loggedIn = fs.get('loggedIn');
+    return loggedIn;
+}
 
 
 export async function getUser() {
