@@ -10,7 +10,7 @@
         "https": {
             "cdn": "https://cdn.acos.games/file/acospub/",
             "api": "https://api.acos.games",
-            "ws": "wss://acos.games/ws"
+            "ws": "wss://acos.games"
         }
     }
 }

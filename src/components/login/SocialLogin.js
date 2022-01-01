@@ -9,9 +9,12 @@ import {
 import Logout from "./Logout";
 import { Heading, VStack, Button, Center, Text, chakra } from "@chakra-ui/react";
 import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
+import { removeWithExpiry } from "../../actions/cache";
 class SocialLogin extends Component {
     constructor(props) {
         super(props);
+
+        removeWithExpiry('user');
     }
     render() {
 
