@@ -9,7 +9,7 @@ import { Redirect } from 'react-router';
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";
-import { Box, Flex, Heading, HStack, Icon, Text, VStack, Wrap } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap } from "@chakra-ui/react";
 import { FaDiscord, FaDev, FaGithub } from '@react-icons';
 import SLink from "../widgets/SLink";
 
@@ -46,7 +46,7 @@ class GameList extends Component {
                         }
                     </Flex>
                 </VStack>
-
+                <Divider />
                 <VStack align="left" justify={"left"}>
                     <Heading mb="0.5rem" as="h1" size="lg">Are you a developer?</Heading>
                     <Text as="span" fontWeight={'light'} fontSize="sm">Build a game in a single day with the acosgames simulator.</Text>
