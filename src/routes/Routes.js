@@ -26,10 +26,8 @@ import { Box } from "@chakra-ui/react";
 
 var Routes = () => {
 
-
     const history = useHistory();
 
-    fs.set('history', history);
 
     const refPath = history.location.pathname;
     if (refPath.indexOf("/login") == -1) {
