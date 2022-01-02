@@ -19,11 +19,14 @@ import GameInfo from "../components/games/GameInfo";
 
 // import history from "./actions/history";
 import flatstore from 'flatstore';
+import { useEffect } from "react";
 
 var RoutesDev = () => {
 
     const history = useHistory();
-    fs.set('history', history);
+    useEffect(() => {
+        fs.set('history', history);
+    }, [])
 
     return (
         <>

@@ -10,12 +10,15 @@ import fs from 'flatstore';
 
 import GameInfo from '../components/games/GameInfo';
 import GameScreen from '../components/games/GameScreen';
+import { useEffect } from "react";
 
 
 var RoutesGame = () => {
 
     const history = useHistory();
-    fs.set('history', history);
+    useEffect(() => {
+        fs.set('history', history);
+    }, [])
 
     return (
         <>

@@ -23,11 +23,14 @@ import fs from 'flatstore';
 // import history from "./actions/history";
 import GameScreen from "../components/games/GameScreen";
 import { Box } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 var Routes = () => {
 
     const history = useHistory();
-    fs.set('history', history);
+    useEffect(() => {
+        fs.set('history', history);
+    }, [])
 
 
     const refPath = history.location.pathname;
