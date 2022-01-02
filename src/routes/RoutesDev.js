@@ -22,7 +22,8 @@ import flatstore from 'flatstore';
 
 var RoutesDev = () => {
 
-
+    const history = useHistory();
+    fs.set('history', history);
 
     return (
         <>
