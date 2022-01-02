@@ -157,7 +157,9 @@ function GameScreenIframe(room) {
         // }
     }
 
-    window.addEventListener('resize', onResize, false);
+    useEffect(() => {
+        window.addEventListener('resize', onResize, false);
+    })
 
     return (
         <VStack justifyContent={'flex-start'} alignContent={'center'} w="100%" h="100%" ref={gamewrapperRef}>
