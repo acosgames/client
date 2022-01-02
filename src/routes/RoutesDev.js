@@ -26,7 +26,7 @@ var RoutesDev = () => {
     const history = useHistory();
     // useEffect(() => {
     //     fs.set('history', history);
-    // }, [])
+    // })
 
     return (
         <>

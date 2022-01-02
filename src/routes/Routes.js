@@ -28,9 +28,12 @@ import { useEffect } from "react";
 var Routes = () => {
 
     const history = useHistory();
-    // useEffect(() => {
-    fs.set('history', history);
-    // }, [])
+
+
+    useEffect(() => {
+        fs.set('history', history);
+
+    }, [])
 
 
     const refPath = history.location.pathname;
