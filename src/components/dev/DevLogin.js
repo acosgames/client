@@ -19,6 +19,7 @@ import { FaGithub, FiCheckSquare, FiDownload, FiRefreshCw, FiSquare } from "@rea
 
 import { sendGithubInvite } from "../../actions/devgame";
 import SLink from "../widgets/SLink";
+import { logout } from "../../actions/person";
 
 function DevLogin(props) {
 
@@ -123,7 +124,8 @@ function DevLogin(props) {
                     <Link href="/login/github?ref=/dev">
                         <HStack>
                             <Button
-                                onClick={() => {
+                                onClick={async () => {
+                                    await logout();
                                     setAcceptInvite(true);
                                 }}
                                 //disabled={acceptInvite}
