@@ -4,8 +4,7 @@ import {
     withRouter,
 } from "react-router-dom";
 
-import cfg from '../../config/config.json';
-let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
+import config from '../../config'
 
 
 import Connection from "./Connection";

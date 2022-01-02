@@ -2,8 +2,15 @@
     "local": {
         "https": {
             "cdn": "https://cdn.acos.games/file/acospub/",
-            "api": "https://localhost:8000",
+            "api": "http://localhost:8000",
             "ws": "ws://127.0.0.1:9002"
+        }
+    },
+    "mobile": {
+        "https": {
+            "cdn": "https://cdn.acos.games/file/acospub/",
+            "api": "http://localhost:8000",
+            "ws": "ws://192.168.1.46:9002"
         }
     },
     "prod": {

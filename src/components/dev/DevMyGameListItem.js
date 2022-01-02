@@ -2,8 +2,7 @@ import { Box, Image, HStack, VStack, IconButton, Spacer, Text, useClipboard, Ico
 import SLink from "../widgets/SLink";
 import { useToast } from '@chakra-ui/react'
 
-import cfg from '../../config/config.json';
-let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
+import config from '../../config'
 
 import { FaGithub, FiCopy, FiHeart, FiUsers, IoCode, IoCodeWorking, IoDocument, IoHelpCircleSharp } from "@react-icons";
 import { useEffect, useRef, useState } from "react";

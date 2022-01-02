@@ -6,6 +6,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 var ENTRY_FILE = './src/index.js';
 var OUTPUT_PATH = '../../api/public';
 
+var NODE_ENV = process.env.NODE_ENV;
+console.log("NODE_ENV=", NODE_ENV);
 module.exports = {
     mode: 'development',
     devtool: 'inline-source-map',
@@ -70,7 +72,7 @@ module.exports = {
         new webpack.ProvidePlugin({
             "React": "react",
         }),
-        new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('localhost') }),
+        new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(NODE_ENV) }),
         // new CompressPlugin(),
         new webpack.optimize.LimitChunkCountPlugin({
             maxChunks: 1,

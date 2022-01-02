@@ -39,8 +39,9 @@
     "websocket": "^1.0.33"
   },
   "scripts": {
-    "start": "./node_modules/.bin/run-p build:dev watch",
-    "build:dev": "./node_modules/.bin/webpack --config webpack/dev.config.js --watch ./src",
+    "start": "./node_modules/.bin/run-p build:mobile watch",
+    "build:dev": "NODE_ENV=localhost ./node_modules/.bin/webpack --config webpack/dev.config.js --watch ./src",
+    "build:mobile": "NODE_ENV=mobile ./node_modules/.bin/webpack --config webpack/dev.config.js --watch ./src",
     "build:prod": "./node_modules/.bin/webpack --config webpack/prod.config.js",
     "watch": "./node_modules/.bin/run-s waiton sync",
     "waiton": "./node_modules/.bin/wait-on http://localhost:8080/",

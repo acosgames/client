@@ -4,9 +4,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode, defaultDict } from 'shared/util/encoder';
 import { isUserLoggedIn } from './person';
 
-import cfg from '../config/config.json';
-let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
-
+import config from '../config'
 
 import fs from 'flatstore';
 import delta from '../util/delta';
@@ -632,7 +630,7 @@ async function wsIncomingMessage(message) {
             let rooms = fs.get('rooms');
             let room = rooms[msg.room_slug];
             //UPDATE PLAYER STATS FOR THIS GAME
-            if (room.mode == 'rank' && msg.payload._played) {
+            if (room.mode == 1 && msg.payload._played) {
                 let player_stats = fs.get('player_stats');
                 let player_stat = player_stats[room.game_slug]
                 if (player_stat) {
