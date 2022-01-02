@@ -230,4 +230,4 @@ function GameInfo(props) {
 
 }
 
-export default withRouter(fs.connect(['game'])(GameInfo));
+export default withRouter(fs.connect(['game', 'player_stats'])(GameInfo));
