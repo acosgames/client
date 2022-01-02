@@ -29,11 +29,11 @@ fs.delimiter('>');
 function App(props) {
 
   const history = useHistory();
-  fs.set('history', history);
+
 
   useEffect(() => {
     getUser();
-
+    fs.set('history', history);
 
   }, [])
 
