@@ -24,9 +24,9 @@ import { useEffect } from "react";
 var RoutesDev = () => {
 
     const history = useHistory();
-    useEffect(() => {
-        fs.set('history', history);
-    }, [])
+    // useEffect(() => {
+    //     fs.set('history', history);
+    // }, [])
 
     return (
         <>
