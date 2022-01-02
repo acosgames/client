@@ -9,7 +9,9 @@ import { Redirect } from 'react-router';
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";
-import { Flex, Heading, VStack, Wrap } from "@chakra-ui/react";
+import { Box, Flex, Heading, HStack, Icon, Text, VStack, Wrap } from "@chakra-ui/react";
+import { FaDiscord, FaDev, FaGithub } from '@react-icons';
+import SLink from "../widgets/SLink";
 
 class GameList extends Component {
     constructor(props) {
@@ -36,7 +38,7 @@ class GameList extends Component {
                         }
                     </Wrap>
                 </VStack>
-                <VStack align="left">
+                <VStack align="left" display={experimentalList.length == 0 ? 'none' : undefined}>
                     <Heading as="h1" size="lg">Needs Testing</Heading>
                     <Flex w="100%">
                         {
@@ -44,7 +46,23 @@ class GameList extends Component {
                         }
                     </Flex>
                 </VStack>
-            </VStack>
+
+                <VStack align="left" justify={"left"}>
+                    <Heading mb="0.5rem" as="h1" size="lg">Are you a developer?</Heading>
+                    <Text as="span" fontWeight={'light'} fontSize="sm">Build a game in a single day with the acosgames simulator.</Text>
+                    <Wrap spacing="1rem">
+                        <SLink to="/dev">
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="16" />&nbsp;Go to Developer Zone</Text>
+                        </SLink>
+                        <Link textDecoration={"none"} target="_blank" href={'https://discord.gg/ydHkCcNgHD'} >
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="16" />&nbsp;Visit us on Discord.</Text>
+                        </Link>
+                        <Link textDecoration={"none"} target="_blank" href={'https://github.com/acosgames'} >
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="16" />&nbsp;Submit Issues on GitHub.</Text>
+                        </Link>
+                    </Wrap>
+                </VStack >
+            </VStack >
             // <div id="game-grid-wrapper">
             //     <h3>Games</h3>
             //     <div id="game-grid">
