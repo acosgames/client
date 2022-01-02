@@ -7,7 +7,6 @@ import { isUserLoggedIn } from './person';
 import cfg from '../config/config.json';
 let config = process.env.NODE_ENV == 'production' ? cfg.prod : cfg.local;
 
-import history from "./history";
 
 import fs from 'flatstore';
 import delta from '../util/delta';
@@ -263,7 +262,7 @@ export async function wsLeaveGame(game_slug, room_slug) {
     let msg = encode(action);
     console.log("[Outgoing] Leaving: ", action);
     ws.send(msg)
-    // let history = fs.get('history');
+    let history = fs.get('history');
     fs.set('gamestate', {});
     fs.set('room_slug', null);
 
@@ -425,7 +424,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
         }
 
         if (!isUserLoggedIn()) {
-            // let history = fs.get('history');
+            let history = fs.get('history');
             history.push('/login');
             return;
             // await sleep(1000);
@@ -504,7 +503,7 @@ function onPong(message) {
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
     let gamestate = fs.get('gamestate');
-    // let history = fs.get('history');
+    let history = fs.get('history');
 
     let buffer = await message.data;
     let msg = decode(buffer);

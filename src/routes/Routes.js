@@ -29,7 +29,7 @@ var Routes = () => {
 
     const history = useHistory();
     // useEffect(() => {
-    //     fs.set('history', history);
+    fs.set('history', history);
     // }, [])
 
 
