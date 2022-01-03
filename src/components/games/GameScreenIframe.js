@@ -10,12 +10,7 @@ fs.set('iframesLoaded', {});
 
 function GameScreenIframe(room) {
 
-    const iframeRef = useRef(null)
-    const gamescreenRef = useRef(null)
-    const gamewrapperRef = useRef(null)
 
-    if (!room || !room.room_slug)
-        return <></>
 
     const room_slug = room.room_slug;
     const game_slug = room.game_slug;
@@ -24,6 +19,14 @@ function GameScreenIframe(room) {
 
     // let room = fs.get('rooms>' + room_slug);
     let game = fs.get('games>' + game_slug);
+
+
+    if (!room || !room.room_slug)
+        return <></>
+
+
+    if (!game)
+        return <></>
 
     let screentype = game.screentype;
     let resow = game.resow;
@@ -77,11 +80,9 @@ function GameScreenIframe(room) {
 
     const onResize = () => {
         var now = (new Date).getTime();
-
         if (now - timestamp < THROTTLE) {
             return onResize;
         }
-
         timestamp = now;
 
         let isFullscreen = checkFullScreen();
@@ -104,9 +105,6 @@ function GameScreenIframe(room) {
 
         bgWidth = (steps * resow);
         bgHeight = (steps * resoh);
-
-
-
 
         if (screentype == '3') {
             gamescreenRef.current.style.width = bgWidth + 'px';
@@ -131,35 +129,17 @@ function GameScreenIframe(room) {
             gamewrapperRef.current.style.height = windowHeight + 'px';
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }
-
-
-        // let isFullscreen = checkFullScreen();
-        // let windowHeight = isFullscreen ? window.screen.height : document.documentElement.clientHeight;
-        // let windowWidth = isFullscreen ? window.screen.width : document.documentElement.clientWidth;
-        // // windowHeight -= 32;
-        // let wsteps = Math.floor(windowWidth / resow);
-        // let hsteps = Math.floor(windowHeight / resoh);
-        // let steps = (wsteps > hsteps ? hsteps : wsteps);
-        // let bgWidth = Math.round(steps * resow);
-        // let bgHeight = Math.round(steps * resoh);
-
-        // gamescreenRef.current.style.width = bgWidth + 'px';
-        // gamescreenRef.current.style.height = bgHeight + 'px';
-
-        // let scale = bgWidth / CONTENT_WIDTH;
-        // if (screentype == 2) {
-        //     iframeRef.current.setAttribute('style', transformStr({
-        //         scale: scale,
-        //         translateZ: '0'
-        //     }) + `; transform-origin: left top; width:${screenwidth}px; height:${screenheight} px;`);
-        // } else {
-        //     iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
-        // }
     }
+
+    const iframeRef = useRef(null)
+    const gamescreenRef = useRef(null)
+    const gamewrapperRef = useRef(null)
+
 
     useEffect(() => {
         window.addEventListener('resize', onResize, false);
     })
+
 
     return (
         <VStack justifyContent={'flex-start'} alignContent={'center'} w="100%" h="100%" ref={gamewrapperRef}>

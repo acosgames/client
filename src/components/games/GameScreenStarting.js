@@ -18,6 +18,7 @@ function GameScreenStarting(props) {
 
     let gamestate = fs.get('gamestate') || {};
     let state = gamestate?.state;
+    let events = gamestate?.events;
     if (!state) {
         return <></>
     }
@@ -51,6 +52,7 @@ function GameScreenStarting(props) {
     let isPregame = state?.gamestatus == 'pregame';
     let isStarting = state?.gamestatus == 'starting';
     let isGamestart = state?.gamestatus == 'gamestart';
+    let isGameover = state?.gamestatus == 'gameover' || events?.gameover;
 
     if (isGamestart)
         return <></>
@@ -77,6 +79,7 @@ function GameScreenStarting(props) {
     return (
         <Portal>
             <Box
+                display={isGameover ? 'none' : 'block'}
                 // w="200px" 
                 bgColor={'rgba(0,0,0,0.5)'}
                 // height="150px"
@@ -101,4 +104,4 @@ function GameScreenStarting(props) {
 
 
 
-export default withRouter(fs.connect(['gameTimeleft'])(GameScreenStarting));
+export default withRouter(fs.connect(['gameTimeleft', 'gamestate'])(GameScreenStarting));

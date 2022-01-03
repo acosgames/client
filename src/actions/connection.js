@@ -21,6 +21,9 @@ fs.set('queues', []);
 fs.set('joinrooms', {})
 fs.set('rooms', {});
 
+fs.set('offsetTime', 0);
+fs.set('latency', 0);
+
 var messageQueue = {};
 var onResize = null;
 
@@ -487,7 +490,8 @@ function onPong(message) {
     let currentTime = new Date().getTime();
     latency = currentTime - latencyStart;
     let offsetTime = currentTime - serverTime;
-    let realTime = currentTime + offsetTime + Math.ceil(latency / 2);
+    let halfLatency = Math.ceil(latency / 2);
+    let realTime = currentTime + offsetTime + halfLatency;
     console.log('Latency Start: ', latencyStart);
     console.log('Latency: ', latency);
     console.log('Offset Time: ', offsetTime);
@@ -496,6 +500,7 @@ function onPong(message) {
     console.log('Client Time: ', currentTime);
     console.log('Real Time: ', realTime);
     fs.set('latency', latency);
+    fs.set('offsetTime', offsetTime + halfLatency);
 }
 
 async function wsIncomingMessage(message) {
@@ -657,6 +662,10 @@ async function wsIncomingMessage(message) {
         }
         else {
             msg.payload = delta.merge(gamestate, msg.payload);
+
+            if (msg.payload?.timer?.end) {
+                msg.payload.timer.end -= (fs.get('offsetTime') || 0);
+            }
             fs.set('gamestate', msg.payload);
         }
 
