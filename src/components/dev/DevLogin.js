@@ -1,4 +1,4 @@
-import { Component, Fragment, useState } from "react";
+import { Component, Fragment, useEffect, useState } from "react";
 import fs from 'flatstore';
 
 import {
@@ -27,6 +27,9 @@ function DevLogin(props) {
     const [acceptInvite, setAcceptInvite] = useState(false);
     const toast = useToast();
 
+    useEffect(() => {
+        gtag('event', 'devlogin');
+    }, [])
     const onInvite = async () => {
         let success = await sendGithubInvite();
         if (success) {

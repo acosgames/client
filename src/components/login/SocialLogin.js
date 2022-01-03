@@ -15,6 +15,9 @@ class SocialLogin extends Component {
         super(props);
 
         removeWithExpiry('user');
+
+        gtag('event', 'sociallogin');
+
     }
     render() {
 

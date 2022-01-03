@@ -19,6 +19,10 @@ class DevManageGame extends Component {
         findGame(gameid);
         this.state = {
         }
+
+        gtag('event', 'devmanagegame');
+
+
     }
 
     render() {

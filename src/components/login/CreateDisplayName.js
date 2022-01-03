@@ -1,4 +1,4 @@
-import { Component, useState } from "react";
+import { Component, useEffect, useState } from "react";
 
 import {
     withRouter,
@@ -15,6 +15,10 @@ function CreateDisplayName(props) {
 
     const [displayName, setDisplayName] = useState('');
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        gtag('event', 'createdisplayname');
+    }, [])
 
     const onSubmit = async (e) => {
         console.log(e);

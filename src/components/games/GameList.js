@@ -21,6 +21,9 @@ class GameList extends Component {
         }
 
         findGames();
+
+        gtag('event', 'gamelist');
+
     }
 
     render() {

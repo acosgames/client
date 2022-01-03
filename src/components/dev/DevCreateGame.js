@@ -26,6 +26,10 @@ function DevCreateGame(props) {
         setLoaded(true);
     }, [loaded])
 
+    useEffect(() => {
+        gtag('event', 'devcreategame');
+    }, [])
+
     const myRef = useRef(null)
     const executeScroll = () => myRef.current.scrollIntoView()
     const toast = useToast();

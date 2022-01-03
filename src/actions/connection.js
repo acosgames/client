@@ -347,6 +347,8 @@ export async function wsJoinRoom(game_slug, room_slug, private_key) {
         return;
     }
 
+    gtag('event', 'joinroom', { game_slug: game.game_slug });
+
     let joinrooms = fs.get('joinrooms');
     joinrooms[room_slug] = { private_key, game_slug }
     let action = { type: 'joinroom', payload: { game_slug, room_slug, private_key } }
@@ -379,11 +381,13 @@ export async function wsSpectateGame(game_slug) {
 }
 
 export async function wsJoinBetaGame(game) {
+    gtag('event', 'join', { mode: 'experimental', game_slug: game.game_slug });
     wsJoinGame('experimental', game.game_slug);
 }
 
 
 export async function wsJoinRankedGame(game) {
+    gtag('event', 'join', { mode: 'rank', game_slug: game.game_slug });
     wsJoinGame('rank', game.game_slug);
 }
 
@@ -400,6 +404,7 @@ export async function wsJoinPrivate(game_slug, room_slug, private_key) {
 }
 
 export async function wsRejoinRoom(game_slug, room_slug, private_key) {
+    gtag('event', 'joinroom', { mode: 'rank' });
     wsJoinRoom(game_slug, room_slug, private_key);
 }
 
@@ -583,7 +588,7 @@ async function wsIncomingMessage(message) {
             //     return;
             // }
 
-
+            gtag('event', 'joined', { game_slug: msg.game_slug });
             let joinrooms = fs.get('joinrooms');
             delete joinrooms[msg.room_slug];
             fs.set('joinrooms', joinrooms);

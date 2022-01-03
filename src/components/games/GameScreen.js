@@ -45,6 +45,10 @@ function GameScreen(props) {
         fs.set('fullScreenElem', gamescreenRef);
     })
 
+    useEffect(async () => {
+        gtag('event', 'gamescreen', { game_slug });
+    }, [])
+
 
     return (
         <Box w="100%" h="100%" position="relative" ref={gamescreenRef}>

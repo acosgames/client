@@ -6,6 +6,9 @@ import {
     useColorModeValue,
     Stack,
     useColorMode,
+    Image,
+    Text,
+    HStack,
 } from '@chakra-ui/react';
 import SLink from './widgets/SLink';
 import fs from 'flatstore';
@@ -13,7 +16,7 @@ import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
 import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import { useHistory } from 'react-router-dom';
-
+import config from '../config'
 import QueuePanel from './games/QueuePanel';
 
 const NavLink = ({ children }) => (
@@ -62,13 +65,22 @@ function MainMenuChakra(props) {
             <QueuePanel />
             <Box display={props.gamepanel ? 'none' : 'block'} bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                    <Box><SLink to="/" className="">
-                        <span className="logo-txt">A cup of skill</span>
-                        {/* <span className="material-icons">
-                                home
-                            </span> */}
-                    </SLink></Box>
+                    <HStack>
+                        <Box
+                            bgColor={'white'}
+                            borderRadius={'25%'}
+                        ><SLink to="/" className="">
+                                <Image
+                                    alt={'A cup of skill logo'}
+                                    src={`${config.https.cdn}acos-logo.png`}
+                                    fallbackSrc={config.https.cdn + 'placeholder.png'}
+                                    w="32px" h="32px"
+                                />
 
+                            </SLink>
+                        </Box>
+                        <SLink to="/" className=""><Text>A cup of skill</Text></SLink>
+                    </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>
                             {/* <Button onClick={toggleColorMode}>

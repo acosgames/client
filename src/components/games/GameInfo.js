@@ -61,6 +61,10 @@ function GameInfo(props) {
         }
     })
 
+    useEffect(async () => {
+        gtag('event', 'gameinfo', { game_slug });
+    }, [])
+
 
 
 
