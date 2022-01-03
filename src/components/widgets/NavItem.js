@@ -3,7 +3,7 @@ import {
     Flex,
     Text,
     Icon,
-    Link,
+    Link as CLink,
     Menu,
     MenuButton,
     MenuList
@@ -11,8 +11,9 @@ import {
 import NavHoverBox from './NavHoverBox'
 import SLink from './SLink'
 import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 
-function NavItem({ location, icon, url, title, description, active, navSize }) {
+function NavItem({ location, icon, url, title, description, active, navSize, isExternal }) {
     active = false;
     let urlPath = location.pathname;
     if (urlPath == url)
@@ -26,13 +27,15 @@ function NavItem({ location, icon, url, title, description, active, navSize }) {
             alignItems={['center', 'center', 'flex-start']}
         >
             <Menu placement="right">
-                <Link
-                    as={SLink}
+                <CLink
+                    as={!isExternal ? SLink : CLink}
                     backgroundColor={active && "#2b3549"}
                     p={3}
                     _hover={{ textDecor: 'none', backgroundColor: "#2b3549" }}
                     w={[null, null, '100%']}
-                    to={url}
+                    to={!isExternal ? url : undefined}
+                    href={isExternal ? url : undefined}
+                    isExternal={isExternal}
                 >
                     <MenuButton w="100%">
                         <Flex>
@@ -40,7 +43,7 @@ function NavItem({ location, icon, url, title, description, active, navSize }) {
                             <Text ml={2} display={['none', 'none', 'flex']}>{title}</Text>
                         </Flex>
                     </MenuButton>
-                </Link>
+                </CLink>
             </Menu>
         </Flex>
     )

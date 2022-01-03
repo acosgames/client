@@ -9,8 +9,8 @@ import { Redirect } from 'react-router';
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";
-import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap } from "@chakra-ui/react";
-import { FaDiscord, FaDev, FaGithub } from '@react-icons';
+import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap, chakra } from "@chakra-ui/react";
+import { FaDiscord, FaDev, FaGithub, TiDocumentText } from '@react-icons';
 import SLink from "../widgets/SLink";
 
 class GameList extends Component {
@@ -54,12 +54,15 @@ class GameList extends Component {
                         <SLink to="/dev">
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="16" />&nbsp;Go to Developer Zone</Text>
                         </SLink>
-                        <Link textDecoration={"none"} target="_blank" href={'https://discord.gg/ydHkCcNgHD'} >
+                        <chakra.a target="_blank" textDecoration={"none"} href={'https://discord.gg/ydHkCcNgHD'} >
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="16" />&nbsp;Visit us on Discord.</Text>
-                        </Link>
-                        <Link textDecoration={"none"} target="_blank" href={'https://github.com/acosgames'} >
+                        </chakra.a>
+                        <chakra.a target="_blank" textDecoration={"none"} href={'https://github.com/acosgames'} >
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="16" />&nbsp;Submit Issues on GitHub.</Text>
-                        </Link>
+                        </chakra.a>
+                        <chakra.a target="_blank" textDecoration={"none"} href={'https://docs.acos.games'} >
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="16" />&nbsp;Acos Documentation.</Text>
+                        </chakra.a>
                     </Wrap>
                 </VStack >
             </VStack >

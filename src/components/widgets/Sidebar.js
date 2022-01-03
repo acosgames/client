@@ -65,7 +65,7 @@ function Sidebar() {
                 /> */}
                 <NavItem url="/dev" icon={FiHome} title="My Games" description="This is the description for the dashboard." />
                 <NavItem url="/dev/game/create" icon={PlusSquareIcon} title="Create Game" active />
-                <NavItem url="/docs" icon={IoDocuments} title="Documentation" />
+                <NavItem url="https://docs.acos.games" icon={IoDocuments} title="Documentation" isExternal={true} />
 
 
                 {/* <NavItem navSize={navSize} icon={FiUser} title="Clients" />
