@@ -32,16 +32,17 @@ function NavForUser(props) {
                 cursor={'pointer'}
                 minW={0}>
                 <Avatar
+                    name={props?.user?.displayname}
                     size={'sm'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
                 />
             </MenuButton>
             <MenuList alignItems={'center'}>
                 <br />
                 <Center>
                     <Avatar
+                        name={props?.user?.displayname}
                         size={'2xl'}
-                        src={'https://avatars.dicebear.com/api/male/username.svg'}
+
                     />
                 </Center>
                 <br />
