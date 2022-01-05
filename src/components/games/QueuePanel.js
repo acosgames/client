@@ -6,7 +6,7 @@ import { wsLeaveQueue } from "../../actions/connection";
 import { HStack, Text, VStack, Center, IconButton, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Input, Button, Box, Badge, Divider } from "@chakra-ui/react";
 import LoaderLineUp from '../widgets/loaders/LoaderLineUp';
 import LoaderShimmer from '../widgets/loaders/LoaderShimmer';
-import { IoCloseCircleOutline } from '@react-icons'
+import { IoCloseSharp } from '@react-icons'
 
 function QueuePanel(props) {
 
@@ -56,7 +56,7 @@ function QueuePanel(props) {
                     </Button>
                     <LoaderLineUp />
                 </VStack>
-                <IconButton position="absolute" right="0" onClick={onCancel} icon={<IoCloseCircleOutline />} size="sm" isRound="true" />
+                <IconButton position="absolute" right="0" onClick={onCancel} icon={<IoCloseSharp />} size="sm" isRound="true" />
             </Center>
             <Drawer
                 isOpen={isOpen}
