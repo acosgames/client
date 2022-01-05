@@ -4,7 +4,7 @@ import {
     withRouter,
 } from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
-import { updateGameField, updateGame, uploadGameImages, clearGameFields } from '../../actions/devgame';
+import { updateGameField, updateGame, uploadGameImages, clearGameFields, deleteGame } from '../../actions/devgame';
 import fs from 'flatstore';
 
 
@@ -19,17 +19,18 @@ import { StackDivider, Box, Heading, HStack, VStack, Center, Text } from "@chakr
 import FSGGroup from "../widgets/inputs/FSGGroup";
 import FSGSubmit from "../widgets/inputs/FSGSubmit";
 import { useToast } from "@chakra-ui/react";
+import DevManageGameEnvironment from "./DevManageGameEnvironment";
 
 import schema from 'shared/model/schema.json';
+import DevManageGameGithub from "./DevManageGameGithub";
+import FSGDelete from "../widgets/inputs/FSGDelete";
+import DevManageGameDelete from "./DevManageGameDelete";
 
 function DevManageGameFields(props) {
 
-    const [loaded, setLoaded] = useState(false);
-
     useEffect(() => {
-        clearGameFields();
-        setLoaded(true);
-    }, [loaded])
+
+    }, [])
 
     const myRef = useRef(null)
     const executeScroll = () => myRef.current.scrollIntoView()
@@ -70,6 +71,7 @@ function DevManageGameFields(props) {
         }
 
     }
+
 
     const inputChange = (e) => {
         let name = e.target.name;
@@ -132,8 +134,24 @@ function DevManageGameFields(props) {
 
                 <Box pb="0rem" pt="0rem" width="100%" align="right">
                     <FSGSubmit onClick={onSubmit}></FSGSubmit>
+                    {
+                        props.devgame.status == 1 && (
+                            <DevManageGameDelete devgame={props.devgame} />
+                        )
+                    }
                 </Box>
             </HStack>
+
+
+            <FSGGroup hfontSize="md" title="Github">
+                <DevManageGameGithub devgame={props.devgame} />
+            </FSGGroup>
+
+            <FSGGroup hfontSize="md" title="Deployment">
+                <DevManageGameEnvironment devgame={props.devgame} />
+            </FSGGroup>
+
+
             <FSGGroup hfontSize="md" title="Featured Image">
                 <Center>
                     <DevImageUpload
@@ -242,6 +260,11 @@ function DevManageGameFields(props) {
 
             <Box pb="3rem" pt="1rem" width="100%" align="right">
                 <FSGSubmit onClick={onSubmit}></FSGSubmit>
+                {
+                    props.devgame.status == 1 && (
+                        <DevManageGameDelete devgame={props.devgame} />
+                    )
+                }
             </Box>
 
 
@@ -251,4 +274,4 @@ function DevManageGameFields(props) {
 
 }
 
-export default withRouter(fs.connect(['devgame', 'devgameerror', 'devgameimages'])(DevManageGameFields));
+export default withRouter(fs.connect(['devgameerror', 'devgameimages'])(DevManageGameFields));

@@ -11,24 +11,22 @@ import FSGCopyText from "../widgets/inputs/FSGCopyText";
 
 function DevMyGameListItem(props) {
 
-    let defaultDeployCmd = `npm run deploy -- ${props.game_slug}.${props.apikey}`;
-    let displayedCmd = `Deploy Command`;
 
-    const [scaled, setScaled] = useState(props.latest_scaled);
-    const [deployCmd, setDeployCmd] = useState(defaultDeployCmd);
-    const { hasCopied, onCopy } = useClipboard(deployCmd);
+
+
     const [isOpen, setIsOpen] = React.useState(false)
     const onClose = () => setIsOpen(false)
     const cancelRef = React.useRef()
-    const copyRef = useRef(null);
+
     const [version, setVersion] = useState(props.version);
+
+
+
+
 
     const toast = useToast()
 
-    const onScaleChange = (e) => {
-        setScaled(e.target.checked);
-        updateCmdScaled(e.target.checked);
-    }
+
 
     const onApproveDeploy = async (e) => {
         let deployedGame = await deployToProduction({ gameid: props.gameid, latest_version: props.latest_version });
@@ -56,18 +54,6 @@ function DevMyGameListItem(props) {
         setIsOpen(false)
     }
 
-    const updateCmdScaled = (isScaled) => {
-        if (isScaled)
-            setDeployCmd(defaultDeployCmd + ' --scaled');
-        else
-            setDeployCmd(defaultDeployCmd);
-    }
-
-
-    useEffect(() => {
-
-        updateCmdScaled(scaled);
-    }, [])
 
 
     let imgUrl = config.https.cdn + 'placeholder.png';
@@ -126,90 +112,7 @@ function DevMyGameListItem(props) {
                                 </HStack>
                             </Wrap>
 
-                            <div className="deploy-info">
-                                <div className="deploy-cmd">
-                                    {/* <h5>Ready to deploy? Simply run this command from your development environment.</h5> */}
-                                    <VStack opacity={0.6}>
 
-
-                                        <Wrap>
-                                            <Center>
-                                                <Text as="span" fontSize="sm" fontWeight={'bold'}>Run to deploy</Text>
-                                            </Center>
-                                            <FSGCopyText
-                                                value={deployCmd}
-                                                width="13rem"
-                                                copyRef={copyRef}
-                                                onFocus={(e) => {
-                                                    e.target.select()
-                                                }} />
-                                            {/* <Box p="0.4rem" fontSize={'xs'} width="150px" overflowX={'hidden'} bgColor={'gray.800'} border="2px solid" borderColor={'gray.900'}>
-                                            <pre>{deployCmd}</pre>
-                                        </Box> */}
-                                            <Center>
-                                                <IconButton
-                                                    onClick={(e) => {
-                                                        copyRef.current.focus();
-                                                        copyRef.current.select();
-                                                        onCopy(e);
-                                                        setTimeout(() => {
-
-                                                            toast({
-                                                                title: 'Copied!',
-                                                                description: "To deploy, run command in your terminal at project folder",
-                                                                status: 'success',
-                                                                duration: 4000,
-                                                                isClosable: true,
-                                                            })
-
-                                                        }, 20)
-
-                                                    }}
-                                                    icon={<FiCopy />}
-                                                    size="sm"
-                                                    isRound="true"
-                                                    mr="2rem" />
-                                            </Center>
-                                            <Spacer w="2rem" />
-                                            <HStack alignItems={'center'} justifyContent={'center'}>
-                                                <FormLabel htmlFor={'switch-' + props.game_slug} p="0" m="0" fontSize="sm" >
-                                                    <Text as="span">scaled</Text>
-                                                    <Switch pl="0.5rem" id={'switch-' + props.game_slug} size="sm" onChange={onScaleChange} defaultChecked={scaled} />
-                                                </FormLabel>
-
-
-                                                <Popover>
-                                                    <PopoverTrigger>
-
-                                                        <Box>
-                                                            <Center>
-                                                                <Icon as={IoHelpCircleSharp} />
-                                                            </Center>
-                                                        </Box>
-
-                                                    </PopoverTrigger>
-                                                    <Portal>
-                                                        <PopoverContent>
-                                                            <PopoverArrow />
-                                                            <PopoverHeader>Scaled Viewport</PopoverHeader>
-                                                            <PopoverCloseButton />
-                                                            <PopoverBody>
-                                                                <Text>Adds <Text as="strong">--scaled</Text> to the command.<br />The game's iframe will always be scaled to <Text as="strong">1920x1080</Text>, and the iframe will scale to fit inside the main website's viewport using <Text as="strong">transform: scale().</Text></Text>
-                                                            </PopoverBody>
-                                                        </PopoverContent>
-                                                    </Portal>
-                                                </Popover>
-
-
-
-
-                                            </HStack>
-                                        </Wrap>
-
-
-                                    </VStack>
-                                </div>
-                            </div>
                         </VStack>
                     </Flex>
 
@@ -227,7 +130,7 @@ function DevMyGameListItem(props) {
                             <AlertDialogOverlay>
                                 <AlertDialogContent>
                                     <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                                        Delete Customer
+                                        Deploy to Production
                                     </AlertDialogHeader>
 
                                     <AlertDialogBody>

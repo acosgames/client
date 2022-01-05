@@ -11,11 +11,14 @@ import { Text, Box, Heading, HStack, Icon, IconButton, VStack, Divider, Spacer, 
 import { FiPlus } from '@react-icons'
 import DevMyGameListItem from "./DevMyGameListItem";
 import { useEffect } from "react";
+import { findDevGames } from "../../actions/devgame";
 
 function DevMyGames(props) {
 
     useEffect(() => {
         gtag('event', 'devmygames');
+        let user = props.user;
+        findDevGames(user.id)
     }, [])
 
     const showInvitation = () => {

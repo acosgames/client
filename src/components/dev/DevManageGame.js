@@ -1,4 +1,4 @@
-import { Component, Fragment } from "react";
+import { Component, Fragment, useEffect, useRef, useState } from "react";
 
 import {
     withRouter,
@@ -8,31 +8,40 @@ import DevManageGameFields from "./DevManageGameFields";
 // import DevCreateServer from './DevCreateServer';
 // import DevClientList from './DevClientList';
 import { clearGameFields, findGame } from '../../actions/devgame';
-import { Heading, VStack } from "@chakra-ui/react";
-// import { Flex } from "@chakra-ui/layout";
-class DevManageGame extends Component {
-    constructor(props) {
-        super(props);
 
+// import { Flex } from "@chakra-ui/layout";
+
+import fs from 'flatstore';
+
+
+import { VStack } from "@chakra-ui/react";
+
+function DevManageGame(props) {
+
+    useEffect(() => {
         clearGameFields();
         let gameid = props.match.params.gameid;
         findGame(gameid);
-        this.state = {
-        }
+
 
         gtag('event', 'devmanagegame');
 
+    }, [])
 
+    if (!props.devgame || !props.devgame.game_slug) {
+        return <></>
     }
 
-    render() {
+    return (
+        <VStack>
 
-        return (
-            <DevManageGameFields />
+            <DevManageGameFields devgame={props.devgame} />
 
 
-        )
-    }
+        </VStack>
+
+
+    )
 }
 
-export default withRouter(DevManageGame);
+export default fs.connect(['devgame'])(withRouter(DevManageGame));

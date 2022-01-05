@@ -348,6 +348,23 @@ export async function uploadGameImage(game_slug, image) {
 
 }
 
+export async function deleteGame() {
+
+    let deleteGame = fs.get('devgame');
+
+    let response = await POST('/api/v1/dev/delete/game', deleteGame);
+    let result = response.data;
+
+    //let imageResponse = await uploadImages();
+    //let gameWithImages = response.data;
+
+    //console.log(gameWithImages);
+    fs.set('devgame', {});
+    fs.set('devgameerror', []);
+    console.log(result);
+    return deleteGame;
+}
+
 export async function updateGame() {
     try {
         let newGame = fs.get('devgame');

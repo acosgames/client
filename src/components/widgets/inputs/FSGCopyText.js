@@ -21,8 +21,9 @@ function FSGCopyText(props) {
             value={props.value || ''}
             width={props.width}
             onFocus={props.onFocus}
-            fontSize="xs"
+            fontSize="8px"
             readOnly
+            size="xs"
             bgColor="gray.800"
         />
 
