@@ -121,7 +121,7 @@ function GameInfoJoinButton(props) {
                         </MenuButton>
                         <MenuList>
                             <MenuItem onClick={handleJoinBeta}>Play Experimental</MenuItem>
-                            <MenuItem>Create Private Room</MenuItem>
+                            {/* <MenuItem>Create Private Room</MenuItem> */}
                         </MenuList>
                     </Menu>
 

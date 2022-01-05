@@ -12,6 +12,7 @@ import LeaveGame from './LeaveGame';
 import GameInfoTop10 from './GameInfoTop10';
 import FSGGroup from '../widgets/inputs/FSGGroup';
 import GameScreenStarting from './GameScreenStarting';
+import { refreshGameState } from '../../actions/connection';
 
 function GameScreen(props) {
 
@@ -39,6 +40,8 @@ function GameScreen(props) {
         fs.set('iframes', null);
         fs.set('gamepanel', null);
         fs.set('gamewrapper', null);
+
+
     }, [])
 
     useEffect(() => {

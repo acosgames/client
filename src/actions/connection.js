@@ -2,7 +2,7 @@
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode, defaultDict } from 'shared/util/encoder';
-import { isUserLoggedIn } from './person';
+import { getUser, isUserLoggedIn } from './person';
 
 import config from '../config'
 
@@ -95,7 +95,10 @@ export function fastForwardMessages() {
     if (iframe) {
 
         let gamestate = fs.get('gamestate') || {};
-
+        if (!(gamestate?.state)) {
+            onResize();
+            return false;
+        }
         let mq = messageQueue[room_slug];
         if (mq && mq.length > 0) {
             console.log("Forwarding queued messages to iframe.");
@@ -154,6 +157,28 @@ export function sendLoadMessage(room_slug, game_slug, version, runCallback) {
         iframe.current.contentWindow.postMessage({ type: 'load', payload: { game_slug, version } }, '*');
 }
 
+export async function refreshGameState(room_slug) {
+    let gamestate = fs.get('gamestate') || {};
+    let user = await getUser();
+    let iframe = fs.get('iframes>' + room_slug);
+    // if (iframe) {
+    let local = {};
+    if (gamestate?.players) {
+        local = gamestate.players[user.shortid];
+        if (local)
+            local.id = user.shortid;
+    } else {
+        local = { name: user.displayname, id: user.shortid };
+    }
+
+    let out = { local, room_slug, ...gamestate };
+
+
+    // console.timeEnd('ActionLoop');
+    sendFrameMessage(out);
+    // }
+}
+
 
 export function recvFrameMessage(evt) {
     let action = evt.data;
@@ -171,6 +196,8 @@ export function recvFrameMessage(evt) {
         // fs.set('iframesLoaded', iframesLoaded);
 
         fastForwardMessages();
+        refreshGameState(room_slug);
+
         let gamestatus = gamestate?.state?.gamestatus;
         if (!gamestatus || gamestatus != 'pregame') {
             return;
@@ -347,7 +374,7 @@ export async function wsJoinRoom(game_slug, room_slug, private_key) {
         return;
     }
 
-    gtag('event', 'joinroom', { game_slug: game.game_slug });
+    gtag('event', 'joinroom', { game_slug: game_slug });
 
     let joinrooms = fs.get('joinrooms');
     joinrooms[room_slug] = { private_key, game_slug }

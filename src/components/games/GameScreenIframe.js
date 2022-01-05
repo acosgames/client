@@ -3,7 +3,7 @@ import Connection from './Connection';
 import LeaveGame from './LeaveGame';
 import { useEffect, useRef, useState } from 'react';
 import fs from 'flatstore';
-import { sendLoadMessage } from '../../actions/connection';
+import { refreshGameState, sendLoadMessage } from '../../actions/connection';
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
@@ -158,6 +158,9 @@ function GameScreenIframe(room) {
                         fs.set('gamepanel', gamescreenRef);
                         fs.set('gamewrapper', gamewrapperRef);
                         sendLoadMessage(room_slug, game_slug, version, onResize);
+
+
+
                         onResize();
                         setTimeout(() => {
 
