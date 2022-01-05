@@ -52,19 +52,19 @@ class GameList extends Component {
                 <Divider />
                 <VStack align="left" justify={"left"}>
                     <Heading mb="0.5rem" as="h1" size="lg">Are you a developer?</Heading>
-                    <Text as="span" fontWeight={'light'} fontSize="sm">Build a game in a single day with the acosgames simulator.</Text>
+                    <Text as="span" fontWeight={'light'} fontSize="sm">Build a game, deploy, and start playing in a single day with the acosgames simulator.</Text>
                     <Wrap spacing="1rem">
                         <SLink to="/dev">
-                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="16" />&nbsp;Go to Developer Zone</Text>
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="16" />&nbsp;Developer Zone</Text>
                         </SLink>
                         <chakra.a target="_blank" textDecoration={"none"} href={'https://discord.gg/ydHkCcNgHD'} >
-                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="16" />&nbsp;Visit us on Discord.</Text>
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="16" />&nbsp;Chat on Discord</Text>
                         </chakra.a>
                         <chakra.a target="_blank" textDecoration={"none"} href={'https://github.com/acosgames'} >
-                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="16" />&nbsp;Submit Issues on GitHub.</Text>
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="16" />&nbsp;GitHub</Text>
                         </chakra.a>
                         <chakra.a target="_blank" textDecoration={"none"} href={'https://docs.acos.games'} >
-                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="16" />&nbsp;Acos Documentation.</Text>
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="16" />&nbsp;Documentation</Text>
                         </chakra.a>
                     </Wrap>
                 </VStack >
