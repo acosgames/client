@@ -13,16 +13,40 @@ function DevManageGameEnvironment(props) {
     let defaultDeployCmd = `npm run deploy -- ${props.devgame?.game_slug}.${props.devgame?.apikey}`;
     let displayedCmd = `Deploy Command`;
 
-
-    const [deployCmd, setDeployCmd] = useState(defaultDeployCmd);
-    const { hasCopied, onCopy } = useClipboard(deployCmd);
-    const copyRef = useRef(null);
-
+    let defaultScreentype = props.devgame?.latest_screentype || 1;
     let defaultMaxWidth = props.devgame?.latest_screenwidth || 1200;
     let defaultResow = props.devgame?.latest_resow || 4;
     let defaultResoh = props.devgame?.latest_resoh || 4;
     let defaultResolution = defaultResow + ':' + defaultResoh;
 
+    const generateCommand = (screentype, rw, rh, mw) => {
+        let cmd = defaultDeployCmd + '';
+        switch (screentype) {
+            case 1:
+                cmd += ' --screentype=1'
+                break;
+            case 2:
+                cmd += ' --screentype=2'
+                cmd += ' --resow=' + rw;
+                cmd += ' --resoh=' + rh;
+                break;
+            case 3:
+                cmd += ' --screentype=3'
+                cmd += ' --resow=' + rw;
+                cmd += ' --resoh=' + rh;
+                cmd += ' --screenwidth=' + mw;
+                break;
+            default:
+                cmd += ' --screentype=1'
+                break;
+        }
+        return cmd;
+    }
+
+    let fixedCmd = generateCommand(defaultScreentype, defaultResow, defaultResoh, defaultMaxWidth);
+    const [deployCmd, setDeployCmd] = useState(fixedCmd);
+    const { hasCopied, onCopy } = useClipboard(deployCmd);
+    const copyRef = useRef(null);
     const [selected, setSelected] = useState(props.devgame?.latest_screentype || 0);
     const [resolution, setResolution] = useState(defaultResolution);
     const [resoWidth, setResoWidth] = useState(defaultResow);
@@ -33,28 +57,11 @@ function DevManageGameEnvironment(props) {
 
 
 
-    const onUpdateDeployCmd = (screentype) => {
-        let cmd = defaultDeployCmd + '';
-        switch (screentype) {
-            case '1':
-                cmd += ' --screentype=1'
-                break;
-            case '2':
-                cmd += ' --screentype=2'
-                cmd += ' --resow=' + resoWidth;
-                cmd += ' --resoh=' + resoHeight;
-                break;
-            case '3':
-                cmd += ' --screentype=3'
-                cmd += ' --resow=' + resoWidth;
-                cmd += ' --resoh=' + resoHeight;
-                cmd += ' --screenwidth=' + maxwidth;
-                break;
-            default:
-                cmd += ' --screentype=1'
-                break;
-        }
+    const onUpdateDeployCmd = (screentype, rw, rh, mw) => {
+        let cmd = generateCommand(Number(screentype), rw, rh, mw);
+
         setDeployCmd(cmd);
+        return cmd;
     }
 
     const onResoChange = (e) => {
@@ -78,14 +85,14 @@ function DevManageGameEnvironment(props) {
         setResoWidth(rw);
         setResoHeight(rh);
         calculateHeight(maxwidth, rw, rh);
-        onUpdateDeployCmd(selected);
+        onUpdateDeployCmd(selected, rw, rh, maxwidth);
     }
 
     const onSelectViewport = (e) => {
         let choice = e.target.value;
         setSelected(choice);
 
-        onUpdateDeployCmd(choice);
+        onUpdateDeployCmd(choice, resoWidth, resoHeight, maxwidth);
         console.log(e);
     }
 
@@ -106,12 +113,12 @@ function DevManageGameEnvironment(props) {
 
         setMaxWidth(val);
         calculateHeight(val, resoWidth, resoHeight);
-        onUpdateDeployCmd(selected);
+        onUpdateDeployCmd(selected, resoWidth, resoHeight, val);
     }
 
     useEffect(() => {
         calculateHeight(maxwidth, resoWidth, resoHeight);
-        onUpdateDeployCmd(selected);
+        onUpdateDeployCmd(selected, resoWidth, resoHeight, maxwidth);
     }, [])
 
 
