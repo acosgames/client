@@ -52,7 +52,7 @@ class GameList extends Component {
                 <Divider />
                 <VStack align="left" justify={"left"}>
                     <Heading mb="0.5rem" as="h1" size="lg">Are you a developer?</Heading>
-                    <Text as="span" fontWeight={'light'} fontSize="sm">Build a game, deploy, and start playing in a single day with the acosgames simulator.</Text>
+                    <Text as="span" fontWeight={'light'} fontSize="sm">Build a game, deploy, and start playing in a single day!</Text>
                     <Wrap spacing="1rem">
                         <SLink to="/dev">
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="16" />&nbsp;Developer Zone</Text>
