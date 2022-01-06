@@ -79,6 +79,9 @@ function GameScreenIframe(room) {
     }
 
     const onResize = () => {
+        if (!gamescreenRef?.current || !iframeRef?.current)
+            return;
+
         var now = (new Date).getTime();
         if (now - timestamp < THROTTLE) {
             return onResize;
@@ -137,7 +140,11 @@ function GameScreenIframe(room) {
 
 
     useEffect(() => {
-        window.addEventListener('resize', onResize, false);
+        window.addEventListener('resize', onResize);
+
+        return () => {
+            window.removeEventListener('resive', onResize);
+        }
     })
 
 
