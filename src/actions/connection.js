@@ -21,13 +21,19 @@ fs.set('queues', []);
 fs.set('joinrooms', {})
 fs.set('rooms', {});
 
-fs.set('offsetTime', 0);
+// fs.set('offsetTime', 0);
 fs.set('latency', 0);
 
 var messageQueue = {};
 var onResize = null;
 
 var timerHandle = 0;
+
+var forcedLatency = Math.round(RandRange(50, 200));
+console.log("FORCED LATENCY: ", forcedLatency);
+function RandRange(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
 export function timerLoop(cb) {
 
@@ -208,23 +214,48 @@ export function recvFrameMessage(evt) {
     //     this.send('connected', 'Welcome to 5SG!');
     // }
 
+    // let ws = fs.get('ws');
+
+    // if (ws) {
+    // console.time('ActionLoop');
+
+    action.room_slug = room_slug;
+    if (gamestate && gamestate.timer)
+        action.seq = gamestate.timer.seq || 0;
+    else
+        action.seq = 0;
+    // if (action.payload && action.payload.cell) {
+    //     action.payload.cell = 100;
+    // }
+    wsSend(action);
+    console.log("[Outgoing] Action: ", action);
+    // }
+}
+
+export async function wsSendFAKE(action) {
+
+    latencyStart = new Date().getTime();
+
+    setTimeout(() => {
+        wsSend(action);
+    }, forcedLatency);
+}
+
+export async function wsSend(action) {
     let ws = fs.get('ws');
+    if (!ws || !action)
+        return false;
 
-    if (ws) {
-        // console.time('ActionLoop');
-
-        action.room_slug = room_slug;
-        if (gamestate && gamestate.timer)
-            action.seq = gamestate.timer.seq || 0;
-        else
-            action.seq = 0;
-        // if (action.payload && action.payload.cell) {
-        //     action.payload.cell = 100;
-        // }
+    try {
         let buffer = encode(action);
-        console.log("[Outgoing] Action: ", action);
         ws.send(buffer);
     }
+    catch (e) {
+        console.error(e);
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -260,8 +291,9 @@ export async function reconnect(isNew) {
         return ws;
     }
 
+    let queues = fs.get('queues') || [];
     let rooms = fs.get('rooms');
-    if (!isNew && (!rooms || Object.keys(rooms).length == 0))
+    if (queues.length == 0 && !isNew && (!rooms || Object.keys(rooms).length == 0))
         return disconnect();
 
 
@@ -287,9 +319,9 @@ export async function wsLeaveGame(game_slug, room_slug) {
     }
 
     let action = { type: 'leave', room_slug }
-    let msg = encode(action);
     console.log("[Outgoing] Leaving: ", action);
-    ws.send(msg)
+    wsSend(action);
+
     let history = fs.get('history');
     fs.set('gamestate', {});
     fs.set('room_slug', null);
@@ -308,8 +340,8 @@ export async function wsLeaveQueue() {
     fs.set('queues', []);
 
     let action = { type: 'leavequeue' }
-    let msg = encode(action);
-    ws.send(msg);
+
+    wsSend(action);
 
 
     await disconnect();
@@ -317,23 +349,7 @@ export async function wsLeaveQueue() {
     console.log("[Outgoing] Leave Queue ", action);
 }
 
-export async function wsSend(action, game_slug) {
-    let ws = fs.get('ws');
-    if (!ws)
-        return;
 
-    // if (game_slug) {
-    //     let storedDict = localStorage.getItem(game_slug + '/dict') || [];
-    //     action.dict = storedDict.length;
-    // }
-    // else {
-    //     action.dict = 0;
-    // }
-
-    let msg = encode(action);
-    ws.send(msg); 0
-
-}
 
 export async function wsJoinGame(mode, game_slug) {
     let ws = await reconnect(true);
@@ -379,9 +395,7 @@ export async function wsJoinRoom(game_slug, room_slug, private_key) {
     let joinrooms = fs.get('joinrooms');
     joinrooms[room_slug] = { private_key, game_slug }
     let action = { type: 'joinroom', payload: { game_slug, room_slug, private_key } }
-    let msg = encode(action);
-    ws.send(msg);
-
+    wsSend(action);
     fs.set('joining', 'game');
     console.log("[Outgoing] Joining room [" + room_slug + "]: ", game_slug, action);
     // console.timeEnd('ActionLoop');
@@ -399,8 +413,7 @@ export async function wsSpectateGame(game_slug) {
     }
 
     let action = { type: 'spectate', payload: { game_slug } }
-    let msg = encode(action);
-    ws.send(msg);
+    wsSend(action);
 
     fs.set('joining', 'game');
     console.log("[Outgoing] Spectating [" + game_slug + "]: ", action);
@@ -511,9 +524,9 @@ var latency = 0;
 function sendPing(ws) {
     latencyStart = new Date().getTime();
     let action = { type: 'ping', payload: latencyStart }
-    let msg = encode(action);
+
     console.log("[Outgoing] Ping: ", action);
-    ws.send(msg);
+    wsSend(action);
 }
 
 function onPong(message) {
@@ -521,20 +534,27 @@ function onPong(message) {
     let serverTime = message.payload.serverTime;
     let currentTime = new Date().getTime();
     latency = currentTime - latencyStart;
-    let offsetTime = currentTime - serverTime;
-    let halfLatency = Math.ceil(latency / 2);
-    let realTime = currentTime + offsetTime + halfLatency;
+    // let offsetTime = serverTime - currentTime;
+    // let halfLatency = Math.ceil(latency / 2);
+    // let realTime = currentTime + offsetTime + halfLatency;
     console.log('Latency Start: ', latencyStart);
     console.log('Latency: ', latency);
-    console.log('Offset Time: ', offsetTime);
+    // console.log('Offset Time: ', offsetTime);
     console.log('Server Offset: ', serverOffset);
     console.log('Server Time: ', serverTime);
     console.log('Client Time: ', currentTime);
-    console.log('Real Time: ', realTime);
-    fs.set('latency', latency);
-    fs.set('offsetTime', offsetTime + halfLatency);
+    // console.log('Real Time: ', realTime);
+    fs.set('latency', latency + 15); //add 15 for the time between WSserver and gameserver
+    // fs.set('offsetTime', offsetTime);
 }
 
+async function wsIncomingMessageFAKE(message) {
+
+    setTimeout(() => {
+        wsIncomingMessage(message);
+    }, forcedLatency);
+
+}
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
     let gamestate = fs.get('gamestate');
@@ -659,7 +679,7 @@ async function wsIncomingMessage(message) {
     }
 
     if (msg.payload) {
-        console.log("[Previous State]: ", gamestate);
+        // console.log("[Previous State]: ", gamestate);
         if (msg.type == 'private') {
             let player = gamestate.players[user.shortid]
             player = delta.merge(player, msg.payload);
@@ -693,11 +713,14 @@ async function wsIncomingMessage(message) {
             return;
         }
         else {
-            msg.payload = delta.merge(gamestate, msg.payload);
 
             if (msg.payload?.timer?.end) {
-                msg.payload.timer.end -= (fs.get('offsetTime') || 0);
+                let latency = fs.get('latency') || 0;
+                msg.payload.timer.end -= latency;
             }
+
+            msg.payload = delta.merge(gamestate, msg.payload);
+
             fs.set('gamestate', msg.payload);
         }
 
