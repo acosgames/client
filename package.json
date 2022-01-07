@@ -4,7 +4,8 @@
   "private": true,
   "sideEffects": [
     "./src/app.scss",
-    "./src/components/widgets/inputs/Markdown.scss"
+    "./src/components/widgets/inputs/Markdown.scss",
+    "./src/components/static.scss"
   ],
   "proxy": "http://localhost:8080",
   "dependencies": {

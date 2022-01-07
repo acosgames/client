@@ -24,6 +24,8 @@ import fs from 'flatstore';
 import GameScreen from "../components/games/GameScreen";
 import { Box } from "@chakra-ui/react";
 import { useEffect } from "react";
+import PrivacyPolicy from "../components/PrivacyPolicy";
+import TermsAndConditions from "../components/TermsAndConditions";
 
 var Routes = () => {
 
@@ -70,6 +72,17 @@ var Routes = () => {
 
                     path="/login/success"
                     component={LoginSuccess}
+                />
+
+                <Route
+
+                    path="/privacy"
+                    component={PrivacyPolicy}
+                />
+                <Route
+
+                    path="/terms"
+                    component={TermsAndConditions}
                 />
 
                 <Route

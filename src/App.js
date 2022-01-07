@@ -21,14 +21,13 @@ import { getUser, getUserProfile } from './actions/person';
 import QueuePanel from "./components/games/QueuePanel";
 import fs from 'flatstore';
 import Sidebar from './components/widgets/Sidebar';
-import { Box, Flex, HStack } from "@chakra-ui/layout";
+import { Box, Flex, HStack, VStack, Divider } from "@chakra-ui/layout";
+import AcosFooter from "./components/AcosFooter";
 
 
 fs.delimiter('>');
 
 function App(props) {
-
-
 
   useEffect(() => {
     getUser();
@@ -37,27 +36,35 @@ function App(props) {
 
   return (
     <BrowserRouter>
-      <MainMenuChakra />
-      <Flex id="wrapper" direction="row" height="100%">
-        <Switch>
-          <Route path="/dev/login"
-            component={() => (
-              <></>
-            )} />
-          <Route
-            path="/dev*"
-            component={() => (
-              <Sidebar />
-            )}
-          />
-        </Switch>
-        <Switch>
-          <Route path="/g/*"
-            component={RoutesGame} />
-          <Route path="*" component={Routes} />
-        </Switch>
+      <Flex direction={'column'} minHeight={'100%'} w="100%">
+        <MainMenuChakra />
+        <VStack w="100%">
+          <Flex id="wrapper" direction="row" w="100%">
+            <Switch>
+              <Route path="/dev/login"
+                component={() => (
+                  <></>
+                )} />
+              <Route
+                path="/dev*"
+                component={() => (
+                  <Sidebar />
+                )}
+              />
+            </Switch>
+            <Switch>
+              <Route path="/g/*"
+                component={RoutesGame} />
+              <Route path="*" component={Routes} />
+            </Switch>
+          </Flex>
+        </VStack>
+
+        <HStack flexGrow={'1'} alignItems={'flex-end'} w="100%">
+          <AcosFooter />
+        </HStack>
       </Flex>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 }
 

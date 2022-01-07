@@ -60,23 +60,29 @@ function DevLogin(props) {
     return (
         <Center mb="2rem">
             <VStack align="left" w={['100%', '80%', '70%', '70%', '50%']} >
-                <Heading as="h1" size="xl" mb="2rem">Developer Zone Access</Heading>
+                <Heading w="100%" as="h1" size="xl" mb="2rem">Developer Zone Access</Heading>
 
 
-                <Text as="p">
+                <Text as="p" pb={8} w="100%">
                     Join our GitHub Organization at <Link fontWeight="bold" isExternal href="https://github.com/acosgames">acosgames</Link> and start creating and publishing games instantly.
-                    In the future, the org will be used to manage issues, code, and other purposes.
+                    <br /><br />
+                    Visit our documentation for more details.
+                    <br />
+                    <Link isExternal href="https://docs.acos.games" target="_blank">https://docs.acos.games</Link>
+                    <br />
+                    <br />
+                    By signing up, you agree to our <Link href="/privacy">Privacy Policy</Link>
                 </Text>
 
                 <HStack>
                     <Icon color={showLogin ? 'yellow.500' : 'green.500'} fontSize="xl" as={showLogin ? FiSquare : FiCheckSquare} />
-                    <Heading as="h3" size="md" color="gray.100">Step 1:</Heading>
-                    <Heading as="h3" size="md" color="gray.400">Login to GitHub to begin</Heading>
+                    <Heading as="h3" size="md" color="gray.400">Step 1:</Heading>
+                    <Heading as="h3" size="md" color="gray.100">Login to GitHub to begin</Heading>
                 </HStack>
                 <a href="/login/github?ref=/dev" w="full">
                     <Button disabled={!showLogin} w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
 
-                        <Text ml="4rem">Sign in with github</Text>
+                        <Text fontSize="sm" ml="4rem">Sign in with github</Text>
 
                     </Button>
                 </a>
@@ -86,8 +92,8 @@ function DevLogin(props) {
                     </Box>
                     <HStack pt="2rem">
                         <Icon color={!sentInvite ? 'yellow.500' : 'green.500'} fontSize="xl" as={!sentInvite ? FiSquare : FiCheckSquare} />
-                        <Heading as="h3" size="md" color="gray.100">Step 2:</Heading>
-                        <Heading as="h3" size="md" color="gray.400">Request invite to acosgames organization</Heading>
+                        <Heading as="h3" size="md" color="gray.400">Step 2:</Heading>
+                        <Heading as="h3" size="md" color="gray.100">Request invite to acosgames organization</Heading>
                     </HStack>
 
                     <Button
@@ -97,13 +103,13 @@ function DevLogin(props) {
                         justifyContent={"left"}
                         variant={"outline"}
                         leftIcon={<FiDownload />} >
-                        <Text ml="4rem">Send GitHub invite for 'acosgames' organization</Text>
+                        <Text fontSize="sm" ml="4rem">Send GitHub invite for 'acosgames' organization</Text>
                     </Button>
 
                     <HStack pt="2rem">
                         <Icon color={!acceptInvite ? 'yellow.500' : 'green.500'} fontSize="xl" as={!acceptInvite ? FiSquare : FiCheckSquare} />
-                        <Heading as="h3" size="md" color="gray.100">Step 3:</Heading>
-                        <Heading as="h3" size="md" color="gray.400">Accept invite to acosgames organization</Heading>
+                        <Heading as="h3" size="md" color="gray.400">Step 3:</Heading>
+                        <Heading as="h3" size="md" color="gray.100">Accept invite to acosgames organization</Heading>
                     </HStack>
                     <a target="_blank" href="https://github.com/orgs/acosgames/invitation" w="full">
                         <Button
@@ -115,14 +121,14 @@ function DevLogin(props) {
                             justifyContent={"left"}
                             variant={"outline"}
                             leftIcon={<FiDownload />} >
-                            <Text ml="4rem">Accept invite to 'acosgames' organization</Text>
+                            <Text fontSize="sm" ml="4rem">Accept invite to 'acosgames' organization</Text>
                         </Button>
                     </a>
 
                     <HStack pt="2rem">
                         <Icon color={'yellow.500'} fontSize="xl" as={FiSquare} />
-                        <Heading as="h3" size="md" color="gray.100">Step 4:</Heading>
-                        <Heading as="h3" size="md" color="gray.400">Re-login to get access</Heading>
+                        <Heading as="h3" size="md" color="gray.400">Step 4:</Heading>
+                        <Heading as="h3" size="md" color="gray.100">Re-login to get access</Heading>
                     </HStack>
                     <Link href="/login/github?ref=/dev">
                         <HStack>
@@ -136,7 +142,7 @@ function DevLogin(props) {
                                 justifyContent={"left"}
                                 variant={"outline"}
                                 leftIcon={<FiRefreshCw />} >
-                                <Text ml="4rem">Login again to access Developer Zone</Text>
+                                <Text fontSize="sm" ml="4rem">Login again to access Developer Zone</Text>
                             </Button>
 
                         </HStack>
