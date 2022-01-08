@@ -17,6 +17,15 @@ var RoutesGame = () => {
 
     const history = useHistory();
 
+    const refPath = history.location.pathname;
+    if (refPath.indexOf("/login") == -1) {
+        let curPath = localStorage.getItem("refPath");
+        console.log("current", curPath);
+        localStorage.setItem('refPath', refPath);
+        console.log("next", refPath);
+    }
+
+
 
     useEffect(() => {
         fs.set('history', history);
