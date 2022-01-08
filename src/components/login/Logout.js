@@ -13,22 +13,16 @@ import SLink from "../widgets/SLink";
 class Logout extends Component {
     constructor(props) {
         super(props);
+
+        logout();
     }
     render() {
-        let user = this.props.user;
 
-        if (!this.props.user) {
-            return (<SLink to="/login">Login</SLink>)
-        }
 
         return (
-            <a onClick={() => {
-                logout();
-            }}>
-                Logout
-            </a>
+            <Redirect to="/" />
         );
     }
 }
 
-export default withRouter(fs.connect(['user'])(Logout));
+export default withRouter(Logout);

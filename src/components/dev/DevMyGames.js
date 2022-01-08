@@ -55,7 +55,7 @@ function DevMyGames(props) {
                     <Heading size="2xl">No games found.</Heading>
                     <Heading color="gray.400" size="lg">Are you ready to create a game?</Heading>
                     <Box mt="2rem">
-                        <SLink to="/dev/game/create/">
+                        <Link to="/dev/game/create/">
                             <HStack>
                                 <IconButton
                                     bgColor="brand.500"
@@ -66,7 +66,7 @@ function DevMyGames(props) {
                                     isRound={true} />
                                 <Text>Create Game</Text>
                             </HStack>
-                        </SLink>
+                        </Link>
                     </Box>
                 </VStack>
             )

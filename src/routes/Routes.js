@@ -26,6 +26,7 @@ import { Box } from "@chakra-ui/react";
 import { useEffect } from "react";
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import TermsAndConditions from "../components/TermsAndConditions";
+import Logout from "../components/login/Logout";
 
 var Routes = () => {
 
@@ -89,6 +90,11 @@ var Routes = () => {
 
                     path="/login"
                     component={SocialLogin}
+                />
+                <Route
+
+                    path="/logout"
+                    component={Logout}
                 />
 
                 <Route

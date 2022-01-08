@@ -61,13 +61,9 @@ function NavForUser(props) {
                         Account Settings
                     </MenuItem>
                 </Link>
-                <MenuItem onClick={async () => {
-                    let success = await logout();
-                    if (success) {
-                        history.push('/');
-
-                    }
-                }}>Logout</MenuItem>
+                <Link to="/logout" width="100%">
+                    <MenuItem>Logout</MenuItem>
+                </Link>
             </MenuList>
         </Menu>
     )

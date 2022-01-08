@@ -11,7 +11,7 @@ import {
     HStack,
     VStack,
     Box,
-    Link,
+    Link as ChLink,
     Center
 } from '@chakra-ui/react'
 
@@ -89,23 +89,23 @@ function Sidebar() {
                     <>
                         <Divider mt="10px" mb="10px" />
                         <Center w="100%" >
-                            <Link textDecoration={"none"} href={`https://github.com/${userProfile?.github}`} >
+                            <ChLink isExternal textDecoration={"none"} href={`https://github.com/${userProfile?.github}`} >
                                 <VStack align="center">
                                     <Icon as={IoLogoGithub} fontSize="24" />
                                     {userProfile && (<Text display={['none', 'none', 'flex']}>@{userProfile?.github}</Text>)}
                                 </VStack>
-                            </Link>
+                            </ChLink>
                         </Center>
                     </>
                 )}
                 <Divider mt="10px" mb="10px" />
                 <Center w="100%" >
-                    <Link textDecoration={"none"} target="_blank" href={'https://discord.gg/ydHkCcNgHD'} >
+                    <ChLink isExternal textDecoration={"none"} target="_blank" href={'https://discord.gg/ydHkCcNgHD'} >
                         <VStack align="center">
                             <Icon as={FaDiscord} fontSize="24" />
                             <Text align="center">Questions? <br />Join us on Discord</Text>
                         </VStack>
-                    </Link>
+                    </ChLink>
                 </Center>
 
             </Flex>

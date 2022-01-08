@@ -1,4 +1,4 @@
-import { Box, Image, HStack, VStack, IconButton, Spacer, Text, useClipboard, Icon, Container, StackDivider, Link, Wrap, Flex, Tooltip, Switch, Button, Center, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, FormLabel, FormControl, Popover, PopoverTrigger, Portal, PopoverContent, PopoverArrow, PopoverHeader, PopoverCloseButton, PopoverBody } from "@chakra-ui/react";
+import { Box, Image, HStack, VStack, IconButton, Spacer, Text, useClipboard, Icon, Container, StackDivider, Link as ChLink, Wrap, Flex, Tooltip, Switch, Button, Center, AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, FormLabel, FormControl, Popover, PopoverTrigger, Portal, PopoverContent, PopoverArrow, PopoverHeader, PopoverCloseButton, PopoverBody } from "@chakra-ui/react";
 import SLink from "../widgets/SLink";
 import { useToast } from '@chakra-ui/react'
 
@@ -8,6 +8,7 @@ import { FaGithub, FiCopy, FiHeart, FiUsers, IoCode, IoCodeWorking, IoDocument, 
 import { useEffect, useRef, useState } from "react";
 import { deployToProduction } from "../../actions/devgame";
 import FSGCopyText from "../widgets/inputs/FSGCopyText";
+import { Link } from "react-router-dom";
 
 function DevMyGameListItem(props) {
 
@@ -65,20 +66,20 @@ function DevMyGameListItem(props) {
             <Flex>
                 <Wrap align="stretch" flexGrow={1}>
                     <Flex justifyItems={['left', 'left']}>
-                        <SLink to={'/dev/game/' + props.gameid}>
+                        <Link to={'/dev/game/' + props.gameid}>
                             <Image src={imgUrl} alt={"Icon for " + props.name} minWidth={['72px']} maxW={['72px']} h={['72px']}
                                 fallbackSrc={config.https.cdn + 'placeholder.png'}
                             />
-                        </SLink>
+                        </Link>
 
                         <VStack
                             align="stretch"
                             pl="0.5rem"
                         >
                             <Box >
-                                <SLink to={'/dev/game/' + props.gameid}>
+                                <Link to={'/dev/game/' + props.gameid}>
                                     <Text pl={['1rem', '1rem', '0', '0']} align={['left', 'left']} fontSize="2xl" fontWeight="600">{props.name}</Text>
-                                </SLink>
+                                </Link>
                             </Box>
                             <Wrap pl="1rem">
                                 <HStack pr={['1rem', '2rem', "2rem", "2rem"]}>
@@ -103,12 +104,12 @@ function DevMyGameListItem(props) {
                                 </HStack>
                                 <HStack pr={['1rem', '1rem', "1rem", "1rem"]}>
                                     <Icon color="gray.500" as={FaGithub} />
-                                    <Text color="gray.400"><Link target="_blank" href={`https://github.com/acosgames/${props.game_slug}/issues`}>issues</Link></Text>
+                                    <Text color="gray.400"><ChLink target="_blank" href={`https://github.com/acosgames/${props.game_slug}/issues`}>issues</ChLink></Text>
                                 </HStack>
 
                                 <HStack>
                                     <Icon color="gray.500" as={IoDocument} />
-                                    <Text color="gray.400"><SLink to={`/g/${props.game_slug}`}>listing</SLink></Text>
+                                    <Text color="gray.400"><Link to={`/g/${props.game_slug}`}>listing</Link></Text>
                                 </HStack>
                             </Wrap>
 
