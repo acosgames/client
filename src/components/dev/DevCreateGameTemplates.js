@@ -38,7 +38,7 @@ function DevCreateGameTemplates(props) {
 
     useEffect(() => {
         findGameTemplates();
-        updateGameField('template', '0', 'create-game_info', 'devgame', 'devgameerror');
+
     }, [])
 
     const renderTemplates = (templates) => {

@@ -48,10 +48,61 @@ function DevCreateGameError(props) {
 DevCreateGameError = fs.connect(['devgameerror'])(DevCreateGameError);
 
 
+function DevFields(props) {
+
+    const inputChange = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+
+        updateGameField(name, value, 'create-game_info', 'devgame', 'devgameerror');
+    }
+
+    const rules = schema['create-game_info'];
+    return (
+        <FSGGroup title="Game Details">
+            <FSGTextInput
+                name="name"
+                id="name"
+                title="Game Name"
+                maxLength="60"
+                value={props.devgame.name || ''}
+                helpText="The advertised name on the website"
+                required={rules['name'].required}
+                onChange={inputChange}
+            />
+            <FSGTextInput
+                name="game_slug"
+                id="game_slug"
+                title="Slug Name (lower a-z and - only)"
+                maxLength="32"
+                value={props.devgame.game_slug || ''}
+                helpText="Note: This value does not change once created!  It is used in the URL for your game."
+                required={rules['name'].required}
+                onChange={inputChange}
+            />
+            <FSGTextInput
+                name="shortdesc"
+                id="shortdesc"
+                title="Short Description (120 characters)"
+                maxLength="120"
+                value={props.devgame.shortdesc || ''}
+                required={rules['name'].required}
+                onChange={inputChange}
+            />
+
+
+        </FSGGroup>
+    )
+}
+
+DevFields = fs.connect(['devgame'])(DevFields);
+
+
 function DevCreateGame(props) {
 
-    useEffect(() => {
-        clearGameFields();
+    useEffect(async () => {
+        await clearGameFields();
+        updateGameField('template', '0', 'create-game_info', 'devgame', 'devgameerror');
         gtag('event', 'devcreategame');
     }, [])
 
@@ -59,7 +110,7 @@ function DevCreateGame(props) {
     const executeScroll = () => myRef.current.scrollIntoView()
 
     const toast = useToast();
-    const rules = schema['create-game_info'];
+
 
     const onSubmit = async (e) => {
         //console.log(e);
@@ -101,12 +152,7 @@ function DevCreateGame(props) {
 
     }
 
-    const inputChange = (e) => {
-        let name = e.target.name;
-        let value = e.target.value;
 
-        updateGameField(name, value, 'create-game_info', 'devgame', 'devgameerror');
-    }
 
     const onChange = (key, value, group) => {
         console.log(key, value, group);
@@ -148,39 +194,8 @@ function DevCreateGame(props) {
             <a ref={myRef} name="errors"></a>
             <DevCreateGameError />
 
-            <FSGGroup title="Game Details">
-                <FSGTextInput
-                    name="name"
-                    id="name"
-                    title="Game Name"
-                    maxLength="60"
-                    value={props.devgame.name || ''}
-                    helpText="The advertised name on the website"
-                    required={rules['name'].required}
-                    onChange={inputChange}
-                />
-                <FSGTextInput
-                    name="game_slug"
-                    id="game_slug"
-                    title="Slug Name (lower a-z and - only)"
-                    maxLength="32"
-                    value={props.devgame.game_slug || ''}
-                    helpText="Note: This value does not change once created!  It is used in the URL for your game."
-                    required={rules['name'].required}
-                    onChange={inputChange}
-                />
-                <FSGTextInput
-                    name="shortdesc"
-                    id="shortdesc"
-                    title="Short Description (120 characters)"
-                    maxLength="120"
-                    value={props.devgame.shortdesc || ''}
-                    required={rules['name'].required}
-                    onChange={inputChange}
-                />
+            <DevFields />
 
-
-            </FSGGroup>
             <Box w="100%" h="2rem"></Box>
             <FSGGroup title=" Start from a Game Template">
                 <DevCreateGameTemplates />
@@ -196,4 +211,4 @@ function DevCreateGame(props) {
 
 }
 
-export default withRouter(fs.connect(['devgame'])(DevCreateGame));
+export default withRouter(DevCreateGame);
