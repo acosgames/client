@@ -9,7 +9,7 @@ import { Redirect } from 'react-router';
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";
-import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap, chakra } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap, chakra, Link as ChLink } from "@chakra-ui/react";
 import { FaDiscord, FaDev, FaGithub, TiDocumentText } from '@react-icons';
 import SLink from "../widgets/SLink";
 
@@ -54,18 +54,18 @@ class GameList extends Component {
                     <Heading mb="0.5rem" as="h1" size="lg">Are you a developer?</Heading>
                     <Text as="span" fontWeight={'light'} fontSize="sm">Build a game, deploy, and start playing in a single day!</Text>
                     <Wrap spacing="1rem">
-                        <SLink to="/dev">
+                        <Link to="/dev">
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="16" />&nbsp;Developer Zone</Text>
-                        </SLink>
-                        <chakra.a target="_blank" textDecoration={"none"} href={'https://discord.gg/ydHkCcNgHD'} >
+                        </Link>
+                        <ChLink isExternal textDecoration={"none"} href={'https://discord.gg/ydHkCcNgHD'} >
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="16" />&nbsp;Chat on Discord</Text>
-                        </chakra.a>
-                        <chakra.a target="_blank" textDecoration={"none"} href={'https://github.com/acosgames'} >
+                        </ChLink>
+                        <ChLink isExternal textDecoration={"none"} href={'https://github.com/acosgames'} >
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="16" />&nbsp;GitHub</Text>
-                        </chakra.a>
-                        <chakra.a target="_blank" textDecoration={"none"} href={'https://docs.acos.games'} >
+                        </ChLink>
+                        <ChLink isExternal textDecoration={"none"} href={'https://docs.acos.games'} >
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="16" />&nbsp;Documentation</Text>
-                        </chakra.a>
+                        </ChLink>
                     </Wrap>
                 </VStack >
             </VStack >

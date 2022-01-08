@@ -16,7 +16,7 @@ import SLink from '../widgets/SLink';
 
 
 import { FiUser } from '@react-icons';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 function NavForGuest(props) {
 
@@ -34,11 +34,13 @@ function NavForGuest(props) {
                 <Icon as={FiUser} fontSize="24" />
             </MenuButton>
             <MenuList alignItems={'center'}>
-
-                <MenuItem onClick={() => { history.push('/login') }}>
-                    Sign in
-                </MenuItem>
-
+                <Link to="/login">
+                    <MenuItem
+                    // onClick={() => { history.push('/login') }}
+                    >
+                        Sign In
+                    </MenuItem>
+                </Link>
             </MenuList>
         </Menu>
     )

@@ -1,7 +1,7 @@
 import {
     Box,
     Flex,
-    Link,
+    Link as ChLink,
     useDisclosure,
     useColorModeValue,
     Stack,
@@ -15,9 +15,10 @@ import fs from 'flatstore';
 import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
 import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import config from '../config'
 import QueuePanel from './games/QueuePanel';
+
 
 const NavLink = ({ children }) => (
     <Link
@@ -69,7 +70,7 @@ function MainMenuChakra(props) {
                         <Box
                             bgColor={'white'}
                             borderRadius={'25%'}
-                        ><SLink to="/" className="">
+                        ><Link to="/" className="">
                                 <Image
                                     alt={'A cup of skill logo'}
                                     src={`${config.https.cdn}acos-logo.png`}
@@ -77,9 +78,9 @@ function MainMenuChakra(props) {
                                     w="32px" h="32px"
                                 />
 
-                            </SLink>
+                            </Link>
                         </Box>
-                        <SLink to="/" className=""><Text>A cup of skill</Text></SLink>
+                        <Link to="/" className=""><Text>A cup of skill</Text></Link>
                     </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>

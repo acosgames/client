@@ -40,30 +40,32 @@ function GameListItem(props) {
     }
 
     return (
-        <VStack cursor="pointer" spacing="0" key={game.game_slug} onClick={handleClick}>
-            <Image
-                w={['140px', '140px', '140px', '140px']}
-                minW={['140px', '140px', '140px', '140px']}
-                h={['140px', '140px', '140px', '140px']}
-                minH={['140px', '140px', '140px', '140px']}
-                alt={gameName}
-                src={imgUrl}
-                fallbackSrc={config.https.cdn + 'placeholder.png'}
-            />
-            <Text
-                as="h6" size="sm" fontWeight={'bold'}
-                bgColor={'gray.900'}
-                w="100%"
-                h="100%"
-                p="0"
-                m="0"
-                textAlign={'center'}
-            >{gameName}</Text>
-            {/* <HStack>
+        <Link to={'/g/' + game.game_slug}>
+            <VStack cursor="pointer" spacing="0" key={game.game_slug} >
+                <Image
+                    w={['140px', '140px', '140px', '140px']}
+                    minW={['140px', '140px', '140px', '140px']}
+                    h={['140px', '140px', '140px', '140px']}
+                    minH={['140px', '140px', '140px', '140px']}
+                    alt={gameName}
+                    src={imgUrl}
+                    fallbackSrc={config.https.cdn + 'placeholder.png'}
+                />
+                <Text
+                    as="h6" size="sm" fontWeight={'bold'}
+                    bgColor={'gray.900'}
+                    w="100%"
+                    h="100%"
+                    p="0"
+                    m="0"
+                    textAlign={'center'}
+                >{gameName}</Text>
+                {/* <HStack>
                 <Icon as={IoPeople} />
                 <Text>{abbrevNumber(game.activePlayers * game.maxplayers)}</Text>
             </HStack> */}
-        </VStack>
+            </VStack>
+        </Link>
         // <div className="game-item" >
 
         //     <div className="game-title"><span></span></div>

@@ -145,6 +145,34 @@ export async function findDevGames(userid) {
     return null;
 }
 
+
+export async function findGameTemplates() {
+    try {
+        let games = getWithExpiry('devgames');
+        if (!games) {
+            let response = await GET('/api/v1/dev/gametemplates');
+            games = response.data;
+
+            setWithExpiry('gametemplates', games, 60);
+        }
+
+        fs.set('gametemplates', games);
+
+        return games;
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+            fs.set('devgameerror', [data]);
+        }
+    }
+    return null;
+}
+
+
 export async function findGame(gameid) {
     try {
         let response = await GET('/api/v1/dev/find/game/' + gameid);

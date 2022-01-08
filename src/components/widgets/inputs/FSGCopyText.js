@@ -20,11 +20,16 @@ function FSGCopyText(props) {
             ref={props.copyRef}
             value={props.value || ''}
             width={props.width}
+            maxWidth={props.maxWidth}
             onFocus={props.onFocus}
-            fontSize="8px"
+            fontSize="12px"
             readOnly
             size="xs"
+            color="gray.300"
             bgColor="gray.800"
+            borderColor="gray.800"
+            outlineColor={'gray.800'}
+            _hover={{ borderColor: 'gray.800' }}
         />
 
 

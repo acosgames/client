@@ -16,19 +16,43 @@ import { Divider, Heading } from "@chakra-ui/layout";
 import schema from 'shared/model/schema.json';
 import { Text, VStack, useToast, Box, Spacer } from "@chakra-ui/react";
 import FSGGroup from "../widgets/inputs/FSGGroup";
+import DevCreateGameTemplates from "./DevCreateGameTemplates";
+
+
+function DevCreateGameError(props) {
+
+    let hasError = (props.devgameerror && props.devgameerror.length > 0);
+    if (!hasError)
+        return <Fragment></Fragment>
+
+    let errors = props.devgameerror;
+    let errorElems = [];
+    errors.forEach((error, id) => {
+        errorElems.push((<Text key={id} color="red.600">{errorMessage(error)}</Text>))
+    })
+
+    return (
+        <>
+            <a ref={myRef} name="errors"></a>
+            <FSGGroup title="Errors" color="red.600">
+                <VStack align="left" pl={['0']}>
+                    {errorElems}
+                </VStack>
+            </FSGGroup>
+        </>
+    )
+}
+
+DevCreateGameError = fs.connect(['devgameerror'])(DevCreateGameError);
+
 
 function DevCreateGame(props) {
 
-    const [loaded, setLoaded] = useState(false);
-
     useEffect(() => {
         clearGameFields();
-        setLoaded(true);
-    }, [loaded])
-
-    useEffect(() => {
         gtag('event', 'devcreategame');
     }, [])
+
 
     const myRef = useRef(null)
     const executeScroll = () => myRef.current.scrollIntoView()
@@ -86,18 +110,18 @@ function DevCreateGame(props) {
         console.log(key, value, group);
     }
 
-    const displayError = () => {
-        let errors = props.devgameerror;
-        if (!errors)
-            return <Fragment></Fragment>
+    // const displayError = () => {
+    //     let errors = props.devgameerror;
+    //     if (!errors)
+    //         return <Fragment></Fragment>
 
-        let errorElems = [];
-        errors.forEach((error, id) => {
-            errorElems.push((<Text key={id} color="red.600">{errorMessage(error)}</Text>))
-        })
+    //     let errorElems = [];
+    //     errors.forEach((error, id) => {
+    //         errorElems.push((<Text key={id} color="red.600">{errorMessage(error)}</Text>))
+    //     })
 
-        return errorElems;
-    }
+    //     return errorElems;
+    // }
     /*
         Create Game Fields
         - Game Name
@@ -114,23 +138,12 @@ function DevCreateGame(props) {
         - Withdrawn (reason) //could be done by admin or by owner
     */
 
-    let hasError = (props.devgameerror && props.devgameerror.length > 0);
+
     return (
         <div id="creategame" className="inputform">
             <Heading>Alright, lets set up your game.</Heading>
             <Divider mt="2" mb="30" />
-            {
-                hasError && (
-                    <>
-                        <a ref={myRef} name="errors"></a>
-                        <FSGGroup title="Errors" color="red.600">
-                            <VStack align="left" pl={['0']}>
-                                {displayError()}
-                            </VStack>
-                        </FSGGroup>
-                    </>
-                )
-            }
+            <DevCreateGameError />
 
             <FSGGroup title="Game Details">
                 <FSGTextInput
@@ -165,6 +178,10 @@ function DevCreateGame(props) {
 
 
             </FSGGroup>
+            <Box w="100%" h="2rem"></Box>
+            <FSGGroup title=" Start from a Game Template">
+                <DevCreateGameTemplates />
+            </FSGGroup>
             <Box pb="2rem" pt="3rem" width="100%" align="right">
                 <FSGSubmit
                     title="Create"
@@ -176,4 +193,4 @@ function DevCreateGame(props) {
 
 }
 
-export default withRouter(fs.connect(['devgame', 'devgameerror'])(DevCreateGame));
+export default withRouter(fs.connect(['devgame'])(DevCreateGame));

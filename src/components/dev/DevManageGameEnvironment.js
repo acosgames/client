@@ -131,10 +131,11 @@ function DevManageGameEnvironment(props) {
             <Center>
                 <Text as="span" fontSize="xs" fontWeight={'bold'}>To Deploy, run this command in VSCode (requires acosgames simulator)</Text>
             </Center>
-            <HStack>
+            <HStack justifyContent={'center'}>
                 <FSGCopyText
                     value={deployCmd}
                     copyRef={copyRef}
+                    maxWidth={'500px'}
                     onFocus={(e) => {
                         e.target.select()
                     }} />
@@ -147,7 +148,6 @@ function DevManageGameEnvironment(props) {
                             setTimeout(() => {
 
                                 toast({
-                                    title: 'Copied!',
                                     description: "To deploy, run command in your terminal at project folder",
                                     status: 'success',
                                     duration: 4000,
