@@ -31,9 +31,11 @@ function DevCreateGameError(props) {
         errorElems.push((<Text key={id} color="red.600">{errorMessage(error)}</Text>))
     })
 
+
+
     return (
         <>
-            <a ref={myRef} name="errors"></a>
+
             <FSGGroup title="Errors" color="red.600">
                 <VStack align="left" pl={['0']}>
                     {errorElems}
@@ -53,9 +55,9 @@ function DevCreateGame(props) {
         gtag('event', 'devcreategame');
     }, [])
 
-
     const myRef = useRef(null)
     const executeScroll = () => myRef.current.scrollIntoView()
+
     const toast = useToast();
     const rules = schema['create-game_info'];
 
@@ -143,6 +145,7 @@ function DevCreateGame(props) {
         <div id="creategame" className="inputform">
             <Heading>Alright, lets set up your game.</Heading>
             <Divider mt="2" mb="30" />
+            <a ref={myRef} name="errors"></a>
             <DevCreateGameError />
 
             <FSGGroup title="Game Details">
