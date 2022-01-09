@@ -58,7 +58,7 @@ function NavForUser(props) {
                 </Link>
                 <Link to="/profile" width="100%">
                     <MenuItem >
-                        Account Settings
+                        Profile
                     </MenuItem>
                 </Link>
                 <Link to="/logout" width="100%">

@@ -42,20 +42,18 @@ function Profile(props) {
                 <Spacer />
                 <Text fontSize="xl">{user.displayname}</Text>
                 <Spacer />
-                <VStack display={!user.github ? 'none' : 'flex'}>
-                    <ChLink isExternal src={"https://github.com/" + user.github}>
-                        <Text
-                            fontSize="md"
-                            color="gray.300">
-                            <Icon
-                                as={FaGithub}
-                                color="white"
-                                alignSelf={'center'}
-                                fontSize="24" />
 
-                        </Text>
+                <Text
+                    fontSize="lg"
+                    color="white"
+                >
+                    <ChLink isExternal href={"https://github.com/" + user.github}>
+                        <Icon
+                            as={FaGithub}
+                        />
                     </ChLink>
-                </VStack>
+                </Text>
+
             </Flex>
             <Divider />
             <ProfileRanks ranks={user.ranks} />
