@@ -19,7 +19,13 @@ function Profile(props) {
         if (!isLocal) {
             getPlayer(displayname)
         }
-    }, [])
+        else {
+            let curProfile = fs.get('profile');
+            if (curProfile && curProfile.displayname == local.displayname)
+                return;
+            fs.set('profile', local);
+        }
+    })
 
 
     let user = props.profile;
