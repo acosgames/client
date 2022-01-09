@@ -59,6 +59,23 @@ export function isUserLoggedIn() {
     return loggedIn;
 }
 
+export async function getPlayer(displayname) {
+    try {
+        let response = await GET('/api/v1/person/' + displayname);
+        let player = response.data;
+
+        if (player.ecode) {
+            console.error('Player not found: ', displayname);
+            fs.set('profile', null);
+            return null;
+        }
+
+        fs.set('profile', player);
+    }
+    catch (e) {
+
+    }
+}
 
 export async function getUser() {
     let user = fs.get('user');
@@ -95,13 +112,14 @@ export async function getUserProfile() {
         let now = Math.round((new Date()).getTime() / 1000);
         let diff = exp - now;
         console.log("User expires in " + diff + " seconds.");
-        setWithExpiry('user', user, exp * 1000)
+        setWithExpiry('user', user, 120)
         fs.set('loggedIn', true);
         fs.set('user', user);
         fs.set('userid', user.id);
+        fs.set('profile', user);
 
-        if (user.isdev)
-            await findDevGames(user.id)
+        // if (user.isdev)
+        //     await findDevGames(user.id)
 
 
         if (!user.displayname || user.displayname.length == 0) {

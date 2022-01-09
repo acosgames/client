@@ -27,6 +27,7 @@ import { useEffect } from "react";
 import PrivacyPolicy from "../components/PrivacyPolicy";
 import TermsAndConditions from "../components/TermsAndConditions";
 import Logout from "../components/login/Logout";
+import Profile from "../components/profile/Profile";
 
 var Routes = () => {
 
@@ -68,6 +69,21 @@ var Routes = () => {
                     path="/g"
                     component={MainPage}
                 />
+
+
+                <Route
+                    exact
+                    path="/profile"
+                    component={Profile}
+                />
+
+                <Route
+
+                    path="/profile/:displayname"
+                    component={Profile}
+                />
+
+
 
                 <Route
 

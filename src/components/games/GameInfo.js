@@ -1,6 +1,7 @@
 import { Component, useEffect } from "react";
 
 import {
+    Link,
     withRouter,
 } from "react-router-dom";
 import { Redirect } from 'react-router';
@@ -126,7 +127,8 @@ function GameInfo(props) {
                             <Text as="span" color="gray.500" fontSize="xs">version {game.version}</Text>
 
                             <Box flexGrow={'1'}>
-                                <Text as="span" fontSize="xs">Created by @{game.displayname}</Text>
+                                <Text as="span" fontSize="xs">Created by </Text>
+                                <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="yellow.100">{game.displayname}</Text></Link>
                             </Box>
                             {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
                             <GameInfoJoinButton {...game} {...playerStats} />

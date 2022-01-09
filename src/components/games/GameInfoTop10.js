@@ -1,5 +1,6 @@
 import { Box, IconButton, VStack, Text, HStack, Grid, GridItem, Tr, Table, Th, Thead, Tbody, Td } from '@chakra-ui/react';
 import fs from 'flatstore';
+import { Link } from 'react-router-dom';
 
 
 function GameInfoTop10(props) {
@@ -53,11 +54,13 @@ function GameInfoTop10(props) {
                     </Td>
                     <Td borderBottom={isPast5Rank ? '2px solid' : undefined}
                         borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
-                        <Text
-                            fontWeight={isLocalPlayer ? 'bold' : 'normal'}
-                            color={isLocalPlayer ? "yellow.100" : 'white'}>
-                            {player.value}
-                        </Text>
+                        <Link to={'/profile/' + player.value}>
+                            <Text
+                                fontWeight={isLocalPlayer ? 'bold' : 'normal'}
+                                color={isLocalPlayer ? "yellow.100" : 'white'}>
+                                {player.value}
+                            </Text>
+                        </Link>
                     </Td>
                     <Td
                         borderBottom={isPast5Rank ? '2px solid' : undefined}
