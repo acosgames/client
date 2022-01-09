@@ -17,6 +17,9 @@ function Profile(props) {
     let isLocal = !displayname || local?.displayname == displayname
     useEffect(() => {
         if (!isLocal) {
+            let curProfile = fs.get('profile');
+            if (curProfile && curProfile.displayname == displayname)
+                return;
             getPlayer(displayname)
         }
         else {
