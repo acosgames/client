@@ -10,13 +10,13 @@ class DevImageUpload extends Component {
         super(props);
         this.maxNumber = 1;
 
-        fs.set(props.imgstore, []);
+        // fs.set(props.imgstore, []);
     }
 
     onChange(imageList, addUpdateIndex) {
         console.log(imageList, addUpdateIndex);
         if (this.props.uploadFunc)
-            addImages(this.props.imgstore, imageList, this.props.uploadFunc);
+            addImages(this.props.devgameimages, imageList, this.props.uploadFunc);
     };
 
     drawImageBoxes(imageList, isDragging, dragProps, onImageUpload, onImageUpdate, onImageRemove) {
@@ -45,7 +45,7 @@ class DevImageUpload extends Component {
             <div className="App">
                 <ImageUploading
                     multiple
-                    value={this.props[this.props.imgstore]}
+                    value={this.props.devgameimages}
                     onChange={this.onChange.bind(this)}
                     maxNumber={this.maxNumber}
                     dataURLKey="data_url"
@@ -78,10 +78,10 @@ class DevImageUpload extends Component {
     }
 }
 
-let onCustomWatched = ownProps => {
-    return [ownProps.imgstore];
-};
+// let onCustomWatched = ownProps => {
+//     return [ownProps.imgstore];
+// };
 
-export default fs.connect([], onCustomWatched)(DevImageUpload);
+export default fs.connect(['devgameimages'])(DevImageUpload);
 
 // export default fs.connect(['devgameimages'])(DevImageUpload);

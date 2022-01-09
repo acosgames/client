@@ -155,7 +155,6 @@ function DevManageGameFields(props) {
             <FSGGroup hfontSize="md" title="Featured Image">
                 <Center>
                     <DevImageUpload
-                        imgstore='devgameimages'
                         uploadFunc={uploadGameImages} />
                 </Center>
             </FSGGroup>
@@ -274,4 +273,4 @@ function DevManageGameFields(props) {
 
 }
 
-export default withRouter(fs.connect(['devgameerror', 'devgameimages'])(DevManageGameFields));
+export default withRouter(fs.connect(['devgameerror'])(DevManageGameFields));
