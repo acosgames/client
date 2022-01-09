@@ -44,6 +44,7 @@ function Profile(props) {
                 <Spacer />
 
                 <Text
+                    display={user.isdev ? 'block' : 'none'}
                     fontSize="lg"
                     color="white"
                 >
