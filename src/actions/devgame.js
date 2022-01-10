@@ -40,7 +40,7 @@ function sleep(ms) {
 export async function addImages(imgstore, nextImages, uploadFunc) {
 
     let game = fs.get('devgame');
-    let curImages = fs.get(imgstore);
+    let curImages = fs.get('devgameimages');
     if (!curImages)
         return;
 
@@ -72,7 +72,7 @@ export async function addImages(imgstore, nextImages, uploadFunc) {
     }
 
 
-    fs.set(imgstore, nextImages);
+    fs.set('devgameimages', nextImages);
 }
 
 export async function findClients(gameid) {
