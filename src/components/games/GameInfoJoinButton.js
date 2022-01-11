@@ -58,7 +58,7 @@ function GameInfoJoinButton(props) {
                 height="2rem"
                 bg="gray.900"
                 justifyContent="center"
-                zIndex={-1}
+            // zIndex={-1}
             >
                 <Text
                     display={props.played >= 10 ? 'block' : 'none'}

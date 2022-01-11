@@ -47,7 +47,7 @@ function QueuePanel(props) {
 
     return (
         <>
-            <Center zIndex={3} position="fixed" top="0.5rem" width="50%" align="center" justifyItems={'center'} left="25%">
+            <Center position="fixed" top="0.5rem" width="50%" align="center" justifyItems={'center'} left="25%">
                 <VStack width="100%" spacing="0.2rem">
                     <Button ref={btnRef} bg="gray.900" onClick={onClick} variant='outline'>
                         <Text p="0.3rem" as="span" lineHeight={'1rem'} color="white" fontWeight={'bolder'}>
