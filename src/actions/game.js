@@ -72,8 +72,8 @@ export async function findGame(game_slug) {
 
         fs.set('games>' + game_slug, result.game);
         fs.set('game', result.game || {});
-        fs.set('top10', result.top10 || []);
-        fs.set('leaderboard', []);
+        fs.set('leaderboard', result.top10 || []);
+        // fs.set('leaderboard', []);
         fs.set('leaderboardCount', result.lbCount || []);
 
 
@@ -104,12 +104,29 @@ export async function findGamePerson(game_slug) {
             fs.set('player_stats', player_stats);
         }
 
+        //combine top10 + player leaderboard
+        let top10 = result.top10 || [];
+        let leaderboard = result.lb || [];
+        let combined = top10.concat(leaderboard);
+        let rankmap = {};
+        for (var i = 0; i < combined.length; i++) {
+            let ranking = combined[i];
+            rankmap[ranking.rank] = ranking;
+        }
+
+        let fixed = [];
+        for (var key in rankmap) {
+            fixed.push(rankmap[key]);
+        }
+
+        fixed.sort((a, b) => a.rank - b.rank);
+
 
         // fs.set(game_slug, result.game || null);
         fs.set('games>' + game_slug, result.game);
         fs.set('game', result.game || {});
-        fs.set('top10', result.top10 || []);
-        fs.set('leaderboard', result.lb || []);
+        // fs.set('top10', result.top10 || []);
+        fs.set('leaderboard', fixed || []);
         fs.set('leaderboardCount', result.lbCount || []);
     }
     catch (e) {

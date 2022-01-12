@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function GameInfoTop10(props) {
 
-    if (!props.top10) {
+    if (!props.leaderboard) {
         return <Box>
             <Text as="h4">No rankings found.</Text>
         </Box>
@@ -21,25 +21,12 @@ function GameInfoTop10(props) {
 
 
 
-        let top10 = props.top10 || [];
         let leaderboard = props.leaderboard || [];
         let elems = [];
 
-        let combined = top10.concat(leaderboard);
-        let rankmap = {};
-        for (var i = 0; i < combined.length; i++) {
-            let ranking = combined[i];
-            rankmap[ranking.rank] = ranking;
-        }
 
-        let fixed = [];
-        for (var key in rankmap) {
-            fixed.push(rankmap[key]);
-        }
 
-        fixed.sort((a, b) => a.rank - b.rank);
-
-        for (var player of fixed) {
+        for (var player of leaderboard) {
             let isLocalPlayer = user?.displayname == player.value;
             let isPast5Rank = player.rank == 5 && playerGameStats.ranking > 5;
             elems.push(
@@ -111,4 +98,4 @@ function GameInfoTop10(props) {
     )
 }
 
-export default fs.connect(['top10', 'leaderboard', 'leaderboardCount'])(GameInfoTop10);
+export default fs.connect(['leaderboard', 'leaderboardCount'])(GameInfoTop10);
