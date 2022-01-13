@@ -28,7 +28,7 @@ function GameInfoTop10(props) {
 
         for (var player of leaderboard) {
             let isLocalPlayer = user?.displayname == player.value;
-            let isPast5Rank = player.rank == 5 && playerGameStats.ranking > 5;
+            let isPast5Rank = player.rank == 10 && playerGameStats.ranking > 10;
             elems.push(
                 <Tr key={'leaderboard-' + player.value}>
                     <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
