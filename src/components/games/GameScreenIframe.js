@@ -4,6 +4,7 @@ import LeaveGame from './LeaveGame';
 import { useEffect, useRef, useState } from 'react';
 import fs from 'flatstore';
 import { refreshGameState, sendLoadMessage } from '../../actions/connection';
+import config from '../../config'
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
@@ -15,7 +16,7 @@ function GameScreenIframe(room) {
     const room_slug = room.room_slug;
     const game_slug = room.game_slug;
     const version = room.version;
-    const srcUrl = '/iframe';
+    const srcUrl = config.https.cdn + 'static/iframe.html';
 
     // let room = fs.get('rooms>' + room_slug);
     let game = fs.get('games>' + game_slug);
