@@ -1,14 +1,12 @@
 const webpack = require('webpack');
 const path = require('path');
-
 const CompressionPlugin = require("compression-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const productionCredentials = require('shared/credential/localProduction.json');
-
 const MySQL = require('shared/services/mysql.js');
 const mysql = new MySQL(productionCredentials);
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var ENTRY_FILE = './src/index.js';
 var OUTPUT_PATH = './webpack/builds';
@@ -16,6 +14,8 @@ var OUTPUT_PATH = './webpack/builds';
 const UploadFile = require('shared/services/uploadfile');
 const upload = new UploadFile();
 
+const { Readable } = require('stream');
+const zlib = require('zlib');
 const fs = require('fs');
 
 
@@ -54,6 +54,40 @@ async function uploadToStorage() {
 
         let results = await db.update('platform_versions', { version: clientVersion }, 'type=1');
         console.log("Updated platform_versions: ", results);
+
+
+        // let baseFilepath = './public/iframe.html';
+        // let filepath = baseFilepath + '.gz';
+        // let data = fs.readFileSync(baseFilepath);
+
+        let publicPath = path.resolve(__dirname, '../../api/public');
+        let templatePath = publicPath + '/index-template.html';
+        let indexPath = publicPath + '/index.html';
+        let indexTemplate = fs.readFileSync(templatePath, 'utf-8');
+        indexTemplate = indexTemplate.replace('$VERSION', clientVersion);
+
+        Readable.from([indexTemplate])
+            .pipe(zlib.createGzip())
+            .pipe(fs.createWriteStream(indexPath))
+            .on("error", (error) => {
+                // handle error
+                console.error(error);
+            })
+            .on("finish", async () => {
+
+                // let fileStream = fs.createReadStream(filepath);
+                // let result = await upload.uploadByStreamGzipHtml('acospub', 'static/iframe.html', fileStream);
+                // console.log('Uploaded iframe.html to acospub: ', result);
+
+                // fs.unlinkSync(filepath);
+                // handle success
+                console.log("Updated indexTemplate with version: ", clientVersion, indexTemplate);
+            })
+
+
+
+
+        // fs.writeFileSync(publicPath + '/index.html', indexTemplate, 'utf-8');
 
 
 
