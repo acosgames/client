@@ -23,6 +23,7 @@ import fs from 'flatstore';
 import Sidebar from './components/widgets/Sidebar';
 import { Box, Flex, HStack, VStack, Divider } from "@chakra-ui/layout";
 import AcosFooter from "./components/AcosFooter";
+import VersionControl from "./components/widgets/VersionControl";
 
 
 fs.delimiter('>');
@@ -36,6 +37,7 @@ function App(props) {
 
   return (
     <BrowserRouter>
+      <VersionControl />
       <Flex direction={'column'} minHeight={'100%'} w="100%">
         <MainMenuChakra />
         <VStack w="100%">

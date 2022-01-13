@@ -1,6 +1,10 @@
 import axios from 'axios';
 import fs from 'flatstore';
 
+
+import versions from 'shared/model/versions.json';
+
+
 const instance = axios.create({
     withCredentials: true
 })
@@ -9,6 +13,18 @@ const instance = axios.create({
 export async function GET(url, extras) {
     let response = await instance.get(url, HEADERS(extras));
 
+    //Check for new client version from server
+    if (response?.headers?.v) {
+        let savedVersion = fs.get('version');
+        let clientVersion = Number(versions.client.version);
+        let serverVersion = Number(response.headers.v);
+        if (clientVersion < serverVersion) {
+            if (serverVersion != savedVersion)
+                fs.set('version', serverVersion);
+        }
+    }
+
+    //check for unauthorized error
     if (response.data && response.data.ecode) {
         let ecode = response.data.ecode;
         if (ecode == 'E_NOTAUTHORIZED' && url != '/api/v1/person') {
@@ -35,6 +51,19 @@ export async function POSTFORM(url, data, extras) {
 
 export async function POST(url, data, extras) {
     let response = await instance.post(url, data, HEADERS(extras));
+
+    //Check for new client version from server
+    if (response?.headers?.v) {
+        let savedVersion = fs.get('version');
+        let clientVersion = Number(versions.client.version);
+        let serverVersion = Number(response.headers.v);
+        if (clientVersion < serverVersion) {
+            if (serverVersion != savedVersion)
+                fs.set('version', serverVersion);
+        }
+    }
+
+    //check for unauthorized error
     if (response.data && response.data.ecode) {
         let ecode = response.data.ecode;
         if (ecode == 'E_NOTAUTHORIZED') {

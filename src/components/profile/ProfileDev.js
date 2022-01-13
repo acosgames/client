@@ -7,7 +7,7 @@ function ProfileDevGame(props) {
 
     var imgUrl = config.https.cdn + 'placeholder.png';
     if (props.preview_images && props.preview_images.length > 0)
-        imgUrl = `${config.https.cdn}${props.game_slug}/preview/${props.preview_images}`;
+        imgUrl = `${config.https.cdn}g/${props.game_slug}/preview/${props.preview_images}`;
 
     return (
         <Link to={'/g/' + props.game_slug}>

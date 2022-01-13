@@ -32,7 +32,7 @@ function GameListItem(props) {
 
     var imgUrl = config.https.cdn + 'placeholder.png';
     if (game.preview_images && game.preview_images.length > 0)
-        imgUrl = `${config.https.cdn}${game.game_slug}/preview/${game.preview_images}`;
+        imgUrl = `${config.https.cdn}g/${game.game_slug}/preview/${game.preview_images}`;
 
     let gameName = game.name;
     if (gameName.length > 20) {

@@ -30,7 +30,7 @@ var onResize = null;
 var timerHandle = 0;
 
 var forcedLatency = Math.round(RandRange(50, 200));
-console.log("FORCED LATENCY: ", forcedLatency);
+// console.log("FORCED LATENCY: ", forcedLatency);
 function RandRange(min, max) {
     return Math.random() * (max - min) + min;
 }

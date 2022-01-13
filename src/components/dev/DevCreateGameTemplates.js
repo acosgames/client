@@ -13,7 +13,7 @@ function GameTemplate(props) {
         <VStack>
 
             <Radio value={props.game_slug}>
-                <Image w="120px" h="120px" src={config.https.cdn + props.game_slug + '/preview/' + props.preview_images} />
+                <Image w="120px" h="120px" src={config.https.cdn + 'g/' + props.game_slug + '/preview/' + props.preview_images} />
                 {props.name}
             </Radio>
         </VStack>

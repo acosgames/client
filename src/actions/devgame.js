@@ -182,7 +182,7 @@ export async function findGame(gameid) {
             let images = [];
             let list = game.preview_images.split(',');
             for (var i = 0; i < list.length; i++) {
-                let url = config.https.cdn + game.game_slug + '/preview/' + list[i];
+                let url = config.https.cdn + 'g/' + game.game_slug + '/preview/' + list[i];
                 images.push({ data_url: url, file: {} });
             }
             fs.set('devgameimages', images);
@@ -335,7 +335,7 @@ export async function uploadGameImages(images, nextImages) {
     if (preview_images) {
         for (var i = 0; i < preview_images.length; i++) {
             if (nextImages[i]) {
-                let url = config.https.cdn + game.game_slug + '/preview/' + preview_images[i];
+                let url = config.https.cdn + 'g/' + game.game_slug + '/preview/' + preview_images[i];
                 nextImages[i].data_url = url;
             }
         }

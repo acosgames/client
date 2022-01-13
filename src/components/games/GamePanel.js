@@ -72,7 +72,7 @@ class GamePanel extends Component {
         let room_slug = room.room_slug;
         let game_slug = room.game_slug;
         let version = room.version;
-        let srcUrl = `${config.https.cdn}${game_slug}/client/client.bundle.${version}.html`;
+        let srcUrl = `${config.https.cdn}g/${game_slug}/client/client.bundle.${version}.html`;
         srcUrl = '/iframe';
 
 

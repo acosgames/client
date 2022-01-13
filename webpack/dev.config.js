@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 
+
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 var ENTRY_FILE = './src/index.js';
