@@ -126,8 +126,8 @@ function GameInfoCreateDisplayname(props) {
                             </FSGGroup>
                             <FSGSubmit onClick={onSubmit} title="Join Game" loadingText="Joining" />
                             <Divider pt={'1rem'} />
-                            <Heading color="gray.100" pt={'1rem'} size="md">Already have an account? Sign in</Heading>
-                            <Heading color="gray.300" pt={'1rem'} size="sm">Save your name and track your stats.</Heading>
+                            <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Already have an account? Sign in</Heading>
+                            <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading>
                             <HStack w={['100%']} justifyItems={'center'} gap="0">
                                 {/* Google */}
                                 <ChLink href={"/login/google" + refPath} w="50%">
