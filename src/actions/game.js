@@ -32,8 +32,9 @@ export async function sortGames(games) {
         }
     }
 
-    fs.set('rankList', rankList);
-    fs.set('experimentalList', experimentalList);
+    // fs.set('rankList', rankList);
+    // fs.set('experimentalList', experimentalList);
+    fs.set('gameLists', { rankList, experimentalList });
 }
 
 

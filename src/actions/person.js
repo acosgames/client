@@ -24,7 +24,32 @@ export async function createDisplayName(displayname) {
         console.error(e);
         return e.response.data;
     }
-    return null;
+}
+
+export async function createTempUser(displayname) {
+
+    try {
+        let response = await POST('/login/temp', { displayname });
+        let user = response.data;
+
+        console.log('Created Temp User: ', user);
+        let exp = user.exp;
+        let now = Math.round((new Date()).getTime() / 1000);
+        let diff = exp - now;
+        console.log("User expires in " + diff + " seconds.");
+        setWithExpiry('user', user, 120)
+        fs.set('loggedIn', true);
+        fs.set('user', user);
+        fs.set('userid', user.id);
+        fs.set('profile', user);
+
+        console.log(user);
+        return user;
+    }
+    catch (e) {
+        console.error(e);
+        return e.response.data;
+    }
 }
 
 export async function logout() {
@@ -43,7 +68,7 @@ export async function logout() {
         fs.set('user', {});
         fs.set('userid', 0);
         fs.set('player_stats', {});
-
+        fs.set('queues', []);
         removeWithExpiry('user');
 
         return true;

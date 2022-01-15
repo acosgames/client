@@ -1,4 +1,4 @@
-import { Component, useEffect, useState } from "react";
+import { Component, useEffect, useRef, useState } from "react";
 
 import {
     withRouter,
@@ -13,11 +13,17 @@ import FSGGroup from "../widgets/inputs/FSGGroup";
 
 function CreateDisplayName(props) {
 
-    const [displayName, setDisplayName] = useState('');
+    let defaultDisplayname = localStorage.getItem('displayname') || '';
+
+    const [displayName, setDisplayName] = useState(defaultDisplayname);
     const [error, setError] = useState(null);
+
+    const inputRef = useRef();
+
 
     useEffect(() => {
         gtag('event', 'createdisplayname');
+
     }, [])
 
     const onSubmit = async (e) => {
@@ -95,6 +101,12 @@ function CreateDisplayName(props) {
         setDisplayName(name);
     }
 
+    const onKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            onSubmit();
+        }
+    }
+
     let hasError = (error);
     return (
         <VStack>
@@ -102,6 +114,8 @@ function CreateDisplayName(props) {
             <FSGGroup>
                 <FSGTextInput
                     onChange={onChange}
+                    onKeyDown={onKeyDown}
+                    focus={true}
                     maxLength="32"
                     title="Display Name"
                     value={displayName} />

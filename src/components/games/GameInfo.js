@@ -13,7 +13,7 @@ import { getUser } from '../../actions/person';
 import { findGame, findGamePerson } from "../../actions/game";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
-import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton } from "@chakra-ui/react";
+import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton, useDisclosure } from "@chakra-ui/react";
 
 import SLink from "../widgets/SLink";
 import FSGGroup from "../widgets/inputs/FSGGroup";
@@ -23,6 +23,7 @@ import FSGRead from "../widgets/inputs/FSGRead";
 import GameInfoActions from './GameInfoActions'
 import GameInfoJoinButton from './GameInfoJoinButton'
 import GameInfoTop10 from './GameInfoTop10'
+import GameInfoCreateDisplayname from "./GameInfoCreateDisplayName";
 function GameInfo(props) {
     const game_slug = props.match.params.game_slug;
 

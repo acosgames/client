@@ -1,6 +1,7 @@
 import { HStack, Input, Text } from '@chakra-ui/react'
 import { FormControl, FormLabel, FormHelperText } from "@chakra-ui/form-control";
 import { updateGameField } from '../../../actions/devgame';
+import { useEffect, useRef } from 'react';
 
 
 function FSGTextInput(props) {
@@ -11,6 +12,16 @@ function FSGTextInput(props) {
 
     //     updateGameField(name, value);
     // }
+
+    const inputRef = useRef();
+
+    useEffect(() => {
+
+        if (props.focus) {
+            inputRef?.current?.focus();
+        }
+
+    }, [])
 
     return (
         <FormControl as='fieldset' mb="0">
@@ -25,12 +36,13 @@ function FSGTextInput(props) {
             <Input
                 name={props.name}
                 id={props.id}
-                ref={props.ref}
+                ref={props.ref || inputRef}
                 placeholder={props.placeholder}
                 maxLength={props.maxLength}
                 value={props.value || ''}
                 size={props.size}
                 width={props.width}
+                onKeyDown={props.onKeyDown}
                 onChange={props.onChange}
                 onFocus={props.onFocus}
                 disabled={props.disabled}

@@ -27,8 +27,9 @@ class GameList extends Component {
     }
 
     render() {
-        let rankList = this.props.rankList || [];
-        let experimentalList = this.props.experimentalList || [];
+        let gameLists = this.props.gameLists || {};
+        let rankList = gameLists?.rankList || [];
+        let experimentalList = gameLists?.experimentalList || [];
         // let productionGames = games.filter(v => v.status == 3);
         // let betaGames = games.filter(v => v.status == 2);
         return (
@@ -87,4 +88,4 @@ class GameList extends Component {
     }
 }
 
-export default withRouter(fs.connect(['rankList', 'experimentalList'])(GameList));
+export default withRouter(fs.connect(['gameLists'])(GameList));

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 function FSGSubmit(props) {
@@ -9,6 +9,16 @@ function FSGSubmit(props) {
     if (loading) {
         title = props.loadingTitle || 'Saving';
     }
+
+    var mounted = true;
+
+    useEffect(() => {
+        mounted = true;
+        return () => {
+            mounted = false;
+        }
+    }, []);
+
     return (
         <div className="form-row">
             <button
@@ -21,9 +31,11 @@ function FSGSubmit(props) {
                     }
                     catch (err) {
                         console.error(err);
+                        return;
                     }
 
-                    setLoading(false);
+                    if (mounted)
+                        setLoading(false);
                 }}>
                 {title}
             </button>

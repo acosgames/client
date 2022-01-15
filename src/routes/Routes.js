@@ -28,6 +28,7 @@ import PrivacyPolicy from "../components/PrivacyPolicy";
 import TermsAndConditions from "../components/TermsAndConditions";
 import Logout from "../components/login/Logout";
 import Profile from "../components/profile/Profile";
+import LoginAccountExists from "../components/login/LoginAccountExists";
 
 var Routes = () => {
 
@@ -89,6 +90,12 @@ var Routes = () => {
 
                     path="/login/success"
                     component={LoginSuccess}
+                />
+
+                <Route
+
+                    path="/login/accountexists"
+                    component={LoginAccountExists}
                 />
 
                 <Route

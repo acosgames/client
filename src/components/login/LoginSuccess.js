@@ -4,6 +4,7 @@ import {
     useHistory
 } from "react-router-dom";
 import fs from 'flatstore';
+import { useToast } from "@chakra-ui/react";
 
 
 function LoginSuccess(props) {
@@ -19,6 +20,14 @@ function LoginSuccess(props) {
     else {
         refPath = '/'
     }
+
+    fs.set('success', 'Logged in.  Enjoy the games!');
+
+    let toast = useToast();
+    toast({
+        description: 'Logged in.  Enjoy the games!',
+        status: 'success'
+    })
 
     return (
         <Redirect to={refPath} />

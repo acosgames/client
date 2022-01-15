@@ -24,11 +24,15 @@ import Sidebar from './components/widgets/Sidebar';
 import { Box, Flex, HStack, VStack, Divider } from "@chakra-ui/layout";
 import AcosFooter from "./components/AcosFooter";
 import VersionControl from "./components/widgets/VersionControl";
+import GameInfoCreateDisplayName from "./components/games/GameInfoCreateDisplayName";
+import { useDisclosure } from "@chakra-ui/react";
 
 
 fs.delimiter('>');
 
 function App(props) {
+
+  const disclosure = useDisclosure()
 
   useEffect(() => {
     getUser();
@@ -38,6 +42,7 @@ function App(props) {
   return (
     <BrowserRouter>
       <VersionControl />
+      <GameInfoCreateDisplayName {...disclosure} />
       <Flex direction={'column'} minHeight={'100%'} w="100%">
         <MainMenuChakra />
         <VStack w="100%">

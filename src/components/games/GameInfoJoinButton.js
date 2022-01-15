@@ -1,14 +1,34 @@
-import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack } from '@chakra-ui/react'
+import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack, useDisclosure } from '@chakra-ui/react'
 
 
 import { FaCaretDown, FaPlay } from '@react-icons';
 
 import { joinGame } from "../../actions/game";
 import fs from 'flatstore';
+import { useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getUser } from '../../actions/person';
+import GameInfoCreateDisplayName from './GameInfoCreateDisplayName';
+
+fs.set('isCreateDisplayName', false);
+fs.set('justCreatedName', false);
 
 function GameInfoJoinButton(props) {
 
-    const handleJoin = () => {
+    const history = useHistory();
+
+
+    const handleJoin = async () => {
+
+        fs.set('lastJoin', 'rank');
+
+        let user = await getUser();
+        if (!user || !user.shortid) {
+            fs.set('justCreatedName', false);
+            fs.set('isCreateDisplayName', true);
+            return;
+        }
+
         //let game_slug = props.match.params.game_slug;
         let game = fs.get('game');
         if (!game)
@@ -17,7 +37,16 @@ function GameInfoJoinButton(props) {
         joinGame(game);
     }
 
-    const handleJoinBeta = () => {
+    const handleJoinBeta = async () => {
+
+        fs.set('lastJoin', 'experimental');
+
+        let user = await getUser();
+        if (!user || !user.shortid) {
+            fs.set('justCreatedName', false);
+            fs.set('isCreateDisplayName', true);
+            return;
+        }
         //let game_slug = props.match.params.game_slug;
         let game = fs.get('game');
         if (!game)
@@ -25,6 +54,21 @@ function GameInfoJoinButton(props) {
 
         joinGame(game, true);
     }
+
+    useEffect(() => {
+        if (!props.justCreatedName)
+            return;
+
+        let lastJoin = fs.get('lastJoin');
+        switch (lastJoin) {
+            case 'rank':
+                handleJoin();
+                break;
+            case 'experimental':
+                handleJoinBeta();
+                break;
+        }
+    })
 
     let user = fs.get('user');
     let player_stats = fs.get('player_stats');
@@ -51,6 +95,7 @@ function GameInfoJoinButton(props) {
 
     return (
         <VStack w="full" spacing="0">
+
             <HStack
                 display={isValidUser ? 'flex' : 'none'}
                 transform="perspective(15px) rotateX(1deg)"
@@ -134,4 +179,4 @@ function GameInfoJoinButton(props) {
     )
 }
 
-export default GameInfoJoinButton;
+export default fs.connect(['justCreatedName'])(GameInfoJoinButton);

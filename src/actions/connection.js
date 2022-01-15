@@ -476,6 +476,9 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             // await sleep(1000);
             // user = fs.get('user');
         }
+
+
+
         // let cookies = parseCookies();
         url = config.https.ws;
         var client = new W3CWebSocket(url || 'ws://127.0.0.1:9002', user.token, 'http://localhost:3000', {});
@@ -494,12 +497,30 @@ export function wsConnect(url, onMessage, onOpen, onError) {
                 sendPing(client);
             }
 
+            var currentdate = new Date();
+            var datetime = "WS Opened: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds() + "." + currentdate.getMilliseconds();
+            console.log(datetime);
+
         });
 
         client.onclose = async (evt) => {
             console.log(evt);
             client.isReady = false;
             // fs.set('gamestate', {});
+
+            var currentdate = new Date();
+            var datetime = "WS Closed: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds() + "." + currentdate.getMilliseconds();
+            console.log(datetime);
 
             if (rj)
                 rj(evt);
@@ -509,6 +530,15 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             console.error(error);
             if (rj)
                 rj(error);
+
+            var currentdate = new Date();
+            var datetime = "WS Errored: " + currentdate.getDate() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getFullYear() + " @ "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds() + "." + currentdate.getMilliseconds();
+            console.log(datetime);
             await reconnect();
         });
 

@@ -8,9 +8,9 @@ import {
     MenuItem,
     MenuList,
     Button,
-    Icon,
-    chakra
+    Icon
 } from '@chakra-ui/react'
+
 
 import fs from 'flatstore';
 import SLink from '../widgets/SLink';
@@ -20,7 +20,6 @@ function NavForUser(props) {
 
     const history = useHistory();
 
-    const ChakraSLink = chakra(SLink)
 
     return (
 
@@ -39,11 +38,13 @@ function NavForUser(props) {
             <MenuList alignItems={'center'}>
                 <br />
                 <Center>
-                    <Avatar
-                        name={props?.user?.displayname}
-                        size={'2xl'}
+                    <Link to="/profile">
+                        <Avatar
+                            name={props?.user?.displayname}
+                            size={'2xl'}
 
-                    />
+                        />
+                    </Link>
                 </Center>
                 <br />
                 <Center>
@@ -61,11 +62,53 @@ function NavForUser(props) {
                         Profile
                     </MenuItem>
                 </Link>
-                <Link to="/logout" width="100%">
-                    <MenuItem>Logout</MenuItem>
-                </Link>
+                <MenuDivider />
+                <Logout />
+
+                <LoginTempUser />
             </MenuList>
         </Menu>
+    )
+}
+
+function Logout(props) {
+    let user = fs.get('user');
+    if (!user)
+        return <></>
+
+    let isTempUser = !user.email || user.email.length == 0;
+    if (!isTempUser)
+        return (
+            <Link to="/logout" width="100%">
+                <MenuItem>Logout</MenuItem>
+            </Link>
+        )
+
+    return (
+        <>
+            <MenuDivider />
+            <Link to="/logout" width="100%">
+                <MenuItem>Sign out and delete</MenuItem>
+            </Link>
+        </>
+
+    )
+}
+
+function LoginTempUser(props) {
+
+    let user = fs.get('user');
+    if (!user)
+        return <></>
+
+    let isTempUser = !user.email || user.email.length == 0;
+    if (!isTempUser)
+        return <></>
+
+    return (
+        <Link to="/login" width="100%">
+            <MenuItem>Sign in and save</MenuItem>
+        </Link>
     )
 }
 

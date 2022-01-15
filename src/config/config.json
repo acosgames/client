@@ -4,20 +4,23 @@
             "cdn": "https://cdn.acos.games/file/acospub/",
             "api": "http://localhost:8000",
             "ws": "ws://127.0.0.1:9002"
-        }
+        },
+        "recaptcha": "6LeUXRMeAAAAAI_D4rzBuISV-xDvAIBeZUIEokoS"
     },
     "mobile": {
         "https": {
             "cdn": "https://cdn.acos.games/file/acospub/",
             "api": "http://localhost:8000",
             "ws": "ws://192.168.1.46:9002"
-        }
+        },
+        "recaptcha": "6LeUXRMeAAAAAI_D4rzBuISV-xDvAIBeZUIEokoS"
     },
     "prod": {
         "https": {
             "cdn": "https://cdn.acos.games/file/acospub/",
             "api": "https://api.acos.games",
             "ws": "wss://acos.games"
-        }
+        },
+        "recaptcha": "6LeUXRMeAAAAAI_D4rzBuISV-xDvAIBeZUIEokoS"
     }
 }
