@@ -1,19 +1,86 @@
-import React, { Component, Fragment, useEffect } from "react";
+import React, { Component, Fragment, useEffect, useState } from "react";
 import fs from 'flatstore';
 
 import {
     Link,
     withRouter,
     Redirect,
+    useHistory
 } from "react-router-dom";
 import Logout from "./Logout";
-import { Heading, VStack, Button, Center, Text, chakra, useToast } from "@chakra-ui/react";
+import { Heading, VStack, Button, Center, Text, chakra, Link as ChLink, useToast, Modal, Box, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Divider, HStack, ModalFooter } from "@chakra-ui/react";
 import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
 import { removeWithExpiry } from "../../actions/cache";
+import { createTempUser } from "../../actions/person";
+import FSGGroup from "../widgets/inputs/FSGGroup";
+import FSGTextInput from "../widgets/inputs/FSGTextInput";
+import FSGSubmit from "../widgets/inputs/FSGSubmit";
+function SocialLoginSimple(props) {
+
+    let refPath = fs.get('refPath');
+    if (refPath) {
+        refPath = '?ref=' + refPath;
+    }
+    else {
+        refPath = '';
+    }
+    return (
+        <VStack>
+            <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Sign in with a different account</Heading>
+            <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Or, login to save your temporary account</Heading>
+            <VStack w={['100%']} justifyItems={'center'} gap="0">
+                {/* Google */}
+                <ChLink href={"/login/google" + refPath} w="100%">
+                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="24px" />}>
+
+                        <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Google</Text>
+
+                    </Button>
+                </ChLink>
+
+                {/* Microsoft */}
+                <ChLink href={"/login/microsoft" + refPath} w="100%">
+                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="24px" />}>
+
+                        <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Microsoft</Text>
+
+                    </Button>
+                </ChLink>
+                {/* Facebook */}
+                <ChLink href={"/login/facebook" + refPath} w={'100%'}>
+                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="24px" />}>
+
+                        <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Facebook</Text>
+
+                    </Button>
+                </ChLink>
+
+                {/* GitHub */}
+                <ChLink href={"/login/github" + refPath} w={'100%'}>
+                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
+
+                        <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with GitHub</Text>
+
+                    </Button>
+                </ChLink>
+            </VStack>
+        </VStack>
+    )
+
+}
+
+
 function SocialLogin(props) {
 
-    const toast = useToast();
+    const onClose = props.onClose;
+    const isOpen = props.isOpen;
+    const onOpen = props.onOpen;
 
+    const [displayName, setDisplayName] = useState('');
+    const [error, setError] = useState(null);
+
+    const toast = useToast();
+    const history = useHistory();
     useEffect(() => {
         removeWithExpiry('user');
         gtag('event', 'sociallogin');
@@ -26,13 +93,74 @@ function SocialLogin(props) {
                 description: error,
             })
         }
-    }, []);
+    })
+
+    const onSubmit = async () => {
 
 
-    let user = props.user;
-    if (user) {
-        return <Logout></Logout>
+        if (!displayName || displayName.length < 3) {
+            setError({ message: `The name '${displayName}' is too short.` });
+            return;
+        }
+
+        let user = await createTempUser(displayName);
+
+        if (!user) {
+            setError({ message: `Server not working. Please try again.` });
+            return;
+        }
+
+        if (user.ecode) {
+
+            switch (user.ecode) {
+                case 'E_PERSON_EXISTSNAME':
+                    setError({ message: `You already have a display name.` });
+
+                    break;
+                case 'E_EXISTS_DISPLAYNAME':
+                    setError({ message: `The name '${displayName}' already exists.` });
+                    break;
+                case 'E_PERSON_DUPENAME':
+                    setError({ message: `The name '${displayName}' already exists.` });
+                    break;
+                case 'E_MISSING_DISPLAYNAME':
+                    setError({ message: `Please enter a display name.` });
+                    break;
+                case 'E_DISPLAYNAME_TOOSHORT':
+                    setError({ message: `The name '${displayName}' is too short.` });
+                    break;
+                default:
+                    setError({ message: `[${user.ecode}] Server not working. Please try again.` });
+                    break;
+            }
+        }
+        else {
+
+            // fs.set('user')
+            // setTimeout(redirect, 1000);
+            fs.set('isCreateDisplayName', false);
+            fs.set('justCreatedName', true);
+
+            history.push('/login/success');
+        }
+
     }
+
+    const onChange = (e) => {
+        console.log(e.target.value);
+        let name = e.target.value;
+        name = name.replace(/[^A-Za-z0-9\_]/ig, '');
+        setDisplayName(name);
+        localStorage.setItem('displayname', name);
+    }
+
+    const onKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            onSubmit();
+        }
+    }
+
+    let hasError = (error);
 
     let refPath = fs.get('refPath');
     if (refPath) {
@@ -42,50 +170,84 @@ function SocialLogin(props) {
         refPath = '';
     }
 
+    const user = fs.get('user');
+    if (user && user.id) {
+        return <SocialLoginSimple />
+    }
+
     return (
-        <VStack>
+        <VStack w="100%" justifyContent={'center'}>
 
-            <Heading>Login to Play</Heading>
-            <VStack w={['95%', '80%', '50%', '40%']}>
-                {/* Google */}
-                <chakra.a href={"/login/google" + refPath} w="full">
-                    <Button w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="24px" />}>
 
-                        <Text pl="1rem">Sign in with Google</Text>
 
-                    </Button>
-                </chakra.a>
+            <VStack width={["100%", "80%", "80%", "60%"]}>
+                <Heading align={'left'} size="lg">Choose a player name</Heading>
+                <FSGGroup  >
 
-                {/* Microsoft */}
-                <chakra.a href={"/login/microsoft" + refPath} w="full" >
-                    <Button w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="24px" />}>
+                    <FSGTextInput
+                        onChange={onChange}
+                        maxLength="32"
+                        title="Player Name"
+                        focus={true}
+                        value={displayName}
+                        onKeyDown={onKeyDown}
+                        helpText={'This is a temporary acount, login to make it permanent'}
+                    />
 
-                        <Text pl="1rem">Sign in with Microsoft</Text>
+                    {
+                        hasError && (
+                            <Text color="red.600">
+                                {error.message}
+                            </Text>
+                        )
+                    }
+                </FSGGroup>
+                <FSGSubmit onClick={onSubmit} title="Create" loadingText="Creating" />
+                <Divider pt={'1rem'} />
+                <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Already have an account? Sign in</Heading>
+                <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading>
+                <VStack w={['100%']} justifyItems={'center'} gap="0">
+                    {/* Google */}
+                    <ChLink href={"/login/google" + refPath} w="100%">
+                        <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="24px" />}>
 
-                    </Button>
-                </chakra.a>
+                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Google</Text>
 
-                {/* Facebook */}
-                <chakra.a href={"/login/facebook" + refPath} w="full">
-                    <Button w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="24px" />}>
+                        </Button>
+                    </ChLink>
 
-                        <Text pl="1rem">Sign in with Facebook</Text>
+                    {/* Microsoft */}
+                    <ChLink href={"/login/microsoft" + refPath} w="100%">
+                        <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="24px" />}>
 
-                    </Button>
-                </chakra.a>
+                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Microsoft</Text>
 
-                {/* GitHub */}
-                <chakra.a href={"/login/github" + refPath} w="full">
-                    <Button w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
+                        </Button>
+                    </ChLink>
+                    {/* Facebook */}
+                    <ChLink href={"/login/facebook" + refPath} w={'100%'}>
+                        <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="24px" />}>
 
-                        <Text pl="1rem">Sign in with GitHub</Text>
+                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Facebook</Text>
 
-                    </Button>
-                </chakra.a>
+                        </Button>
+                    </ChLink>
+
+                    {/* GitHub */}
+                    <ChLink href={"/login/github" + refPath} w={'100%'}>
+                        <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
+
+                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with GitHub</Text>
+
+                        </Button>
+                    </ChLink>
+                </VStack>
             </VStack>
-        </VStack >
-    )
 
+
+        </VStack>
+    )
 }
 
-export default withRouter(fs.connect(['userCheckedLogin'])(SocialLogin));
+
+export default withRouter(fs.connect(['userCheckedLogin', 'user'])(SocialLogin));
