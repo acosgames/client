@@ -69,6 +69,7 @@ export async function logout() {
         fs.set('userid', 0);
         fs.set('player_stats', {});
         fs.set('queues', []);
+        fs.get('lastJoin', '');
         localStorage.removeItem('queues');
         removeWithExpiry('user');
 
