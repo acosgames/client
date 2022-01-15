@@ -338,6 +338,7 @@ export async function wsLeaveQueue() {
     }
 
     fs.set('queues', []);
+    fs.get('lastJoin', '');
     localStorage.removeItem('queues');
 
     let action = { type: 'leavequeue' }
@@ -650,6 +651,7 @@ async function wsIncomingMessage(message) {
                 fs.set('rooms', rooms);
 
                 fs.set('queues', []);
+                fs.get('lastJoin', '');
                 localStorage.removeItem('queues');
 
                 if (window.location.href.indexOf(room.room_slug) > -1) {
@@ -684,6 +686,7 @@ async function wsIncomingMessage(message) {
 
             localStorage.removeItem('queues');
             fs.set('queues', []);
+            fs.get('lastJoin', '');
             fs.set('gamestate', msg.payload || {});
             gamestate = msg.payload || {};
 
