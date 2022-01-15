@@ -44,7 +44,7 @@ function App(props) {
       <ActivateUserProfile />
       <VersionControl />
       <GameInfoCreateDisplayName {...disclosure} />
-      <QueuePanel />
+
       <Flex direction={'column'} minHeight={'100%'} w="100%">
         <MainMenuChakra />
         <VStack w="100%">
@@ -73,6 +73,7 @@ function App(props) {
           <AcosFooter />
         </HStack>
       </Flex>
+      <QueuePanel />
     </BrowserRouter >
   );
 }
