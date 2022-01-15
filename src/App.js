@@ -27,6 +27,7 @@ import VersionControl from "./components/widgets/VersionControl";
 import GameInfoCreateDisplayName from "./components/games/GameInfoCreateDisplayName";
 import { useDisclosure } from "@chakra-ui/react";
 import ActivateUserProfile from "./components/widgets/ActivateUserProfile";
+import ToastMessage from "./components/widgets/ToastMessage";
 
 
 fs.delimiter('>');
@@ -44,7 +45,7 @@ function App(props) {
       <ActivateUserProfile />
       <VersionControl />
       <GameInfoCreateDisplayName {...disclosure} />
-
+      <ToastMessage />
       <Flex direction={'column'} minHeight={'100%'} w="100%">
         <MainMenuChakra />
         <VStack w="100%">

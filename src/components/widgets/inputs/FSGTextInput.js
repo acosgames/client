@@ -18,7 +18,9 @@ function FSGTextInput(props) {
     useEffect(() => {
 
         if (props.focus) {
-            inputRef?.current?.focus();
+            setTimeout(() => {
+                inputRef?.current?.focus();
+            }, props.focusDelay || 300)
         }
 
     }, [])

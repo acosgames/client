@@ -92,6 +92,10 @@ export async function findGamePerson(game_slug) {
         let response = await GET('/api/v1/game/person/' + game_slug);
         let result = response.data;
         if (result.ecode) {
+
+            if (result.ecode == 'E_NOTAUTHORIZED') {
+                return await findGame(game_slug);
+            }
             throw result.ecode;
         }
 

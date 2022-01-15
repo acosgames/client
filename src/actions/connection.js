@@ -376,6 +376,12 @@ export async function wsJoinGame(mode, game_slug) {
 
     fs.set('joining', 'game');
     console.log("[Outgoing] Joining " + mode + ": ", action);
+
+    let games = fs.get('games');
+    let game = games[game_slug];
+    let gameName = game?.name || game?.game_slug || '';
+
+    fs.set('successMessage', { title: 'Joined the queue', description: `You joined the ${mode} queue for ${gameName}.` })
     // console.timeEnd('ActionLoop');
 }
 
