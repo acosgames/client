@@ -70,21 +70,25 @@ async function uploadToStorage() {
             .pipe(zlib.createGzip())
             .pipe(fs.createWriteStream(indexPath))
             .on("error", (error) => {
-                // handle error
                 console.error(error);
             })
             .on("finish", async () => {
-
-                // let fileStream = fs.createReadStream(filepath);
-                // let result = await upload.uploadByStreamGzipHtml('acospub', 'static/iframe.html', fileStream);
-                // console.log('Uploaded iframe.html to acospub: ', result);
-
-                // fs.unlinkSync(filepath);
-                // handle success
-                console.log("Updated indexTemplate with version: ", clientVersion, indexTemplate);
+                console.log("Updated indexTemplate with version: ", clientVersion, indexPath);
             })
 
+        let swTemplatePath = publicPath + '/custom-sw.js';
+        let swPath = publicPath + '/custom-sw.' + clientVersion + '.js';
+        let swTemplate = fs.readFileSync(swTemplatePath, 'utf-8');
 
+        Readable.from([swTemplate])
+            .pipe(zlib.createGzip())
+            .pipe(fs.createWriteStream(swPath))
+            .on("error", (error) => {
+                console.error(error);
+            })
+            .on("finish", async () => {
+                console.log("Updated indexTemplate with version: ", clientVersion, swTemplatePath);
+            })
 
 
         // fs.writeFileSync(publicPath + '/index.html', indexTemplate, 'utf-8');

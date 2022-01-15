@@ -17,7 +17,6 @@ import NavForUser from './login/NavForUser';
 import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import { useHistory, Link } from 'react-router-dom';
 import config from '../config'
-import QueuePanel from './games/QueuePanel';
 
 
 const NavLink = ({ children }) => (
@@ -63,7 +62,7 @@ function MainMenuChakra(props) {
 
     return (
         <>
-            <QueuePanel />
+
             <Box display={props.gamepanel ? 'none' : 'block'} bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <HStack>
@@ -80,7 +79,7 @@ function MainMenuChakra(props) {
 
                             </Link>
                         </Box>
-                        <Link to="/" className=""><Text>A cup of skill</Text></Link>
+                        <Link to="/" className=""><Text>Acos</Text></Link>
                     </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>

@@ -3,12 +3,82 @@ import React, { Component, useState } from "react";
 // import { useSpring, animated } from 'react-spring';
 import fs from 'flatstore';
 import { wsLeaveQueue } from "../../actions/connection";
-import { HStack, Text, VStack, Center, IconButton, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Input, Button, Box, Badge, Divider } from "@chakra-ui/react";
+import { HStack, Text, VStack, Center, IconButton, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Input, Button, Box, Badge, Divider, FormLabel, Switch, Spacer, useToast } from "@chakra-ui/react";
 import LoaderLineUp from '../widgets/loaders/LoaderLineUp';
 import LoaderShimmer from '../widgets/loaders/LoaderShimmer';
 import { IoCloseSharp } from '@react-icons'
 
+import { subscribeUser } from '../../subscription';
+
+function NotifySwitch(props) {
+
+    let toast = useToast();
+
+    let defaultIsNotify = localStorage.getItem('notify') || false;
+    defaultIsNotify = JSON.parse(defaultIsNotify);
+    let [checked, setChecked] = useState(defaultIsNotify);
+
+    const notSupported = () => {
+        toast({
+            description: 'Notifications are not supported on your device.',
+            status: 'error'
+        })
+        setChecked(false);
+        localStorage.setItem('notify', false);
+    }
+
+    const noPermission = () => {
+        toast({
+            description: 'You must grant notification permission.',
+            status: 'error'
+        })
+        setChecked(false);
+        localStorage.setItem('notify', false);
+    }
+
+    const onScaleChange = async (e) => {
+        let isChecked = e.target.checked;
+
+        try {
+
+
+            let supported = await subscribeUser(isChecked)
+            let permissionGranted = Notification.permission === 'granted';
+            if (!permissionGranted) {
+                noPermission();
+                return;
+            }
+            if (!supported) {
+                notSupported();
+                return;
+            }
+
+            setChecked(isChecked);
+            localStorage.setItem('notify', isChecked);
+
+        }
+        catch (e) {
+            notSupported();
+        }
+
+
+    }
+
+    return (
+        <Box position="absolute" left="0">
+            <FormLabel htmlFor={'switch-notif'} p="0" m="0" fontSize="xs" >
+                <VStack>
+                    <Text as="span" fontSize="xs">Notify</Text>
+                    <Switch colorScheme={'green'} pl="0.5rem" id={'switch-notif'} size="sm" onChange={onScaleChange} isChecked={checked} />
+                </VStack>
+            </FormLabel>
+        </Box>
+    )
+}
+
+
 function QueuePanel(props) {
+
 
     const [isOpen, setOpen] = useState(false);
     const btnRef = React.useRef()
@@ -25,6 +95,8 @@ function QueuePanel(props) {
         setOpen(false);
         wsLeaveQueue();
     }
+
+
 
     let queues = props.queues;
     // queues = queues || [];
@@ -48,6 +120,7 @@ function QueuePanel(props) {
     return (
         <>
             <Center position="fixed" top="0.5rem" width="50%" align="center" justifyItems={'center'} left="25%">
+
                 <VStack width="100%" spacing="0.2rem">
                     <Button ref={btnRef} bg="gray.900" onClick={onClick} variant='outline'>
                         <Text p="0.3rem" as="span" lineHeight={'1rem'} color="white" fontWeight={'bolder'}>
@@ -56,6 +129,7 @@ function QueuePanel(props) {
                     </Button>
                     <LoaderLineUp />
                 </VStack>
+                <NotifySwitch />
                 <IconButton position="absolute" right="0" onClick={onCancel} icon={<IoCloseSharp />} size="sm" isRound="true" />
             </Center>
             <Drawer
@@ -90,70 +164,10 @@ function QueuePanel(props) {
                             }
                         </VStack>
                     </DrawerBody>
-                    {/* 
-                    <DrawerFooter>
-                        <Button variant='outline' mr={3} onClick={onCancel}>
-                            Leave Queue
-                        </Button>
-                    </DrawerFooter> */}
                 </DrawerContent>
             </Drawer>
         </>
-        // <animated.div id="queue-panel" style={springProps} ref={myRef}>
-        //     <div id="queue-header" >
-        //         <div id="queue-header-content">
-
-        //             <div
-        //                 id="queue-tab"
-
-        //                 onClick={onClick}
-        //             // onMouseDown={onMouseDown}
-        //             // onMouseUp={onMouseUp}
-        //             // onMouseMove={onMouseMove}
-        //             // onMouseOut={onMouseUp}
-        //             >
-        //                 {/* <div id="queue-tab-divet"></div> */}
-        //                 <div id="queue-tab-cancel" onClick={onCancel}>&times;</div>
-        //                 <div id="queue-searching">Searching</div>
-        //                 <div id="queue-loader">
-        //                     <div className="loader-inner line-scale-pulse-out-rapid">
-        //                         <div></div>
-        //                         <div></div>
-        //                         <div></div>
-        //                         <div></div>
-        //                         <div></div>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </div>
-        //     <div id="queue-content"
-        //     // onClick={onClick}
-        //     >
-        //         <div id="queue-games">
-        //             <ul>
-        //                 {
-        //                     gameList.map(game_slug => {
-        //                         let modes = queueMap[game_slug]
-        //                         return (
-        //                             <li key={game_slug}>
-        //                                 <span className="queue-game-title">{game_slug}</span>
-        //                                 {
-        //                                     modes.map(m => (
-        //                                         <span key={game_slug + "-" + m + "-mode"} className="queue-game-mode">{m}</span>
-        //                                     ))
-        //                                 }
-        //                             </li>
-        //                         )
-        //                     })
-        //                 }
-        //             </ul>
-        //         </div>
-        //     </div>
-
-        // </animated.div>
     )
-
 }
 
 export default fs.connect(['queues'])(QueuePanel);

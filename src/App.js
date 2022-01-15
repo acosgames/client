@@ -17,7 +17,7 @@ import MainMenuChakra from './components/MainMenuChakra'
 import Routes from './routes/Routes';
 import RoutesGame from './routes/RoutesGame';
 
-import { getUser, getUserProfile } from './actions/person';
+import { getUser } from './actions/person';
 import QueuePanel from "./components/games/QueuePanel";
 import fs from 'flatstore';
 import Sidebar from './components/widgets/Sidebar';
@@ -26,6 +26,7 @@ import AcosFooter from "./components/AcosFooter";
 import VersionControl from "./components/widgets/VersionControl";
 import GameInfoCreateDisplayName from "./components/games/GameInfoCreateDisplayName";
 import { useDisclosure } from "@chakra-ui/react";
+import ActivateUserProfile from "./components/widgets/ActivateUserProfile";
 
 
 fs.delimiter('>');
@@ -35,14 +36,15 @@ function App(props) {
   const disclosure = useDisclosure()
 
   useEffect(() => {
-    getUser();
 
   }, [])
 
   return (
     <BrowserRouter>
+      <ActivateUserProfile />
       <VersionControl />
       <GameInfoCreateDisplayName {...disclosure} />
+      <QueuePanel />
       <Flex direction={'column'} minHeight={'100%'} w="100%">
         <MainMenuChakra />
         <VStack w="100%">

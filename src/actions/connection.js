@@ -291,7 +291,7 @@ export async function reconnect(isNew) {
         return ws;
     }
 
-    let queues = fs.get('queues') || [];
+    let queues = fs.get('queues') || localStorage.getItem('queues') || [];
     let rooms = fs.get('rooms');
     if (queues.length == 0 && !isNew && (!rooms || Object.keys(rooms).length == 0))
         return disconnect();
@@ -338,6 +338,7 @@ export async function wsLeaveQueue() {
     }
 
     fs.set('queues', []);
+    localStorage.removeItem('queues');
 
     let action = { type: 'leavequeue' }
 
@@ -362,7 +363,7 @@ export async function wsJoinGame(mode, game_slug) {
         return;
     }
 
-    let queues = fs.get('queues');
+    let queues = fs.get('queues') || localStorage.getItem('queues') || [];
     let payload = { mode, game_slug };
     if (!queues.find(q => (q.mode == mode && q.game_slug == game_slug))) {
         queues.push(payload)
@@ -643,6 +644,7 @@ async function wsIncomingMessage(message) {
                 fs.set('rooms', rooms);
 
                 fs.set('queues', []);
+                localStorage.removeItem('queues');
 
                 if (window.location.href.indexOf(room.room_slug) > -1) {
                     if (room.payload)
@@ -674,6 +676,7 @@ async function wsIncomingMessage(message) {
             rooms[msg.room_slug] = msg;
             fs.set('rooms', rooms);
 
+            localStorage.removeItem('queues');
             fs.set('queues', []);
             fs.set('gamestate', msg.payload || {});
             gamestate = msg.payload || {};
