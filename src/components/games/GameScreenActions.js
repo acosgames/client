@@ -10,6 +10,7 @@ import Connection from './Connection';
 import LeaveGame from './LeaveGame';
 import { BsArrowsFullscreen, BsBarChartFill } from '@react-icons';
 import { wsLeaveGame } from '../../actions/connection';
+import { getRoomStatus } from '../../actions/room';
 
 const resizeEvent = new Event('resize');
 
@@ -62,7 +63,7 @@ function GameScreenActions(props) {
 
     let gamestate = fs.get('gamestate') || {};//-events-gameover');
     let events = gamestate?.events || {};
-    let isGameover = !!(events.gameover)
+    let isGameover = getRoomStatus(room_slug) == 'GAMEOVER';
 
 
     let latency = fs.get("latency") || 0;
@@ -75,7 +76,7 @@ function GameScreenActions(props) {
     }
 
     return (
-        <Wrap w="100%" justify={'center'}>
+        <Wrap w="100%" justify={'center'} bgColor={'gray.600'} py="0.6rem">
             <HStack alignItems={'center'}>
                 <BsBarChartFill color={latencyColor} /><Text as="span"> {latency}ms</Text>
             </HStack>
@@ -83,7 +84,7 @@ function GameScreenActions(props) {
                 <Button
                     colorScheme={isGameover ? 'yellow' : 'red'}
                     onClick={onForfeit}>
-                    {isGameover ? 'Leave' : 'Forfeit'} Game
+                    {isGameover ? 'Leave' : 'Forfeit'}
                 </Button>
             </Box>
             <Box display={isGameover ? 'block' : 'none'} ml="1rem">
@@ -117,4 +118,4 @@ function GameScreenActions(props) {
 
 
 
-export default withRouter(fs.connect(['fullScreenElem', 'gamestate>events'])(GameScreenActions));
+export default withRouter(fs.connect(['fullScreenElem', 'gamestate'])(GameScreenActions));

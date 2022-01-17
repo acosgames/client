@@ -1,4 +1,4 @@
-import { Box, IconButton, VStack } from '@chakra-ui/react';
+import { Box, Fade, Flex, IconButton, ScaleFade, Text, useToast, VStack } from '@chakra-ui/react';
 import Connection from './Connection';
 import LeaveGame from './LeaveGame';
 import { useEffect, useRef, useState } from 'react';
@@ -6,17 +6,57 @@ import fs from 'flatstore';
 import { refreshGameState, sendLoadMessage } from '../../actions/connection';
 import config from '../../config'
 
+import { getRoomStatus } from '../../actions/room';
+
+
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
 
+
+function GameScreenIframeWrapper(props) {
+    const room_slug = props.room?.room_slug;
+    const game_slug = props.room?.game_slug;
+
+    if (!props.room || !room_slug)
+        return <></>
+
+    let game = fs.get('games>' + game_slug);
+    if (!game)
+        return <></>
+
+    return <GameScreenIframe {...props.room} />
+}
+
 function GameScreenIframe(room) {
+
+
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    const iframeRef = useRef(null)
+    const gamescreenRef = useRef(null)
+    const gamewrapperRef = useRef(null)
+
+    useEffect(() => {
+        fs.set('iframeLoaded', false);
+        setIsLoaded(true);
+
+    }, [])
+
+
+
+
 
 
 
     const room_slug = room.room_slug;
     const game_slug = room.game_slug;
     const version = room.version;
-    const srcUrl = config.https.cdn + 'static/iframe.html';
+
+    var srcUrl = config.https.cdn + 'static/iframe-localhost.html';
+    if (process.env.NODE_ENV == 'production')
+        srcUrl = config.https.cdn + 'static/iframe.html';
+
+
 
     // let room = fs.get('rooms>' + room_slug);
     let game = fs.get('games>' + game_slug);
@@ -90,8 +130,24 @@ function GameScreenIframe(room) {
         timestamp = now;
 
         let isFullscreen = checkFullScreen();
-        let windowHeight = isFullscreen ? window.screen.height : document.documentElement.clientHeight;
         let windowWidth = isFullscreen ? window.screen.width : document.documentElement.clientWidth;
+        let windowHeight = isFullscreen ? window.screen.height : document.documentElement.clientHeight;
+
+        let gamestate = fs.get('gamestate');
+        let roomStatus = getRoomStatus(room_slug);
+        let offsetRatio = 0.4;
+        if (roomStatus == 'GAME' || 'LOADING') {
+            offsetRatio = 1;
+        }
+        if (roomStatus == 'GAMEOVER' &&
+            (gamestate?.events?.noshow || gamestate?.events?.error ||
+                (gamestate?.events?.gameover && gamestate?.state?.gamestatus !== 'gamestart'))) {
+            offsetRatio = 0.4;
+        }
+
+        windowWidth *= offsetRatio;
+        windowHeight *= offsetRatio;
+
         var bgWidth = 0;//parseInt(getComputedStyle(maincontent).width, 10);
         var bgHeight = 0;//parseInt(getComputedStyle(maincontent).height, 10);
         var scale = 1;
@@ -135,33 +191,44 @@ function GameScreenIframe(room) {
         }
     }
 
-    const iframeRef = useRef(null)
-    const gamescreenRef = useRef(null)
-    const gamewrapperRef = useRef(null)
-
 
     useEffect(() => {
         window.addEventListener('resize', onResize);
-
+        onResize();
         return () => {
             window.removeEventListener('resive', onResize);
         }
+
+
     })
 
 
+
     return (
-        <VStack justifyContent={'flex-start'} alignContent={'center'} w="100%" h="100%" ref={gamewrapperRef}>
+        <VStack
+            justifyContent={'flex-start'}
+            alignContent={'center'}
+            w="100%"
+            h="100%"
+            ref={gamewrapperRef}
+            // transform={transform}
+            filter={isLoaded ? 'opacity(100%)' : 'opacity(0)'}
+            transition={'transform 0.3s ease-in, filter 0.3s ease-in'}
+        >
+
             <Box
                 // bg="white"
                 overflow={'hidden'}
                 ref={gamescreenRef}
-                transition={'width 0.1s, height 0.1s'}>
+                boxShadow="rgb(0 0 0 / 24%) 0px 6px 12px"
+                transition={'width 0.3s, height 0.3s'} position="relative">
                 <iframe
                     className="gamescreen"
                     ref={iframeRef}
                     onLoad={() => {
                         let iframes = fs.get('iframes') || {};
                         iframes[room_slug] = iframeRef;
+                        fs.set('iframeLoaded', true);
                         fs.set('iframes', iframes);
                         fs.set('gamepanel', gamescreenRef);
                         fs.set('gamewrapper', gamewrapperRef);
@@ -176,11 +243,56 @@ function GameScreenIframe(room) {
                         }, 1000);
                     }}
                     src={srcUrl}
-                    sandbox="allow-scripts"
+                    sandbox="allow-scripts allow-same-origin"
                 />
+
+
+                <LoadingBox />
             </Box>
+
+
         </VStack>
     )
 }
 
-export default GameScreenIframe;
+function LoadingBox(props) {
+
+    const toast = useToast();
+    const [show, setShow] = useState(true);
+
+    useEffect(() => {
+
+        if (props.gameLoaded) {
+            toast.closeAll()
+            setTimeout(() => {
+                setShow(false);
+
+            }, 1000)
+        }
+    })
+
+    if (!show)
+        return <></>
+    return (
+        <Box
+            className="loading-screen"
+            position={'absolute'}
+            left="0"
+            top="0"
+            w="100%"
+            h="100%"
+            bgColor={'gray.800'}
+            transition={'all 0.8s ease-in'}
+            filter={props.gameLoaded ? 'opacity(0)' : 'opacity(1)'}
+        >
+            <Flex w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>
+                <Text>Loading...</Text>
+            </Flex>
+        </Box>
+    )
+}
+
+LoadingBox = fs.connect(['gameLoaded'])(LoadingBox);
+GameScreenIframe = fs.connect(['iframeLoaded', 'gameLoaded', 'gamestate'])(GameScreenIframe);
+
+export default GameScreenIframeWrapper;

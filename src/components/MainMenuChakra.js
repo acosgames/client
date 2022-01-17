@@ -51,6 +51,7 @@ function MainMenuChakra(props) {
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
+    const room_slug = props.room_slug;
     // updateHistory();
     // let urlPath = this.props.location.pathname;
     // let classFindGames = '';
@@ -63,7 +64,14 @@ function MainMenuChakra(props) {
     return (
         <>
 
-            <Box display={props.gamepanel ? 'none' : 'block'} bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+            <Box
+                filter={room_slug ? 'blur(20px)' : 'blur(0)'}
+                display={'block'}
+                bg={useColorModeValue('gray.100', 'gray.900')}
+                px={4}
+                transition={'all 0.3s ease-in'}
+
+            >
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <HStack>
                         <Box
@@ -98,4 +106,4 @@ function MainMenuChakra(props) {
     );
 }
 
-export default withRouter(fs.connect(['loggedIn', 'gamepanel'])(MainMenuChakra));
+export default withRouter(fs.connect(['loggedIn', 'room_slug'])(MainMenuChakra));

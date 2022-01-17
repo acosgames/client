@@ -17,6 +17,7 @@ fs.set('gamestate', {});
 fs.set('room_slug', null);
 fs.set('games', {});
 
+fs.set('gameEnded', false);
 fs.set('queues', []);
 fs.set('joinrooms', {})
 fs.set('rooms', {});
@@ -190,7 +191,7 @@ export function recvFrameMessage(evt) {
     let action = evt.data;
     let origin = evt.origin;
     let source = evt.source;
-    if (typeof action.payload === 'undefined' || !action.type) return;
+    if (!action.type) return;
     console.log('[iframe]: ', action);
 
     let room_slug = fs.get('room_slug');
@@ -208,6 +209,15 @@ export function recvFrameMessage(evt) {
         if (!gamestatus || gamestatus != 'pregame') {
             return;
         }
+    }
+
+    //game loaded
+    if (action.type == 'loaded') {
+        setTimeout(() => {
+
+            fs.set('gameLoaded', true);
+        }, 300)
+        return;
     }
     // let msg = data.payload;
     // if (msg.indexOf("Hello") > -1) {
@@ -315,6 +325,10 @@ export async function reconnect(isNew) {
 export async function wsLeaveGame(game_slug, room_slug) {
     let ws = await reconnect();
     if (!ws || !ws.isReady) {
+        let history = fs.get('history');
+        fs.set('gamestate', {});
+        fs.set('room_slug', null);
+        history.push('/g/' + game_slug);
         return;
     }
 
@@ -453,7 +467,7 @@ export async function wsJoinPrivate(game_slug, room_slug, private_key) {
 
 export async function wsRejoinRoom(game_slug, room_slug, private_key) {
     gtag('event', 'joinroom', { mode: 'rank' });
-    wsJoinRoom(game_slug, room_slug, private_key);
+    await wsJoinRoom(game_slug, room_slug, private_key);
 }
 
 
@@ -618,6 +632,9 @@ async function wsIncomingMessage(message) {
         case 'ready':
             console.log("iframe is ready!");
             return;
+        case 'noshow':
+            console.log("[Incoming] No SHOW!", JSON.parse(JSON.stringify(msg, null, 2)));
+            break;
         case 'notexist':
             let currentPath = window.location.href;
             let currentParts = currentPath.split('/g/');
@@ -627,6 +644,7 @@ async function wsIncomingMessage(message) {
 
                 history.push('/g/' + game_slug);
             }
+
 
             break;
 
@@ -649,7 +667,10 @@ async function wsIncomingMessage(message) {
                 let rooms = fs.get('rooms');
                 rooms[room.room_slug] = room;
                 fs.set('rooms', rooms);
+                localStorage.setItem('rooms', rooms);
 
+                fs.set('gameEnded', false);
+                fs.set('gameLoaded', false);
                 fs.set('queues', []);
                 fs.get('lastJoin', '');
                 localStorage.removeItem('queues');
@@ -683,8 +704,11 @@ async function wsIncomingMessage(message) {
             let rooms = fs.get('rooms');
             rooms[msg.room_slug] = msg;
             fs.set('rooms', rooms);
+            localStorage.setItem('rooms', rooms);
 
             localStorage.removeItem('queues');
+            fs.set('gameEnded', false);
+            fs.set('gameLoaded', false);
             fs.set('queues', []);
             fs.get('lastJoin', '');
             fs.set('gamestate', msg.payload || {});
@@ -809,14 +833,33 @@ async function postIncomingMessage(msg) {
             }
 
 
+            delete rooms[msg.room_slug];
+            fs.set('rooms', rooms);
+            localStorage.setItem('rooms', rooms);
             // fs.set('gamestate', {});
 
             break;
+        case 'noshow':
+            delete rooms[msg.room_slug];
+            fs.set('rooms', rooms);
+            localStorage.setItem('rooms', rooms);
+            break;
+        case 'notexist':
+            delete rooms[msg.room_slug];
+            fs.set('rooms', rooms);
+            localStorage.setItem('rooms', rooms);
+            break;
+
         case 'error':
-            fs.set('gamestate', {});
+            delete rooms[msg.room_slug];
+            fs.set('rooms', rooms);
+            localStorage.setItem('rooms', rooms);
             break;
         case 'kicked':
             fs.set('gamestate', {});
+            delete rooms[msg.room_slug];
+            fs.set('rooms', rooms);
+            localStorage.setItem('rooms', rooms);
             break;
         case 'join':
 

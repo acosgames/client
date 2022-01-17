@@ -41,7 +41,7 @@
     "websocket": "^1.0.33"
   },
   "scripts": {
-    "start": "./node_modules/.bin/run-p build:mobile watch",
+    "start": "./node_modules/.bin/run-p build:dev watch",
     "build:dev": "NODE_ENV=localhost ./node_modules/.bin/webpack --config webpack/dev.config.js --watch ./src",
     "build:mobile": "NODE_ENV=mobile ./node_modules/.bin/webpack --config webpack/dev.config.js --watch ./src",
     "build:prod": "NODE_ENV=production ./node_modules/.bin/webpack --config webpack/prod.config.js",

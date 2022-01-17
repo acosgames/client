@@ -9,9 +9,18 @@ function GameScreenInfo(props) {
             return <></>
 
         let elems = [];
-
+        let playerList = [];
         for (var id in players) {
             let player = players[id];
+            playerList.push(player);
+        }
+
+        playerList.sort((a, b) => {
+            if (a.rank == b.rank)
+                return b.score - a.score;
+            return (a.rank - b.rank)
+        });
+        for (var player of playerList) {
             elems.push(
                 <Tr key={'players-' + player.name}>
                     <Td >
@@ -39,7 +48,7 @@ function GameScreenInfo(props) {
     return (
         <Box>
             <VStack>
-                <Text as={'h4'} size={'md'} fontWeight={'bold'}>Game Players</Text>
+                <Text color={"gray.300"} as={'h4'} size={'md'} fontWeight={'bold'}>Game Players</Text>
                 <Table variant='simple' size="sm">
                     <Thead>
                         <Tr>

@@ -6,12 +6,16 @@ import { withRouter } from 'react-router-dom';
 
 import { FaCheck } from '@react-icons';
 
+import { getRoomStatus } from '../../actions/room';
 
 function GameScreenStarting(props) {
 
     const game_slug = props.match.params.game_slug;
     const mode = props.match.params.mode;
     const room_slug = props.match.params.room_slug;
+
+
+    const [hide, setHide] = useState(false);
 
     let timeleft = props.gameTimeleft || 0;
     timeleft = Math.ceil(timeleft / 1000);
@@ -54,10 +58,47 @@ function GameScreenStarting(props) {
     let isGamestart = state?.gamestatus == 'gamestart';
     let isGameover = state?.gamestatus == 'gameover' || events?.gameover;
 
-    if (isGamestart)
-        return <></>
+    let roomStatus = getRoomStatus(room_slug);
+    // if (isGamestart)
+    //     return <></>
 
-    if (isPregame || (isStarting && timeleft > 4)) {
+    if (roomStatus == 'GAMEOVER') {
+        if (events?.noshow) {
+            message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                <Text as="h3" fontSize="3xl">Not all players joined.</Text>
+            </VStack>;
+        }
+        else if (events?.gameover) {
+            let local = fs.get('user');
+
+            let extra = <></>
+            if (!isGamestart && gamestate?.timer?.seq <= 2) {
+                extra = <Text as="h3" fontSize="3xl">Game failed to start.</Text>
+            }
+            else if (local && players) {
+                let player = players[local.shortid]
+                let rank = player?.rank || -1;
+                if (rank == 1) {
+                    extra = <Text as="h3" fontSize="3xl">You Win!</Text>
+                } else {
+                    extra = <Text as="h3" fontSize="3xl">You Lose!</Text>
+                }
+            }
+
+
+            message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                {extra}
+            </VStack>;
+        }
+        else if (events?.error) {
+            message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                <Text as="h4" fontSize="md">Error in Game</Text>
+                <Text as="h3" fontSize="3xl">{events?.error}</Text>
+            </VStack>;
+        }
+
+    }
+    else if (isPregame || (isStarting && timeleft > 4)) {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
             <Text as="h4" fontSize="md">Waiting for players</Text>
             {renderPlayers()}
@@ -65,21 +106,27 @@ function GameScreenStarting(props) {
             <Text display={isStarting ? 'none' : 'block'} as="h3" fontSize="3xl">{timeleft}</Text>
         </VStack>
     }
-    else {
+    else if (isStarting) {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
             <Text as="h4" fontSize="md">Starting in </Text>
             <Text as="h3" fontSize="3xl">{timeleft > 0 ? timeleft : 'GO!'}</Text>
         </VStack>;
     }
+    else {
+        return <></>
+    }
 
 
+    const onClickMessage = (e) => {
 
+        setHide(true);
+    }
 
 
     return (
         <Portal>
             <Box
-                display={isGameover ? 'none' : 'block'}
+                display={'block'}
                 // w="200px" 
                 bgColor={'rgba(0,0,0,0.5)'}
                 // height="150px"
@@ -90,6 +137,9 @@ function GameScreenStarting(props) {
                 /* bring your own prefixes */
                 p="1rem"
                 transform="translate(0, 0)"
+                filter={hide ? 'opacity(0)' : 'opacity(100%)'}
+                transition={'filter 0.3s ease-in'}
+                onClick={onClickMessage}
             >
                 <Flex w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
                     {message}

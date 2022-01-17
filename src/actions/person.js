@@ -3,6 +3,7 @@ import fs from 'flatstore';
 import { findDevGames } from './devgame';
 // import history from "./history";
 import { getWithExpiry, setWithExpiry, removeWithExpiry } from './cache';
+import { wsRejoinRoom } from './connection';
 
 
 export async function createDisplayName(displayname) {
@@ -70,6 +71,7 @@ export async function logout() {
         fs.set('player_stats', {});
         fs.set('queues', []);
         fs.get('lastJoin', '');
+        localStorage.removeItem('rooms');
         localStorage.removeItem('queues');
         removeWithExpiry('user');
 
@@ -112,6 +114,13 @@ export async function getUser() {
 
     if (!user) {
         return false;
+    }
+
+    let rooms = localStorage.getItem('rooms') || {};
+    let roomList = Object.keys(rooms);
+    for (var rs of roomList) {
+        let room = rooms[rs];
+        await wsRejoinRoom(room.game_slug, room.room_slug);
     }
 
     return user;

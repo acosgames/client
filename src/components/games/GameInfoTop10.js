@@ -24,13 +24,13 @@ function GameInfoTop10(props) {
         let leaderboard = props.leaderboard || [];
         let elems = [];
 
-
+        let tag = props.tag || 'default'
 
         for (var player of leaderboard) {
             let isLocalPlayer = user?.displayname == player.value;
             let isPast5Rank = player.rank == 10 && (playerGameStats && playerGameStats.ranking > 10);
             elems.push(
-                <Tr key={'leaderboard-' + player.value}>
+                <Tr key={tag + '-leaderboard-' + player.value}>
                     <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
                         borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
                         <Text

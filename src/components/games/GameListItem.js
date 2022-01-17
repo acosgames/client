@@ -8,12 +8,32 @@ import config from '../../config'
 
 import fs from 'flatstore';
 import { useEffect } from "react";
-import { VStack, Image, Text, HStack, Icon } from "@chakra-ui/react";
+import { VStack, Image, Text, HStack, Icon, Button } from "@chakra-ui/react";
 
+import { FaPlay } from '@react-icons';
+import { getUser } from "../../actions/person";
+import { joinGame } from "../../actions/game";
 
 function GameListItem(props) {
 
     const game = props.game;
+
+    const handleJoin = async () => {
+
+        fs.set('lastJoin', 'rank');
+
+        let user = await getUser();
+        if (!user || !user.shortid) {
+            fs.set('justCreatedName', false);
+            fs.set('isCreateDisplayName', true);
+            return;
+        }
+
+        //let game_slug = props.match.params.game_slug;
+
+        joinGame(game);
+    }
+
 
     const abbrevNumber = (num) => {
         if (num > 999999) {
@@ -40,8 +60,9 @@ function GameListItem(props) {
     }
 
     return (
-        <Link to={'/g/' + game.game_slug}>
-            <VStack cursor="pointer" spacing="0" key={game.game_slug} >
+
+        <VStack cursor="pointer" spacing="0" key={game.game_slug} >
+            <Link to={'/g/' + game.game_slug}>
                 <Image
                     w={['140px', '140px', '140px', '140px']}
                     minW={['140px', '140px', '140px', '140px']}
@@ -51,6 +72,8 @@ function GameListItem(props) {
                     src={imgUrl}
                     fallbackSrc={config.https.cdn + 'placeholder.png'}
                 />
+            </Link>
+            <Link to={'/g/' + game.game_slug}>
                 <Text
                     as="h6" size="sm" fontWeight={'bold'}
                     bgColor={'gray.900'}
@@ -60,12 +83,31 @@ function GameListItem(props) {
                     m="0"
                     textAlign={'center'}
                 >{gameName}</Text>
-                {/* <HStack>
+            </Link>
+            <Button
+                flex="1"
+                bgColor="brand.500"
+                _hover={{ bg: "brand.600" }}
+                _active={{ bg: "brand.900" }}
+                size="md"
+                mr="0"
+                w="30%"
+                p="0.5rem"
+                // icon={<FaPlay />}
+                borderTopLeftRadius={"9999px"}
+                borderBottomLeftRadius={"9999px"}
+
+                borderTopRightRadius={'9999px'}
+                borderBottomRightRadius={'9999px'}
+                onClick={handleJoin}
+            >
+                <Icon ml={0} fontSize="12px" as={FaPlay} />
+            </Button>
+            {/* <HStack>
                 <Icon as={IoPeople} />
                 <Text>{abbrevNumber(game.activePlayers * game.maxplayers)}</Text>
             </HStack> */}
-            </VStack>
-        </Link>
+        </VStack>
         // <div className="game-item" >
 
         //     <div className="game-title"><span></span></div>

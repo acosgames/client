@@ -11,6 +11,7 @@ import fs from 'flatstore';
 import GameInfo from '../components/games/GameInfo';
 import GameScreen from '../components/games/GameScreen';
 import { useEffect } from "react";
+import GameInfo2 from "../components/games/GameInfo2";
 
 
 var RoutesGame = () => {
@@ -40,17 +41,17 @@ var RoutesGame = () => {
                 <Route
                     exact
                     path="/g/:game_slug"
-                    component={GameInfo}
+                    component={GameInfo2}
                 />
                 <Route
                     exact
                     path="/g/:game_slug/:room_slug"
-                    component={GameScreen}
+                    component={GameInfo2}
                 />
                 <Route
                     exact
                     path="/g/:game_slug/:mode/:room_slug"
-                    component={GameScreen}
+                    component={GameInfo2}
                 />
             </Switch>
         </>
