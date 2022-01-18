@@ -10,8 +10,8 @@ const config = {
 }
 
 const fonts = {
-    body: "Montserrat",
-    heading: "Montserrat"
+    body: "Roboto",
+    heading: "Roboto"
     // heading: '"Inter", "Oswald", sans-serif;',
     //body: '"Inter", "Oswald", sans-serif;'
 }
