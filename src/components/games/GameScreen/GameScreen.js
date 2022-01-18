@@ -3,16 +3,16 @@ import { Box, VStack, Text, IconButton, HStack, Spacer, Wrap, WrapItem } from '@
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { findAndRejoin } from '../../actions/game';
-import Connection from './Connection';
+import { findAndRejoin } from '../../../actions/game';
+import Connection from '../Connection';
 import GameScreenIframe from './GameScreenIframe';
 import GameScreenActions from './GameScreenActions';
 import GameScreenInfo from './GameScreenInfo';
-import LeaveGame from './LeaveGame';
-import GameInfoTop10 from './GameInfoTop10';
-import FSGGroup from '../widgets/inputs/FSGGroup';
+import LeaveGame from '../LeaveGame';
+import GameInfoTop10 from '../GameInfo/GameInfoTop10';
+import FSGGroup from '../../widgets/inputs/FSGGroup';
 import GameScreenStarting from './GameScreenStarting';
-import { refreshGameState } from '../../actions/connection';
+import { refreshGameState } from '../../../actions/connection';
 
 function GameScreen(props) {
 

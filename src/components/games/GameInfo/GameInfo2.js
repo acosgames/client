@@ -7,27 +7,27 @@ import {
 } from "react-router-dom";
 import { Redirect } from 'react-router';
 
-import config from '../../config'
+import config from '../../../config'
 
 import fs from 'flatstore';
-import { getUser } from '../../actions/person';
-import { findGame, findGamePerson } from "../../actions/game";
-import { getRoomStatus } from '../../actions/room';
+import { getUser } from '../../../actions/person';
+import { findGame, findGamePerson } from "../../../actions/game";
+import { getRoomStatus } from '../../../actions/room';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
 import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton, useDisclosure, Portal } from "@chakra-ui/react";
 
-import SLink from "../widgets/SLink";
-import FSGGroup from "../widgets/inputs/FSGGroup";
-import FSGRead from "../widgets/inputs/FSGRead";
+import SLink from "../../widgets/SLink";
+import FSGGroup from "../../widgets/inputs/FSGGroup";
+import FSGRead from "../../widgets/inputs/FSGRead";
 // import FSGTextInput from "../widgets/inputs/FSGTextInput";
 
 import GameInfoActions from './GameInfoActions'
 import GameInfoJoinButton from './GameInfoJoinButton'
 import GameInfoTop10 from './GameInfoTop10'
 import GameInfoCreateDisplayname from "./GameInfoCreateDisplayName";
-import GameScreen2 from "./GameScreen2";
+import GameScreen2 from "../GameScreen/GameScreen2";
 function GameInfo2(props) {
     const game_slug = props.match.params.game_slug;
     const room_slug = props.match.params.room_slug;
@@ -40,7 +40,7 @@ function GameInfo2(props) {
         let test = 1;
 
         fs.set('room_slug', room_slug);
-
+        roomStatus = getRoomStatus(room_slug);
         if (room_slug && roomStatus == 'NOTEXIST') {
             history.push('/g/' + game_slug);
             return;
@@ -82,6 +82,8 @@ function GameInfo2(props) {
 
     useEffect(async () => {
         gtag('event', 'gameinfo', { game_slug });
+
+
     }, [])
 
 

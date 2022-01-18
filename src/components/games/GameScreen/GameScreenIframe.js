@@ -1,12 +1,11 @@
 import { Box, Fade, Flex, IconButton, ScaleFade, Text, useToast, VStack } from '@chakra-ui/react';
-import Connection from './Connection';
-import LeaveGame from './LeaveGame';
+
 import { useEffect, useRef, useState } from 'react';
 import fs from 'flatstore';
-import { refreshGameState, sendLoadMessage } from '../../actions/connection';
-import config from '../../config'
+import { sendLoadMessage } from '../../../actions/connection';
+import config from '../../../config'
 
-import { getRoomStatus } from '../../actions/room';
+import { getRoomStatus } from '../../../actions/room';
 
 
 fs.set('iframes', {});
@@ -66,8 +65,8 @@ function GameScreenIframe(room) {
         return <></>
 
 
-    if (!game)
-        return <></>
+    // if (!game)
+    //     return <></>
 
     let screentype = game.screentype;
     let resow = game.resow;
@@ -136,12 +135,10 @@ function GameScreenIframe(room) {
         let gamestate = fs.get('gamestate');
         let roomStatus = getRoomStatus(room_slug);
         let offsetRatio = 0.4;
-        if (roomStatus == 'GAME' || 'LOADING') {
+        if (roomStatus == 'GAME' || roomStatus == 'LOADING' || roomStatus == 'GAMEOVER') {
             offsetRatio = 1;
         }
-        if (roomStatus == 'GAMEOVER' &&
-            (gamestate?.events?.noshow || gamestate?.events?.error ||
-                (gamestate?.events?.gameover && gamestate?.state?.gamestatus !== 'gamestart'))) {
+        if (roomStatus == 'NOSHOW' || roomStatus == 'ERROR') {
             offsetRatio = 0.4;
         }
 

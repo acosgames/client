@@ -1,16 +1,13 @@
 
 import { Badge, Box, Button, Text, Flex, IconButton, Input, Portal, Spacer, HStack, Wrap, } from '@chakra-ui/react';
-import fs from 'flatstore';
-import { useEffect, useRef, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { findAndRejoin, joinGame } from '../../actions/game';
-import Connection from './Connection';
-
-
-import LeaveGame from './LeaveGame';
 import { BsArrowsFullscreen, BsBarChartFill } from '@react-icons';
-import { wsLeaveGame } from '../../actions/connection';
-import { getRoomStatus } from '../../actions/room';
+
+import fs from 'flatstore';
+import { withRouter } from 'react-router-dom';
+
+import { joinGame } from '../../../actions/game';
+import { wsLeaveGame } from '../../../actions/connection';
+import { getRoomStatus } from '../../../actions/room';
 
 const resizeEvent = new Event('resize');
 
@@ -52,18 +49,19 @@ function GameScreenActions(props) {
             return
 
         let isExperimental = (window.location.href.indexOf('/experimental/') != -1);
+        // wsLeaveGame(game_slug, room_slug);
 
         //0=experimental, 1=rank
         joinGame(game, isExperimental);
 
-        let history = fs.get('history');
-        history.push('/g/' + game_slug);
+
 
     }
 
     let gamestate = fs.get('gamestate') || {};//-events-gameover');
     let events = gamestate?.events || {};
-    let isGameover = getRoomStatus(room_slug) == 'GAMEOVER';
+    let roomStatus = getRoomStatus(room_slug);
+    let isGameover = roomStatus == 'GAMEOVER' || roomStatus == 'NOSHOW' || roomStatus == 'ERROR';
 
 
     let latency = fs.get("latency") || 0;
@@ -118,4 +116,4 @@ function GameScreenActions(props) {
 
 
 
-export default withRouter(fs.connect(['fullScreenElem', 'gamestate'])(GameScreenActions));
+export default withRouter(fs.connect(['fullScreenElem', 'roomStatus'])(GameScreenActions));

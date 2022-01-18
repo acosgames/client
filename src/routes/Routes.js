@@ -10,18 +10,18 @@ import MainPage from '../components/MainPage';
 import SocialLogin from '../components/login/SocialLogin';
 import DevLogin from '../components/dev/DevLogin';
 import CreateDisplayName from "../components/login/CreateDisplayName";
-import DevMyGames from "../components/dev/DevMyGames";
-import DevCreateGame from "../components/dev/DevCreateGame";
-import DevManageGame from "../components/dev/DevManageGame";
+// import DevMyGames from "../components/dev/DevMyGames";
+// import DevCreateGame from "../components/dev/DevCreateGame";
+// import DevManageGame from "../components/dev/DevManageGame";
 
-import GamePanel from '../components/games/GamePanel';
-import GameInfo from "../components/games/GameInfo";
+// import GamePanel from '../components/games/GamePanel';
+// import GameInfo from "../components/games/GameInfo";
 import LoginSuccess from '../components/login/LoginSuccess';
 
 import RoutesDev from './RoutesDev';
 import fs from 'flatstore';
 // import history from "./actions/history";
-import GameScreen from "../components/games/GameScreen";
+// import GameScreen from "../components/games/GameScreen";
 import { Box } from "@chakra-ui/react";
 import { useEffect } from "react";
 import PrivacyPolicy from "../components/PrivacyPolicy";

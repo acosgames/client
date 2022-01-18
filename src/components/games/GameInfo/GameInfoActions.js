@@ -4,7 +4,7 @@ import { Flex, Center, Wrap, Button, IconButton, HStack, VStack, Icon, Text, Box
 import { FaThumbsUp, FaThumbsDown, FaGithub, IoWarningSharp } from '@react-icons';
 import { useState } from 'react';
 
-import { rateGame, reportGame } from '../../actions/game';
+import { rateGame, reportGame } from '../../../actions/game';
 // import { WarningIcon } from '@chakra-ui/icons';
 
 

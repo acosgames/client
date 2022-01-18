@@ -24,7 +24,7 @@ import Sidebar from './components/widgets/Sidebar';
 import { Box, Flex, HStack, VStack, Divider } from "@chakra-ui/layout";
 import AcosFooter from "./components/AcosFooter";
 import VersionControl from "./components/widgets/VersionControl";
-import GameInfoCreateDisplayName from "./components/games/GameInfoCreateDisplayName";
+import GameInfoCreateDisplayName from "./components/games/GameInfo/GameInfoCreateDisplayName";
 import { useDisclosure } from "@chakra-ui/react";
 import ActivateUserProfile from "./components/widgets/ActivateUserProfile";
 import ToastMessage from "./components/widgets/ToastMessage";

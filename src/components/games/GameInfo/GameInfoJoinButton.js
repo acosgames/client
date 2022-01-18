@@ -1,14 +1,12 @@
 import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack, useDisclosure } from '@chakra-ui/react'
-
-
 import { FaCaretDown, FaPlay } from '@react-icons';
 
-import { joinGame } from "../../actions/game";
 import fs from 'flatstore';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
-import { getUser } from '../../actions/person';
-import GameInfoCreateDisplayName from './GameInfoCreateDisplayName';
+
+import { getUser } from '../../../actions/person';
+import { joinGame } from "../../../actions/game";
 
 fs.set('isCreateDisplayName', false);
 fs.set('justCreatedName', false);

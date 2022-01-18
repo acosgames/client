@@ -3,16 +3,16 @@ import { Box, VStack, Text, IconButton, HStack, Spacer, Wrap, WrapItem, Portal, 
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import { findAndRejoin } from '../../actions/game';
-import Connection from './Connection';
-import GameScreenIframe from './GameScreenIframe';
+import { findAndRejoin } from '../../../actions/game';
+import Connection from '../Connection';
+import GameScreenIframeWrapper from './GameScreenIframe';
 import GameScreenActions from './GameScreenActions';
 import GameScreenInfo from './GameScreenInfo';
-import LeaveGame from './LeaveGame';
-import GameInfoTop10 from './GameInfoTop10';
-import FSGGroup from '../widgets/inputs/FSGGroup';
+import LeaveGame from '../LeaveGame';
+import GameInfoTop10 from '../GameInfo/GameInfoTop10';
+import FSGGroup from '../../widgets/inputs/FSGGroup';
 import GameScreenStarting from './GameScreenStarting';
-import { refreshGameState, wsRejoinRoom } from '../../actions/connection';
+import { refreshGameState, wsRejoinRoom } from '../../../actions/connection';
 
 function GameScreen2(props) {
 
@@ -34,10 +34,15 @@ function GameScreen2(props) {
         //     }
         // }
 
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 
-        setTimeout(() => {
-            setIsDarken(true);
-        }, 500)
+
+
+        // setTimeout(() => {
+        setIsDarken(true);
+
+        // }, 500)
 
 
         if (room_slug) {
@@ -82,7 +87,7 @@ function GameScreen2(props) {
                 ref={gamescreenRef}
             >
 
-                <GameScreenIframe room={props.room} />
+                <GameScreenIframeWrapper room={props.room} />
                 <VStack px={['1rem', '2rem', "5rem"]} pb="2rem" mt="1rem"
                 >
                     <Box bgColor={'gray.800'} w="100%" >

@@ -2,10 +2,10 @@ import { Text, Box, Button, Heading, Modal, ModalBody, ModalCloseButton, ModalCo
 
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from "react";
-import { createTempUser } from "../../actions/person";
-import FSGGroup from "../widgets/inputs/FSGGroup";
-import FSGSubmit from "../widgets/inputs/FSGSubmit";
-import FSGTextInput from "../widgets/inputs/FSGTextInput";
+import { createTempUser } from "../../../actions/person";
+import FSGGroup from "../../widgets/inputs/FSGGroup";
+import FSGSubmit from "../../widgets/inputs/FSGSubmit";
+import FSGTextInput from "../../widgets/inputs/FSGTextInput";
 
 import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
 

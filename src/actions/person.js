@@ -3,7 +3,7 @@ import fs from 'flatstore';
 import { findDevGames } from './devgame';
 // import history from "./history";
 import { getWithExpiry, setWithExpiry, removeWithExpiry } from './cache';
-import { wsRejoinRoom } from './connection';
+import { wsRejoinRoom, reconnect } from './connection';
 
 
 export async function createDisplayName(displayname) {
@@ -116,12 +116,8 @@ export async function getUser() {
         return false;
     }
 
-    let rooms = localStorage.getItem('rooms') || {};
-    let roomList = Object.keys(rooms);
-    for (var rs of roomList) {
-        let room = rooms[rs];
-        await wsRejoinRoom(room.game_slug, room.room_slug);
-    }
+
+
 
     return user;
 }
@@ -162,6 +158,19 @@ export async function getUserProfile() {
             let history = fs.get('history');
             history.push('/player/create');
         }
+
+        try {
+            let rooms = localStorage.getItem('rooms') || {};
+            rooms = JSON.parse(rooms);
+            let roomList = Object.keys(rooms);
+            if (roomList.length > 0) {
+                reconnect();
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+
         // fs.set('userCheckedLogin', true);
         return user;
     }

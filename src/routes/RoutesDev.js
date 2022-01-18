@@ -15,7 +15,7 @@ import DevCreateGame from "../components/dev/DevCreateGame";
 import DevManageGame from "../components/dev/DevManageGame";
 
 import GamePanel from '../components/games/GamePanel';
-import GameInfo from "../components/games/GameInfo";
+// import GameInfo from "../components/games/GameInfo";
 
 // import history from "./actions/history";
 import flatstore from 'flatstore';

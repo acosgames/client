@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 
 import { FaCheck } from '@react-icons';
 
-import { getRoomStatus } from '../../actions/room';
+import { getRoomStatus } from '../../../actions/room';
 
 function GameScreenStarting(props) {
 
@@ -62,41 +62,39 @@ function GameScreenStarting(props) {
     // if (isGamestart)
     //     return <></>
 
-    if (roomStatus == 'GAMEOVER') {
-        if (events?.noshow) {
-            message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-                <Text as="h3" fontSize="3xl">Not all players joined.</Text>
-            </VStack>;
-        }
-        else if (events?.gameover) {
-            let local = fs.get('user');
+    if (roomStatus == 'NOSHOW') {
+        message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+            <Text as="h3" fontSize="3xl">Not all players joined.</Text>
+        </VStack>;
+    }
+    else if (roomStatus == 'GAMEOVER') {
 
-            let extra = <></>
-            if (!isGamestart && gamestate?.timer?.seq <= 2) {
-                extra = <Text as="h3" fontSize="3xl">Game failed to start.</Text>
+        let local = fs.get('user');
+
+        let extra = <></>
+        if (gamestate?.timer?.seq <= 2) {
+            extra = <Text as="h3" fontSize="3xl">Game Over. Players left early.</Text>
+        }
+        else if (local && players) {
+            let player = players[local.shortid]
+            let rank = player?.rank || -1;
+            if (rank == 1) {
+                extra = <Text as="h3" fontSize="3xl">You Win!</Text>
+            } else {
+                extra = <Text as="h3" fontSize="3xl">You Lose!</Text>
             }
-            else if (local && players) {
-                let player = players[local.shortid]
-                let rank = player?.rank || -1;
-                if (rank == 1) {
-                    extra = <Text as="h3" fontSize="3xl">You Win!</Text>
-                } else {
-                    extra = <Text as="h3" fontSize="3xl">You Lose!</Text>
-                }
-            }
-
-
-            message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-                {extra}
-            </VStack>;
-        }
-        else if (events?.error) {
-            message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-                <Text as="h4" fontSize="md">Error in Game</Text>
-                <Text as="h3" fontSize="3xl">{events?.error}</Text>
-            </VStack>;
         }
 
+
+        message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+            {extra}
+        </VStack>;
+    }
+    else if (roomStatus == 'ERROR') {
+        message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+            <Text as="h4" fontSize="md">Error in Game</Text>
+            <Text as="h3" fontSize="3xl">{events?.error}</Text>
+        </VStack>;
     }
     else if (isPregame || (isStarting && timeleft > 4)) {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
@@ -154,4 +152,4 @@ function GameScreenStarting(props) {
 
 
 
-export default withRouter(fs.connect(['gameTimeleft', 'gamestate'])(GameScreenStarting));
+export default withRouter(fs.connect(['gameTimeleft', 'roomStatus'])(GameScreenStarting));

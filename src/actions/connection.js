@@ -8,6 +8,7 @@ import config from '../config'
 
 import fs from 'flatstore';
 import delta from '../util/delta';
+import { clearRoom, updateRoomStatus } from "./room";
 // import { useHistory } from 'react-router-dom';
 // import history from "./history";
 fs.set('iframe', null);
@@ -150,6 +151,7 @@ export function sendFrameMessage(msg) {
 
         //next frame
         // setTimeout(() => {
+        console.log("SendFrameMessage: ", msg);
         iframe.current.contentWindow.postMessage(msg, '*');
         // }, 1000)
 
@@ -301,10 +303,10 @@ export async function reconnect(isNew) {
         return ws;
     }
 
-    let queues = fs.get('queues') || localStorage.getItem('queues') || [];
-    let rooms = fs.get('rooms');
-    if (queues.length == 0 && !isNew && (!rooms || Object.keys(rooms).length == 0))
-        return disconnect();
+    // let queues = fs.get('queues') || localStorage.getItem('queues') || [];
+    // let rooms = fs.get('rooms');
+    // if (queues.length == 0 && !isNew && (!rooms || Object.keys(rooms).length == 0))
+    //     return disconnect();
 
 
     try {
@@ -323,7 +325,8 @@ export async function reconnect(isNew) {
 }
 
 export async function wsLeaveGame(game_slug, room_slug) {
-    let ws = await reconnect();
+
+    let ws = fs.get('ws');
     if (!ws || !ws.isReady) {
         let history = fs.get('history');
         fs.set('gamestate', {});
@@ -332,15 +335,21 @@ export async function wsLeaveGame(game_slug, room_slug) {
         return;
     }
 
+    // ws = await reconnect();
+
     let action = { type: 'leave', room_slug }
     console.log("[Outgoing] Leaving: ", action);
     wsSend(action);
 
+    clearRoom(room_slug);
     let history = fs.get('history');
     fs.set('gamestate', {});
     fs.set('room_slug', null);
 
-    await disconnect();
+    // setTimeout(async () => {
+    //     await disconnect();
+    // }, 1)
+
 
     history.push('/g/' + game_slug);
 }
@@ -403,7 +412,8 @@ export async function wsJoinGame(mode, game_slug) {
 export async function wsJoinRoom(game_slug, room_slug, private_key) {
     let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
-        setTimeout(() => { wsJoinRoom(room_slug, private_key); }, 1000);
+        console.log("RETRYING wSJoinRoom");
+        setTimeout(() => { wsJoinRoom(game_slug, room_slug, private_key); }, 1000);
         return;
     }
 
@@ -470,12 +480,22 @@ export async function wsRejoinRoom(game_slug, room_slug, private_key) {
     await wsJoinRoom(game_slug, room_slug, private_key);
 }
 
+export async function wsRejoinRooms() {
+    let rooms = fs.get('rooms') || localStorage.getItem('rooms') || {};
+    let roomList = Object.keys(rooms);
+    for (var rs of roomList) {
+        let room = rooms[rs];
+        await wsRejoinRoom(room.game_slug, room.room_slug);
+    }
+}
+
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 export function wsConnect(url, onMessage, onOpen, onError) {
     return new Promise(async (rs, rj) => {
+        console.log("CONNECT #1")
         let ws = fs.get('ws');
         let user = fs.get('user');
 
@@ -487,6 +507,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
         //if connecting or open, don't try to connect
         if (ws && ws.readyState <= 1) {
             //let ws = await reconnect();
+            console.log("CONNECT #2")
             rs(ws);
             return;
         }
@@ -494,6 +515,8 @@ export function wsConnect(url, onMessage, onOpen, onError) {
         if (!isUserLoggedIn()) {
             let history = fs.get('history');
             history.push('/login');
+            console.log("CONNECT #3")
+            rJ('E_NOTAUTHORIZED')
             return;
             // await sleep(1000);
             // user = fs.get('user');
@@ -510,7 +533,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
         client.onopen = onOpen || ((err) => {
             console.log(err);
             console.log('WebSocket Client Connected');
-
+            console.log("CONNECT #4")
             if (rs)
                 rs(client);
 
@@ -518,6 +541,9 @@ export function wsConnect(url, onMessage, onOpen, onError) {
                 client.isReady = true;
                 sendPing(client);
             }
+
+
+            wsRejoinRooms();
 
             var currentdate = new Date();
             var datetime = "WS Opened: " + currentdate.getDate() + "/"
@@ -531,6 +557,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
         });
 
         client.onclose = async (evt) => {
+            console.log("CONNECT #5")
             console.log(evt);
             client.isReady = false;
             // fs.set('gamestate', {});
@@ -549,6 +576,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             await reconnect();
         }
         client.onerror = onError || (async (error, data) => {
+            console.log("CONNECT #6")
             console.error(error);
             if (rj)
                 rj(error);
@@ -645,29 +673,39 @@ async function wsIncomingMessage(message) {
                 history.push('/g/' + game_slug);
             }
 
+            clearRoom(msg.room_slug);
 
-            break;
+            return;
 
         case 'inrooms':
             console.log("[Incoming] InRooms: ", JSON.parse(JSON.stringify(msg, null, 2)));
             if (msg.payload && Array.isArray(msg.payload) && msg.payload.length > 0) {
-                let room = msg.payload[0];
+                // let room = msg.payload[0];
 
-                fs.set('room_slug', room.room_slug);
-                if (!room) {
-                    console.error("Game not found. Cannot join unknown game.");
+                // fs.set('room_slug', room.room_slug);
+                // if (!room) {
+                //     console.error("Game not found. Cannot join unknown game.");
+                //     return;
+                // }
+
+                // let joinrooms = fs.get('joinrooms');
+                // if (joinrooms[room.room_slug])
+                //     delete joinrooms[room.room_slug];
+                // fs.set('joinrooms', joinrooms);
+                if (!msg.payload || msg.payload.length == 0) {
+                    console.log("No rooms found.");
                     return;
                 }
+                let roomList = msg.payload;
+                let room = roomList[0];
+                let rooms = {};
 
-                let joinrooms = fs.get('joinrooms');
-                if (joinrooms[room.room_slug])
-                    delete joinrooms[room.room_slug];
-                fs.set('joinrooms', joinrooms);
+                for (var r of roomList) {
+                    rooms[r.room_slug] = room;
+                }
 
-                let rooms = fs.get('rooms');
-                rooms[room.room_slug] = room;
                 fs.set('rooms', rooms);
-                localStorage.setItem('rooms', rooms);
+                localStorage.setItem('rooms', JSON.stringify(rooms));
 
                 fs.set('gameEnded', false);
                 fs.set('gameLoaded', false);
@@ -704,7 +742,7 @@ async function wsIncomingMessage(message) {
             let rooms = fs.get('rooms');
             rooms[msg.room_slug] = msg;
             fs.set('rooms', rooms);
-            localStorage.setItem('rooms', rooms);
+            localStorage.setItem('rooms', JSON.stringify(rooms));
 
             localStorage.removeItem('queues');
             fs.set('gameEnded', false);
@@ -807,6 +845,8 @@ async function wsIncomingMessage(message) {
     sendFrameMessage(out);
 
     postIncomingMessage(msg)
+
+    updateRoomStatus(msg.room_slug);
 }
 
 async function postIncomingMessage(msg) {
@@ -832,34 +872,22 @@ async function postIncomingMessage(msg) {
                 fs.set('player_stats', player_stats);
             }
 
-
-            delete rooms[msg.room_slug];
-            fs.set('rooms', rooms);
-            localStorage.setItem('rooms', rooms);
+            disconnect()
             // fs.set('gamestate', {});
 
             break;
         case 'noshow':
-            delete rooms[msg.room_slug];
-            fs.set('rooms', rooms);
-            localStorage.setItem('rooms', rooms);
+            disconnect()
             break;
         case 'notexist':
-            delete rooms[msg.room_slug];
-            fs.set('rooms', rooms);
-            localStorage.setItem('rooms', rooms);
+            disconnect()
             break;
 
         case 'error':
-            delete rooms[msg.room_slug];
-            fs.set('rooms', rooms);
-            localStorage.setItem('rooms', rooms);
+            disconnect()
             break;
         case 'kicked':
-            fs.set('gamestate', {});
-            delete rooms[msg.room_slug];
-            fs.set('rooms', rooms);
-            localStorage.setItem('rooms', rooms);
+            disconnect()
             break;
         case 'join':
 

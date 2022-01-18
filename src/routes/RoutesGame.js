@@ -8,10 +8,10 @@ import {
 // import history from "./actions/history";
 import fs from 'flatstore';
 
-import GameInfo from '../components/games/GameInfo';
-import GameScreen from '../components/games/GameScreen';
+// import GameInfo from '../components/games/GameInfo';
+// import GameScreen from '../components/games/GameScreen';
 import { useEffect } from "react";
-import GameInfo2 from "../components/games/GameInfo2";
+import GameInfo2 from "../components/games/GameInfo/GameInfo2";
 
 
 var RoutesGame = () => {
@@ -31,7 +31,11 @@ var RoutesGame = () => {
     useEffect(() => {
         fs.set('history', history);
 
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     }, [])
+
+
 
     return (
         <>

@@ -61,7 +61,7 @@ function GameListItem(props) {
 
     return (
 
-        <VStack cursor="pointer" spacing="0" key={game.game_slug} >
+        <VStack cursor="pointer" spacing="0" key={game.game_slug} position="relative" >
             <Link to={'/g/' + game.game_slug}>
                 <Image
                     w={['140px', '140px', '140px', '140px']}
@@ -73,6 +73,29 @@ function GameListItem(props) {
                     fallbackSrc={config.https.cdn + 'placeholder.png'}
                 />
             </Link>
+
+            <Button
+                flex="1"
+                bgColor="gray.500"
+                _hover={{ bg: "gray.600" }}
+                _active={{ bg: "gray.900" }}
+                size="md"
+                mr="0"
+                w="30%"
+                p="0.5rem"
+                position="absolute"
+                top="-10px"
+                right="-10px"
+                // icon={<FaPlay />}
+                borderTopLeftRadius={"9999px"}
+                borderBottomLeftRadius={"9999px"}
+
+                borderTopRightRadius={'9999px'}
+                borderBottomRightRadius={'9999px'}
+                onClick={handleJoin}
+            >
+                <Icon ml={0} fontSize="12px" as={FaPlay} />
+            </Button>
             <Link to={'/g/' + game.game_slug}>
                 <Text
                     as="h6" size="sm" fontWeight={'bold'}
@@ -84,25 +107,6 @@ function GameListItem(props) {
                     textAlign={'center'}
                 >{gameName}</Text>
             </Link>
-            <Button
-                flex="1"
-                bgColor="brand.500"
-                _hover={{ bg: "brand.600" }}
-                _active={{ bg: "brand.900" }}
-                size="md"
-                mr="0"
-                w="30%"
-                p="0.5rem"
-                // icon={<FaPlay />}
-                borderTopLeftRadius={"9999px"}
-                borderBottomLeftRadius={"9999px"}
-
-                borderTopRightRadius={'9999px'}
-                borderBottomRightRadius={'9999px'}
-                onClick={handleJoin}
-            >
-                <Icon ml={0} fontSize="12px" as={FaPlay} />
-            </Button>
             {/* <HStack>
                 <Icon as={IoPeople} />
                 <Text>{abbrevNumber(game.activePlayers * game.maxplayers)}</Text>
