@@ -48,7 +48,7 @@ function App(props) {
       <ToastMessage />
       <Flex direction={'column'} minHeight={'100%'} w="100%" filter="blur(0)">
         <MainMenuChakra />
-        <VStack w="100%">
+        <VStack w="100%" zIndex="5">
           <Flex id="wrapper" direction="row" w="100%">
             <Switch>
               <Route path="/dev/login"

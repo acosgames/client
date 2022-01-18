@@ -65,6 +65,7 @@ function MainMenuChakra(props) {
         <>
 
             <Box
+                zIndex="10"
                 filter={room_slug ? 'blur(20px)' : 'blur(0)'}
                 display={'block'}
                 bg={useColorModeValue('gray.100', 'gray.900')}
