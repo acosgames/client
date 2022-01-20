@@ -8,7 +8,8 @@ import config from '../config'
 
 import fs from 'flatstore';
 import delta from '../util/delta';
-import { clearRoom, updateRoomStatus } from "./room";
+import { addRoom, addRooms, clearRoom, clearRooms, getCurrentRoom, getGameState, getRoom, setCurrentRoom, setGameState, setLastJoinType, updateRoomStatus } from "./room";
+import { addGameQueue, clearGameQueues } from "./queue";
 // import { useHistory } from 'react-router-dom';
 // import history from "./history";
 fs.set('iframe', null);
@@ -18,9 +19,7 @@ fs.set('gamestate', {});
 fs.set('room_slug', null);
 fs.set('games', {});
 
-fs.set('gameEnded', false);
 fs.set('queues', []);
-fs.set('joinrooms', {})
 fs.set('rooms', {});
 
 // fs.set('offsetTime', 0);
@@ -96,7 +95,7 @@ export function detachFromFrame() {
 export function fastForwardMessages() {
 
     // let room_slug = msg.room_slug;
-    let room_slug = fs.get('room_slug');
+    let room_slug = getCurrentRoom();
     let iframes = fs.get('iframes') || {}
     let iframe = iframes[room_slug];
 
@@ -196,8 +195,8 @@ export function recvFrameMessage(evt) {
     if (!action.type) return;
     console.log('[iframe]: ', action);
 
-    let room_slug = fs.get('room_slug');
-    let gamestate = fs.get('gamestate');
+    let room_slug = getCurrentRoom();
+    let gamestate = getGameState();
     let iframesLoaded = fs.get('iframesLoaded') || {};
 
     if (action.type == 'ready') {
@@ -290,9 +289,7 @@ export async function disconnect() {
     if (!ws)
         return;
 
-    let rooms = fs.get('rooms');
-    if (!rooms || Object.keys(rooms).length == 0)
-        ws.close();
+    ws.close();
 
     fs.set('ws', null);
     console.log("Disconnected from server.");
@@ -329,45 +326,36 @@ export async function wsLeaveGame(game_slug, room_slug) {
     let ws = fs.get('ws');
     if (!ws || !ws.isReady) {
         let history = fs.get('history');
-        fs.set('gamestate', {});
-        fs.set('room_slug', null);
+        setGameState({});
+        setCurrentRoom(null);
         history.push('/g/' + game_slug);
         return;
     }
-
-    // ws = await reconnect();
 
     let action = { type: 'leave', room_slug }
     console.log("[Outgoing] Leaving: ", action);
     wsSend(action);
 
     clearRoom(room_slug);
+    setGameState({});
+    setCurrentRoom(null);
+
     let history = fs.get('history');
-    fs.set('gamestate', {});
-    fs.set('room_slug', null);
-
-    // setTimeout(async () => {
-    //     await disconnect();
-    // }, 1)
-
-
     history.push('/g/' + game_slug);
 }
 
 export async function wsLeaveQueue() {
-    let ws = await reconnect();
-    if (!ws || !ws.isReady) {
-        return;
-    }
 
-    fs.set('queues', []);
-    fs.get('lastJoin', '');
-    localStorage.removeItem('queues');
+    setLastJoinType('');
+    await clearGameQueues();
 
-    let action = { type: 'leavequeue' }
+    // let ws = await reconnect();
+    // if (!ws || !ws.isReady) {
+    //     return;
+    // }
 
-    wsSend(action);
-
+    // let action = { type: 'leavequeue' }
+    // wsSend(action);
 
     await disconnect();
 
@@ -387,18 +375,10 @@ export async function wsJoinGame(mode, game_slug) {
         return;
     }
 
-    let queues = fs.get('queues') || localStorage.getItem('queues') || [];
     let payload = { mode, game_slug };
-    if (!queues.find(q => (q.mode == mode && q.game_slug == game_slug))) {
-        queues.push(payload)
-        fs.set('queues', queues);
-    }
-
     let action = { type: 'joingame', payload }
-
     wsSend(action);
 
-    fs.set('joining', 'game');
     console.log("[Outgoing] Joining " + mode + ": ", action);
 
     let games = fs.get('games');
@@ -424,11 +404,9 @@ export async function wsJoinRoom(game_slug, room_slug, private_key) {
 
     gtag('event', 'joinroom', { game_slug: game_slug });
 
-    let joinrooms = fs.get('joinrooms');
-    joinrooms[room_slug] = { private_key, game_slug }
     let action = { type: 'joinroom', payload: { game_slug, room_slug, private_key } }
     wsSend(action);
-    fs.set('joining', 'game');
+
     console.log("[Outgoing] Joining room [" + room_slug + "]: ", game_slug, action);
     // console.timeEnd('ActionLoop');
 }
@@ -447,7 +425,6 @@ export async function wsSpectateGame(game_slug) {
     let action = { type: 'spectate', payload: { game_slug } }
     wsSend(action);
 
-    fs.set('joining', 'game');
     console.log("[Outgoing] Spectating [" + game_slug + "]: ", action);
     // console.timeEnd('ActionLoop');
 }
@@ -516,7 +493,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             let history = fs.get('history');
             history.push('/login');
             console.log("CONNECT #3")
-            rJ('E_NOTAUTHORIZED')
+            rj('E_NOTAUTHORIZED')
             return;
             // await sleep(1000);
             // user = fs.get('user');
@@ -573,6 +550,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
 
             if (rj)
                 rj(evt);
+            clearRooms();
             await reconnect();
         }
         client.onerror = onError || (async (error, data) => {
@@ -637,8 +615,8 @@ async function wsIncomingMessageFAKE(message) {
 }
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
-    let gamestate = fs.get('gamestate');
     let history = fs.get('history');
+    let gamestate = getGameState();
 
     let buffer = await message.data;
     let msg = decode(buffer);
@@ -647,15 +625,14 @@ async function wsIncomingMessage(message) {
         return;
     }
 
-    let rooms = fs.get('rooms');
-    let room_slug = msg.room_slug;
-    let room = null;
-    if (room_slug) {
-        room = rooms[room_slug];
-    }
+
     switch (msg.type) {
         case 'pong':
             onPong(msg);
+            return;
+        case 'queue':
+            console.log("[Incoming] queue: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            addGameQueue(msg.game_slug, msg.mode);
             return;
         case 'ready':
             console.log("iframe is ready!");
@@ -680,45 +657,27 @@ async function wsIncomingMessage(message) {
         case 'inrooms':
             console.log("[Incoming] InRooms: ", JSON.parse(JSON.stringify(msg, null, 2)));
             if (msg.payload && Array.isArray(msg.payload) && msg.payload.length > 0) {
-                // let room = msg.payload[0];
 
-                // fs.set('room_slug', room.room_slug);
-                // if (!room) {
-                //     console.error("Game not found. Cannot join unknown game.");
-                //     return;
-                // }
-
-                // let joinrooms = fs.get('joinrooms');
-                // if (joinrooms[room.room_slug])
-                //     delete joinrooms[room.room_slug];
-                // fs.set('joinrooms', joinrooms);
                 if (!msg.payload || msg.payload.length == 0) {
                     console.log("No rooms found.");
                     return;
                 }
-                let roomList = msg.payload;
-                let room = roomList[0];
-                let rooms = {};
 
-                for (var r of roomList) {
-                    rooms[r.room_slug] = room;
-                }
-
-                fs.set('rooms', rooms);
-                localStorage.setItem('rooms', JSON.stringify(rooms));
-
-                fs.set('gameEnded', false);
+                await addRooms(msg.payload);
                 fs.set('gameLoaded', false);
-                fs.set('queues', []);
-                fs.get('lastJoin', '');
-                localStorage.removeItem('queues');
+                setLastJoinType('');
+                await clearGameQueues();
 
+                //lets move into the first room on the list
+                let room = msg.payload[0];
+
+                //update the gamestate
                 if (window.location.href.indexOf(room.room_slug) > -1) {
                     if (room.payload)
-                        fs.set('gamestate', room.payload || {});
+                        setGameState(room.payload);
                 }
 
-
+                //redirect to the room url
                 let experimental = room.mode == 'experimental' ? '/experimental' : '';
                 let urlPath = '/g/' + room.game_slug + experimental + '/' + room.room_slug;
                 if (window.location.href.indexOf(urlPath) == -1)
@@ -728,29 +687,18 @@ async function wsIncomingMessage(message) {
             break;
         case 'joined':
             console.log("[Incoming] Joined: ", JSON.parse(JSON.stringify(msg, null, 2)));
-            fs.set('room_slug', msg.room_slug);
-            // if (!room) {
-            //     console.error("Game not found. Cannot join unknown game.");
-            //     return;
-            // }
+            setCurrentRoom(msg.room_slug);
 
             gtag('event', 'joined', { game_slug: msg.game_slug });
-            let joinrooms = fs.get('joinrooms');
-            delete joinrooms[msg.room_slug];
-            fs.set('joinrooms', joinrooms);
 
-            let rooms = fs.get('rooms');
-            rooms[msg.room_slug] = msg;
-            fs.set('rooms', rooms);
-            localStorage.setItem('rooms', JSON.stringify(rooms));
-
-            localStorage.removeItem('queues');
-            fs.set('gameEnded', false);
+            addRoom(msg);
+            clearGameQueues();
             fs.set('gameLoaded', false);
-            fs.set('queues', []);
-            fs.get('lastJoin', '');
-            fs.set('gamestate', msg.payload || {});
+
+            setLastJoinType('');
+
             gamestate = msg.payload || {};
+            setGameState(gamestate);
 
             timerLoop();
 
@@ -788,10 +736,9 @@ async function wsIncomingMessage(message) {
             let player = gamestate.players[user.shortid]
             player = delta.merge(player, msg.payload);
 
-            let rooms = fs.get('rooms');
-            let room = rooms[msg.room_slug];
+            let room = getRoom(msg.room_slug);
             //UPDATE PLAYER STATS FOR THIS GAME
-            if (room.mode == 1 && msg.payload._played) {
+            if (room?.mode == 1 && msg?.payload?._played) {
                 let player_stats = fs.get('player_stats');
                 let player_stat = player_stats[room.game_slug]
                 if (player_stat) {
@@ -813,7 +760,7 @@ async function wsIncomingMessage(message) {
             }
 
             gamestate.players[user.shortid] = player;
-            fs.set('gamestate', gamestate);
+            setGameState(gamestate);
             return;
         }
         else {
@@ -825,7 +772,7 @@ async function wsIncomingMessage(message) {
 
             msg.payload = delta.merge(gamestate, msg.payload);
 
-            fs.set('gamestate', msg.payload);
+            setGameState(msg.payload);
         }
 
     }
@@ -850,9 +797,11 @@ async function wsIncomingMessage(message) {
 }
 
 async function postIncomingMessage(msg) {
+    let rooms = fs.get('rooms');
+
     switch (msg.type) {
         case 'gameover':
-            let rooms = fs.get('rooms');
+
             let room = rooms[msg.room_slug];
             let gamestate = fs.get('gamestate');
             let user = fs.get('user');
@@ -871,27 +820,23 @@ async function postIncomingMessage(msg) {
                 }
                 fs.set('player_stats', player_stats);
             }
-
-            disconnect()
             // fs.set('gamestate', {});
-
             break;
         case 'noshow':
-            disconnect()
             break;
         case 'notexist':
-            disconnect()
             break;
-
         case 'error':
-            disconnect()
             break;
         case 'kicked':
-            disconnect()
-            break;
-        case 'join':
 
             break;
+        default:
+            return;
     }
+
+    delete rooms[msg.room_slug];
+    fs.set('rooms', rooms);
+    disconnect()
 }
 

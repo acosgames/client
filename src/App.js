@@ -47,7 +47,21 @@ function App(props) {
       <GameInfoCreateDisplayName {...disclosure} />
       <ToastMessage />
       <Flex direction={'column'} minHeight={'100%'} w="100%" filter="blur(0)">
-        <MainMenuChakra />
+        <Switch>
+          <Route
+            path="/g/:game_slug/:mode/:room_slug"
+            component={MainMenuChakra}
+          />
+          <Route
+            path="/g/:game_slug/:room_slug"
+            component={MainMenuChakra}
+          />
+          <Route
+            path="*"
+            component={MainMenuChakra}
+          />
+
+        </Switch>
         <VStack w="100%" zIndex="5">
           <Flex id="wrapper" direction="row" w="100%">
             <Switch>

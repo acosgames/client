@@ -14,9 +14,9 @@ import SLink from './widgets/SLink';
 import fs from 'flatstore';
 import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
-import { withRouter } from 'react-router-dom/cjs/react-router-dom.min';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Link, useParams, withRouter } from 'react-router-dom';
 import config from '../config'
+import { getRoomStatus } from '../actions/room';
 
 
 const NavLink = ({ children }) => (
@@ -47,11 +47,13 @@ function MainMenuChakra(props) {
     }
 
     const history = useHistory();
+    let params = useParams();
 
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const room_slug = props.room_slug;
+    const room_slug = params?.room_slug;
+    const roomStatus = getRoomStatus();
     // updateHistory();
     // let urlPath = this.props.location.pathname;
     // let classFindGames = '';
@@ -107,4 +109,4 @@ function MainMenuChakra(props) {
     );
 }
 
-export default withRouter(fs.connect(['loggedIn', 'room_slug'])(MainMenuChakra));
+export default fs.connect(['loggedIn'])(withRouter(MainMenuChakra));

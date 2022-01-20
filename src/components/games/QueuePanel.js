@@ -16,7 +16,7 @@ function NotifySwitch(props) {
 
     let defaultIsNotify = localStorage.getItem('notify') || false;
     defaultIsNotify = JSON.parse(defaultIsNotify);
-    let [checked, setChecked] = useState(defaultIsNotify);
+    let [checked, setChecked] = useState(false);
 
     const notSupported = () => {
         toast({

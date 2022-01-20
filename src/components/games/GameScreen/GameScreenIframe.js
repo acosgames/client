@@ -264,7 +264,7 @@ function LoadingBox(props) {
             setTimeout(() => {
                 setShow(false);
 
-            }, 1000)
+            }, 300)
         }
     })
 
@@ -279,7 +279,7 @@ function LoadingBox(props) {
             w="100%"
             h="100%"
             bgColor={'gray.800'}
-            transition={'all 0.8s ease-in'}
+            transition={'all 0.3s ease-in'}
             filter={props.gameLoaded ? 'opacity(0)' : 'opacity(1)'}
         >
             <Flex w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>

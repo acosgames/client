@@ -12,7 +12,7 @@ import config from '../../../config'
 import fs from 'flatstore';
 import { getUser } from '../../../actions/person';
 import { findGame, findGamePerson } from "../../../actions/game";
-import { getRoomStatus } from '../../../actions/room';
+import { getRoomStatus, setCurrentRoom } from '../../../actions/room';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
@@ -39,12 +39,18 @@ function GameInfo2(props) {
     useEffect(async () => {
         let test = 1;
 
-        fs.set('room_slug', room_slug);
-        roomStatus = getRoomStatus(room_slug);
-        if (room_slug && roomStatus == 'NOTEXIST') {
-            history.push('/g/' + game_slug);
-            return;
+        // setCurrentRoom('room_slug');
+        // fs.set('room_slug', room_slug);
+        if (room_slug) {
+            setCurrentRoom(room_slug);
+
+            roomStatus = getRoomStatus(room_slug);
+            if (roomStatus == 'NOTEXIST') {
+                history.push('/g/' + game_slug);
+                return;
+            }
         }
+
         // if (room_slug)
         //     return;
 

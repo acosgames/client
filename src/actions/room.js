@@ -1,7 +1,78 @@
 import fs from 'flatstore';
+import { getWithExpiry, removeWithExpiry, setWithExpiry } from './cache';
 
-export function setRoomStatus(status) {
-    fs.set('roomStatus', status);
+export function setCurrentRoom(room_slug) {
+    fs.set('room_slug', room_slug);
+}
+
+export function getCurrentRoom() {
+    return fs.get('room_slug') || null;
+}
+
+export function setLastJoinType(type) {
+    fs.set('lastJoin', type);
+}
+
+export function getLastJoinType() {
+    fs.get('lastJoin');
+}
+
+export function setGameState(state) {
+    fs.set('gamestate', state || {});
+}
+
+export function getGameState() {
+    return fs.get('gamestate') || {};
+}
+
+export function getRoom(room_slug) {
+    let rooms = fs.get('rooms') || getWithExpiry('rooms') || {};
+    return rooms[room_slug];
+}
+
+export function getRooms() {
+    let rooms = fs.get('rooms') || getWithExpiry('rooms') || {};
+    return rooms;
+}
+export function getRoomList() {
+    let rooms = getRooms();
+    let roomList = [];
+    for (var room_slug in rooms) {
+        roomList.push(rooms[room_slug]);
+    }
+    return roomList;
+}
+
+export function addRooms(roomList) {
+
+    if (!Array.isArray(roomList))
+        return;
+
+    let rooms = {};
+
+    for (var r of roomList) {
+        rooms[r.room_slug] = r;
+    }
+
+    fs.set('rooms', rooms);
+    setWithExpiry('rooms', JSON.stringify(rooms), 120);
+}
+
+export function addRoom(room) {
+    let rooms = fs.get('rooms');
+
+    //merge with any existing
+    let existing = rooms[room.room_slug] || {};
+    room = Object.assign({}, existing, room);
+
+    rooms[room.room_slug] = room;
+    fs.set('rooms', rooms);
+    setWithExpiry('rooms', JSON.stringify(rooms), 120);
+}
+
+export function clearRooms() {
+    fs.set('rooms', {});
+    removeWithExpiry('rooms');
 }
 
 export function clearRoom(room_slug) {
@@ -10,7 +81,11 @@ export function clearRoom(room_slug) {
         return;
     delete rooms[room_slug];
     fs.set('rooms', rooms);
-    localStorage.setItem('rooms', JSON.stringify(rooms));
+    setWithExpiry('rooms', JSON.stringify(rooms), 120);
+}
+
+export function setRoomStatus(status) {
+    fs.set('roomStatus', status);
 }
 export function getRoomStatus() {
     return fs.get('roomStatus');

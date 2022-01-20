@@ -38,9 +38,8 @@ function GameScreenActions(props) {
         wsLeaveGame(game_slug, room_slug);
     }
 
-    let room = fs.get('room');
 
-    const handleJoin = () => {
+    const handleJoin = async () => {
 
         let iframe = fs.get('iframe');
         //let game_slug = props.match.params.game_slug;
@@ -49,7 +48,7 @@ function GameScreenActions(props) {
             return
 
         let isExperimental = (window.location.href.indexOf('/experimental/') != -1);
-        // wsLeaveGame(game_slug, room_slug);
+        await wsLeaveGame(game_slug, room_slug);
 
         //0=experimental, 1=rank
         joinGame(game, isExperimental);

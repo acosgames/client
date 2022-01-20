@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 
 import { getUser } from '../../../actions/person';
 import { joinGame } from "../../../actions/game";
+import { getLastJoinType, setLastJoinType } from '../../../actions/room';
 
 fs.set('isCreateDisplayName', false);
 fs.set('justCreatedName', false);
@@ -17,8 +18,7 @@ function GameInfoJoinButton(props) {
 
 
     const handleJoin = async () => {
-
-        fs.set('lastJoin', 'rank');
+        setLastJoinType('rank');
 
         let user = await getUser();
         if (!user || !user.shortid) {
@@ -37,7 +37,7 @@ function GameInfoJoinButton(props) {
 
     const handleJoinBeta = async () => {
 
-        fs.set('lastJoin', 'experimental');
+        setLastJoinType('experimental');
 
         let user = await getUser();
         if (!user || !user.shortid) {
@@ -57,7 +57,7 @@ function GameInfoJoinButton(props) {
         if (!props.justCreatedName)
             return;
 
-        let lastJoin = fs.get('lastJoin');
+        let lastJoin = getLastJoinType();
         switch (lastJoin) {
             case 'rank':
                 handleJoin();

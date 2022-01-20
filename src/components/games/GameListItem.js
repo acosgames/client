@@ -13,6 +13,7 @@ import { VStack, Image, Text, HStack, Icon, Button } from "@chakra-ui/react";
 import { FaPlay } from '@react-icons';
 import { getUser } from "../../actions/person";
 import { joinGame } from "../../actions/game";
+import { setLastJoinType } from "../../actions/room";
 
 function GameListItem(props) {
 
@@ -20,7 +21,7 @@ function GameListItem(props) {
 
     const handleJoin = async () => {
 
-        fs.set('lastJoin', 'rank');
+        setLastJoinType('rank');
 
         let user = await getUser();
         if (!user || !user.shortid) {
