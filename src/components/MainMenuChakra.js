@@ -109,4 +109,4 @@ function MainMenuChakra(props) {
     );
 }
 
-export default fs.connect(['loggedIn'])(withRouter(MainMenuChakra));
+export default fs.connect(['loggedIn'])(MainMenuChakra);
