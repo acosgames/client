@@ -359,7 +359,7 @@ export async function wsLeaveQueue() {
 
     await disconnect();
 
-    console.log("[Outgoing] Leave Queue ", action);
+    console.log("[Outgoing] Leave Queue ");
 }
 
 
@@ -551,7 +551,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             if (rj)
                 rj(evt);
             clearRooms();
-            await reconnect();
+            // await reconnect();
         }
         client.onerror = onError || (async (error, data) => {
             console.log("CONNECT #6")
@@ -592,18 +592,19 @@ function onPong(message) {
     let serverTime = message.payload.serverTime;
     let currentTime = new Date().getTime();
     latency = currentTime - latencyStart;
-    // let offsetTime = serverTime - currentTime;
+    let offsetTime = serverTime - currentTime;
     // let halfLatency = Math.ceil(latency / 2);
     // let realTime = currentTime + offsetTime + halfLatency;
     console.log('Latency Start: ', latencyStart);
     console.log('Latency: ', latency);
-    // console.log('Offset Time: ', offsetTime);
+    console.log('Offset Time: ', offsetTime);
     console.log('Server Offset: ', serverOffset);
     console.log('Server Time: ', serverTime);
     console.log('Client Time: ', currentTime);
     // console.log('Real Time: ', realTime);
-    fs.set('latency', latency + 15); //add 15 for the time between WSserver and gameserver
-    // fs.set('offsetTime', offsetTime);
+    fs.set('latency', latency);
+    fs.set('serverOffset', serverOffset);
+    fs.set('offsetTime', offsetTime);
 }
 
 async function wsIncomingMessageFAKE(message) {
@@ -767,7 +768,9 @@ async function wsIncomingMessage(message) {
 
             if (msg.payload?.timer?.end) {
                 let latency = fs.get('latency') || 0;
-                msg.payload.timer.end -= latency;
+                let offsetTime = fs.get('offsetTime') || 0;
+                let extra = 30; //for time between WS and gameserver
+                msg.payload.timer.end += (offsetTime) - (latency / 2) - (extra);
             }
 
             msg.payload = delta.merge(gamestate, msg.payload);

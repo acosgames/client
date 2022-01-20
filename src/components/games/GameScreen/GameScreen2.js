@@ -39,10 +39,10 @@ function GameScreen2(props) {
 
 
 
-        // setTimeout(() => {
-        setIsDarken(true);
+        setTimeout(() => {
+            setIsDarken(true);
 
-        // }, 500)
+        }, 100)
 
 
         if (room_slug) {
@@ -61,8 +61,10 @@ function GameScreen2(props) {
         fs.set('fullScreenElem', gamescreenRef);
     })
 
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(async () => {
         gtag('event', 'gamescreen', { game_slug });
+        setIsLoaded(true);
     }, [])
 
 
@@ -88,7 +90,7 @@ function GameScreen2(props) {
             >
 
                 <GameScreenIframeWrapper room={props.room} />
-                <VStack px={['1rem', '2rem', "5rem"]} pb="2rem" mt="1rem"
+                <VStack filter={isLoaded ? 'opacity(100%)' : 'opacity(0)'} transition="filter 0.3s ease-in" px={['1rem', '2rem', "5rem"]} pb="2rem" mt="1rem"
                 >
                     <Box bgColor={'gray.800'} w="100%" >
                         <GameScreenActions room={props.room} game={props.game} />

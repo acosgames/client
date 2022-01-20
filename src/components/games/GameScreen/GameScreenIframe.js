@@ -7,6 +7,7 @@ import config from '../../../config'
 
 import { getRoomStatus } from '../../../actions/room';
 
+import './LoadingBox.scss';
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
@@ -37,7 +38,10 @@ function GameScreenIframe(room) {
 
     useEffect(() => {
         fs.set('iframeLoaded', false);
+        // setTimeout(() => {
         setIsLoaded(true);
+        // }, 100);
+
 
     }, [])
 
@@ -134,13 +138,17 @@ function GameScreenIframe(room) {
 
         let gamestate = fs.get('gamestate');
         let roomStatus = getRoomStatus(room_slug);
-        let offsetRatio = 0.4;
-        if (roomStatus == 'GAME' || roomStatus == 'LOADING' || roomStatus == 'GAMEOVER') {
-            offsetRatio = 1;
+        let offsetRatio = !isLoaded ? 0.1 : 1;
+
+        if (isLoaded) {
+            if (roomStatus == 'GAME' || roomStatus == 'LOADING' || roomStatus == 'GAMEOVER') {
+                offsetRatio = 1;
+            }
+            if (roomStatus == 'NOSHOW' || roomStatus == 'ERROR') {
+                offsetRatio = 0.4;
+            }
         }
-        if (roomStatus == 'NOSHOW' || roomStatus == 'ERROR') {
-            offsetRatio = 0.4;
-        }
+
 
         windowWidth *= offsetRatio;
         windowHeight *= offsetRatio;
@@ -209,8 +217,9 @@ function GameScreenIframe(room) {
             h="100%"
             ref={gamewrapperRef}
             // transform={transform}
+            transition={'width 0.3s, height 0.3s'}
             filter={isLoaded ? 'opacity(100%)' : 'opacity(0)'}
-            transition={'transform 0.3s ease-in, filter 0.3s ease-in'}
+            transition={'filter 0.3s ease-in'}
         >
 
             <Box
@@ -218,7 +227,8 @@ function GameScreenIframe(room) {
                 overflow={'hidden'}
                 ref={gamescreenRef}
                 boxShadow="rgb(0 0 0 / 24%) 0px 6px 12px"
-                transition={'width 0.3s, height 0.3s'} position="relative">
+                // transition={'width 0.3s, height 0.3s'} 
+                position="relative">
                 <iframe
                     className="gamescreen"
                     ref={iframeRef}
@@ -282,9 +292,10 @@ function LoadingBox(props) {
             transition={'all 0.3s ease-in'}
             filter={props.gameLoaded ? 'opacity(0)' : 'opacity(1)'}
         >
-            <Flex w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>
+            <VStack w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>
                 <Text>Loading...</Text>
-            </Flex>
+                <Box className="factory-7"></Box>
+            </VStack>
         </Box>
     )
 }

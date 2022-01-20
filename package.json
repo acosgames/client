@@ -5,7 +5,8 @@
   "sideEffects": [
     "./src/app.scss",
     "./src/components/widgets/inputs/Markdown.scss",
-    "./src/components/static.scss"
+    "./src/components/static.scss",
+    "./src/components/games/GameScreen/LoadingBox.scss"
   ],
   "proxy": "http://localhost:8080",
   "dependencies": {
