@@ -770,7 +770,7 @@ async function wsIncomingMessage(message) {
                 let latency = fs.get('latency') || 0;
                 let offsetTime = fs.get('offsetTime') || 0;
                 let extra = 30; //for time between WS and gameserver
-                msg.payload.timer.end += (offsetTime) - (latency / 2) - (extra);
+                msg.payload.timer.end += (-offsetTime) - (latency / 2) - (extra);
             }
 
             msg.payload = delta.merge(gamestate, msg.payload);
