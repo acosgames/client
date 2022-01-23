@@ -1,12 +1,11 @@
 import { Flex, Center, Wrap, Button, IconButton, HStack, VStack, Icon, Text, Box, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, useToast, useShortcut } from '@chakra-ui/react'
-
-
-import { FaThumbsUp, FaThumbsDown, FaGithub, IoWarningSharp } from '@react-icons';
+import config from '../../../config'
+import { FaThumbsUp, FaThumbsDown, FaGithub, IoWarningSharp, IoShareSocial } from '@react-icons';
 import { useState } from 'react';
 
 import { rateGame, reportGame } from '../../../actions/game';
 // import { WarningIcon } from '@chakra-ui/icons';
-
+import fs from 'flatstore';
 
 function GameInfoActions(game) {
 
@@ -77,12 +76,34 @@ function GameInfoActions(game) {
         setReport(type);
     }
 
+    const onShareClick = () => {
+        if (navigator.share) {
+
+            navigator.share({
+                title: 'Play ' + game.name + ' on acos.games!',
+                text: game.shortdesc,
+                url: config.https.api + '/g/' + game.game_slug
+            }).then(() => {
+                gtag('event', 'gameshare', { game_slug: game.game_slug });
+                console.log('Thanks for sharing!');
+            })
+                .catch(console.error);
+        } else {
+            // shareDialog.classList.add('is-open');
+        }
+    }
+
 
     return (
 
         <Flex wrap={'wrap'} spacing="0" alignItems={['center', 'center', 'left']} justifyContent={['center', 'center', 'left']}>
+            <HStack pr="1.5rem">
+                <Button onClick={onShareClick} leftIcon={<IoShareSocial size="24px" />}>
+                    <Text color="white">Share</Text>
+                </Button>
+            </HStack>
             <HStack spacing="0">
-                <HStack h='100%' spacing="0.5rem" pr="1rem">
+                <HStack h='100%' spacing="0.5rem" pr="1.5rem">
                     <Tooltip label="Yes">
                         <IconButton icon={<FaThumbsUp />} onClick={onLike} color={liked ? 'brand.100' : 'white'} />
                     </Tooltip>
@@ -99,7 +120,7 @@ function GameInfoActions(game) {
             </HStack>
             <HStack spacing="0">
                 <Tooltip label="Discuss issues on GitHub">
-                    <HStack spacing="0.2rem" pr="1rem" alignContent={'center'}>
+                    <HStack spacing="0.2rem" pr="1.5rem" alignContent={'center'}>
 
                         <Icon color="white" as={FaGithub} fontSize={'1.2rem'} />
                         <Text color="white"><Link target="_blank" href={`https://github.com/acosgames/${game.game_slug}/issues`}>DISCUSS</Link></Text>

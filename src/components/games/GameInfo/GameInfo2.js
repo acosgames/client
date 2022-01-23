@@ -98,6 +98,7 @@ function GameInfo2(props) {
 
 
 
+
     // let game_slug = props.match.params.game_slug;
     let gamestate = fs.get('gamestate');
     let player_stats = fs.get('player_stats');

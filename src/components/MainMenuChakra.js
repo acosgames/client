@@ -90,7 +90,7 @@ function MainMenuChakra(props) {
 
                             </Link>
                         </Box>
-                        <Link to="/" className=""><Text>Acos</Text></Link>
+                        <Link to="/" className=""><Text>Games</Text></Link>
                     </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>
