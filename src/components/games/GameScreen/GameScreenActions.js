@@ -86,7 +86,9 @@ function GameScreenActions(props) {
             </Box>
             <Box display={isGameover ? 'block' : 'none'} ml="1rem">
                 <Button
-                    colorScheme={'green'}
+                    bgColor={'rgb(99 237 86)'}
+                    _hover={{ bgColor: 'rgb(42 181 28)' }}
+                    _active={{ bgColor: 'rgb(42 181 28)' }}
                     onClick={handleJoin}>
                     Play Again
                 </Button>

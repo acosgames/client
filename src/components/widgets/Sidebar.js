@@ -74,17 +74,17 @@ function Sidebar() {
                 <NavItem navSize={navSize} icon={FiBriefcase} title="Reports" />
                 <NavItem navSize={navSize} icon={FiSettings} title="Settings" /> */}
 
-                <Divider display={['none', 'none', 'flex']} />
+                {/* <Divider display={['none', 'none', 'flex']} />
                 <Flex mt={4} align="center">
                     <Avatar size="sm" src="avatar-1.jpg" />
                     <Flex flexDir="row" ml={4} display={['none', 'none', 'flex']}>
                         <VStack align="start" spacing="0">
-                            <Heading as="h3" size="sm">{userProfile?.displayname}</Heading>
-                            <Text color="gray">Admin</Text>
+                            <Heading as="h3" size="sm" fontWeight={'light'}>{userProfile?.displayname}</Heading>
+                            <Text color="gray" fontWeight={'light'}>Admin</Text>
                         </VStack>
 
                     </Flex>
-                </Flex>
+                </Flex> */}
                 {userProfile && userProfile.github && (
                     <>
                         <Divider mt="10px" mb="10px" />
@@ -92,7 +92,7 @@ function Sidebar() {
                             <ChLink isExternal textDecoration={"none"} href={`https://github.com/${userProfile?.github}`} >
                                 <VStack align="center">
                                     <Icon as={IoLogoGithub} fontSize="24" />
-                                    {userProfile && (<Text display={['none', 'none', 'flex']}>@{userProfile?.github}</Text>)}
+                                    {userProfile && (<Text display={['none', 'none', 'flex']} fontWeight={'light'}>@{userProfile?.github}</Text>)}
                                 </VStack>
                             </ChLink>
                         </Center>
@@ -103,7 +103,7 @@ function Sidebar() {
                     <ChLink isExternal textDecoration={"none"} target="_blank" href={'https://discord.gg/ydHkCcNgHD'} >
                         <VStack align="center">
                             <Icon as={FaDiscord} fontSize="24" />
-                            <Text align="center">Questions? <br />Join us on Discord</Text>
+                            <Text fontWeight={'light'} align="center">Questions? <br />Join us on Discord</Text>
                         </VStack>
                     </ChLink>
                 </Center>

@@ -29,9 +29,9 @@ function NavItem({ location, icon, url, title, description, active, navSize, isE
             <Menu placement="right">
                 <CLink
                     as={!isExternal ? SLink : CLink}
-                    backgroundColor={active && "#2b3549"}
+                    backgroundColor={active && "gray.800"}
                     p={3}
-                    _hover={{ textDecor: 'none', backgroundColor: "#2b3549" }}
+                    _hover={{ textDecor: 'none', backgroundColor: "gray.700" }}
                     w={[null, null, '100%']}
                     to={!isExternal ? url : undefined}
                     href={isExternal ? url : undefined}
@@ -39,8 +39,15 @@ function NavItem({ location, icon, url, title, description, active, navSize, isE
                 >
                     <MenuButton w="100%">
                         <Flex>
-                            <Icon as={icon} fontSize="xl" color={active ? "#82AAAD" : "gray.500"} />
-                            <Text ml={2} display={['none', 'none', 'flex']}>{title}</Text>
+                            <Icon as={icon} fontSize="xl" color={active ? "gray.100" : "gray.500"} />
+                            <Text
+                                ml={2}
+                                display={['none', 'none', 'flex']}
+                                color={active ? "white" : "gray.300"}
+                                _hover={{ color: "white" }}
+                            >
+                                {title}
+                            </Text>
                         </Flex>
                     </MenuButton>
                 </CLink>

@@ -33,6 +33,7 @@ function NavForUser(props) {
                 <Avatar
                     name={props?.user?.displayname}
                     size={'sm'}
+                    bgColor={'gray.300'}
                 />
             </MenuButton>
             <MenuList alignItems={'center'}>
@@ -42,6 +43,7 @@ function NavForUser(props) {
                         <Avatar
                             name={props?.user?.displayname}
                             size={'2xl'}
+                            bgColor={'gray.300'}
 
                         />
                     </Link>

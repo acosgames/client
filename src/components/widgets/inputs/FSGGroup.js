@@ -31,7 +31,7 @@ function FSGGroup(props) {
                 // border={`1px solid #000`}
                 // borderColor="#171c26"
                 spacing={props.spacing || "2rem"}
-                bgColor={props.bgColor || "gray.900"}
+                bgColor={props.bgColor || "blacks.150"}
                 color={props.color || "gray.100"}
                 borderRadius={props.borderRadius || "14px"}>
 
