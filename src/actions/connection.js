@@ -7,7 +7,7 @@ import { getUser, isUserLoggedIn } from './person';
 import config from '../config'
 
 import fs from 'flatstore';
-import delta from '../util/delta';
+import delta from 'shared/util/delta';
 import { addRoom, addRooms, clearRoom, clearRooms, getCurrentRoom, getGameState, getRoom, setCurrentRoom, setGameState, setLastJoinType, updateRoomStatus } from "./room";
 import { addGameQueue, clearGameQueues } from "./queue";
 // import { useHistory } from 'react-router-dom';
