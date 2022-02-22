@@ -3,9 +3,18 @@ import { Link } from "react-router-dom";
 
 import { FaGithub, FaTwitter } from '@react-icons';
 
-function AcosFooter() {
+import fs from 'flatstore';
+
+function AcosFooter(props) {
+
+    let queues = props.queues;
+    let inQueues = queues && queues.length > 0;
+    // if (!queues || queues.length == 0) {
+    //     return (<React.Fragment></React.Fragment>)
+    // }
+
     return (
-        <VStack pb={'2rem'} w="100%" justifyContent={'center'}>
+        <VStack pb={inQueues ? '8rem' : '2rem'} w="100%" justifyContent={'center'}>
             <Divider mt={[3, 3, 10]} mb={[3, 3, 8]} />
             <HStack spacing="2rem" display={['none', 'none', 'flex']}>
                 <Text as="span" fontWeight="100" fontSize="xs">Copyright © 2022 Acos</Text>
@@ -36,4 +45,4 @@ function AcosFooter() {
     )
 }
 
-export default AcosFooter;
+export default fs.connect(['queues'])(AcosFooter);

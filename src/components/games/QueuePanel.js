@@ -1,13 +1,14 @@
-import React, { Component, useState } from "react";
+import React, { Component, useEffect, useState } from "react";
+
+import config from '../../config';
 
 // import { useSpring, animated } from 'react-spring';
 import fs from 'flatstore';
 import { wsLeaveQueue } from "../../actions/connection";
-import { HStack, Text, VStack, Center, IconButton, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Input, Button, Box, Badge, Divider, FormLabel, Switch, Spacer, useToast } from "@chakra-ui/react";
+import { HStack, Text, VStack, Center, IconButton, Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, DrawerFooter, Input, Button, Box, Badge, Divider, FormLabel, Switch, Spacer, useToast, Checkbox, Icon, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Wrap, WrapItem, PopoverFooter, Tooltip } from "@chakra-ui/react";
 import LoaderLineUp from '../widgets/loaders/LoaderLineUp';
 import LoaderShimmer from '../widgets/loaders/LoaderShimmer';
-import { IoCloseSharp } from '@react-icons'
-
+import { IoPersonAddSharp, IoCloseSharp, IoShareSocial, IoNotificationsOffSharp, IoNotificationsSharp } from '@react-icons'
 import { subscribeUser } from '../../subscription';
 
 function NotifySwitch(props) {
@@ -16,12 +17,13 @@ function NotifySwitch(props) {
 
     let defaultIsNotify = localStorage.getItem('notify') || false;
     defaultIsNotify = JSON.parse(defaultIsNotify);
-    let [checked, setChecked] = useState(false);
+    let [checked, setChecked] = useState(defaultIsNotify);
 
     const notSupported = () => {
         toast({
             description: 'Notifications are not supported on your device.',
-            status: 'error'
+            status: 'error',
+            position: 'top-right'
         })
         setChecked(false);
         localStorage.setItem('notify', false);
@@ -30,14 +32,15 @@ function NotifySwitch(props) {
     const noPermission = () => {
         toast({
             description: 'You must grant notification permission.',
-            status: 'error'
+            status: 'error',
+            position: 'top-right'
         })
         setChecked(false);
         localStorage.setItem('notify', false);
     }
 
-    const onScaleChange = async (e) => {
-        let isChecked = e.target.checked;
+    const onNotifyClick = async (e) => {
+        let isChecked = !checked;
 
         try {
 
@@ -56,6 +59,23 @@ function NotifySwitch(props) {
             setChecked(isChecked);
             localStorage.setItem('notify', isChecked);
 
+            if (isChecked) {
+                toast({
+                    description: 'Notifications turned ON.',
+                    status: 'success',
+                    position: 'top-right'
+                })
+            }
+            else {
+                toast({
+                    description: 'Notifications turned OFF.',
+                    status: 'warning',
+                    position: 'top-right'
+                })
+            }
+
+
+
         }
         catch (e) {
             notSupported();
@@ -64,26 +84,125 @@ function NotifySwitch(props) {
 
     }
 
+    let NotifIcon = checked ? IoNotificationsSharp : IoNotificationsOffSharp;
+
     return (
-        <Box position="absolute" left="0">
-            <FormLabel htmlFor={'switch-notif'} p="0" m="0" fontSize="xs" >
-                <VStack>
-                    <Text as="span" fontSize="xs">Notify</Text>
-                    <Switch colorScheme={'green'} pl="0.5rem" id={'switch-notif'} size="sm" onChange={onScaleChange} isChecked={checked} />
-                </VStack>
-            </FormLabel>
-        </Box>
+        <Tooltip label="Toggle Notifications" placement="top">
+            <Box  >
+                <FormLabel htmlFor={'switch-notif'} p="0" m="0" fontSize="xs" >
+                    <IconButton
+                        bgColor={''}
+                        onClick={onNotifyClick}
+                        icon={<Icon
+                            as={NotifIcon}
+                            color={checked ? 'white' : "gray.400"}
+                            fontSize="24px" />}
+                        size="md"
+                        isRound="true" />
+
+                    {/* <VStack>
+                    <Text as="span" color="gray.300" fontSize="10px"></Text>
+                    
+                    <Switch colorScheme={'green'} id={'switch-notif'} size="sm" onChange={onScaleChange} isChecked={checked} />
+                </VStack> */}
+                </FormLabel>
+            </Box>
+        </Tooltip>
     )
 }
 
+function QueueButton(props) {
+
+    return (
+        <Box
+            p="0.5rem"
+            mr="1rem"
+            height="3rem"
+            bgColor={props.bgColor || 'gray.600'}
+            display='flex'
+            justifyContent={'center'}
+            justifyItems={'center'}
+            alignItems={'center'}
+        >{props.children}</Box>
+    )
+}
+
+function InviteToPlayButton(props) {
+
+
+
+    const onShareClick = () => {
+
+        let queues = fs.get('queues');
+        let user = fs.get('user');
+
+        let queueList = [];
+        for (var i = 0; i < queues.length; i++) {
+            let queue = queues[i];
+            queueList.push(queue.game_slug + '+' + queue.mode);
+        }
+        if (navigator.share) {
+
+            navigator.share({
+                title: user?.displayname + ' is inviting you to play on acos.games!',
+                text: 'Jump straight into their queue by clicking here',
+                url: config.https.api + '/join/' + queueList.join('+')
+            }).then(() => {
+                gtag('event', 'inviteshare', { user: user?.displayname });
+                console.log('Good luck on the invite!');
+            })
+                .catch(console.error);
+        } else {
+            // shareDialog.classList.add('is-open');
+        }
+    }
+
+    return (
+        <Tooltip label="Send invite to your friends" placement="top">
+            <Box>
+                <IconButton
+                    bgColor={''}
+                    onClick={onShareClick}
+                    icon={<IoPersonAddSharp />}
+                    size="md"
+                    isRound="true" />
+            </Box>
+        </Tooltip>
+    )
+}
+
+function PlayerCount(props) {
+    const abbrevNumber = (num) => {
+        if (num > 999999) {
+            return (num / 1000000.0).toFixed(1) + "M";
+        }
+        if (num > 999) {
+            return (num / 1000.0).toFixed(1) + "k";
+        }
+        return num;
+    }
+
+    let playerCount = props.playerCount || 0;
+    playerCount = abbrevNumber(playerCount);
+    return (
+        <Text as="span" color={props.color || 'white'} fontSize={props.fontSize || 'md'}>
+            {playerCount || 0} player{props.playerCount != 1 ? 's' : ''} online
+        </Text>
+    )
+}
+
+PlayerCount = fs.connect(['playerCount'])(PlayerCount);
 
 function QueuePanel(props) {
 
 
-    const [isOpen, setOpen] = useState(false);
+    const [isOpen, setOpen] = useState(true);
+    const [prevLen, setPrevLen] = useState(0);
     const btnRef = React.useRef()
+    let previousQueue = 0;
+    let toast = useToast();
 
-    const onClick = (e) => {
+    const onOpen = (e) => {
         setOpen(!isOpen);
     }
 
@@ -94,9 +213,27 @@ function QueuePanel(props) {
     const onCancel = (e) => {
         setOpen(false);
         wsLeaveQueue();
+
+        toast({
+            description: 'You were removed from all queue(s).',
+            status: 'warning',
+            isClosable: true,
+            position: 'top-right'
+        })
     }
 
+    useEffect(() => {
 
+        if (isOpen)
+            return;
+
+        if (prevLen != queues.length && queues.length > 0) {
+            setOpen(true);
+            setPrevLen(queues.length);
+        }
+
+
+    })
 
     let queues = props.queues;
     // queues = queues || [];
@@ -105,6 +242,8 @@ function QueuePanel(props) {
     if (!queues || queues.length == 0) {
         return (<React.Fragment></React.Fragment>)
     }
+
+
 
     var queueMap = {};
     var gameList = [];
@@ -117,55 +256,113 @@ function QueuePanel(props) {
         queueMap[queue.game_slug].push(queue.mode);
     }
 
+    // <Button ref={btnRef} bg="gray.900" onClick={onClick} variant='outline'>
+    //                 </Button>
+
     return (
         <>
-            <Center position="fixed" top="0.5rem" width="50%" align="center" justifyItems={'center'} left="25%">
+            <Center
 
-                <VStack width="100%" spacing="0.2rem">
-                    <Button ref={btnRef} bg="gray.900" onClick={onClick} variant='outline'>
-                        <Text p="0.3rem" as="span" lineHeight={'1rem'} color="white" fontWeight={'bolder'}>
-                            SEARCHING
-                        </Text>
-                    </Button>
-                    <LoaderLineUp />
-                </VStack>
-                <NotifySwitch />
-                <IconButton position="absolute" right="0" onClick={onCancel} icon={<IoCloseSharp />} size="sm" isRound="true" />
-            </Center>
-            <Drawer
-                isOpen={isOpen}
-                placement='right'
-                onClose={onClose}
-                finalFocusRef={btnRef}
+                position="fixed"
+                bottom="2rem"
+                width="100%"
+                align="center"
+                justifyItems={'center'}
+                left="0%"
             >
-                <DrawerOverlay />
-                <DrawerContent>
-                    <DrawerCloseButton />
-                    <DrawerHeader>Queue</DrawerHeader>
 
-                    <DrawerBody>
-                        <VStack divider={<Divider />} spacing="1rem">
-                            {
-                                gameList.map(game_slug => {
-                                    let modes = queueMap[game_slug]
-                                    return (
-                                        <VStack key={'queueitem-' + game_slug}>
-                                            <Text color="brand.100" as="span" fontWeight={'bold'}>{game_slug}</Text>
-                                            <HStack>
-                                                {
-                                                    modes.map(m => (
-                                                        <Badge title={m} key={game_slug + "-" + m + "-mode"}>{m}</Badge>
-                                                    ))
-                                                }
-                                            </HStack>
-                                        </VStack>
-                                    )
-                                })
-                            }
-                        </VStack>
-                    </DrawerBody>
-                </DrawerContent>
-            </Drawer>
+                <HStack
+                    borderRadius={'30px'}
+                    position="relative"
+                    bgColor={'gray.600'}
+                    width="360px"
+                    height="60px"
+                    justifyContent={'center'}
+                    spacing="0rem">
+                    <HStack
+                        position="absolute"
+                        top="0"
+                        left="1rem"
+                        height="100%"
+                    >
+
+                        <NotifySwitch />
+                        <InviteToPlayButton />
+                    </HStack>
+                    <Popover
+                        width="100px"
+                        isOpen={isOpen}
+                        onOpen={onOpen}
+                        onClose={onClose}>
+                        <PopoverTrigger width="100px">
+                            <VStack cursor={'pointer'}>
+
+                                <Text
+                                    className="blink_me"
+                                    as="span"
+                                    display="inline-block"
+
+                                    color="white"
+                                    fontWeight={'bold'} height="100%">
+                                    Searching
+                                </Text>
+                                <LoaderLineUp />
+                            </VStack>
+                        </PopoverTrigger>
+                        <PopoverContent mb="2rem">
+                            <PopoverArrow />
+                            <PopoverCloseButton onClick={onClose} />
+                            <PopoverHeader><Text as="span" fontWeight="bolder">QUEUES</Text></PopoverHeader>
+                            <PopoverBody bgColor={'gray.900'}>
+                                <VStack divider={<Divider />} spacing="0.2rem">
+                                    {
+                                        gameList.map(game_slug => {
+                                            let modes = queueMap[game_slug]
+                                            return (
+                                                <HStack key={'queueitem-' + game_slug}>
+                                                    <Text color="white" as="span" fontSize="xs" fontWeight={'bold'}>{game_slug}</Text>
+                                                    <HStack>
+                                                        {
+                                                            modes.map(m => (
+                                                                <Badge fontSize="xs" title={m} key={game_slug + "-" + m + "-mode"}>{m}</Badge>
+                                                            ))
+                                                        }
+                                                    </HStack>
+                                                </HStack>
+                                            )
+                                        })
+                                    }
+                                </VStack>
+                            </PopoverBody>
+                            <PopoverFooter>
+                                <PlayerCount color="gray.300" />
+                            </PopoverFooter>
+                        </PopoverContent>
+                    </Popover>
+
+                    <VStack
+                        position="absolute"
+                        top="0"
+                        right="3rem"
+                        height="100%"
+                        justifyContent={'center'}
+                        justifyItems={'center'}
+                        alignContent={'center'}
+                        spacing="0"
+                    >
+
+                        <Text fontSize="xs" color="gray.200">In {queues.length} queues</Text>
+                        <PlayerCount fontSize="xs" color="gray.400" />
+                    </VStack>
+
+                    <Tooltip label="Leave Queue" placement="top">
+                        <IconButton position="absolute" bgColor={'gray.800'} right="0.5rem" onClick={onCancel} icon={<IoCloseSharp />} size="sm" isRound="true" />
+                    </Tooltip>
+                </HStack>
+
+
+            </Center>
+
         </>
     )
 }

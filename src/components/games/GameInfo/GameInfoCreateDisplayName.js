@@ -8,7 +8,8 @@ import FSGSubmit from "../../widgets/inputs/FSGSubmit";
 import FSGTextInput from "../../widgets/inputs/FSGTextInput";
 
 import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
-
+import { useHistory } from "react-router-dom";
+import { wsJoinQueues } from '../../../actions/connection';
 
 function GameInfoCreateDisplayname(props) {
 
@@ -19,7 +20,26 @@ function GameInfoCreateDisplayname(props) {
     const [displayName, setDisplayName] = useState('');
     const [error, setError] = useState(null);
 
+    let joinqueues = fs.get('joinqueues');
+    try {
+        if (!joinqueues) {
+            joinqueues = localStorage.getItem('joinqueues');
+            if (joinqueues)
+                joinqueues = JSON.parse(joinqueues);
+
+            if (!joinqueues)
+                joinqueues = {}
+        }
+    }
+    catch (e) {
+        console.error(e);
+    }
+
+    let queues = joinqueues.queues || [];
+    let isJoiningQueues = queues.length > 0;
+
     const onSubmit = async () => {
+
 
 
         if (!displayName || displayName.length < 3) {
@@ -64,6 +84,10 @@ function GameInfoCreateDisplayname(props) {
             // setTimeout(redirect, 1000);
             fs.set('isCreateDisplayName', false);
             fs.set('justCreatedName', true);
+
+            if (isJoiningQueues) {
+                wsJoinQueues(joinqueues.queues, joinqueues.owner);
+            }
         }
 
     }
@@ -91,6 +115,8 @@ function GameInfoCreateDisplayname(props) {
     else {
         refPath = '';
     }
+
+
 
     return (
         <Box>
@@ -124,7 +150,7 @@ function GameInfoCreateDisplayname(props) {
                                     )
                                 }
                             </FSGGroup>
-                            <FSGSubmit onClick={onSubmit} title="Join Game" loadingText="Joining" />
+                            <FSGSubmit onClick={onSubmit} title={isJoiningQueues ? 'Join Queue' : 'Join Game'} loadingText="Joining" />
                             <Divider pt={'1rem'} />
                             <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Already have an account? Sign in</Heading>
                             <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading>

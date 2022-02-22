@@ -160,6 +160,7 @@ export async function findAndRejoin(game_slug, room_slug) {
 
 let hJoining = 0;
 
+
 export async function joinGame(game, istest) {
 
     let game_slug = game.game_slug;

@@ -9,7 +9,8 @@ import config from '../config'
 import fs from 'flatstore';
 import delta from 'shared/util/delta';
 import { addRoom, addRooms, clearRoom, clearRooms, getCurrentRoom, getGameState, getRoom, setCurrentRoom, setGameState, setLastJoinType, updateRoomStatus } from "./room";
-import { addGameQueue, clearGameQueues } from "./queue";
+import { addGameQueue, clearGameQueues, getJoinQueues } from "./queue";
+
 // import { useHistory } from 'react-router-dom';
 // import history from "./history";
 fs.set('iframe', null);
@@ -294,11 +295,12 @@ export async function disconnect() {
     fs.set('ws', null);
     console.log("Disconnected from server.");
 }
-export async function reconnect(isNew) {
+export async function reconnect(isNew, skipQueues) {
     let ws = fs.get('ws');
     if (ws && ws.isReady) {
         return ws;
     }
+
 
     // let queues = fs.get('queues') || localStorage.getItem('queues') || [];
     // let rooms = fs.get('rooms');
@@ -312,6 +314,9 @@ export async function reconnect(isNew) {
         // reconnectTimeout = setTimeout(async () => { 
         ws = await wsConnect();
         // }, 500);
+
+        if (!skipQueues)
+            wsRejoinQueues();
     }
     catch (e) {
         console.error(e);
@@ -328,7 +333,7 @@ export async function wsLeaveGame(game_slug, room_slug) {
         let history = fs.get('history');
         setGameState({});
         setCurrentRoom(null);
-        history.push('/g/' + game_slug);
+        history.replace('/g/' + game_slug);
         return;
     }
 
@@ -341,7 +346,7 @@ export async function wsLeaveGame(game_slug, room_slug) {
     setCurrentRoom(null);
 
     let history = fs.get('history');
-    history.push('/g/' + game_slug);
+    history.replace('/g/' + game_slug);
 }
 
 export async function wsLeaveQueue() {
@@ -354,6 +359,8 @@ export async function wsLeaveQueue() {
     //     return;
     // }
 
+    fs.set('joinqueues', null);
+    localStorage.removeItem('joinqueues');
     // let action = { type: 'leavequeue' }
     // wsSend(action);
 
@@ -362,6 +369,68 @@ export async function wsLeaveQueue() {
     console.log("[Outgoing] Leave Queue ");
 }
 
+export async function wsRejoinQueues() {
+
+    let joinqueues = getJoinQueues() || {};
+
+    let jqs = joinqueues.queues || [];
+    if (jqs.length > 0)
+        wsJoinQueues(joinqueues.queues, joinqueues.owner);
+}
+
+export async function wsJoinQueues(queues, owner) {
+
+    if (!queues || queues.length == 0 || !queues[0].game_slug) {
+        console.error("Queues is invalid.", queues);
+        return false;
+    }
+
+    let currentQueues = fs.get('queues') || [];
+    if (currentQueues.length > 0) {
+        console.warn("Already in queue", currentQueues);
+        return false;
+    }
+
+    fs.set('joinqueues', { queues, owner });
+    localStorage.setItem('joinqueues', JSON.stringify({ queues, owner }));
+
+    let user = await getUser();
+    if (!user || !user.shortid) {
+        fs.set('justCreatedName', false);
+        fs.set('isCreateDisplayName', true);
+        return false;
+    }
+
+
+
+    let ws = await reconnect(true, true);
+    if (!ws || !ws.isReady) {
+        return false;
+    }
+
+
+
+
+
+
+    gtag('event', 'joinqueues', { queues, owner });
+
+    let payload = { queues, owner };
+    let action = { type: 'joinqueues', payload }
+    wsSend(action);
+
+    console.log("[Outgoing] Queing ", action);
+
+    fs.set('queues', queues);
+
+    if (owner)
+        fs.set('successMessage', { description: `You joined ${owner}'s ${queues.length} queues.` })
+    else
+        fs.set('successMessage', { description: `You joined ${queues.length} queues.` })
+
+    // console.timeEnd('ActionLoop');
+    return true;
+}
 
 
 export async function wsJoinGame(mode, game_slug) {
@@ -379,13 +448,27 @@ export async function wsJoinGame(mode, game_slug) {
     let action = { type: 'joingame', payload }
     wsSend(action);
 
+
+    let joinqueues = getJoinQueues() || {};
+
+    if (!joinqueues.queues)
+        joinqueues.queues = [];
+
+    if (!joinqueues.queues.find(q => q.game_slug == game_slug && q.mode == mode)) {
+        joinqueues.queues.push(payload);
+        joinqueues.owner = null;
+        fs.set('joinqueues', joinqueues);
+        localStorage.setItem('joinqueues', JSON.stringify(joinqueues));
+    }
+
+
     console.log("[Outgoing] Joining " + mode + ": ", action);
 
     let games = fs.get('games');
     let game = games[game_slug];
     let gameName = game?.name || game?.game_slug || '';
 
-    fs.set('successMessage', { title: 'Joined the queue', description: `You joined the ${mode} queue for ${gameName}.` })
+    fs.set('successMessage', { description: `You joined the "${gameName}" ${mode} mode.` })
     // console.timeEnd('ActionLoop');
 }
 
@@ -490,8 +573,12 @@ export function wsConnect(url, onMessage, onOpen, onError) {
         }
 
         if (!isUserLoggedIn()) {
-            let history = fs.get('history');
-            history.push('/login');
+            fs.set('justCreatedName', false);
+            fs.set('isCreateDisplayName', true);
+
+
+            // let history = fs.get('history');
+            // history.push('/login');
             console.log("CONNECT #3")
             rj('E_NOTAUTHORIZED')
             return;
@@ -605,6 +692,7 @@ function onPong(message) {
     fs.set('latency', latency);
     fs.set('serverOffset', serverOffset);
     fs.set('offsetTime', offsetTime);
+    fs.set('playerCount', message.playerCount || 0);
 }
 
 async function wsIncomingMessageFAKE(message) {
@@ -633,7 +721,9 @@ async function wsIncomingMessage(message) {
             return;
         case 'queue':
             console.log("[Incoming] queue: ", JSON.parse(JSON.stringify(msg, null, 2)));
-            addGameQueue(msg.game_slug, msg.mode);
+            addGameQueue(msg.queues);
+            fs.set('playerCount', msg.playerCount || 0);
+
             return;
         case 'ready':
             console.log("iframe is ready!");
@@ -658,6 +748,8 @@ async function wsIncomingMessage(message) {
         case 'inrooms':
             console.log("[Incoming] InRooms: ", JSON.parse(JSON.stringify(msg, null, 2)));
             if (msg.payload && Array.isArray(msg.payload) && msg.payload.length > 0) {
+
+                fs.set('playerCount', msg.playerCount || 0);
 
                 if (!msg.payload || msg.payload.length == 0) {
                     console.log("No rooms found.");

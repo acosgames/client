@@ -1,14 +1,48 @@
 
 import fs from 'flatstore';
 
-export async function addGameQueue(game_slug, mode) {
+export async function addGameQueue(newQueues) {
 
     let queues = fs.get('queues') || localStorage.getItem('queues') || [];
-    let payload = { mode, game_slug };
-    if (!queues.find(q => (q.mode == mode && q.game_slug == game_slug))) {
-        queues.push(payload)
-        fs.set('queues', queues);
+
+    let queueMap = {};
+    queues.forEach(q => queueMap[q.game_slug + q.mode] = true);
+
+    newQueues.forEach(q => {
+        if (!queueMap[q.game_slug + q.mode])
+            queues.push(q);
+    })
+
+
+    fs.set('queues', queues);
+
+}
+
+export function getJoinQueues() {
+    let joinqueues = fs.get('joinqueues');
+    try {
+        if (!joinqueues) {
+            joinqueues = localStorage.getItem('joinqueues');
+            if (joinqueues)
+                joinqueues = JSON.parse(joinqueues);
+
+            if (!joinqueues)
+                joinqueues = {}
+        }
     }
+    catch (e) {
+        console.error(e);
+    }
+
+    return joinqueues;
+}
+
+export function findQueue(game_slug) {
+    let queues = fs.get('queues') || localStorage.getItem('queues') || [];
+    if (queues.find(q => (q.game_slug == game_slug))) {
+        return true;
+    }
+    return false;
 }
 
 export async function clearGameQueues() {

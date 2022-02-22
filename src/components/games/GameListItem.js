@@ -6,11 +6,12 @@ import {
 
 import config from '../../config'
 
+import { findQueue } from '../../actions/queue';
 import fs from 'flatstore';
 import { useEffect } from "react";
-import { VStack, Image, Text, HStack, Icon, Button } from "@chakra-ui/react";
+import { VStack, Image, Text, HStack, Icon, Button, Tooltip } from "@chakra-ui/react";
 
-import { FaPlay } from '@react-icons';
+import { FaPlay, GiCheckMark } from '@react-icons';
 import { getUser } from "../../actions/person";
 import { joinGame } from "../../actions/game";
 import { setLastJoinType } from "../../actions/room";
@@ -60,6 +61,7 @@ function GameListItem(props) {
         gameName = gameName.substr(0, 20) + '...';
     }
 
+    let inQueue = findQueue(game.game_slug);
     return (
 
         <VStack cursor="pointer" spacing="0" key={game.game_slug} position="relative" >
@@ -76,10 +78,11 @@ function GameListItem(props) {
             </Link>
 
             <Button
+                display={inQueue ? 'none' : 'flex'}
                 flex="1"
-                bgColor="gray.500"
-                _hover={{ bg: "gray.600" }}
-                _active={{ bg: "gray.900" }}
+                bgColor='gray.800'
+                _hover={{ bg: "gray.800" }}
+                _active={{ bg: "gray.800" }}
                 size="md"
                 mr="0"
                 w="30%"
@@ -95,8 +98,32 @@ function GameListItem(props) {
                 borderBottomRightRadius={'9999px'}
                 onClick={handleJoin}
             >
-                <Icon ml={0} fontSize="12px" as={FaPlay} />
+                <Icon color={'white'} ml={0} fontSize="12px" as={FaPlay} />
             </Button>
+            <Tooltip label={`In queue`}>
+                <Button
+                    display={inQueue ? 'flex' : 'none'}
+                    flex="1"
+                    bgColor='gray.800'
+                    _hover={{ bg: "gray.800" }}
+                    _active={{ bg: "gray.800" }}
+                    size="md"
+                    mr="0"
+                    w="30%"
+                    p="0.5rem"
+                    position="absolute"
+                    top="-10px"
+                    right="-10px"
+                    // icon={<FaPlay />}
+                    borderTopLeftRadius={"9999px"}
+                    borderBottomLeftRadius={"9999px"}
+
+                    borderTopRightRadius={'9999px'}
+                    borderBottomRightRadius={'9999px'}
+                >
+                    <Icon color={'brand.500'} ml={0} fontSize="20px" as={GiCheckMark} />
+                </Button>
+            </Tooltip>
             <Link to={'/g/' + game.game_slug}>
                 <Text
                     as="h6" size="sm" fontWeight={'bold'}
@@ -128,4 +155,4 @@ function GameListItem(props) {
     )
 }
 
-export default withRouter(GameListItem);
+export default withRouter(fs.connect(['queues'])(GameListItem));

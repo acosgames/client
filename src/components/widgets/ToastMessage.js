@@ -23,7 +23,7 @@ function ToastMessage(props) {
             return;
 
         toast({
-            title, description, status, isClosable
+            title, description, status, isClosable, position: "top-right"
         })
     })
 

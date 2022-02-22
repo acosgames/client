@@ -3,7 +3,7 @@ import fs from 'flatstore';
 import { findDevGames } from './devgame';
 // import history from "./history";
 import { getWithExpiry, setWithExpiry, removeWithExpiry } from './cache';
-import { wsRejoinRoom, reconnect, disconnect } from './connection';
+import { wsRejoinRoom, reconnect, disconnect, wsRejoinQueues } from './connection';
 import { clearGameQueues } from './queue';
 import { clearRooms, getRoomList, getRooms, setLastJoinType } from './room';
 
@@ -168,6 +168,7 @@ export async function getUserProfile() {
             if (roomList.length > 0) {
                 reconnect();
             }
+            wsRejoinQueues();
         }
         catch (e) {
             console.error(e);

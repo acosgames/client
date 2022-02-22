@@ -29,6 +29,7 @@ import TermsAndConditions from "../components/TermsAndConditions";
 import Logout from "../components/login/Logout";
 import Profile from "../components/profile/Profile";
 import LoginAccountExists from "../components/login/LoginAccountExists";
+import JoinQueuePage from "../components/games/JoinQueuePage";
 
 var Routes = () => {
 
@@ -59,6 +60,16 @@ var Routes = () => {
                     path="/player/create"
                     verify={(user) => !user.displayname}
                     component={CreateDisplayName}
+                />
+                <Route
+                    exact
+                    path="/join/:queues"
+                    component={JoinQueuePage}
+                />
+                <Route
+                    exact
+                    path="/join/:owner/:queues"
+                    component={JoinQueuePage}
                 />
                 <Route
                     exact

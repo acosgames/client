@@ -16,8 +16,8 @@ import { getRoomStatus, setCurrentRoom } from '../../../actions/room';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
-import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton, useDisclosure, Portal } from "@chakra-ui/react";
-
+import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton, useDisclosure, Portal, Tooltip, Button, Icon } from "@chakra-ui/react";
+import { GiCheckMark } from '@react-icons';
 import SLink from "../../widgets/SLink";
 import FSGGroup from "../../widgets/inputs/FSGGroup";
 import FSGRead from "../../widgets/inputs/FSGRead";
@@ -28,6 +28,7 @@ import GameInfoJoinButton from './GameInfoJoinButton'
 import GameInfoTop10 from './GameInfoTop10'
 import GameInfoCreateDisplayname from "./GameInfoCreateDisplayName";
 import GameScreen2 from "../GameScreen/GameScreen2";
+import { findQueue } from "../../../actions/queue";
 function GameInfo2(props) {
     const game_slug = props.match.params.game_slug;
     const room_slug = props.match.params.room_slug;
@@ -120,6 +121,7 @@ function GameInfo2(props) {
 
     let shouldShowGame = room_slug && roomStatus != "NOTEXIST";
 
+
     return (
         <>
             {shouldShowGame && (
@@ -136,25 +138,7 @@ function GameInfo2(props) {
                     <VStack width="100%" maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
 
                         <Flex w="100%" >
-                            <Box
-                                _after={{
-                                    content: '""',
-                                    display: 'block',
-                                    paddingBottom: '100%'
-                                }}
-                                position="relative"
-                                w={['128px', '160px', '256px']}
-                            >
-                                <Image
-                                    position="absolute"
-                                    width="100%"
-                                    height="100%"
-                                    objectFit={'fill'}
-                                    src={imgUrl}
-                                    fallbackSrc={config.https.cdn + 'placeholder.png'}
-                                    w="100%"
-                                />
-                            </Box>
+                            <GameInfoImage game_slug={game.game_slug} imgUrl={imgUrl} />
 
 
                             <Flex ml="1rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
@@ -272,5 +256,56 @@ function GameInfo2(props) {
     )
 
 }
+
+function GameInfoImage(props) {
+    let inQueue = findQueue(props.game_slug);
+    return (
+        <Box
+            _after={{
+                content: '""',
+                display: 'block',
+                paddingBottom: '100%'
+            }}
+            position="relative"
+            w={['128px', '160px', '256px']}
+        >
+            <Image
+                position="absolute"
+                width="100%"
+                height="100%"
+                objectFit={'fill'}
+                src={props.imgUrl}
+                fallbackSrc={config.https.cdn + 'placeholder.png'}
+                w="100%"
+            />
+            <Tooltip label={`In queue`}>
+                <Button
+                    display={inQueue ? 'flex' : 'none'}
+                    flex="1"
+                    bgColor='gray.800'
+                    _hover={{ bg: "gray.800" }}
+                    _active={{ bg: "gray.800" }}
+                    size="md"
+                    mr="0"
+                    w="30%"
+                    p="0.5rem"
+                    position="absolute"
+                    top="-10px"
+                    right="-10px"
+                    // icon={<FaPlay />}
+                    borderTopLeftRadius={"9999px"}
+                    borderBottomLeftRadius={"9999px"}
+
+                    borderTopRightRadius={'9999px'}
+                    borderBottomRightRadius={'9999px'}
+                >
+                    <Icon color={'brand.500'} ml={0} fontSize="20px" as={GiCheckMark} />
+                </Button>
+            </Tooltip>
+        </Box>
+    )
+}
+
+GameInfoImage = fs.connect(['queues'])(GameInfoImage);
 
 export default withRouter(fs.connect(['game', 'player_stats'])(GameInfo2));
