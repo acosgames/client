@@ -48,6 +48,8 @@ export function findQueue(game_slug) {
 export async function clearGameQueues() {
     fs.set('queues', []);
     localStorage.setItem('queues', []);
+    fs.set('joinqueues', null);
+    localStorage.removeItem('joinqueues');
 }
 
 
