@@ -37,7 +37,7 @@ function AcosFooter(props) {
                     <Text fontSize="md"><ChLink isExternal href="https://github.com/acosgames"><Icon as={FaGithub} /></ChLink></Text>
                     <Text fontSize="md"><ChLink isExternal href="https://twitter.com/acosgames"><Icon as={FaTwitter} /></ChLink></Text>
                 </HStack>
-                <Text as="span" fontWeight="100" fontSize="xs">Copyright © 2022 Acos</Text>
+                <Text as="span" fontWeight="100" fontSize="xs">Copyright © 2022 ACOS</Text>
             </VStack>
 
 

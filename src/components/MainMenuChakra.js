@@ -84,13 +84,12 @@ function MainMenuChakra(props) {
                                 <Image
                                     alt={'A cup of skill logo'}
                                     src={`${config.https.cdn}acos-logo.png`}
-                                    fallbackSrc={config.https.cdn + 'placeholder.png'}
                                     w="32px" h="32px"
                                 />
 
                             </Link>
                         </Box>
-                        <Link to="/" className=""><Text>Games</Text></Link>
+                        <Link to="/" className=""><Text>ACOS Games</Text></Link>
                     </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>

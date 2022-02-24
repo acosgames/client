@@ -256,6 +256,9 @@ function QueuePanel(props) {
         queueMap[queue.game_slug].push(queue.mode);
     }
 
+    let games = fs.get('games') || {};
+
+
     // <Button ref={btnRef} bg="gray.900" onClick={onClick} variant='outline'>
     //                 </Button>
 
@@ -318,9 +321,11 @@ function QueuePanel(props) {
                                     {
                                         gameList.map(game_slug => {
                                             let modes = queueMap[game_slug]
+                                            let game = games[game_slug] || null;
+                                            let title = game?.name || game_slug;
                                             return (
                                                 <HStack key={'queueitem-' + game_slug}>
-                                                    <Text color="white" as="span" fontSize="xs" fontWeight={'bold'}>{game_slug}</Text>
+                                                    <Text color="white" as="span" fontSize="xs" fontWeight={'bold'}>{title}</Text>
                                                     <HStack>
                                                         {
                                                             modes.map(m => (
