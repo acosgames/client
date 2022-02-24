@@ -638,7 +638,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             if (rj)
                 rj(evt);
             clearRooms();
-            // await reconnect();
+            await reconnect();
         }
         client.onerror = onError || (async (error, data) => {
             console.log("CONNECT #6")
