@@ -388,7 +388,7 @@ export async function wsJoinQueues(queues, owner) {
     let currentQueues = fs.get('queues') || [];
     if (currentQueues.length > 0) {
         console.warn("Already in queue", currentQueues);
-        return false;
+        // return false;
     }
 
     fs.set('joinqueues', { queues, owner });
