@@ -29,6 +29,8 @@ import GameInfoTop10 from './GameInfoTop10'
 import GameInfoCreateDisplayname from "./GameInfoCreateDisplayName";
 import GameScreen2 from "../GameScreen/GameScreen2";
 import { findQueue } from "../../../actions/queue";
+
+fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
     const game_slug = props.match.params.game_slug;
     const room_slug = props.match.params.room_slug;
@@ -36,6 +38,11 @@ function GameInfo2(props) {
     let roomStatus = getRoomStatus(room_slug);
 
     const history = useHistory();
+
+    useEffect(async () => {
+        gtag('event', 'gameinfo', { game_slug });
+
+    }, [])
 
     useEffect(async () => {
         let test = 1;
@@ -87,11 +94,7 @@ function GameInfo2(props) {
         }
     })
 
-    useEffect(async () => {
-        gtag('event', 'gameinfo', { game_slug });
 
-
-    }, [])
 
 
 
@@ -107,7 +110,14 @@ function GameInfo2(props) {
     let game = props.game;
     if (!game || game.game_slug != game_slug) {
         //fs.set('game', null);
-        return <React.Fragment></React.Fragment>
+
+        return (
+            <Box className="gameinfo" display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={6}>
+                <Center>
+                    <GameInfoLoading />
+                </Center>
+            </Box>
+        )
     }
 
     let imgUrl = config.https.cdn + 'placeholder.png';
@@ -256,6 +266,18 @@ function GameInfo2(props) {
     )
 
 }
+
+function GameInfoLoading(props) {
+
+    if (props.loadingGameInfo)
+        return (<Text fontSize="4xl">Loading</Text>)
+    return (
+        <Text fontSize="4xl">404: Game Not Found</Text>
+    )
+}
+
+GameInfoLoading = fs.connect(['game', 'loadingGameInfo'])(GameInfoLoading);
+
 
 function GameInfoImage(props) {
     let inQueue = findQueue(props.game_slug);

@@ -1,4 +1,4 @@
-import { Center, HStack, Icon, IconButton, Link, Text, useClipboard, useToast, VStack } from "@chakra-ui/react";
+import { Center, HStack, Icon, IconButton, Link, Text, Tooltip, useClipboard, useToast, VStack } from "@chakra-ui/react";
 
 import { FaExternalLinkAlt, FiCopy } from '@react-icons';
 import { useRef } from "react";
@@ -18,7 +18,7 @@ function DevManageGameGithub(props) {
 
     return (
         <VStack w="100%">
-            <Text as="span" fontSize="xs" fontWeight={'bold'}>Your GitHub repo in <Link fontSize="xs" href={acosgamesURL}>acosgames</Link> organization</Text>
+            <Text as="span" fontSize="xs" fontWeight={'bold'} color="gray.300">Your GitHub repo in <Link fontSize="xs" href={acosgamesURL}>acosgames</Link> organization</Text>
             <Link target="_blank" fontWeight={'light'} color="yellow.100" fontSize="sm" href={githubURL}>{githubURL}</Link>
             {/* <Text>
                 <Link target="_blank" color="gray.300" fontSize="xs" href="https://docs.acos.games/#start-from-an-existing-game-template"><Icon as={FaExternalLinkAlt} color="white" fontSize="xs" /> Instructions to start from existing game template</Link>
@@ -32,27 +32,29 @@ function DevManageGameGithub(props) {
                         e.target.select()
                     }} />
                 <Center>
-                    <IconButton
-                        onClick={(e) => {
-                            copyRef.current.focus();
-                            copyRef.current.select();
-                            onCopy(e);
-                            setTimeout(() => {
+                    <Tooltip label="Copy Clone Command" placement="top">
+                        <IconButton
+                            onClick={(e) => {
+                                copyRef.current.focus();
+                                copyRef.current.select();
+                                onCopy(e);
+                                setTimeout(() => {
 
-                                toast({
-                                    description: "Copied to clipboard",
-                                    status: 'success',
-                                    duration: 4000,
-                                    isClosable: true,
-                                })
+                                    toast({
+                                        description: "Copied to clipboard",
+                                        status: 'success',
+                                        duration: 4000,
+                                        isClosable: true,
+                                    })
 
-                            }, 20)
+                                }, 20)
 
-                        }}
-                        icon={<FiCopy />}
-                        size="sm"
-                        isRound="true"
-                    />
+                            }}
+                            icon={<FiCopy />}
+                            size="sm"
+                            isRound="true"
+                        />
+                    </Tooltip>
                 </Center>
             </HStack>
         </VStack>

@@ -94,12 +94,21 @@ function DevMyGameListItem(props) {
                                 </HStack>
                                 <HStack pr={['1rem', '2rem', "2rem", "2rem"]}>
                                     <HStack>
-                                        <Icon color="gray.500" as={IoCode} />
-                                        <Text color="gray.400">build {version || 0}</Text>
+                                        <Tooltip label="Published Version">
+                                            <HStack>
+                                                <Icon color="gray.500" as={IoCode} />
+                                                <Text color="gray.400">build {version || 0}</Text>
+                                            </HStack>
+
+                                        </Tooltip>
                                     </HStack>
                                     <HStack>
-                                        <Icon color="gray.500" as={IoCodeWorking} />
-                                        <Text color="gray.400">build {props.latest_version || 0}</Text>
+                                        <Tooltip label="Latest Version">
+                                            <HStack>
+                                                <Icon color="gray.500" as={IoCodeWorking} />
+                                                <Text color="gray.400">build {props.latest_version || 0}</Text>
+                                            </HStack>
+                                        </Tooltip>
                                     </HStack>
                                 </HStack>
                                 <HStack pr={['1rem', '1rem', "1rem", "1rem"]}>
@@ -109,7 +118,7 @@ function DevMyGameListItem(props) {
 
                                 <HStack>
                                     <Icon color="gray.500" as={IoDocument} />
-                                    <Text color="gray.400"><Link to={`/g/${props.game_slug}`}>listing</Link></Text>
+                                    <Text color="gray.400"><Link to={`/g/${props.game_slug}`}>public page</Link></Text>
                                 </HStack>
                             </Wrap>
 

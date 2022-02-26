@@ -17,7 +17,7 @@ function AcosFooter(props) {
         <VStack pb={inQueues ? '8rem' : '2rem'} w="100%" justifyContent={'center'}>
             <Divider mt={[3, 3, 10]} mb={[3, 3, 8]} />
             <HStack spacing="2rem" display={['none', 'none', 'flex']}>
-                <Text as="span" fontWeight="100" fontSize="xs">Copyright © 2022 Acos</Text>
+                <Text as="span" fontWeight="100" fontSize="xs">Copyright © 2022 ACOS</Text>
                 <Text fontSize="xs"><Link to="/">Games</Link></Text>
                 <Text fontSize="xs"><Link to="/dev">Dev Zone</Link></Text>
                 <Text fontSize="xs"><ChLink isExternal href="https://docs.acos.games">Docs</ChLink></Text>

@@ -25,7 +25,7 @@ function FSGCopyText(props) {
             fontSize="12px"
             readOnly
             size="xs"
-            color="gray.300"
+            color="gray.100"
             bgColor="gray.800"
             borderColor="gray.800"
             outlineColor={'gray.800'}

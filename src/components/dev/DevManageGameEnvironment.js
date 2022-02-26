@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import fs from 'flatstore';
 
-import { Box, Center, FormLabel, Heading, HStack, Icon, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Select, Spacer, Switch, Text, toast, useClipboard, useToast, VStack, Wrap } from "@chakra-ui/react";
+import { Box, Center, FormLabel, Heading, HStack, Icon, IconButton, Input, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverHeader, PopoverTrigger, Portal, Select, Spacer, Switch, Text, toast, Tooltip, useClipboard, useToast, VStack, Wrap } from "@chakra-ui/react";
 import FSGCopyText from "../widgets/inputs/FSGCopyText";
 
-import { FiCopy, IoHelpCircleSharp } from '@react-icons';
+import { FiCopy, IoHelpCircleSharp, FiRefreshCcw } from '@react-icons';
+import { updateGameAPIKey } from "../../actions/devgame";
 
 
 function DevManageGameEnvironment(props) {
@@ -62,6 +63,14 @@ function DevManageGameEnvironment(props) {
 
         setDeployCmd(cmd);
         return cmd;
+    }
+
+    const onUpdateAPIKey = async () => {
+
+        await updateGameAPIKey();
+
+        defaultDeployCmd = `npm run deploy -- ${props.devgame?.game_slug}.${props.devgame?.apikey}`
+        onUpdateDeployCmd(selected, resoWidth, resoHeight, maxwidth);
     }
 
     const onResoChange = (e) => {
@@ -129,7 +138,7 @@ function DevManageGameEnvironment(props) {
 
         <VStack alignItems={'left'} w="100%">
             <Center>
-                <Text as="span" fontSize="xs" fontWeight={'bold'}>To Deploy, run this command in VSCode (requires acosgames simulator)</Text>
+                <Text as="span" fontSize="xs" fontWeight={'bold'} color="gray.300">To Deploy, run this command in VSCode (requires acosgames simulator)</Text>
             </Center>
             <HStack justifyContent={'center'}>
                 <FSGCopyText
@@ -140,27 +149,38 @@ function DevManageGameEnvironment(props) {
                         e.target.select()
                     }} />
                 <Center>
-                    <IconButton
-                        onClick={(e) => {
-                            copyRef.current.focus();
-                            copyRef.current.select();
-                            onCopy(e);
-                            setTimeout(() => {
+                    <Tooltip label="Copy Deploy Command" placement="top">
+                        <IconButton
+                            onClick={(e) => {
+                                copyRef.current.focus();
+                                copyRef.current.select();
+                                onCopy(e);
+                                setTimeout(() => {
 
-                                toast({
-                                    description: "To deploy, run command in your terminal at project folder",
-                                    status: 'success',
-                                    duration: 4000,
-                                    isClosable: true,
-                                })
+                                    toast({
+                                        description: "To deploy, run command in your terminal at project folder",
+                                        status: 'success',
+                                        duration: 4000,
+                                        isClosable: true,
+                                    })
 
-                            }, 20)
+                                }, 20)
 
-                        }}
-                        icon={<FiCopy />}
-                        size="sm"
-                        isRound="true"
-                    />
+                            }}
+                            icon={<FiCopy />}
+                            size="sm"
+                            isRound="true"
+                        />
+                    </Tooltip>
+                    <Tooltip label="Refresh API Key" placement="top">
+                        <IconButton
+                            onClick={onUpdateAPIKey}
+                            icon={<FiRefreshCcw />}
+                            size="sm"
+                            isRound="true"
+                            ml="0.5rem"
+                        />
+                    </Tooltip>
                 </Center>
             </HStack>
             <VStack transform={'scale(0.7)'} alignItems={'left'} justifyContent={'left'} w="100%">
@@ -181,7 +201,7 @@ function DevManageGameEnvironment(props) {
 
                             <Box>
                                 <Center>
-                                    <Icon as={IoHelpCircleSharp} color="gray.400" />
+                                    <Icon fontSize="24px" as={IoHelpCircleSharp} color="gray.400" />
                                 </Center>
                             </Box>
 
@@ -189,10 +209,14 @@ function DevManageGameEnvironment(props) {
                         <Portal>
                             <PopoverContent>
                                 <PopoverArrow />
-                                <PopoverHeader>Scaled Viewport</PopoverHeader>
+                                <PopoverHeader>Viewport Help</PopoverHeader>
                                 <PopoverCloseButton />
                                 <PopoverBody>
-                                    <Text>Adds <Text as="strong">--scaled</Text> to the command.<br />The game's iframe will always be scaled to <Text as="strong">1920x1080</Text>, and the iframe will scale to fit inside the main website's viewport using <Text as="strong">transform: scale().</Text></Text>
+                                    <Text fontWeight="light">
+                                        <Text as="strong">Full Screen</Text> uses responsive UI at 100% of the page width and height. <br />
+                                        <Text as="strong">Fixed Resolution</Text> uses responsive UI at a resolution that is stretched to fit the page. <br />
+                                        <Text as="strong">Scaled Resolution</Text> uses fixed pixel width and resolution, scaled to fit the page.
+                                    </Text>
                                 </PopoverBody>
                             </PopoverContent>
                         </Portal>
@@ -248,4 +272,4 @@ function DevManageGameEnvironment(props) {
     )
 }
 
-export default DevManageGameEnvironment; 1
+export default DevManageGameEnvironment; 

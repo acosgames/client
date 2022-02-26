@@ -15,16 +15,17 @@ import Markdown from "../widgets/inputs/Markdown";
 
 import FSGTextInput from '../widgets/inputs/FSGTextInput'
 import FSGNumberInput from '../widgets/inputs/FSGNumberInput'
-import { StackDivider, Box, Heading, HStack, VStack, Center, Text } from "@chakra-ui/layout";
+import { StackDivider, Box, Heading, HStack, VStack, Center, Text, Wrap } from "@chakra-ui/layout";
 import FSGGroup from "../widgets/inputs/FSGGroup";
 import FSGSubmit from "../widgets/inputs/FSGSubmit";
-import { useToast } from "@chakra-ui/react";
+import { Select, useToast } from "@chakra-ui/react";
 import DevManageGameEnvironment from "./DevManageGameEnvironment";
 
 import schema from 'shared/model/schema.json';
 import DevManageGameGithub from "./DevManageGameGithub";
 import FSGDelete from "../widgets/inputs/FSGDelete";
 import DevManageGameDelete from "./DevManageGameDelete";
+import FSGButton from "../widgets/inputs/FSGButton.js";
 
 function DevManageGameFields(props) {
 
@@ -38,6 +39,42 @@ function DevManageGameFields(props) {
 
 
     const rules = schema['update-game_info'];
+
+    const onUpdateVersion = async (e) => {
+        let value = e.target.value;
+        // console.log(value);
+        if (!Number.isInteger)
+            return false;
+        if (value < 0 || value > props.devgame.latest_version)
+            return false;
+
+        updateGameField('version', Number.parseInt(value), 'update-game_info', 'devgame', 'devgameerror');
+    }
+
+    const onUpdateVisibility = async (e) => {
+        let value = e.target.value;
+
+        if (!Number.isInteger)
+            return false;
+        if (value < 0 || value > props.devgame.version)
+            return false;
+
+        value = Number.parseInt(value);
+
+        if (value == 0) {
+            updateGameField('visible', 0, 'update-game_info', 'devgame', 'devgameerror');
+        }
+        else if (value == 1) {
+            updateGameField('visible', 1, 'update-game_info', 'devgame', 'devgameerror');
+        }
+        else if (value == 2) {
+            updateGameField('visible', 2, 'update-game_info', 'devgame', 'devgameerror');
+        }
+    }
+
+    const onUpdateStatus = async (e) => {
+
+    }
 
     const onSubmit = async (e) => {
         //console.log(e);
@@ -115,33 +152,56 @@ function DevManageGameFields(props) {
         - Withdrawn (reason) //could be done by admin or by owner
     */
 
+    let versionOptions = [];
+    for (var i = props.devgame.latest_version; i > 0; i--) {
+        let option = <option key={'published-v' + i} value={i}>{'v' + i}</option>
+        versionOptions.push(option);
+    }
+
     let hasError = (props.devgameerror && props.devgameerror.length > 0);
     return (
         <VStack align='left' w={["100%", '100%', '90%', '70%']} spacing="1rem">
-            <HStack>
-                <VStack align="left" width="80%">
-                    <Heading>Manage Game </Heading>
-                    <Heading as="h5" size="lg" color="gray.400">{props.devgame.game_slug}</Heading>
-                    <HStack divider={<StackDivider />} color="gray.500">
-                        <HStack>
-                            <Text>Published:</Text><Text fontWeight="bold">v{props.devgame.version}</Text>
+            <VStack w="100%">
+                <Wrap w="100%">
+                    <VStack align="left">
+                        <Heading size="lg">Manage Game </Heading>
+                        <Heading as="h5" size="md" color="gray.400">{props.devgame.game_slug}</Heading>
+                        <HStack divider={<StackDivider />} color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
+                            <HStack>
+                                <Text>Published:</Text>
+                                {/* <Text fontWeight="bold">v{props.devgame.version}</Text> */}
+                                <Select color="gray.100" onChange={onUpdateVersion} placeholder={''} w="90px" defaultValue={props.devgame.version}>
+                                    {versionOptions}
+                                </Select>
+                            </HStack>
+                            <HStack>
+                                <Text>Latest:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
+                            </HStack>
                         </HStack>
-                        <HStack>
-                            <Text>Beta:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
+                        <HStack color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
+                            <Text>Visibility</Text>
+                            <Select color="gray.100" onChange={onUpdateVisibility} placeholder={''} w="150px" defaultValue={props.devgame.visible}>
+
+                                <option value={'0'}>{'Unlisted'}</option>
+                                <option value={'1'}>{'Public'}</option>
+                                <option value={'2'}>{'Hidden'}</option>
+                            </Select>
                         </HStack>
-                    </HStack>
-                </VStack>
+                    </VStack>
 
-                <Box pb="0rem" pt="0rem" width="100%" align="right">
-                    <FSGSubmit onClick={onSubmit}></FSGSubmit>
-                    {
-                        props.devgame.status == 1 && (
-                            <DevManageGameDelete devgame={props.devgame} />
-                        )
-                    }
-                </Box>
-            </HStack>
+                    <Box flex="1" pb="0rem" pt="0rem" align="right">
+                        <FSGSubmit onClick={onSubmit}></FSGSubmit>
+                        {
+                            props.devgame.status == 1 && (
+                                <DevManageGameDelete devgame={props.devgame} />
+                            )
+                        }
+                    </Box>
 
+                </Wrap>
+
+
+            </VStack>
 
             <FSGGroup hfontSize="md" title="Github">
                 <DevManageGameGithub devgame={props.devgame} />
@@ -233,7 +293,7 @@ function DevManageGameFields(props) {
                     onChange={(e) => {
                         onChangeByName('minplayers', e)
                     }} />
-                <FSGTextInput
+                {/* <FSGTextInput
                     type="text"
                     name="teams"
                     id="teams"
@@ -241,7 +301,7 @@ function DevManageGameFields(props) {
                     maxLength="80"
                     required={rules['teams'].required}
                     value={props.devgame.teams || ''}
-                    onChange={inputChange} />
+                    onChange={inputChange} /> */}
             </FSGGroup>
 
             {/* <FSGGroup title="Game Support">

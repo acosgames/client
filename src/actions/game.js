@@ -63,8 +63,10 @@ export async function findGames() {
 
 export async function findGame(game_slug) {
     try {
+        fs.set('loadingGameInfo', true);
         let response = await GET('/api/v1/game/' + game_slug);
         let result = response.data;
+        fs.set('loadingGameInfo', false);
         if (result.ecode) {
             throw result.ecode;
         }
@@ -76,21 +78,24 @@ export async function findGame(game_slug) {
         fs.set('leaderboard', result.top10 || []);
         // fs.set('leaderboard', []);
         fs.set('leaderboardCount', result.lbCount || []);
-
+        fs.set('gameFound', true);
 
         return result;
     }
     catch (e) {
         console.error(e);
         fs.set('game', null);
+        throw 'E_GAMENOTFOUND'
     }
     return null;
 }
 
 export async function findGamePerson(game_slug) {
     try {
+        fs.set('loadingGameInfo', true);
         let response = await GET('/api/v1/game/person/' + game_slug);
         let result = response.data;
+        fs.set('loadingGameInfo', false);
         if (result.ecode) {
 
             if (result.ecode == 'E_NOTAUTHORIZED') {
@@ -133,6 +138,7 @@ export async function findGamePerson(game_slug) {
         // fs.set('top10', result.top10 || []);
         fs.set('leaderboard', fixed || []);
         fs.set('leaderboardCount', result.lbCount || []);
+        fs.set('gameFound', true);
     }
     catch (e) {
         console.error(e);

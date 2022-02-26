@@ -393,6 +393,29 @@ export async function deleteGame() {
     return deleteGame;
 }
 
+export async function updateGameAPIKey() {
+
+    try {
+        let newGame = fs.get('devgame');
+        let response = await POST('/api/v1/dev/update/gameapikey', { gameid: newGame.gameid });
+        let game = response.data;
+
+        newGame.apikey = game.apikey;
+        fs.set('devgame', newGame);
+
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+            fs.set('devgameerror', [data]);
+        }
+    }
+    return null;
+}
+
 export async function updateGame() {
     try {
         let newGame = fs.get('devgame');
@@ -648,6 +671,69 @@ export async function deployToProduction(game) {
         let deployGame = {
             gameid: game.gameid,
             version: game.latest_version
+        }
+        let response = await POST('/api/v1/dev/deploy/game', deployGame);
+        let gameResult = response.data;
+
+        if (!gameResult.version) {
+            fs.set('devgameerror', [{ ecode: 'E_DEPLOYERROR', payload: 'Unknown' }])
+            return;
+        }
+
+        let dgame = fs.get('devgame');
+        game.version = gameResult.version;
+        fs.set('devgame', game);
+
+        let dgames = fs.get('devgames');
+        for (var i = 0; i < dgames.length; i++) {
+            let g = dgames[i];
+            if (g.gameid == game.gameid) {
+                g.version = gameResult.version;
+                dgames[i] = g;
+                fs.set('devgames', dgames);
+                break;
+            }
+        }
+
+
+
+
+        fs.set('devgameerror', []);
+        console.log(gameResult);
+        return gameResult;
+    }
+    catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+
+            //const { request, ...errorObject } = response; // take everything but 'request'
+            //console.log(errorObject);
+
+            fs.set('devgameerror', [data]);
+        }
+
+
+    }
+    return null;
+}
+
+
+
+export async function deployVersionToProduction(game, version) {
+
+    try {
+
+        if (!version || !Number.isInteger(version) || version < 0 || version > game.latest_version) {
+            version = game.latest_version;
+        }
+
+
+        let deployGame = {
+            gameid: game.gameid,
+            version
         }
         let response = await POST('/api/v1/dev/deploy/game', deployGame);
         let gameResult = response.data;
