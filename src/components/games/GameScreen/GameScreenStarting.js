@@ -76,9 +76,18 @@ function GameScreenStarting(props) {
             extra = <Text as="h3" fontSize="3xl">Game Over. Players left early.</Text>
         }
         else if (local && players) {
+
+            let playerList = Object.keys(players);
+            let bestRank = 100000;
+            for (var i = 0; i < playerList.length; i++) {
+                let playerid = playerList[i];
+                let p = players[playerid];
+                if (p.rank < bestRank)
+                    bestRank = p.rank;
+            }
             let player = players[local.shortid]
-            let rank = player?.rank || -1;
-            if (rank == 1) {
+            let rank = player?.rank || 100000;
+            if (rank == bestRank) {
                 extra = <Text as="h3" fontSize="3xl">You Win!</Text>
             } else {
                 extra = <Text as="h3" fontSize="3xl">You Lose!</Text>
