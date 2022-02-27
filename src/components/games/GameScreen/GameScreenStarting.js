@@ -85,8 +85,10 @@ function GameScreenStarting(props) {
                 if (p.rank < bestRank)
                     bestRank = p.rank;
             }
-            let player = players[local.shortid]
-            let rank = player?.rank || 100000;
+            let player = players[local.shortid] || {};
+            let rank = player.rank;
+            if (!Number.isInteger(rank))
+                rank = 10000;
             if (rank == bestRank) {
                 extra = <Text as="h3" fontSize="3xl">You Win!</Text>
             } else {
