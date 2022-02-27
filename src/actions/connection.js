@@ -285,6 +285,7 @@ export async function wsSend(action) {
 
 var reconnectTimeout = 0;
 
+
 export async function disconnect() {
     let ws = fs.get('ws');
     if (!ws)
@@ -558,7 +559,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
         console.log("CONNECT #1")
         let ws = fs.get('ws');
         let user = fs.get('user');
-
+        fs.set('wsConnected', false);
         // if (!user) {
         //     //let ws = await reconnect();
         //     rs(ws);
@@ -607,6 +608,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             }
 
 
+            fs.set('wsConnected', true);
             wsRejoinRooms();
 
             var currentdate = new Date();
@@ -625,7 +627,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             console.log(evt);
             client.isReady = false;
             // fs.set('gamestate', {});
-
+            fs.set('wsConnected', false);
             var currentdate = new Date();
             var datetime = "WS Closed: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth() + 1) + "/"
@@ -646,6 +648,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             if (rj)
                 rj(error);
 
+            fs.set('wsConnected', false);
             var currentdate = new Date();
             var datetime = "WS Errored: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth() + 1) + "/"

@@ -4,6 +4,8 @@ import fs from 'flatstore';
 import { useEffect, useRef, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
+import { AiOutlineDisconnect } from '@react-icons';
+
 import { FaCheck } from '@react-icons';
 
 import { getRoomStatus } from '../../../actions/room';
@@ -121,6 +123,22 @@ function GameScreenStarting(props) {
             <Text as="h3" fontSize="3xl">{timeleft > 0 ? timeleft : 'GO!'}</Text>
         </VStack>;
     }
+    else if (isGamestart) {
+
+        let ws = fs.get('wsConnected');
+        if (!ws)
+            message = (
+                <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                    <HStack>
+                        <Icon as={AiOutlineDisconnect} fontSize="24px" color='red.400' />
+                        <Text as="h4" fontSize="md">DISCONNECTED</Text>
+                    </HStack>
+                    <Text as="h3" fontSize="md">Reconnecting to server...</Text>
+                </VStack>
+            );
+        else
+            return <></>
+    }
     else {
         return <></>
     }
@@ -163,4 +181,4 @@ function GameScreenStarting(props) {
 
 
 
-export default withRouter(fs.connect(['gameTimeleft', 'roomStatus'])(GameScreenStarting));
+export default withRouter(fs.connect(['gameTimeleft', 'roomStatus', 'wsConnected'])(GameScreenStarting));
