@@ -177,4 +177,4 @@ function GameInfoJoinButton(props) {
     )
 }
 
-export default fs.connect(['justCreatedName'])(GameInfoJoinButton);
+export default fs.connect(['justCreatedName', 'player_stats'])(GameInfoJoinButton);

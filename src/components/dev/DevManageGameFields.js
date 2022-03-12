@@ -26,6 +26,7 @@ import DevManageGameGithub from "./DevManageGameGithub";
 import FSGDelete from "../widgets/inputs/FSGDelete";
 import DevManageGameDelete from "./DevManageGameDelete";
 import FSGButton from "../widgets/inputs/FSGButton.js";
+import FSGSwitch from "../widgets/inputs/FSGSwitch";
 
 function DevManageGameFields(props) {
 
@@ -279,7 +280,7 @@ function DevManageGameFields(props) {
                     required={rules['maxplayers'].required}
                     value={props.devgame.maxplayers || '2'}
                     onChange={(e) => {
-                        onChangeByName('maxplayers', e)
+                        onChangeByName('maxplayers', parseInt(e))
                     }} />
                 <FSGNumberInput
                     type="number"
@@ -291,8 +292,23 @@ function DevManageGameFields(props) {
                     required={rules['minplayers'].required}
                     value={props.devgame.minplayers || '2'}
                     onChange={(e) => {
-                        onChangeByName('minplayers', e)
+                        onChangeByName('minplayers', parseInt(e))
                     }} />
+
+                <FSGSwitch
+                    type="boolean"
+                    name="lbscore"
+                    id="lbscore"
+                    title="Enable Highscore Leaderboard?"
+                    min="0"
+                    max="1"
+                    required={rules['lbscore'].required}
+                    value={props.devgame.lbscore ? true : false}
+                    onChange={(e) => {
+                        console.log('onChange lbscore:', e.target.checked);
+                        onChangeByName('lbscore', e.target.checked ? true : false);
+                    }}
+                />
                 {/* <FSGTextInput
                     type="text"
                     name="teams"

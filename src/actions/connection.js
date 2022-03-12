@@ -10,6 +10,7 @@ import fs from 'flatstore';
 import delta from 'shared/util/delta';
 import { addRoom, addRooms, clearRoom, clearRooms, getCurrentRoom, getGameState, getRoom, setCurrentRoom, setGameState, setLastJoinType, updateRoomStatus } from "./room";
 import { addGameQueue, clearGameQueues, getJoinQueues } from "./queue";
+import { findGameLeaderboard } from "./game";
 
 // import { useHistory } from 'react-router-dom';
 // import history from "./history";
@@ -846,16 +847,17 @@ async function wsIncomingMessage(message) {
                         player_stat.tie = msg.payload._tie;
                     if (msg.payload._played)
                         player_stat.played = msg.payload._played;
-                    if (msg.payload.rating)
-                        player_stat.rating = player.rating;
-                    if (player.ratingTxt)
-                        player_stat.ratingTxt = player.ratingTxt;
+                    // if (msg.payload.rating)
+                    //     player_stat.rating = player.rating;
+                    // if (player.ratingTxt)
+                    //     player_stat.ratingTxt = player.ratingTxt;
 
                 }
                 fs.set('player_stats', player_stats);
             }
 
             gamestate.players[user.shortid] = player;
+            gamestate.deltaPrivate = msg.payload;
             setGameState(gamestate);
             return;
         }
@@ -868,8 +870,27 @@ async function wsIncomingMessage(message) {
                 msg.payload.timer.end += (-offsetTime) - (latency / 2) - (extra);
             }
 
-            msg.payload = delta.merge(gamestate, msg.payload);
+            // let room = getRoom(msg.room_slug);
+            // if (msg.payload && msg.payload.players) {
+            //     let player = msg?.payload?.players[user.shortid]
+            //     if (player) {
+            //         let player_stats = fs.get('player_stats');
+            //         let player_stat = player_stats[room.game_slug]
+            //         if (player.rating)
+            //             player_stat.rating = player.rating;
 
+            //         if (player.ratingTxt)
+            //             player_stat.ratingTxt = player.ratingTxt;
+
+            //         fs.set('player_stats', player_stats);
+            //     }
+            // }
+
+
+
+            let deltaState = msg.payload;
+            msg.payload = delta.merge(gamestate, deltaState);
+            msg.payload.delta = deltaState;
             setGameState(msg.payload);
         }
 
@@ -917,6 +938,8 @@ async function postIncomingMessage(msg) {
                     player_stats[room.game_slug] = player_stat;
                 }
                 fs.set('player_stats', player_stats);
+
+                findGameLeaderboard(room.game_slug);
             }
             // fs.set('gamestate', {});
             break;
