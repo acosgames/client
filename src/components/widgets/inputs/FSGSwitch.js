@@ -40,7 +40,8 @@ function FSGSwitch(props) {
                 name={props.name}
                 ref={props.ref || inputRef}
                 placeholder={props.placeholder}
-                value={props.value || ''}
+                value={props.checked || false}
+                isChecked={props.checked || false}
                 onChange={props.onChange}
                 onFocus={props.onFocus}
                 disabled={props.disabled}

@@ -61,6 +61,9 @@ function GameListItem(props) {
         gameName = gameName.substr(0, 20) + '...';
     }
 
+    let gameQueueCount = game.queueCount;
+
+
     let inQueue = findQueue(game.game_slug);
     return (
 
@@ -73,7 +76,7 @@ function GameListItem(props) {
                     minH={['140px', '140px', '140px', '140px']}
                     alt={gameName}
                     src={imgUrl}
-                    fallbackSrc={config.https.cdn + 'placeholder.png'}
+                // fallbackSrc={config.https.cdn + 'placeholder.png'}
                 />
             </Link>
 
@@ -134,6 +137,11 @@ function GameListItem(props) {
                     m="0"
                     textAlign={'center'}
                 >{gameName}</Text>
+            </Link>
+            <Link to={'/g/' + game.game_slug} >
+                <Text as="span" fontWeight={'light'} fontSize="xs" display={game.queueCount > 0 ? 'inline-block' : 'none'} color={'yellow.100'}>
+                    <strong>{gameQueueCount}</strong> player(s) waiting
+                </Text>
             </Link>
             {/* <HStack>
                 <Icon as={IoPeople} />

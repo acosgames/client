@@ -90,6 +90,82 @@ export async function findGame(game_slug) {
     return null;
 }
 
+export async function findGameLeaderboardHighscore(game_slug) {
+    try {
+        fs.set('loadingHighscores', true);
+        let response = await GET('/api/v1/game/lbhs/' + game_slug);
+        let result = response.data;
+        fs.set('loadingHighscores', false);
+        if (result.ecode) {
+            if (result.ecode == 'E_NOTAUTHORIZED') {
+                return;
+            }
+            throw result.ecode;
+        }
+
+
+        //combine top10 + player leaderboard
+        let top10 = result.top10hs || [];
+        let leaderboard = result.lbhs || [];
+        let combined = top10.concat(leaderboard);
+        let rankmap = {};
+        for (var i = 0; i < combined.length; i++) {
+            let ranking = combined[i];
+            rankmap[ranking.rank] = ranking;
+        }
+
+        let fixed = [];
+        for (var key in rankmap) {
+            fixed.push(rankmap[key]);
+        }
+
+        fixed.sort((a, b) => a.rank - b.rank);
+
+        let oldLeaderboard = fs.get('leaderboardHighscore');
+        if (oldLeaderboard) {
+
+            let prevLocalLb = null;
+            let nextLocalLb = null;
+            let local = fs.get('user');
+            for (var i = 0; i < oldLeaderboard.length; i++) {
+                let oldPlayerLb = oldLeaderboard[i];
+                if (oldPlayerLb.value == local.displayname) {
+                    prevLocalLb = oldPlayerLb;
+                    break;
+                }
+            }
+
+            for (var i = 0; i < fixed.length; i++) {
+                let playerLb = fixed[i];
+                if (playerLb.value == local.displayname) {
+                    nextLocalLb = playerLb;
+                    break;
+                }
+            }
+
+            let diffLocalLb = null;
+            if (prevLocalLb && nextLocalLb) {
+                diffLocalLb = {};
+                diffLocalLb.score = nextLocalLb.score - prevLocalLb.score;
+                diffLocalLb.rank = nextLocalLb.rank - prevLocalLb.rank;
+                fs.set('leaderboardHighscoreChange', diffLocalLb);
+            }
+            else {
+                fs.set('leaderboardHighscoreChange', null);
+            }
+
+        }
+
+        fs.set('leaderboardHighscore', fixed || []);
+        fs.set('leaderboardHighscoreCount', result.lbhsCount || []);
+        // fs.set('gameFound', true);
+    }
+    catch (e) {
+        console.error(e);
+        fs.set(game_slug, {});
+    }
+}
+
 export async function findGameLeaderboard(game_slug) {
     try {
         fs.set('loadingGameInfo', true);

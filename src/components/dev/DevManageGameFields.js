@@ -303,7 +303,7 @@ function DevManageGameFields(props) {
                     min="0"
                     max="1"
                     required={rules['lbscore'].required}
-                    value={props.devgame.lbscore ? true : false}
+                    checked={props.devgame.lbscore ? true : false}
                     onChange={(e) => {
                         console.log('onChange lbscore:', e.target.checked);
                         onChangeByName('lbscore', e.target.checked ? true : false);

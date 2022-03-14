@@ -171,7 +171,9 @@ function GameInfoJoinButton(props) {
                 </Box>
 
             </Flex>
-
+            <Text pt={'0.5rem'} as="span" fontWeight={'light'} fontSize="xs" display={game.queueCount > 0 ? 'inline-block' : 'none'} color={'yellow.100'}>
+                <strong>{game.queueCount}</strong> player(s) waiting
+            </Text>
         </VStack >
 
     )

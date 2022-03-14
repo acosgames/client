@@ -25,10 +25,11 @@ import FSGRead from "../../widgets/inputs/FSGRead";
 
 import GameInfoActions from './GameInfoActions'
 import GameInfoJoinButton from './GameInfoJoinButton'
-import GameInfoTop10 from './GameInfoTop10'
+
 import GameInfoCreateDisplayname from "./GameInfoCreateDisplayName";
 import GameScreen2 from "../GameScreen/GameScreen2";
 import { findQueue } from "../../../actions/queue";
+import GameInfoLeaderboard from "./GameInfoLeaderboard";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
@@ -182,7 +183,7 @@ function GameInfo2(props) {
                         <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%">
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Flex>
-                        <GameInfoTop10 />
+                        <GameInfoLeaderboard gameinfo={game} />
 
                         <FSGGroup fontSize="1.2rem" title="Description" hfontSize="1rem">
                             <Box align="left" id="game-info-longdesc">
@@ -297,7 +298,7 @@ function GameInfoImage(props) {
                 height="100%"
                 objectFit={'fill'}
                 src={props.imgUrl}
-                fallbackSrc={config.https.cdn + 'placeholder.png'}
+                // fallbackSrc={config.https.cdn + 'placeholder.png'}
                 w="100%"
             />
             <Tooltip label={`In queue`}>
