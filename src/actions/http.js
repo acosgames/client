@@ -27,7 +27,7 @@ export async function GET(url, extras) {
     //check for unauthorized error
     if (response.data && response.data.ecode) {
         let ecode = response.data.ecode;
-        if (ecode == 'E_NOTAUTHORIZED' && url != '/api/v1/person') {
+        if (ecode == 'E_NOTAUTHORIZED' && url != '/api/v1/person' && url.indexOf('/api/v1/game/lbhs/') == -1) {
             let history = fs.get('history');
             history.push('/login');
         }

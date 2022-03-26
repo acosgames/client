@@ -65,6 +65,9 @@ function GameInfoJoinButton(props) {
             case 'experimental':
                 handleJoinBeta();
                 break;
+            // default:
+            //     handleJoin();
+            //     break;
         }
     })
 

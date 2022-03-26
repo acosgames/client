@@ -14,7 +14,7 @@ export function setLastJoinType(type) {
 }
 
 export function getLastJoinType() {
-    fs.get('lastJoin');
+    return fs.get('lastJoin');
 }
 
 export function setGameState(state) {
