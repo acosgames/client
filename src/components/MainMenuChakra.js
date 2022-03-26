@@ -78,18 +78,16 @@ function MainMenuChakra(props) {
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <HStack>
                         <Box
-                            bgColor={'white'}
-                            borderRadius={'25%'}
                         ><Link to="/" className="">
                                 <Image
                                     alt={'A cup of skill logo'}
-                                    src={`${config.https.cdn}acos-logo.png`}
-                                    w="32px" h="32px"
+                                    src={`${config.https.cdn}acos-logo-combined.png`}
+                                    w="154.2px" h="64px"
                                 />
 
                             </Link>
                         </Box>
-                        <Link to="/" className=""><Text>ACOS Games</Text></Link>
+                        {/* <Link to="/" className=""><Text>ACOS Games</Text></Link> */}
                     </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>

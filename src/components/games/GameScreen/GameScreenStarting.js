@@ -22,6 +22,7 @@ function GameScreenStarting(props) {
     let timeleft = props.gameTimeleft || 0;
     timeleft = Math.ceil(timeleft / 1000);
 
+    let game = fs.get('games>' + game_slug) || {};
     let gamestate = fs.get('gamestate') || {};
     let state = gamestate?.state;
     let events = gamestate?.events;
@@ -72,30 +73,49 @@ function GameScreenStarting(props) {
     else if (roomStatus == 'GAMEOVER') {
 
         let local = fs.get('user');
-
+        let localPlayer = players[local.shortid] || {};
+        let isSoloGame = game.maxplayers == 1;
+        let hasHighscore = isSoloGame || game.lbscore;
         let extra = <></>
-        if (gamestate?.timer?.seq <= 2) {
+        if (gamestate?.timer?.seq <= 2 && !isSoloGame) {
             extra = <Text as="h3" fontSize="3xl">Game Over. Players left early.</Text>
         }
-        else if (local && players) {
+        else if (!isSoloGame) {
 
-            let playerList = Object.keys(players);
-            let bestRank = 100000;
-            for (var i = 0; i < playerList.length; i++) {
-                let playerid = playerList[i];
-                let p = players[playerid];
-                if (p.rank < bestRank)
-                    bestRank = p.rank;
+            if (local && players) {
+
+
+                let playerList = Object.keys(players);
+                let bestRank = 100000;
+                for (var i = 0; i < playerList.length; i++) {
+                    let playerid = playerList[i];
+                    let p = players[playerid];
+                    if (p.rank < bestRank)
+                        bestRank = p.rank;
+                }
+                let player = players[local.shortid] || {};
+                let rank = player.rank;
+                if (!Number.isInteger(rank))
+                    rank = 10000;
+                if (rank == bestRank) {
+                    extra = <Text as="h3" fontSize="3xl">You Win</Text>
+                } else {
+                    extra = <Text as="h3" fontSize="3xl">You Lose</Text>
+                }
             }
-            let player = players[local.shortid] || {};
-            let rank = player.rank;
-            if (!Number.isInteger(rank))
-                rank = 10000;
-            if (rank == bestRank) {
-                extra = <Text as="h3" fontSize="3xl">You Win!</Text>
-            } else {
-                extra = <Text as="h3" fontSize="3xl">You Lose!</Text>
+        }
+        else {
+            extra = [
+                <Text as="h3" fontSize={'3xl'}>Game Over</Text>
+            ]
+
+            let localPlayerHighscore = fs.get('localPlayerHighscore');
+
+            if (localPlayerHighscore && localPlayerHighscore?.score < localPlayer.score) {
+                extra.push(<Text as="h4" fontSize={'md'}>NEW High Score: {localPlayer.highscore}</Text>);
             }
+            else
+                extra.push(<Text as="h4" fontSize={'md'}>High Score: {localPlayer.highscore}</Text>)
         }
 
 

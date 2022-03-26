@@ -77,6 +77,7 @@ function GameInfoJoinButton(props) {
 
 
     let isValidUser = user && user.shortid;
+    let hasRankLeaderboard = game.maxplayers > 1;
 
     let version = props.version || 0;
     let latest_version = props.latest_version || 0;
@@ -92,15 +93,16 @@ function GameInfoJoinButton(props) {
     // hasExtra = false;
 
     return (
-        <VStack w="full" spacing="0">
+        <VStack w="full" spacing="0" pt={hasRankLeaderboard ? '0' : '1rem'}>
 
             <HStack
-                display={isValidUser ? 'flex' : 'none'}
+                display={(isValidUser && hasRankLeaderboard) ? 'flex' : 'none'}
                 transform="perspective(15px) rotateX(1deg)"
                 w="90%"
                 height="2rem"
                 bg="gray.900"
                 justifyContent="center"
+
             // zIndex={-1}
             >
                 <Text

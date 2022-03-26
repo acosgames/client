@@ -1,0 +1,11 @@
+{
+  
+        "https": {
+            "cdn": "https://cdn.acos.games/file/acospub/",
+            "api": "http://localhost:8000",
+            "ws": "ws://127.0.0.1:9002"
+        },
+        "REACT_APP_PUBLIC_VAPID_KEY": "BPMD14rFHTR_KQ6gXbdZ6HG7EzDuM5bnydIZm0LCQeqIBBxCZTDwRuyiLmAMNDAlydMHPcS05IYOTo4FMe-6oAo",
+        "recaptcha": "6LeUXRMeAAAAAI_D4rzBuISV-xDvAIBeZUIEokoS"
+   
+}

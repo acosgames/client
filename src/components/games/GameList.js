@@ -30,6 +30,7 @@ class GameList extends Component {
         let gameLists = this.props.gameLists || {};
         let rankList = gameLists?.rankList || [];
         let experimentalList = gameLists?.experimentalList || [];
+        let soloList = gameLists?.soloList || [];
         // let productionGames = games.filter(v => v.status == 3);
         // let betaGames = games.filter(v => v.status == 2);
         return (
@@ -42,6 +43,14 @@ class GameList extends Component {
                             rankList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }
                     </Wrap>
+                </VStack>
+                <VStack align="left" display={soloList.length == 0 ? 'none' : undefined}>
+                    <Heading as="h1" size="lg">Solo Highscore</Heading>
+                    <Flex w="100%">
+                        {
+                            soloList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
+                        }
+                    </Flex>
                 </VStack>
                 <VStack align="left" display={experimentalList.length == 0 ? 'none' : undefined}>
                     <Heading as="h1" size="lg">Needs Testing</Heading>

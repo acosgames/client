@@ -21,11 +21,15 @@ export async function sortGames(games) {
 
     let rankList = [];
     let experimentalList = [];
+    let soloList = [];
 
     for (var game_slug in games) {
         let game = games[game_slug];
         if (game.version > 0) {
-            rankList.push(game);
+            if (game.maxplayers == 1)
+                soloList.push(game);
+            else
+                rankList.push(game);
         }
         if (!game.version) {
             experimentalList.push(game);
@@ -34,7 +38,7 @@ export async function sortGames(games) {
 
     // fs.set('rankList', rankList);
     // fs.set('experimentalList', experimentalList);
-    fs.set('gameLists', { rankList, experimentalList });
+    fs.set('gameLists', { rankList, experimentalList, soloList });
 }
 
 
@@ -72,6 +76,10 @@ export async function findGame(game_slug) {
         }
         // fs.set('games>' + game_slug, game);
         // fs.set('game', game || null);
+
+        if (result.game.lbscore) {
+            findGameLeaderboardHighscore(game_slug);
+        }
 
         fs.set('games>' + game_slug, result.game);
         fs.set('game', result.game || {});
@@ -121,12 +129,24 @@ export async function findGameLeaderboardHighscore(game_slug) {
 
         fixed.sort((a, b) => a.rank - b.rank);
 
+        let local = fs.get('user');
+        let localPlayer = null;
+        for (var i = 0; i < fixed.length; i++) {
+            if (fixed[i].value == local.displayname) {
+                localPlayer = fixed[i];
+                break;
+            }
+        }
+
+        if (localPlayer)
+            fs.set('localPlayerHighscore', localPlayer)
+
         let oldLeaderboard = fs.get('leaderboardHighscore');
         if (oldLeaderboard) {
 
             let prevLocalLb = null;
             let nextLocalLb = null;
-            let local = fs.get('user');
+
             for (var i = 0; i < oldLeaderboard.length; i++) {
                 let oldPlayerLb = oldLeaderboard[i];
                 if (oldPlayerLb.value == local.displayname) {
@@ -283,6 +303,9 @@ export async function findGamePerson(game_slug) {
 
         fixed.sort((a, b) => a.rank - b.rank);
 
+        if (result.game.lbscore) {
+            findGameLeaderboardHighscore(game_slug);
+        }
 
         // fs.set(game_slug, result.game || null);
         fs.set('games>' + game_slug, result.game);

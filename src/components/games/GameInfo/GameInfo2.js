@@ -16,7 +16,7 @@ import { getRoomStatus, setCurrentRoom } from '../../../actions/room';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm'
-import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton, useDisclosure, Portal, Tooltip, Button, Icon } from "@chakra-ui/react";
+import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton, useDisclosure, Portal, Tooltip, Button, Icon, Wrap, HStack, Grid } from "@chakra-ui/react";
 import { GiCheckMark } from '@react-icons';
 import SLink from "../../widgets/SLink";
 import FSGGroup from "../../widgets/inputs/FSGGroup";
@@ -132,7 +132,24 @@ function GameInfo2(props) {
 
     let shouldShowGame = room_slug && roomStatus != "NOTEXIST";
 
+    const parseDate = (dt) => {
+        return dt.split('T')[0];
+    }
 
+    let screentype = game.screentype;
+    switch (screentype) {
+        case 1: screentype = 'Fullscreen'; break;
+        case 2: screentype = 'Fixed Resolution'; break;
+        case 3: screentype = 'Scaled Resolution'; break;
+    }
+
+    let resow = game.resow;
+    let resoh = game.resoh;
+    let screenwidth = game.screenwidth;
+    let resolution = resow + ':' + resoh;
+    if (game.screentype == 3) {
+        resolution += ' @ ' + screenwidth + 'px';
+    }
     return (
         <>
             {shouldShowGame && (
@@ -186,7 +203,7 @@ function GameInfo2(props) {
                         <GameInfoLeaderboard gameinfo={game} />
 
                         <FSGGroup fontSize="1.2rem" title="Description" hfontSize="1rem">
-                            <Box align="left" id="game-info-longdesc">
+                            <Box width="100%" align="left" id="game-info-longdesc">
                                 <ReactMarkdown
                                     allowed
                                     allowedElements={[
@@ -208,28 +225,56 @@ function GameInfo2(props) {
                         </FSGGroup>
 
                         <FSGGroup title="Release" spacing="1rem" hfontSize="1rem">
-                            <FSGRead disabled={true}
-                                size="xs"
-                                title="Release Date"
-                                value={game.tsinsert}
-                            />
-                            <FSGRead disabled={true}
-                                size="xs"
-                                title="Last Updated"
-                                value={game.tsupdate}
-                            />
-                            <FSGRead disabled={true}
-                                size="xs"
-                                title="Build Version"
-                                value={game.version}
-                            />
-                            <FSGRead disabled={true}
-                                size="xs"
-                                title="Experimental Version"
-                                value={game.latest_version}
-                            />
+                            <Grid width="100%" spacing={'2rem'} gridTemplateColumns={'repeat(4, minmax(0, 1fr))'} rowGap={'1rem'}>
+                                <FSGRead disabled={true}
+                                    hfontSize="xs"
+                                    fontSize="xs"
+                                    title="Released"
+                                    value={parseDate(game.tsinsert)}
+                                />
+                                <FSGRead disabled={true}
+                                    hfontSize="xs"
+                                    fontSize="xs"
+                                    title="Updated"
+                                    value={parseDate(game.tsupdate)}
+                                />
+                                <FSGRead disabled={true}
+                                    hfontSize="xs"
+                                    fontSize="xs"
+                                    title="Published"
+                                    value={'v' + game.version}
+                                />
+                                <FSGRead disabled={true}
+                                    hfontSize="xs"
+                                    fontSize="xs"
+                                    title="Experimental"
+                                    value={'v' + game.latest_version}
+                                />
+                                <FSGRead disabled={true}
+                                    hfontSize="xs"
+                                    fontSize="xs"
+                                    title="Screen"
+                                    value={screentype}
+                                />
+                                <Box display={game.screentype == 1 ? 'none' : 'block'}>
+
+
+                                    <FSGRead disabled={true}
+                                        hfontSize="xs"
+                                        fontSize="xs"
+                                        title="Resolution"
+                                        value={resolution}
+                                    />
+                                </Box>
+                            </Grid>
+
                         </FSGGroup>
                         {/* 
+                        let screentype = game.screentype;
+    let resow = game.resow;
+    let resoh = game.resoh;
+    let screenwidth = game.screenwidth;
+
                 <FSGGroup fontSize="1.2rem" title="Reviews">
                 
                 <GameInfoReviews game_slug={game.game_slug} />
@@ -271,7 +316,8 @@ function GameInfo2(props) {
 function GameInfoLoading(props) {
 
     if (props.loadingGameInfo)
-        return (<Text fontSize="4xl">Loading</Text>)
+        return <></>
+    // return (<Text fontSize="4xl" color={'#D9E63A'}>Loading</Text>)
     return (
         <Text fontSize="4xl">404: Game Not Found</Text>
     )

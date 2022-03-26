@@ -13,6 +13,7 @@ import GameInfoTop10 from '../GameInfo/GameInfoTop10';
 import FSGGroup from '../../widgets/inputs/FSGGroup';
 import GameScreenStarting from './GameScreenStarting';
 import { refreshGameState, wsRejoinRoom } from '../../../actions/connection';
+import GameInfoTop10Highscores from '../GameInfo/GameInfoTop10Highscores';
 
 function GameScreen2(props) {
 
@@ -99,13 +100,19 @@ function GameScreen2(props) {
                         </Center>
                         <Wrap justify={'center'} spacing="3rem">
 
-                            <WrapItem >
+                            <WrapItem display={props.game.maxplayers == 1 ? 'none' : 'flex'}>
                                 <GameScreenInfo />
                             </WrapItem>
-                            <WrapItem>
-                                <VStack justifyContent={'center'}>
-                                    <Text as={'h4'} color="gray.300" size={'md'} fontWeight={'bold'}>Global Leaderboard</Text>
+                            <WrapItem display={props.game.maxplayers == 1 ? 'none' : 'flex'}>
+                                <VStack justifyContent={'center'} >
+                                    <Text as={'h4'} color="gray.300" size={'md'} fontWeight={'bold'}>Rank Leaderboard</Text>
                                     <GameInfoTop10 tag={'gamescreen'} />
+                                </VStack>
+                            </WrapItem>
+                            <WrapItem display={(props.game.lbscore || props.game.maxplayers == 1) ? 'flex' : 'none'}>
+                                <VStack justifyContent={'center'} >
+                                    <Text as={'h4'} color="gray.300" size={'md'} fontWeight={'bold'}>Highscore Leaderboard</Text>
+                                    <GameInfoTop10Highscores tag={'gamescreen-hs'} />
                                 </VStack>
                             </WrapItem>
 

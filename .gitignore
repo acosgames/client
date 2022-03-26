@@ -8,7 +8,7 @@
 # testing
 /coverage
 
-/config/config.production.json
+/src/config/config.production.json
 
 # production
 /build
