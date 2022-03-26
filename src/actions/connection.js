@@ -924,6 +924,9 @@ async function postIncomingMessage(msg) {
             let room = rooms[msg.room_slug];
             let gamestate = fs.get('gamestate');
             let user = fs.get('user');
+            let games = fs.get('games');
+            let game = games[room.game_slug];
+
 
             if (room.mode == 1) {
                 let player = msg.payload.players[user.shortid];
@@ -939,10 +942,10 @@ async function postIncomingMessage(msg) {
                 }
                 fs.set('player_stats', player_stats);
 
-                if (room.maxplayers > 1)
+                if (game?.maxplayers > 1)
                     findGameLeaderboard(room.game_slug);
 
-                if (room.lbscore || room.maxplayers == 1) {
+                if (game?.lbscore || game?.maxplayers == 1) {
                     findGameLeaderboardHighscore(room.game_slug);
                 }
             }
