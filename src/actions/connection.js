@@ -835,7 +835,7 @@ async function wsIncomingMessage(message) {
 
             let room = getRoom(msg.room_slug);
             //UPDATE PLAYER STATS FOR THIS GAME
-            if (room?.mode == 1 && msg?.payload?._played) {
+            if (room?.mode == 'rank' && msg?.payload?._played) {
                 let player_stats = fs.get('player_stats');
                 let player_stat = player_stats[room.game_slug]
                 if (player_stat) {
@@ -928,7 +928,7 @@ async function postIncomingMessage(msg) {
             let game = games[room.game_slug];
 
 
-            if (room.mode == 1) {
+            if (room.mode == 'rank') {
                 let player = msg.payload.players[user.shortid];
 
                 let player_stats = fs.get('player_stats');
