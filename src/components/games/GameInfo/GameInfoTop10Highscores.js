@@ -62,6 +62,15 @@ function GameInfoTop10Highscores(props) {
         return elems;
     }
 
+    let playerRank = -1;
+    for (var player of props.leaderboardHighscore) {
+        let isLocalPlayer = user?.displayname == player.value;
+        if (isLocalPlayer) {
+            playerRank = player.rank;
+            break;
+        }
+    }
+
     let lbCount = props.leaderboardHighscoreCount || 0;
     if (lbCount == 0) {
         return (
@@ -73,7 +82,7 @@ function GameInfoTop10Highscores(props) {
     return (
         <Box w="100%">
             <VStack w="100%">
-                <Table variant='simple' size="sm" >
+                <Table variant='simple' size="sm" mb={playerRank == -1 ? '1rem' : '0'}>
                     <Thead>
                         <Tr>
                             <Th isNumeric>Rank</Th>
@@ -85,8 +94,8 @@ function GameInfoTop10Highscores(props) {
                         {renderHighscores()}
                     </Tbody>
                 </Table>
-                <Box w="100%">
-                    <Text color="gray.500" align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.500">{playerGameStats?.ranking || -1}</Text> of {lbCount} on
+                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'}>
+                    <Text color="gray.500" align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.500">{playerRank}</Text> of {lbCount} on
                         <Text as="span" > /g/{game.game_slug}</Text></Text>
                 </Box>
 
