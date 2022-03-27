@@ -46,6 +46,7 @@ class GameList extends Component {
                 </VStack>
                 <VStack align="left" display={soloList.length == 0 ? 'none' : undefined}>
                     <Heading as="h1" size="lg">Solo Highscore</Heading>
+                    <Heading as="h3" size="md" pb="2rem" fontWeight="light" color="gray.300">Play by yourself against the world</Heading>
                     <Flex w="100%">
                         {
                             soloList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
