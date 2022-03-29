@@ -9,7 +9,7 @@ import { Redirect } from 'react-router';
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";
-import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap, chakra, Link as ChLink } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap, chakra, Link as ChLink, Image } from "@chakra-ui/react";
 import { FaDiscord, FaDev, FaGithub, TiDocumentText } from '@react-icons';
 import SLink from "../widgets/SLink";
 
@@ -54,7 +54,8 @@ class GameList extends Component {
                     </Flex>
                 </VStack>
                 <VStack align="left" display={experimentalList.length == 0 ? 'none' : undefined}>
-                    <Heading as="h1" size="lg">Needs Testing</Heading>
+                    <Heading as="h1" size="lg">Early Access</Heading>
+                    <Heading as="h3" size="md" pb="2rem" fontWeight="light" color="gray.300">Not yet published, but the devs need your help!</Heading>
                     <Flex w="100%">
                         {
                             experimentalList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
@@ -63,10 +64,13 @@ class GameList extends Component {
                 </VStack>
                 <Divider />
                 <VStack align="left" justify={"left"}>
-                    <Heading mb="0.5rem" as="h1" size="lg">Are you a developer?</Heading>
-                    <Text as="span" fontWeight={'light'} fontSize="sm">Build a game, deploy, and start playing in a single day!</Text>
-                    <Text as="span" fontWeight={'light'} fontSize="sm">Check our GitHub for open source game templates, to quickly learn how to develop for ACOS.</Text>
+                    <Heading mb="0.5rem" as="h1" size="lg">Want to make a game?</Heading>
+                    <Text as="span" fontWeight={'light'} fontSize="sm">Build, deploy, and start playing on ACOS instantly!</Text>
+                    <Text as="span" fontWeight={'light'} fontSize="sm">Check our documentation to quickly learn how to develop for ACOS.</Text>
                     <Wrap spacing="1rem">
+                        <ChLink isExternal textDecoration={"none"} href={'https://docs.acos.games'} >
+                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="16" />&nbsp;Documentation</Text>
+                        </ChLink>
                         <Link to="/dev">
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="16" />&nbsp;Developer Zone</Text>
                         </Link>
@@ -76,10 +80,34 @@ class GameList extends Component {
                         <ChLink isExternal textDecoration={"none"} href={'https://github.com/acosgames'} >
                             <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="16" />&nbsp;GitHub</Text>
                         </ChLink>
-                        <ChLink isExternal textDecoration={"none"} href={'https://docs.acos.games'} >
-                            <Text fontSize="sm" display="flex" color="gray.300"><Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="16" />&nbsp;Documentation</Text>
-                        </ChLink>
+
                     </Wrap>
+                </VStack >
+                <Divider />
+                <VStack align="left" justify={"left"}>
+                    <Heading as="h1" size="lg">Latest Blogs</Heading>
+                    <Heading as="h3" size="md" pb="2rem" fontWeight="light" color="gray.300">Read the latest news for ACOS.games</Heading>
+                    <HStack>
+                        <Box w={['220px']}>
+                            <ChLink isExternal textDecoration={"none"} href={'https://medium.com/@JoeOfTex/acos-web-developers-want-to-build-games-too-so-i-made-an-online-platform-to-make-it-easy-d225974fa2d8'} >
+                                <Box position={'relative'}>
+                                    <Image
+                                        w={['220px']}
+                                        minW={['220px']}
+                                        h={['220px']}
+                                        minH={['220px']}
+                                        alt={'ACOS Logo'}
+                                        src={'https://miro.medium.com/max/700/0*Jmxu0QcJ9STs3sji.png'}
+                                        pb="0.3rem"
+                                    // fallbackSrc={config.https.cdn + 'placeholder.png'}
+                                    />
+                                    <Text as="span" fontWeight={'light'} fontSize="xs" backgroundColor="rgba(0,0,0,0.5)" display={'block'} position='absolute' top="0" left="0" padding="0.2rem" lineHeight={'1rem'}>March 29, 2022</Text>
+                                </Box>
+                                <Heading p="1rem" as="h2" fontWeight="light" size="sm">ACOS: Web developers want to build games too, so I made an online platform to make it easy</Heading>
+                                {/* <Text as="span" fontWeight={'light'} fontSize="sm">ACOS.games is a new type of serverless platform for simplifying the full-stack development of real-time, turn-based, competitive games.</Text> */}
+                            </ChLink>
+                        </Box>
+                    </HStack>
                 </VStack >
             </VStack >
             // <div id="game-grid-wrapper">
