@@ -374,9 +374,10 @@ export async function wsLeaveQueue() {
 export async function wsRejoinQueues() {
 
     let joinqueues = getJoinQueues() || {};
+    let user = fs.get('user');
 
     let jqs = joinqueues.queues || [];
-    if (jqs.length > 0)
+    if (jqs.length > 0 && user)
         wsJoinQueues(joinqueues.queues, joinqueues.owner);
 }
 

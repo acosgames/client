@@ -10,6 +10,7 @@ import FSGTextInput from "../../widgets/inputs/FSGTextInput";
 import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
 import { useHistory } from "react-router-dom";
 import { wsJoinQueues } from '../../../actions/connection';
+import { getJoinQueues } from "../../../actions/queue";
 
 function GameInfoCreateDisplayname(props) {
 
@@ -20,20 +21,7 @@ function GameInfoCreateDisplayname(props) {
     const [displayName, setDisplayName] = useState('');
     const [error, setError] = useState(null);
 
-    let joinqueues = fs.get('joinqueues');
-    try {
-        if (!joinqueues) {
-            joinqueues = localStorage.getItem('joinqueues');
-            if (joinqueues)
-                joinqueues = JSON.parse(joinqueues);
-
-            if (!joinqueues)
-                joinqueues = {}
-        }
-    }
-    catch (e) {
-        console.error(e);
-    }
+    let joinqueues = getJoinQueues();
 
     let queues = joinqueues.queues || [];
     let isJoiningQueues = queues.length > 0;
