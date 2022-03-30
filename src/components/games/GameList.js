@@ -103,7 +103,7 @@ class GameList extends Component {
                                     />
                                     <Text as="span" fontWeight={'light'} fontSize="xs" backgroundColor="rgba(0,0,0,0.5)" display={'block'} position='absolute' top="0" left="0" padding="0.2rem" lineHeight={'1rem'}>March 29, 2022</Text>
                                 </Box>
-                                <Heading p="1rem" as="h2" fontWeight="light" size="sm">ACOS: Web developers want to build games too, so I made an online platform to make it easy</Heading>
+                                <Heading p="1rem" as="h2" fontWeight="light" size="sm">Build web games using serverless code, persistent JSON state, and any JavaScript browser framework</Heading>
                                 {/* <Text as="span" fontWeight={'light'} fontSize="sm">ACOS.games is a new type of serverless platform for simplifying the full-stack development of real-time, turn-based, competitive games.</Text> */}
                             </ChLink>
                         </Box>
