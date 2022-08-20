@@ -34,13 +34,16 @@ function NavForGuest(props) {
                 <Icon as={FiUser} fontSize="24" />
             </MenuButton>
             <MenuList alignItems={'center'}>
-                <Link to="/login">
-                    <MenuItem
-                    // onClick={() => { history.push('/login') }}
-                    >
-                        Sign In
-                    </MenuItem>
-                </Link>
+                {/* <Link to="/login"> */}
+                <MenuItem
+                    onClick={() => {
+                        // history.push('/login') 
+                        fs.set('isCreateDisplayName', true);
+                    }}
+                >
+                    Sign In
+                </MenuItem>
+                {/* </Link> */}
             </MenuList>
         </Menu>
     )

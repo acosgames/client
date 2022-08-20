@@ -3,10 +3,12 @@ import fs from 'flatstore';
 import { findDevGames } from './devgame';
 // import history from "./history";
 import { getWithExpiry, setWithExpiry, removeWithExpiry } from './cache';
-import { wsRejoinRoom, reconnect, disconnect, wsRejoinQueues } from './connection';
-import { clearGameQueues } from './queue';
-import { clearRooms, getRoomList, getRooms, setLastJoinType } from './room';
+import { wsRejoinRoom, reconnect, disconnect, wsRejoinQueues, wsJoinQueues } from './connection';
+import { addGameQueue, addJoinQueues, clearGameQueues, getJoinQueues } from './queue';
+import { clearRooms, getLastJoinType, getRoomList, getRooms, setLastJoinType } from './room';
 
+
+fs.set('loggedIn', 'LURKER');
 
 export async function createDisplayName(displayname) {
 
@@ -19,6 +21,8 @@ export async function createDisplayName(displayname) {
 
         fs.set('user', existing);
         fs.set('userid', existing.id);
+
+        disconnect();
 
         console.log(existing);
         return existing;
@@ -40,11 +44,13 @@ export async function createTempUser(displayname) {
         let now = Math.round((new Date()).getTime() / 1000);
         let diff = exp - now;
         console.log("User expires in " + diff + " seconds.");
-        setWithExpiry('user', user, 120)
-        fs.set('loggedIn', true);
+        setWithExpiry('user', user, diff)
+        setLoginMode(user);
         fs.set('user', user);
         fs.set('userid', user.id);
         fs.set('profile', user);
+
+        disconnect();
 
         console.log(user);
         return user;
@@ -65,11 +71,11 @@ export async function logout() {
             return false;
         }
 
-
-        fs.set('loggedIn', false);
-        fs.set('user', {});
+        setLoginMode();
+        fs.set('user', null);
         fs.set('userid', 0);
         fs.set('player_stats', {});
+        fs.set('isCreateDisplayName', false);
         removeWithExpiry('user');
 
         clearRooms();
@@ -88,7 +94,7 @@ export async function logout() {
 
 export function isUserLoggedIn() {
     let loggedIn = fs.get('loggedIn');
-    return loggedIn;
+    return !(!loggedIn || loggedIn == 'LURKER');
 }
 
 export async function getPlayer(displayname) {
@@ -115,6 +121,9 @@ export async function getUser() {
         user = await getUserProfile();
     }
 
+
+    reconnect(true, true);
+
     if (!user) {
         return false;
     }
@@ -123,6 +132,50 @@ export async function getUser() {
 
 
     return user;
+}
+
+export async function login() {
+
+    let isLoginShowing = fs.get('isCreateDisplayName');
+    if (isLoginShowing)
+        return;
+
+    let game = fs.get('game');
+    if (game) {
+        let mode = getLastJoinType();
+        addJoinQueues(game.game_slug, mode);
+    }
+    fs.set('isCreateDisplayName', true);
+}
+
+export async function loginComplete() {
+    fs.set('isCreateDisplayName', false);
+    fs.set('justCreatedName', true);
+
+    let joinqueues = getJoinQueues();
+
+    let queues = joinqueues.queues || [];
+    let isJoiningQueues = queues.length > 0;
+
+    if (isJoiningQueues) {
+        wsJoinQueues(joinqueues.queues, joinqueues.owner);
+    }
+}
+
+export async function setLoginMode(user) {
+    let loginMode = 'LURKER';
+
+    if (user) {
+        if (user.email) {
+            loginMode = 'USER';
+        }
+        else if (user.displayname)
+            loginMode = 'TEMP';
+    }
+
+    fs.set('loggedIn', loginMode);
+    return loginMode;
+
 }
 
 export async function getUserProfile() {
@@ -136,8 +189,8 @@ export async function getUserProfile() {
 
         if (user.ecode) {
             console.error('[ERROR] Login failed. Please login again.');
-            fs.set('loggedIn', false);
-            fs.set('user', {});
+            setLoginMode();
+            fs.set('user', null);
             return null;
         }
         // }
@@ -147,8 +200,8 @@ export async function getUserProfile() {
         let now = Math.round((new Date()).getTime() / 1000);
         let diff = exp - now;
         console.log("User expires in " + diff + " seconds.");
-        setWithExpiry('user', user, 120)
-        fs.set('loggedIn', true);
+        setWithExpiry('user', user, diff)
+        setLoginMode(user);
         fs.set('user', user);
         fs.set('userid', user.id);
         fs.set('profile', user);
@@ -179,8 +232,8 @@ export async function getUserProfile() {
     }
     catch (e) {
         // fs.set('userCheckedLogin', true);
-        fs.set('loggedIn', false);
-        fs.set('user', {});
+        setLoginMode();
+        fs.set('user', null);
         fs.set('userid', 0);
 
         console.error('[Profile] Login failed. Please login again.');

@@ -2,7 +2,7 @@
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { encode, decode, defaultDict } from 'shared/util/encoder';
-import { getUser, isUserLoggedIn } from './person';
+import { getUser, isUserLoggedIn, login } from './person';
 
 import config from '../config'
 
@@ -254,6 +254,7 @@ export async function wsSendFAKE(action) {
     }, forcedLatency);
 }
 
+
 export async function wsSend(action) {
     let ws = fs.get('ws');
     if (!ws || !action)
@@ -297,7 +298,7 @@ export async function disconnect() {
     fs.set('ws', null);
     console.log("Disconnected from server.");
 }
-export async function reconnect(isNew, skipQueues) {
+export async function reconnect(skipQueues) {
     let ws = fs.get('ws');
     if (ws && ws.isReady) {
         return ws;
@@ -317,7 +318,7 @@ export async function reconnect(isNew, skipQueues) {
         ws = await wsConnect();
         // }, 500);
 
-        if (!skipQueues)
+        if (!skipQueues && isUserLoggedIn())
             wsRejoinQueues();
     }
     catch (e) {
@@ -373,6 +374,10 @@ export async function wsLeaveQueue() {
 
 export async function wsRejoinQueues() {
 
+    if (!validateLogin()) {
+        return;
+    }
+
     let joinqueues = getJoinQueues() || {};
     let user = fs.get('user');
 
@@ -382,6 +387,9 @@ export async function wsRejoinQueues() {
 }
 
 export async function wsJoinQueues(queues, owner) {
+
+    if (!validateLogin())
+        return false;
 
     if (!queues || queues.length == 0 || !queues[0].game_slug) {
         console.error("Queues is invalid.", queues);
@@ -394,27 +402,15 @@ export async function wsJoinQueues(queues, owner) {
         // return false;
     }
 
-    fs.set('joinqueues', { queues, owner });
-    localStorage.setItem('joinqueues', JSON.stringify({ queues, owner }));
-
-    let user = await getUser();
-    if (!user || !user.shortid) {
-        fs.set('justCreatedName', false);
-        fs.set('isCreateDisplayName', true);
-        return false;
-    }
+    let joinQueues = { queues, owner };
+    fs.set('joinqueues', joinQueues);
+    localStorage.setItem('joinqueues', JSON.stringify(joinQueues));
 
 
-
-    let ws = await reconnect(true, true);
+    let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
         return false;
     }
-
-
-
-
-
 
     gtag('event', 'joinqueues', { queues, owner });
 
@@ -426,10 +422,10 @@ export async function wsJoinQueues(queues, owner) {
 
     fs.set('queues', queues);
 
-    if (owner)
-        fs.set('successMessage', { description: `You joined ${owner}'s ${queues.length} queues.` })
-    else
-        fs.set('successMessage', { description: `You joined ${queues.length} queues.` })
+    // if (owner)
+    //     fs.set('successMessage', { description: `You joined ${owner}'s ${queues.length} queues.` })
+    // else
+    //     fs.set('successMessage', { description: `You joined ${queues.length} queues.` })
 
     // console.timeEnd('ActionLoop');
     return true;
@@ -437,6 +433,10 @@ export async function wsJoinQueues(queues, owner) {
 
 
 export async function wsJoinGame(mode, game_slug) {
+
+    if (!validateLogin())
+        return false;
+
     let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
         return;
@@ -452,26 +452,14 @@ export async function wsJoinGame(mode, game_slug) {
     wsSend(action);
 
 
-    let joinqueues = getJoinQueues() || {};
-
-    if (!joinqueues.queues)
-        joinqueues.queues = [];
-
-    if (!joinqueues.queues.find(q => q.game_slug == game_slug && q.mode == mode)) {
-        joinqueues.queues.push(payload);
-        joinqueues.owner = null;
-        fs.set('joinqueues', joinqueues);
-        localStorage.setItem('joinqueues', JSON.stringify(joinqueues));
-    }
-
-
     console.log("[Outgoing] Joining " + mode + ": ", action);
 
     let games = fs.get('games');
     let game = games[game_slug];
     let gameName = game?.name || game?.game_slug || '';
 
-    fs.set('successMessage', { description: `You joined the "${gameName}" ${mode} mode.` })
+    // if (game.maxplayers > 1)
+    //     fs.set('successMessage', { description: `You joined the "${gameName}" ${mode} mode.` })
     // console.timeEnd('ActionLoop');
 }
 
@@ -556,11 +544,28 @@ export async function wsRejoinRooms() {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export function validateLogin() {
+    if (!isUserLoggedIn()) {
+
+        login();
+
+
+        // let history = fs.get('history');
+        // history.push('/login');
+        // console.log("CONNECT #3")
+        return false;
+        // await sleep(1000);
+        // user = fs.get('user');
+    }
+    return true;
+}
+
 export function wsConnect(url, onMessage, onOpen, onError) {
     return new Promise(async (rs, rj) => {
         console.log("CONNECT #1")
         let ws = fs.get('ws');
-        let user = fs.get('user');
+        let user = fs.get('user') || { token: 'LURKER' };
         fs.set('wsConnected', false);
         // if (!user) {
         //     //let ws = await reconnect();
@@ -575,19 +580,6 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             return;
         }
 
-        if (!isUserLoggedIn()) {
-            fs.set('justCreatedName', false);
-            fs.set('isCreateDisplayName', true);
-
-
-            // let history = fs.get('history');
-            // history.push('/login');
-            console.log("CONNECT #3")
-            rj('E_NOTAUTHORIZED')
-            return;
-            // await sleep(1000);
-            // user = fs.get('user');
-        }
 
 
 

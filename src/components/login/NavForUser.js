@@ -81,17 +81,17 @@ function Logout(props) {
     let isTempUser = !user.email || user.email.length == 0;
     if (!isTempUser)
         return (
-            <Link to="/logout" width="100%">
-                <MenuItem>Logout</MenuItem>
-            </Link>
+            // <Link to="/logout" width="100%">
+            <MenuItem onClick={() => { logout() }}>Logout</MenuItem>
+            // </Link>
         )
 
     return (
         <>
             <MenuDivider />
-            <Link to="/logout" width="100%">
-                <MenuItem>Sign out and delete</MenuItem>
-            </Link>
+            {/* <Link to="/logout" width="100%"> */}
+            <MenuItem onClick={() => { logout() }}>Sign out and delete</MenuItem>
+            {/* </Link> */}
         </>
 
     )

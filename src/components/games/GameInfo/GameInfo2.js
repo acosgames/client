@@ -26,7 +26,7 @@ import FSGRead from "../../widgets/inputs/FSGRead";
 import GameInfoActions from './GameInfoActions'
 import GameInfoJoinButton from './GameInfoJoinButton'
 
-import GameInfoCreateDisplayname from "./GameInfoCreateDisplayName";
+import GameInfoCreateDisplayname from "../../login/GameInfoCreateDisplayName";
 import GameScreen2 from "../GameScreen/GameScreen2";
 import { findQueue } from "../../../actions/queue";
 import GameInfoLeaderboard from "./GameInfoLeaderboard";
@@ -130,7 +130,7 @@ function GameInfo2(props) {
         playerCntRange = game.minplayers;
 
 
-    let shouldShowGame = room_slug && roomStatus != "NOTEXIST";
+    let shouldShowGame = room_slug;
 
     const parseDate = (dt) => {
         return dt.split('T')[0];

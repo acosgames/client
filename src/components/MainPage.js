@@ -20,9 +20,10 @@ class MainPage extends Component {
 
     render() {
         return (
-            <div id="mainpage">
-                <GameList />
-            </div>
+            // <div id="mainpage">
+
+            <GameList />
+            // </div>
         )
     }
 }

@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { Redirect } from 'react-router';
 
+import SimpleBarReact from "simplebar-react";
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";

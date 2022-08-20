@@ -9,6 +9,7 @@ import {
     Image,
     Text,
     HStack,
+    VStack,
 } from '@chakra-ui/react';
 import SLink from './widgets/SLink';
 import fs from 'flatstore';
@@ -70,24 +71,27 @@ function MainMenuChakra(props) {
                 zIndex="10"
                 filter={room_slug ? 'blur(20px)' : 'blur(0)'}
                 display={'block'}
-                bg={useColorModeValue('gray.100', 'gray.900')}
+                bg={useColorModeValue('acos.100', 'acos.100')}
                 px={4}
                 transition={'all 0.3s ease-in'}
 
             >
-                <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                    <HStack>
+                <Flex h={'5rem'} alignItems={'center'} justifyContent={'space-between'}>
+                    <HStack spacing="4rem">
                         <Box
                         ><Link to="/" className="">
                                 <Image
                                     alt={'A cup of skill logo'}
-                                    src={`${config.https.cdn}acos-logo-combined.png`}
-                                    w="154.2px" h="64px"
+                                    src={`${config.https.cdn}acos-logo-standalone.png`}
+                                    h="2.4rem" maxHeight={'90%'}
                                 />
 
                             </Link>
                         </Box>
-                        {/* <Link to="/" className=""><Text>ACOS Games</Text></Link> */}
+
+                        <Box mr="2rem">
+                            <Link to="/" className=""><Text fontSize="lg" fontWeight="700">Browse</Text></Link>
+                        </Box>
                     </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>
@@ -95,8 +99,8 @@ function MainMenuChakra(props) {
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                             </Button> */}
                             <Box>
-                                {loggedIn && <NavForUser />}
-                                {!loggedIn && <NavForGuest />}
+                                {(loggedIn != 'LURKER') && <NavForUser />}
+                                {(loggedIn == 'LURKER') && <NavForGuest />}
                             </Box>
                         </Stack>
                     </Flex>

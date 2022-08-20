@@ -98,24 +98,24 @@ function GameScreenStarting(props) {
                 if (!Number.isInteger(rank))
                     rank = 10000;
                 if (rank == bestRank) {
-                    extra = <Text as="h3" fontSize="3xl">You Win</Text>
+                    extra = <Text key="header-you-win" as="h3" fontSize="3xl">You Win</Text>
                 } else {
-                    extra = <Text as="h3" fontSize="3xl">You Lose</Text>
+                    extra = <Text key="header-new-you-lose" as="h3" fontSize="3xl">You Lose</Text>
                 }
             }
         }
         else {
             extra = [
-                <Text as="h3" fontSize={'3xl'}>Game Over</Text>
+                <Text key="header-gameover" as="h3" fontSize={'3xl'}>Game Over</Text>
             ]
 
             let localPlayerHighscore = fs.get('localPlayerHighscore');
 
             if (localPlayerHighscore && localPlayerHighscore?.score < localPlayer.score) {
-                extra.push(<Text as="h4" fontSize={'md'}>NEW High Score: {localPlayer.highscore}</Text>);
+                extra.push(<Text key="header-new-high-score" as="h4" fontSize={'md'}>NEW High Score: {localPlayer.highscore}</Text>);
             }
             else
-                extra.push(<Text as="h4" fontSize={'md'}>High Score: {localPlayer.highscore}</Text>)
+                extra.push(<Text key="header-high-score" as="h4" fontSize={'md'}>High Score: {localPlayer.highscore}</Text>)
         }
 
 

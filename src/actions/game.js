@@ -131,18 +131,21 @@ export async function findGameLeaderboardHighscore(game_slug) {
 
         let local = fs.get('user');
         let localPlayer = null;
-        for (var i = 0; i < fixed.length; i++) {
-            if (fixed[i].value == local.displayname) {
-                localPlayer = fixed[i];
-                break;
+        if (local) {
+            for (var i = 0; i < fixed.length; i++) {
+                if (fixed[i].value == local.displayname) {
+                    localPlayer = fixed[i];
+                    break;
+                }
             }
         }
+
 
         if (localPlayer)
             fs.set('localPlayerHighscore', localPlayer)
 
         let oldLeaderboard = fs.get('leaderboardHighscore');
-        if (oldLeaderboard) {
+        if (oldLeaderboard && local) {
 
             let prevLocalLb = null;
             let nextLocalLb = null;
@@ -216,13 +219,13 @@ export async function findGameLeaderboard(game_slug) {
         }
 
         fixed.sort((a, b) => a.rank - b.rank);
-
+        let local = fs.get('user');
         let oldLeaderboard = fs.get('leaderboard');
-        if (oldLeaderboard) {
+        if (oldLeaderboard && local) {
 
             let prevLocalLb = null;
             let nextLocalLb = null;
-            let local = fs.get('user');
+
             for (var i = 0; i < oldLeaderboard.length; i++) {
                 let oldPlayerLb = oldLeaderboard[i];
                 if (oldPlayerLb.value == local.displayname) {

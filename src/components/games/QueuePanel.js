@@ -89,15 +89,16 @@ function NotifySwitch(props) {
     return (
         <Tooltip label="Toggle Notifications" placement="top">
             <Box  >
-                <FormLabel htmlFor={'switch-notif'} p="0" m="0" fontSize="xs" >
+                <FormLabel htmlFor={'switch-notif'} p="0" m="0" fontSize="md" >
                     <IconButton
                         bgColor={''}
                         onClick={onNotifyClick}
                         icon={<Icon
                             as={NotifIcon}
                             color={checked ? 'white' : "gray.400"}
-                            fontSize="24px" />}
-                        size="md"
+                            fontSize="md" />}
+                        width="3rem"
+                        height="3rem"
                         isRound="true" />
 
                     {/* <VStack>
@@ -157,14 +158,22 @@ function InviteToPlayButton(props) {
         }
     }
 
+    let checked = true;
+
     return (
         <Tooltip label="Send invite to your friends" placement="top">
             <Box>
                 <IconButton
                     bgColor={''}
                     onClick={onShareClick}
-                    icon={<IoPersonAddSharp />}
-                    size="md"
+                    icon={<Icon
+                        as={IoPersonAddSharp}
+                        color={checked ? 'white' : "gray.400"}
+                        fontSize="md" />}
+                    // icon={<IoPersonAddSharp />}
+                    width="3rem"
+                    height="3rem"
+                    // fontSize="xl"
                     isRound="true" />
             </Box>
         </Tooltip>
@@ -214,12 +223,12 @@ function QueuePanel(props) {
         setOpen(false);
         wsLeaveQueue();
 
-        toast({
-            description: 'You were removed from all queue(s).',
-            status: 'warning',
-            isClosable: true,
-            position: 'top-right'
-        })
+        // toast({
+        //     description: 'You were removed from all queue(s).',
+        //     status: 'warning',
+        //     isClosable: true,
+        //     position: 'top-right'
+        // })
     }
 
     useEffect(() => {
@@ -267,7 +276,7 @@ function QueuePanel(props) {
             <Center
 
                 position="fixed"
-                bottom="2rem"
+                top="0.5rem"
                 width="100%"
                 align="center"
                 justifyItems={'center'}
@@ -278,33 +287,36 @@ function QueuePanel(props) {
                     borderRadius={'30px'}
                     position="relative"
                     bgColor={'gray.600'}
-                    width="360px"
-                    height="60px"
+                    width="auto"
+                    height="4.0rem"
                     justifyContent={'center'}
                     spacing="0rem">
                     <HStack
-                        position="absolute"
-                        top="0"
-                        left="1rem"
+                        // position="absolute"
+                        // top="0"
+                        // left="2rem"
                         height="100%"
+                        spacing="1rem"
                     >
 
                         <NotifySwitch />
                         <InviteToPlayButton />
                     </HStack>
                     <Popover
-                        width="100px"
+                        // width="100px"
                         isOpen={isOpen}
                         onOpen={onOpen}
                         onClose={onClose}>
-                        <PopoverTrigger width="100px">
+                        <PopoverTrigger
+                        // width="100px"
+                        >
                             <VStack cursor={'pointer'}>
 
                                 <Text
                                     className="blink_me"
                                     as="span"
                                     display="inline-block"
-
+                                    fontSize="xs"
                                     color="white"
                                     fontWeight={'bold'} height="100%">
                                     Searching
@@ -345,6 +357,7 @@ function QueuePanel(props) {
                         </PopoverContent>
                     </Popover>
 
+
                     <VStack
                         position="absolute"
                         top="0"
@@ -354,10 +367,11 @@ function QueuePanel(props) {
                         justifyItems={'center'}
                         alignContent={'center'}
                         spacing="0"
+                        display={['none', 'none', 'flex']}
                     >
 
-                        <Text fontSize="xs" color="gray.200">In {queues.length} queues</Text>
-                        <PlayerCount fontSize="xs" color="gray.400" />
+                        <Text fontSize="xxs" color="gray.200">In {queues.length} queues</Text>
+                        <PlayerCount fontSize="xxs" color="gray.400" />
                     </VStack>
 
                     <Tooltip label="Leave Queue" placement="top">

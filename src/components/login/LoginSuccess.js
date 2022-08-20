@@ -24,10 +24,10 @@ function LoginSuccess(props) {
     fs.set('success', 'Logged in.  Enjoy the games!');
 
     let toast = useToast();
-    toast({
-        description: 'Logged in.  Enjoy the games!',
-        status: 'success'
-    })
+    // toast({
+    //     description: 'Logged in.  Enjoy the games!',
+    //     status: 'success'
+    // })
 
     return (
         <Redirect to={refPath} />

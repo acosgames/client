@@ -86,8 +86,8 @@ function DevLogin(props) {
 
                     </Button>
                 </a>
-                <VStack filter={!loggedIn ? "blur(2px)" : ''} align="left" w='100%' position="relative">
-                    <Box position="absolute" w="100%" h="100%" display={loggedIn ? 'none' : 'block'}  >
+                <VStack filter={(loggedIn == 'LURKER') ? "blur(2px)" : ''} align="left" w='100%' position="relative">
+                    <Box position="absolute" w="100%" h="100%" display={(loggedIn != 'LURKER') ? 'none' : 'block'}  >
                         &nbsp;
                     </Box>
                     <HStack pt="2rem">

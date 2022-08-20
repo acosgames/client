@@ -34,7 +34,7 @@ class ProtectedRoute extends Component {
             return <></>
         }
 
-        if (!loggedIn)
+        if ((loggedIn == 'LURKER'))
             return <Redirect to={this.props.redirectTo || "/login"}></Redirect>
 
         let validated = this.props.verify && this.props.verify(this.props.user);

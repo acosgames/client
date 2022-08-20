@@ -11,7 +11,7 @@ import Logout from "./Logout";
 import { Heading, VStack, Button, Center, Text, chakra, Link as ChLink, useToast, Modal, Box, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Divider, HStack, ModalFooter } from "@chakra-ui/react";
 import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
 import { removeWithExpiry } from "../../actions/cache";
-import { createTempUser } from "../../actions/person";
+import { createTempUser, loginComplete } from "../../actions/person";
 import FSGGroup from "../widgets/inputs/FSGGroup";
 import FSGTextInput from "../widgets/inputs/FSGTextInput";
 import FSGSubmit from "../widgets/inputs/FSGSubmit";
@@ -138,8 +138,7 @@ function SocialLogin(props) {
 
             // fs.set('user')
             // setTimeout(redirect, 1000);
-            fs.set('isCreateDisplayName', false);
-            fs.set('justCreatedName', true);
+            loginComplete();
 
             history.push('/login/success');
         }
@@ -181,7 +180,7 @@ function SocialLogin(props) {
 
 
             <VStack width={["100%", "80%", "80%", "60%"]}>
-                <Heading align={'left'} size="lg">Choose a player name</Heading>
+                <Heading align={'left'} size="lg">asdfChoose a player name</Heading>
                 <FSGGroup  >
 
                     <FSGTextInput
@@ -204,8 +203,7 @@ function SocialLogin(props) {
                 </FSGGroup>
                 <FSGSubmit onClick={onSubmit} title="Create" loadingText="Creating" />
                 <Divider pt={'1rem'} />
-                <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Already have an account? Sign in</Heading>
-                <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading>
+                <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Sign in to reserve your name</Heading>
                 <VStack w={['100%']} justifyItems={'center'} gap="0">
                     {/* Google */}
                     <ChLink href={"/login/google" + refPath} w="100%">

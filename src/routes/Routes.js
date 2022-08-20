@@ -53,107 +53,107 @@ var Routes = () => {
     let iframe = fs.get('iframe');
 
     return (
-        <Box display="inline-block" width="100%" pl={iframe ? 0 : [3, 4, 12]} pr={iframe ? 0 : [3, 4, 12]} pt={6}>
-            <Switch>
-                <ProtectedRoute
-                    exact
-                    path="/player/create"
-                    verify={(user) => !user.displayname}
-                    component={CreateDisplayName}
-                />
-                <Route
-                    exact
-                    path="/join/:queues"
-                    component={JoinQueuePage}
-                />
-                <Route
-                    exact
-                    path="/join/:owner/:queues"
-                    component={JoinQueuePage}
-                />
-                <Route
-                    exact
-                    path="/"
-                    component={MainPage}
-                />
-                <Route
-                    exact
-                    path="/g"
-                    component={MainPage}
-                />
+        // <Box display="inline-block" width="100%" pl={iframe ? 0 : [3, 4, 12]} pr={iframe ? 0 : [3, 4, 12]} pt={6}>
+        <Switch>
+            <ProtectedRoute
+                exact
+                path="/player/create"
+                verify={(user) => !user.displayname}
+                component={CreateDisplayName}
+            />
+            <Route
+                exact
+                path="/join/:queues"
+                component={JoinQueuePage}
+            />
+            <Route
+                exact
+                path="/join/:owner/:queues"
+                component={JoinQueuePage}
+            />
+            <Route
+                exact
+                path="/"
+                component={MainPage}
+            />
+            <Route
+                exact
+                path="/g"
+                component={MainPage}
+            />
 
 
-                <Route
-                    exact
-                    path="/profile"
-                    component={Profile}
-                />
+            <Route
+                exact
+                path="/profile"
+                component={Profile}
+            />
 
-                <Route
+            <Route
 
-                    path="/profile/:displayname"
-                    component={Profile}
-                />
+                path="/profile/:displayname"
+                component={Profile}
+            />
 
 
 
-                <Route
+            <Route
 
-                    path="/login/success"
-                    component={LoginSuccess}
-                />
+                path="/login/success"
+                component={LoginSuccess}
+            />
 
-                <Route
+            <Route
 
-                    path="/login/accountexists"
-                    component={LoginAccountExists}
-                />
+                path="/login/accountexists"
+                component={LoginAccountExists}
+            />
 
-                <Route
+            <Route
 
-                    path="/privacy"
-                    component={PrivacyPolicy}
-                />
-                <Route
+                path="/privacy"
+                component={PrivacyPolicy}
+            />
+            <Route
 
-                    path="/terms"
-                    component={TermsAndConditions}
-                />
+                path="/terms"
+                component={TermsAndConditions}
+            />
 
-                <Route
+            <Route
 
-                    path="/login"
-                    component={SocialLogin}
-                />
-                <Route
+                path="/login"
+                component={SocialLogin}
+            />
+            <Route
 
-                    path="/logout"
-                    component={Logout}
-                />
+                path="/logout"
+                component={Logout}
+            />
 
-                <Route
-                    exact
-                    path="/dev/login"
-                    component={DevLogin}
-                />
+            <Route
+                exact
+                path="/dev/login"
+                component={DevLogin}
+            />
 
-                <ProtectedRoute
+            <ProtectedRoute
 
-                    path="/dev*"
-                    component={RoutesDev}
-                    verify={
-                        (user) => {
-                            return user.isdev || user.github
-                        }}
-                    redirectTo="/dev/login"
-                />
+                path="/dev*"
+                component={RoutesDev}
+                verify={
+                    (user) => {
+                        return user.isdev || user.github
+                    }}
+                redirectTo="/dev/login"
+            />
 
-                {/* <Route
+            {/* <Route
                 exact
                 path="/dev/login"
                 component={DevLogin}
             /> */}
-                {/* <ProtectedRoute
+            {/* <ProtectedRoute
 
                 path="/dev/game/create"
                 component={DevCreateGame}
@@ -175,13 +175,13 @@ var Routes = () => {
                 redirectTo="/dev/login"
             /> */}
 
-                <Route
-                    exact
-                    path="/games"
-                    component={MainPage}
-                />
-            </Switch>
-        </Box>
+            <Route
+                exact
+                path="/games"
+                component={MainPage}
+            />
+        </Switch>
+        // </Box>
     )
 }
 

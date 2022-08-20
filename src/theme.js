@@ -6,6 +6,9 @@ import { mode } from '@chakra-ui/theme-tools';
 
 const styles = {
     global: {
+        'html': {
+            'font-size': '62.5%'
+        },
         'html, body': {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
             bg: 'blacks.100',
@@ -28,7 +31,7 @@ const fonts = {
 
 const colors = {
     blacks: {
-        100: "rgb(10,10,10)",
+        100: "#181818",
         150: "rgb(15,15,15)",
         200: "rgb(20,20,20)",
         300: "rgb(30,30,30)",
@@ -58,10 +61,28 @@ const colors = {
         700: 'rgb(30, 30, 30)',
         800: 'rgb(20, 20, 20)',
         900: 'rgb(10, 10, 10)'
+    },
+    acos: {
+        100: '#111',
+        200: '#222',
+        300: '#333'
     }
 }
 
+const fontSizes = {
+    '3xs': "0.8rem",
+    '2xs': "1rem",
+    xxs: "1.2rem",
+    xs: "1.4rem",
+    sm: "1.6rem",
+    md: "1.8rem",
+    lg: "2rem",
+    xl: "2.2rem",
+    '2xl': "2.4rem",
+    '3xl': "2.8rem",
+    '4xl': "3.2rem"
+}
 // 3. extend the theme
-const theme = extendTheme({ config, fonts, colors, styles })
+const theme = extendTheme({ config, fonts, colors, styles, fontSizes })
 
 export default theme

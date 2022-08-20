@@ -5,12 +5,12 @@ import fs from 'flatstore';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import { getUser } from '../../../actions/person';
+import { getUser, login } from '../../../actions/person';
 import { joinGame } from "../../../actions/game";
 import { getLastJoinType, setLastJoinType } from '../../../actions/room';
+import { validateLogin } from '../../../actions/connection';
 
 fs.set('isCreateDisplayName', false);
-fs.set('justCreatedName', false);
 
 function GameInfoJoinButton(props) {
 
@@ -20,10 +20,7 @@ function GameInfoJoinButton(props) {
     const handleJoin = async () => {
         setLastJoinType('rank');
 
-        let user = await getUser();
-        if (!user || !user.shortid) {
-            fs.set('justCreatedName', false);
-            fs.set('isCreateDisplayName', true);
+        if (!validateLogin()) {
             return;
         }
 
@@ -39,10 +36,7 @@ function GameInfoJoinButton(props) {
 
         setLastJoinType('experimental');
 
-        let user = await getUser();
-        if (!user || !user.shortid) {
-            fs.set('justCreatedName', false);
-            fs.set('isCreateDisplayName', true);
+        if (!validateLogin()) {
             return;
         }
         //let game_slug = props.match.params.game_slug;
@@ -54,21 +48,21 @@ function GameInfoJoinButton(props) {
     }
 
     useEffect(() => {
-        if (!props.justCreatedName)
-            return;
+        // if (!props.justCreatedName)
+        //     return;
 
-        let lastJoin = getLastJoinType();
-        switch (lastJoin) {
-            case 'rank':
-                handleJoin();
-                break;
-            case 'experimental':
-                handleJoinBeta();
-                break;
-            // default:
-            //     handleJoin();
-            //     break;
-        }
+        // let lastJoin = getLastJoinType();
+        // switch (lastJoin) {
+        //     case 'rank':
+        //         handleJoin();
+        //         break;
+        //     case 'experimental':
+        //         handleJoinBeta();
+        //         break;
+        //     // default:
+        //     //     handleJoin();
+        //     //     break;
+        // }
     })
 
     let user = fs.get('user');
@@ -184,4 +178,4 @@ function GameInfoJoinButton(props) {
     )
 }
 
-export default fs.connect(['justCreatedName', 'player_stats'])(GameInfoJoinButton);
+export default fs.connect(['player_stats'])(GameInfoJoinButton);

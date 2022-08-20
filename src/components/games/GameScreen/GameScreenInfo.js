@@ -1,9 +1,14 @@
-import { Box, IconButton, VStack, Text, HStack, Grid, GridItem, Tr, Table, Th, Thead, Tbody, Td } from '@chakra-ui/react';
+import { Box, IconButton, VStack, Text, HStack, Grid, GridItem, Tr, Table, Th, Thead, Tbody, Td, Center, Heading, Wrap, WrapItem } from '@chakra-ui/react';
 import fs from 'flatstore';
+import GameInfoTop10 from '../GameInfo/GameInfoTop10';
+import GameInfoTop10Highscores from '../GameInfo/GameInfoTop10Highscores';
+import GameScreenActions from './GameScreenActions';
 
 
 function GameScreenInfo(props) {
 
+    let room = props.room;
+    let game = props.game;
     const renderPlayers = (players) => {
         if (!players)
             return <></>
@@ -31,8 +36,6 @@ function GameScreenInfo(props) {
                             height={'1rem'}
                             lineHeight={'1rem'}
                             display={'block'}
-                            overflow={'hidden'}
-
                             overflow={'hidden'}>
                             {player.name}
                         </Text>
@@ -46,24 +49,62 @@ function GameScreenInfo(props) {
     }
 
     return (
-        <Box>
-            <VStack>
-                <Text color={"gray.300"} as={'h4'} size={'md'} fontWeight={'bold'}>Game Players</Text>
-                <Table variant='simple' size="sm">
-                    <Thead>
-                        <Tr>
-                            <Th>Player</Th>
-                            <Th isNumeric>Place</Th>
-                            <Th isNumeric>Score</Th>
-                        </Tr>
-                    </Thead>
-                    <Tbody>
-                        {renderPlayers(props.gamestate?.players)}
-                    </Tbody>
-                </Table>
 
-            </VStack>
-        </Box>
+        <VStack filter={'opacity(1)'}
+            transition="filter 0.3s ease-in"
+            // px={['1rem', '2rem', "5rem"]}
+            pb="2rem"
+            mt="1rem"
+            width="100%" maxW={['400px']}
+        //, '100%', '100%', '80%', '1000px']}
+        >
+            <Box bgColor={''} w="100%" >
+                <GameScreenActions room={room} game={game} />
+                <Center>
+                    <Heading py="1rem" fontWeight={'bold'} textAlign="center" size="lg">{game?.name || 'Game Info'}</Heading>
+                </Center>
+                <Wrap justify={'center'} spacing="3rem">
+
+                    <WrapItem display={game.maxplayers == 1 ? 'none' : 'flex'}>
+                        <Box>
+                            <VStack>
+                                <Text color={"gray.300"} as={'h4'} size={'md'} fontWeight={'bold'}>Game Players</Text>
+                                <Table variant='simple' size="sm">
+                                    <Thead>
+                                        <Tr>
+                                            <Th>Player</Th>
+                                            <Th isNumeric>Place</Th>
+                                            <Th isNumeric>Score</Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {renderPlayers(props.gamestate?.players)}
+                                    </Tbody>
+                                </Table>
+
+                            </VStack>
+                        </Box>
+                    </WrapItem>
+                    <WrapItem display={game.maxplayers == 1 ? 'none' : 'flex'}>
+                        <VStack justifyContent={'center'} >
+                            <Text as={'h4'} color="gray.300" size={'md'} fontWeight={'bold'}>Rank Leaderboard</Text>
+                            <GameInfoTop10 tag={'gamescreen'} />
+                        </VStack>
+                    </WrapItem>
+                    <WrapItem display={(game.lbscore || game.maxplayers == 1) ? 'flex' : 'none'}>
+                        <VStack justifyContent={'center'} >
+                            <Text as={'h4'} color="gray.300" size={'md'} fontWeight={'bold'}>Highscore Leaderboard</Text>
+                            <GameInfoTop10Highscores tag={'gamescreen-hs'} />
+                        </VStack>
+                    </WrapItem>
+
+                </Wrap>
+            </Box>
+
+
+        </VStack>
+
+
     )
 }
 

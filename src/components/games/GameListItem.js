@@ -9,12 +9,13 @@ import config from '../../config'
 import { findQueue } from '../../actions/queue';
 import fs from 'flatstore';
 import { useEffect } from "react";
-import { VStack, Image, Text, HStack, Icon, Button, Tooltip } from "@chakra-ui/react";
+import { VStack, Image, Text, HStack, Icon, Button, Tooltip, Box } from "@chakra-ui/react";
 
-import { FaPlay, GiCheckMark } from '@react-icons';
-import { getUser } from "../../actions/person";
+import { FaPlay, GiCheckMark, IoPeople } from '@react-icons';
+import { getUser, login } from "../../actions/person";
 import { joinGame } from "../../actions/game";
 import { setLastJoinType } from "../../actions/room";
+import { validateLogin } from "../../actions/connection";
 
 function GameListItem(props) {
 
@@ -24,14 +25,9 @@ function GameListItem(props) {
 
         setLastJoinType('rank');
 
-        let user = await getUser();
-        if (!user || !user.shortid) {
-            fs.set('justCreatedName', false);
-            fs.set('isCreateDisplayName', true);
+        if (!validateLogin()) {
             return;
         }
-
-        //let game_slug = props.match.params.game_slug;
 
         joinGame(game);
     }
@@ -67,86 +63,72 @@ function GameListItem(props) {
     let inQueue = findQueue(game.game_slug);
     return (
 
-        <VStack cursor="pointer" spacing="0" key={game.game_slug} position="relative" >
+        <VStack
+            // bgColor={'blacks.900'}
+            // boxShadow={'0px 0px 4px 0.4px rgb(255 255 255 / 5%)'}
+            borderRadius={'6px 6px 6px 6px'} width={'18rem'} pl="2px" pr="2px" cursor="pointer" pt="0" spacing="0" key={game.game_slug} position="relative" >
+
+
+
             <Link to={'/g/' + game.game_slug}>
                 <Image
-                    w={['140px', '140px', '140px', '140px']}
-                    minW={['140px', '140px', '140px', '140px']}
-                    h={['140px', '140px', '140px', '140px']}
-                    minH={['140px', '140px', '140px', '140px']}
+                    borderRadius={'6px 6px 0px 0px'}
+                    w={['18rem', '18rem', '18rem', '18rem']}
+                    minW={['18rem', '18rem', '18rem', '18rem']}
+                    h={['18rem', '180px', '18rem', '18rem']}
+                    minH={['18rem', '18rem', '18rem', '18rem']}
                     alt={gameName}
                     src={imgUrl}
                 // fallbackSrc={config.https.cdn + 'placeholder.png'}
                 />
             </Link>
 
-            <Button
-                display={inQueue ? 'none' : 'flex'}
-                flex="1"
-                bgColor='gray.800'
-                _hover={{ bg: "gray.800" }}
-                _active={{ bg: "gray.800" }}
-                size="md"
-                mr="0"
-                w="30%"
-                p="0.5rem"
-                position="absolute"
-                top="-10px"
-                right="-10px"
-                // icon={<FaPlay />}
-                borderTopLeftRadius={"9999px"}
-                borderBottomLeftRadius={"9999px"}
+            <VStack pt="0.8125rem" pb="" pl="0.5rem" pr="0.5rem" width="100%" alignItems={'flex-start'} spacing='0'>
 
-                borderTopRightRadius={'9999px'}
-                borderBottomRightRadius={'9999px'}
-                onClick={handleJoin}
-            >
-                <Icon color={'white'} ml={0} fontSize="12px" as={FaPlay} />
-            </Button>
-            <Tooltip label={`In queue`}>
-                <Button
-                    display={inQueue ? 'flex' : 'none'}
-                    flex="1"
-                    bgColor='gray.800'
-                    _hover={{ bg: "gray.800" }}
-                    _active={{ bg: "gray.800" }}
-                    size="md"
-                    mr="0"
-                    w="30%"
-                    p="0.5rem"
-                    position="absolute"
-                    top="-10px"
-                    right="-10px"
-                    // icon={<FaPlay />}
-                    borderTopLeftRadius={"9999px"}
-                    borderBottomLeftRadius={"9999px"}
 
-                    borderTopRightRadius={'9999px'}
-                    borderBottomRightRadius={'9999px'}
-                >
-                    <Icon color={'brand.500'} ml={0} fontSize="20px" as={GiCheckMark} />
-                </Button>
-            </Tooltip>
-            <Link to={'/g/' + game.game_slug}>
-                <Text
-                    as="h6" size="sm" fontWeight={'bold'}
-                    bgColor={'gray.900'}
-                    w="100%"
-                    h="100%"
-                    p="0"
-                    m="0"
-                    textAlign={'center'}
-                >{gameName}</Text>
-            </Link>
-            <Link to={'/g/' + game.game_slug} >
+                {/* <HStack alignSelf={'flex-start'} flex="1" alignItems={'flex-end'}> */}
+                <Link to={'/g/' + game.game_slug} display="block">
+                    <Text
+                        as="h4" fontSize="md" fontWeight={''}
+                        color={'white'}
+                        w="100%"
+                        h="2.4rem"
+                        p="0"
+                        lineHeight="2.4rem"
+                        // pt="0.5rem"
+                        // pb="0.5rem"
+
+                        m="0"
+                        textOverflow={'ellipsis'}
+                        overflow="hidden"
+                        whiteSpace={'nowrap'}
+                    // textAlign={'center'}
+                    // alignSelf={'flex-end'}
+                    >{gameName}</Text>
+                </Link>
+
+                {/* </HStack> */}
+                {/* 
+                <Box mt="0" height="3.2rem" overflow="hidden">
+                    <Text as="h5" mt="0" p="0" lineHeight="1.6rem" fontSize={['sm']} fontWeight="light">{game.shortdesc}</Text>
+
+                </Box> */}
+
+                {/* <Box>
+                <PlayButton inQueue={inQueue} handleJoin={handleJoin} />
+            </Box> */}
+
+                {/* <Link to={'/g/' + game.game_slug} >
                 <Text as="span" fontWeight={'light'} fontSize="xs" display={game.queueCount > 0 ? 'inline-block' : 'none'} color={'yellow.100'}>
                     <strong>{gameQueueCount}</strong> player(s) waiting
                 </Text>
-            </Link>
-            {/* <HStack>
-                <Icon as={IoPeople} />
-                <Text>{abbrevNumber(game.activePlayers * game.maxplayers)}</Text>
-            </HStack> */}
+            </Link> */}
+                <HStack spacing="4px" color="gray.100" pb="1rem">
+                    <Icon fontSize="sm" as={IoPeople} />
+                    <Text fontSize="sm" fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player game</Text>
+                </HStack>
+            </VStack>
+
         </VStack>
         // <div className="game-item" >
 
@@ -160,6 +142,60 @@ function GameListItem(props) {
         //         </ul>
         //     </div>
         // </div>
+    )
+}
+
+function PlayButton(props) {
+    return (
+        <>
+            <Button
+                display={props.inQueue ? 'none' : 'flex'}
+                flex="1"
+                bgColor='gray.800'
+                _hover={{ bg: "gray.800" }}
+                _active={{ bg: "gray.800" }}
+                size="md"
+                mr="0"
+                w="30%"
+                p="0.5rem"
+                // position="absolute"
+                // top="-10px"
+                // right="-10px"
+                // icon={<FaPlay />}
+                borderTopLeftRadius={"9999px"}
+                borderBottomLeftRadius={"9999px"}
+
+                borderTopRightRadius={'9999px'}
+                borderBottomRightRadius={'9999px'}
+                onClick={props.handleJoin}
+            >
+                <Icon color={'white'} ml={0} fontSize="12px" as={FaPlay} />
+            </Button>
+            <Tooltip label={`In queue`}>
+                <Button
+                    display={props.inQueue ? 'flex' : 'none'}
+                    flex="1"
+                    bgColor='gray.800'
+                    _hover={{ bg: "gray.800" }}
+                    _active={{ bg: "gray.800" }}
+                    size="md"
+                    mr="0"
+                    w="30%"
+                    p="0.5rem"
+                    // position="absolute"
+                    // top="-10px"
+                    // right="-10px"
+                    // icon={<FaPlay />}
+                    borderTopLeftRadius={"9999px"}
+                    borderBottomLeftRadius={"9999px"}
+
+                    borderTopRightRadius={'9999px'}
+                    borderBottomRightRadius={'9999px'}
+                >
+                    <Icon color={'brand.500'} ml={0} fontSize="20px" as={GiCheckMark} />
+                </Button>
+            </Tooltip>
+        </>
     )
 }
 

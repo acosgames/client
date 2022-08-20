@@ -2,15 +2,15 @@ import { Text, Box, Button, Heading, Modal, ModalBody, ModalCloseButton, ModalCo
 
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from "react";
-import { createTempUser } from "../../../actions/person";
-import FSGGroup from "../../widgets/inputs/FSGGroup";
-import FSGSubmit from "../../widgets/inputs/FSGSubmit";
-import FSGTextInput from "../../widgets/inputs/FSGTextInput";
+import { createTempUser, loginComplete } from "../../actions/person";
+import FSGGroup from "../widgets/inputs/FSGGroup";
+import FSGSubmit from "../widgets/inputs/FSGSubmit";
+import FSGTextInput from "../widgets/inputs/FSGTextInput";
 
 import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
 import { useHistory } from "react-router-dom";
-import { wsJoinQueues } from '../../../actions/connection';
-import { getJoinQueues } from "../../../actions/queue";
+import { wsJoinQueues } from '../../actions/connection';
+import { getJoinQueues } from "../../actions/queue";
 
 function GameInfoCreateDisplayname(props) {
 
@@ -70,12 +70,9 @@ function GameInfoCreateDisplayname(props) {
 
             // fs.set('user')
             // setTimeout(redirect, 1000);
-            fs.set('isCreateDisplayName', false);
-            fs.set('justCreatedName', true);
 
-            if (isJoiningQueues) {
-                wsJoinQueues(joinqueues.queues, joinqueues.owner);
-            }
+            loginComplete();
+
         }
 
     }
@@ -104,17 +101,24 @@ function GameInfoCreateDisplayname(props) {
         refPath = '';
     }
 
+    let joinButtonTitle = 'Join Queue';
+    let game = fs.get('game');
+    if (game) {
+        if (game.maxplayers == 1) {
+            joinButtonTitle = 'Join Game';
+        }
+    }
 
 
     return (
         <Box>
-            <Modal isOpen={props.isOpen || props.isCreateDisplayName} onClose={(e) => {
+            <Modal size={'xl'} isOpen={props.isOpen || props.isCreateDisplayName} onClose={(e) => {
                 fs.set('isCreateDisplayName', false);
                 onClose(e);
             }}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Choose a player name</ModalHeader>
+                    <ModalHeader>Login to play</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack>
@@ -123,11 +127,11 @@ function GameInfoCreateDisplayname(props) {
                                 <FSGTextInput
                                     onChange={onChange}
                                     maxLength="32"
-                                    title="Player Name"
+                                    title="Choose Name"
                                     focus={true}
                                     value={displayName}
                                     onKeyDown={onKeyDown}
-                                    helpText={'This is a temporary acount, login to make it permanent'}
+                                // helpText={'This is a temporary acount, login to make it permanent'}
                                 />
 
                                 {
@@ -138,10 +142,10 @@ function GameInfoCreateDisplayname(props) {
                                     )
                                 }
                             </FSGGroup>
-                            <FSGSubmit onClick={onSubmit} title={isJoiningQueues ? 'Join Queue' : 'Join Game'} loadingText="Joining" />
+                            <FSGSubmit onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
                             <Divider pt={'1rem'} />
-                            <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Already have an account? Sign in</Heading>
-                            <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading>
+                            <Heading color="gray.100" pt={'1rem'} pb="1rem" size="xs">Or, sign in to reserve your name</Heading>
+                            {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
                             <HStack w={['100%']} justifyItems={'center'} gap="0">
                                 {/* Google */}
                                 <ChLink href={"/login/google" + refPath} w="50%">

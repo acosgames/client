@@ -18,6 +18,20 @@ export async function addGameQueue(newQueues) {
 
 }
 
+export async function addJoinQueues(game_slug, mode) {
+    let joinqueues = getJoinQueues() || {};
+
+    if (!joinqueues.queues)
+        joinqueues.queues = [];
+
+    if (!joinqueues.queues.find(q => q.game_slug == game_slug && q.mode == mode)) {
+        joinqueues.queues.push({ game_slug, mode });
+        joinqueues.owner = null;
+        fs.set('joinqueues', joinqueues);
+        localStorage.setItem('joinqueues', JSON.stringify(joinqueues));
+    }
+}
+
 export function getJoinQueues() {
     let joinqueues = fs.get('joinqueues');
     try {

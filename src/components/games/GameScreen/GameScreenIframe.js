@@ -1,4 +1,4 @@
-import { Box, Fade, Flex, IconButton, Image, ScaleFade, Text, useToast, VStack } from '@chakra-ui/react';
+import { Box, Center, Fade, Flex, Heading, IconButton, Image, ScaleFade, Text, useToast, VStack, Wrap, WrapItem } from '@chakra-ui/react';
 
 import { useEffect, useRef, useState } from 'react';
 import fs from 'flatstore';
@@ -8,6 +8,10 @@ import config from '../../../config'
 import { getRoomStatus } from '../../../actions/room';
 
 import './LoadingBox.scss';
+import GameScreenActions from './GameScreenActions';
+import GameScreenInfo from './GameScreenInfo';
+import GameInfoTop10 from '../GameInfo/GameInfoTop10';
+import GameInfoTop10Highscores from '../GameInfo/GameInfoTop10Highscores';
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
@@ -96,38 +100,36 @@ function GameScreenIframeWrapper(props) {
     const game_slug = props.room?.game_slug;
 
     if (!props.room || !room_slug)
-        return <></>
+        return <LoadingBox />
 
     let game = fs.get('games>' + game_slug);
     if (!game)
-        return <></>
+        return <LoadingBox />
 
-    return <GameScreenIframe {...props.room} />
+    return <GameScreenIframe room={props.room} game={props.game} />
 }
 
-function GameScreenIframe(room) {
+function GameScreenIframe(props) {
 
 
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(true);
 
     const iframeRef = useRef(null)
     const gamescreenRef = useRef(null)
     const gamewrapperRef = useRef(null)
+    const gamescreenResizer = useRef(null);
 
     useEffect(() => {
         fs.set('iframeLoaded', false);
         // setTimeout(() => {
-        setIsLoaded(true);
+        // setIsLoaded(true);
         // }, 100);
 
 
     }, [])
 
-
-
-
-
-
+    let room = props.room;
+    let game = props.game;
 
     const room_slug = room.room_slug;
     const game_slug = room.game_slug;
@@ -140,11 +142,11 @@ function GameScreenIframe(room) {
 
 
     // let room = fs.get('rooms>' + room_slug);
-    let game = fs.get('games>' + game_slug);
+    game = fs.get('games>' + game_slug);
 
 
     if (!room || !room.room_slug)
-        return <></>
+        return <LoadingBox />
 
 
     // if (!game)
@@ -211,8 +213,11 @@ function GameScreenIframe(room) {
         timestamp = now;
 
         let isFullscreen = checkFullScreen();
-        let windowWidth = isFullscreen ? window.screen.width : document.documentElement.clientWidth;
-        let windowHeight = isFullscreen ? window.screen.height : document.documentElement.clientHeight;
+        // let windowWidth = isFullscreen ? window.screen.width : document.documentElement.clientWidth;
+        // let windowHeight = isFullscreen ? window.screen.height : document.documentElement.clientHeight;
+        let windowWidth = isFullscreen ? window.screen.width : gamewrapperRef.current.offsetWidth;
+        let windowHeight = isFullscreen ? window.screen.height : gamewrapperRef.current.offsetHeight;
+
 
         let gamestate = fs.get('gamestate');
         let roomStatus = getRoomStatus(room_slug);
@@ -252,7 +257,7 @@ function GameScreenIframe(room) {
         if (screentype == '3') {
             gamescreenRef.current.style.width = bgWidth + 'px';
             gamescreenRef.current.style.height = bgHeight + 'px';
-            gamewrapperRef.current.style.height = bgHeight + 'px';
+            // gamewrapperRef.current.style.height = bgHeight + 'px';
             scale = ((bgWidth / screenwidth));
 
             iframeRef.current.setAttribute('style', transformStr({
@@ -263,13 +268,13 @@ function GameScreenIframe(room) {
         else if (screentype == '2') {
             gamescreenRef.current.style.width = bgWidth + 'px';
             gamescreenRef.current.style.height = bgHeight + 'px';
-            gamewrapperRef.current.style.height = bgHeight + 'px';
+            // gamewrapperRef.current.style.height = bgHeight + 'px';
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }
         else if (screentype == '1') {
             gamescreenRef.current.style.width = windowWidth + 'px';
             gamescreenRef.current.style.height = windowHeight + 'px';
-            gamewrapperRef.current.style.height = windowHeight + 'px';
+            // gamewrapperRef.current.style.height = windowHeight + 'px';
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }
     }
@@ -288,56 +293,62 @@ function GameScreenIframe(room) {
 
 
     return (
-        <VStack
-            justifyContent={'flex-start'}
-            alignContent={'center'}
-            w="100%"
-            h="100%"
-            ref={gamewrapperRef}
-            // transform={transform}
-            transition={'width 0.3s, height 0.3s'}
-            filter={isLoaded ? 'opacity(100%)' : 'opacity(0)'}
-            transition={'filter 0.3s ease-in'}
-        >
+        <Box ref={gamescreenResizer} width="100%" height="100%">
 
-            <Box
-                // bg="white"
-                overflow={'hidden'}
-                ref={gamescreenRef}
-                boxShadow="rgb(0 0 0 / 24%) 0px 6px 12px"
-                // transition={'width 0.3s, height 0.3s'} 
-                position="relative">
-                <iframe
-                    className="gamescreen"
-                    ref={iframeRef}
-                    onLoad={() => {
-                        let iframes = fs.get('iframes') || {};
-                        iframes[room_slug] = iframeRef;
-                        fs.set('iframeLoaded', true);
-                        fs.set('iframes', iframes);
-                        fs.set('gamepanel', gamescreenRef);
-                        fs.set('gamewrapper', gamewrapperRef);
-                        sendLoadMessage(room_slug, game_slug, version, onResize);
+            <VStack
+                justifyContent={'flex-start'}
+                alignContent={'center'}
+                w="100%"
+                h="100%"
+                ref={gamewrapperRef}
+
+                // transform={transform}
+                // filter={isLoaded ? 'opacity(100%)' : 'opacity(0)'}
+                transition={'filter 0.3s ease-in, width 0.3s, height 0.3s'}
+            >
+
+                <Box
+                    // bg="white"
+                    // overflow={'hidden'}
+                    ref={gamescreenRef}
+                    // boxShadow="rgb(0 0 0 / 24%) 0px 6px 12px"
+                    // transition={'width 0.3s, height 0.3s'} 
+                    position="relative" boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}>
+                    <LoadingBox />
+                    <iframe
+                        className="gamescreen"
+                        ref={iframeRef}
+                        onLoad={() => {
+                            let iframes = fs.get('iframes') || {};
+                            iframes[room_slug] = iframeRef;
+                            fs.set('iframeLoaded', true);
+                            fs.set('iframes', iframes);
+                            fs.set('gamepanel', gamescreenRef);
+                            fs.set('gamewrapper', gamewrapperRef);
+                            sendLoadMessage(room_slug, game_slug, version, onResize);
 
 
-
-                        onResize();
-                        setTimeout(() => {
 
                             onResize();
-                        }, 1000);
-                    }}
-                    srcDoc={iframeSrcDoc}
-                    // src={srcUrl}
-                    sandbox="allow-scripts allow-same-origin"
-                />
+                            setTimeout(() => {
+
+                                onResize();
+                            }, 1000);
+                        }}
+                        srcDoc={iframeSrcDoc}
+                        // src={srcUrl}
+                        sandbox="allow-scripts allow-same-origin"
+                    />
 
 
-                <LoadingBox />
-            </Box>
 
 
-        </VStack>
+
+                </Box>
+
+                <GameScreenInfo room={room} game={game} />
+            </VStack>
+        </Box>
     )
 }
 
@@ -350,24 +361,24 @@ function LoadingBox(props) {
 
         if (props.gameLoaded) {
             toast.closeAll()
-            setTimeout(() => {
-                setShow(false);
+            // setTimeout(() => {
+            setShow(false);
 
-            }, 300)
+            // }, 300)
         }
     })
 
-    if (!show)
+    if (props.gameLoaded)
         return <></>
     return (
         <Box
             className="loading-screen"
-            position={'absolute'}
+            //position={'absolute'}
             left="0"
             top="0"
             w="100%"
             h="100%"
-            bgColor={'gray.800'}
+            bgColor={'blacks.100'}
             transition={'all 0.3s ease-in'}
             filter={props.gameLoaded ? 'opacity(0)' : 'opacity(1)'}
         >
@@ -378,8 +389,9 @@ function LoadingBox(props) {
                     src={`${config.https.cdn}acos-logo-combined.png`}
                     w="300px" h="124.5px"
                 />
-                <br /><br />
-                <Box className="factory-7"></Box>
+                <div className="ldr-1"><div className="ball1"></div><div className="ball2"></div><div className="ball3"></div><div className="ball4"></div></div>
+                {/* <br /><br />
+                <Box className="factory-7"></Box> */}
             </VStack>
         </Box>
     )
