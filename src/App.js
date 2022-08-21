@@ -30,6 +30,7 @@ import GameInfoCreateDisplayName from "./components/login/GameInfoCreateDisplayN
 import { useDisclosure } from "@chakra-ui/react";
 import ActivateUserProfile from "./components/widgets/ActivateUserProfile";
 import ToastMessage from "./components/widgets/ToastMessage";
+import ChatPanel from "./components/chat/ChatPanel";
 
 
 fs.delimiter('>');
@@ -47,6 +48,7 @@ function App(props) {
       <ActivateUserProfile />
       <VersionControl />
       <GameInfoCreateDisplayName {...disclosure} />
+
       <ToastMessage />
       <Flex direction={'column'} minHeight={'100%'} w="100%" filter="blur(0)" overflow={'hidden'}>
         <Switch>
@@ -80,6 +82,7 @@ function App(props) {
             </Switch>
             <AcosFooter />
           </Box>
+          <ChatPanel />
           {/* </Flex> */}
         </HStack>
 

@@ -3021,6 +3021,11 @@
   dependencies:
     "color-name" "~1.1.4"
 
+"color-hash@^2.0.1":
+  "integrity" "sha512-/wIYAQ3xL9ruURLmDbxAsXEsivaOfwWDUVy+zbWJZL3bnNQIDNSmmqbkNzeTOQvDdiz11Kb010UlJN7hUXLg/w=="
+  "resolved" "https://registry.npmjs.org/color-hash/-/color-hash-2.0.1.tgz"
+  "version" "2.0.1"
+
 "color-name@~1.1.4":
   "integrity" "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA=="
   "resolved" "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"

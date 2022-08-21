@@ -11,6 +11,7 @@ import delta from 'shared/util/delta';
 import { addRoom, addRooms, clearRoom, clearRooms, getCurrentRoom, getGameState, getRoom, setCurrentRoom, setGameState, setLastJoinType, updateRoomStatus } from "./room";
 import { addGameQueue, clearGameQueues, getJoinQueues } from "./queue";
 import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
+import { addChatMessage } from "./chat";
 
 // import { useHistory } from 'react-router-dom';
 // import history from "./history";
@@ -713,6 +714,9 @@ async function wsIncomingMessage(message) {
 
 
     switch (msg.type) {
+        case 'chat':
+            addChatMessage(msg);
+            return;
         case 'pong':
             onPong(msg);
             return;
