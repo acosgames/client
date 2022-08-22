@@ -115,9 +115,6 @@ code {
   }
 }
 
-#wrapper-header {
-}
-
 #wrapper-content {
   width: 100%;
   height: 100%;
@@ -149,10 +146,6 @@ code {
 }
 #mainmenu ul.menu-nav {
   flex: 1;
-}
-
-#mainmenu ul ul {
-  // display:none;
 }
 
 #mainmenu ul li {
@@ -250,21 +243,7 @@ code {
   #wrapper {
     position: relative;
   }
-  // #wrapper-header {
-  //     position: fixed;
-  //     z-index: 999;
-  //     bottom: 0px;
-  //     left: 0px;
-  // }
-  #mainmenu {
-    // width: 100%;
-    // margin-left: 0;
-    // flex-flow: row wrap;
-  }
-  #mainmenu a {
-    // width: 100%;
-  }
-
+  
   #game-grid-wrapper {
     width: 80%;
   }
@@ -302,8 +281,6 @@ code {
 #game-info-content {
   background: #777;
   padding: 2rem;
-}
-#game-info-content h3 {
 }
 
 #game-info-content h3 span {
@@ -349,17 +326,10 @@ code {
   flex: 0 0 auto;
 }
 
-.game-item:hover {
-  // border-top: 6px solid #94ff97;
-  // border-right: 6px solid #94ff97;
-  // transform: scale(1.05, 1.05);
-}
 .game-item:hover img {
   transform: scale(0.95, 0.95);
 }
-.game-item:hover > .game-title {
-  // background-color: #ff4c29;
-}
+
 .game-item:hover > .game-title span {
   color: rgb(148, 255, 151);
 }
@@ -405,8 +375,6 @@ code {
   text-align: center;
 }
 
-.game-attributes {
-}
 
 .game-attributes ul {
   margin: 0;
@@ -421,8 +389,6 @@ code {
   justify-content: center;
 }
 
-.game-attributes ul li svg {
-}
 
 .game-attributes ul li span {
   color: #ccc;
@@ -476,21 +442,7 @@ code {
   height: 50px;
 }
 
-// #gameframe {
-//   //padding: 10px;
-//   background: #eee;
-//   //box-sizing: border-box;
-//   //resize: horizontal;
-//   //border: 1px dashed;
-//   //overflow: auto;
-//   max-width: 1200px;
-//   //height: calc(100vh - 16px);
-//   position: relative;
-// }
-#gamepanel {
-  // width: 100%;
-  // padding-bottom: 75%;
-}
+
 
 #gamepanel-wrapper {
   position: absolute;
@@ -517,13 +469,8 @@ code {
   align-items: center;
   justify-content: center;
 }
-#gamepanel-wrapper > iframe {
-}
 
-#wrapper-content {
-  // z-index: 5;
-  // background-color: #000;
-}
+
 #wrapper-freeform {
   position: absolute;
   top: 0;
@@ -615,14 +562,7 @@ code {
   animation-delay: 0s !important;
 }
 
-#queue-header-content {
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  // overflow: visible;
-  // width: 30px;
-  // border-top: 2px solid #333;
-}
+
 
 #queue-tab {
   height: 41px;
@@ -827,12 +767,7 @@ code {
 }
 
 .chakra-ui-light {
-  .react-mde .mde-header {
-    // background-color: #202024;
-  }
-  .mde-text {
-    // background: var(--chakra-colors-gray-800);
-  }
+
 
   #game-info-longdesc,
   .mde-preview-content {
@@ -889,7 +824,6 @@ code {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-fill-color: transparent;
   background-size: 200% auto;
   animation: textShine 4s ease-in infinite alternate;
 }
