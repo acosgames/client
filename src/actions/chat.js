@@ -49,7 +49,24 @@ export function clearChatMessages() {
     fs.set('chat', []);
 }
 
-export function getChatMessages() {
+export function filterChatMessages(chatMessages, chatMode) {
+    chatMode = chatMode || 'all';
+
+    if (chatMode == 'game') {
+        let game = fs.get('game');
+        if (game) {
+            let filtered = [];
+            for (var msg of chatMessages) {
+                if (msg.game_slug == game.game_slug) {
+                    filtered.push(msg);
+                }
+            }
+            chatMessages = filtered;
+        }
+    }
+    return chatMessages;
+}
+export function getChatMessages(chatMode) {
 
     let chatMessages = fs.get('chat');
     if (!chatMessages) {
@@ -57,6 +74,8 @@ export function getChatMessages() {
         if (!chatMessages)
             chatMessages = [];
     }
+
+    chatMessages = filterChatMessages(chatMessages, chatMode);
 
     return chatMessages;
 }

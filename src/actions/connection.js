@@ -337,7 +337,7 @@ export async function wsLeaveGame(game_slug, room_slug) {
         let history = fs.get('history');
         setGameState({});
         setCurrentRoom(null);
-        history.replace('/g/' + game_slug);
+        history.goBack();
         return;
     }
 
@@ -350,7 +350,7 @@ export async function wsLeaveGame(game_slug, room_slug) {
     setCurrentRoom(null);
 
     let history = fs.get('history');
-    history.replace('/g/' + game_slug);
+    history.goBack();
 }
 
 export async function wsLeaveQueue() {
@@ -887,7 +887,7 @@ async function wsIncomingMessage(message) {
 
             let deltaState = msg.payload;
             msg.payload = delta.merge(gamestate, deltaState);
-            msg.payload.delta = deltaState;
+            // msg.payload.delta = deltaState;
             setGameState(msg.payload);
         }
 

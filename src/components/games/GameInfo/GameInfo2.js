@@ -151,15 +151,13 @@ function GameInfo2(props) {
         resolution += ' @ ' + screenwidth + 'px';
     }
     return (
-        <>
+        <Box width="100%" p="0" m="0" position="relative">
             {shouldShowGame && (
 
                 <GameScreen2 />
 
             )}
-            <Box className="gameinfo" filter={shouldShowGame ? 'blur(20px)' : 'blur(0)'} transition={'all 0.3s ease-in'} display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={6}>
-
-
+            <Box className="gameinfo" filter={shouldShowGame ? 'blur(20px)' : 'blur(0)'} transition={'all 0.3s ease-in'} display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={10}>
 
                 <Center>
 
@@ -172,17 +170,17 @@ function GameInfo2(props) {
                             <Flex ml="1rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
                                 <Heading fontSize={['xl', '2xl']}>{game.name}</Heading>
 
-                                <Text as="h5" pt="0.5rem" fontSize={['md', 'lg']} fontWeight="bold">{game.shortdesc}</Text>
-                                <Text as="span" color="gray.500" fontSize="xs">version {game.version}</Text>
+                                <Text as="h5" pt="0.5rem" fontSize={['xxs', 'xs']} fontWeight="400">{game.shortdesc}</Text>
+                                <Text as="span" color="gray.500" fontSize="xxs">version {game.version}</Text>
 
                                 <Box flexGrow={'1'}>
-                                    <Text as="span" fontSize="xs">Created by </Text>
+                                    <Text as="span" fontSize="xxs">Developed by </Text>
                                     <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="yellow.100">{game.displayname}</Text></Link>
                                 </Box>
                                 {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Box> */}
-                                <Box mt="1rem" display={['none', 'none', 'block']}>
+                                <Box mt="1rem" display={['none', 'none', 'none', 'block']}>
                                     <GameInfoActions {...game} {...playerStats} />
                                 </Box>
                             </Flex>
@@ -191,69 +189,75 @@ function GameInfo2(props) {
                         </Flex>
 
 
-                        <Box display={['block', 'block', 'none']}>
+                        <Box pt="1rem" display={['block', 'block', 'block', 'none']} >
                             <Center>
                                 <GameInfoActions {...game} {...playerStats} />
                             </Center>
                         </Box>
 
-                        <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%">
+                        <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt="3rem">
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Flex>
                         <GameInfoLeaderboard gameinfo={game} />
 
-                        <FSGGroup fontSize="1.2rem" title="Description" hfontSize="1rem">
-                            <Box width="100%" align="left" id="game-info-longdesc">
-                                <ReactMarkdown
-                                    allowed
-                                    allowedElements={[
-                                        "strong",
-                                        "span",
-                                        "emphasis",
-                                        "i",
-                                        "b",
-                                        "p",
-                                        "strike",
-                                        "s",
-                                        "del",
-                                        "div",
-                                        "table", "thead", "tbody", "tr", "th", "td"
-                                    ]}
-                                    children={game.longdesc}
-                                    remarkPlugins={[remarkGfm]}></ReactMarkdown>
-                            </Box>
-                        </FSGGroup>
-
-                        <FSGGroup title="Release" spacing="1rem" hfontSize="1rem">
-                            <Grid width="100%" spacing={'2rem'} gridTemplateColumns={'repeat(4, minmax(0, 1fr))'} rowGap={'1rem'}>
+                        <Box p="0" m="0" pt="3rem" pb="3rem" width="100%">
+                            <FSGGroup fontSize="0.8rem" title="Description" hfontSize="sm">
+                                <Box width="100%" align="left" id="game-info-longdesc">
+                                    <ReactMarkdown
+                                        allowed
+                                        allowedElements={[
+                                            "strong",
+                                            "span",
+                                            "emphasis",
+                                            "i",
+                                            "b",
+                                            "p",
+                                            "strike",
+                                            "s",
+                                            "del",
+                                            "div",
+                                            "table", "thead", "tbody", "tr", "th", "td"
+                                        ]}
+                                        children={game.longdesc}
+                                        remarkPlugins={[remarkGfm]}></ReactMarkdown>
+                                </Box>
+                            </FSGGroup>
+                        </Box>
+                        <FSGGroup title="Build Information" spacing="1rem" hfontSize="sm">
+                            <Grid width="100%" spacing={'2rem'} gridTemplateColumns={'repeat(4, minmax(0, 1fr))'} rowGap={'1rem'} fontWeight='100'>
                                 <FSGRead disabled={true}
                                     hfontSize="xs"
                                     fontSize="xs"
                                     title="Released"
+                                    color={'white'}
                                     value={parseDate(game.tsinsert)}
                                 />
                                 <FSGRead disabled={true}
                                     hfontSize="xs"
                                     fontSize="xs"
                                     title="Updated"
+                                    color={'white'}
                                     value={parseDate(game.tsupdate)}
                                 />
                                 <FSGRead disabled={true}
                                     hfontSize="xs"
                                     fontSize="xs"
                                     title="Published"
+                                    color={'white'}
                                     value={'v' + game.version}
                                 />
                                 <FSGRead disabled={true}
                                     hfontSize="xs"
                                     fontSize="xs"
                                     title="Experimental"
+                                    color={'white'}
                                     value={'v' + game.latest_version}
                                 />
                                 <FSGRead disabled={true}
                                     hfontSize="xs"
                                     fontSize="xs"
                                     title="Screen"
+                                    color={'white'}
                                     value={screentype}
                                 />
                                 <Box display={game.screentype == 1 ? 'none' : 'block'}>
@@ -263,6 +267,7 @@ function GameInfo2(props) {
                                         hfontSize="xs"
                                         fontSize="xs"
                                         title="Resolution"
+                                        color={'white'}
                                         value={resolution}
                                     />
                                 </Box>
@@ -283,7 +288,7 @@ function GameInfo2(props) {
                     </VStack >
                 </Center >
             </Box>
-        </>
+        </Box>
         // <div id="game-info" onClick={(e) => {
         //     if (e.target == e.currentTarget)
         //         this.props.history.push('/g');
@@ -336,12 +341,15 @@ function GameInfoImage(props) {
                 paddingBottom: '100%'
             }}
             position="relative"
-            w={['128px', '160px', '256px']}
+            w={['12rem', '12rem', '25.6rem']}
+            minW={['12rem', '12rem', '12.8rem']}
+            className="gameinfo-image"
         >
             <Image
                 position="absolute"
                 width="100%"
-                height="100%"
+                minHeight={'10rem'}
+                // height="100%"
                 objectFit={'fill'}
                 src={props.imgUrl}
                 // fallbackSrc={config.https.cdn + 'placeholder.png'}

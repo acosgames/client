@@ -68,29 +68,30 @@ function MainMenuChakra(props) {
         <>
 
             <Box
-                zIndex="10"
+                zIndex="99"
                 filter={room_slug ? 'blur(20px)' : 'blur(0)'}
                 display={'block'}
                 bg={useColorModeValue('acos.100', 'acos.100')}
                 px={4}
-                transition={'all 0.3s ease-in'}
-
+                transition={'filter 0.3s ease-in'}
+                width="100%"
+                h={['3rem', '3rem', '5rem']}
             >
-                <Flex h={'5rem'} alignItems={'center'} justifyContent={'space-between'}>
-                    <HStack spacing="4rem">
+                <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '3rem', '5rem']}>
+                    <HStack spacing={['2rem', '2rem', "4rem"]}>
                         <Box
                         ><Link to="/" className="">
                                 <Image
                                     alt={'A cup of skill logo'}
                                     src={`${config.https.cdn}acos-logo-standalone.png`}
-                                    h="2.4rem" maxHeight={'90%'}
+                                    h={['1.8rem', '1.8rem', "2.4rem"]} maxHeight={'90%'}
                                 />
 
                             </Link>
                         </Box>
 
-                        <Box mr="2rem">
-                            <Link to="/" className=""><Text fontSize="lg" fontWeight="700">Browse</Text></Link>
+                        <Box mr={['1rem', '1rem', "2rem"]}>
+                            <Link to="/" className=""><Text fontSize={['xs', 'sm', "lg"]} fontWeight="700">Browse</Text></Link>
                         </Box>
                     </HStack>
                     <Flex alignItems={'center'}>
@@ -104,8 +105,8 @@ function MainMenuChakra(props) {
                             </Box>
                         </Stack>
                     </Flex>
-                </Flex>
-            </Box>
+                </Flex >
+            </Box >
         </>
     );
 }

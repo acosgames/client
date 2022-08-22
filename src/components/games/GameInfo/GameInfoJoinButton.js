@@ -80,12 +80,12 @@ function GameInfoJoinButton(props) {
     let latest_version = props.latest_version || 0;
     let hasExtra = version < latest_version;
 
-    let rating = props.played >= 10 ? '(' + props.rating + ')' : '';
+    let rating = props.played >= 10 ? '' + props.rating + '' : ' ';
     let ratingTxt = props.played >= 10 ? props.ratingTxt : 'UNRANKED';
     ratingTxt = ratingTxt.toUpperCase();
 
-    if (props.played >= 10 && playerGameStats.ranking == 1)
-        ratingTxt = 'SUPREME GRAND MASTER';
+    // if (props.played >= 10 && playerGameStats.ranking == 1)
+    //     ratingTxt = 'YOU ARE KING';
 
     // hasExtra = false;
 
@@ -96,30 +96,38 @@ function GameInfoJoinButton(props) {
                 display={(isValidUser && hasRankLeaderboard) ? 'flex' : 'none'}
                 transform="perspective(15px) rotateX(1deg)"
                 w="90%"
-                height="2rem"
+                height="5rem"
                 bg="gray.900"
                 justifyContent="center"
 
             // zIndex={-1}
             >
-                <Text
-                    display={props.played >= 10 ? 'block' : 'none'}
-                    color="yellow.100"
-                    fontSize={['1rem']}
-                    fontWeight="bold"
-                    lineHeight={'2rem'}
-                    align="center">{rating} </Text>
-                <Text
-                    color="yellow.100"
-                    fontSize={['1rem',]}
-                    fontWeight={'bolder'}
-                    lineHeight="2rem"
-                    align="center">{ratingTxt}</Text>
-                <Text
-                    display={props.played < 10 ? 'block' : 'none'}
-                    fontSize={['0.8rem',]}
-                    pl="0.5rem"
-                    lineHeight="2rem">{props.played || 0} of 10 games remaining</Text>
+                <VStack>
+
+                    <Text
+                        color="yellow.200"
+                        fontSize={['md',]}
+                        fontWeight={'bolder'}
+                        lineHeight="1.6rem"
+                        align="center">{ratingTxt}</Text>
+                    <HStack>
+                        <Text
+                            display={props.played >= 10 ? 'block' : 'none'}
+
+                            fontSize={['xs']}
+                            fontWeight="bold"
+                            lineHeight={'1.6rem'}
+                            pr={'1rem'}
+                            align="center">{rating} </Text>
+                        <Text
+                            display={props.played < 10 ? 'block' : 'none'}
+                            fontSize={['xs',]}
+                            pl="0.5rem"
+                            lineHeight="1.6rem">{props.played || 0} of 10 games remaining</Text>
+                    </HStack>
+                </VStack>
+
+
             </HStack>
 
             <Flex spacing="0" w="full">
@@ -132,6 +140,7 @@ function GameInfoJoinButton(props) {
                     size="lg"
                     mr="0"
                     w="70%"
+                    h="5rem"
                     // icon={<FaPlay />}
                     borderTopLeftRadius={"9999px"}
                     borderBottomLeftRadius={"9999px"}
@@ -142,12 +151,12 @@ function GameInfoJoinButton(props) {
                 >
                     <Icon ml={hasExtra ? '65px' : 0} as={FaPlay} />
                 </Button>
-                <Box display={hasExtra ? 'block' : 'none'}>
+                <Box display={hasExtra ? 'block' : 'none'} >
 
                     <Menu m="0" >
                         <MenuButton
                             as={Button}
-                            size="lg"
+                            size="lg" h="5rem"
                             borderLeftWidth={'1px'}
                             borderLeftStyle="solid"
                             borderLeftColor="green.300"

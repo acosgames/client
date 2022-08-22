@@ -15,7 +15,7 @@ import fs from 'flatstore';
 import SLink from '../widgets/SLink';
 
 
-import { FiUser } from '@react-icons';
+import { FiUser, FiLogOut } from '@react-icons';
 import { Link, useHistory } from 'react-router-dom';
 
 function NavForGuest(props) {
@@ -30,18 +30,20 @@ function NavForGuest(props) {
                 rounded={'full'}
                 variant={'link'}
                 cursor={'pointer'}
-                minW={0}>
-                <Icon as={FiUser} fontSize="24" />
+                minW={0} >
+                <Icon as={FiUser} fontSize="2.2rem" />
             </MenuButton>
-            <MenuList alignItems={'center'}>
+            <MenuList alignItems={'center'} boxShadow={'0 4px 8px rgba(0,0,0,0.4),0 0px 4px rgba(0,0,0,0.4)'} border="0" borderRadius="8px">
                 {/* <Link to="/login"> */}
                 <MenuItem
                     onClick={() => {
                         // history.push('/login') 
                         fs.set('isCreateDisplayName', true);
                     }}
+                    fontSize="xs"
+                    fontWeight="400"
                 >
-                    Sign In
+                    <Icon as={FiLogOut} mr="0.5rem" /> Sign In
                 </MenuItem>
                 {/* </Link> */}
             </MenuList>

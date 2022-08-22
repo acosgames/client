@@ -75,7 +75,7 @@ export async function logout() {
         fs.set('user', null);
         fs.set('userid', 0);
         fs.set('player_stats', {});
-        fs.set('isCreateDisplayName', false);
+        fs.set('isCreateDisplayName', null);
         removeWithExpiry('user');
 
         clearRooms();

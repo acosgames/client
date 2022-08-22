@@ -1,5 +1,6 @@
 import { Box, IconButton, VStack, Text, HStack, Grid, GridItem, Tr, Table, Th, Thead, Tbody, Td, Center, Heading, Wrap, WrapItem } from '@chakra-ui/react';
 import fs from 'flatstore';
+import { withRouter } from 'react-router-dom';
 import GameInfoTop10 from '../GameInfo/GameInfoTop10';
 import GameInfoTop10Highscores from '../GameInfo/GameInfoTop10Highscores';
 import GameScreenActions from './GameScreenActions';
@@ -7,6 +8,12 @@ import GameScreenActions from './GameScreenActions';
 
 function GameScreenInfo(props) {
 
+
+    const room_slug = props.room_slug;
+
+    if (!room_slug) {
+        return <></>
+    }
     let room = props.room;
     let game = props.game;
     const renderPlayers = (players) => {
@@ -53,17 +60,18 @@ function GameScreenInfo(props) {
         <VStack filter={'opacity(1)'}
             transition="filter 0.3s ease-in"
             // px={['1rem', '2rem', "5rem"]}
+            className="gameScreenInfo"
             pb="2rem"
             mt="1rem"
-            width="100%" maxW={['400px']}
+            width="100%"
         //, '100%', '100%', '80%', '1000px']}
         >
             <Box bgColor={''} w="100%" >
                 <GameScreenActions room={room} game={game} />
-                <Center>
+                {/* <Center>
                     <Heading py="1rem" fontWeight={'bold'} textAlign="center" size="lg">{game?.name || 'Game Info'}</Heading>
-                </Center>
-                <Wrap justify={'center'} spacing="3rem">
+                </Center> */}
+                {/* <Wrap justify={'center'} spacing="3rem">
 
                     <WrapItem display={game.maxplayers == 1 ? 'none' : 'flex'}>
                         <Box>
@@ -98,7 +106,7 @@ function GameScreenInfo(props) {
                         </VStack>
                     </WrapItem>
 
-                </Wrap>
+                </Wrap> */}
             </Box>
 
 
@@ -109,4 +117,33 @@ function GameScreenInfo(props) {
 }
 
 
-export default fs.connect(['gamestate'])(GameScreenInfo);
+
+// let onCustomWatched = ownProps => {
+//     return ['rooms', 'games', 'gamestate'];
+// };
+// let onCustomProps = (key, value, store, ownProps) => {
+//     let room_slug = ownProps.match.params.room_slug;
+//     let game_slug = ownProps.match.params.game_slug;
+//     if (key == 'rooms' && room_slug in value) {
+//         return {
+//             'room': value[room_slug]
+//         };
+//     }
+
+//     if (key == 'games' && game_slug in value) {
+//         return {
+//             'game': value[game_slug]
+//         };
+//     }
+
+//     if (key == 'gamestate') {
+//         return {
+//             'gamestate': value
+//         }
+//     }
+
+//     return {};
+// };
+export default fs.connect(['gamestate', 'room_slug'])(GameScreenInfo);
+
+// export default fs.connect([])(GameScreenInfo);

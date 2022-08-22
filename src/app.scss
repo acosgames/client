@@ -6,18 +6,24 @@
 
 * {
   box-sizing: border-box;
+  margin:0;
+  padding:0;
 }
-html,
-body,
-#root,
-#app {
-  height: 100%;
-  width: 100%;
+
+#root {
+  display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    width: 100%;
   // background-color: red;
 }
+
+
 html,
 body {
   height: 100%;
+  width: 100%;
   padding: 0;
   margin: 0;
   // overflow: hidden;
@@ -29,6 +35,8 @@ body {
   //   -webkit-font-smoothing: antialiased;
   //   -moz-osx-font-smoothing: grayscale;
 }
+
+
 a {
   color: #fff;
   text-decoration: none;
@@ -38,24 +46,37 @@ a {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 1px;
+  overflow:visible;
   
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: transparent;
+  width:8px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  // background-color: rgb(136, 136, 136);
   border-radius:4px;
+  transition: background-color 1s ease;
+  background-color: rgb(24,24,24);
+  width:8px;
+}
+
+.showscroll::-webkit-scrollbar-thumb {
+  background-color: rgb(80, 80, 80);
+}
+
+.hidescroll::-webkit-scrollbar-thumb {
+  background-color: rgb(24,24,24);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background-color: #555;
 }
 
 code {
@@ -742,6 +763,18 @@ code {
 
 #game-info-longdesc .mde-preview-content {
   padding: 0 2rem;
+  font-size: 1.4rem;
+  font-weight:100;
+}
+
+#game-info-longdesc {
+  font-size: 1.4rem;
+  font-weight:100;
+}
+
+
+#game-info-longdesc b, #game-info-longdesc strong {
+  font-weight:900;
 }
 
 #game-info-longdesc .mde-preview-content {
@@ -763,7 +796,8 @@ code {
     // margin: 1rem 0;
 
     p {
-      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+      margin-bottom:0.5rem;
     }
     table {
       border: 1px solid --chakra-colors-gray-500;

@@ -1,21 +1,23 @@
 
-import { Box, HStack, VStack, Text, IconButton, Image } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text, IconButton, Image, Flex } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from 'react';
 import { clearChatMessages, getChatMessages, sendChatMessage } from '../../actions/chat.js';
 import FSGButton from '../widgets/inputs/FSGButton.js';
 import FSGSubmit from '../widgets/inputs/FSGSubmit';
 import FSGTextInput from '../widgets/inputs/FSGTextInput';
-import { IoSend, IoChevronBackSharp, IoChevronForwardSharp } from '@react-icons';
+import { IoSend, BsChevronBarRight, BsChevronBarLeft } from '@react-icons';
 
 import config from '../../config'
 import ColorHash from 'color-hash'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import GameScreenInfo from '../games/GameScreen/GameScreenInfo.js';
 
 fs.set('chat', []);
 fs.set('chatMessage', '');
+fs.set('chatMode', 'all');
 
-const colorHash = new ColorHash({ hue: 90, lightness: 0.7 });
+const colorHash = new ColorHash({ lightness: 0.7 });
 
 function ChatPanel(props) {
 
@@ -42,22 +44,47 @@ function ChatPanel(props) {
         // position={'fixed'} top="0" right="0" 
         // zIndex={'99'}
 
-        <VStack width={toggle ? '24.0rem' : '0rem'} pl={toggle ? '1rem' : '0'} borderLeft={toggle ? "1px solid #555" : ''} alignItems="stretch" pb="6rem" height="100%" position="relative">
+        <VStack
+            bgColor={'blacks.200'}
+            width={toggle ? (props.isMobile ? '100%' : ['24.0rem', '24rem', '34.0rem']) : '0rem'}
+            borderLeft={toggle ? "1px solid" : ''}
+            borderLeftColor={toggle ? 'blacks.500' : ''}
+            alignItems="stretch"
+            pb="1rem"
+            // height="calc(100% - 10rem)"
+            position="relative"
+
+
+            // overflow='hidden scroll !important'
+            // _webkitBoxFlex='1 !important'
+            flexGrow='1 !important'
+            height='100% !important'
+            //   width='100% !important'
+            display='flex !important'
+            flexDirection='column !important'
+        // zIndex='10 !important'
+        >
             <IconButton
                 onClick={onPanelToggle}
+                _focus={{ outline: 'none' }}
                 position={'absolute'}
-                top="0.5rem"
-                left={toggle ? '-2.7rem' : '-5rem'}
-                icon={toggle ? <IoChevronForwardSharp /> : <IoChevronBackSharp />}
-                width="2.4rem"
-                height="2.4rem"
+                top="0rem"
+                left={toggle ? 'auto' : '-3rem'}
+                right={toggle ? '0' : 'auto'}
+                icon={toggle ? <BsChevronBarRight color={'white'} /> : <BsChevronBarLeft color={'white'} />}
+                width="3rem"
+                height="3rem"
                 isRound="false"
                 zIndex="100"
-                bgColor="black"
-                borderRadius={'5px'}
+                colorScheme="black"
+                // bgColor="gray.100"
+                borderRadius={'5px 0 0 5px'}
             />
-            <ChatHeader />
-            <ChatMessages />
+
+            <GameScreenInfo />
+
+            <ChatHeader toggle={toggle} isMobile={props.isMobile} />
+            <ChatMessages toggle={toggle} />
             <ChatSend />
         </VStack>
     )
@@ -65,9 +92,17 @@ function ChatPanel(props) {
 
 function ChatHeader(props) {
 
+    let [mode, setMode] = useState('all');
+
+    const onChangeMode = (mode) => {
+        setMode(mode);
+        fs.set('chatMode', mode);
+    }
     return (
-        <HStack width="100%" height="5rem">
-            <Text>Chat Messages</Text>
+        <HStack pl={'1rem'} width={props.toggle ? (props.isMobile ? '100%' : ['24.0rem', '24rem', '34.0rem']) : '0rem'} height="3rem" spacing={'2rem'} bgColor={'gray.900'} mt={'0 !important'} >
+            <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'all' ? 'gray.100' : 'gray.300'} textShadow={mode == 'all' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('all') }}>All</Text>
+            <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'game' ? 'gray.100' : 'gray.300'} textShadow={mode == 'game' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('game') }}>Game</Text>
+            <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'party' ? 'gray.100' : 'gray.300'} textShadow={mode == 'party' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('party') }}>Party</Text>
         </HStack>
     )
 }
@@ -79,22 +114,24 @@ function ChatMessages(props) {
     //     clearChatMessages();
     // }, [])
 
+    const location = useLocation();
     const messageListRef = useRef();
 
     const renderChatMessages = () => {
         let rows = [];
-        let messages = getChatMessages();
+        let messages = getChatMessages(props.chatMode);
         for (let msg of messages) {
             if (!msg || Array.isArray(msg))
                 continue;
 
+            //show game icon if user is in game page
             let showThumb = false;
             if (msg.game_slug && msg.icon) {
                 showThumb = true;
             }
 
             rows.push(
-                <Box key={msg.displayname + msg.timestamp} width="100%">
+                <Box key={msg.displayname + msg.timestamp} width="100%" lineHeight={['1.3rem', '2rem']} fontSize={['1rem', "1.3rem"]}>
                     {showThumb &&
                         (<Link to={`/g/${msg.game_slug}`}>
                             <Text as="span" lineHeight="1.3rem" pr="0.5rem">
@@ -109,30 +146,70 @@ function ChatMessages(props) {
                         </Link>)
                     }
                     <Link to={`/profile/${msg.displayname}`}>
-                        <Text lineHeight={'20px'} fontSize="1.3rem" fontWeight={'900'} as="span" color={colorHash.hex(msg.displayname)}>{msg.displayname}</Text>
+                        <Text fontWeight={'900'} as="span" color={colorHash.hex(msg.displayname)}>{msg.displayname}</Text>
                     </Link>
-                    <Text lineHeight={'20px'} fontSize="1.3rem" fontWeight={'light'} as="span">: </Text>
-                    <Text lineHeight={'20px'} fontSize="1.3rem" fontWeight={'300'} as="span">{msg.message}</Text>
+                    <Text fontWeight={'light'} as="span">: </Text>
+                    <Text fontWeight={'300'} as="span">{msg.message}</Text>
                 </Box>)
         }
         return rows;
     }
 
+
+    //scroll to bottom of chat
     useEffect(() => {
-        // messageListRef.windowScr
-        messageListRef.current.scrollTo(0, messageListRef.current.scrollHeight);
+
+        if (props.toggle)
+            setTimeout(() => {
+                // messageListRef.current.scrollIntoView({ behavior: "smooth", block: 'nearest', inline: 'start' });
+                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+            }, 100)
+
     })
 
+    //update chatMode for when user changes pages
+    useEffect(() => {
+        fs.set('chatMode', fs.get('chatMode'));
+    }, [location])
+
+    let timeHandle = 0;
+    const scrollBarHideDelay = 2000;
+    const scrollRef = useRef();
+
+    //setup scroll styling with classes
+    const onScroll = () => {
+        if (timeHandle > 0)
+            clearTimeout(timeHandle);
+
+        scrollRef.current.classList.add('showscroll');
+        scrollRef.current.classList.remove("hidescroll")
+        timeHandle = setTimeout(() => {
+            scrollRef.current.classList.remove("showscroll")
+            scrollRef.current.classList.add("hidescroll")
+        }, scrollBarHideDelay)
+    }
+
+    //setup scroll event
+    useEffect(() => {
+        scrollRef.current.addEventListener('scroll', onScroll);
+
+        return () => {
+            if (scrollRef.current)
+                scrollRef.current.removeEventListener('scroll', onScroll);
+        }
+    }, [])
+
     return (
-        <Box flex="1" alignSelf="stretch" width="100%" overflow="hidden" overflowY="scroll">
-            <VStack width="100%" height="100%" spacing="0.5rem" ref={messageListRef}>
+        <Box pl={'1rem'} flex="1" alignSelf="stretch" width="100%" overflow="hidden" overflowY="scroll" ref={scrollRef}>
+            <VStack width="100%" height="100%" spacing={['0.2rem', '0.3rem', "0.5rem"]} >
                 {renderChatMessages()}
+                <div ref={messageListRef} />
             </VStack>
         </Box>
 
     )
 }
-ChatMessages = fs.connect(['chat'])(ChatMessages);
+ChatMessages = fs.connect(['chat', 'chatMode'])(ChatMessages);
 // export ChatMessages;
 
 
@@ -153,12 +230,13 @@ function ChatSend(props) {
     }
 
     return (
-        <HStack width="100%" height="3rem" px="0.5rem">
+        <HStack width="100%" height="3rem" px="2rem">
             <FSGTextInput
                 name="name"
                 id="name"
                 title=""
                 maxLength="120"
+                height="3rem"
                 value={props.chatMessage || ''}
                 onChange={inputChange}
                 onKeyUp={(e) => {
@@ -167,13 +245,19 @@ function ChatSend(props) {
                     }
                 }}
             />
-            <IconButton
-                onClick={onSubmit}
+            <Box
+                width="3rem"
+                height="3rem"
+            >
+                <IconButton
+                    onClick={onSubmit}
 
-                icon={<IoSend />}
-                size="sm"
-                isRound="true"
-            />
+                    icon={<IoSend size="1.6rem" />}
+                    width="2.8rem"
+                    height="2.8rem"
+                    isRound="true"
+                />
+            </Box>
 
         </HStack>
     )

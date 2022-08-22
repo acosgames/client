@@ -293,13 +293,13 @@ function GameScreenIframe(props) {
 
 
     return (
-        <Box ref={gamescreenResizer} width="100%" height="100%">
+        <Box ref={gamescreenResizer} className="gameScreenIframe">
 
             <VStack
                 justifyContent={'flex-start'}
                 alignContent={'center'}
                 w="100%"
-                h="100%"
+                h="calc(100vh - 5rem)"
                 ref={gamewrapperRef}
 
                 // transform={transform}
@@ -346,7 +346,7 @@ function GameScreenIframe(props) {
 
                 </Box>
 
-                <GameScreenInfo room={room} game={game} />
+
             </VStack>
         </Box>
     )

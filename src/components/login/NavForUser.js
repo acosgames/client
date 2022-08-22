@@ -8,9 +8,11 @@ import {
     MenuItem,
     MenuList,
     Button,
-    Icon
+    Icon,
+    Text
 } from '@chakra-ui/react'
 
+import { IoHammer, ImUser, FiLogOut } from '@react-icons';
 
 import fs from 'flatstore';
 import SLink from '../widgets/SLink';
@@ -23,7 +25,7 @@ function NavForUser(props) {
 
     return (
 
-        <Menu placement='right-start' modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
+        <Menu modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
             <MenuButton
                 as={Button}
                 rounded={'full'}
@@ -32,12 +34,12 @@ function NavForUser(props) {
                 minW={0}>
                 <Avatar
                     name={props?.user?.displayname}
-                    size={'sm'}
+                    size={'md'}
                     bgColor={'gray.300'}
                 />
             </MenuButton>
-            <MenuList alignItems={'center'}>
-                <br />
+            <MenuList alignItems={'center'} boxShadow={'0 4px 8px rgba(0,0,0,0.4),0 0px 4px rgba(0,0,0,0.4)'} border="0" borderRadius="8px">
+                {/* <br />
                 <Center>
                     <Link to="/profile">
                         <Avatar
@@ -47,24 +49,22 @@ function NavForUser(props) {
 
                         />
                     </Link>
-                </Center>
-                <br />
+                </Center> */}
                 <Center>
-                    <p>{props?.user?.displayname}</p>
+                    <Link to="/profile"><Text fontSize="xs">{props?.user?.displayname}</Text></Link>
                 </Center>
-                <br />
-                <MenuDivider />
+                <MenuDivider color="blacks.700" />
                 <Link to="/dev" width="100%">
-                    <MenuItem>
-                        Developer Zone
+                    <MenuItem fontSize="xxs" fontWeight="400">
+                        <Icon as={IoHammer} mr="0.5rem" /> Developer Zone
                     </MenuItem>
                 </Link>
                 <Link to="/profile" width="100%">
-                    <MenuItem >
-                        Profile
+                    <MenuItem fontSize="xxs" fontWeight="400">
+                        <Icon as={ImUser} mr="0.5rem" />Profile
                     </MenuItem>
                 </Link>
-                <MenuDivider />
+                <MenuDivider color="blacks.700" />
                 <Logout />
 
                 <LoginTempUser />
@@ -82,7 +82,7 @@ function Logout(props) {
     if (!isTempUser)
         return (
             // <Link to="/logout" width="100%">
-            <MenuItem onClick={() => { logout() }}>Logout</MenuItem>
+            <MenuItem onClick={() => { logout() }} fontSize="xs" fontWeight="400"><Icon as={FiLogOut} mr="0.5rem" />Logout</MenuItem>
             // </Link>
         )
 
@@ -90,7 +90,7 @@ function Logout(props) {
         <>
             <MenuDivider />
             {/* <Link to="/logout" width="100%"> */}
-            <MenuItem onClick={() => { logout() }}>Sign out and delete</MenuItem>
+            <MenuItem onClick={() => { logout() }} fontSize="xs" fontWeight="400"><Icon as={FiLogOut} mr="0.5rem" />Sign out and delete</MenuItem>
             {/* </Link> */}
         </>
 

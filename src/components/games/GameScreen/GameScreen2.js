@@ -70,13 +70,15 @@ function GameScreen2(props) {
 
 
     return (
-        <Portal>
+        // <Portal>
+        <Box position="absolute" left="0" top="0" className="gameScreen" width="100%" h="calc(100vh - 5rem)">
             <Box
-                position="fixed"
+                position="sticky"
                 top="0"
                 left="0"
                 w="100%"
                 h="100%"
+                zIndex={'1'}
                 ref={gamescreenRef}
                 bgColor={!isDarken ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.8)'}
                 transition={'background-color 0.3s ease-in'}
@@ -87,6 +89,7 @@ function GameScreen2(props) {
                 left="0"
                 w="100%"
                 h="100%"
+                zIndex={'2'}
                 ref={gamescreenRef}
             >
 
@@ -98,7 +101,8 @@ function GameScreen2(props) {
 
                 <GameScreenStarting />
             </Box >
-        </Portal >
+        </Box>
+        // </Portal >
     )
 
 

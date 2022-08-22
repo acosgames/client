@@ -44,6 +44,7 @@ function FSGTextInput(props) {
                 value={props.value || ''}
                 size={props.size}
                 width={props.width}
+                height={props.height}
                 onKeyPress={props.onKeyPress}
                 onKeyUp={props.onKeyUp}
                 onKeyDown={props.onKeyDown}

@@ -7,12 +7,16 @@ import { mode } from '@chakra-ui/theme-tools';
 const styles = {
     global: {
         'html': {
-            'font-size': '62.5%'
+            'fontSize': '62.5%',
+            'WebkitTextSizeAdjust': '100%',
+            'MozTextSizeAdjust': '100%',
+            'textSizeAdjust': '100%'
         },
         'html, body': {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
             bg: 'blacks.100',
-        }
+        },
+        'body': { 'fontSize': '160%' }
     }
 };
 

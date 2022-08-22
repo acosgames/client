@@ -96,20 +96,19 @@ function GameInfoActions(game) {
 
     return (
 
-        <Flex wrap={'wrap'} spacing="0" alignItems={['center', 'center', 'left']} justifyContent={['center', 'center', 'left']}>
-            <HStack pr="1.5rem">
-                <Button onClick={onShareClick} leftIcon={<IoShareSocial size="24px" />}>
-                    <Text color="white">Share</Text>
+        <Flex wrap={'wrap'} alignItems={['center', 'center', 'left']} justifyContent={['center', 'center', 'left']} >
+            <HStack spacing="3rem">
+                <Button onClick={onShareClick} height="2.4rem" leftIcon={<IoShareSocial size="1.4rem" />}>
+                    <Text color="white" fontSize="xxs">SHARE</Text>
                 </Button>
-            </HStack>
-            <HStack spacing="0">
-                <HStack h='100%' spacing="0.5rem" pr="1.5rem">
+
+                <HStack h='100%' spacing="0.5rem" >
                     <Tooltip label="Yes">
-                        <IconButton icon={<FaThumbsUp />} onClick={onLike} color={liked ? 'brand.100' : 'white'} />
+                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsUp size="1.4rem" />} onClick={onLike} color={liked ? 'brand.100' : 'white'} />
                     </Tooltip>
-                    <Text color="white" fontSize={'1.2rem'} fontWeight={'500'}>{votes}</Text>
+                    <Text color="white" fontSize={'xs'} fontWeight={'500'} px="0.1rem">{votes}</Text>
                     <Tooltip label="No">
-                        <IconButton icon={<FaThumbsDown />} onClick={onDislike} color={disliked ? 'red.300' : 'white'} />
+                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsDown size="1.4rem" />} onClick={onDislike} color={disliked ? 'red.300' : 'white'} />
                     </Tooltip>
                 </HStack>
                 {/* <HStack spacing="0" pr="1rem" alignContent={'center'} alignItems={'center'}>
@@ -117,24 +116,35 @@ function GameInfoActions(game) {
                     <Text lineHeight={'1.2rem'} color="white" fontSize={['1rem']} pl={'0.4rem'}>PLAYING</Text>
 
                 </HStack> */}
-            </HStack>
-            <HStack spacing="0">
                 <Tooltip label="Discuss issues on GitHub">
-                    <HStack spacing="0.2rem" pr="1.5rem" alignContent={'center'}>
+                    <Link target="_blank" href={`https://github.com/acosgames/${game.game_slug}/issues`}>
+                        <HStack spacing="4px" color="white" lineHeight={'2rem'}>
+                            <Icon fontSize={['xxs', 'xxs', 'xs']} as={FaGithub} />
+                            <Text fontSize={['xxs', 'xxs', 'xs']} >DISCUSS</Text>
+                        </HStack>
+                    </Link>
+                    {/* <Text color="white" fontSize="xs" lineHeight={"1.3rem"}>
+                        
+                            <Icon color="white" as={FaGithub} fontSize={'1.6rem'} />DISCUSS
+                        </Link>
+                    </Text> */}
 
-                        <Icon color="white" as={FaGithub} fontSize={'1.2rem'} />
-                        <Text color="white"><Link target="_blank" href={`https://github.com/acosgames/${game.game_slug}/issues`}>DISCUSS</Link></Text>
-
-                    </HStack>
                 </Tooltip>
-                <Box alignContent={'right'} >
+                <Box alignContent={'right'} ml="1rem">
 
                     <Menu>
-                        <MenuButton as={Button} color={"gray.500"} size="sm" variant="clear" p={0}>
-                            <HStack spacing="0.2rem" alignContent={'center'}>
-                                <Icon as={IoWarningSharp} fontSize="1.2rem" />
-                                <Text as="span" color="gray.500">{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
+                        <MenuButton as={Button} variant="clear" p={0} >
+
+                            <HStack spacing="2px" color={"gray.500"} lineHeight={'2rem'}>
+                                <Icon fontSize={['xxs', 'xxs', 'xs']} as={IoWarningSharp} p="0" />
+                                <Text as="span" fontSize={['xxs', 'xxs', 'xs']} >{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
                             </HStack>
+
+
+                            {/* <HStack spacing="0.2rem" alignContent={'center'}>
+                                <Icon as={IoWarningSharp} fontSize="1.6rem" />
+                                <Text as="span" fontSize="xs" color="gray.500">{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
+                            </HStack> */}
 
                         </MenuButton>
                         <MenuList>

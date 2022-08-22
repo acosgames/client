@@ -66,19 +66,31 @@ function GameListItem(props) {
         <VStack
             // bgColor={'blacks.900'}
             // boxShadow={'0px 0px 4px 0.4px rgb(255 255 255 / 5%)'}
-            borderRadius={'6px 6px 6px 6px'} width={'18rem'} pl="2px" pr="2px" cursor="pointer" pt="0" spacing="0" key={game.game_slug} position="relative" >
+            borderRadius={'6px 6px 6px 6px'}
+            w={['8rem', '14rem', '18rem', '18rem']}
+            pl="2px"
+            pr="2px"
+            cursor="pointer"
+            pt="0"
+            spacing="0"
+            key={game.game_slug} position="relative"
+
+        >
 
 
 
             <Link to={'/g/' + game.game_slug}>
                 <Image
-                    borderRadius={'6px 6px 0px 0px'}
-                    w={['18rem', '18rem', '18rem', '18rem']}
-                    minW={['18rem', '18rem', '18rem', '18rem']}
-                    h={['18rem', '180px', '18rem', '18rem']}
-                    minH={['18rem', '18rem', '18rem', '18rem']}
+                    borderRadius={'6px'}
+                    w={['8rem', '14rem', '18rem', '18rem']}
+                    minW={['8rem', '14rem', '18rem', '18rem']}
+                    h={['8rem', '14rem', '18rem', '18rem']}
+                    minH={['8rem', '14rem', '18rem', '18rem']}
                     alt={gameName}
                     src={imgUrl}
+                    transition="transform 0.4s ease"
+                    transform={'transform:scale(1)'}
+                    _hover={{ transform: 'scale(1.05)' }}
                 // fallbackSrc={config.https.cdn + 'placeholder.png'}
                 />
             </Link>
@@ -89,7 +101,9 @@ function GameListItem(props) {
                 {/* <HStack alignSelf={'flex-start'} flex="1" alignItems={'flex-end'}> */}
                 <Link to={'/g/' + game.game_slug} display="block">
                     <Text
-                        as="h4" fontSize="md" fontWeight={''}
+                        as="h4"
+                        fontSize={['xxs', "xs", 'sm']}
+                        fontWeight={''}
                         color={'white'}
                         w="100%"
                         h="2.4rem"
@@ -124,8 +138,8 @@ function GameListItem(props) {
                 </Text>
             </Link> */}
                 <HStack spacing="4px" color="gray.100" pb="1rem">
-                    <Icon fontSize="sm" as={IoPeople} />
-                    <Text fontSize="sm" fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player game</Text>
+                    <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} />
+                    <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player</Text>
                 </HStack>
             </VStack>
 
