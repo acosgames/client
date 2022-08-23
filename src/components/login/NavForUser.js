@@ -34,7 +34,8 @@ function NavForUser(props) {
                 minW={0}>
                 <Avatar
                     name={props?.user?.displayname}
-                    size={'md'}
+                    width={['2.2rem', '2.6rem', '4rem']}
+                    height={['2.2rem', '2.6rem', '4rem']}
                     bgColor={'gray.300'}
                 />
             </MenuButton>

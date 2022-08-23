@@ -89,7 +89,7 @@ function NotifySwitch(props) {
     return (
         <Tooltip label="Toggle Notifications" placement="top">
             <Box  >
-                <FormLabel htmlFor={'switch-notif'} p="0" m="0" fontSize="md" >
+                <FormLabel htmlFor={'switch-notif'} p="0" m="0" fontSize={['xs', "md"]} >
                     <IconButton
                         bgColor={''}
                         onClick={onNotifyClick}
@@ -97,8 +97,8 @@ function NotifySwitch(props) {
                             as={NotifIcon}
                             color={checked ? 'white' : "gray.400"}
                             fontSize="md" />}
-                        width="3rem"
-                        height="3rem"
+                        width={['1.8rem', '2.4rem', "3rem"]}
+                        height={['1.8rem', '2.4rem', "3rem"]}
                         isRound="true" />
 
                     {/* <VStack>
@@ -169,10 +169,10 @@ function InviteToPlayButton(props) {
                     icon={<Icon
                         as={IoPersonAddSharp}
                         color={checked ? 'white' : "gray.400"}
-                        fontSize="md" />}
+                        fontSize={['xs', 'xs', "md"]} />}
                     // icon={<IoPersonAddSharp />}
-                    width="3rem"
-                    height="3rem"
+                    width={['1.8rem', '2.4rem', "3rem"]}
+                    height={['1.8rem', '2.4rem', "3rem"]}
                     // fontSize="xl"
                     isRound="true" />
             </Box>
@@ -276,89 +276,98 @@ function QueuePanel(props) {
             <Center
 
                 position="fixed"
-                top="0.5rem"
-                width="100%"
+                top={['0.25rem', '0.25rem', "0.5rem"]}
+                width={['6rem', '6rem', "7rem"]}
                 align="center"
                 justifyItems={'center'}
-                left="0%"
+                transform='translateX(-50%)'
+                left="50%"
+                zIndex={99}
             >
 
                 <HStack
                     borderRadius={'30px'}
                     position="relative"
                     bgColor={'gray.600'}
-                    width="auto"
-                    height="4.0rem"
-                    justifyContent={'center'}
+
+                    height={['2.5rem', '3.5rem', "4.0rem"]}
+
+                    justifyContent={'flex-start'}
                     spacing="0rem">
                     <HStack
                         // position="absolute"
                         // top="0"
                         // left="2rem"
+                        width={['6rem', '6rem', "7rem"]}
+                        ml="1rem"
                         height="100%"
                         spacing="1rem"
+                        justifySelf='flex-start'
                     >
 
                         <NotifySwitch />
                         <InviteToPlayButton />
                     </HStack>
-                    <Popover
-                        // width="100px"
-                        isOpen={isOpen}
-                        onOpen={onOpen}
-                        onClose={onClose}>
-                        <PopoverTrigger
-                        // width="100px"
-                        >
-                            <VStack cursor={'pointer'}>
+                    <Box flex="1" px={['1rem', '1rem', "2rem"]}>
+                        <Popover
+                            // width="100px"
+                            isOpen={isOpen}
+                            onOpen={onOpen}
+                            onClose={onClose}>
+                            <PopoverTrigger
+                            // width="100px"
+                            >
+                                <VStack cursor={'pointer'}>
 
-                                <Text
-                                    className="blink_me"
-                                    as="span"
-                                    display="inline-block"
-                                    fontSize="xs"
-                                    color="white"
-                                    fontWeight={'bold'} height="100%">
-                                    Searching
-                                </Text>
-                                <LoaderLineUp />
-                            </VStack>
-                        </PopoverTrigger>
-                        <PopoverContent mb="2rem">
-                            <PopoverArrow />
-                            <PopoverCloseButton onClick={onClose} />
-                            <PopoverHeader><Text as="span" fontWeight="bolder">QUEUES</Text></PopoverHeader>
-                            <PopoverBody bgColor={'gray.900'}>
-                                <VStack divider={<Divider />} spacing="0.2rem">
-                                    {
-                                        gameList.map(game_slug => {
-                                            let modes = queueMap[game_slug]
-                                            let game = games[game_slug] || null;
-                                            let title = game?.name || game_slug;
-                                            return (
-                                                <HStack key={'queueitem-' + game_slug}>
-                                                    <Text color="white" as="span" fontSize="xs" fontWeight={'bold'}>{title}</Text>
-                                                    <HStack>
-                                                        {
-                                                            modes.map(m => (
-                                                                <Badge fontSize="xs" title={m} key={game_slug + "-" + m + "-mode"}>{m}</Badge>
-                                                            ))
-                                                        }
-                                                    </HStack>
-                                                </HStack>
-                                            )
-                                        })
-                                    }
+                                    <Text
+                                        className="blink_me"
+                                        as="span"
+                                        display="inline-block"
+                                        fontSize={['2xs', 'xxs', "xs"]}
+                                        color="white"
+                                        position="relative"
+                                        top={['0.5rem', '0']}
+                                        fontWeight={'bold'} height="100%">
+                                        Searching
+                                    </Text>
+                                    <LoaderLineUp />
                                 </VStack>
-                            </PopoverBody>
-                            <PopoverFooter>
-                                <PlayerCount color="gray.300" />
-                            </PopoverFooter>
-                        </PopoverContent>
-                    </Popover>
+                            </PopoverTrigger>
+                            <PopoverContent mb="2rem" _focus={{ outline: 'none' }}>
+                                <PopoverArrow />
+                                <PopoverCloseButton onClick={onClose} />
+                                <PopoverHeader h="2rem" lineHeight={'2rem'} pt="0"><Text h="2rem" lineHeight={'2rem'} as="span" fontSize="2xs" fontWeight="bolder">QUEUES</Text></PopoverHeader>
+                                <PopoverBody bgColor={'gray.900'}>
+                                    <VStack divider={<Divider />} spacing="0.2rem">
+                                        {
+                                            gameList.map(game_slug => {
+                                                let modes = queueMap[game_slug]
+                                                let game = games[game_slug] || null;
+                                                let title = game?.name || game_slug;
+                                                return (
+                                                    <HStack key={'queueitem-' + game_slug}>
+                                                        <Text color="white" as="span" fontSize="2xs" fontWeight={'bold'}>{title}</Text>
+                                                        <HStack>
+                                                            {
+                                                                modes.map(m => (
+                                                                    <Badge fontSize="2xs" title={m} key={game_slug + "-" + m + "-mode"}>{m}</Badge>
+                                                                ))
+                                                            }
+                                                        </HStack>
+                                                    </HStack>
+                                                )
+                                            })
+                                        }
+                                    </VStack>
+                                </PopoverBody>
+                                {/* <PopoverFooter>
+                                    <PlayerCount color="gray.300" />
+                                </PopoverFooter> */}
+                            </PopoverContent>
+                        </Popover>
+                    </Box>
 
-
-                    <VStack
+                    {/* <VStack
                         position="absolute"
                         top="0"
                         right="3rem"
@@ -372,11 +381,12 @@ function QueuePanel(props) {
 
                         <Text fontSize="xxs" color="gray.200">In {queues.length} queues</Text>
                         <PlayerCount fontSize="xxs" color="gray.400" />
-                    </VStack>
-
-                    <Tooltip label="Leave Queue" placement="top">
-                        <IconButton position="absolute" bgColor={'gray.800'} right="0.5rem" onClick={onCancel} icon={<IoCloseSharp />} size="sm" isRound="true" />
-                    </Tooltip>
+                    </VStack> */}
+                    <Box w="6rem">
+                        <Tooltip label="Leave Queue" placement="top">
+                            <IconButton float="right" mr="1rem" bgColor={'gray.800'} onClick={onCancel} icon={<IoCloseSharp />} size="sm" isRound="true" />
+                        </Tooltip>
+                    </Box>
                 </HStack>
 
 

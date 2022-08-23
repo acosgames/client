@@ -3,7 +3,7 @@ import { Badge, Box, Button, Text, Flex, IconButton, Input, Portal, Spacer, HSta
 import { BsArrowsFullscreen, BsBarChartFill } from '@react-icons';
 
 import fs from 'flatstore';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useParams, withRouter } from 'react-router-dom';
 
 import { joinGame } from '../../../actions/game';
 import { wsLeaveGame } from '../../../actions/connection';
@@ -13,9 +13,16 @@ const resizeEvent = new Event('resize');
 
 function GameScreenActions(props) {
 
-    const game_slug = props.match.params.game_slug;
-    const mode = props.match.params.mode;
-    const room_slug = props.match.params.room_slug;
+
+    const params = useParams();
+    const location = useLocation();
+
+    console.log('params', params);
+    console.log('location', location);;
+
+    const game_slug = params.game_slug;
+    const mode = params.mode;
+    const room_slug = params.room_slug;
 
     /* When the openFullscreen() function is executed, open the video in fullscreen.
     Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
@@ -72,21 +79,24 @@ function GameScreenActions(props) {
         latencyColor = 'yellow';
     }
 
+
     return (
-        <Wrap w="100%" justify={'center'} bgColor={'gray.600'} py="0.6rem">
+        <Wrap h={props.isMobile ? '100%' : '3rem'} w={props.isMobile ? '13rem' : "100%"} justify={'center'} bgColor={'blacks.200'} py="0.6rem">
             <HStack alignItems={'center'}>
-                <BsBarChartFill color={latencyColor} /><Text as="span"> {latency}ms</Text>
+                <BsBarChartFill size="1.2rem" color={latencyColor} /><Text as="span" fontSize="xxs"> {latency}ms</Text>
             </HStack>
             <Box>
                 <Button
-                    colorScheme={isGameover ? 'yellow' : 'red'}
+                    fontSize={'xxs'}
+                    bgColor={isGameover ? 'blacks.500' : 'red.800'}
                     onClick={onForfeit}>
                     {isGameover ? 'Leave' : 'Forfeit'}
                 </Button>
             </Box>
             <Box display={isGameover ? 'block' : 'none'} ml="1rem">
                 <Button
-                    bgColor={'rgb(99 237 86)'}
+                    fontSize={'xxs'}
+                    bgColor={'green.800'}
                     _hover={{ bgColor: 'rgb(42 181 28)' }}
                     _active={{ bgColor: 'rgb(42 181 28)' }}
                     onClick={handleJoin}>
@@ -96,6 +106,7 @@ function GameScreenActions(props) {
 
             <Box>
                 <IconButton
+                    fontSize={'xxs'}
                     colorScheme={'clear'}
                     icon={<BsArrowsFullscreen color="white" />}
                     onClick={() => {
@@ -117,4 +128,4 @@ function GameScreenActions(props) {
 
 
 
-export default withRouter(fs.connect(['fullScreenElem', 'roomStatus'])(GameScreenActions));
+export default (fs.connect(['fullScreenElem', 'roomStatus', 'isMobile'])(GameScreenActions));

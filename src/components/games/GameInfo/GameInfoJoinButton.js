@@ -1,5 +1,5 @@
 import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack, useDisclosure } from '@chakra-ui/react'
-import { FaCaretDown, FaPlay } from '@react-icons';
+import { FaCaretDown, FaPlay, AiTwotoneExperiment, GiSpectacles } from '@react-icons';
 
 import fs from 'flatstore';
 import { useHistory } from 'react-router-dom';
@@ -106,7 +106,7 @@ function GameInfoJoinButton(props) {
 
                     <Text
                         color="yellow.200"
-                        fontSize={['md',]}
+                        fontSize={['xxs', 'xs', 'md',]}
                         fontWeight={'bolder'}
                         lineHeight="1.6rem"
                         align="center">{ratingTxt}</Text>
@@ -114,14 +114,14 @@ function GameInfoJoinButton(props) {
                         <Text
                             display={props.played >= 10 ? 'block' : 'none'}
 
-                            fontSize={['xs']}
+                            fontSize={['xxs', 'xs', 'md',]}
                             fontWeight="bold"
                             lineHeight={'1.6rem'}
                             pr={'1rem'}
                             align="center">{rating} </Text>
                         <Text
                             display={props.played < 10 ? 'block' : 'none'}
-                            fontSize={['xs',]}
+                            fontSize={['xxs', 'xs', 'xs']}
                             pl="0.5rem"
                             lineHeight="1.6rem">{props.played || 0} of 10 games remaining</Text>
                     </HStack>
@@ -140,7 +140,7 @@ function GameInfoJoinButton(props) {
                     size="lg"
                     mr="0"
                     w="70%"
-                    h="5rem"
+                    h={['3rem', '4rem', "5rem"]}
                     // icon={<FaPlay />}
                     borderTopLeftRadius={"9999px"}
                     borderBottomLeftRadius={"9999px"}
@@ -156,7 +156,8 @@ function GameInfoJoinButton(props) {
                     <Menu m="0" >
                         <MenuButton
                             as={Button}
-                            size="lg" h="5rem"
+                            size="lg"
+                            h={['3rem', '4rem', "5rem"]}
                             borderLeftWidth={'1px'}
                             borderLeftStyle="solid"
                             borderLeftColor="green.300"
@@ -170,8 +171,10 @@ function GameInfoJoinButton(props) {
                         >
                             <Icon as={FaCaretDown} mr={1} width="16px" height="16px" />
                         </MenuButton>
-                        <MenuList>
-                            <MenuItem onClick={handleJoinBeta}>Play Experimental</MenuItem>
+                        <MenuList boxShadow={'0 4px 8px rgba(0,0,0,0.4),0 0px 4px rgba(0,0,0,0.4)'} border="0" borderRadius="8px" p="1rem">
+                            <MenuItem icon={<GiSpectacles fontSize={'2rem'} />} onClick={() => { }}>Watch Live Matches</MenuItem>
+                            <MenuItem icon={<AiTwotoneExperiment fontSize={'2rem'} />} onClick={handleJoinBeta}>Play Experimental Build</MenuItem>
+
                             {/* <MenuItem>Create Private Room</MenuItem> */}
                         </MenuList>
                     </Menu>

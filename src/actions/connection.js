@@ -190,11 +190,20 @@ export async function refreshGameState(room_slug) {
     // }
 }
 
+export function getFrameByEvent(event) {
+    return Array.from(document.getElementsByTagName('iframe')).filter(iframe => {
+        return iframe.contentWindow === event.source;
+    })[0];
+}
+
 
 export function recvFrameMessage(evt) {
     let action = evt.data;
     let origin = evt.origin;
     let source = evt.source;
+
+    let iframe = getFrameByEvent(event);
+
     if (!action.type) return;
     console.log('[iframe]: ', action);
 
@@ -459,6 +468,8 @@ export async function wsJoinGame(mode, game_slug) {
     let game = games[game_slug];
     let gameName = game?.name || game?.game_slug || '';
 
+
+    sendPing(ws);
     // if (game.maxplayers > 1)
     //     fs.set('successMessage', { description: `You joined the "${gameName}" ${mode} mode.` })
     // console.timeEnd('ActionLoop');
@@ -961,8 +972,9 @@ async function postIncomingMessage(msg) {
             return;
     }
 
-    delete rooms[msg.room_slug];
-    fs.set('rooms', rooms);
+    clearRoom(msg.room_slug);
+    // delete rooms[msg.room_slug];
+    // fs.set('rooms', rooms);
     // disconnect()
 }
 

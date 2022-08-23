@@ -36,7 +36,7 @@ function LeaveGame(props) {
     var preventClick = false;
 
     const onSuccess = () => {
-        wsLeaveGame(props.room_slug)
+        wsLeaveGame(props.game_slug, props.room_slug)
         setPercentage(100);
     }
 

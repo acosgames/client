@@ -1,12 +1,12 @@
 
-import { Box, HStack, VStack, Text, IconButton, Image, Flex } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text, IconButton, Image, Flex, Button, Icon } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from 'react';
 import { clearChatMessages, getChatMessages, sendChatMessage } from '../../actions/chat.js';
 import FSGButton from '../widgets/inputs/FSGButton.js';
 import FSGSubmit from '../widgets/inputs/FSGSubmit';
 import FSGTextInput from '../widgets/inputs/FSGTextInput';
-import { IoSend, BsChevronBarRight, BsChevronBarLeft } from '@react-icons';
+import { IoSend, BsChevronBarRight, BsChevronBarLeft, BsChevronBarUp, BsChevronBarDown } from '@react-icons';
 
 import config from '../../config'
 import ColorHash from 'color-hash'
@@ -16,7 +16,7 @@ import GameScreenInfo from '../games/GameScreen/GameScreenInfo.js';
 fs.set('chat', []);
 fs.set('chatMessage', '');
 fs.set('chatMode', 'all');
-
+fs.set('chatToggle', true);
 const colorHash = new ColorHash({ lightness: 0.7 });
 
 function ChatPanel(props) {
@@ -25,70 +25,101 @@ function ChatPanel(props) {
 
     }, []);
 
-    let [toggle, setToggle] = useState(true);
+    // let [toggle, setToggle] = useState(true);
 
     const onPanelToggle = () => {
 
-        if (toggle) {
-            setToggle(false);
-        }
-        else {
-            setToggle(true);
-        }
+        let toggle = fs.get('chatToggle');
+        fs.set('chatToggle', !toggle);
+        // if (toggle) {
+        //     fs.set('chatToggle', !toggle);
+        //     setToggle(false);
+        // }
+        // else {
+        //     setToggle(true);
+        // }
 
     }
 
     // let width = '24.0rem';
 
+    let toggle = fs.get('chatToggle');
+    let desktopIcon = toggle ? <Icon as={BsChevronBarRight} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} size="3rem" color={'white'} /> : <Icon as={BsChevronBarLeft} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} size="3rem" color={'white'} />;
+    let mobileIcon = toggle ? <Icon as={BsChevronBarDown} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} size="3rem" color={'white'} /> : <Icon as={BsChevronBarUp} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} size="3rem" color={'white'} />
     return (
         // position={'fixed'} top="0" right="0" 
         // zIndex={'99'}
 
-        <VStack
-            bgColor={'blacks.200'}
-            width={toggle ? (props.isMobile ? '100%' : ['24.0rem', '24rem', '34.0rem']) : '0rem'}
-            borderLeft={toggle ? "1px solid" : ''}
-            borderLeftColor={toggle ? 'blacks.500' : ''}
-            alignItems="stretch"
-            pb="1rem"
-            // height="calc(100% - 10rem)"
-            position="relative"
+        <HStack spacing='0' m="0" p='0' bgColor={'blacks.200'} flexGrow='1 !important' height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}>
+
+            {props.isMobile && (
+                <GameScreenInfo />
+            )}
+
+            <VStack
+                bgColor={'blacks.200'}
+                width={props.isMobile ? '100%' : (toggle ? ['24.0rem', '24rem', '28.0rem'] : '0rem')}
+                borderLeft={toggle ? "1px solid" : ''}
+                borderLeftColor={toggle ? 'blacks.500' : ''}
+
+                height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}
+                alignItems="stretch"
+                pb={toggle ? "1rem" : 0}
+                // height="calc(100% - 10rem)"
+                position="relative"
 
 
-            // overflow='hidden scroll !important'
-            // _webkitBoxFlex='1 !important'
-            flexGrow='1 !important'
-            height='100% !important'
-            //   width='100% !important'
-            display='flex !important'
-            flexDirection='column !important'
-        // zIndex='10 !important'
-        >
-            <IconButton
-                onClick={onPanelToggle}
-                _focus={{ outline: 'none' }}
-                position={'absolute'}
-                top="0rem"
-                left={toggle ? 'auto' : '-3rem'}
-                right={toggle ? '0' : 'auto'}
-                icon={toggle ? <BsChevronBarRight color={'white'} /> : <BsChevronBarLeft color={'white'} />}
-                width="3rem"
-                height="3rem"
-                isRound="false"
-                zIndex="100"
-                colorScheme="black"
-                // bgColor="gray.100"
-                borderRadius={'5px 0 0 5px'}
-            />
+                // overflow='hidden scroll !important'
+                // _webkitBoxFlex='1 !important'
+                flexGrow='1 !important'
+                // height='100% !important'
+                //   width='100% !important'
+                display='flex !important'
+                flexDirection='column !important'
+                mt="0"
+            // zIndex='10 !important'
+            >
+                <Button
+                    onClick={onPanelToggle}
+                    _focus={{ outline: 'none' }}
+                    bgColor={'transparent'}
 
-            <GameScreenInfo />
+                    _hover={{ bgColor: 'gray.700' }}
+                    position={'absolute'}
+                    top={!props.isMobile ? 0 : (!toggle ? '-3rem' : '0')}
+                    left={!props.isMobile ? (toggle ? '-3rem' : '-3rem') : 'auto'}
+                    right={!props.isMobile ? (toggle ? 'auto' : 'auto') : '0'}
+                    // icon={props.isMobile ? mobileIcon : desktopIcon}
+                    width="3rem"
+                    height="3rem"
+                    // isRound="false"
+                    zIndex="100"
+                    colorScheme={'none'}
+                    // colorScheme="black"
+                    // bgColor="gray.100"
+                    borderRadius={'5px 0 0 5px'}
 
-            <ChatHeader toggle={toggle} isMobile={props.isMobile} />
-            <ChatMessages toggle={toggle} />
-            <ChatSend />
-        </VStack>
+                >
+                    {props.isMobile ? mobileIcon : desktopIcon}
+                </Button>
+
+                {!props.isMobile && (
+                    <GameScreenInfo />
+                )}
+
+                <ChatHeader toggle={toggle} isMobile={props.isMobile} />
+
+                <ChatMessages toggle={toggle} />
+                <ChatSend />
+
+
+            </VStack>
+
+
+        </HStack>
     )
 }
+ChatPanel = fs.connect(['chatToggle', 'isMobile'])(ChatPanel);
 
 function ChatHeader(props) {
 
@@ -99,7 +130,7 @@ function ChatHeader(props) {
         fs.set('chatMode', mode);
     }
     return (
-        <HStack pl={'1rem'} width={props.toggle ? (props.isMobile ? '100%' : ['24.0rem', '24rem', '34.0rem']) : '0rem'} height="3rem" spacing={'2rem'} bgColor={'gray.900'} mt={'0 !important'} >
+        <HStack pl={'1rem'} width={props.isMobile ? '100%' : (props.toggle ? ['24.0rem', '24rem', '34.0rem'] : '0rem')} height="3rem" spacing={'2rem'} bgColor={'gray.900'} mt={'0 !important'} >
             <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'all' ? 'gray.100' : 'gray.300'} textShadow={mode == 'all' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('all') }}>All</Text>
             <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'game' ? 'gray.100' : 'gray.300'} textShadow={mode == 'game' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('game') }}>Game</Text>
             <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'party' ? 'gray.100' : 'gray.300'} textShadow={mode == 'party' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('party') }}>Party</Text>
@@ -237,6 +268,7 @@ function ChatSend(props) {
                 title=""
                 maxLength="120"
                 height="3rem"
+                autoComplete="off"
                 value={props.chatMessage || ''}
                 onChange={inputChange}
                 onKeyUp={(e) => {

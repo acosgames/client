@@ -97,7 +97,7 @@ function GameInfoActions(game) {
     return (
 
         <Flex wrap={'wrap'} alignItems={['center', 'center', 'left']} justifyContent={['center', 'center', 'left']} >
-            <HStack spacing="3rem">
+            <HStack spacing="2rem" wrap={['wrap', 'wrap', 'nowrap']}>
                 <Button onClick={onShareClick} height="2.4rem" leftIcon={<IoShareSocial size="1.4rem" />}>
                     <Text color="white" fontSize="xxs">SHARE</Text>
                 </Button>

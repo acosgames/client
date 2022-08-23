@@ -62,7 +62,7 @@ function GameInfoTop10Highscores(props) {
                         <Text
                             fontSize="xs"
                             fontWeight={isLocalPlayer ? 'bold' : 'normal'}
-                            color={isLocalPlayer ? "yellow.100" : 'white'}>
+                            color={isLocalPlayer ? "yellow.100" : 'white'} width="auto" display="inline-block" >
                             {player.score}
                         </Text>
                     </Td>
@@ -98,7 +98,7 @@ function GameInfoTop10Highscores(props) {
                         <Tr>
                             <Th color={'gray.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem" isNumeric>Rank</Th>
                             <Th color={'gray.100'} fontSize="sm" width="20rem" lineHeight="3rem" height="3rem" >Player</Th>
-                            <Th color={'gray.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem">Rating</Th>
+                            <Th color={'gray.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem">Highscore</Th>
                         </Tr>
                     </Thead>
                     <Tbody>

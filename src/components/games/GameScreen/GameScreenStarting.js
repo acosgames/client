@@ -2,7 +2,7 @@
 import { Box, Flex, HStack, Icon, Portal, Spinner, Text, VStack } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useParams, withRouter } from 'react-router-dom';
 
 import { AiOutlineDisconnect } from '@react-icons';
 
@@ -12,9 +12,15 @@ import { getRoomStatus } from '../../../actions/room';
 
 function GameScreenStarting(props) {
 
-    const game_slug = props.match.params.game_slug;
-    const mode = props.match.params.mode;
-    const room_slug = props.match.params.room_slug;
+    const params = useParams();
+    const location = useLocation();
+
+    // console.log('params', params);
+    // console.log('location', location);;
+
+    const game_slug = params.game_slug;
+    const mode = params.mode;
+    const room_slug = params.room_slug;
 
 
     const [hide, setHide] = useState(false);
@@ -166,33 +172,39 @@ function GameScreenStarting(props) {
 
     const onClickMessage = (e) => {
 
-        setHide(true);
+        // setHide(true);
     }
 
 
     return (
-        <Portal>
-            <Box
-                display={'block'}
-                // w="200px" 
-                bgColor={'rgba(0,0,0,0.5)'}
-                // height="150px"
-                position="fixed"
-                top="0"
-                right="0"
-                // borderRadius={'50%'}
-                /* bring your own prefixes */
-                p="1rem"
-                transform="translate(0, 0)"
-                filter={hide ? 'opacity(0)' : 'opacity(100%)'}
-                transition={'filter 0.3s ease-in'}
-                onClick={onClickMessage}
-            >
-                <Flex w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-                    {message}
-                </Flex>
-            </Box>
-        </Portal>
+        // <Portal>
+        <Box
+            display={'block'}
+            // w="200px" 
+            bgColor={'gray.800'}
+            borderRadius="6px"
+            // height="150px"
+            position="absolute"
+            // bottom="0"
+            // right="0"
+            transform='translate(-50%, -50%)'
+            left="50%"
+            top="50%"
+            color="gray.100"
+            // borderRadius={'50%'}
+            /* bring your own prefixes */
+            p="1rem"
+            zIndex={3}
+            // transform="translate(0, 0)"
+            filter={hide ? 'opacity(0)' : 'opacity(100%)'}
+            transition={'filter 0.3s ease-in'}
+            onClick={onClickMessage}
+        >
+            <Flex w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+                {message}
+            </Flex>
+        </Box>
+        // </Portal>
     )
 
 
@@ -201,4 +213,4 @@ function GameScreenStarting(props) {
 
 
 
-export default withRouter(fs.connect(['gameTimeleft', 'roomStatus', 'wsConnected'])(GameScreenStarting));
+export default (fs.connect(['gameTimeleft', 'roomStatus', 'wsConnected'])(GameScreenStarting));

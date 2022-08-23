@@ -51,6 +51,7 @@ function FSGTextInput(props) {
                 onChange={props.onChange}
                 onFocus={props.onFocus}
                 disabled={props.disabled}
+                autoComplete={props.autoComplete}
                 bgColor="gray.800"
             />
 

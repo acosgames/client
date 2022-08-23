@@ -75,24 +75,24 @@ function MainMenuChakra(props) {
                 px={4}
                 transition={'filter 0.3s ease-in'}
                 width="100%"
-                h={['3rem', '3rem', '5rem']}
+                h={['3rem', '4rem', '5rem']}
             >
-                <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '3rem', '5rem']}>
+                <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '4rem', '5rem']}>
                     <HStack spacing={['2rem', '2rem', "4rem"]}>
                         <Box
                         ><Link to="/" className="">
                                 <Image
                                     alt={'A cup of skill logo'}
-                                    src={`${config.https.cdn}acos-logo-standalone.png`}
-                                    h={['1.8rem', '1.8rem', "2.4rem"]} maxHeight={'90%'}
+                                    src={`${config.https.cdn}acos-logo-standalone4.png`}
+                                    h={['1.8rem', '1.8rem', "4rem"]} maxHeight={'90%'}
                                 />
 
                             </Link>
                         </Box>
 
-                        <Box mr={['1rem', '1rem', "2rem"]}>
+                        {/* <Box mr={['1rem', '1rem', "2rem"]}>
                             <Link to="/" className=""><Text fontSize={['xs', 'sm', "lg"]} fontWeight="700">Browse</Text></Link>
-                        </Box>
+                        </Box> */}
                     </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>

@@ -56,13 +56,17 @@ function GameScreenInfo(props) {
     }
 
     return (
+        <GameScreenActions room={room} game={game} />
+    )
+
+    return (
 
         <VStack filter={'opacity(1)'}
             transition="filter 0.3s ease-in"
             // px={['1rem', '2rem', "5rem"]}
             className="gameScreenInfo"
-            pb="2rem"
-            mt="1rem"
+            pb="0"
+            mt="0 !important"
             width="100%"
         //, '100%', '100%', '80%', '1000px']}
         >

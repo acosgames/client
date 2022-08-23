@@ -71,7 +71,7 @@ function GameScreen2(props) {
 
     return (
         // <Portal>
-        <Box position="absolute" left="0" top="0" className="gameScreen" width="100%" h="calc(100vh - 5rem)">
+        <Box position="absolute" left="0" top="0" className="gameScreen" width="100%" h={'100%'}>
             <Box
                 position="sticky"
                 top="0"
@@ -99,9 +99,9 @@ function GameScreen2(props) {
 
                 <Connection></Connection>
 
-                <GameScreenStarting />
+
             </Box >
-        </Box>
+        </Box >
         // </Portal >
     )
 

@@ -35,7 +35,7 @@ class GameList extends Component {
         // let productionGames = games.filter(v => v.status == 3);
         // let betaGames = games.filter(v => v.status == 2);
         return (
-            <VStack width="100%" align="left" spacing="4rem">
+            <VStack width="100%" align="left" spacing="4rem" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={10}>
                 <VStack align="left">
                     <Heading as="h1" size="md" pb="0rem">Ranked Games</Heading>
                     <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.300">You'll need skill to reach the top</Heading>
@@ -67,7 +67,9 @@ class GameList extends Component {
                 </VStack>
                 <Divider />
                 <VStack align="left" justify={"left"}>
-                    <Heading mb="0.5rem" as="h1" size="md">Develop your own game</Heading>
+                    <ChLink isExternal textDecoration={"none"} href={'https://docs.acos.games'} >
+                        <Heading mb="0.5rem" as="h1" size="md">Develop Games using our Simulator and SDK</Heading>
+                    </ChLink>
                     <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.300">Build, deploy, and play your game on ACOS instantly for free!</Text>
                     <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.300">Check our documentation to quickly learn how to develop for ACOS.</Text>
                     <Wrap spacing="2rem">

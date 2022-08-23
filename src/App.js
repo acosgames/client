@@ -17,7 +17,6 @@ import MainMenuChakra from './components/MainMenuChakra'
 import Routes from './routes/Routes';
 import RoutesGame from './routes/RoutesGame';
 
-import SimpleBarReact from 'simplebar-react';
 
 import { getUser } from './actions/person';
 import QueuePanel from "./components/games/QueuePanel";
@@ -32,6 +31,8 @@ import ActivateUserProfile from "./components/widgets/ActivateUserProfile";
 import ToastMessage from "./components/widgets/ToastMessage";
 import ChatPanel from "./components/chat/ChatPanel";
 
+import { Scrollbars } from 'react-custom-scrollbars-2';
+// import PerfectScrollbar from 'react-perfect-scrollbar'
 
 fs.delimiter('>');
 fs.set("isMobile", false);
@@ -67,13 +68,13 @@ function App(props) {
   }
 
   useEffect(() => {
-    scrollRef.current.addEventListener('scroll', onScroll);
+    // scrollRef.current.addEventListener('scroll', onScroll);
     window.addEventListener('resize', onResize);
     onResize();
 
     return () => {
-      if (scrollRef.current)
-        scrollRef.current.removeEventListener('scroll', onScroll);
+      // if (scrollRef.current)
+      // scrollRef.current.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
     }
   }, [])
@@ -100,7 +101,7 @@ function App(props) {
           flexFlow='column nowrap !important'
           height='100% !important' position="relative" >
 
-          <Box w="100%" h={['3rem', '3rem', '5rem']} zIndex="99">
+          <Box w="100%" h={['3rem', '4rem', '5rem']} zIndex="99">
             <MainMenuChakra />
           </Box>
 
@@ -124,7 +125,7 @@ function App(props) {
               />
             </Switch>
             <Box
-              overflow='hidden scroll !important'
+              // overflow='hidden scroll !important'
               position='relative !important'
               // _webkitBoxFlex='1 !important'
               flexGrow='1 !important'
@@ -133,24 +134,90 @@ function App(props) {
               display='flex !important'
               flexDirection='column !important'
 
-              // zIndex='10 !important'
-              ref={scrollRef} className={'hidescroll'}>
-
-              <Switch>
-                <Route path="/g/*"
-                  component={RoutesGame} />
-                <Route path="*" component={Routes} />
-              </Switch>
-              <AcosFooter />
+            // zIndex='10 !important'
+            // className={'hidescroll'}
+            >
+              <Scrollbars
+                renderView={(props) => (
+                  <div
+                    className="main-scrollbars"
+                    style={{
+                      position: 'absolute',
+                      inset: '0px',
+                      overflow: 'hidden scroll',
+                      marginRight: '-8px',
+                      marginBottom: '-8px'
+                    }}
+                  />)}
+                hideTracksWhenNotNeeded={true}
+                autoHide
+                autoHideTimeout={2000}
+                autoHideDuration={200}
+                style={{
+                  overflow: 'hidden scroll !important',
+                  position: 'relative !important',
+                  // _webkitBoxFlex='1 !important;
+                  flexGrow: '1 !important',
+                  height: '100% !important',
+                  width: '100% !important',
+                  display: 'flex !important',
+                  flexDirection: 'column !important',
+                }}>
+                <Box>
+                  <Switch>
+                    <Route path="/g/*"
+                      component={RoutesGame} />
+                    <Route path="*" component={Routes} />
+                  </Switch>
+                  <AcosFooter />
+                </Box>
+              </Scrollbars>
             </Box>
-            {!isMobile && (<ChatPanel isMobile={isMobile} />)}
+            {!isMobile && (
+              <Switch>
+                <Route
+                  exact
+                  path="/g/:game_slug"
+                  component={ChatPanel}
+                />
+                <Route
+                  exact
+                  path="/g/:game_slug/:room_slug"
+                  component={ChatPanel}
+                />
+                <Route
+                  exact
+                  path="/g/:game_slug/:mode/:room_slug"
+                  component={ChatPanel}
+                />
+                <Route path="*" component={ChatPanel} />
+              </Switch>
+            )}
             {/* </Flex> */}
           </Box>
 
           {isMobile && (
-            <Box width="100%" height="18rem">
-              <ChatPanel isMobile={isMobile} />
-            </Box>
+            // <Box width="100%" height="18rem">
+            <Switch>
+
+              <Route
+                exact
+                path="/g/:game_slug"
+                component={ChatPanel}
+              />
+              <Route
+                exact
+                path="/g/:game_slug/:room_slug"
+                component={ChatPanel}
+              />
+              <Route
+                exact
+                path="/g/:game_slug/:mode/:room_slug"
+                component={ChatPanel}
+              />
+              <Route path="*" component={ChatPanel} />
+            </Switch>
+            // </Box>
           )}
         </Box>
       </Box>

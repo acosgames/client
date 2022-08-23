@@ -151,7 +151,7 @@ function GameInfo2(props) {
         resolution += ' @ ' + screenwidth + 'px';
     }
     return (
-        <Box width="100%" p="0" m="0" position="relative">
+        <Box width="100%" p="0" m="0" position="relative" h="100%">
             {shouldShowGame && (
 
                 <GameScreen2 />
@@ -195,7 +195,7 @@ function GameInfo2(props) {
                             </Center>
                         </Box>
 
-                        <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt="3rem">
+                        <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "3rem"]}>
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Flex>
                         <GameInfoLeaderboard gameinfo={game} />

@@ -12,6 +12,7 @@ import GameScreenActions from './GameScreenActions';
 import GameScreenInfo from './GameScreenInfo';
 import GameInfoTop10 from '../GameInfo/GameInfoTop10';
 import GameInfoTop10Highscores from '../GameInfo/GameInfoTop10Highscores';
+import GameScreenStarting from './GameScreenStarting';
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
@@ -293,13 +294,13 @@ function GameScreenIframe(props) {
 
 
     return (
-        <Box ref={gamescreenResizer} className="gameScreenIframe">
+        <Box ref={gamescreenResizer} className="gameScreenIframe" height="100%">
 
             <VStack
                 justifyContent={'flex-start'}
                 alignContent={'center'}
                 w="100%"
-                h="calc(100vh - 5rem)"
+                h={'100%'}//["calc(100vh - 3rem)", "calc(100vh - 3rem)", "calc(100vh - 5rem)",]}
                 ref={gamewrapperRef}
 
                 // transform={transform}
@@ -313,6 +314,7 @@ function GameScreenIframe(props) {
                     ref={gamescreenRef}
                     // boxShadow="rgb(0 0 0 / 24%) 0px 6px 12px"
                     // transition={'width 0.3s, height 0.3s'} 
+                    height="100%"
                     position="relative" boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}>
                     <LoadingBox />
                     <iframe
@@ -341,7 +343,7 @@ function GameScreenIframe(props) {
                     />
 
 
-
+                    <GameScreenStarting />
 
 
                 </Box>
