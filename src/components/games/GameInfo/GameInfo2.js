@@ -30,6 +30,8 @@ import GameInfoCreateDisplayname from "../../login/GameInfoCreateDisplayName";
 import GameScreen2 from "../GameScreen/GameScreen2";
 import { findQueue } from "../../../actions/queue";
 import GameInfoLeaderboard from "./GameInfoLeaderboard";
+import GamePanel from "../GameDisplay/GamePanel";
+import Connection from "../Connection";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
@@ -151,11 +153,14 @@ function GameInfo2(props) {
         resolution += ' @ ' + screenwidth + 'px';
     }
     return (
-        <Box width="100%" p="0" m="0" position="relative" h="100%">
+        <>
             {shouldShowGame && (
+                <>
+                    <GamePanel room_slug={room_slug} />
+                    <Connection></Connection>
 
-                <GameScreen2 />
-
+                    {/* <GameScreen2 /> */}
+                </>
             )}
             <Box className="gameinfo" filter={shouldShowGame ? 'blur(20px)' : 'blur(0)'} transition={'all 0.3s ease-in'} display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={10}>
 
@@ -200,7 +205,7 @@ function GameInfo2(props) {
                         </Flex>
                         <GameInfoLeaderboard gameinfo={game} />
 
-                        <Box p="0" m="0" pt="3rem" pb="3rem" width="100%">
+                        <Box p="0" m="0" pt="0" pb="3rem" width="100%">
                             <FSGGroup fontSize="0.8rem" title="Description" hfontSize="sm">
                                 <Box width="100%" align="left" id="game-info-longdesc">
                                     <ReactMarkdown
@@ -288,7 +293,7 @@ function GameInfo2(props) {
                     </VStack >
                 </Center >
             </Box>
-        </Box>
+        </>
         // <div id="game-info" onClick={(e) => {
         //     if (e.target == e.currentTarget)
         //         this.props.history.push('/g');

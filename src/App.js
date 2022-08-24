@@ -40,23 +40,6 @@ fs.set("isMobile", false);
 function App(props) {
 
   const disclosure = useDisclosure()
-  const scrollRef = useRef();
-
-  let timeHandle = 0;
-  const scrollBarHideDelay = 2000;
-
-  const onScroll = () => {
-    if (timeHandle > 0)
-      clearTimeout(timeHandle);
-
-    scrollRef.current.classList.add('showscroll');
-    scrollRef.current.classList.remove("hidescroll")
-    timeHandle = setTimeout(() => {
-      scrollRef.current.classList.remove("showscroll")
-      scrollRef.current.classList.add("hidescroll")
-    }, scrollBarHideDelay)
-  }
-
 
   let [isMobile, setIsMobile] = useState(false);
 
@@ -68,13 +51,10 @@ function App(props) {
   }
 
   useEffect(() => {
-    // scrollRef.current.addEventListener('scroll', onScroll);
     window.addEventListener('resize', onResize);
     onResize();
 
     return () => {
-      // if (scrollRef.current)
-      // scrollRef.current.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
     }
   }, [])
@@ -96,7 +76,6 @@ function App(props) {
         inset='0px !important'
       >
 
-
         <Box display='flex !important'
           flexFlow='column nowrap !important'
           height='100% !important' position="relative" >
@@ -111,7 +90,6 @@ function App(props) {
             overflow='hidden !important'
 
             height='100% !important' >
-            {/* <Flex id="wrapper" direction="row" w="100%"> */}
             <Switch>
               <Route path="/dev/login"
                 component={() => (
@@ -125,17 +103,12 @@ function App(props) {
               />
             </Switch>
             <Box
-              // overflow='hidden scroll !important'
               position='relative !important'
-              // _webkitBoxFlex='1 !important'
               flexGrow='1 !important'
               height='100% !important'
               width='100% !important'
               display='flex !important'
               flexDirection='column !important'
-
-            // zIndex='10 !important'
-            // className={'hidescroll'}
             >
               <Scrollbars
                 renderView={(props) => (
@@ -153,77 +126,54 @@ function App(props) {
                 autoHide
                 autoHideTimeout={2000}
                 autoHideDuration={200}
-                style={{
-                  overflow: 'hidden scroll !important',
-                  position: 'relative !important',
-                  // _webkitBoxFlex='1 !important;
-                  flexGrow: '1 !important',
-                  height: '100% !important',
-                  width: '100% !important',
-                  display: 'flex !important',
-                  flexDirection: 'column !important',
-                }}>
-                <Box>
-                  <Switch>
-                    <Route path="/g/*"
-                      component={RoutesGame} />
-                    <Route path="*" component={Routes} />
-                  </Switch>
-                  <AcosFooter />
-                </Box>
+              >
+                <Switch>
+                  <Route path="/g/*" >
+                    <RoutesGame />
+                    <AcosFooter />
+                  </Route>
+                  <Route path="*" >
+                    <Routes />
+                    <AcosFooter />
+                  </Route>
+                </Switch>
               </Scrollbars>
             </Box>
             {!isMobile && (
-              <Switch>
-                <Route
-                  exact
-                  path="/g/:game_slug"
-                  component={ChatPanel}
-                />
-                <Route
-                  exact
-                  path="/g/:game_slug/:room_slug"
-                  component={ChatPanel}
-                />
-                <Route
-                  exact
-                  path="/g/:game_slug/:mode/:room_slug"
-                  component={ChatPanel}
-                />
-                <Route path="*" component={ChatPanel} />
-              </Switch>
+              <ChatPanelWrapper />
             )}
-            {/* </Flex> */}
           </Box>
-
           {isMobile && (
-            // <Box width="100%" height="18rem">
-            <Switch>
-
-              <Route
-                exact
-                path="/g/:game_slug"
-                component={ChatPanel}
-              />
-              <Route
-                exact
-                path="/g/:game_slug/:room_slug"
-                component={ChatPanel}
-              />
-              <Route
-                exact
-                path="/g/:game_slug/:mode/:room_slug"
-                component={ChatPanel}
-              />
-              <Route path="*" component={ChatPanel} />
-            </Switch>
-            // </Box>
+            <ChatPanelWrapper />
           )}
         </Box>
       </Box>
       <QueuePanel />
     </BrowserRouter >
   );
+}
+
+function ChatPanelWrapper() {
+
+  return (<Switch>
+
+    <Route
+      exact
+      path="/g/:game_slug"
+      component={ChatPanel}
+    />
+    <Route
+      exact
+      path="/g/:game_slug/:room_slug"
+      component={ChatPanel}
+    />
+    <Route
+      exact
+      path="/g/:game_slug/:mode/:room_slug"
+      component={ChatPanel}
+    />
+    <Route path="*" component={ChatPanel} />
+  </Switch>)
 }
 
 export default App;

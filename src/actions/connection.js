@@ -8,7 +8,7 @@ import config from '../config'
 
 import fs from 'flatstore';
 import delta from 'shared/util/delta';
-import { addRoom, addRooms, clearRoom, clearRooms, getCurrentRoom, getGameState, getRoom, setCurrentRoom, setGameState, setLastJoinType, updateRoomStatus } from "./room";
+import { addRoom, addRooms, clearRoom, clearRooms, getCurrentRoom, getGameState, getIFrame, getRoom, setCurrentRoom, setGameState, setLastJoinType, updateRoomStatus } from "./room";
 import { addGameQueue, clearGameQueues, getJoinQueues } from "./queue";
 import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
 import { addChatMessage } from "./chat";
@@ -99,54 +99,59 @@ export function fastForwardMessages() {
 
     // let room_slug = msg.room_slug;
     let room_slug = getCurrentRoom();
-    let iframes = fs.get('iframes') || {}
-    let iframe = iframes[room_slug];
+    let iframe = getIFrame(room_slug);
 
-    if (iframe) {
+    if (!iframe)
+        return false;
 
-        let gamestate = fs.get('gamestate') || {};
-        if (!(gamestate?.state)) {
-            onResize();
-            return false;
-        }
-        let mq = messageQueue[room_slug];
-        if (mq && mq.length > 0) {
-            console.log("Forwarding queued messages to iframe.");
-            // for (var i = 0; i < mq.length; i++) {
-
-            //     gamestate = delta.merge(gamestate, mq[i]);
-            let last = mq[mq.length - 1];
-
-            // }
-
-            iframe.current.contentWindow.postMessage(last, '*');
-            console.log(last);
-
-            delete messageQueue[room_slug];
-        }
-
+    let gamestate = fs.get('gamestate') || {};
+    if (!(gamestate?.state)) {
         onResize();
+        return false;
     }
+
+    let mq = messageQueue[room_slug];
+    if (mq && mq.length > 0) {
+        console.log("Forwarding queued messages to iframe.");
+        // for (var i = 0; i < mq.length; i++) {
+
+        //     gamestate = delta.merge(gamestate, mq[i]);
+        let last = mq[mq.length - 1];
+
+        // }
+
+        iframe.element.current.contentWindow.postMessage(last, '*');
+        console.log(last);
+
+        delete messageQueue[room_slug];
+    }
+
+    onResize();
+
 }
 
 export function sendFrameMessage(msg) {
 
     let room_slug = msg.room_slug;
     let room = fs.get('rooms>' + room_slug);
-    let iframes = fs.get('iframes') || {}
-    let iframe = iframes[room_slug];
 
-    // let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
-    if (!iframe) {
-        if (!messageQueue[room_slug])
-            messageQueue[room_slug] = [];
+    let iframe = getIFrame(room_slug);
+    if (iframe)
 
-        messageQueue[room_slug].push(msg);
-        // setTimeout(() => {
-        //     sendFrameMessage(msg);
-        // }, 20)
-        return;
-    }
+        // let iframes = fs.get('iframes') || {}
+        // let iframe = iframes[room_slug];
+
+        // let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
+        if (!iframe) {
+            if (!messageQueue[room_slug])
+                messageQueue[room_slug] = [];
+
+            messageQueue[room_slug].push(msg);
+            // setTimeout(() => {
+            //     sendFrameMessage(msg);
+            // }, 20)
+            return;
+        }
 
     if (iframe) {
 
@@ -154,7 +159,7 @@ export function sendFrameMessage(msg) {
         //next frame
         // setTimeout(() => {
         console.log("SendFrameMessage: ", msg);
-        iframe.current.contentWindow.postMessage(msg, '*');
+        iframe.element.current.contentWindow.postMessage(msg, '*');
         // }, 1000)
 
     }
@@ -163,9 +168,10 @@ export function sendFrameMessage(msg) {
 
 export function sendLoadMessage(room_slug, game_slug, version, runCallback) {
     onResize = runCallback;
-    let iframe = fs.get('iframes>' + room_slug);
+
+    let iframe = getIFrame(room_slug);
     if (iframe)
-        iframe.current.contentWindow.postMessage({ type: 'load', payload: { game_slug, version } }, '*');
+        iframe.element.current.contentWindow.postMessage({ type: 'load', payload: { game_slug, version } }, '*');
 }
 
 export async function refreshGameState(room_slug) {
@@ -202,7 +208,7 @@ export function recvFrameMessage(evt) {
     let origin = evt.origin;
     let source = evt.source;
 
-    let iframe = getFrameByEvent(event);
+    let iframe = getFrameByEvent(evt);
 
     if (!action.type) return;
     console.log('[iframe]: ', action);

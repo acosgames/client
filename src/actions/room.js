@@ -25,6 +25,37 @@ export function getGameState() {
     return fs.get('gamestate') || {};
 }
 
+export function setIFrameLoaded(room_slug, loaded) {
+    let iframes = fs.get('iframes');
+    if (!(room_slug in iframes)) {
+        return false;
+    }
+    iframes[room_slug].loaded = loaded;
+    fs.set('iframes>' + room_slug, { element: iframeRef, loaded: false });
+    return true;
+}
+
+export function setIFrame(room_slug, iframeRef) {
+    let iframes = fs.get('iframes');
+    // iframes[room_slug] = ;
+    fs.set('iframes>' + room_slug, { element: iframeRef, loaded: false });
+}
+
+export function getIFrame(room_slug) {
+    let iframes = fs.get('iframes');
+    let iframe = iframes[room_slug];
+    return iframe;
+}
+
+export function getGames() {
+    let games = fs.get('games') || getWithExpiry('games') || {};
+    return games;
+}
+export function getGame(game_slug) {
+    let games = fs.get('games') || getWithExpiry('games') || {};
+    return games[game_slug];
+}
+
 export function getRoom(room_slug) {
     let rooms = fs.get('rooms') || getWithExpiry('rooms') || {};
     return rooms[room_slug];

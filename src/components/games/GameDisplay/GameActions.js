@@ -11,7 +11,7 @@ import { getRoomStatus } from '../../../actions/room';
 
 const resizeEvent = new Event('resize');
 
-function GameScreenActions(props) {
+function GameActions(props) {
 
 
     const params = useParams();
@@ -55,7 +55,7 @@ function GameScreenActions(props) {
             return
 
         let isExperimental = (window.location.href.indexOf('/experimental/') != -1);
-        await wsLeaveGame(game_slug, room_slug);
+        // await wsLeaveGame(game_slug, room_slug);
 
         //0=experimental, 1=rank
         joinGame(game, isExperimental);
@@ -128,4 +128,4 @@ function GameScreenActions(props) {
 
 
 
-export default (fs.connect(['fullScreenElem', 'roomStatus', 'isMobile'])(GameScreenActions));
+export default (fs.connect(['fullScreenElem', 'roomStatus', 'isMobile'])(GameActions));

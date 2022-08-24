@@ -14,6 +14,7 @@ import FSGGroup from '../../widgets/inputs/FSGGroup';
 import GameScreenStarting from './GameScreenStarting';
 import { refreshGameState, wsRejoinRoom } from '../../../actions/connection';
 import GameInfoTop10Highscores from '../GameInfo/GameInfoTop10Highscores';
+import GamePanel from '../GameDisplay/GamePanel';
 
 function GameScreen2(props) {
 
@@ -79,8 +80,8 @@ function GameScreen2(props) {
                 w="100%"
                 h="100%"
                 zIndex={'1'}
-                ref={gamescreenRef}
-                bgColor={!isDarken ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.8)'}
+                //ref={gamescreenRef}
+                bgColor={!isDarken ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,1)'}
                 transition={'background-color 0.3s ease-in'}
             ></Box>
             <Box
@@ -93,7 +94,7 @@ function GameScreen2(props) {
                 ref={gamescreenRef}
             >
 
-                <GameScreenIframeWrapper room={props.room} game={props.game} />
+                <GamePanel room_slug={room_slug} />
 
 
 

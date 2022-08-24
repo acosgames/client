@@ -14,8 +14,8 @@ function AcosFooter(props) {
     // }
 
     return (
-        <VStack pb={inQueues ? '8rem' : '2rem'} w="100%" justifyContent={'center'} height="23rem">
-            <Divider mt={[3, 3, 10]} mb={[3, 3, 8]} />
+        <VStack py={'4rem'} w="100%" justifyContent={'center'}>
+            {/* <Divider mt={[3, 3, 10]} mb={[3, 3, 8]} />
             <HStack spacing="2rem" display={['none', 'none', 'flex']}>
                 <Text as="span" fontWeight="100" fontSize="xxs">Copyright © 2022 ACOS</Text>
                 <Text fontSize="xxs"><Link to="/">Games</Link></Text>
@@ -26,9 +26,9 @@ function AcosFooter(props) {
                 <Text fontSize="md"><ChLink isExternal href="https://github.com/acosgames"><Icon as={FaGithub} /></ChLink></Text>
                 <Text fontSize="md"><ChLink isExternal href="https://twitter.com/acosgames"><Icon as={FaTwitter} /></ChLink></Text>
                 <Text fontSize="md"><ChLink isExternal href='https://discord.gg/ydHkCcNgHD' ><Icon as={FaDiscord} /></ChLink></Text>
-            </HStack>
+            </HStack> */}
 
-            <VStack display={['flex', 'flex', 'none']}>
+            <VStack display={['flex', 'flex',]}>
                 <HStack spacing="1.4rem" >
                     <Text fontSize="xxs"><Link to="/">Games</Link></Text>
                     <Text fontSize="xxs"><Link to="/dev">Dev Zone</Link></Text>

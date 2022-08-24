@@ -78,13 +78,13 @@ function MainMenuChakra(props) {
                 h={['3rem', '4rem', '5rem']}
             >
                 <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '4rem', '5rem']}>
-                    <HStack spacing={['2rem', '2rem', "4rem"]}>
+                    <HStack spacing={['2rem', '2rem', "4rem"]} justifyContent={'center'}>
                         <Box
                         ><Link to="/" className="">
                                 <Image
                                     alt={'A cup of skill logo'}
                                     src={`${config.https.cdn}acos-logo-standalone4.png`}
-                                    h={['1.8rem', '1.8rem', "4rem"]} maxHeight={'90%'}
+                                    h={['1.8rem', '1.8rem', "3rem"]} maxHeight={'90%'}
                                 />
 
                             </Link>

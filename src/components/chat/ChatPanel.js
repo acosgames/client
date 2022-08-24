@@ -11,7 +11,7 @@ import { IoSend, BsChevronBarRight, BsChevronBarLeft, BsChevronBarUp, BsChevronB
 import config from '../../config'
 import ColorHash from 'color-hash'
 import { Link, useLocation } from 'react-router-dom';
-import GameScreenInfo from '../games/GameScreen/GameScreenInfo.js';
+import GameScreenActions from '../games/GameDisplay/GameActions';
 
 fs.set('chat', []);
 fs.set('chatMessage', '');
@@ -50,17 +50,22 @@ function ChatPanel(props) {
         // position={'fixed'} top="0" right="0" 
         // zIndex={'99'}
 
-        <HStack spacing='0' m="0" p='0' bgColor={'blacks.200'} flexGrow='1 !important' height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}>
+        <HStack
+            spacing='0' m="0" p='0'
+            bgColor={'blacks.200'}
+            flexGrow='1 !important'
+            height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}
+            borderTop={(props.isMobile && toggle) ? '1px solid #333' : ''}>
 
             {props.isMobile && (
-                <GameScreenInfo />
+                <GameScreenActions />
             )}
 
             <VStack
                 bgColor={'blacks.200'}
                 width={props.isMobile ? '100%' : (toggle ? ['24.0rem', '24rem', '28.0rem'] : '0rem')}
-                borderLeft={toggle ? "1px solid" : ''}
-                borderLeftColor={toggle ? 'blacks.500' : ''}
+                borderLeft={(!props.isMobile && toggle) ? "1px solid" : ''}
+                borderLeftColor={(!props.isMobile && toggle) ? 'blacks.500' : ''}
 
                 height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}
                 alignItems="stretch"
@@ -104,7 +109,7 @@ function ChatPanel(props) {
                 </Button>
 
                 {!props.isMobile && (
-                    <GameScreenInfo />
+                    <GameScreenActions />
                 )}
 
                 <ChatHeader toggle={toggle} isMobile={props.isMobile} />
@@ -193,7 +198,8 @@ function ChatMessages(props) {
         if (props.toggle)
             setTimeout(() => {
                 // messageListRef.current.scrollIntoView({ behavior: "smooth", block: 'nearest', inline: 'start' });
-                scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+                if (scrollRef && scrollRef.current)
+                    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
             }, 100)
 
     })
