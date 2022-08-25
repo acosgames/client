@@ -52,20 +52,20 @@ function GameInfo2(props) {
 
         // setCurrentRoom('room_slug');
         // fs.set('room_slug', room_slug);
-        if (room_slug) {
-            setCurrentRoom(room_slug);
+        // if (room_slug) {
+        //     setCurrentRoom(room_slug);
 
-            roomStatus = getRoomStatus(room_slug);
-            if (roomStatus == 'NOTEXIST') {
-                history.push('/g/' + game_slug);
-                return;
-            }
-        }
+        //     roomStatus = getRoomStatus(room_slug);
+        //     if (roomStatus == 'NOTEXIST') {
+        //         history.push('/g/' + game_slug);
+        //         return;
+        //     }
+        // }
 
         // if (room_slug)
         //     return;
 
-        fs.set('iframeLoaded', false);
+        // fs.set('iframeLoaded', false);
         // fs.set('gamepanel', null);
         let player_stats = fs.get('player_stats');
         let player_stat = player_stats[game_slug];
@@ -99,13 +99,6 @@ function GameInfo2(props) {
 
 
 
-
-
-
-
-
-
-
     // let game_slug = props.match.params.game_slug;
     let gamestate = fs.get('gamestate');
     let player_stats = fs.get('player_stats');
@@ -132,8 +125,6 @@ function GameInfo2(props) {
         playerCntRange = game.minplayers;
 
 
-    let shouldShowGame = room_slug;
-
     const parseDate = (dt) => {
         return dt.split('T')[0];
     }
@@ -153,172 +144,130 @@ function GameInfo2(props) {
         resolution += ' @ ' + screenwidth + 'px';
     }
     return (
-        <>
-            {shouldShowGame && (
-                <>
-                    <GamePanel room_slug={room_slug} />
-                    <Connection></Connection>
 
-                    {/* <GameScreen2 /> */}
-                </>
-            )}
-            <Box className="gameinfo" filter={shouldShowGame ? 'blur(20px)' : 'blur(0)'} transition={'all 0.3s ease-in'} display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={10}>
+        <Box className="gameinfo" display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={10}>
 
-                <Center>
+            <Center>
 
-                    <VStack width="100%" maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
+                <VStack width="100%" maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
 
-                        <Flex w="100%" >
-                            <GameInfoImage game_slug={game.game_slug} imgUrl={imgUrl} />
+                    <Flex w="100%" >
+                        <GameInfoImage game_slug={game.game_slug} imgUrl={imgUrl} />
 
 
-                            <Flex ml="1rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
-                                <Heading fontSize={['xl', '2xl']}>{game.name}</Heading>
+                        <Flex ml="1rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
+                            <Heading fontSize={['xl', '2xl']}>{game.name}</Heading>
 
-                                <Text as="h5" pt="0.5rem" fontSize={['xxs', 'xs']} fontWeight="400">{game.shortdesc}</Text>
-                                <Text as="span" color="gray.500" fontSize="xxs">version {game.version}</Text>
+                            <Text as="h5" pt="0.5rem" fontSize={['xxs', 'xs']} fontWeight="400">{game.shortdesc}</Text>
+                            <Text as="span" color="gray.500" fontSize="xxs">version {game.version}</Text>
 
-                                <Box flexGrow={'1'}>
-                                    <Text as="span" fontSize="xxs">Developed by </Text>
-                                    <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="yellow.100">{game.displayname}</Text></Link>
-                                </Box>
-                                {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
+                            <Box flexGrow={'1'}>
+                                <Text as="span" fontSize="xxs">Developed by </Text>
+                                <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="yellow.100">{game.displayname}</Text></Link>
+                            </Box>
+                            {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Box> */}
-                                <Box mt="1rem" display={['none', 'none', 'none', 'block']}>
-                                    <GameInfoActions {...game} {...playerStats} />
-                                </Box>
-                            </Flex>
-
-
-                        </Flex>
-
-
-                        <Box pt="1rem" display={['block', 'block', 'block', 'none']} >
-                            <Center>
+                            <Box mt="1rem" display={['none', 'none', 'none', 'block']}>
                                 <GameInfoActions {...game} {...playerStats} />
-                            </Center>
-                        </Box>
-
-                        <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "3rem"]}>
-                            <GameInfoJoinButton {...game} {...playerStats} />
+                            </Box>
                         </Flex>
-                        <GameInfoLeaderboard gameinfo={game} />
-
-                        <Box p="0" m="0" pt="0" pb="3rem" width="100%">
-                            <FSGGroup fontSize="0.8rem" title="Description" hfontSize="sm">
-                                <Box width="100%" align="left" id="game-info-longdesc">
-                                    <ReactMarkdown
-                                        allowed
-                                        allowedElements={[
-                                            "strong",
-                                            "span",
-                                            "emphasis",
-                                            "i",
-                                            "b",
-                                            "p",
-                                            "strike",
-                                            "s",
-                                            "del",
-                                            "div",
-                                            "table", "thead", "tbody", "tr", "th", "td"
-                                        ]}
-                                        children={game.longdesc}
-                                        remarkPlugins={[remarkGfm]}></ReactMarkdown>
-                                </Box>
-                            </FSGGroup>
-                        </Box>
-                        <FSGGroup title="Build Information" spacing="1rem" hfontSize="sm">
-                            <Grid width="100%" spacing={'2rem'} gridTemplateColumns={'repeat(4, minmax(0, 1fr))'} rowGap={'1rem'} fontWeight='100'>
-                                <FSGRead disabled={true}
-                                    hfontSize="xs"
-                                    fontSize="xs"
-                                    title="Released"
-                                    color={'white'}
-                                    value={parseDate(game.tsinsert)}
-                                />
-                                <FSGRead disabled={true}
-                                    hfontSize="xs"
-                                    fontSize="xs"
-                                    title="Updated"
-                                    color={'white'}
-                                    value={parseDate(game.tsupdate)}
-                                />
-                                <FSGRead disabled={true}
-                                    hfontSize="xs"
-                                    fontSize="xs"
-                                    title="Published"
-                                    color={'white'}
-                                    value={'v' + game.version}
-                                />
-                                <FSGRead disabled={true}
-                                    hfontSize="xs"
-                                    fontSize="xs"
-                                    title="Experimental"
-                                    color={'white'}
-                                    value={'v' + game.latest_version}
-                                />
-                                <FSGRead disabled={true}
-                                    hfontSize="xs"
-                                    fontSize="xs"
-                                    title="Screen"
-                                    color={'white'}
-                                    value={screentype}
-                                />
-                                <Box display={game.screentype == 1 ? 'none' : 'block'}>
 
 
-                                    <FSGRead disabled={true}
-                                        hfontSize="xs"
-                                        fontSize="xs"
-                                        title="Resolution"
-                                        color={'white'}
-                                        value={resolution}
-                                    />
-                                </Box>
-                            </Grid>
+                    </Flex>
 
+
+                    <Box pt="1rem" display={['block', 'block', 'block', 'none']} >
+                        <Center>
+                            <GameInfoActions {...game} {...playerStats} />
+                        </Center>
+                    </Box>
+
+                    <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "3rem"]}>
+                        <GameInfoJoinButton {...game} {...playerStats} />
+                    </Flex>
+                    <GameInfoLeaderboard gameinfo={game} />
+
+                    <Box p="0" m="0" pt="0" pb="3rem" width="100%">
+                        <FSGGroup fontSize="0.8rem" title="Description" hfontSize="sm">
+                            <Box width="100%" align="left" id="game-info-longdesc">
+                                <ReactMarkdown
+                                    allowed
+                                    allowedElements={[
+                                        "strong",
+                                        "span",
+                                        "emphasis",
+                                        "i",
+                                        "b",
+                                        "p",
+                                        "strike",
+                                        "s",
+                                        "del",
+                                        "div",
+                                        "table", "thead", "tbody", "tr", "th", "td"
+                                    ]}
+                                    children={game.longdesc}
+                                    remarkPlugins={[remarkGfm]}></ReactMarkdown>
+                            </Box>
                         </FSGGroup>
-                        {/* 
-                        let screentype = game.screentype;
-    let resow = game.resow;
-    let resoh = game.resoh;
-    let screenwidth = game.screenwidth;
+                    </Box>
+                    <FSGGroup title="Build Information" spacing="1rem" hfontSize="sm">
+                        <Grid width="100%" spacing={'2rem'} gridTemplateColumns={'repeat(4, minmax(0, 1fr))'} rowGap={'1rem'} fontWeight='100'>
+                            <FSGRead disabled={true}
+                                hfontSize="xs"
+                                fontSize="xs"
+                                title="Released"
+                                color={'white'}
+                                value={parseDate(game.tsinsert)}
+                            />
+                            <FSGRead disabled={true}
+                                hfontSize="xs"
+                                fontSize="xs"
+                                title="Updated"
+                                color={'white'}
+                                value={parseDate(game.tsupdate)}
+                            />
+                            <FSGRead disabled={true}
+                                hfontSize="xs"
+                                fontSize="xs"
+                                title="Published"
+                                color={'white'}
+                                value={'v' + game.version}
+                            />
+                            <FSGRead disabled={true}
+                                hfontSize="xs"
+                                fontSize="xs"
+                                title="Experimental"
+                                color={'white'}
+                                value={'v' + game.latest_version}
+                            />
+                            <FSGRead disabled={true}
+                                hfontSize="xs"
+                                fontSize="xs"
+                                title="Screen"
+                                color={'white'}
+                                value={screentype}
+                            />
+                            <Box display={game.screentype == 1 ? 'none' : 'block'}>
 
-                <FSGGroup fontSize="1.2rem" title="Reviews">
-                
-                <GameInfoReviews game_slug={game.game_slug} />
-            </FSGGroup> */}
 
-                    </VStack >
-                </Center >
-            </Box>
-        </>
-        // <div id="game-info" onClick={(e) => {
-        //     if (e.target == e.currentTarget)
-        //         this.props.history.push('/g');
-        // }}>
-        //     <div id="game-info-content">
-        //         <img src={imgUrl} width="300" />
-        //         <h3>{game.name} <span>Build: {game.version}</span></h3>
+                                <FSGRead disabled={true}
+                                    hfontSize="xs"
+                                    fontSize="xs"
+                                    title="Resolution"
+                                    color={'white'}
+                                    value={resolution}
+                                />
+                            </Box>
+                        </Grid>
 
-        //         <h4>{game.shortdesc}</h4>
-        //         <div className="game-info-attributes">
-        //             <div className="game-info-attribute">
-        //                 <span>{playerCntRange}</span> <label>Seats</label>
-        //             </div>
-        //         </div>
-        //         <div id="game-join-ranked">
-        //             <button onClick={() => { this.handleJoin() }}>Join Ranked</button>
-        //             <button onClick={() => { this.handleJoinBeta() }}>Join Beta</button>
-        //         </div>
-        //         <hr />
-        //         <div id="game-info-longdesc">
-        //             
-        //         </div>
+                    </FSGGroup>
 
-        //     </div>
-        // </div>
+
+                </VStack >
+            </Center >
+        </Box>
+
     )
 
 }

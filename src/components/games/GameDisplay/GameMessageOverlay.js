@@ -8,28 +8,37 @@ import { AiOutlineDisconnect } from '@react-icons';
 
 import { FaCheck } from '@react-icons';
 
-import { getRoomStatus } from '../../../actions/room';
+import { getPrimaryGamePanel, getRoomStatus } from '../../../actions/room';
 
 function GameMessageOverlay(props) {
 
-    const params = useParams();
-    const location = useLocation();
+    // const params = useParams();
+    // const location = useLocation();
 
     // console.log('params', params);
     // console.log('location', location);;
 
-    const game_slug = params.game_slug;
-    const mode = params.mode;
-    const room_slug = params.room_slug;
+    // const game_slug = params.game_slug;
+    // const mode = params.mode;
+    // const room_slug = params.room_slug;
 
+    let gamepanel = getPrimaryGamePanel();
+
+    if (!gamepanel)
+        return <></>
+
+    const room = gamepanel.room;
+    const room_slug = room.room_slug;
+    const game_slug = room.game_slug;
+    const mode = room.mode;
 
     const [hide, setHide] = useState(false);
 
-    let timeleft = props.gameTimeleft || 0;
+    let timeleft = gamepanel.timeleft || 0;
     timeleft = Math.ceil(timeleft / 1000);
 
-    let game = fs.get('games>' + game_slug) || {};
-    let gamestate = fs.get('gamestate') || {};
+    // let game = fs.get('games>' + game_slug) || {};
+    let gamestate = gamepanel.gamestate;// fs.get('gamestate') || {};
     let state = gamestate?.state;
     let events = gamestate?.events;
     if (!state) {
@@ -80,8 +89,8 @@ function GameMessageOverlay(props) {
 
         let local = fs.get('user');
         let localPlayer = players[local.shortid] || {};
-        let isSoloGame = game.maxplayers == 1;
-        let hasHighscore = isSoloGame || game.lbscore;
+        let isSoloGame = room.maxplayers == 1;
+        let hasHighscore = isSoloGame || room.lbscore;
         let extra = <></>
         if (gamestate?.timer?.seq <= 2 && !isSoloGame) {
             extra = <Text as="h3" fontSize="3xl">Game Over. Players left early.</Text>

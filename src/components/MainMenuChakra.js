@@ -54,7 +54,7 @@ function MainMenuChakra(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const room_slug = params?.room_slug;
-    const roomStatus = getRoomStatus();
+    // const roomStatus = getRoomStatus();
     // updateHistory();
     // let urlPath = this.props.location.pathname;
     // let classFindGames = '';

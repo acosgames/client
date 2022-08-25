@@ -10,7 +10,7 @@ function LoadingBox(props) {
 
     useEffect(() => {
 
-        if (props.gameLoaded) {
+        if (props.isDoneLoading) {
             toast.closeAll()
             // setTimeout(() => {
             setShow(false);
@@ -19,8 +19,9 @@ function LoadingBox(props) {
         }
     })
 
-    if (props.gameLoaded)
+    if (props.isDoneLoading)
         return <></>
+
     return (
         <Box
             className="loading-screen"
@@ -32,7 +33,7 @@ function LoadingBox(props) {
             zIndex={5}
             bgColor={'blacks.100'}
             transition={'all 0.3s ease-in'}
-            filter={props.gameLoaded ? 'opacity(0)' : 'opacity(1)'}
+            filter={props.isDoneLoading ? 'opacity(0)' : 'opacity(1)'}
         >
             <VStack w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>
                 {/* <Text>Loading...</Text> */}
@@ -49,4 +50,4 @@ function LoadingBox(props) {
     )
 }
 
-export default fs.connect(['gameLoaded'])(LoadingBox);
+export default fs.connect([])(LoadingBox);

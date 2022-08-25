@@ -7,22 +7,38 @@ import { useLocation, useParams, withRouter } from 'react-router-dom';
 
 import { joinGame } from '../../../actions/game';
 import { wsLeaveGame } from '../../../actions/connection';
-import { getRoomStatus } from '../../../actions/room';
+import { clearPrimaryGamePanel, getPrimaryGamePanel, getRoomStatus } from '../../../actions/room';
 
 const resizeEvent = new Event('resize');
 
 function GameActions(props) {
 
 
-    const params = useParams();
-    const location = useLocation();
+    // const params = useParams();
+    // const location = useLocation();
 
     // console.log('params', params);
     // console.log('location', location);;
 
-    const game_slug = params.game_slug;
-    const mode = params.mode;
-    const room_slug = params.room_slug;
+    // const game_slug = params.game_slug;
+    // const mode = params.mode;
+    // const room_slug = params.room_slug;
+
+    let gamepanel = getPrimaryGamePanel();
+
+    if (!gamepanel)
+        return <></>
+
+    const room = gamepanel.room;
+    const room_slug = room.room_slug;
+    const game_slug = room.game_slug;
+    const mode = room.mode;
+
+    let gamestate = fs.get('gamestate') || {};//-events-gameover');
+    let events = gamestate?.events || {};
+    let roomStatus = getRoomStatus(room_slug);
+    let isGameover = roomStatus == 'GAMEOVER' || roomStatus == 'NOSHOW' || roomStatus == 'ERROR';
+
 
     /* When the openFullscreen() function is executed, open the video in fullscreen.
     Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
@@ -42,32 +58,35 @@ function GameActions(props) {
     }
 
     const onForfeit = (elem) => {
-        wsLeaveGame(game_slug, room_slug);
+        if (isGameOver) {
+            wsLeaveGame(game_slug, room_slug);
+            clearPrimaryGamePanel();
+        }
+        else {
+            wsLeaveGame(game_slug, room_slug);
+        }
+
     }
 
 
     const handleJoin = async () => {
 
-        let iframe = fs.get('iframe');
+        let iframe = gamepanel.iframe;// fs.get('iframe');
         //let game_slug = props.match.params.game_slug;
-        let game = fs.get('game');
-        if (!game)
-            return
+        // let game = fs.get('game');
+        // if (!game)
+        //     return
 
-        let isExperimental = (window.location.href.indexOf('/experimental/') != -1);
+        let isExperimental = mode == 'experimental';// (window.location.href.indexOf('/experimental/') != -1);
         // await wsLeaveGame(game_slug, room_slug);
 
         //0=experimental, 1=rank
-        joinGame(game, isExperimental);
+        joinGame({ game_slug: room.game_slug }, isExperimental);
 
 
 
     }
 
-    let gamestate = fs.get('gamestate') || {};//-events-gameover');
-    let events = gamestate?.events || {};
-    let roomStatus = getRoomStatus(room_slug);
-    let isGameover = roomStatus == 'GAMEOVER' || roomStatus == 'NOSHOW' || roomStatus == 'ERROR';
 
 
     let latency = fs.get("latency") || 0;
@@ -128,4 +147,4 @@ function GameActions(props) {
 
 
 
-export default (fs.connect(['fullScreenElem', 'roomStatus', 'isMobile'])(GameActions));
+export default (fs.connect(['primaryGamePanel', 'gamepanels', 'isMobile'])(GameActions));

@@ -11,7 +11,7 @@ import { IoSend, BsChevronBarRight, BsChevronBarLeft, BsChevronBarUp, BsChevronB
 import config from '../../config'
 import ColorHash from 'color-hash'
 import { Link, useLocation } from 'react-router-dom';
-import GameScreenActions from '../games/GameDisplay/GameActions';
+import GameActions from '../games/GameDisplay/GameActions';
 
 fs.set('chat', []);
 fs.set('chatMessage', '');
@@ -58,7 +58,7 @@ function ChatPanel(props) {
             borderTop={(props.isMobile && toggle) ? '1px solid #333' : ''}>
 
             {props.isMobile && (
-                <GameScreenActions />
+                <GameActions />
             )}
 
             <VStack
@@ -109,7 +109,7 @@ function ChatPanel(props) {
                 </Button>
 
                 {!props.isMobile && (
-                    <GameScreenActions />
+                    <GameActions />
                 )}
 
                 <ChatHeader toggle={toggle} isMobile={props.isMobile} />

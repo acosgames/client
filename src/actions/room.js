@@ -1,6 +1,10 @@
 import fs from 'flatstore';
 import { getWithExpiry, removeWithExpiry, setWithExpiry } from './cache';
 
+
+fs.set('gamepanels', []);
+
+
 export function setCurrentRoom(room_slug) {
     fs.set('room_slug', room_slug);
 }
@@ -23,6 +27,98 @@ export function setGameState(state) {
 
 export function getGameState() {
     return fs.get('gamestate') || {};
+}
+
+export function getGamePanels() {
+    return fs.get('gamepanels') || [];
+}
+
+export function findGamePanelByRoom(room_slug) {
+    let gamepanels = getGamePanels();
+    for (let i = 0; i < gamepanels.length; i++) {
+        let gp = gamepanels[i];
+        if (gp.room.room_slug == room_slug)
+            return gp;
+    }
+    return null;
+}
+
+export function findGamePanelByIFrame(iframeRef) {
+    let gamepanels = getGamePanels();
+    for (let i = 0; i < gamepanels.length; i++) {
+        let gp = gamepanels[i];
+        if (gp?.iframe?.current == iframeRef)
+            return gp;
+    }
+    return null;
+}
+
+export function updateGamePanel(gamepanel) {
+    fs.set('gamepanels>' + gamepanel.id, gamepanel);
+}
+
+export function getPrimaryGamePanel() {
+    return fs.get('primaryGamePanel');
+}
+export function setPrimaryGamePanel(gamepanel) {
+    fs.set('primaryGamePanel', gamepanel);
+}
+
+export function cleanupGamePanel(gamepanel) {
+    gamepanel.available = true;
+    updateGamePanel(gamepanel);
+}
+
+
+export function cleanupGamePanels() {
+    let gamepanels = getGamePanels();
+    for (let i = 0; i < gamepanels.length; i++) {
+        let gp = gamepanels[i];
+        if (gp.gamestate?.state?.gamestatus == 'gameover') {
+            gp.available = true;
+            fs.set('gamepanels', gamepanels);
+            return gp;
+        }
+    }
+}
+
+export function createGamePanel() {
+    let gp = {};
+    gp.id = -1;
+    gp.available = false;
+    gp.loaded = false;
+    gp.ready = false;
+    gp.canvasRef = null;
+    gp.gamestate = null;
+    gp.gameover = false;
+    gp.iframe = null;
+    gp.room = null;
+    return gp;
+}
+
+export function reserveGamePanel() {
+    let gamepanels = getGamePanels();
+    for (let i = 0; i < gamepanels.length; i++) {
+        let gp = gamepanels[i];
+        if (gp.available) {
+            gp.available = false;
+
+            gp.loaded = false;
+            gp.ready = false;
+            gp.gamestate = null;
+            gp.gameover = false;
+            gp.room = null;
+
+            fs.set('gamepanels', gamepanels);
+            return gp;
+        }
+    }
+
+    let gp = createGamePanel();
+    gp.id = gamepanels.length;
+    gamepanels.push(gp);
+    fs.set('gamepanels', gamepanels);
+    return gp;
 }
 
 export function setIFrameLoaded(room_slug, loaded) {
@@ -79,26 +175,62 @@ export function addRooms(roomList) {
     if (!Array.isArray(roomList))
         return;
 
-    let rooms = {};
+    let rooms = getRooms();
 
     for (var r of roomList) {
         rooms[r.room_slug] = r;
+
+        let gamestate = r.gamestate;
+        //remove from the rooms object, so we can keep it separate
+        if (r.gamestate)
+            delete r.gamestate;
+
+        let gamepanel = reserveGamePanel();
+        gamepanel.room = r;
+        gamepanel.gamestate = gamestate;
+        updateGamePanel(gamepanel);
+
     }
 
     fs.set('rooms', rooms);
     setWithExpiry('rooms', JSON.stringify(rooms), 120);
 }
 
-export function addRoom(room) {
-    let rooms = fs.get('rooms');
+
+export function addRoom(msg) {
+
+    let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug)
+
+    if (gamepanel) {
+        return gamepanel;
+    }
+
+    let rooms = getRooms();
 
     //merge with any existing
-    let existing = rooms[room.room_slug] || {};
-    room = Object.assign({}, existing, room);
+    // let existing = rooms[msg.room.room_slug] || {};
+    // room = Object.assign({}, existing, room);
 
-    rooms[room.room_slug] = room;
+    //reserve and update gamepanel
+    gamepanel = reserveGamePanel();
+    gamepanel.room = msg.room;
+    gamepanel.gamestate = msg.payload;
+    updateGamePanel(gamepanel);
+
+    //should we make it primary immediately? might need to change this
+    setPrimaryGamePanel(gamepanel);
+
+
+    rooms[msg.room.room_slug] = msg.room;
     fs.set('rooms', rooms);
     setWithExpiry('rooms', JSON.stringify(rooms), 120);
+
+
+    return gamepanel;
+}
+
+export function clearPrimaryGamePanel() {
+    setPrimaryGamePanel(null);
 }
 
 export function clearRooms() {
@@ -107,6 +239,15 @@ export function clearRooms() {
 }
 
 export function clearRoom(room_slug) {
+
+    let gamepanel = findGamePanelByRoom(room_slug);
+    cleanupGamePanel(gamepanel);
+
+    // let primaryGamePanel = getPrimaryGamePanel();
+    // if (gamepanel == primaryGamePanel) {
+    //     setPrimaryGamePanel(null);
+    // }
+
     let rooms = fs.get('rooms');
     if (!rooms[room_slug])
         return;
@@ -115,28 +256,34 @@ export function clearRoom(room_slug) {
     setWithExpiry('rooms', JSON.stringify(rooms), 120);
 }
 
-export function setRoomStatus(status) {
-    fs.set('roomStatus', status);
-}
-export function getRoomStatus() {
-    return fs.get('roomStatus');
+// export function setRoomStatus(status) {
+//     fs.set('roomStatus', status);
+// }
+export function getRoomStatus(room_slug) {
+    let gamepanel = findGamePanelByRoom(room_slug);
+
+    return gamepanel?.status || 'NOTEXIST';
 }
 
 export function updateRoomStatus(room_slug) {
-    let status = processsRoomStatus(room_slug);
+    let gamepanel = findGamePanelByRoom(room_slug);
+    let status = processsRoomStatus(gamepanel);
+    gamepanel.status = status;
+    updateGamePanel(gamepanel);
+
     console.log("ROOM STATUS = ", status);
-    fs.set('roomStatus', status);
+    // fs.set('roomStatus', status);
     return status;
 }
 
-export function processsRoomStatus(room_slug) {
+export function processsRoomStatus(gamepanel) {
 
-    let rooms = fs.get('rooms');
-    let room = rooms[room_slug];
+    // let rooms = fs.get('rooms');
+    // let room = gamepanel.room;// rooms[room_slug];
 
 
 
-    let gamestate = fs.get('gamestate');
+    let gamestate = gamepanel.gamestate;// fs.get('gamestate');
 
     if (!gamestate || !gamestate.state | !gamestate.players) {
         return "NOTEXIST";
@@ -153,12 +300,12 @@ export function processsRoomStatus(room_slug) {
         return "NOSHOW";
     }
 
-    let iframeLoaded = fs.get('iframeLoaded');
-    if (!iframeLoaded) {
-        return "LOADING";
-    }
+    // let iframeLoaded = fs.get('iframeLoaded');
+    // if (!iframeLoaded) {
+    //     return "LOADING";
+    // }
 
-    let gameLoaded = fs.get('gameLoaded');
+    let gameLoaded = gamepanel.loaded;// fs.get('gameLoaded');
     if (!gameLoaded)
         return "LOADING";
 

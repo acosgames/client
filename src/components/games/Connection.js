@@ -30,4 +30,4 @@ class Connection extends Component {
     }
 }
 
-export default withRouter(fs.connect(['user'])(Connection));
+export default Connection;

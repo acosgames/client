@@ -348,10 +348,10 @@ let hJoining = 0;
 export async function joinGame(game, istest) {
 
     let game_slug = game.game_slug;
-    let version = game.version;
-    if (istest) {
-        version = game.latest_version;
-    }
+    // let version = game.version;
+    // if (istest) {
+    //     version = game.latest_version;
+    // }
     // await downloadGame(game.gameid, version);
 
     // clearTimeout(hJoining);

@@ -32,6 +32,7 @@ import ToastMessage from "./components/widgets/ToastMessage";
 import ChatPanel from "./components/chat/ChatPanel";
 
 import { Scrollbars } from 'react-custom-scrollbars-2';
+import GamePanelSpawner from "./components/games/GameDisplay/GamePanelSpawner";
 // import PerfectScrollbar from 'react-perfect-scrollbar'
 
 fs.delimiter('>');
@@ -40,6 +41,7 @@ fs.set("isMobile", false);
 function App(props) {
 
   const disclosure = useDisclosure()
+  const primaryCanvasRef = useRef();
 
   let [isMobile, setIsMobile] = useState(false);
 
@@ -59,6 +61,14 @@ function App(props) {
     }
   }, [])
 
+  useEffect(() => {
+    fs.set('primaryCanvasRef', primaryCanvasRef);
+  })
+
+  //display modes for primary gamepanel: none, standard, theatre, fullscreen
+  // if displayMode == none, its because all gamepanels are embedded or floating
+  let displayMode = fs.get('displayMode') || 'none'
+  let shouldDarkenBackground = displayMode == 'standard' || displayMode == 'theatre' || displayMode == 'fullscreen';
 
 
   return (
@@ -66,7 +76,7 @@ function App(props) {
       <ActivateUserProfile />
       <VersionControl />
       <GameInfoCreateDisplayName {...disclosure} />
-
+      <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} />
       <ToastMessage />
       <Box
         overflow='hidden !important'
@@ -109,6 +119,9 @@ function App(props) {
               width='100% !important'
               display='flex !important'
               flexDirection='column !important'
+              ref={primaryCanvasRef}
+              transition={'filter 0.3s ease-in'}
+              filter={shouldDarkenBackground ? 'blur(20px)' : 'blur(0)'}
             >
               <Scrollbars
                 renderView={(props) => (
