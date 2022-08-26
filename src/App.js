@@ -26,10 +26,11 @@ import { Box, Flex, HStack, VStack, Divider } from "@chakra-ui/layout";
 import AcosFooter from "./components/AcosFooter";
 import VersionControl from "./components/widgets/VersionControl";
 import GameInfoCreateDisplayName from "./components/login/GameInfoCreateDisplayName";
-import { useDisclosure } from "@chakra-ui/react";
+import { useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import ActivateUserProfile from "./components/widgets/ActivateUserProfile";
 import ToastMessage from "./components/widgets/ToastMessage";
 import ChatPanel from "./components/chat/ChatPanel";
+import AllContent from './components/AllContent';
 
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import GamePanelSpawner from "./components/games/GameDisplay/GamePanelSpawner";
@@ -65,10 +66,7 @@ function App(props) {
     fs.set('primaryCanvasRef', primaryCanvasRef);
   })
 
-  //display modes for primary gamepanel: none, standard, theatre, fullscreen
-  // if displayMode == none, its because all gamepanels are embedded or floating
-  let displayMode = fs.get('displayMode') || 'none'
-  let shouldDarkenBackground = displayMode == 'standard' || displayMode == 'theatre' || displayMode == 'fullscreen';
+
 
 
   return (
@@ -78,17 +76,84 @@ function App(props) {
       <GameInfoCreateDisplayName {...disclosure} />
       <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} />
       <ToastMessage />
-      <Box
+
+      <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
+        <VStack className="panel-navigation" >
+          <Switch>
+            <Route path="/dev/login"
+              component={() => (
+                <></>
+              )} />
+            <Route
+              path="/dev*"
+              component={() => (
+                <Sidebar />
+              )}
+            />
+          </Switch>
+        </VStack>
+        <VStack className="panel-main" height="100%" width="100%" spacing="0" justifyContent={'center'} >
+          <HStack
+            boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
+            spacing="0"
+            w="100%"
+            h={['3rem', '4rem', '5rem']}
+            zIndex="20"
+            justifyContent={'center'}
+            bg={'blacks.300'}>
+            <MainMenuChakra />
+          </HStack>
+
+
+
+          <Scrollbars
+            renderView={(props) => (
+              <div
+                className="main-scrollbars"
+                style={{
+                  position: 'absolute',
+                  inset: '0px',
+                  overflow: 'hidden scroll',
+                  width: '100%'
+                  // marginRight: '-8px',
+                  // marginBottom: '-8px'
+                }}
+              />)}
+            // renderThumbVertical={(style, props) => <Box  {...props} {...style} w="10px" bgColor={'blacks.700'} className="thumb-vertical" />}
+            hideTracksWhenNotNeeded={true}
+            autoHide
+            autoHideTimeout={2000}
+            autoHideDuration={200}
+          >
+            <VStack justifyContent={'center'} w="100%" height="100%" ref={primaryCanvasRef}>
+              <AllContent />
+            </VStack>
+          </Scrollbars>
+
+          {isMobile && (
+            <ChatPanelWrapper />
+          )}
+        </VStack>
+
+        {!isMobile && (
+          <ChatPanelWrapper />
+        )}
+      </HStack>
+
+      {/* <Box
         overflow='hidden !important'
         display='flex !important'
         flexFlow='column nowrap !important'
         position='absolute !important'
         inset='0px !important'
+      //justifyContent={'center'}
       >
 
         <Box display='flex !important'
           flexFlow='column nowrap !important'
-          height='100% !important' position="relative" >
+          height='100% !important' position="relative"
+
+        >
 
           <Box w="100%" h={['3rem', '4rem', '5rem']} zIndex="99">
             <MainMenuChakra />
@@ -98,69 +163,15 @@ function App(props) {
             flexWrap='nowrap !important'
             position='relative !important'
             overflow='hidden !important'
-
+            justifyContent={'center'}
             height='100% !important' >
-            <Switch>
-              <Route path="/dev/login"
-                component={() => (
-                  <></>
-                )} />
-              <Route
-                path="/dev*"
-                component={() => (
-                  <Sidebar />
-                )}
-              />
-            </Switch>
-            <Box
-              position='relative !important'
-              flexGrow='1 !important'
-              height='100% !important'
-              width='100% !important'
-              display='flex !important'
-              flexDirection='column !important'
-              ref={primaryCanvasRef}
-              transition={'filter 0.3s ease-in'}
-              filter={shouldDarkenBackground ? 'blur(20px)' : 'blur(0)'}
-            >
-              <Scrollbars
-                renderView={(props) => (
-                  <div
-                    className="main-scrollbars"
-                    style={{
-                      position: 'absolute',
-                      inset: '0px',
-                      overflow: 'hidden scroll',
-                      marginRight: '-8px',
-                      marginBottom: '-8px'
-                    }}
-                  />)}
-                hideTracksWhenNotNeeded={true}
-                autoHide
-                autoHideTimeout={2000}
-                autoHideDuration={200}
-              >
-                <Switch>
-                  <Route path="/g/*" >
-                    <RoutesGame />
-                    <AcosFooter />
-                  </Route>
-                  <Route path="*" >
-                    <Routes />
-                    <AcosFooter />
-                  </Route>
-                </Switch>
-              </Scrollbars>
-            </Box>
-            {!isMobile && (
-              <ChatPanelWrapper />
-            )}
+
+
           </Box>
-          {isMobile && (
-            <ChatPanelWrapper />
-          )}
+
         </Box>
-      </Box>
+
+      </Box> */}
       <QueuePanel />
     </BrowserRouter >
   );

@@ -22,7 +22,7 @@ function GameMessageOverlay(props) {
     // const mode = params.mode;
     // const room_slug = params.room_slug;
 
-    let gamepanel = getPrimaryGamePanel();
+    let gamepanel = props.gamepanel;//getPrimaryGamePanel();
 
     if (!gamepanel)
         return <></>
@@ -34,7 +34,7 @@ function GameMessageOverlay(props) {
 
     const [hide, setHide] = useState(false);
 
-    let timeleft = gamepanel.timeleft || 0;
+    let timeleft = fs.get('timeleft/' + gamepanel.id) || 0;
     timeleft = Math.ceil(timeleft / 1000);
 
     // let game = fs.get('games>' + game_slug) || {};
@@ -222,4 +222,4 @@ function GameMessageOverlay(props) {
 
 
 
-export default (fs.connect(['gameTimeleft', 'roomStatus', 'wsConnected'])(GameMessageOverlay));
+export default (fs.connect(['gamestatusUpdated', 'timeleftUpdated', 'wsConnected'])(GameMessageOverlay));

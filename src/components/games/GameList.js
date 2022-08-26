@@ -35,7 +35,7 @@ class GameList extends Component {
         // let productionGames = games.filter(v => v.status == 3);
         // let betaGames = games.filter(v => v.status == 2);
         return (
-            <VStack width="100%" align="left" spacing="4rem" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={10}>
+            <VStack width="100%" align="left" spacing="4rem">
                 <VStack align="left">
                     <Heading as="h1" size="md" pb="0rem">Ranked Games</Heading>
                     <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.300">You'll need skill to reach the top</Heading>

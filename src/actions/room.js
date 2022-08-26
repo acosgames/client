@@ -70,6 +70,14 @@ export function cleanupGamePanel(gamepanel) {
 }
 
 
+export function setRoomActive(room_slug, active) {
+    let gamepanel = findGamePanelByRoom(room_slug)
+    gamepanel.active = active;
+
+    updateRoomStatus(room_slug);
+    updateGamePanel(gamepanel);
+}
+
 export function cleanupGamePanels() {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
@@ -93,6 +101,7 @@ export function createGamePanel() {
     gp.gameover = false;
     gp.iframe = null;
     gp.room = null;
+    gp.active = true;
     return gp;
 }
 
@@ -108,6 +117,7 @@ export function reserveGamePanel() {
             gp.gamestate = null;
             gp.gameover = false;
             gp.room = null;
+            gp.active = true;
 
             fs.set('gamepanels', gamepanels);
             return gp;
@@ -177,6 +187,7 @@ export function addRooms(roomList) {
 
     let rooms = getRooms();
 
+    let foundFirst = false;
     for (var r of roomList) {
         rooms[r.room_slug] = r;
 
@@ -190,6 +201,10 @@ export function addRooms(roomList) {
         gamepanel.gamestate = gamestate;
         updateGamePanel(gamepanel);
 
+        if (!foundFirst) {
+            foundFirst = true;
+            setPrimaryGamePanel(gamepanel);
+        }
     }
 
     fs.set('rooms', rooms);
@@ -256,20 +271,25 @@ export function clearRoom(room_slug) {
     setWithExpiry('rooms', JSON.stringify(rooms), 120);
 }
 
+
 // export function setRoomStatus(status) {
 //     fs.set('roomStatus', status);
 // }
 export function getRoomStatus(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
 
-    return gamepanel?.status || 'NOTEXIST';
+    return fs.get('gamestatus/' + gamepanel.id) || 'NOTEXIST';
+    // return gamepanel?.status || 'NOTEXIST';
 }
 
 export function updateRoomStatus(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
     let status = processsRoomStatus(gamepanel);
     gamepanel.status = status;
-    updateGamePanel(gamepanel);
+
+    fs.set('gamestatus/' + gamepanel.id, status);
+    fs.set('gamestatusUpdated', (new Date()).getTime());
+    // updateGamePanel(gamepanel);
 
     console.log("ROOM STATUS = ", status);
     // fs.set('roomStatus', status);

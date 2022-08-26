@@ -55,18 +55,18 @@ function ChatPanel(props) {
             bgColor={'blacks.200'}
             flexGrow='1 !important'
             height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}
-            borderTop={(props.isMobile && toggle) ? '1px solid #333' : ''}>
-
+            borderTop={(props.isMobile && toggle) ? '1px solid #333' : ''}
+            zIndex={30}
+            filter='drop-shadow(0 0 5px rgba(25,25,25,.25))'>
             {props.isMobile && (
                 <GameActions />
             )}
 
             <VStack
-                bgColor={'blacks.200'}
                 width={props.isMobile ? '100%' : (toggle ? ['24.0rem', '24rem', '28.0rem'] : '0rem')}
-                borderLeft={(!props.isMobile && toggle) ? "1px solid" : ''}
-                borderLeftColor={(!props.isMobile && toggle) ? 'blacks.500' : ''}
-
+                //borderLeft={(!props.isMobile && toggle) ? "1px solid" : ''}
+                //borderLeftColor={(!props.isMobile && toggle) ? 'blacks.500' : ''}
+                //left={props.isMobile ? '0' : (toggle ? '0' : '2rem')}
                 height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}
                 alignItems="stretch"
                 pb={toggle ? "1rem" : 0}
@@ -96,9 +96,10 @@ function ChatPanel(props) {
                     right={!props.isMobile ? (toggle ? 'auto' : 'auto') : '0'}
                     // icon={props.isMobile ? mobileIcon : desktopIcon}
                     width="3rem"
-                    height="3rem"
+                    height={['3rem', '4rem', '5rem']}
+                    lineHeight={!props.isMobile ? ['3rem', '4rem', '5rem'] : '0'}
                     // isRound="false"
-                    zIndex="100"
+                    //zIndex="100"
                     colorScheme={'none'}
                     // colorScheme="black"
                     // bgColor="gray.100"
@@ -135,7 +136,13 @@ function ChatHeader(props) {
         fs.set('chatMode', mode);
     }
     return (
-        <HStack pl={'1rem'} width={props.isMobile ? '100%' : (props.toggle ? ['24.0rem', '24rem', '34.0rem'] : '0rem')} height="3rem" spacing={'2rem'} bgColor={'gray.900'} mt={'0 !important'} >
+        <HStack
+            boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
+            pl={'1rem'}
+            width={props.isMobile ? '100%' : (props.toggle ? ['24.0rem', '24rem', '34.0rem'] : '0rem')}
+            height={['3rem', '4rem', '5rem']}
+            spacing={'2rem'}
+            mt={'0 !important'} >
             <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'all' ? 'gray.100' : 'gray.300'} textShadow={mode == 'all' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('all') }}>All</Text>
             <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'game' ? 'gray.100' : 'gray.300'} textShadow={mode == 'game' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('game') }}>Game</Text>
             <Text cursor='pointer' as={'span'} fontSize={'xxs'} color={mode == 'party' ? 'gray.100' : 'gray.300'} textShadow={mode == 'party' ? '0px 0px 5px #63ed56' : ''} onClick={() => { onChangeMode('party') }}>Party</Text>
@@ -238,7 +245,7 @@ function ChatMessages(props) {
 
     return (
         <Box pl={'1rem'} flex="1" alignSelf="stretch" width="100%" overflow="hidden" overflowY="scroll" ref={scrollRef}>
-            <VStack width="100%" height="100%" spacing={['0.2rem', '0.3rem', "0.5rem"]} >
+            <VStack width="100%" height="100%" spacing={['0.2rem', '0.3rem', "0.5rem"]} justifyContent={'flex-end'} >
                 {renderChatMessages()}
                 <div ref={messageListRef} />
             </VStack>

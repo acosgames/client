@@ -70,14 +70,19 @@ function MainMenuChakra(props) {
             <Box
                 zIndex="99"
                 filter={room_slug ? 'blur(20px)' : 'blur(0)'}
-                display={'block'}
-                bg={useColorModeValue('acos.100', 'acos.100')}
-                px={4}
+                display={'flex'}
+
+                // px={4}
                 transition={'filter 0.3s ease-in'}
                 width="100%"
+                maxWidth="1200px"
                 h={['3rem', '4rem', '5rem']}
+                justifyContent={'center'}
+            // alignContent={'center'}
+            // justifyItems={'center'}
+            // alignItems={'center'}
             >
-                <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '4rem', '5rem']}>
+                <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '4rem', '5rem']} width="100%" maxW={['1200px']}>
                     <HStack spacing={['2rem', '2rem', "4rem"]} justifyContent={'center'}>
                         <Box
                         ><Link to="/" className="">

@@ -26,19 +26,15 @@ import FSGRead from "../../widgets/inputs/FSGRead";
 import GameInfoActions from './GameInfoActions'
 import GameInfoJoinButton from './GameInfoJoinButton'
 
-import GameInfoCreateDisplayname from "../../login/GameInfoCreateDisplayName";
-import GameScreen2 from "../GameScreen/GameScreen2";
 import { findQueue } from "../../../actions/queue";
 import GameInfoLeaderboard from "./GameInfoLeaderboard";
-import GamePanel from "../GameDisplay/GamePanel";
-import Connection from "../Connection";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
     const game_slug = props.match.params.game_slug;
     const room_slug = props.match.params.room_slug;
     const mode = props.match.params.mode || 'rank';
-    let roomStatus = getRoomStatus(room_slug);
+    // let roomStatus = getRoomStatus(room_slug);
 
     const history = useHistory();
 
@@ -100,7 +96,7 @@ function GameInfo2(props) {
 
 
     // let game_slug = props.match.params.game_slug;
-    let gamestate = fs.get('gamestate');
+    // let gamestate = fs.get('gamestate');
     let player_stats = fs.get('player_stats');
     let playerStats = player_stats[game_slug] || {};
     let game = props.game;
@@ -108,7 +104,7 @@ function GameInfo2(props) {
         //fs.set('game', null);
 
         return (
-            <Box className="gameinfo" display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={6}>
+            <Box className="gameinfo" display="inline-block" width="100%" >
                 <Center>
                     <GameInfoLoading />
                 </Center>
@@ -145,11 +141,11 @@ function GameInfo2(props) {
     }
     return (
 
-        <Box className="gameinfo" display="inline-block" width="100%" pl={[3, 4, 12]} pr={[3, 4, 12]} pt={10}>
+        <Box className="gameinfo" display="inline-block" width="100%" >
 
             <Center>
 
-                <VStack width="100%" maxW={['100%', '100%', '100%', '80%', '1000px']} align="center">
+                <VStack width="100%" align="center">
 
                     <Flex w="100%" >
                         <GameInfoImage game_slug={game.game_slug} imgUrl={imgUrl} />

@@ -14,7 +14,7 @@ const styles = {
         },
         'html, body': {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
-            bg: 'blacks.100',
+            bg: 'blacks.400',
         },
         'body': { 'fontSize': '160%' }
     }
@@ -27,8 +27,8 @@ const config = {
 }
 
 const fonts = {
-    body: "Roboto",
-    heading: "Roboto"
+    body: "proxima-nova, sans-serif;",
+    heading: "proxima-nova, sans-serif;"
     // heading: '"Inter", "Oswald", sans-serif;',
     //body: '"Inter", "Oswald", sans-serif;'
 }

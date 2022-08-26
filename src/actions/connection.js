@@ -8,17 +8,17 @@ import config from '../config'
 
 import fs from 'flatstore';
 import delta from 'shared/util/delta';
-import { addRoom, addRooms, clearRoom, clearRooms, findGamePanelByIFrame, findGamePanelByRoom, getCurrentRoom, getGamePanels, getGameState, getIFrame, getRoom, reserveGamePanel, setCurrentRoom, setGameState, setLastJoinType, setPrimaryGamePanel, updateGamePanel, updateRoomStatus } from "./room";
+import { addRoom, addRooms, clearRoom, clearRooms, findGamePanelByIFrame, findGamePanelByRoom, getCurrentRoom, getGamePanels, getGameState, getIFrame, getRoom, reserveGamePanel, setCurrentRoom, setGamePanelActive, setGameState, setLastJoinType, setPrimaryGamePanel, setRoomActive, updateGamePanel, updateRoomStatus } from "./room";
 import { addGameQueue, clearGameQueues, getJoinQueues } from "./queue";
 import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
 import { addChatMessage } from "./chat";
 
 // import { useHistory } from 'react-router-dom';
 // import history from "./history";
-fs.set('iframe', null);
+// fs.set('iframe', null);
 fs.set('ws', null);
 fs.set('game', null);
-fs.set('gamestate', {});
+// fs.set('gamestate', {});
 fs.set('room_slug', null);
 fs.set('games', {});
 
@@ -61,6 +61,8 @@ export function timerLoop(cb) {
         return;
     }
 
+    let timeleftUpdated = 0;
+
     for (let i = 0; i < gamepanels.length; i++) {
 
         let gamepanel = gamepanels[i];
@@ -76,7 +78,7 @@ export function timerLoop(cb) {
 
         let deadline = timer.end;
         if (!deadline)
-            return;
+            continue;
 
         let now = (new Date()).getTime();
         let elapsed = deadline - now;
@@ -86,8 +88,11 @@ export function timerLoop(cb) {
         }
 
         // fs.set('gameTimeleft', elapsed);
-        gamepanel.timeleft = elapsed;
-        updateGamePanel(gamepanel);
+
+        fs.set('timeleft/' + gamepanel.id, elapsed);
+        timeleftUpdated = (new Date()).getTime();
+        // gamepanel.timeleft = elapsed;
+        // updateGamePanel(gamepanel);
 
         let state = gamestate.state;
         let events = gamestate.events;
@@ -98,6 +103,9 @@ export function timerLoop(cb) {
         }
 
     }
+
+    if (timeleftUpdated > 0)
+        fs.set('timeleftUpdated', timeleftUpdated);
 
 }
 
@@ -123,7 +131,7 @@ export function fastForwardMessages(room_slug) {
     if (!iframe)
         return false;
 
-    let gamestate = fs.get('gamestate') || {};
+    let gamestate = gamepanel.gamestate;// fs.get('gamestate') || {};
     if (!(gamestate?.state)) {
         //    iframe.resize();
         return false;
@@ -199,9 +207,13 @@ export function sendLoadMessage(room_slug) {
 }
 
 export async function refreshGameState(room_slug) {
-    let gamestate = fs.get('gamestate') || {};
+
+    let gamepanel = findGamePanelByRoom(room_slug);
+
+
+    let gamestate = gamepanel.gamestate;// fs.get('gamestate') || {};
     let user = await getUser();
-    let iframe = fs.get('iframes>' + room_slug);
+    let iframe = gamepanel.iframe;// fs.get('iframes>' + room_slug);
     // if (iframe) {
     let local = {};
     if (gamestate?.players) {
@@ -243,6 +255,9 @@ export function recvFrameMessage(evt) {
     let room_slug = gamepanel.room.room_slug;//getCurrentRoom();
     let gamestate = gamepanel.gamestate;//getGameState();
     // let iframesLoaded = gamepanel.loaded;// fs.get('iframesLoaded') || {};
+
+    if (!gamepanel || !gamepanel.active)
+        return;
 
     if (action.type == 'ready') {
         // iframesLoaded[room_slug] = true;
@@ -385,7 +400,8 @@ export async function wsLeaveGame(game_slug, room_slug) {
         // setGameState({});
         // setCurrentRoom(null);
         // history.goBack();
-        clearRoom(room_slug);
+        setRoomActive(room_slug, false);
+        //clearRoom(room_slug);
         return;
     }
 
@@ -393,7 +409,9 @@ export async function wsLeaveGame(game_slug, room_slug) {
     console.log("[Outgoing] Leaving: ", action);
     wsSend(action);
 
-    clearRoom(room_slug);
+    setRoomActive(room_slug, false);
+
+    // clearRoom(room_slug);
     // setGameState({});
     // setCurrentRoom(null);
 
@@ -822,10 +840,10 @@ async function wsIncomingMessage(message) {
                 // }
 
                 //redirect to the room url
-                let experimental = room.mode == 'experimental' ? '/experimental' : '';
-                let urlPath = '/g/' + room.game_slug + experimental + '/' + room.room_slug;
-                if (window.location.href.indexOf(urlPath) == -1)
-                    history.push(urlPath);
+                // let experimental = room.mode == 'experimental' ? '/experimental' : '';
+                // let urlPath = '/g/' + room.game_slug + experimental + '/' + room.room_slug;
+                // if (window.location.href.indexOf(urlPath) == -1)
+                //     history.push(urlPath);
                 return;
             }
             break;
@@ -849,10 +867,10 @@ async function wsIncomingMessage(message) {
 
             timerLoop();
 
-            let experimental = msg.room.mode == 'experimental' ? '/experimental' : '';
-            let urlPath = '/g/' + msg.room.game_slug + experimental + '/' + msg.room.room_slug;
-            if (window.location.href.indexOf(urlPath) == -1)
-                history.push(urlPath);
+            // let experimental = msg.room.mode == 'experimental' ? '/experimental' : '';
+            // let urlPath = '/g/' + msg.room.game_slug + experimental + '/' + msg.room.room_slug;
+            // if (window.location.href.indexOf(urlPath) == -1)
+            //     history.push(urlPath);
             break;
         case 'join':
             console.log("[Incoming] Player joined the game!", JSON.parse(JSON.stringify(msg, null, 2)));

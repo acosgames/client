@@ -7,7 +7,7 @@ import { useLocation, useParams, withRouter } from 'react-router-dom';
 
 import { joinGame } from '../../../actions/game';
 import { wsLeaveGame } from '../../../actions/connection';
-import { clearPrimaryGamePanel, getPrimaryGamePanel, getRoomStatus } from '../../../actions/room';
+import { clearPrimaryGamePanel, clearRoom, getPrimaryGamePanel, getRoomStatus } from '../../../actions/room';
 
 const resizeEvent = new Event('resize');
 
@@ -34,10 +34,11 @@ function GameActions(props) {
     const game_slug = room.game_slug;
     const mode = room.mode;
 
-    let gamestate = fs.get('gamestate') || {};//-events-gameover');
+
+    let gamestate = gamepanel.gamestate;// fs.get('gamestate') || {};//-events-gameover');
     let events = gamestate?.events || {};
     let roomStatus = getRoomStatus(room_slug);
-    let isGameover = roomStatus == 'GAMEOVER' || roomStatus == 'NOSHOW' || roomStatus == 'ERROR';
+    let isGameover = roomStatus == 'GAMEOVER' || roomStatus == 'NOSHOW' || roomStatus == 'ERROR' || !gamepanel.active;
 
 
     /* When the openFullscreen() function is executed, open the video in fullscreen.
@@ -58,8 +59,10 @@ function GameActions(props) {
     }
 
     const onForfeit = (elem) => {
-        if (isGameOver) {
-            wsLeaveGame(game_slug, room_slug);
+
+        if (isGameover) {
+            // wsLeaveGame(game_slug, room_slug);
+            clearRoom(room_slug);
             clearPrimaryGamePanel();
         }
         else {
@@ -71,11 +74,13 @@ function GameActions(props) {
 
     const handleJoin = async () => {
 
-        let iframe = gamepanel.iframe;// fs.get('iframe');
+        // let iframe = gamepanel.iframe;// fs.get('iframe');
         //let game_slug = props.match.params.game_slug;
         // let game = fs.get('game');
         // if (!game)
         //     return
+
+        clearRoom(room_slug);
 
         let isExperimental = mode == 'experimental';// (window.location.href.indexOf('/experimental/') != -1);
         // await wsLeaveGame(game_slug, room_slug);
@@ -147,4 +152,4 @@ function GameActions(props) {
 
 
 
-export default (fs.connect(['primaryGamePanel', 'gamepanels', 'isMobile'])(GameActions));
+export default (fs.connect(['primaryGamePanel', 'isMobile', 'gamestatusUpdated'])(GameActions));

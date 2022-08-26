@@ -9,8 +9,7 @@ import { findGamePanelByRoom, getGame, getRoom, getRoomStatus, setIFrame, update
 
 import LoadingBox from './LoadingBox';
 
-import GameScreenActions from './GameActions';
-import GameScreenStarting from './GameMessageOverlay';
+import GameMessageOverlay from './GameMessageOverlay';
 
 import iframeSrc from './iframesrc'
 import { withRouter } from 'react-router-dom';
@@ -53,6 +52,7 @@ function GameIFrame(props) {
     let gamepanel = props.gamepanel;
     let room = gamepanel.room;
 
+    const [isOpen, setIsOpen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(true);
     const iframeRef = useRef(null)
     const gamescreenRef = useRef(null)
@@ -66,6 +66,7 @@ function GameIFrame(props) {
     let resow = room.resow;
     let resoh = room.resoh;
     let screenwidth = room.screenwidth;
+
 
     // if (room.mode == 'experimental') {
     //     screentype = game.latest_screentype;
@@ -177,10 +178,16 @@ function GameIFrame(props) {
     useEffect(() => {
         window.addEventListener('resize', onResize);
         onResize();
+
+        setTimeout(() => {
+            setIsOpen(true);
+        }, 10)
+
         return () => {
             window.removeEventListener('resize', onResize);
+            setIsOpen(false);
         }
-    })
+    }, [])
 
     // useEffect(() => {
     //     fs.set('iframeLoaded', false);
@@ -188,63 +195,65 @@ function GameIFrame(props) {
 
 
     return (
-        <VStack
-            className="screen-wrapper"
-            justifyContent={'flex-start'}
-            alignContent={'center'}
-            position="absolute"
-            top={0}
-            left={0}
-            w="100%"
-            h={'100%'}
-            zIndex={10}
-            ref={gamewrapperRef}
-            transition={'filter 0.3s ease-in, width 0.3s, height 0.3s'}
-        >
-            <Box
-                ref={gamescreenRef}
-                height="100%"
-                position="relative"
-                boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}>
-                <LoadingBox isDoneLoading={gamepanel.loaded} />
-                <iframe
-                    className="gamescreen"
-                    ref={iframeRef}
-                    // onResize={onResize}
-                    onLoad={() => {
+        <ScaleFade initialScale={0.1} in={isOpen} width="100%" height="100%" position="relative">
+            <VStack
+                className="screen-wrapper"
+                justifyContent={'flex-start'}
+                alignContent={'center'}
+                position="absolute"
+                top={0}
+                left={0}
+                w="100%"
+                h={'100%'}
+                zIndex={10}
+                ref={gamewrapperRef}
+                transition={'filter 0.3s ease-in'}
+            >
+                <Box
+                    ref={gamescreenRef}
+                    height="100%"
+                    position="relative"
+                    boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}>
+                    <LoadingBox isDoneLoading={gamepanel.loaded} />
+                    <iframe
+                        className="gamescreen"
+                        ref={iframeRef}
+                        // onResize={onResize}
+                        onLoad={() => {
 
-                        //let gamepanel = findGamePanelByRoom(room_slug);
-                        gamepanel.iframe = iframeRef;
-                        // setIFrame(room_slug, iframeRef);
+                            //let gamepanel = findGamePanelByRoom(room_slug);
+                            gamepanel.iframe = iframeRef;
+                            // setIFrame(room_slug, iframeRef);
 
-                        // let iframes = fs.get('iframes') || {};
-                        // iframes[room_slug] = iframeRef;
-                        // fs.set('iframeLoaded', true);
-                        // fs.set('iframes', iframes);
-                        // fs.set('gamepanel', gamescreenRef);
-                        // fs.set('gamewrapper', gamewrapperRef);
-                        sendLoadMessage(room_slug, game_slug, version);
-                        onResize();
-                        // setTimeout(() => {
-                        //     onResize();
-                        // }, 1000);
-                        updateGamePanel(gamepanel);
-                    }}
-                    srcDoc={iframeSrc}
-                    sandbox="allow-scripts allow-same-origin"
-                />
-                <GameScreenStarting />
-            </Box>
-        </VStack>
+                            // let iframes = fs.get('iframes') || {};
+                            // iframes[room_slug] = iframeRef;
+                            // fs.set('iframeLoaded', true);
+                            // fs.set('iframes', iframes);
+                            // fs.set('gamepanel', gamescreenRef);
+                            // fs.set('gamewrapper', gamewrapperRef);
+                            sendLoadMessage(room_slug, game_slug, version);
+                            onResize();
+                            // setTimeout(() => {
+                            //     onResize();
+                            // }, 1000);
+                            updateGamePanel(gamepanel);
+                        }}
+                        srcDoc={iframeSrc}
+                        sandbox="allow-scripts allow-same-origin"
+                    />
+                    <GameMessageOverlay gamepanel={gamepanel} />
+                </Box>
+            </VStack>
+        </ScaleFade>
     )
 }
 
 
 let onCustomWatched = ownProps => {
-    return ['gamepanels>' + ownProps.id];
+    return ['gamepanels/' + ownProps.id];
 };
 let onCustomProps = (key, value, store, ownProps) => {
-    if (key == ('gamepanels>' + ownProps.id))
+    if (key == ('gamepanels/' + ownProps.id))
         return { gamepanel: value }
     return {};
 };
