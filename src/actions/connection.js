@@ -164,22 +164,22 @@ export function sendFrameMessage(msg) {
 
     let gamepanel = findGamePanelByRoom(room_slug);
     let iframe = gamepanel.iframe;// getIFrame(room_slug);
-    if (iframe)
+    // if (iframe)
 
-        // let iframes = fs.get('iframes') || {}
-        // let iframe = iframes[room_slug];
+    // let iframes = fs.get('iframes') || {}
+    // let iframe = iframes[room_slug];
 
-        // let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
-        if (!iframe) {
-            if (!messageQueue[room_slug])
-                messageQueue[room_slug] = [];
+    // let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
+    if (!iframe) {
+        if (!messageQueue[room_slug])
+            messageQueue[room_slug] = [];
 
-            messageQueue[room_slug].push(msg);
-            // setTimeout(() => {
-            //     sendFrameMessage(msg);
-            // }, 20)
-            return;
-        }
+        messageQueue[room_slug].push(msg);
+        // setTimeout(() => {
+        //     sendFrameMessage(msg);
+        // }, 20)
+        return;
+    }
 
     if (iframe) {
 
@@ -374,6 +374,11 @@ export async function reconnect(skipQueues) {
     }
 
 
+    let duplicatetabs = fs.get('duplicatetabs');
+    if (duplicatetabs) {
+        fs.set('chatToggle', false);
+        return null;
+    }
     // let queues = fs.get('queues') || localStorage.getItem('queues') || [];
     // let rooms = fs.get('rooms');
     // if (queues.length == 0 && !isNew && (!rooms || Object.keys(rooms).length == 0))
@@ -677,6 +682,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             }
 
 
+            fs.set('duplicatetabs', false);
             fs.set('wsConnected', true);
             wsRejoinRooms();
 
@@ -894,8 +900,12 @@ async function wsIncomingMessage(message) {
             console.log("[Incoming] Update: ", JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'error':
-            console.log("[Incoming] Error: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] ERROR:: ", JSON.parse(JSON.stringify(msg, null, 2)));
             break;
+        case 'duplicatetabs':
+            console.log("[Incoming] ERROR :: Duplicate Tabs:: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            fs.set('duplicatetabs', true);
+            return;
         default:
             console.log("[Incoming] Unknown type: ", JSON.parse(JSON.stringify(msg, null, 2)));
             return;

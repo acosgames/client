@@ -15,7 +15,7 @@ function LoadingBox(props) {
             setTimeout(() => {
                 setShow(false);
 
-            }, 300)
+            }, 400)
         }
     })
 
@@ -32,7 +32,7 @@ function LoadingBox(props) {
             h="100%"
             zIndex={100}
             bgColor={'blacks.100'}
-            transition={'filter 0.1s ease-in'}
+            transition={'filter 0.4s ease-in'}
             filter={props.isDoneLoading ? 'opacity(0)' : 'opacity(1)'}
         >
             <VStack w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>

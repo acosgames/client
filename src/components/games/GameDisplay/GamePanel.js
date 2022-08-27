@@ -240,8 +240,10 @@ function GameIFrame(props) {
             justifyContent={'center'}
             alignContent={'center'}
             ref={gameResizer}
+            transition={'filter 0.3s ease-in, opacity 0.5s ease-in'}
+            filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
             className={'gameResizer'}
-            bgColor={displayMode == 'theatre' ? 'black' : 'none'}
+            bgColor={'black'}
         >
 
             <VStack

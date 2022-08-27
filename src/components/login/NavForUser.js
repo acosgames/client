@@ -26,6 +26,7 @@ function NavForUser(props) {
 
     const history = useHistory();
 
+
     let latency = props.latency || 0;
     let latencyColor = 'green.400';
     if (latency > 400) {
@@ -35,7 +36,7 @@ function NavForUser(props) {
         latencyColor = 'yellow.300';
     }
 
-    if (!props.wsConnected) {
+    if (!props.wsConnected || props.duplicatetabs) {
         latencyColor = 'red.500';
     }
     return (
@@ -77,7 +78,7 @@ function NavForUser(props) {
                 </Center>
                 <HStack spacing="0.4rem" width="100%" justifyContent={'center'}>
                     <Icon as={BsBarChartFill} size="1rem" color={latencyColor} />
-                    <Text as="span" fontSize="xs" color={latencyColor}>{props.wsConnected ? (latency + 'ms') : 'offline'}</Text>
+                    <Text as="span" fontSize="xxs" color={latencyColor}>{props.wsConnected ? (latency + 'ms') : props.duplicatetabs ? 'offline, dupe tabs' : 'offline'}</Text>
                 </HStack>
 
                 <MenuDivider color="blacks.700" />
@@ -141,4 +142,4 @@ function LoginTempUser(props) {
     )
 }
 
-export default fs.connect(['user', 'latency', 'wsConnected'])(NavForUser);
+export default fs.connect(['user', 'latency', 'wsConnected', 'duplicatetabs'])(NavForUser);

@@ -7,7 +7,7 @@ import { useLocation, useParams, withRouter } from 'react-router-dom';
 
 import { joinGame } from '../../../actions/game';
 import { wsLeaveGame } from '../../../actions/connection';
-import { clearPrimaryGamePanel, clearRoom, getPrimaryGamePanel, getRoomStatus } from '../../../actions/room';
+import { clearPrimaryGamePanel, clearRoom, getGamePanel, getPrimaryGamePanel, getRoomStatus } from '../../../actions/room';
 
 const resizeEvent = new Event('resize');
 
@@ -124,7 +124,7 @@ function GameActions(props) {
                 <Button
                     display={isGameover ? 'block' : 'none'}
                     fontSize={'xxs'}
-                    bgColor={'black'}
+                    bgColor={'red.800'}
                     onClick={onForfeit}>
                     {'Leave'}
                 </Button>
@@ -133,9 +133,9 @@ function GameActions(props) {
             <Box display={isGameover ? 'block' : 'none'} ml="1rem">
                 <Button
                     fontSize={'xxs'}
-                    bgColor={'green.800'}
-                    _hover={{ bgColor: 'rgb(42 181 28)' }}
-                    _active={{ bgColor: 'rgb(42 181 28)' }}
+                    bgColor="brand.500"
+                    _hover={{ bg: "brand.600" }}
+                    _active={{ bg: "brand.900" }}
                     onClick={handleJoin}>
                     Play Again
                 </Button>
@@ -169,7 +169,7 @@ function GameActions(props) {
                 </IconButton>
             </Box>
 
-
+            <Timeleft id={gamepanel.id} />
 
 
             {/* <LeaveGame></LeaveGame> */}
@@ -181,6 +181,18 @@ function GameActions(props) {
 }
 
 
+function Timeleft(props) {
+    let gamepanel = getGamePanel(props.id);
+    if (!gamepanel)
+        return <></>
+    return (
+        <HStack width="3rem" height={'100%'} alignContent='center'>
+            <Text fontSize='xxs' color={'gray.300'}>Time:</Text> <Text color={'gray.100'} fontSize='xxs'>{fs.get('timeleft/' + props.id)}</Text>
+        </HStack>
+    )
+}
+
+Timeleft = fs.connect(['timeleftUpdated'])(Timeleft)
 
 
 export default (fs.connect(['primaryGamePanel', 'isMobile', 'gamestatusUpdated', 'fullScreenElem'])(GameActions));
