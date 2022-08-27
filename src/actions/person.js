@@ -116,6 +116,9 @@ export async function getPlayer(displayname) {
 }
 
 export async function getUser() {
+
+    fs.set('loadingUser', true);
+
     let user = fs.get('user');
     if (!user) {
         user = await getUserProfile();
@@ -123,6 +126,8 @@ export async function getUser() {
 
 
     reconnect(true, true);
+
+    fs.set('loadingUser', false);
 
     if (!user) {
         return false;
@@ -145,7 +150,10 @@ export async function login() {
         let mode = getLastJoinType();
         addJoinQueues(game.game_slug, mode);
     }
+
+    fs.set('loginFrom', 'game');
     fs.set('isCreateDisplayName', true);
+
 }
 
 export async function loginComplete() {

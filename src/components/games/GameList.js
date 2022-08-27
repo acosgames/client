@@ -67,13 +67,13 @@ class GameList extends Component {
                 </VStack>
                 <Divider />
                 <VStack align="left" justify={"left"}>
-                    <ChLink isExternal textDecoration={"none"} href={'https://docs.acos.games'} >
+                    <ChLink isExternal textDecoration={"none"} href={'https://sdk.acos.games'} >
                         <Heading mb="0.5rem" as="h1" size="md">Develop Games using our Simulator and SDK</Heading>
                     </ChLink>
                     <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.300">Build, deploy, and play your game on ACOS instantly for free!</Text>
                     <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.300">Check our documentation to quickly learn how to develop for ACOS.</Text>
                     <Wrap spacing="2rem">
-                        <ChLink isExternal textDecoration={"none"} href={'https://docs.acos.games'} >
+                        <ChLink isExternal textDecoration={"none"} href={'https://sdk.acos.games'} >
                             <Text fontSize="xs" display="flex" color="white" ><Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="sm" />&nbsp;Docs</Text>
                         </ChLink>
                         <Link to="/dev">

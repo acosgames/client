@@ -20,7 +20,7 @@ function AcosFooter(props) {
                 <Text as="span" fontWeight="100" fontSize="xxs">Copyright © 2022 ACOS</Text>
                 <Text fontSize="xxs"><Link to="/">Games</Link></Text>
                 <Text fontSize="xxs"><Link to="/dev">Dev Zone</Link></Text>
-                <Text fontSize="xxs"><ChLink isExternal href="https://docs.acos.games">Docs</ChLink></Text>
+                <Text fontSize="xxs"><ChLink isExternal href="https://sdk.acos.games">Docs</ChLink></Text>
                 <Text fontSize="xxs"><Link to="/privacy">Privacy</Link></Text>
                 <Text fontSize="xxs"><Link to="/terms">Terms</Link></Text>
                 <Text fontSize="md"><ChLink isExternal href="https://github.com/acosgames"><Icon as={FaGithub} /></ChLink></Text>
@@ -32,7 +32,7 @@ function AcosFooter(props) {
                 <HStack spacing="1.4rem" >
                     <Text fontSize="xxs"><Link to="/">Games</Link></Text>
                     <Text fontSize="xxs"><Link to="/dev">Dev Zone</Link></Text>
-                    <Text fontSize="xxs"><ChLink isExternal href="https://docs.acos.games">Docs</ChLink></Text>
+                    <Text fontSize="xxs"><ChLink isExternal href="https://sdk.acos.games">Docs</ChLink></Text>
                     <Text fontSize="xxs"><Link to="/privacy">Privacy</Link></Text>
                     <Text fontSize="xxs"><Link to="/terms">Terms</Link></Text>
                     <Text fontSize="md"><ChLink isExternal href="https://github.com/acosgames"><Icon as={FaGithub} /></ChLink></Text>

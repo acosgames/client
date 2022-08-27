@@ -187,7 +187,13 @@ export function sendFrameMessage(msg) {
         //next frame
         // setTimeout(() => {
         console.log("SendFrameMessage: ", msg);
-        iframe.current.contentWindow.postMessage(msg, '*');
+        try {
+            iframe.current.contentWindow.postMessage(msg, '*');
+        }
+        catch (e) {
+            console.log('Error iframe not working: ', e, gamepanel);
+        }
+
         // }, 1000)
 
     }
@@ -263,8 +269,8 @@ export function recvFrameMessage(evt) {
         // iframesLoaded[room_slug] = true;
         // fs.set('iframesLoaded', iframesLoaded);
 
-        gamepanel.loaded = true;
-        updateGamePanel(gamepanel);
+        // gamepanel.loaded = true;
+        // updateGamePanel(gamepanel);
 
         fastForwardMessages(room_slug);
         refreshGameState(room_slug);

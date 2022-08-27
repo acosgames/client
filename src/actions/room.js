@@ -29,6 +29,10 @@ export function getGameState() {
     return fs.get('gamestate') || {};
 }
 
+export function getGamePanel(id) {
+    return fs.get('gamepanel/' + id);
+}
+
 export function getGamePanels() {
     return fs.get('gamepanels') || [];
 }
@@ -54,14 +58,27 @@ export function findGamePanelByIFrame(iframeRef) {
 }
 
 export function updateGamePanel(gamepanel) {
-    fs.set('gamepanels>' + gamepanel.id, gamepanel);
+    fs.set('gamepanel/' + gamepanel.id, gamepanel);
 }
 
 export function getPrimaryGamePanel() {
-    return fs.get('primaryGamePanel');
+    let id = fs.get('primaryGamePanel');
+    if (id == null)
+        return null;
+
+    let gamepanel = fs.get('gamepanel/' + id);
+    if (!gamepanel)
+        return null;
+
+    return gamepanel;
 }
 export function setPrimaryGamePanel(gamepanel) {
-    fs.set('primaryGamePanel', gamepanel);
+    if (!gamepanel) {
+        fs.set('primaryGamePanel', null);
+    }
+    else {
+        fs.set('primaryGamePanel', gamepanel.id);
+    }
 }
 
 export function cleanupGamePanel(gamepanel) {
@@ -84,6 +101,7 @@ export function cleanupGamePanels() {
         let gp = gamepanels[i];
         if (gp.gamestate?.state?.gamestatus == 'gameover') {
             gp.available = true;
+            updateGamePanel(gp);
             fs.set('gamepanels', gamepanels);
             return gp;
         }
@@ -119,6 +137,7 @@ export function reserveGamePanel() {
             gp.room = null;
             gp.active = true;
 
+            updateGamePanel(gp);
             fs.set('gamepanels', gamepanels);
             return gp;
         }
@@ -127,6 +146,7 @@ export function reserveGamePanel() {
     let gp = createGamePanel();
     gp.id = gamepanels.length;
     gamepanels.push(gp);
+    fs.set('gamepanel/' + gp.id, gp);
     fs.set('gamepanels', gamepanels);
     return gp;
 }

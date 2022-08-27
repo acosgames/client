@@ -2,6 +2,7 @@ import { Component, Fragment, useEffect, useState } from "react";
 import fs from 'flatstore';
 
 import {
+    Redirect,
     withRouter,
 } from "react-router-dom";
 import {
@@ -50,8 +51,16 @@ function DevLogin(props) {
     }
 
     let user = props.user;
+    if (user && (user.isdev || user.github)) {
+
+        return <Redirect to="/dev" />
+    }
     if (user && user.apikey && user.apikey.length > 0 && user.apikey != 'undefined') {
         return <Fragment></Fragment>
+    }
+
+    if (props.loadingUser) {
+        return <></>
     }
 
     const loggedIn = fs.get('loggedIn');
@@ -68,7 +77,7 @@ function DevLogin(props) {
                     <br /><br />
                     Visit our documentation for more details.
                     <br />
-                    <Link isExternal href="https://docs.acos.games" target="_blank">https://docs.acos.games</Link>
+                    <Link isExternal href="https://sdk.acos.games" target="_blank">https://sdk.acos.games</Link>
                     <br />
                     <br />
                     By signing up, you agree to our <Link href="/privacy">Privacy Policy</Link>
@@ -77,10 +86,10 @@ function DevLogin(props) {
                 <HStack>
                     <Icon color={showLogin ? 'yellow.500' : 'green.500'} fontSize="xl" as={showLogin ? FiSquare : FiCheckSquare} />
                     <Heading as="h3" size="md" color="gray.400">Step 1:</Heading>
-                    <Heading as="h3" size="md" color="gray.100">Login to GitHub to begin</Heading>
+                    <Heading as="h3" size="md" color="white">Login to GitHub to begin</Heading>
                 </HStack>
                 <a href="/login/github?ref=/dev" w="full">
-                    <Button disabled={!showLogin} w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
+                    <Button h="5rem" disabled={!showLogin} w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
 
                         <Text fontSize="sm" ml="4rem">Sign in with github</Text>
 
@@ -93,11 +102,11 @@ function DevLogin(props) {
                     <HStack pt="2rem">
                         <Icon color={!sentInvite ? 'yellow.500' : 'green.500'} fontSize="xl" as={!sentInvite ? FiSquare : FiCheckSquare} />
                         <Heading as="h3" size="md" color="gray.400">Step 2:</Heading>
-                        <Heading as="h3" size="md" color="gray.100">Request invite to acosgames organization</Heading>
+                        <Heading as="h3" size="md" color="white">Request invite to acosgames organization</Heading>
                     </HStack>
 
                     <Button
-
+                        h="5rem"
                         onClick={onInvite}
                         w={"full"}
                         justifyContent={"left"}
@@ -109,10 +118,11 @@ function DevLogin(props) {
                     <HStack pt="2rem">
                         <Icon color={!acceptInvite ? 'yellow.500' : 'green.500'} fontSize="xl" as={!acceptInvite ? FiSquare : FiCheckSquare} />
                         <Heading as="h3" size="md" color="gray.400">Step 3:</Heading>
-                        <Heading as="h3" size="md" color="gray.100">Accept invite to acosgames organization</Heading>
+                        <Heading as="h3" size="md" color="white">Accept invite to acosgames organization</Heading>
                     </HStack>
                     <a target="_blank" href="https://github.com/orgs/acosgames/invitation" w="full">
                         <Button
+                            h="5rem"
                             onClick={() => {
                                 setAcceptInvite(true);
                             }}
@@ -128,15 +138,16 @@ function DevLogin(props) {
                     <HStack pt="2rem">
                         <Icon color={'yellow.500'} fontSize="xl" as={FiSquare} />
                         <Heading as="h3" size="md" color="gray.400">Step 4:</Heading>
-                        <Heading as="h3" size="md" color="gray.100">Re-login to get access</Heading>
+                        <Heading as="h3" size="md" color="white">Re-login to get access</Heading>
                     </HStack>
                     <Link href="/login/github?ref=/dev">
-                        <HStack>
+                        <HStack h="5rem">
                             <Button
                                 onClick={async () => {
                                     await logout();
                                     setAcceptInvite(true);
                                 }}
+                                h="5rem"
                                 //disabled={acceptInvite}
                                 w={"full"}
                                 justifyContent={"left"}
@@ -155,4 +166,4 @@ function DevLogin(props) {
 
 }
 
-export default withRouter(fs.connect(['user'])(DevLogin));
+export default withRouter(fs.connect(['user', 'loadingUser'])(DevLogin));

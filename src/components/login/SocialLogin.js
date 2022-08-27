@@ -26,43 +26,48 @@ function SocialLoginSimple(props) {
     }
     return (
         <VStack>
-            <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Sign in with a different account</Heading>
-            <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Or, login to save your temporary account</Heading>
-            <VStack w={['100%']} justifyItems={'center'} gap="0">
-                {/* Google */}
-                <ChLink href={"/login/google" + refPath} w="100%">
-                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="24px" />}>
 
-                        <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Google</Text>
+            <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Login to reserve your name</Heading>
+            {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Or, login to save your temporary account</Heading> */}
 
-                    </Button>
-                </ChLink>
+            <VStack justifyContent={'center'} width="100%" height="100%">
 
-                {/* Microsoft */}
-                <ChLink href={"/login/microsoft" + refPath} w="100%">
-                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="24px" />}>
+                <VStack w={['15rem']} justifyItems={'center'} gap="0">
+                    {/* Google */}
+                    <ChLink href={"/login/google" + refPath} w="100%">
+                        <Button w="100%" height="5rem" color="white" justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="24px" />}>
 
-                        <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Microsoft</Text>
+                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Google</Text>
 
-                    </Button>
-                </ChLink>
-                {/* Facebook */}
-                <ChLink href={"/login/facebook" + refPath} w={'100%'}>
-                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="24px" />}>
+                        </Button>
+                    </ChLink>
 
-                        <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Facebook</Text>
+                    {/* Microsoft */}
+                    <ChLink href={"/login/microsoft" + refPath} w="100%">
+                        <Button w="100%" height="5rem" color="white" justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="24px" />}>
 
-                    </Button>
-                </ChLink>
+                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Microsoft</Text>
 
-                {/* GitHub */}
-                <ChLink href={"/login/github" + refPath} w={'100%'}>
-                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
+                        </Button>
+                    </ChLink>
+                    {/* Facebook */}
+                    <ChLink href={"/login/facebook" + refPath} w={'100%'}>
+                        <Button w="100%" height="5rem" color="white" justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="24px" />}>
 
-                        <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with GitHub</Text>
+                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Facebook</Text>
 
-                    </Button>
-                </ChLink>
+                        </Button>
+                    </ChLink>
+
+                    {/* GitHub */}
+                    <ChLink href={"/login/github" + refPath} w={'100%'}>
+                        <Button w="100%" height="5rem" color="white" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
+
+                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">GitHub</Text>
+
+                        </Button>
+                    </ChLink>
+                </VStack>
             </VStack>
         </VStack>
     )

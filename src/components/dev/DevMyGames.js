@@ -6,20 +6,17 @@ import {
 } from "react-router-dom";
 import fs from 'flatstore';
 import SLink from "../widgets/SLink";
-import { Text, Box, Heading, HStack, Icon, IconButton, VStack, Divider, Spacer, useClipboard } from "@chakra-ui/react";
+import { Text, Box, Heading, HStack, Icon, IconButton, VStack, Divider, Spacer, useClipboard, Skeleton } from "@chakra-ui/react";
 
 import { FiPlus } from '@react-icons'
 import DevMyGameListItem from "./DevMyGameListItem";
 import { useEffect } from "react";
 import { findDevGames } from "../../actions/devgame";
+fs.set('loadingGames', true);
 
 function DevMyGames(props) {
 
-    useEffect(() => {
-        gtag('event', 'devmygames');
-        let user = props.user;
-        findDevGames(user.id)
-    }, [])
+
 
     const showInvitation = () => {
         let user = props.user;
@@ -33,6 +30,12 @@ function DevMyGames(props) {
             </div>
         )
     }
+
+    useEffect(() => {
+        gtag('event', 'devmygames');
+        let user = props.user;
+        findDevGames(user.id)
+    }, [])
 
     const listGames = () => {
         let games = props.devgames || [];
@@ -74,6 +77,23 @@ function DevMyGames(props) {
 
         return elems;
     }
+
+
+
+
+    if (props.loadingGames) {
+        return (
+            <>
+                <Heading as="h2">My Games</Heading>
+                <VStack align="left" width={['100%']} mt="5" spacing="3rem" divider={<Divider mt="1rem" mb="1rem" />}>
+                    <Skeleton height="5rem" width="100%"></Skeleton>
+                    <Skeleton height="5rem" width="100%"></Skeleton>
+                    <Skeleton height="5rem" width="100%"></Skeleton>
+                </VStack>
+            </>
+        )
+    }
+
     /*
         Dashboard
         - Published games with stats
@@ -99,5 +119,5 @@ function DevMyGames(props) {
 
 }
 
-export default withRouter(fs.connect(['devgames'])(DevMyGames));
+export default withRouter(fs.connect(['devgames', 'loadingGames'])(DevMyGames));
 

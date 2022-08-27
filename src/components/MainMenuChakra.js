@@ -9,7 +9,9 @@ import {
     Image,
     Text,
     HStack,
+    Icon,
     VStack,
+    Button,
 } from '@chakra-ui/react';
 import SLink from './widgets/SLink';
 import fs from 'flatstore';
@@ -18,7 +20,8 @@ import NavForUser from './login/NavForUser';
 import { useHistory, Link, useParams, withRouter } from 'react-router-dom';
 import config from '../config'
 import { getRoomStatus } from '../actions/room';
-
+import { IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
+import GameActions from './games/GameDisplay/GameActions';
 
 const NavLink = ({ children }) => (
     <Link
@@ -68,10 +71,10 @@ function MainMenuChakra(props) {
         <>
 
             <Box
-                zIndex="99"
+                zIndex="20"
                 filter={room_slug ? 'blur(20px)' : 'blur(0)'}
                 display={'flex'}
-
+                // px={'1rem'}
                 // px={4}
                 transition={'filter 0.3s ease-in'}
                 width="100%"
@@ -99,14 +102,24 @@ function MainMenuChakra(props) {
                             <Link to="/" className=""><Text fontSize={['xs', 'sm', "lg"]} fontWeight="700">Browse</Text></Link>
                         </Box> */}
                     </HStack>
-                    <Flex alignItems={'center'}>
-                        <Stack direction={'row'} spacing={7}>
+                    <Box w="100%" h="100%">
+
+                        <GameActions />
+
+                    </Box>
+                    <Flex alignItems={'center'} height="100%">
+                        <Stack direction={'row'} spacing={0} height="100%">
                             {/* <Button onClick={toggleColorMode}>
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                             </Button> */}
                             <Box>
                                 {(loggedIn != 'LURKER') && <NavForUser />}
                                 {(loggedIn == 'LURKER') && <NavForGuest />}
+                            </Box>
+                            <Box p="0" m="0" height="100%" lineHeight={'100%'}>
+                                <Button onClick={() => { fs.set('chatToggle', !fs.get('chatToggle')) }} height="100%">
+                                    <Icon as={props.isMobile ? (props.chatToggle ? CgChevronDoubleDownR : CgChevronDoubleUpR) : (props.chatToggle ? CgChevronDoubleRightR : CgChevronDoubleLeftR)} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'white'} />
+                                </Button>
                             </Box>
                         </Stack>
                     </Flex>
@@ -116,4 +129,4 @@ function MainMenuChakra(props) {
     );
 }
 
-export default fs.connect(['loggedIn'])(withRouter(MainMenuChakra));
+export default fs.connect(['loggedIn', 'chatToggle', 'isMobile'])(withRouter(MainMenuChakra));

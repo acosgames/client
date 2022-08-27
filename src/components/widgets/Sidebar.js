@@ -38,9 +38,10 @@ function Sidebar() {
             h="100%"
             marginTop="0"
             id="wrapper-sidebar"
+            bgColor={'blacks.200'}
             // boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
             // borderRadius={navSize == "small" ? "15px" : "30px"}
-            w={['75px', '75px', '200px']}
+            w={['4rem', '4rem', '18rem']}
             flexDir="column"
             justifyContent="space-between"
         >
@@ -63,9 +64,9 @@ function Sidebar() {
                             changeNavSize("small")
                     }}
                 /> */}
-                <NavItem url="/dev" icon={FiHome} title="My Games" description="This is the description for the dashboard." />
-                <NavItem url="/dev/game/create" icon={PlusSquareIcon} title="Create Game" active />
-                <NavItem url="https://docs.acos.games" icon={IoDocuments} title="Documentation" isExternal={true} />
+                <NavItem fontSize='20' url="/dev" icon={FiHome} title="My Games" description="This is the description for the dashboard." />
+                <NavItem fontSize='20' url="/dev/game/create" icon={PlusSquareIcon} title="Create Game" active />
+                <NavItem fontSize='20' url="https://sdk.acos.games" icon={IoDocuments} title="Documentation" isExternal={true} />
 
 
                 {/* <NavItem navSize={navSize} icon={FiUser} title="Clients" />
@@ -91,8 +92,8 @@ function Sidebar() {
                         <Center w="100%" >
                             <ChLink isExternal textDecoration={"none"} href={`https://github.com/${userProfile?.github}`} >
                                 <VStack align="center">
-                                    <Icon as={IoLogoGithub} fontSize="24" />
-                                    {userProfile && (<Text display={['none', 'none', 'flex']} fontWeight={'light'}>@{userProfile?.github}</Text>)}
+                                    <Icon as={IoLogoGithub} fontSize="20" />
+                                    {userProfile && (<Text display={['none', 'none', 'flex']} fontSize="2xs" fontWeight={'bold'}>@{userProfile?.github}</Text>)}
                                 </VStack>
                             </ChLink>
                         </Center>
@@ -102,8 +103,8 @@ function Sidebar() {
                 <Center w="100%" >
                     <ChLink isExternal textDecoration={"none"} target="_blank" href={'https://discord.gg/ydHkCcNgHD'} >
                         <VStack align="center">
-                            <Icon as={FaDiscord} fontSize="24" />
-                            <Text fontWeight={'light'} align="center">Questions? <br />Join us on Discord</Text>
+                            <Icon as={FaDiscord} fontSize="20" />
+                            <Text fontSize="2xs" fontWeight={'bold'} align="center">Discord</Text>
                         </VStack>
                     </ChLink>
                 </Center>

@@ -144,7 +144,7 @@ function GameMessageOverlay(props) {
             <Text as="h3" fontSize="3xl">{events?.error}</Text>
         </VStack>;
     }
-    else if (isPregame || (isStarting && timeleft > 4)) {
+    else if ((isPregame && room.maxplayers > 1) || ((isStarting && room.maxplayers > 1) && timeleft > 4)) {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
             <Text as="h4" fontSize="md">Waiting for players</Text>
             {renderPlayers()}
@@ -152,7 +152,7 @@ function GameMessageOverlay(props) {
             <Text display={isStarting ? 'none' : 'block'} as="h3" fontSize="3xl">{timeleft}</Text>
         </VStack>
     }
-    else if (isStarting) {
+    else if (isStarting && room.maxplayers > 1) {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
             <Text as="h4" fontSize="md">Starting in </Text>
             <Text as="h3" fontSize="3xl">{timeleft > 0 ? timeleft : 'GO!'}</Text>

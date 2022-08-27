@@ -101,11 +101,15 @@ function GameInfoCreateDisplayname(props) {
         refPath = '';
     }
 
-    let joinButtonTitle = 'Join Queue';
+    let loginFrom = fs.get('loginFrom');
+
+    let joinButtonTitle = "Let's Go!";
     let game = fs.get('game');
-    if (game) {
+    if (loginFrom == 'game') {
         if (game.maxplayers == 1) {
             joinButtonTitle = 'Join Game';
+        } else {
+            joinButtonTitle = 'Join Queue';
         }
     }
 
@@ -144,14 +148,14 @@ function GameInfoCreateDisplayname(props) {
                             </FSGGroup>
                             <FSGSubmit onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
                             <Divider pt={'1rem'} />
-                            <Heading color="gray.100" pt={'1rem'} pb="1rem" size="xs">Or, sign in to reserve your name</Heading>
+                            <Heading color="gray.300" pt={'1rem'} pb="1rem" size="xs">Or, sign in to reserve your name</Heading>
                             {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
                             <HStack w={['100%']} justifyItems={'center'} gap="0">
                                 {/* Google */}
                                 <ChLink href={"/login/google" + refPath} w="50%">
                                     <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="16px" />}>
 
-                                        <Text color="gray.300" fontSize="xs" pl="0.2rem">Google</Text>
+                                        <Text color="gray.100" fontSize="xs" pl="0.2rem">Google</Text>
 
                                     </Button>
                                 </ChLink>
@@ -160,7 +164,7 @@ function GameInfoCreateDisplayname(props) {
                                 <ChLink href={"/login/microsoft" + refPath} w="50%">
                                     <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="16px" />}>
 
-                                        <Text color="gray.300" fontSize="xs" pl="0.2rem">Microsoft</Text>
+                                        <Text color="gray.100" fontSize="xs" pl="0.2rem">Microsoft</Text>
 
                                     </Button>
                                 </ChLink>
@@ -170,16 +174,16 @@ function GameInfoCreateDisplayname(props) {
                                 <ChLink href={"/login/facebook" + refPath} w={'50%'}>
                                     <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="16px" />}>
 
-                                        <Text color="gray.300" fontSize="xs" pl="0.2rem">Facebook</Text>
+                                        <Text color="gray.100" fontSize="xs" pl="0.2rem">Facebook</Text>
 
                                     </Button>
                                 </ChLink>
 
                                 {/* GitHub */}
                                 <ChLink href={"/login/github" + refPath} w={'50%'}>
-                                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="16px" />}>
+                                    <Button w="100%" color="gray.100" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="16px" />}>
 
-                                        <Text color="gray.300" fontSize="xs" pl="0.2rem">GitHub</Text>
+                                        <Text color="gray.100" fontSize="xs" pl="0.2rem">GitHub</Text>
 
                                     </Button>
                                 </ChLink>

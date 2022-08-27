@@ -86,7 +86,33 @@ const fontSizes = {
     '3xl': "2.8rem",
     '4xl': "3.2rem"
 }
+
+const components = {
+    Button: {
+        baseStyle: {
+            bgColor: 'transparent',
+            outline: 'none',
+            bgGradient: 'none',
+            _active: { outline: 'none', boxShadow: 'none', bgGradient: 'none' },
+            _hover: { outline: 'none', boxShadow: 'none', bgGradient: 'none' },
+            _focus: { outline: 'none', boxShadow: 'none', bgGradient: 'none' }
+        },
+        variants: {
+            base: {
+                bgColor: 'transparent',
+                outline: 'none',
+                _active: { outline: 'none' },
+                _hover: { outline: 'none' },
+                _focus: { outline: 'none' }
+            }
+        },
+        defaultProps: {
+            variant: 'base'
+        }
+    }
+}
+
 // 3. extend the theme
-const theme = extendTheme({ config, fonts, colors, styles, fontSizes })
+const theme = extendTheme({ config, fonts, colors, styles, fontSizes, components })
 
 export default theme

@@ -6,12 +6,13 @@ import { clearChatMessages, getChatMessages, sendChatMessage } from '../../actio
 import FSGButton from '../widgets/inputs/FSGButton.js';
 import FSGSubmit from '../widgets/inputs/FSGSubmit';
 import FSGTextInput from '../widgets/inputs/FSGTextInput';
-import { IoSend, BsChevronBarRight, BsChevronBarLeft, BsChevronBarUp, BsChevronBarDown } from '@react-icons';
+import { IoSend, BsChevronBarRight, BsChevronBarLeft, BsChevronBarUp, BsChevronBarDown, BsChatDotsFill, AiFillCloseCircle } from '@react-icons';
 
 import config from '../../config'
 import ColorHash from 'color-hash'
 import { Link, useLocation } from 'react-router-dom';
 import GameActions from '../games/GameDisplay/GameActions';
+import QueuePanel from '../games/QueuePanel.js';
 
 fs.set('chat', []);
 fs.set('chatMessage', '');
@@ -31,6 +32,10 @@ function ChatPanel(props) {
 
         let toggle = fs.get('chatToggle');
         fs.set('chatToggle', !toggle);
+
+        // setTimeout(() => {
+        //     fs.set('resize', (new Date()).getTime());
+        // }, 500)
         // if (toggle) {
         //     fs.set('chatToggle', !toggle);
         //     setToggle(false);
@@ -43,9 +48,9 @@ function ChatPanel(props) {
 
     // let width = '24.0rem';
 
-    let toggle = fs.get('chatToggle');
-    let desktopIcon = toggle ? <Icon as={BsChevronBarRight} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} size="3rem" color={'white'} /> : <Icon as={BsChevronBarLeft} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} size="3rem" color={'white'} />;
-    let mobileIcon = toggle ? <Icon as={BsChevronBarDown} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} size="3rem" color={'white'} /> : <Icon as={BsChevronBarUp} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} size="3rem" color={'white'} />
+    let toggle = fs.get('chatToggle') && props.displayMode != 'theatre';
+    let desktopIcon = toggle ? <Icon as={AiFillCloseCircle} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.400'} /> : <Icon as={BsChatDotsFill} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.100'} />;
+    let mobileIcon = toggle ? <Icon as={AiFillCloseCircle} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.400'} /> : <Icon as={BsChatDotsFill} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.100'} />
     return (
         // position={'fixed'} top="0" right="0" 
         // zIndex={'99'}
@@ -55,21 +60,51 @@ function ChatPanel(props) {
             bgColor={'blacks.200'}
             flexGrow='1 !important'
             height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}
-            borderTop={(props.isMobile && toggle) ? '1px solid #333' : ''}
+            transition="width 0.3s ease, height 0.3s ease"
+            // borderTop={(props.isMobile && toggle) ? '1px solid #333' : ''}
             zIndex={30}
+            width={props.isMobile ? "100%" : (toggle ? ['24.0rem', '24rem', '28.0rem'] : '0')}
             filter='drop-shadow(0 0 5px rgba(25,25,25,.25))'>
-            {props.isMobile && (
+            {/* {props.isMobile && (
                 <GameActions />
-            )}
+            )} */}
+            {/* <Button
+                onClick={onPanelToggle}
+                // _focus={{ outline: 'none' }}
+                // bgColor={'transparent'}
+                // _active={{ bgColor: 'transparent' }}
+                // _hover={{ bgColor: 'gray.700' }}
+                position={'absolute'}
+                transition="top 0.3s ease, left 0.3s ease, right 0.3s ease"
+                top={!props.isMobile ? 0 : (!toggle ? '-4rem' : '0')}
+                //left={!props.isMobile ? (toggle ? 'auto' : '-3rem') : 'auto'}
+                right={!props.isMobile ? (toggle ? '0.5rem' : '0.5rem') : '0'}
+                // icon={props.isMobile ? mobileIcon : desktopIcon}
+                width="3rem"
+                zIndex={10}
+                height={['3rem', '4rem', '5rem']}
+                lineHeight={!props.isMobile ? ['3rem', '4rem', '5rem'] : '0'}
+                // isRound="false"
+                //zIndex="100"
+                colorScheme={'none'}
+                // colorScheme="black"
+                // bgColor="gray.100"
+                borderRadius={'5px 0 0 5px'}
+
+            >
+                {props.isMobile ? mobileIcon : desktopIcon}
+            </Button> */}
 
             <VStack
-                width={props.isMobile ? '100%' : (toggle ? ['24.0rem', '24rem', '28.0rem'] : '0rem')}
+                transition="width 0.3s ease, height 0.3s ease"
+                width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
+
                 //borderLeft={(!props.isMobile && toggle) ? "1px solid" : ''}
                 //borderLeftColor={(!props.isMobile && toggle) ? 'blacks.500' : ''}
                 //left={props.isMobile ? '0' : (toggle ? '0' : '2rem')}
                 height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}
                 alignItems="stretch"
-                pb={toggle ? "1rem" : 0}
+                pb={'1rem'}
                 // height="calc(100% - 10rem)"
                 position="relative"
 
@@ -84,48 +119,22 @@ function ChatPanel(props) {
                 mt="0"
             // zIndex='10 !important'
             >
-                <Button
-                    onClick={onPanelToggle}
-                    _focus={{ outline: 'none' }}
-                    bgColor={'transparent'}
 
-                    _hover={{ bgColor: 'gray.700' }}
-                    position={'absolute'}
-                    top={!props.isMobile ? 0 : (!toggle ? '-3rem' : '0')}
-                    left={!props.isMobile ? (toggle ? '-3rem' : '-3rem') : 'auto'}
-                    right={!props.isMobile ? (toggle ? 'auto' : 'auto') : '0'}
-                    // icon={props.isMobile ? mobileIcon : desktopIcon}
-                    width="3rem"
-                    height={['3rem', '4rem', '5rem']}
-                    lineHeight={!props.isMobile ? ['3rem', '4rem', '5rem'] : '0'}
-                    // isRound="false"
-                    //zIndex="100"
-                    colorScheme={'none'}
-                    // colorScheme="black"
-                    // bgColor="gray.100"
-                    borderRadius={'5px 0 0 5px'}
 
-                >
-                    {props.isMobile ? mobileIcon : desktopIcon}
-                </Button>
 
-                {!props.isMobile && (
-                    <GameActions />
-                )}
 
                 <ChatHeader toggle={toggle} isMobile={props.isMobile} />
-
+                <QueuePanel />
                 <ChatMessages toggle={toggle} />
                 <ChatSend />
 
 
             </VStack>
 
-
         </HStack>
     )
 }
-ChatPanel = fs.connect(['chatToggle', 'isMobile'])(ChatPanel);
+ChatPanel = fs.connect(['chatToggle', 'isMobile', 'displayMode'])(ChatPanel);
 
 function ChatHeader(props) {
 
@@ -274,7 +283,9 @@ function ChatSend(props) {
     }
 
     return (
-        <HStack width="100%" height="3rem" px="2rem">
+        <HStack
+            width={props.isMobile ? "100%" : ['24.0rem', '24rem', '28.0rem']}
+            height="3rem" px="2rem">
             <FSGTextInput
                 name="name"
                 id="name"

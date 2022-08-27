@@ -21,7 +21,7 @@ function DevManageGameGithub(props) {
             <Text as="span" fontSize="xs" fontWeight={'bold'} color="gray.300">Your GitHub repo in <Link fontSize="xs" href={acosgamesURL}>acosgames</Link> organization</Text>
             <Link target="_blank" fontWeight={'light'} color="yellow.100" fontSize="sm" href={githubURL}>{githubURL}</Link>
             {/* <Text>
-                <Link target="_blank" color="gray.300" fontSize="xs" href="https://docs.acos.games/#start-from-an-existing-game-template"><Icon as={FaExternalLinkAlt} color="white" fontSize="xs" /> Instructions to start from existing game template</Link>
+                <Link target="_blank" color="gray.300" fontSize="xs" href="https://sdk.acos.games/#start-from-an-existing-game-template"><Icon as={FaExternalLinkAlt} color="white" fontSize="xs" /> Instructions to start from existing game template</Link>
             </Text> */}
             <HStack w="100%" justifyContent={'center'}>
                 <FSGCopyText

@@ -8,6 +8,7 @@
   box-sizing: border-box;
   margin:0;
   padding:0;
+  
 }
 
 #root {
@@ -17,6 +18,17 @@
     position: relative;
     width: 100%;
   // background-color: red;
+}
+
+::selection {
+  background: #838383; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #838383; /* Gecko Browsers */
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 

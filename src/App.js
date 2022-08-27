@@ -78,19 +78,35 @@ function App(props) {
       <ToastMessage />
 
       <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
-        <VStack className="panel-navigation" >
-          <Switch>
-            <Route path="/dev/login"
-              component={() => (
-                <></>
-              )} />
-            <Route
-              path="/dev*"
-              component={() => (
-                <Sidebar />
-              )}
-            />
-          </Switch>
+        <VStack bgColor={'blacks.200'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
+          <HStack
+            boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
+            spacing="0"
+            w="100%"
+            bgColor={'blacks.200'}
+            // overflow="hidden"
+            h={['3rem', '4rem', '5rem']}
+            minHeight={['3rem', '4rem', '5rem']}
+            zIndex="21"
+            justifyContent={'center'}
+
+          // bg={'blacks.300'}
+          >
+          </HStack>
+          <Box w="100%" h="100%" pt="2rem">
+            <Switch>
+              <Route path="/dev/login"
+                component={() => (
+                  <></>
+                )} />
+              <Route
+                path="/dev*"
+                component={() => (
+                  <Sidebar />
+                )}
+              />
+            </Switch>
+          </Box>
         </VStack>
         <VStack className="panel-main" height="100%" width="100%" spacing="0" justifyContent={'center'} >
           <HStack
@@ -98,81 +114,52 @@ function App(props) {
             spacing="0"
             w="100%"
             h={['3rem', '4rem', '5rem']}
+            position={props.displayMode == 'theatre' ? 'absolute' : "relative"}
+            top={props.displayMode == 'theatre' ? '-100rem' : '0'}
             zIndex="20"
             justifyContent={'center'}
+            // overflow="hidden"
+            px={['0.5rem', '1rem', '5rem']}
             bg={'blacks.300'}>
             <MainMenuChakra />
           </HStack>
 
-
-
-          <Scrollbars
-            renderView={(props) => (
-              <div
-                className="main-scrollbars"
-                style={{
-                  position: 'absolute',
-                  inset: '0px',
-                  overflow: 'hidden scroll',
-                  width: '100%'
-                  // marginRight: '-8px',
-                  // marginBottom: '-8px'
-                }}
-              />)}
-            // renderThumbVertical={(style, props) => <Box  {...props} {...style} w="10px" bgColor={'blacks.700'} className="thumb-vertical" />}
-            hideTracksWhenNotNeeded={true}
-            autoHide
-            autoHideTimeout={2000}
-            autoHideDuration={200}
-          >
-            <VStack justifyContent={'center'} w="100%" height="100%" ref={primaryCanvasRef}>
-              <AllContent />
-            </VStack>
-          </Scrollbars>
-
+          <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef}>
+            <Scrollbars
+              renderView={(props) => (
+                <div
+                  className="main-scrollbars"
+                  style={{
+                    position: 'absolute',
+                    inset: '0px',
+                    overflow: 'hidden scroll',
+                    width: '100%'
+                    // marginRight: '-8px',
+                    // marginBottom: '-8px'
+                  }}
+                />)}
+              // renderThumbVertical={(style, props) => <Box  {...props} {...style} w="10px" bgColor={'blacks.700'} className="thumb-vertical" />}
+              hideTracksWhenNotNeeded={true}
+              autoHide
+              autoHideTimeout={2000}
+              autoHideDuration={200}
+            >
+              <VStack px={['0.5rem', '1rem', '5rem']} pt={'2.5rem'} spacing="0" justifyContent={'center'} w="100%" height="100%" >
+                <AllContent />
+              </VStack>
+            </Scrollbars>
+          </Box>
           {isMobile && (
             <ChatPanelWrapper />
           )}
         </VStack>
+        {
+          !isMobile && (
+            <ChatPanelWrapper />
+          )
+        }
+      </HStack >
 
-        {!isMobile && (
-          <ChatPanelWrapper />
-        )}
-      </HStack>
-
-      {/* <Box
-        overflow='hidden !important'
-        display='flex !important'
-        flexFlow='column nowrap !important'
-        position='absolute !important'
-        inset='0px !important'
-      //justifyContent={'center'}
-      >
-
-        <Box display='flex !important'
-          flexFlow='column nowrap !important'
-          height='100% !important' position="relative"
-
-        >
-
-          <Box w="100%" h={['3rem', '4rem', '5rem']} zIndex="99">
-            <MainMenuChakra />
-          </Box>
-
-          <Box display='flex !important'
-            flexWrap='nowrap !important'
-            position='relative !important'
-            overflow='hidden !important'
-            justifyContent={'center'}
-            height='100% !important' >
-
-
-          </Box>
-
-        </Box>
-
-      </Box> */}
-      <QueuePanel />
     </BrowserRouter >
   );
 }
@@ -200,4 +187,4 @@ function ChatPanelWrapper() {
   </Switch>)
 }
 
-export default App;
+export default fs.connect(['displayMode'])(App);

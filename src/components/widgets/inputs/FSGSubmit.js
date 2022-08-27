@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 
@@ -21,9 +22,10 @@ function FSGSubmit(props) {
 
     return (
         <div className="form-row">
-            <button
+            <Button
                 disabled={loading}
                 className="submit"
+                color={props.color}
                 onClick={async (e) => {
                     setLoading(true);
                     try {
@@ -38,7 +40,7 @@ function FSGSubmit(props) {
                         setLoading(false);
                 }}>
                 {title}
-            </button>
+            </Button>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 
 import { Badge, Box, Button, Text, Flex, IconButton, Input, Portal, Spacer, HStack, Wrap, } from '@chakra-ui/react';
-import { BsArrowsFullscreen, BsBarChartFill } from '@react-icons';
+import { BsArrowsFullscreen, RiLayoutRightLine, RiLayoutRightFill } from '@react-icons';
 
 import fs from 'flatstore';
 import { useLocation, useParams, withRouter } from 'react-router-dom';
@@ -60,6 +60,7 @@ function GameActions(props) {
 
     const onForfeit = (elem) => {
 
+        fs.set('displayMode', 'none');
         if (isGameover) {
             // wsLeaveGame(game_slug, room_slug);
             clearRoom(room_slug);
@@ -105,18 +106,30 @@ function GameActions(props) {
 
 
     return (
-        <Wrap h={props.isMobile ? '100%' : '3rem'} w={props.isMobile ? '13rem' : "100%"} justify={'center'} bgColor={'blacks.200'} py="0.6rem">
-            <HStack alignItems={'center'}>
+        <HStack h={props.isMobile ? '100%' : '5rem'} w={'100%'} justify={'center'} bgColor={'transparent'} py="0.6rem">
+            {/* <HStack alignItems={'center'}>
                 <BsBarChartFill size="1.2rem" color={latencyColor} /><Text as="span" fontSize="xxs"> {latency}ms</Text>
-            </HStack>
+            </HStack> */}
             <Box>
                 <Button
+                    display={!isGameover ? 'block' : 'none'}
                     fontSize={'xxs'}
-                    bgColor={isGameover ? 'blacks.500' : 'red.800'}
+                    bgColor={'red.800'}
                     onClick={onForfeit}>
-                    {isGameover ? 'Leave' : 'Forfeit'}
+                    {'Forfeit'}
                 </Button>
             </Box>
+
+            <Box>
+                <Button
+                    display={isGameover ? 'block' : 'none'}
+                    fontSize={'xxs'}
+                    bgColor={'black'}
+                    onClick={onForfeit}>
+                    {'Leave'}
+                </Button>
+            </Box>
+
             <Box display={isGameover ? 'block' : 'none'} ml="1rem">
                 <Button
                     fontSize={'xxs'}
@@ -132,6 +145,21 @@ function GameActions(props) {
                 <IconButton
                     fontSize={'xxs'}
                     colorScheme={'clear'}
+                    icon={<RiLayoutRightLine color="white" />}
+                    onClick={() => {
+                        fs.set('displayMode', 'theatre');
+                        // fs.set('chatToggle', false);
+                        // openFullscreen(props.fullScreenElem)
+                    }}
+                >
+                    Full Screen
+                </IconButton>
+            </Box>
+
+            <Box>
+                <IconButton
+                    fontSize={'xxs'}
+                    colorScheme={'clear'}
                     icon={<BsArrowsFullscreen color="white" />}
                     onClick={() => {
                         openFullscreen(props.fullScreenElem)
@@ -141,9 +169,12 @@ function GameActions(props) {
                 </IconButton>
             </Box>
 
+
+
+
             {/* <LeaveGame></LeaveGame> */}
 
-        </Wrap >
+        </HStack >
     )
 
 
@@ -152,4 +183,4 @@ function GameActions(props) {
 
 
 
-export default (fs.connect(['primaryGamePanel', 'isMobile', 'gamestatusUpdated'])(GameActions));
+export default (fs.connect(['primaryGamePanel', 'isMobile', 'gamestatusUpdated', 'fullScreenElem'])(GameActions));

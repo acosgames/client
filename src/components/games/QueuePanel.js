@@ -275,13 +275,14 @@ function QueuePanel(props) {
         <>
             <Center
 
-                position="fixed"
-                top={['0.25rem', '0.25rem', "0.5rem"]}
-                width={['6rem', '6rem', "7rem"]}
+                // position="fixed"
+                // top={['0.25rem', '0.25rem', "0.5rem"]}
+                // width={['6rem', '6rem', "7rem"]}
+                w="100%"
                 align="center"
                 justifyItems={'center'}
-                transform='translateX(-50%)'
-                left="50%"
+                // transform='translateX(-50%)'
+                // left="50%"
                 zIndex={99}
             >
 

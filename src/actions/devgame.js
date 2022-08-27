@@ -121,6 +121,7 @@ function rowsToMap(list) {
 
 export async function findDevGames(userid) {
     try {
+        fs.set('loadingGames', true);
         let games = getWithExpiry('devgames');
         if (!games) {
             let response = await GET('/api/v1/dev/games/' + userid);
@@ -129,6 +130,7 @@ export async function findDevGames(userid) {
             setWithExpiry('devgames', games, 60);
         }
 
+        fs.set('loadingGames', false);
         fs.set('devgames', games);
 
         return games;

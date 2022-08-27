@@ -12,14 +12,14 @@ function LoadingBox(props) {
 
         if (props.isDoneLoading) {
             toast.closeAll()
-            // setTimeout(() => {
-            setShow(false);
+            setTimeout(() => {
+                setShow(false);
 
-            // }, 300)
+            }, 300)
         }
     })
 
-    if (props.isDoneLoading)
+    if (!show)
         return <></>
 
     return (
@@ -30,9 +30,9 @@ function LoadingBox(props) {
             top="0"
             w="100%"
             h="100%"
-            zIndex={5}
+            zIndex={100}
             bgColor={'blacks.100'}
-            transition={'all 0.3s ease-in'}
+            transition={'filter 0.1s ease-in'}
             filter={props.isDoneLoading ? 'opacity(0)' : 'opacity(1)'}
         >
             <VStack w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>

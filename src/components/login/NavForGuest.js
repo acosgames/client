@@ -8,7 +8,9 @@ import {
     MenuItem,
     MenuList,
     Button,
-    Icon
+    Icon,
+    VStack,
+    IconButton
 } from '@chakra-ui/react'
 
 import fs from 'flatstore';
@@ -24,21 +26,27 @@ function NavForGuest(props) {
 
     return (
 
-        <Menu>
-            <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0} >
-                <Icon as={FiUser} fontSize="2.2rem" />
-            </MenuButton>
+        <Menu placement='bottom-end'>
+            <VStack display="flex" justifyContent="center" height="100%" spacing="0">
+                <MenuButton
+                    as={IconButton}
+                    rounded={'full'}
+                    icon={<FiUser size="3rem" />}
+                    // variant={'link'}
+                    cursor={'pointer'}
+                    height="100%"
+                    minW={0} >
+
+                </MenuButton>
+            </VStack>
             <MenuList alignItems={'center'} boxShadow={'0 4px 8px rgba(0,0,0,0.4),0 0px 4px rgba(0,0,0,0.4)'} border="0" borderRadius="8px">
                 {/* <Link to="/login"> */}
                 <MenuItem
                     onClick={() => {
                         // history.push('/login') 
+                        fs.set('loginFrom', 'signin');
                         fs.set('isCreateDisplayName', true);
+
                     }}
                     fontSize="xs"
                     fontWeight="400"

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import fs from 'flatstore';
 import { sendLoadMessage } from '../../../actions/connection';
 import config from '../../../config'
+import { BsArrowsFullscreen, CgMinimizeAlt } from '@react-icons';
 
 import { findGamePanelByRoom, getGame, getRoom, getRoomStatus, setIFrame, updateGamePanel } from '../../../actions/room';
 
@@ -57,6 +58,7 @@ function GameIFrame(props) {
     const iframeRef = useRef(null)
     const gamescreenRef = useRef(null)
     const gamewrapperRef = useRef(null)
+    const gameResizer = useRef();
 
     const room_slug = room.room_slug;
     const game_slug = room.game_slug;
@@ -92,7 +94,7 @@ function GameIFrame(props) {
             -webkit-transform: ${val}; 
             -moz-transform: ${val}; 
             transform: ${val};
-            transition: transform 0.1s, scale 0.1s, transform-origin 0.1s
+            
         `
     }
 
@@ -115,9 +117,10 @@ function GameIFrame(props) {
         timestamp = now;
 
         let isFullscreen = checkFullScreen();
-        let windowWidth = isFullscreen ? window.screen.width : gamewrapperRef.current.offsetWidth;
-        let windowHeight = isFullscreen ? window.screen.height : gamewrapperRef.current.offsetHeight;
-
+        // let windowWidth = isFullscreen ? window.screen.width : gamewrapperRef.current.offsetWidth;
+        // let windowHeight = isFullscreen ? window.screen.height : gamewrapperRef.current.offsetHeight;
+        let windowWidth = gamewrapperRef.current.offsetWidth;
+        let windowHeight = gamewrapperRef.current.offsetHeight;
 
         let roomStatus = getRoomStatus(room_slug);
         let offsetRatio = !isLoaded ? 0.1 : 1;
@@ -175,9 +178,30 @@ function GameIFrame(props) {
     }
 
 
+    const myObserver = new ResizeObserver(entries => {
+        // this will get called whenever div dimension changes
+        //  entries.forEach(entry => {
+        //    console.log('width', entry.contentRect.width);
+        //    console.log('height', entry.contentRect.height);
+        //  });
+        onResize();
+    });
+
+    const onFullScreenChange = (evt) => {
+        if (document.fullscreenElement) {
+            fs.set('isFullScreen', true);
+        } else {
+            fs.set('isFullScreen', false);
+        }
+    }
+
     useEffect(() => {
         window.addEventListener('resize', onResize);
-        onResize();
+        document.addEventListener('fullscreenchange', onFullScreenChange);
+
+        fs.set('fullScreenElem', gameResizer);
+
+        myObserver.observe(gameResizer.current);
 
         setTimeout(() => {
             setIsOpen(true);
@@ -189,32 +213,60 @@ function GameIFrame(props) {
         }
     }, [])
 
+    useEffect(() => {
+        onResize();
+
+
+    });
+
     // useEffect(() => {
     //     fs.set('iframeLoaded', false);
     // }, [])
 
+    // let isFullscreen = checkFullScreen();
+
+    let displayMode = props.displayMode;
 
     return (
-        <ScaleFade initialScale={0.1} in={isOpen} width="100%" height="100%" position="relative">
+
+        <VStack
+            spacing="0"
+            width="100%"
+            height="100%"
+            position="absolute"
+            zIndex={10}
+            top={0}
+            left={0}
+            justifyContent={'center'}
+            alignContent={'center'}
+            ref={gameResizer}
+            className={'gameResizer'}
+            bgColor={displayMode == 'theatre' ? 'black' : 'none'}
+        >
+
             <VStack
                 className="screen-wrapper"
-                justifyContent={'flex-start'}
-                alignContent={'center'}
-                position="absolute"
-                top={0}
-                left={0}
+                // justifyContent={'flex-start'}
+                // alignContent={'center'}
                 w="100%"
                 h={'100%'}
-                zIndex={10}
                 ref={gamewrapperRef}
-                transition={'filter 0.3s ease-in'}
+                transition={'filter 0.3s ease-in, opacity 0.5s ease-in'}
+                filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
+                justifyContent={'flex-start'}
+                alignContent={'center'}
+                position='relative'
             >
+
                 <Box
                     ref={gamescreenRef}
                     height="100%"
                     position="relative"
-                    boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}>
+                    boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}
+                    alignSelf="center">
+                    {/* <ScaleFade initialScale={1} in={gamepanel.loaded} width="100%" height="100%" position="relative"> */}
                     <LoadingBox isDoneLoading={gamepanel.loaded} />
+                    {/* </ScaleFade> */}
                     <iframe
                         className="gamescreen"
                         ref={iframeRef}
@@ -242,18 +294,40 @@ function GameIFrame(props) {
                         sandbox="allow-scripts allow-same-origin"
                     />
                     <GameMessageOverlay gamepanel={gamepanel} />
+
                 </Box>
+
             </VStack>
-        </ScaleFade>
+            <Box position="absolute" bottom="1rem" right="1rem" display={(props.isFullScreen || displayMode == 'theatre') ? 'block' : 'none'}>
+                <IconButton
+                    fontSize={'2rem'}
+                    colorScheme={'clear'}
+                    icon={<CgMinimizeAlt color="gray.300" />}
+                    onClick={() => {
+                        if (props.displayMode == 'theatre') {
+                            fs.set('displayMode', 'none');
+                        }
+                        if (props.isFullScreen)
+                            document.exitFullscreen();
+                        // openFullscreen(props.fullScreenElem)
+                    }}
+                >
+                    Exit Full Screen
+                </IconButton>
+            </Box>
+            {/* <Box w="100%" height="3rem" bgColor="blue"></Box> */}
+        </VStack>
+
     )
 }
 
+GameIFrame = fs.connect(['resize', 'isFullScreen', 'displayMode'])(GameIFrame);
 
 let onCustomWatched = ownProps => {
-    return ['gamepanels/' + ownProps.id];
+    return ['gamepanel/' + ownProps.id];
 };
 let onCustomProps = (key, value, store, ownProps) => {
-    if (key == ('gamepanels/' + ownProps.id))
+    if (key == ('gamepanel/' + ownProps.id))
         return { gamepanel: value }
     return {};
 };

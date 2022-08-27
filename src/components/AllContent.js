@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { Route, Switch } from 'react-router-dom';
+import { getGamePanel, getGamePanels } from '../actions/room';
 import Routes from '../routes/Routes';
 import RoutesGame from '../routes/RoutesGame';
 import AcosFooter from './AcosFooter';
@@ -8,8 +9,8 @@ import AcosFooter from './AcosFooter';
 function AllContent(props) {
 
 
-    let gamepanel = props.primaryGamePanel;
-
+    let gamepanelID = props.primaryGamePanel;
+    let gamepanel = getGamePanel(gamepanelID);
     //display modes for primary gamepanel: none, standard, theatre, fullscreen
     // if displayMode == none, its because all gamepanels are embedded or floating
     let displayMode = fs.get('displayMode') || 'none'
@@ -29,7 +30,7 @@ function AllContent(props) {
             width='100%'
             maxWidth="1200px"
             display='flex'
-            px={['0.5rem', '1rem', '0rem']} pt={'2.5rem'}
+
 
             flexDirection='column'
 
