@@ -1,6 +1,6 @@
 
-import { Badge, Box, Button, Text, Flex, IconButton, Input, Portal, Spacer, HStack, Wrap, } from '@chakra-ui/react';
-import { BsArrowsFullscreen, RiLayoutRightLine, RiLayoutRightFill } from '@react-icons';
+import { Badge, Box, Button, Text, Flex, IconButton, Input, Portal, Spacer, HStack, Icon, } from '@chakra-ui/react';
+import { BsArrowsFullscreen, RiLayoutRightLine, IoTimeOutline } from '@react-icons';
 
 import fs from 'flatstore';
 import { useLocation, useParams, withRouter } from 'react-router-dom';
@@ -185,9 +185,23 @@ function Timeleft(props) {
     let gamepanel = getGamePanel(props.id);
     if (!gamepanel)
         return <></>
+
+    let timeleft = fs.get('timeleft/' + props.id) || 0;
+
+    try {
+        timeleft = Number.parseInt(timeleft) / 1000;
+
+        if (timeleft > 10)
+            timeleft = Math.floor(timeleft);
+    }
+    catch (e) {
+        timeleft = 0;
+    }
+
+
     return (
         <HStack width="3rem" height={'100%'} alignContent='center'>
-            <Text fontSize='xxs' color={'gray.300'}>Time:</Text> <Text color={'gray.100'} fontSize='xxs'>{fs.get('timeleft/' + props.id)}</Text>
+            <Icon as={IoTimeOutline} fontSize='xxs' color={'gray.200'}></Icon> <Text color={'gray.100'} fontSize='xxs'>{timeleft}</Text>
         </HStack>
     )
 }

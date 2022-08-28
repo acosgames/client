@@ -52,11 +52,11 @@ function NavForUser(props) {
                     minW={0}>
                     <Avatar
                         // name={props?.user?.displayname}
-                        width={['3rem']}
-                        height={['3rem']}
+                        width={['2.5rem']}
+                        height={['2.5rem']}
                     // bgColor={'blacks.300'}
                     >
-                        <AvatarBadge bg={latencyColor} border="0" bottom={'2.2rem'} right={'2.4rem'} boxSize="1rem" />
+                        <AvatarBadge bg={latencyColor} border="0" top={'1.2rem'} right={'2.2rem'} boxSize="1rem" />
                     </Avatar>
                 </MenuButton>
             </VStack>

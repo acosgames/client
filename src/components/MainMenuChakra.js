@@ -22,6 +22,7 @@ import config from '../config'
 import { getRoomStatus } from '../actions/room';
 import { IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
 import GameActions from './games/GameDisplay/GameActions';
+import { decodeReplay, downloadReplay } from '../actions/connection';
 
 const NavLink = ({ children }) => (
     <Link
@@ -121,6 +122,18 @@ function MainMenuChakra(props) {
                                     <Icon as={props.isMobile ? (props.chatToggle ? CgChevronDoubleDownR : CgChevronDoubleUpR) : (props.chatToggle ? CgChevronDoubleRightR : CgChevronDoubleLeftR)} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'white'} />
                                 </Button>
                             </Box>
+
+                            {/* <Box p="0" m="0" height="100%" lineHeight={'100%'}>
+                                <Button onClick={async () => {
+
+                                    let jsonStr = await downloadReplay('test');
+                                    let json = decodeReplay(jsonStr);
+
+                                }} height="100%">
+                                    <Icon as={IoSend} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'white'} />
+                                </Button>
+                            </Box> */}
+
                         </Stack>
                     </Flex>
                 </Flex >

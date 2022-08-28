@@ -1,5 +1,6 @@
 import fs from 'flatstore';
 import { getWithExpiry, removeWithExpiry, setWithExpiry } from './cache';
+import { updateBrowserTitle } from './connection';
 
 
 fs.set('gamepanels', []);
@@ -78,6 +79,14 @@ export function setPrimaryGamePanel(gamepanel) {
     }
     else {
         fs.set('primaryGamePanel', gamepanel.id);
+
+        let game_slug = gamepanel?.room?.game_slug;
+        if (game_slug) {
+            let game = fs.get('games>' + game_slug);
+            if (game) {
+                updateBrowserTitle(game.name);
+            }
+        }
     }
 }
 

@@ -12,6 +12,7 @@ import { addRoom, addRooms, clearRoom, clearRooms, findGamePanelByIFrame, findGa
 import { addGameQueue, clearGameQueues, getJoinQueues } from "./queue";
 import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
 import { addChatMessage } from "./chat";
+import { GET } from "./http";
 
 // import { useHistory } from 'react-router-dom';
 // import history from "./history";
@@ -50,7 +51,7 @@ export function timerLoop(cb) {
     }
 
 
-    timerHandle = setTimeout(() => { timerLoop(cb) }, 100);
+    timerHandle = setTimeout(() => { timerLoop(cb) }, 30);
 
     let gamepanels = getGamePanels();
 
@@ -66,7 +67,7 @@ export function timerLoop(cb) {
     for (let i = 0; i < gamepanels.length; i++) {
 
         let gamepanel = gamepanels[i];
-        if (gamepanel.available || !gamepanel.gamestate || !gamepanel.loaded)
+        if (gamepanel.available || !gamepanel.gamestate || !gamepanel.loaded || !gamepanel.active)
             continue;
 
         let gamestate = gamepanel.gamestate || {};
@@ -170,7 +171,7 @@ export function sendFrameMessage(msg) {
     // let iframe = iframes[room_slug];
 
     // let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
-    if (!iframe) {
+    if (!iframe?.current) {
         if (!messageQueue[room_slug])
             messageQueue[room_slug] = [];
 
@@ -180,8 +181,7 @@ export function sendFrameMessage(msg) {
         // }, 20)
         return;
     }
-
-    if (iframe) {
+    else {
 
 
         //next frame
@@ -198,6 +198,21 @@ export function sendFrameMessage(msg) {
 
     }
 
+}
+
+
+export function sendPauseMessage(room_slug) {
+    let gamepanel = findGamePanelByRoom(room_slug);
+    if (gamepanel && gamepanel.iframe) {
+        gamepanel.iframe.current.contentWindow.postMessage({ type: 'pause' }, '*');
+    }
+}
+
+export function sendUnpauseMessage(room_slug) {
+    let gamepanel = findGamePanelByRoom(room_slug);
+    if (gamepanel && gamepanel.iframe) {
+        gamepanel.iframe.current.contentWindow.postMessage({ type: 'unpause' }, '*');
+    }
 }
 
 export function sendLoadMessage(room_slug) {
@@ -421,7 +436,9 @@ export async function wsLeaveGame(game_slug, room_slug) {
     wsSend(action);
 
     setRoomActive(room_slug, false);
+    revertBrowserTitle();
 
+    sendPauseMessage(room_slug);
     // clearRoom(room_slug);
     // setGameState({});
     // setCurrentRoom(null);
@@ -780,6 +797,93 @@ async function wsIncomingMessageFAKE(message) {
     }, forcedLatency);
 
 }
+
+function base64ToBytesArr(str) {
+    const abc = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"]; // base64 alphabet
+    let result = [];
+
+    for (let i = 0; i < str.length / 4; i++) {
+        let chunk = [...str.slice(4 * i, 4 * i + 4)]
+        let bin = chunk.map(x => abc.indexOf(x).toString(2).padStart(6, 0)).join('');
+        let bytes = bin.match(/.{1,8}/g).map(x => +('0b' + x));
+        result.push(...bytes.slice(0, 3 - (str[4 * i + 2] == "=") - (str[4 * i + 3] == "=")));
+    }
+    return result;
+}
+
+export function decodeReplay(data) {
+    let buffer = base64ToBytesArr(data);
+    let msg = decode(buffer);
+
+    console.log("[REPLAY]", JSON.stringify(msg))
+    return msg;
+}
+
+export function downloadReplay(game_slug) {
+
+    return new Promise(async (rs, rj) => {
+
+        try {
+            let url = `${config.https.cdn}g/test-game-3/replays/7/rank/1661646594335.json`
+
+            let response = await GET(url);
+            let jsonStr = response.data;
+
+            rs(jsonStr);
+
+            // fetch(url)
+            //     .then(response => {
+            //         if (!response.ok) {
+            //             console.error("Failed to download JSON replay");
+            //         }
+            //         return response.json();
+            //     })
+            //     .then(data => {
+            //         rs(data);
+            //     })
+            //     .catch(err => {
+            //         rj(err);
+            //     })
+        }
+        catch (e) {
+            rj(e);
+        }
+    })
+
+}
+
+
+export function updateBrowserTitle(title) {
+    document.title = title;
+
+    let oldFavicon = document.querySelector('link[rel=icon]');
+    var link = document.createElement('link')
+    link.id = 'favicon';
+    link.type = 'image/x-icon'
+    link.rel = 'icon';
+    link.href = '/play-favicon.ico';
+    if (oldFavicon) {
+        document.head.removeChild(oldFavicon);
+    }
+    document.head.appendChild(link);
+
+}
+
+export function revertBrowserTitle() {
+    document.title = "ACOS Online";
+
+    let oldFavicon = document.querySelector('link[rel=icon]');
+    var link = document.createElement('link')
+    link.id = 'favicon';
+    link.type = 'image/x-icon'
+    link.rel = 'icon';
+    link.href = '/favicon.ico';
+    if (oldFavicon) {
+        document.head.removeChild(oldFavicon);
+    }
+    document.head.appendChild(link);
+}
+
 async function wsIncomingMessage(message) {
     let user = fs.get('user');
     let history = fs.get('history');
@@ -1063,6 +1167,9 @@ async function postIncomingMessage(msg) {
             return;
     }
 
+    setRoomActive(room.room_slug, false);
+    sendPauseMessage(room.room_slug);
+    revertBrowserTitle();
     // clearRoom(msg.room_slug);
     // delete rooms[msg.room_slug];
     // fs.set('rooms', rooms);
