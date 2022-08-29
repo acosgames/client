@@ -507,9 +507,12 @@ export async function wsJoinQueues(queues, owner) {
         return false;
     }
 
+
     gtag('event', 'joinqueues', { queues, owner });
 
-    let payload = { queues, owner };
+    let user = await getUser();
+    let players = [{ shortid: user.shortid, displayname: user.displayname }]
+    let payload = { queues, owner, players, captain: user.shortid };
     let action = { type: 'joinqueues', payload }
     wsSend(action);
 
@@ -542,8 +545,11 @@ export async function wsJoinGame(mode, game_slug) {
         return;
     }
 
-    let payload = { mode, game_slug };
-    let action = { type: 'joingame', payload }
+    let user = await getUser();
+
+    let queues = [{ mode, game_slug }];
+    let players = [{ shortid: user.shortid, displayname: user.displayname }]
+    let action = { type: 'joingame', payload: { captain: user.shortid, queues, players } }
     wsSend(action);
 
 
