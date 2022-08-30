@@ -194,6 +194,10 @@ export async function findGame(gameid) {
         console.log(game);
         fs.set('devgame', game);
 
+        if (game.teams) {
+            fs.set('devgameteams', game.teams);
+        }
+
         // fs.set('devClientsCnt', game.clients.length);
         // for (var i = 0; i < game.clients.length; i++) {
         //     updateClient(game.clients[i]);
@@ -472,6 +476,8 @@ export async function updateGame() {
 
 export async function updateGameField(name, value, group, key, errorkey) {
     let game = fs.get(key);
+    if (!game)
+        return null;
 
     let prev = game[name];
     game[name] = value;
@@ -486,7 +492,7 @@ export async function updateGameField(name, value, group, key, errorkey) {
 
     fs.set(key, game);
 
-    console.log(game);
+    // console.log(game);
 }
 // export async function updateGameField(name, value, group, key, errorkey) {
 //     let game = fs.get('devgame');
@@ -619,6 +625,7 @@ export async function createServer(progressCB) {
 export async function clearGameFields() {
     fs.set('devgame', {});
     fs.set('devgameerror', []);
+    fs.set('devgameteams', []);
 }
 
 export async function sendGithubInvite() {

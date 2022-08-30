@@ -161,8 +161,8 @@ function DevManageGameFields(props) {
 
     let hasError = (props.devgameerror && props.devgameerror.length > 0);
     return (
-        <VStack align='left' w={["100%", '100%', '90%', '70%']} spacing="1rem" color="white">
-            <VStack w="100%">
+        <VStack align='left' w={["100%", '100%', '90%', '70%']} spacing="5rem" color="white">
+            <VStack w="100%" >
                 <Wrap w="100%">
                     <VStack align="left">
                         <Heading size="lg">Manage Game </Heading>
@@ -205,18 +205,18 @@ function DevManageGameFields(props) {
             <FSGGroup hfontSize="md" title="Publishing">
                 <HStack align="left">
 
-                    <HStack divider={<StackDivider />} spacing="2rem" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
-                        <HStack>
+                    <Wrap divider={<StackDivider />} spacing="2rem" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
+                        <Wrap>
                             <Text>Published Version:</Text>
                             {/* <Text fontWeight="bold">v{props.devgame.version}</Text> */}
                             <Select color="gray.100" onChange={onUpdateVersion} placeholder={''} w="90px" defaultValue={props.devgame.version}>
                                 {versionOptions}
                             </Select>
-                        </HStack>
-                        <HStack>
+                        </Wrap>
+                        <Wrap>
                             <Text>Latest Version:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
-                        </HStack>
-                        <HStack color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
+                        </Wrap>
+                        <Wrap color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
                             <Text>Visibility</Text>
                             <Select color="gray.100" onChange={onUpdateVisibility} placeholder={''} w="150px" defaultValue={props.devgame.visible}>
 
@@ -224,8 +224,8 @@ function DevManageGameFields(props) {
                                 <option value={'1'}>{'Public'}</option>
                                 <option value={'2'}>{'Hidden'}</option>
                             </Select>
-                        </HStack>
-                    </HStack>
+                        </Wrap>
+                    </Wrap>
 
                 </HStack>
             </FSGGroup>
@@ -295,45 +295,70 @@ function DevManageGameFields(props) {
             </FSGGroup>
 
             <FSGGroup hfontSize="md" title="Game Configuration">
-                <FSGNumberInput
-                    type="number"
-                    name="maxplayers"
-                    id="maxplayers"
-                    title="Max Players"
-                    min="1"
-                    max="100"
-                    required={rules['maxplayers'].required}
-                    value={props.devgame.maxplayers || '2'}
-                    onChange={(e) => {
-                        onChangeByName('maxplayers', parseInt(e))
-                    }} />
-                <FSGNumberInput
-                    type="number"
-                    name="minplayers"
-                    id="minplayers"
-                    title="Min Players"
-                    min="1"
-                    max="100"
-                    required={rules['minplayers'].required}
-                    value={props.devgame.minplayers || '2'}
-                    onChange={(e) => {
-                        onChangeByName('minplayers', parseInt(e))
-                    }} />
+                <VStack w="100%">
+                    <HStack w="100%">
+                        <FSGNumberInput
+                            type="number"
+                            name="minplayers"
+                            id="minplayers"
+                            title="Min Players"
+                            min="1"
+                            max="100"
+                            required={rules['minplayers'].required}
+                            value={props.devgame.minplayers || '2'}
+                            onChange={(e) => {
+                                // onChangeByName('minplayers', parseInt(e))
+                                let count = Number.parseInt(e);
+                                if (count > props.devgame.maxplayers) {
+                                    onChangeByName('minplayers', props.devgame.maxplayers)
+                                }
+                                else if (count < 0) {
+                                    onChangeByName('minplayers', 0)
+                                }
+                                else {
+                                    onChangeByName('minplayers', parseInt(e))
+                                }
+                            }} />
 
-                <FSGSwitch
-                    type="boolean"
-                    name="lbscore"
-                    id="lbscore"
-                    title="Enable Highscore Leaderboard?"
-                    min="0"
-                    max="1"
-                    required={rules['lbscore'].required}
-                    checked={props.devgame.lbscore ? true : false}
-                    onChange={(e) => {
-                        console.log('onChange lbscore:', e.target.checked);
-                        onChangeByName('lbscore', e.target.checked ? true : false);
-                    }}
-                />
+                        <FSGNumberInput
+                            type="number"
+                            name="maxplayers"
+                            id="maxplayers"
+                            title="Max Players"
+                            min="1"
+                            max="100"
+                            required={rules['maxplayers'].required}
+                            value={props.devgame.maxplayers || '2'}
+                            onChange={(e) => {
+                                let count = Number.parseInt(e);
+
+                                if (count < props.devgame.minplayers) {
+                                    onChangeByName('maxplayers', props.devgame.minplayers)
+                                }
+                                else if (count < 0) {
+                                    onChangeByName('maxplayers', 0)
+                                }
+                                else {
+                                    onChangeByName('maxplayers', parseInt(e))
+                                }
+                            }} />
+
+                    </HStack>
+                    <FSGSwitch
+                        type="boolean"
+                        name="lbscore"
+                        id="lbscore"
+                        title="Enable Highscore Leaderboard?"
+                        min="0"
+                        max="1"
+                        required={rules['lbscore'].required}
+                        checked={props.devgame.lbscore ? true : false}
+                        onChange={(e) => {
+                            console.log('onChange lbscore:', e.target.checked);
+                            onChangeByName('lbscore', e.target.checked ? true : false);
+                        }}
+                    />
+                </VStack>
                 {/* <FSGTextInput
                     type="text"
                     name="teams"

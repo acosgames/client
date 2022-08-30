@@ -14,7 +14,7 @@ function FSGRead(props) {
 
     return (
         <FormControl as='fieldset' mb="0">
-            <FormLabel as='legend' fontSize={props.hfontSize} color={props.hcolor || "gray.400"} fontWeight={props.hfontWeight || "bold"}>
+            <FormLabel as='legend' fontSize={props.hfontSize || "xs"} color={props.hcolor || "gray.200"} fontWeight={props.hfontWeight || "bold"}>
                 <HStack>
                     <Text>{props.title}</Text>
                     {props.required && (
