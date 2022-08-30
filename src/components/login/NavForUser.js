@@ -16,7 +16,7 @@ import {
     HStack
 } from '@chakra-ui/react'
 
-import { IoHammer, ImUser, BsBackspace, BsBarChartFill, GiSaveArrow } from '@react-icons';
+import { FiLogOut, IoHammer, ImUser, BsBackspace, BsBarChartFill, GiSaveArrow } from '@react-icons';
 
 import fs from 'flatstore';
 import SLink from '../widgets/SLink';

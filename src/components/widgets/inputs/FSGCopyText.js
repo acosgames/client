@@ -22,13 +22,15 @@ function FSGCopyText(props) {
             width={props.width}
             maxWidth={props.maxWidth}
             onFocus={props.onFocus}
-            fontSize="12px"
+            fontSize={props.fontSize || "12px"}
+            fontWeight={props.fontWeight}
+            height={props.height || '3rem'}
             readOnly
             size="xs"
-            color="gray.100"
-            bgColor="gray.800"
-            borderColor="gray.800"
-            outlineColor={'gray.800'}
+            color={props.color || "gray.100"}
+            bgColor={props.bgColor || "gray.800"}
+            borderColor={props.borderColor || "gray.800"}
+            outlineColor={props.outlineColor || 'gray.800'}
             _hover={{ borderColor: 'gray.800' }}
         />
 

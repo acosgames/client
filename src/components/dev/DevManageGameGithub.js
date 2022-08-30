@@ -17,16 +17,21 @@ function DevManageGameGithub(props) {
     const toast = useToast();
 
     return (
-        <VStack w="100%">
-            <Text as="span" fontSize="xs" fontWeight={'bold'} color="gray.300">Your GitHub repo in <Link fontSize="xs" href={acosgamesURL}>acosgames</Link> organization</Text>
-            <Link target="_blank" fontWeight={'light'} color="yellow.100" fontSize="sm" href={githubURL}>{githubURL}</Link>
+        <VStack w="100%" alignItems={'flex-start'}>
+            <Text as="span" fontSize="xs" fontWeight={'light'} color="gray.100">Clone your <Link target="_blank" fontWeight={'light'} color="gray.100" fontSize="sm" href={githubURL}>GitHub repo</Link> to get started</Text>
+            {/* <Link target="_blank" fontWeight={'light'} color="gray.100" fontSize="sm" href={githubURL}>{githubURL}</Link> */}
             {/* <Text>
                 <Link target="_blank" color="gray.300" fontSize="xs" href="https://sdk.acos.games/#start-from-an-existing-game-template"><Icon as={FaExternalLinkAlt} color="white" fontSize="xs" /> Instructions to start from existing game template</Link>
             </Text> */}
-            <HStack w="100%" justifyContent={'center'}>
+            <HStack w="100%" >
                 <FSGCopyText
+
                     value={cloneCmd}
                     copyRef={copyRef}
+                    color={'gray.100'}
+                    fontSize={'xs'}
+                    fontWeight={'light'}
+                    bgColor={'gray.700'}
                     maxWidth={'500px'}
                     onFocus={(e) => {
                         e.target.select()
@@ -57,7 +62,7 @@ function DevManageGameGithub(props) {
                     </Tooltip>
                 </Center>
             </HStack>
-        </VStack>
+        </VStack >
     )
 }
 

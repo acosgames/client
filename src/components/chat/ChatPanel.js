@@ -223,7 +223,7 @@ function ChatMessages(props) {
     //update chatMode for when user changes pages
     useEffect(() => {
         fs.set('chatMode', fs.get('chatMode'));
-    }, [location])
+    }, [])
 
     let timeHandle = 0;
     const scrollBarHideDelay = 2000;

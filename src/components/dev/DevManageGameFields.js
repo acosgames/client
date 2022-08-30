@@ -27,7 +27,7 @@ import FSGDelete from "../widgets/inputs/FSGDelete";
 import DevManageGameDelete from "./DevManageGameDelete";
 import FSGButton from "../widgets/inputs/FSGButton.js";
 import FSGSwitch from "../widgets/inputs/FSGSwitch";
-
+import DevManageGameTeams from "./DevManageGameTeams";
 function DevManageGameFields(props) {
 
     useEffect(() => {
@@ -161,16 +161,15 @@ function DevManageGameFields(props) {
 
     let hasError = (props.devgameerror && props.devgameerror.length > 0);
     return (
-        <VStack align='left' w={["100%", '100%', '90%', '70%']} spacing="1rem">
+        <VStack align='left' w={["100%", '100%', '90%', '70%']} spacing="1rem" color="white">
             <VStack w="100%">
                 <Wrap w="100%">
                     <VStack align="left">
                         <Heading size="lg">Manage Game </Heading>
                         <Heading as="h5" size="md" color="gray.400">{props.devgame.game_slug}</Heading>
-                        <HStack divider={<StackDivider />} color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
+                        {/* <HStack divider={<StackDivider />} color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
                             <HStack>
                                 <Text>Published:</Text>
-                                {/* <Text fontWeight="bold">v{props.devgame.version}</Text> */}
                                 <Select color="gray.100" onChange={onUpdateVersion} placeholder={''} w="90px" defaultValue={props.devgame.version}>
                                     {versionOptions}
                                 </Select>
@@ -187,7 +186,7 @@ function DevManageGameFields(props) {
                                 <option value={'1'}>{'Public'}</option>
                                 <option value={'2'}>{'Hidden'}</option>
                             </Select>
-                        </HStack>
+                        </HStack> */}
                     </VStack>
 
                     <Box flex="1" pb="0rem" pt="0rem" align="right">
@@ -203,7 +202,33 @@ function DevManageGameFields(props) {
 
 
             </VStack>
+            <FSGGroup hfontSize="md" title="Publishing">
+                <HStack align="left">
 
+                    <HStack divider={<StackDivider />} spacing="2rem" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
+                        <HStack>
+                            <Text>Published Version:</Text>
+                            {/* <Text fontWeight="bold">v{props.devgame.version}</Text> */}
+                            <Select color="gray.100" onChange={onUpdateVersion} placeholder={''} w="90px" defaultValue={props.devgame.version}>
+                                {versionOptions}
+                            </Select>
+                        </HStack>
+                        <HStack>
+                            <Text>Latest Version:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
+                        </HStack>
+                        <HStack color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
+                            <Text>Visibility</Text>
+                            <Select color="gray.100" onChange={onUpdateVisibility} placeholder={''} w="150px" defaultValue={props.devgame.visible}>
+
+                                <option value={'0'}>{'Unlisted'}</option>
+                                <option value={'1'}>{'Public'}</option>
+                                <option value={'2'}>{'Hidden'}</option>
+                            </Select>
+                        </HStack>
+                    </HStack>
+
+                </HStack>
+            </FSGGroup>
             <FSGGroup hfontSize="md" title="Github">
                 <DevManageGameGithub devgame={props.devgame} />
             </FSGGroup>
@@ -319,6 +344,10 @@ function DevManageGameFields(props) {
                     value={props.devgame.teams || ''}
                     onChange={inputChange} /> */}
             </FSGGroup>
+
+
+            <DevManageGameTeams devgame={props.devgame} />
+
 
             {/* <FSGGroup title="Game Support">
                 <FSGTextInput

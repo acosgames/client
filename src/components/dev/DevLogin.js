@@ -51,7 +51,7 @@ function DevLogin(props) {
     }
 
     let user = props.user;
-    if (user && (user.isdev || user.github)) {
+    if (user && (user.isdev && user.github)) {
 
         return <Redirect to="/dev" />
     }
@@ -64,8 +64,15 @@ function DevLogin(props) {
     }
 
     const loggedIn = fs.get('loggedIn');
+    const isLoggedIn = loggedIn != 'LURKER';
     const showInvite = ((user && !user.isdev) || !sentInvite);
     const showLogin = (!user || !user.github);
+
+    let step1 = showLogin;
+    let step2 = !showLogin && !sentInvite;
+    let step3 = sentInvite && !acceptInvite;
+    let step4 = acceptInvite;
+
     return (
         <Center mb="2rem">
             <VStack align="left" w={['100%', '80%', '70%', '70%', '50%']} >
@@ -84,18 +91,27 @@ function DevLogin(props) {
                 </Text>
 
                 <HStack>
-                    <Icon color={showLogin ? 'yellow.500' : 'green.500'} fontSize="xl" as={showLogin ? FiSquare : FiCheckSquare} />
+                    <Icon color={step1 ? 'yellow.500' : 'green.500'} fontSize="xl" as={step1 ? FiSquare : FiCheckSquare} />
                     <Heading as="h3" size="md" color="gray.400">Step 1:</Heading>
                     <Heading as="h3" size="md" color="white">Login to GitHub to begin</Heading>
                 </HStack>
                 <a href="/login/github?ref=/dev" w="full">
-                    <Button h="5rem" disabled={!showLogin} w={'full'} justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
+                    <Button
+                        h="5rem"
+                        disabled={!step1}
+                        w={'full'}
+                        justifyContent="left"
+                        bgColor={step1 ? "brand.500" : 'gray.600'}
+                        _hover={{ bg: step1 ? "brand.600" : 'gray.700' }}
+                        _active={{ bg: step1 ? "brand.900" : 'gray.900' }}
+                        leftIcon={<FaGithub
+                            size="24px" />}>
 
                         <Text fontSize="sm" ml="4rem">Sign in with github</Text>
 
                     </Button>
                 </a>
-                <VStack filter={(loggedIn == 'LURKER') ? "blur(2px)" : ''} align="left" w='100%' position="relative">
+                <VStack filter={step1 ? "blur(2px)" : ''} align="left" w='100%' position="relative">
                     <Box position="absolute" w="100%" h="100%" display={(loggedIn != 'LURKER') ? 'none' : 'block'}  >
                         &nbsp;
                     </Box>
@@ -110,7 +126,9 @@ function DevLogin(props) {
                         onClick={onInvite}
                         w={"full"}
                         justifyContent={"left"}
-                        variant={"outline"}
+                        bgColor={step2 ? "brand.600" : 'gray.600'}
+                        _hover={{ bg: step2 ? "brand.700" : 'gray.700' }}
+                        _active={{ bg: step2 ? "brand.900" : 'gray.900' }}
                         leftIcon={<FiDownload />} >
                         <Text fontSize="sm" ml="4rem">Send GitHub invite for 'acosgames' organization</Text>
                     </Button>
@@ -129,7 +147,9 @@ function DevLogin(props) {
                             //disabled={acceptInvite}
                             w={"full"}
                             justifyContent={"left"}
-                            variant={"outline"}
+                            bgColor={step3 ? "brand.600" : 'gray.600'}
+                            _hover={{ bg: step3 ? "brand.700" : 'gray.700' }}
+                            _active={{ bg: step3 ? "brand.900" : 'gray.900' }}
                             leftIcon={<FiDownload />} >
                             <Text fontSize="sm" ml="4rem">Accept invite to 'acosgames' organization</Text>
                         </Button>
@@ -151,7 +171,9 @@ function DevLogin(props) {
                                 //disabled={acceptInvite}
                                 w={"full"}
                                 justifyContent={"left"}
-                                variant={"outline"}
+                                bgColor={step4 ? "brand.600" : ''}
+                                _hover={{ bg: step4 ? "brand.700" : '' }}
+                                _active={{ bg: step4 ? "brand.900" : '' }}
                                 leftIcon={<FiRefreshCw />} >
                                 <Text fontSize="sm" ml="4rem">Login again to access Developer Zone</Text>
                             </Button>

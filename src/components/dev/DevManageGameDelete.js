@@ -46,7 +46,7 @@ function DevManageGameDelete(props) {
 
     return (
         <VStack>
-            <Button size="xs" onClick={() => setIsOpen(true)}><Text as="span" color="gray.300">Delete</Text></Button>
+            <Button height={'3rem'} lineHeight='3rem' bgColor={'red.800'} size="xs" onClick={() => setIsOpen(true)}><Text as="span" color="gray.100">Delete</Text></Button>
 
             <AlertDialog
                 isOpen={isOpen}
@@ -64,10 +64,10 @@ function DevManageGameDelete(props) {
                         </AlertDialogBody>
 
                         <AlertDialogFooter>
-                            <Button ref={cancelRef} onClick={onClose}>
+                            <Button fontSize={'xs'} ref={cancelRef} onClick={onClose}>
                                 Cancel
                             </Button>
-                            <Button colorScheme='green' onClick={onDelete} ml={3}>
+                            <Button fontSize={'xs'} bgColor={'red.800'} onClick={onDelete} ml={3}>
                                 Delete Draft Game
                             </Button>
                         </AlertDialogFooter>

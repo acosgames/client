@@ -85,11 +85,11 @@ function DevMyGameListItem(props) {
                                 <HStack pr={['1rem', '2rem', "2rem", "2rem"]}>
                                     <HStack >
                                         <Icon color="gray.500" as={FiUsers} />
-                                        <Text color="gray.400">{props.count || 0}</Text>
+                                        <Text color="gray.400">{props.totalPlays || 0}</Text>
                                     </HStack>
                                     <HStack>
                                         <Icon color="gray.500" as={FiHeart} />
-                                        <Text color="gray.400">{props.votes || 0}</Text>
+                                        <Text color="gray.400">{props.totalVotes || 0}</Text>
                                     </HStack>
                                 </HStack>
                                 <HStack pr={['1rem', '2rem', "2rem", "2rem"]}>
@@ -127,7 +127,7 @@ function DevMyGameListItem(props) {
                     </Flex>
 
                 </Wrap >
-                <Box display={(version != null && version < props.latest_version) ? 'block' : 'none'}>
+                <Box display={(props.status == 1 || props.status == 2) ? 'block' : 'none'}>
                     <VStack justifyContent={'center'}>
                         <Button size="xs" onClick={() => setIsOpen(true)}><Text as="span" color="gray.300">Push to Production</Text></Button>
                         <Text fontSize="xs" color="gray.400">{props.game_slug} - build {props.latest_version}</Text>
@@ -148,11 +148,19 @@ function DevMyGameListItem(props) {
                                     </AlertDialogBody>
 
                                     <AlertDialogFooter>
-                                        <Button ref={cancelRef} onClick={onClose}>
+                                        <Button
+                                            bgColor={"red.600"}
+                                            _hover={{ bg: "red.700" }}
+                                            _active={{ bg: "red.900" }}
+                                            fontSize="xs" ref={cancelRef} onClick={onClose}>
                                             Cancel
                                         </Button>
-                                        <Button colorScheme='green' onClick={onApproveDeploy} ml={3}>
-                                            Deploy Build {props.latest_version} to Production
+                                        <Button
+                                            bgColor={"brand.600"}
+                                            _hover={{ bg: "brand.700" }}
+                                            _active={{ bg: "brand.900" }}
+                                            fontSize="xs" colorScheme='green' onClick={onApproveDeploy} ml={3}>
+                                            Deploy to Production
                                         </Button>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>

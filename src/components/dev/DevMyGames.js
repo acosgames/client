@@ -17,6 +17,7 @@ fs.set('loadingGames', true);
 function DevMyGames(props) {
 
 
+    const history = useHistory();
 
     const showInvitation = () => {
         let user = props.user;
@@ -41,7 +42,7 @@ function DevMyGames(props) {
         let games = props.devgames || [];
         let elems = [];
 
-        const history = useHistory();
+
 
         for (var i = 0; i < games.length; i++) {
             let game = games[i];
