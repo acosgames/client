@@ -82,7 +82,7 @@ function GameActions(props) {
         //     return
 
         clearRoom(room_slug);
-
+        clearPrimaryGamePanel();
         let isExperimental = mode == 'experimental';// (window.location.href.indexOf('/experimental/') != -1);
         // await wsLeaveGame(game_slug, room_slug);
 

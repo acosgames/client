@@ -203,14 +203,14 @@ export function sendFrameMessage(msg) {
 
 export function sendPauseMessage(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
-    if (gamepanel && gamepanel.iframe) {
+    if (gamepanel && gamepanel.iframe?.current) {
         gamepanel.iframe.current.contentWindow.postMessage({ type: 'pause' }, '*');
     }
 }
 
 export function sendUnpauseMessage(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
-    if (gamepanel && gamepanel.iframe) {
+    if (gamepanel && gamepanel.iframe?.current) {
         gamepanel.iframe.current.contentWindow.postMessage({ type: 'unpause' }, '*');
     }
 }
@@ -219,7 +219,7 @@ export function sendLoadMessage(room_slug) {
     // onResize = runCallback;
 
     let gamepanel = findGamePanelByRoom(room_slug);
-    if (gamepanel && gamepanel.iframe) {
+    if (gamepanel && gamepanel.iframe?.current) {
         gamepanel.iframe.current.contentWindow.postMessage({ type: 'load', payload: { game_slug: gamepanel.room.game_slug, version: gamepanel.room.version } }, '*');
     }
     // let iframe = getIFrame(room_slug);
@@ -291,7 +291,7 @@ export function recvFrameMessage(evt) {
         refreshGameState(room_slug);
 
         let gamestatus = gamestate?.state?.gamestatus;
-        if (!gamestatus || gamestatus != 'pregame') {
+        if (gamestatus && gamestatus != 'pregame') {
             return;
         }
     }
@@ -459,10 +459,10 @@ export async function wsLeaveQueue() {
 
     fs.set('joinqueues', null);
     localStorage.removeItem('joinqueues');
-    // let action = { type: 'leavequeue' }
-    // wsSend(action);
+    let action = { type: 'leavequeue' }
+    wsSend(action);
 
-    await disconnect();
+    // await disconnect();
 
     console.log("[Outgoing] Leave Queue ");
 }
@@ -910,10 +910,16 @@ async function wsIncomingMessage(message) {
         case 'pong':
             onPong(msg);
             return;
-        case 'queue':
+        case 'addedQueue':
             console.log("[Incoming] queue: ", JSON.parse(JSON.stringify(msg, null, 2)));
-            addGameQueue(msg.queues);
-            fs.set('playerCount', msg.playerCount || 0);
+            addGameQueue(msg.payload.queues);
+            // fs.set('playerCount', msg.playerCount || 0);
+
+            return;
+        case 'removedQueue':
+            console.log("[Incoming] queue: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            await wsLeaveQueue();
+            // fs.set('playerCount', msg.playerCount || 0);
 
             return;
         case 'ready':
@@ -1174,7 +1180,7 @@ async function postIncomingMessage(msg) {
     }
 
     setRoomActive(room.room_slug, false);
-    sendPauseMessage(room.room_slug);
+    //sendPauseMessage(room.room_slug);
     revertBrowserTitle();
     // clearRoom(msg.room_slug);
     // delete rooms[msg.room_slug];
