@@ -38,10 +38,12 @@
     "react-mde": "^11.5.0",
     "react-perfect-scrollbar": "^1.5.8",
     "react-router-dom": "^5.2.0",
+    "react-sortablejs": "^6.1.4",
     "react-spring": "^9.2.4",
     "remark-gfm": "^3.0.1",
     "shared": "file:../shared",
     "simplebar-react": "^2.4.1",
+    "sortablejs": "^1.15.0",
     "wait-on": "^5.3.0",
     "websocket": "^1.0.33"
   },

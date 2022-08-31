@@ -28,14 +28,15 @@ function DevManageGame(props) {
 
     }, [])
 
-    if (!props.devgame || !props.devgame.game_slug) {
+    let devgame = fs.get('devgame');
+    if (!devgame || !devgame.game_slug) {
         return <></>
     }
 
     return (
         <VStack>
 
-            <DevManageGameFields devgame={props.devgame} />
+            <DevManageGameFields devgame={devgame} />
 
 
         </VStack>
@@ -44,4 +45,4 @@ function DevManageGame(props) {
     )
 }
 
-export default fs.connect(['devgame'])(withRouter(DevManageGame));
+export default fs.connect(['loaded/devgame'])(withRouter(DevManageGame));

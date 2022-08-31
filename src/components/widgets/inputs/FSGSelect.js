@@ -1,11 +1,10 @@
-import { HStack, Input, Text } from '@chakra-ui/react'
+import { HStack, Input, Select, Switch, Text } from '@chakra-ui/react'
 import { FormControl, FormLabel, FormHelperText } from "@chakra-ui/form-control";
 import { updateGameField } from '../../../actions/devgame';
 import { useEffect, useRef } from 'react';
-
 import fs from 'flatstore';
 
-function FSGTextInput(props) {
+function FSGSelect(props) {
 
     // const inputChange = (e) => {
     //     let name = e.target.name;
@@ -37,30 +36,42 @@ function FSGTextInput(props) {
                     )}
                 </HStack>
             </FormLabel>
-            <Input
-                name={props.name}
+
+            <Select
                 id={props.id}
+                name={props.name}
                 ref={props.ref || inputRef}
-                placeholder={props.placeholder}
-                maxLength={props.maxLength}
-                value={value || ''}
-                size={props.size}
-                width={props.width}
-                height={props.height}
-                onKeyPress={props.onKeyPress}
-                onKeyUp={props.onKeyUp}
-                onKeyDown={props.onKeyDown}
+                value={value}
                 onChange={(e) => {
                     if (props.rules && props.group) {
                         updateGameField(props.name, e.target.value, props.rules, props.group, props.error);
                     }
                     props.onChange(e);
                 }}
+                placeholder={props.placeholder}
+                w={props.w || props.width}
+                defaultValue={props.defaultValue}
+                disabled={props.disabled}
+                onFocus={props.onFocus}
+            >
+                {props.options}
+            </Select>
+
+            {/* <Input
+                name={props.name}
+                id={props.id}
+                ref={props.ref || inputRef}
+                placeholder={props.placeholder}
+                maxLength={props.maxLength}
+                value={props.value || ''}
+                size={props.size}
+                width={props.width}
+                onKeyDown={props.onKeyDown}
+                onChange={props.onChange}
                 onFocus={props.onFocus}
                 disabled={props.disabled}
-                autoComplete={props.autoComplete}
                 bgColor="gray.800"
-            />
+            /> */}
 
             <FormHelperText>{props.helpText}</FormHelperText>
 
@@ -79,8 +90,7 @@ let onCustomWatched = ownProps => {
 let onCustomProps = (key, value, store, ownProps) => {
     // if (key == (ownProps.group + '>' + ownProps.name))
     //     return { [key]: value }
-    return { 'value': value };
+    return { [ownProps.id]: value };
 };
 
-export default fs.connect([], onCustomWatched, onCustomProps)(FSGTextInput);
-
+export default fs.connect([], onCustomWatched, onCustomProps)(FSGSelect);

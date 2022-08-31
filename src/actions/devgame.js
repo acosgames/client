@@ -194,6 +194,7 @@ export async function findGame(gameid) {
         console.log(game);
         fs.set('devgame', game);
 
+        fs.set('loaded/devgame', Date.now())
         if (game.teams) {
             fs.set('devgameteams', game.teams);
         }
@@ -475,22 +476,32 @@ export async function updateGame() {
 }
 
 export async function updateGameField(name, value, group, key, errorkey) {
-    let game = fs.get(key);
-    if (!game)
-        return null;
+    let prevValue = fs.get(key);
+    // if (typeof prevValue === 'undefined')
+    //     return null;
 
-    let prev = game[name];
-    game[name] = value;
+    errorkey = errorkey || 'devgameerror'
+    // let prev = game[name];
+    // game[name] = value;
 
-    let errors = validateField(group, game);
-    if (errors.length > 0) {
-        fs.set(errorkey, errors);
-        game[name] = prev;
-        fs.set(key, game);
-        return game;
+    let fields = {};
+
+    let parts = key.split('>');
+    if (parts.length > 1) {
+        let fieldkey = key.replace('>' + parts[parts.length - 1], '');
+        fields = fs.get(fieldkey);
     }
 
-    fs.set(key, game);
+
+    let errors = validateField(group, name, value, fields);
+    if (errors.length > 0) {
+        fs.set(errorkey, errors);
+        // game[name] = prev;
+        fs.set(key, value);
+        //return value;
+    }
+
+    fs.set(key, value);
 
     // console.log(game);
 }

@@ -9,10 +9,11 @@ import {
 } from '@chakra-ui/react'
 import { FormControl, FormLabel, FormHelperText } from "@chakra-ui/form-control";
 import { updateGameField } from '../../../actions/devgame';
+import fs from 'flatstore';
 
 function FSGNumberInput(props) {
 
-
+    let value = (props.group && props[props.group]) || props.value;
     return (
         <FormControl as='fieldset' mb="0">
             <FormLabel as='legend' fontSize="xs" color="gray.100" fontWeight="bold">
@@ -32,9 +33,14 @@ function FSGNumberInput(props) {
                 id={props.id}
                 placeholder={props.placeholder}
                 maxLength={props.maxLength}
-                value={props.value || ''}
+                value={value || ''}
                 size={props.size || 'md'}
-                onChange={props.onChange}
+                onChange={(e) => {
+                    if (props.rules && props.group) {
+                        updateGameField(props.name, Number.parseInt(e), props.rules, props.group, props.error);
+                    }
+                    props.onChange(e);
+                }}
                 disabled={props.disabled}
                 bgColor="gray.800"
             >
@@ -53,4 +59,16 @@ function FSGNumberInput(props) {
 
 }
 
-export default FSGNumberInput;
+
+let onCustomWatched = ownProps => {
+    if (ownProps.group)
+        return [ownProps.group];
+    return [];
+};
+let onCustomProps = (key, value, store, ownProps) => {
+    // if (key == (ownProps.group + '>' + ownProps.name))
+    //     return { [key]: value }
+    return { [ownProps.id]: value };
+};
+
+export default fs.connect([], onCustomWatched, onCustomProps)(FSGNumberInput);

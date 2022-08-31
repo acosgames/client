@@ -28,6 +28,7 @@ import DevManageGameDelete from "./DevManageGameDelete";
 import FSGButton from "../widgets/inputs/FSGButton.js";
 import FSGSwitch from "../widgets/inputs/FSGSwitch";
 import DevManageGameTeams from "./DevManageGameTeams";
+import FSGSelect from "../widgets/inputs/FSGSelect";
 function DevManageGameFields(props) {
 
     useEffect(() => {
@@ -49,7 +50,7 @@ function DevManageGameFields(props) {
         if (value < 0 || value > props.devgame.latest_version)
             return false;
 
-        updateGameField('version', Number.parseInt(value), 'update-game_info', 'devgame', 'devgameerror');
+        updateGameField('version', Number.parseInt(value), 'update-game_info', 'devgame>version', 'devgameerror');
     }
 
     const onUpdateVisibility = async (e) => {
@@ -63,13 +64,13 @@ function DevManageGameFields(props) {
         value = Number.parseInt(value);
 
         if (value == 0) {
-            updateGameField('visible', 0, 'update-game_info', 'devgame', 'devgameerror');
+            updateGameField('visible', 0, 'update-game_info', 'devgame>visible', 'devgameerror');
         }
         else if (value == 1) {
-            updateGameField('visible', 1, 'update-game_info', 'devgame', 'devgameerror');
+            updateGameField('visible', 1, 'update-game_info', 'devgame>visible', 'devgameerror');
         }
         else if (value == 2) {
-            updateGameField('visible', 2, 'update-game_info', 'devgame', 'devgameerror');
+            updateGameField('visible', 2, 'update-game_info', 'devgame>visible', 'devgameerror');
         }
     }
 
@@ -115,11 +116,11 @@ function DevManageGameFields(props) {
         let name = e.target.name;
         let value = e.target.value;
 
-        updateGameField(name, value, 'update-game_info', 'devgame', 'devgameerror');
+        //updateGameField(name, value, 'update-game_info', 'devgame', 'devgameerror');
     }
 
     const onChangeByName = (name, value) => {
-        updateGameField(name, value, 'update-game_info', 'devgame', 'devgameerror');
+        // updateGameField(name, value, 'update-game_info', 'devgame', 'devgameerror');
     }
     const onChange = (key, value, group) => {
         console.log(key, value, group);
@@ -154,10 +155,11 @@ function DevManageGameFields(props) {
     */
 
     let versionOptions = [];
-    for (var i = props.devgame.latest_version; i > 0; i--) {
-        let option = <option key={'published-v' + i} value={i}>{'v' + i}</option>
-        versionOptions.push(option);
-    }
+    if (props?.devgame?.latest_version)
+        for (var i = props.devgame.latest_version; i > 0; i--) {
+            let option = <option key={'published-v' + i} value={i}>{'v' + i}</option>
+            versionOptions.push(option);
+        }
 
     let hasError = (props.devgameerror && props.devgameerror.length > 0);
     return (
@@ -167,26 +169,6 @@ function DevManageGameFields(props) {
                     <VStack align="left">
                         <Heading size="lg">Manage Game </Heading>
                         <Heading as="h5" size="md" color="gray.400">{props.devgame.game_slug}</Heading>
-                        {/* <HStack divider={<StackDivider />} color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
-                            <HStack>
-                                <Text>Published:</Text>
-                                <Select color="gray.100" onChange={onUpdateVersion} placeholder={''} w="90px" defaultValue={props.devgame.version}>
-                                    {versionOptions}
-                                </Select>
-                            </HStack>
-                            <HStack>
-                                <Text>Latest:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
-                            </HStack>
-                        </HStack>
-                        <HStack color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
-                            <Text>Visibility</Text>
-                            <Select color="gray.100" onChange={onUpdateVisibility} placeholder={''} w="150px" defaultValue={props.devgame.visible}>
-
-                                <option value={'0'}>{'Unlisted'}</option>
-                                <option value={'1'}>{'Public'}</option>
-                                <option value={'2'}>{'Hidden'}</option>
-                            </Select>
-                        </HStack> */}
                     </VStack>
 
                     <Box flex="1" pb="0rem" pt="0rem" align="right">
@@ -209,21 +191,40 @@ function DevManageGameFields(props) {
                         <Wrap>
                             <Text>Published Version:</Text>
                             {/* <Text fontWeight="bold">v{props.devgame.version}</Text> */}
-                            <Select color="gray.100" onChange={onUpdateVersion} placeholder={''} w="90px" defaultValue={props.devgame.version}>
-                                {versionOptions}
-                            </Select>
+                            <FSGSelect
+                                name="version"
+                                rules='update-game_info'
+                                group={'devgame>version'}
+                                color="gray.100"
+                                onChange={onUpdateVersion}
+                                placeholder={''}
+                                w="90px"
+                                defaultValue={props.devgame.version}
+                                value={props.devgame.version}
+                                options={versionOptions}
+                            />
                         </Wrap>
                         <Wrap>
                             <Text>Latest Version:</Text><Text fontWeight="bold">v{props.devgame.latest_version}</Text>
                         </Wrap>
                         <Wrap color="gray.200" display={props.devgame.latest_version > 0 ? 'flex' : 'none'}>
                             <Text>Visibility</Text>
-                            <Select color="gray.100" onChange={onUpdateVisibility} placeholder={''} w="150px" defaultValue={props.devgame.visible}>
+                            <FSGSelect
+                                name="visible"
+                                rules='update-game_info'
+                                group={'devgame>visible'}
+                                color="gray.100"
+                                onChange={onUpdateVisibility}
+                                placeholder={''}
+                                w="150px"
+                                defaultValue={props.devgame.visible}
+                                value={props.devgame.visible}
+                                options={[<option key="visible-unlisted" value={'0'}>{'Unlisted'}</option>,
+                                <option key="visible-public" value={'1'}>{'Public'}</option>,
+                                <option key="visible-hidden" value={'2'}>{'Hidden'}</option>]}
+                            />
 
-                                <option value={'0'}>{'Unlisted'}</option>
-                                <option value={'1'}>{'Public'}</option>
-                                <option value={'2'}>{'Hidden'}</option>
-                            </Select>
+
                         </Wrap>
                     </Wrap>
 
@@ -260,6 +261,8 @@ function DevManageGameFields(props) {
 
             <FSGGroup hfontSize="md" title="Game Details">
                 <FSGTextInput
+                    rules='update-game_info'
+                    group={'devgame>name'}
                     name="name"
                     id="name"
                     title="Game Name"
@@ -271,6 +274,8 @@ function DevManageGameFields(props) {
 
                 <FSGTextInput
                     type="text"
+                    rules='update-game_info'
+                    group={'devgame>shortdesc'}
                     name="shortdesc"
                     id="shortdesc"
                     title="Short Description"
@@ -283,6 +288,8 @@ function DevManageGameFields(props) {
                 <Markdown
                     type="text"
                     name="longdesc"
+                    rules='update-game_info'
+                    group={'devgame>longdesc'}
                     id="longdesc"
                     title="Long Description"
                     maxLength="5000"
@@ -301,6 +308,8 @@ function DevManageGameFields(props) {
                             type="number"
                             name="minplayers"
                             id="minplayers"
+                            rules='update-game_info'
+                            group={'devgame>minplayers'}
                             title="Min Players"
                             min="1"
                             max="100"
@@ -324,6 +333,8 @@ function DevManageGameFields(props) {
                             type="number"
                             name="maxplayers"
                             id="maxplayers"
+                            rules='update-game_info'
+                            group={'devgame>maxplayers'}
                             title="Max Players"
                             min="1"
                             max="100"
@@ -348,6 +359,8 @@ function DevManageGameFields(props) {
                         type="boolean"
                         name="lbscore"
                         id="lbscore"
+                        rules='update-game_info'
+                        group={'devgame>lbscore'}
                         title="Enable Highscore Leaderboard?"
                         min="0"
                         max="1"
@@ -359,33 +372,10 @@ function DevManageGameFields(props) {
                         }}
                     />
                 </VStack>
-                {/* <FSGTextInput
-                    type="text"
-                    name="teams"
-                    id="teams"
-                    title="Teams (i.e. Red, Blue)"
-                    maxLength="80"
-                    required={rules['teams'].required}
-                    value={props.devgame.teams || ''}
-                    onChange={inputChange} /> */}
+
             </FSGGroup>
 
-
             <DevManageGameTeams devgame={props.devgame} />
-
-
-            {/* <FSGGroup title="Game Support">
-                <FSGTextInput
-                    type="text"
-                    name="git"
-                    id="git"
-                    title="Github Repo for Issues"
-                    placeholder="https://github.com/myname/myrepo"
-                    maxLength="255"
-                    required={rules.git?.required}
-                    value={props.devgame.git || ''}
-                    onChange={inputChange} />
-            </FSGGroup> */}
 
             <Box pb="3rem" pt="1rem" width="100%" align="right">
                 <FSGSubmit onClick={onSubmit}></FSGSubmit>

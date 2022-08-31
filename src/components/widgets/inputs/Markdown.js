@@ -7,24 +7,33 @@ import "./Markdown.scss"
 import { updateGameField } from "../../../actions/devgame";
 import remarkGfm from 'remark-gfm'
 import { FormControl, FormLabel, FormHelperText } from "@chakra-ui/form-control";
+import fs from 'flatstore';
 
-export default function Markdown(props) {
+function Markdown(props) {
 
     const onChange = (value) => {
-        updateGameField(props.name, value);
+        // updateGameField(props.name, value);
     }
 
     const [selectedTab, setSelectedTab] = React.useState("write");
+
+    let value = (props.group && props[props.group]) || props.value;
+
     return (
         <FormControl as='fieldset' mb="0">
             <FormLabel as='legend' fontSize="xs" color="gray.100" fontWeight="bold">{props.title}</FormLabel>
             <ReactMde
                 minEditorHeight={300}
                 maxEditorHeight={600}
-                value={props.value}
+                value={value}
                 name={props.name}
                 id={props.id}
-                onChange={props.onChange}
+                onChange={(e) => {
+                    if (props.rules && props.group) {
+                        updateGameField(props.name, e, props.rules, props.group, props.error);
+                    }
+                    props.onChange(e);
+                }}
                 selectedTab={selectedTab}
                 onTabChange={setSelectedTab}
                 toolbarCommands={
@@ -55,3 +64,19 @@ export default function Markdown(props) {
     );
 }
 
+
+
+
+
+let onCustomWatched = ownProps => {
+    if (ownProps.group)
+        return [ownProps.group];
+    return [];
+};
+let onCustomProps = (key, value, store, ownProps) => {
+    // if (key == (ownProps.group + '>' + ownProps.name))
+    //     return { [key]: value }
+    return { [ownProps.id]: value };
+};
+
+export default fs.connect([], onCustomWatched, onCustomProps)(Markdown);

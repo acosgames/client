@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { IoColorPaletteSharp } from '@react-icons';
 import { SketchPicker } from 'react-color';
 const regexColorHex = /^#([0-9a-fA-F]{3}){1,2}$/i;
+import fs from 'flatstore';
 
 function FSGColorPicker(props) {
 
@@ -28,6 +29,9 @@ function FSGColorPicker(props) {
 
 
         if (!regexColorHex.test(props.value)) {
+            if (props.rules && props.group) {
+                updateGameField(props.name, '#f00', props.rules, props.group, props.error);
+            }
             props.onChange('#f00');
         }
         // if (props.focus) {
@@ -40,6 +44,9 @@ function FSGColorPicker(props) {
 
     let timeoutHandle = 0;
     let lastUpdate = Date.now();
+
+    let value = (props.group && props[props.group]) || colorValue;
+
     return (
 
         <VStack h="100%" flex="1">
@@ -91,14 +98,14 @@ function FSGColorPicker(props) {
                         flex="1"
                         fontWeight={props.fontWeight}
                         fontSize={props.fontSize}
-                        value={colorValue}
+                        value={value}
                         textShadow={'2px 2px #000'}
-                        color={props.color || 'white'}
-                        bgColor={colorValue || "brand.500"}
+                        color={'white'}
+                        bgColor={value || "brand.500"}
                         h={props.height || "100%"}
                         w={props.width || '100%'}
                     >
-                        {props.value || '#f00'}
+                        {value || '#f00'}
                     </Button>
                     {/* <IconButton
                             icon={<IoColorPaletteSharp />}
@@ -111,8 +118,12 @@ function FSGColorPicker(props) {
                     <PopoverCloseButton />
                     <PopoverBody outline={'none'} _active={{ outline: 'none' }} bgColor={'transparent'}>
                         <SketchPicker
-                            color={props.value || '#f00'}
+                            color={value || '#f00'}
                             onChange={(color) => {
+                                if (props.rules && props.group) {
+                                    updateGameField(props.name, color.hex, props.rules, props.group, props.error);
+                                }
+
                                 props.onChange(color.hex);
                                 setColorValue(color.hex);
                             }}
@@ -126,4 +137,16 @@ function FSGColorPicker(props) {
 
 }
 
-export default FSGColorPicker;
+
+let onCustomWatched = ownProps => {
+    if (ownProps.group)
+        return [ownProps.group];
+    return [];
+};
+let onCustomProps = (key, value, store, ownProps) => {
+    // if (key == (ownProps.group + '>' + ownProps.name))
+    //     return { [key]: value }
+    return { [ownProps.id]: value };
+};
+
+export default fs.connect([], onCustomWatched, onCustomProps)(FSGColorPicker);

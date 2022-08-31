@@ -2,7 +2,7 @@ import { HStack, Input, Switch, Text } from '@chakra-ui/react'
 import { FormControl, FormLabel, FormHelperText } from "@chakra-ui/form-control";
 import { updateGameField } from '../../../actions/devgame';
 import { useEffect, useRef } from 'react';
-
+import fs from 'flatstore';
 
 function FSGSwitch(props) {
 
@@ -25,6 +25,8 @@ function FSGSwitch(props) {
 
     }, [])
 
+    let value = (props.group && props[props.group]) || props.checked;
+
     return (
         <FormControl as='fieldset' mb="0">
             <FormLabel as='legend' fontSize="xs" color="gray.100" fontWeight="bold">
@@ -40,9 +42,14 @@ function FSGSwitch(props) {
                 name={props.name}
                 ref={props.ref || inputRef}
                 placeholder={props.placeholder}
-                value={props.checked || false}
-                isChecked={props.checked || false}
-                onChange={props.onChange}
+                value={value || false}
+                isChecked={value || false}
+                onChange={(e) => {
+                    if (props.rules && props.group) {
+                        updateGameField(props.name, e.target.checked, props.rules, props.group, props.error);
+                    }
+                    props.onChange(e);
+                }}
                 onFocus={props.onFocus}
                 disabled={props.disabled}
             />
@@ -70,4 +77,16 @@ function FSGSwitch(props) {
 
 }
 
-export default FSGSwitch;
+
+let onCustomWatched = ownProps => {
+    if (ownProps.group)
+        return [ownProps.group];
+    return [];
+};
+let onCustomProps = (key, value, store, ownProps) => {
+    // if (key == (ownProps.group + '>' + ownProps.name))
+    //     return { [key]: value }
+    return { [ownProps.id]: value };
+};
+
+export default fs.connect([], onCustomWatched, onCustomProps)(FSGSwitch);
