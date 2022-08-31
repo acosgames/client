@@ -66,68 +66,73 @@ function DevManageGameTeams(props) {
     })
 
     return (
-        <FSGGroup hfontSize="md" title="Team(s) Configuration">
-            <VStack w="100%">
-                <HStack w="100%" pb="3rem">
+        <>
+            <FSGGroup hfontSize="md" title="Team Configuration">
+                <VStack w="100%">
+                    <HStack w="100%" pb="3rem">
 
-                    <FSGNumberInput
-                        type="number"
-                        name="minteams"
-                        rules='update-game_info'
-                        group={'devgame>' + 'minteams'}
-                        id="minteams"
-                        title="Min Teams"
-                        min="1"
-                        max="100"
-                        required={rulesGame['minteams'].required}
-                        value={props.devgame.minteams || '0'}
-                        onChange={(e) => {
-                            let count = Number.parseInt(e);
-                            if (count > props.devgame.maxteams) {
-                                onChangeByName('minteams', props.devgame.maxteams)
-                            }
-                            else if (count < 0) {
-                                onChangeByName('minteams', 0)
-                            }
-                            else {
-                                onChangeByName('minteams', parseInt(e))
-                            }
+                        <FSGNumberInput
+                            type="number"
+                            name="minteams"
+                            rules='update-game_info'
+                            group={'devgame>' + 'minteams'}
+                            id="minteams"
+                            title="Min Teams"
+                            min="1"
+                            max="100"
+                            required={rulesGame['minteams'].required}
+                            value={props.devgame.minteams || '0'}
+                            onChange={(e) => {
+                                let count = Number.parseInt(e);
+                                if (count > props.devgame.maxteams) {
+                                    onChangeByName('minteams', props.devgame.maxteams)
+                                }
+                                else if (count < 0) {
+                                    onChangeByName('minteams', 0)
+                                }
+                                else {
+                                    onChangeByName('minteams', parseInt(e))
+                                }
 
-                            // onChangeByName('minteams', parseInt(e))
-                        }} />
+                                // onChangeByName('minteams', parseInt(e))
+                            }} />
 
-                    <FSGNumberInput
-                        type="number"
-                        name="maxteams"
-                        rules='update-game_info'
-                        group={'devgame>' + 'maxteams'}
-                        id="maxteams"
-                        title="Max Teams"
-                        min="1"
-                        max="100"
-                        required={rulesGame['maxteams'].required}
-                        value={props.devgame.maxteams || '0'}
-                        onChange={(e) => {
-                            // onChangeByName('maxteams', parseInt(e))
-                            let count = Number.parseInt(e);
-                            if (count < props.devgame.minteams) {
-                                onChangeByName('maxteams', props.devgame.minteams)
-                            }
-                            else if (count < 0) {
-                                onChangeByName('maxteams', 0)
-                            }
-                            else {
-                                onChangeByName('maxteams', parseInt(e))
-                            }
+                        <FSGNumberInput
+                            type="number"
+                            name="maxteams"
+                            rules='update-game_info'
+                            group={'devgame>' + 'maxteams'}
+                            id="maxteams"
+                            title="Max Teams"
+                            min="1"
+                            max="100"
+                            required={rulesGame['maxteams'].required}
+                            value={props.devgame.maxteams || '0'}
+                            onChange={(e) => {
+                                // onChangeByName('maxteams', parseInt(e))
+                                let count = Number.parseInt(e);
+                                if (count < props.devgame.minteams) {
+                                    onChangeByName('maxteams', props.devgame.minteams)
+                                }
+                                else if (count < 0) {
+                                    onChangeByName('maxteams', 0)
+                                }
+                                else {
+                                    onChangeByName('maxteams', parseInt(e))
+                                }
 
-                        }} />
-                </HStack>
+                            }} />
+                    </HStack>
+
+                    {/* <DevGameTeamDefinition devgame={} /> */}
+
+                </VStack>
+
+            </FSGGroup>
+            <FSGGroup hfontSize="md" title="Team Definitions">
                 <DevGameTeamsList />;
-                {/* <DevGameTeamDefinition devgame={} /> */}
-
-            </VStack>
-
-        </FSGGroup>
+            </FSGGroup>
+        </>
     )
 }
 
@@ -147,7 +152,7 @@ function DevGameTeamsList(props) {
 
         for (let i = 0; i < maxteams; i++) {
             let team = teams[i];
-            teamDefs.push(<DevGameTeamDefinition isOdd={((index % 2) == 1)} key={'devgameteam-' + (team.team_slug) + team.order} devgame={devgame} {...team} />)
+            teamDefs.push(<DevGameTeamDefinition isOdd={((index % 2) == 1)} key={'devgameteam-' + (team.team_slug) + team.team_order} devgame={devgame} {...team} />)
         }
         return teamDefs;
     }
@@ -223,17 +228,17 @@ function DevGameTeamDefinition(props) {
         let devgame = fs.get('devgame');
         let teams = devgame.teams;
 
-        let newIndex = (props.order + dir);
+        let newIndex = (props.team_order + dir);
         if (newIndex < 0)
             return;
         if (newIndex >= props.devgame.teams.length)
             return;
 
-        arraymove(teams, props.order, newIndex);
+        arraymove(teams, props.team_order, newIndex);
 
         for (let i = 0; i < teams.length; i++) {
-            if (teams[i].order != i) {
-                teams[i].order = i;
+            if (teams[i].team_order != i) {
+                teams[i].team_order = i;
                 fs.set('devgameteams>' + i, teams[i]);
             }
 
@@ -271,8 +276,8 @@ function DevGameTeamDefinition(props) {
 
     })
 
-    let isUpActive = (props?.devgame?.teams && (props.order > 0));
-    let isDownActive = (props?.devgame?.teams && (props.order < props.devgame.teams.length - 1))
+    let isUpActive = (props?.devgame?.teams && (props.team_order > 0));
+    let isDownActive = (props?.devgame?.teams && (props.team_order < props.devgame.teams.length - 1))
 
     return (
         <Box ref={teamRef} pt="2rem" pb="2rem" transition={'background 0.3s ease'} bgColor={active ? 'gray.600' : ''} _hover={{ bgColor: 'gray.700' }} borderTop={'1px solid'} borderTopColor={'gray.600'}>
@@ -300,7 +305,7 @@ function DevGameTeamDefinition(props) {
                         // onMouseLeave={() => { setActive(false) }}
                         // onMouseOut={() => { setActive(false) }}
                         />
-                        <Text color="white" fontSize="xs" fontWeight={"bold"}>{props.order}</Text>
+                        <Text color="white" fontSize="xs" fontWeight={"bold"}>{props.team_order}</Text>
                         <IconButton
                             color={isDownActive ? 'gray.300' : 'gray.600'}
                             cursor={isDownActive ? 'pointer' : ''}
@@ -330,7 +335,7 @@ function DevGameTeamDefinition(props) {
                                 type="text"
                                 name="team_name"
                                 rules='update-game_team'
-                                group={'devgameteams>' + props.order + '>team_name'}
+                                group={'devgameteams>' + props.team_order + '>team_name'}
                                 id="team_name"
                                 title="Team Name"
                                 maxLength="64"
@@ -343,7 +348,7 @@ function DevGameTeamDefinition(props) {
                                 type="text"
                                 name="team_slug"
                                 rules='update-game_team'
-                                group={'devgameteams>' + props.order + '>team_slug'}
+                                group={'devgameteams>' + props.team_order + '>team_slug'}
                                 id="team_slug"
                                 title="Team Slug"
                                 maxLength="32"
@@ -358,7 +363,7 @@ function DevGameTeamDefinition(props) {
                                 type="number"
                                 name="minplayers"
                                 rules='update-game_team'
-                                group={'devgameteams>' + props.order + '>minplayers'}
+                                group={'devgameteams>' + props.team_order + '>minplayers'}
                                 id="minplayers"
                                 title="Min Players"
                                 min="1"
@@ -382,7 +387,7 @@ function DevGameTeamDefinition(props) {
                                 type="number"
                                 name="maxplayers"
                                 rules='update-game_team'
-                                group={'devgameteams>' + props.order + '>maxplayers'}
+                                group={'devgameteams>' + props.team_order + '>maxplayers'}
                                 id="maxplayers"
                                 title="Max Players"
                                 min="1"
@@ -410,7 +415,7 @@ function DevGameTeamDefinition(props) {
                         type="color"
                         name="color"
                         rules='update-game_team'
-                        group={'devgameteams>' + props.order + '>color'}
+                        group={'devgameteams>' + props.team_order + '>color'}
                         id="color"
                         height="100%"
                         width="3rem"
@@ -430,10 +435,10 @@ function DevGameTeamDefinition(props) {
 }
 
 let onCustomWatched = ownProps => {
-    return ['devgameteams>' + ownProps.order];
+    return ['devgameteams>' + ownProps.team_order];
 };
 let onCustomProps = (key, value, store, ownProps) => {
-    if (key == ('devgameteams>' + ownProps.order))
+    if (key == ('devgameteams>' + ownProps.team_order))
         return { gamepanel: value }
     return {};
 };

@@ -50,7 +50,7 @@ function FSGSelect(props) {
                 }}
                 placeholder={props.placeholder}
                 w={props.w || props.width}
-                defaultValue={props.defaultValue}
+                // defaultValue={props.defaultValue}
                 disabled={props.disabled}
                 onFocus={props.onFocus}
             >

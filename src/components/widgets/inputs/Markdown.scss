@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
-  border-bottom: 1px solid #c8ccd0;
+  // border-bottom: 1px solid #c8ccd0;
   border-radius: 2px 2px 0 0;
   background: #f9f9f9;
 }
@@ -16,14 +16,14 @@
   margin: 6px 3px;
   padding: 3px;
   background-color: transparent;
-  border: 1px solid transparent;
+  // border: 1px solid transparent;
   cursor: pointer;
 }
 .mde-header .mde-tabs button:first-child {
   margin-left: 6px;
 }
 .mde-header .mde-tabs button.selected {
-  border: 1px solid #c8ccd0;
+  // border: 1px solid #c8ccd0;
 }
 
 .chakra-ui-dark {
@@ -95,12 +95,12 @@
   color: rgba(0, 0, 0, 0.8);
   pointer-events: none;
   content: "";
-  border: 5px solid transparent;
+  // border: 5px solid transparent;
   top: -5px;
   right: 50%;
   bottom: auto;
   margin-right: -5px;
-  border-top-color: rgba(0, 0, 0, 0.8);
+  // border-top-color: rgba(0, 0, 0, 0.8);
 }
 .mde-header
   ul.mde-header-group
@@ -264,7 +264,7 @@
 // }
 
 .react-mde {
-  border: 1px solid #c8ccd0;
+  // border: 1px solid #c8ccd0;
   border-radius: 2px;
 }
 .react-mde * {
@@ -282,7 +282,7 @@
   line-height: 16px;
   color: gray;
   background-color: #f9f9f9;
-  border-top: 1px solid #c8ccd0;
+  // border-top: 1px solid #c8ccd0;
   position: relative;
 }
 .react-mde .image-tip .image-input {

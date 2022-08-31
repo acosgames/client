@@ -35,33 +35,32 @@ function DevManageGameFields(props) {
 
     }, [])
 
-    const myRef = useRef(null)
-    const executeScroll = () => myRef.current.scrollIntoView()
+
     const toast = useToast();
 
 
     const rules = schema['update-game_info'];
 
     const onUpdateVersion = async (e) => {
-        let value = e.target.value;
+        let value = Number.parseInt(e.target.value);
         // console.log(value);
-        if (!Number.isInteger)
+        if (!Number.isInteger(value))
             return false;
         if (value < 0 || value > props.devgame.latest_version)
             return false;
 
-        updateGameField('version', Number.parseInt(value), 'update-game_info', 'devgame>version', 'devgameerror');
+        updateGameField('version', value, 'update-game_info', 'devgame>version', 'devgameerror');
     }
 
     const onUpdateVisibility = async (e) => {
-        let value = e.target.value;
+        let value = Number.parseInt(e.target.value);
 
-        if (!Number.isInteger)
+        if (!Number.isInteger(value))
             return false;
         if (value < 0 || value > props.devgame.version)
             return false;
 
-        value = Number.parseInt(value);
+        // value = Number.parseInt(value);
 
         if (value == 0) {
             updateGameField('visible', 0, 'update-game_info', 'devgame>visible', 'devgameerror');
@@ -126,18 +125,7 @@ function DevManageGameFields(props) {
         console.log(key, value, group);
     }
 
-    const displayError = () => {
-        let errors = props.devgameerror;
-        if (!errors)
-            return <></>
 
-        let errorElems = [];
-        errors.forEach((error, id) => {
-            errorElems.push((<Text color="red.600" key={id}>{errorMessage(error)}</Text>))
-        })
-
-        return errorElems;
-    }
     /*
         Create Game Fields
         - Game Name
@@ -161,9 +149,9 @@ function DevManageGameFields(props) {
             versionOptions.push(option);
         }
 
-    let hasError = (props.devgameerror && props.devgameerror.length > 0);
+
     return (
-        <VStack align='left' w={["100%", '100%', '90%', '70%']} spacing="5rem" color="white">
+        <VStack align='left' w={"100%"} spacing="5rem" color="white">
             <VStack w="100%" >
                 <Wrap w="100%">
                     <VStack align="left">
@@ -193,13 +181,13 @@ function DevManageGameFields(props) {
                             {/* <Text fontWeight="bold">v{props.devgame.version}</Text> */}
                             <FSGSelect
                                 name="version"
-                                rules='update-game_info'
+                                //rules='update-game_info'
                                 group={'devgame>version'}
                                 color="gray.100"
                                 onChange={onUpdateVersion}
                                 placeholder={''}
                                 w="90px"
-                                defaultValue={props.devgame.version}
+                                //defaultValue={props.devgame.version}
                                 value={props.devgame.version}
                                 options={versionOptions}
                             />
@@ -211,13 +199,13 @@ function DevManageGameFields(props) {
                             <Text>Visibility</Text>
                             <FSGSelect
                                 name="visible"
-                                rules='update-game_info'
+                                //rules='update-game_info'
                                 group={'devgame>visible'}
                                 color="gray.100"
                                 onChange={onUpdateVisibility}
                                 placeholder={''}
                                 w="150px"
-                                defaultValue={props.devgame.visible}
+                                //defaultValue={props.devgame.visible}
                                 value={props.devgame.visible}
                                 options={[<option key="visible-unlisted" value={'0'}>{'Unlisted'}</option>,
                                 <option key="visible-public" value={'1'}>{'Public'}</option>,
@@ -246,18 +234,7 @@ function DevManageGameFields(props) {
                 </Center>
             </FSGGroup>
 
-            {
-                hasError && (
-                    <>
-                        <a ref={myRef} name="errors"></a>
-                        <FSGGroup hfontSize="md" title="Errors" color="red.600">
-                            <VStack textAlign="left" pl="0">
-                                {displayError()}
-                            </VStack>
-                        </FSGGroup>
-                    </>
-                )
-            }
+            <DevGameErrors />
 
             <FSGGroup hfontSize="md" title="Game Details">
                 <FSGTextInput
@@ -393,4 +370,48 @@ function DevManageGameFields(props) {
 
 }
 
-export default withRouter(fs.connect(['devgameerror'])(DevManageGameFields));
+function DevGameErrors(props) {
+    let hasError = (props.devgameerror && props.devgameerror.length > 0);
+
+    const myRef = useRef(null)
+    const executeScroll = () => myRef.current.scrollIntoView()
+
+    const displayError = () => {
+        let errors = props.devgameerror;
+        if (!errors)
+            return <></>
+
+        let errorElems = [];
+        errors.forEach((error, id) => {
+            errorElems.push((<Text color="red.600" key={id}>{errorMessage(error)}</Text>))
+        })
+
+        return errorElems;
+    }
+
+    useEffect(() => {
+        let hasError2 = (props.devgameerror && props.devgameerror.length > 0);
+        if (hasError2) {
+            executeScroll();
+        }
+    })
+
+    if (!hasError)
+        return <></>
+
+    return (
+        <>
+            <a ref={myRef} name="errors"></a>
+            <FSGGroup hfontSize="md" title="Errors" color="red.600">
+                <VStack textAlign="left" pl="0">
+                    {displayError()}
+                </VStack>
+            </FSGGroup>
+        </>
+    )
+}
+
+DevGameErrors = fs.connect(['devgameerror'])(DevGameErrors);
+
+
+export default withRouter(fs.connect([])(DevManageGameFields));

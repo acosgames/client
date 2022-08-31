@@ -427,12 +427,44 @@ export async function updateGame() {
     try {
         let newGame = fs.get('devgame');
 
+        //validated seperately
+        let teams = newGame.teams;
+        if (newGame.teams) {
+            delete newGame.teams;
+        }
+
         let errors = validateSimple('update-game_info', newGame);
         if (errors.length > 0) {
             fs.set('devgameerror', errors);
             return null;
         }
 
+
+        if (teams) {
+
+
+            if (teams.length > newGame.maxteams) {
+                let filteredTeams = [];
+                for (let i = 0; i < newGame.maxteams; i++) {
+                    filteredTeams.push(teams[i]);
+                }
+
+                teams = filteredTeams;
+            }
+
+
+
+            for (let team of teams) {
+                let errors2 = validateSimple('update-game_team', team);
+                if (errors2.length > 0) {
+                    fs.set('devgameerror', errors2);
+                    return null;
+                }
+            }
+
+            newGame.teams = teams;
+
+        }
 
 
         // var formData = new FormData();
@@ -453,6 +485,8 @@ export async function updateGame() {
 
         let response = await POST('/api/v1/dev/update/game', newGame);
         let game = response.data;
+
+
 
         //let imageResponse = await uploadImages();
         //let gameWithImages = response.data;

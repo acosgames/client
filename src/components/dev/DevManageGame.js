@@ -34,7 +34,7 @@ function DevManageGame(props) {
     }
 
     return (
-        <VStack>
+        <VStack w="100%">
 
             <DevManageGameFields devgame={devgame} />
 
