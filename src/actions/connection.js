@@ -271,7 +271,7 @@ export function recvFrameMessage(evt) {
 
     let gamepanel = findGamePanelByIFrame(iframe);
 
-    console.log('[iframe]: ', action);
+    // console.log('[iframe]: ', action);
 
     let room_slug = gamepanel.room.room_slug;//getCurrentRoom();
     let gamestate = gamepanel.gamestate;//getGameState();
@@ -287,14 +287,22 @@ export function recvFrameMessage(evt) {
         // gamepanel.loaded = true;
         // updateGamePanel(gamepanel);
 
-        fastForwardMessages(room_slug);
-        refreshGameState(room_slug);
+        if (gamepanel.room.isReplay) {
 
-        let gamestatus = gamestate?.state?.gamestatus;
-        if (gamestatus && gamestatus != 'pregame') {
-            return;
         }
+        else {
+            fastForwardMessages(room_slug);
+            refreshGameState(room_slug);
+
+            let gamestatus = gamestate?.state?.gamestatus;
+            if (gamestatus && gamestatus != 'pregame') {
+                return;
+            }
+        }
+
     }
+
+
 
     //game loaded
     if (action.type == 'loaded') {
@@ -306,6 +314,10 @@ export function recvFrameMessage(evt) {
         }, 300)
         return;
     }
+
+    if (gamepanel.room.isReplay)
+        return;
+
     // let msg = data.payload;
     // if (msg.indexOf("Hello") > -1) {
     //     this.send('connected', 'Welcome to 5SG!');
@@ -804,26 +816,7 @@ async function wsIncomingMessageFAKE(message) {
 
 }
 
-function base64ToBytesArr(str) {
-    const abc = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"]; // base64 alphabet
-    let result = [];
 
-    for (let i = 0; i < str.length / 4; i++) {
-        let chunk = [...str.slice(4 * i, 4 * i + 4)]
-        let bin = chunk.map(x => abc.indexOf(x).toString(2).padStart(6, 0)).join('');
-        let bytes = bin.match(/.{1,8}/g).map(x => +('0b' + x));
-        result.push(...bytes.slice(0, 3 - (str[4 * i + 2] == "=") - (str[4 * i + 3] == "=")));
-    }
-    return result;
-}
-
-export function decodeReplay(data) {
-    let buffer = base64ToBytesArr(data);
-    let msg = decode(buffer);
-
-    console.log("[REPLAY]", JSON.stringify(msg))
-    return msg;
-}
 
 export function downloadReplay(game_slug) {
 

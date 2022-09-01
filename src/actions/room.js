@@ -261,8 +261,9 @@ export function addRoom(msg) {
     gamepanel.gamestate = msg.payload;
     updateGamePanel(gamepanel);
 
-    //should we make it primary immediately? might need to change this
-    setPrimaryGamePanel(gamepanel);
+    if (!msg.room.isReplay)
+        //should we make it primary immediately? might need to change this
+        setPrimaryGamePanel(gamepanel);
 
 
     rooms[msg.room.room_slug] = msg.room;

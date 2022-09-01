@@ -8,6 +8,8 @@ import fs from 'flatstore';
 
 import { getUser } from './person';
 import { wsJoinRankedGame, wsJoinBetaGame, wsRejoinRoom } from './connection';
+import { addRoom } from './room';
+import { decode } from 'shared/util/encoder';
 
 fs.set('rankList', []);
 fs.set('experimentalList', []);
@@ -96,6 +98,88 @@ export async function findGame(game_slug) {
         throw 'E_GAMENOTFOUND'
     }
     return null;
+}
+
+export async function findGameReplays(game_slug) {
+    try {
+        let response = await GET('/api/v1/game/replays/' + game_slug);
+        let replays = response.data;
+        if (!replays || replays.length == 0)
+            return;
+
+        for (const replay of replays) {
+            replay.game_slug = game_slug;
+        }
+
+        fs.set('replays/' + game_slug, replays);
+
+        if (replays && replays.length > 0) {
+            await downloadGameReplay(replays[0]);
+        }
+
+
+    }
+    catch (e) {
+        console.error(e);
+        throw 'E_NOREPLAYS'
+    }
+}
+
+function base64ToBytesArr(str) {
+    const abc = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"]; // base64 alphabet
+    let result = [];
+
+    for (let i = 0; i < str.length / 4; i++) {
+        let chunk = [...str.slice(4 * i, 4 * i + 4)]
+        let bin = chunk.map(x => abc.indexOf(x).toString(2).padStart(6, 0)).join('');
+        let bytes = bin.match(/.{1,8}/g).map(x => +('0b' + x));
+        result.push(...bytes.slice(0, 3 - (str[4 * i + 2] == "=") - (str[4 * i + 3] == "=")));
+    }
+    return result;
+}
+
+export function decodeReplay(data) {
+    let buffer = base64ToBytesArr(data);
+
+    console.log('[REPLAY] data size = ', data.length);
+    console.log('[REPLAY] buffer size = ', buffer.length);
+    let msg = decode(buffer);
+
+    console.log("[REPLAY] json size", JSON.stringify(msg).length)
+    return msg;
+}
+
+
+export async function downloadGameReplay(replay) {
+
+    if (!replay || !replay.filename || !replay.version || !replay.mode)
+        return;
+
+
+    let url = `${config.https.cdn}g/${replay.game_slug}/replays/${replay.version}/${replay.mode}/${replay.filename}`
+
+    let response = await GET(url);
+
+    let history = response.data;
+
+    if (history) {
+        history = decodeReplay(history);
+    }
+
+
+    replay.room_slug = 'REPLAY/' + replay.game_slug;
+    replay.isReplay = true;
+
+    console.log(history);
+    fs.set('replay/' + replay.game_slug, replay.room_slug);
+
+    let msg = {
+        room: replay,
+        payload: history
+    }
+
+    let gamepanel = addRoom(msg);
+    console.log('[downloadGameReplay] ', gamepanel);
 }
 
 export async function findGameLeaderboardHighscore(game_slug) {

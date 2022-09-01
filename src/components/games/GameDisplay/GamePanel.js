@@ -21,7 +21,10 @@ fs.set('iframesLoaded', {});
 
 function GamePanel(props) {
 
-    const gamepanel = props.gamepanel;
+    let key = 'gamepanel/' + props.id;
+    let [gamepanel] = fs.useWatch(key, fs.get(key));
+    let [loaded] = fs.useWatch(key + '>loaded');
+    // const gamepanel = props.gamepanel;
     if (!gamepanel) {
         return <LoadingBox />
     }
@@ -325,14 +328,14 @@ function GameIFrame(props) {
 
 GameIFrame = fs.connect(['resize', 'isFullScreen', 'displayMode'])(GameIFrame);
 
-let onCustomWatched = ownProps => {
-    return ['gamepanel/' + ownProps.id];
-};
-let onCustomProps = (key, value, store, ownProps) => {
-    if (key == ('gamepanel/' + ownProps.id))
-        return { gamepanel: value }
-    return {};
-};
+// let onCustomWatched = ownProps => {
+//     return ['gamepanel/' + ownProps.id];
+// };
+// let onCustomProps = (key, value, store, ownProps) => {
+//     if (key == ('gamepanel/' + ownProps.id))
+//         return { gamepanel: value }
+//     return {};
+// };
 
 
-export default withRouter(fs.connect([], onCustomWatched, onCustomProps)(GamePanel));
+export default withRouter(GamePanel);

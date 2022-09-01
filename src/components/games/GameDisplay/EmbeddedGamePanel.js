@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { useEffect, useRef } from 'react';
 import { findGamePanelByRoom, updateGamePanel } from '../../../actions/room';
@@ -9,17 +10,21 @@ function EmbeddedGamePanel(props) {
 
     useEffect(() => {
 
+    })
+
+    useEffect(() => {
+
         if (props.room_slug) {
-            let gamepanel = findGamePanelByRoom(room_slug);
+            let gamepanel = findGamePanelByRoom(props.room_slug);
             gamepanel.canvasRef = embeddedRef;
             updateGamePanel(gamepanel);
         }
     });
 
     return (
-        <Box w="300px" h="300px" p="0" m="0" ref={embeddedRef}>
+        <Box position="relative" w="300px" h="300px" p="0" m="0" ref={embeddedRef}>
         </Box>
     )
 }
 
-export default GamePanelEmbedded;
+export default EmbeddedGamePanel;

@@ -28,6 +28,7 @@ import GameInfoJoinButton from './GameInfoJoinButton'
 
 import { findQueue } from "../../../actions/queue";
 import GameInfoLeaderboard from "./GameInfoLeaderboard";
+import GameInfoReplay from "./GameInfoReplay";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
@@ -182,6 +183,9 @@ function GameInfo2(props) {
                     <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "3rem"]}>
                         <GameInfoJoinButton {...game} {...playerStats} />
                     </Flex>
+
+                    <GameInfoReplay game_slug={game.game_slug} />
+
                     <GameInfoLeaderboard gameinfo={game} />
 
                     <Box p="0" m="0" pt="0" pb="3rem" width="100%">
