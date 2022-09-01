@@ -153,14 +153,32 @@ const IFrameSrc = `<!DOCTYPE html>
                 });
             }
             at()
+            let mainScript = null;
             function loadScript(path, callback) {
                 var done = false
-                var scr = document.createElement('script')
-                scr.onload = handleLoad
-                scr.onreadystatechange = handleReadyStateChange
-                scr.onerror = handleError
-                scr.src = path
-                document.body.appendChild(scr)
+
+                if( mainScript) { 
+                    // mainScript.parentNode.removeChild(mainScript);
+
+                    // let rootElem = document.getElementById("root");
+                    // let body = rootElem.parentNode;
+                    // body.removeChild(rootElem);
+
+                    // let newRootElem = document.createElement("div");
+                    // newRootElem.id = "root";
+
+
+                    // body.prepend(newRootElem)
+                    location.reload();
+
+                }
+
+                mainScript = document.createElement('script')
+                mainScript.onload = handleLoad
+                mainScript.onreadystatechange = handleReadyStateChange
+                mainScript.onerror = handleError
+                mainScript.src = path
+                document.body.appendChild(mainScript)
                 function handleLoad() {
                     if (!done) {
                         done = true
@@ -170,7 +188,7 @@ const IFrameSrc = `<!DOCTYPE html>
                 function handleReadyStateChange() {
                     var state;
                     if (!done) {
-                        state = scr.readyState
+                        state = mainScript.readyState
                         if (state === "complete") {
                             handleLoad()
                         }

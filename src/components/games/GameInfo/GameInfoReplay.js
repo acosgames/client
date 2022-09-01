@@ -1,8 +1,10 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Button, HStack, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { downloadGameReplay, findGameReplays } from "../../../actions/game";
 import EmbeddedGamePanel from "../GameDisplay/EmbeddedGamePanel";
 import fs from 'flatstore';
+import { replayNextIndex, replayPrevIndex } from "../../../actions/connection";
+import { findGamePanelByRoom } from "../../../actions/room";
 
 
 function GameInfoReplay(props) {
@@ -31,7 +33,31 @@ function GameInfoReplay(props) {
 
     return (
         <Box width="30rem" height="30rem" position="relative">
-            <EmbeddedGamePanel room_slug={room_slug} />
+            <VStack>
+                <EmbeddedGamePanel room_slug={room_slug} />
+                <ReplayControls room_slug={room_slug} />
+            </VStack>
+
+        </Box>
+    )
+}
+
+function ReplayControls(props) {
+
+    // let [room_slug] = fs.useWatch('replay/' + game_slug);
+
+    // let gamepanel = findGamePanelByRoom(props.room_slug);
+
+    return (
+        <Box>
+            <HStack>
+                <Button onClick={() => {
+                    replayPrevIndex(props.room_slug);
+                }}>Prev</Button>
+                <Button onClick={() => {
+                    replayNextIndex(props.room_slug);
+                }}>Next</Button>
+            </HStack>
         </Box>
     )
 }
