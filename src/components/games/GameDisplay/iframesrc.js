@@ -169,8 +169,8 @@ const IFrameSrc = `<!DOCTYPE html>
 
 
                     // body.prepend(newRootElem)
-                    location.reload();
-
+                    //location.reload();
+                    // window.top.location.reload();
                 }
 
                 mainScript = document.createElement('script')

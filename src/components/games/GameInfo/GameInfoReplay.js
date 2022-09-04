@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { downloadGameReplay, findGameReplays } from "../../../actions/game";
 import EmbeddedGamePanel from "../GameDisplay/EmbeddedGamePanel";
 import fs from 'flatstore';
-import { replayNextIndex, replayPrevIndex } from "../../../actions/connection";
+import { replayNextIndex, replayPrevIndex, sendPauseMessage, sendUnpauseMessage } from "../../../actions/connection";
 import { findGamePanelByRoom } from "../../../actions/room";
 
 
@@ -44,6 +44,8 @@ function GameInfoReplay(props) {
 
 function ReplayControls(props) {
 
+
+    let [paused, setPaused] = useState(false);
     // let [room_slug] = fs.useWatch('replay/' + game_slug);
 
     // let gamepanel = findGamePanelByRoom(props.room_slug);
@@ -54,6 +56,13 @@ function ReplayControls(props) {
                 <Button onClick={() => {
                     replayPrevIndex(props.room_slug);
                 }}>Prev</Button>
+                <Button onClick={() => {
+                    if (paused)
+                        sendUnpauseMessage(props.room_slug);
+                    else
+                        sendPauseMessage(props.room_slug);
+                    setPaused(!paused);
+                }}>{paused ? 'Play' : 'Pause'}</Button>
                 <Button onClick={() => {
                     replayNextIndex(props.room_slug);
                 }}>Next</Button>

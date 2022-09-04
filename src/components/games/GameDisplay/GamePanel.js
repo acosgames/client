@@ -295,7 +295,8 @@ function GameIFrame(props) {
                             // }, 1000);
                             updateGamePanel(gamepanel);
                         }}
-                        srcDoc={iframeSrc}
+                        src={true ? `/iframe.html` : `${config.https.cdn}static/iframe.html`}
+                        // srcDoc={iframeSrc}
                         sandbox="allow-scripts allow-same-origin"
                     />
                     <GameMessageOverlay gamepanel={gamepanel} />

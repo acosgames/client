@@ -170,6 +170,8 @@ export async function downloadGameReplay(replay) {
     replay.room_slug = 'REPLAY/' + replay.game_slug;
     replay.isReplay = true;
 
+    replay.version = 21;
+
     console.log(history);
     fs.set('replay/' + replay.game_slug, replay.room_slug);
 

@@ -261,10 +261,31 @@ export function getFrameByEvent(event) {
 
 export function replayPrevIndex(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
-    if (!gamepanel)
-        return false;
+    if (!gamepanel?.room)
+        return;
 
-    replayJumpToIndex(room_slug, gamepanel.room.replayIndex - 1);
+    let jumpIndex = gamepanel.room.replayIndex - 1;
+
+    //if we are currently in gameover state, jump back 2 times
+    if (gamepanel.room.replayIndex == gamepanel.gamestate.length - 1)
+        jumpIndex -= 1;
+
+    replayJumpToIndex(room_slug, jumpIndex);
+}
+
+export function replayTimerTriggerNext(room_slug, delay) {
+
+    let gamepanel = findGamePanelByRoom(room_slug);
+    if (!gamepanel?.room)
+        return;
+
+    if (gamepanel.room.replayTimerHandle) {
+        clearTimeout(gamepanel.room.replayTimerHandle);
+    }
+
+    gamepanel.room.replayTimerHandle = setTimeout(() => {
+        replayNextIndex(room_slug);
+    }, delay)
 }
 
 export function replayNextIndex(room_slug) {
@@ -285,11 +306,35 @@ export function replayNextIndex(room_slug) {
         return false;
 
     let merged = gamepanel.room.replayState;
-    delta.merge(merged, history[nextId].payload);
+    let copy = JSON.parse(JSON.stringify(history[nextId].payload));
 
-    merged = { room_slug: history[nextId].room_slug, ...merged };
+    if (merged?.events) {
+        merged.events = {};
+    }
+    delta.merge(merged, copy);
+
+    merged.room_slug = history[0].room_slug;
+
+    // merged = { room_slug: history[nextId].room_slug, ...merged };
 
     if (merged?.timer?.seconds) {
+
+        if (history.length > nextId + 1) {
+            let nextHistory = history[nextId + 1];
+            let nextCopy = JSON.parse(JSON.stringify(nextHistory.payload));
+            let nextMerged = JSON.parse(JSON.stringify(merged));
+            delta.merge(nextMerged, nextCopy);
+
+            let nextEnd = nextMerged.timer.end;
+            let nextSeconds = nextMerged.timer.seconds;
+            let nextStartTime = nextEnd - (nextSeconds * 1000);
+
+            let currentEnd = merged.timer.end;
+            let currentSeconds = merged.timer.seconds;
+            let currentStartTime = currentEnd - (currentSeconds * 1000);
+            replayTimerTriggerNext(room_slug, nextStartTime - currentStartTime);
+        }
+
         merged.timer.end = (merged.timer.seconds * 1000) + Date.now();
     }
 
@@ -316,18 +361,48 @@ export function replayJumpToIndex(room_slug, startIndex) {
         return false;
     }
 
-    if (startIndex < 0 || startIndex >= history.length) {
+    if (startIndex < gamepanel.room.replayStartIndex || startIndex >= history.length) {
         return false;
     }
 
-    let merged = {};
-    for (let i = 0; i <= startIndex; i++) {
-        delta.merge(merged, history[i]);
+    if (gamepanel.room.replayIndex == history.length - 1) {
+
     }
 
-    merged = { room_slug: merged.room_slug, ...merged.payload };
+    let merged = {};
+
+    for (let i = 0; i <= startIndex; i++) {
+        let copy = JSON.parse(JSON.stringify(history[i].payload));
+
+        if (merged?.events) {
+            merged.events = {};
+        }
+
+        delta.merge(merged, copy);
+    }
+
+    merged.room_slug = history[0].room_slug;
 
     if (merged?.timer?.seconds) {
+
+        if (history.length > startIndex + 1) {
+            let nextHistory = history[startIndex + 1];
+            let nextCopy = JSON.parse(JSON.stringify(nextHistory.payload));
+            let nextMerged = JSON.parse(JSON.stringify(merged));
+            delta.merge(nextMerged, nextCopy);
+
+            let nextEnd = nextMerged.timer.end;
+            let nextSeconds = nextMerged.timer.seconds;
+            let nextStartTime = nextEnd - (nextSeconds * 1000);
+
+            let currentEnd = merged.timer.end;
+            let currentSeconds = merged.timer.seconds;
+            let currentStartTime = currentEnd - (currentSeconds * 1000);
+            replayTimerTriggerNext(room_slug, nextStartTime - currentStartTime);
+        }
+
+
+
         merged.timer.end = (merged.timer.seconds * 1000) + Date.now();
     }
 
@@ -348,7 +423,7 @@ export function replayJumpToIndex(room_slug, startIndex) {
     gamepanel.room.replayState = merged;
     updateGamePanel(gamepanel);
 
-    iframe.current.contentWindow.postMessage({ type: 'load', payload: { game_slug: gamepanel.room.game_slug, version: gamepanel.room.version } }, '*');
+    // iframe.current.contentWindow.postMessage({ type: 'load', payload: { game_slug: gamepanel.room.game_slug, version: gamepanel.room.version } }, '*');
 
     // iframe.current.contentWindow.location.reload()
 
