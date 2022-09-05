@@ -95,7 +95,7 @@ function MainMenuChakra(props) {
                                     src={`${config.https.cdn}acos-logo-standalone4.png`}
                                     h={['1.8rem', '1.8rem', "3rem"]} maxHeight={'90%'}
                                 />
-                                <Text fontSize="1rem">SIMULATOR</Text>
+
                             </Link>
                         </Box>
 
