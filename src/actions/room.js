@@ -108,7 +108,7 @@ export function cleanupGamePanels() {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
         let gp = gamepanels[i];
-        if (gp.gamestate?.state?.gamestatus == 'gameover') {
+        if (gp.gamestate?.room?.status == 'gameover') {
             gp.available = true;
             updateGamePanel(gp);
             fs.set('gamepanels', gamepanels);

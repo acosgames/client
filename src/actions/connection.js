@@ -97,7 +97,9 @@ export function timerLoop(cb) {
 
         let state = gamestate.state;
         let events = gamestate.events;
-        if (events?.gameover || state?.gamestatus == 'gamestart') {
+        let gameroom = gamestate.room;
+
+        if (events?.gameover || gameroom?.status == 'gamestart') {
             // clearTimeout(timerHandle);
             // timerHandle = 0;
             // return;
@@ -449,7 +451,7 @@ export function replaySendGameStart(room_slug) {
     let replayStartIndex = 0;
     for (let i = 0; i < history.length; i++) {
         let gamestate = history[i];
-        if (gamestate?.payload?.state?.gamestatus == 'gamestart') {
+        if (gamestate?.payload?.room?.status == 'gamestart') {
             replayStartIndex = i;
             break;
         }
@@ -496,7 +498,7 @@ export function recvFrameMessage(evt) {
             fastForwardMessages(room_slug);
             refreshGameState(room_slug);
 
-            let gamestatus = gamestate?.state?.gamestatus;
+            let gamestatus = gamestate?.room?.status;
             if (gamestatus && gamestatus != 'pregame') {
                 return;
             }
@@ -532,9 +534,9 @@ export function recvFrameMessage(evt) {
 
     action.room_slug = room_slug;
     if (gamestate && gamestate.timer)
-        action.seq = gamestate.timer.seq || 0;
+        action.timeseq = gamestate.timer.seq || 0;
     else
-        action.seq = 0;
+        action.timeseq = 0;
     // if (action.payload && action.payload.cell) {
     //     action.payload.cell = 100;
     // }
@@ -1289,11 +1291,14 @@ async function wsIncomingMessage(message) {
 
 
 
-            let deltaState = msg.payload;
-            msg.payload = delta.merge(gamestate, deltaState);
+            let deltaState = JSON.parse(JSON.stringify(msg.payload));
+            let mergedState = JSON.parse(JSON.stringify(msg.payload));
+            mergedState = delta.merge(gamestate, mergedState);
             // msg.payload.delta = deltaState;
 
-            gamepanel.gamestate = msg.payload;
+            mergedState.delta = deltaState;
+
+            gamepanel.gamestate = mergedState;
             updateGamePanel(gamepanel);
 
             // setGameState(msg.payload);
