@@ -22,25 +22,25 @@ function DevManageGameEnvironment(props) {
 
     const generateCommand = (screentype, rw, rh, mw) => {
         let cmd = defaultDeployCmd + '';
-        switch (screentype) {
-            case 1:
-                cmd += ' --screentype=1'
-                break;
-            case 2:
-                cmd += ' --screentype=2'
-                cmd += ' --resow=' + rw;
-                cmd += ' --resoh=' + rh;
-                break;
-            case 3:
-                cmd += ' --screentype=3'
-                cmd += ' --resow=' + rw;
-                cmd += ' --resoh=' + rh;
-                cmd += ' --screenwidth=' + mw;
-                break;
-            default:
-                cmd += ' --screentype=1'
-                break;
-        }
+        // switch (screentype) {
+        //     case 1:
+        //         cmd += ' --screentype=1'
+        //         break;
+        //     case 2:
+        //         cmd += ' --screentype=2'
+        //         cmd += ' --resow=' + rw;
+        //         cmd += ' --resoh=' + rh;
+        //         break;
+        //     case 3:
+        //         cmd += ' --screentype=3'
+        //         cmd += ' --resow=' + rw;
+        //         cmd += ' --resoh=' + rh;
+        //         cmd += ' --screenwidth=' + mw;
+        //         break;
+        //     default:
+        //         cmd += ' --screentype=1'
+        //         break;
+        // }
         return cmd;
     }
 
@@ -188,15 +188,11 @@ function DevManageGameEnvironment(props) {
                     </Tooltip>
                 </Center>
             </HStack>
-            <VStack pt={'2rem'} fontSize={'xxs'} color={'gray.200'} alignItems={'left'} justifyContent={'left'} w="100%">
+            {/* <VStack pt={'2rem'} fontSize={'xxs'} color={'gray.200'} alignItems={'left'} justifyContent={'left'} w="100%">
                 <Text fontSize="xxs" fontWeight={'bold'}>Screen Size Configuration</Text>
-                {/* <FormLabel htmlFor={'switch-' + props.devgame.game_slug} p="0" m="0" fontSize="sm" >
-                    <Text as="span">scaled</Text>
-                    <Switch pl="0.5rem" id={'switch-' + props.devgame.game_slug} size="sm" onChange={onScaleChange} defaultChecked={scaled} />
-                </FormLabel> */}
+                
                 <HStack w="100%">
-                    {/* <FormLabel as="label" color="gray.200" htmlFor="screenType" fontSize={'xxs'}>Viewport</FormLabel> */}
-                    <Select fontSize={'xxs'} color="gray.200" id="screenType" onChange={onSelectViewport} value={selected}>
+                    <Select isReadOnly fontSize={'xxs'} color="gray.200" id="screenType" onChange={onSelectViewport} value={selected}>
                         <option value="1">Full Screen</option>
                         <option value="2">Fixed Resolution</option>
                         <option value="3">Scaled Resolution</option>
@@ -234,6 +230,7 @@ function DevManageGameEnvironment(props) {
                     <VStack display={displayResolution ? 'flex' : 'none'}>
                         <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="gray.200" as="label" htmlFor="resolution">Resolution</FormLabel>
                         <Input
+                            readOnly
                             type="text"
                             className=""
                             id="resolution"
@@ -247,6 +244,7 @@ function DevManageGameEnvironment(props) {
                     <VStack display={displayWidthHeight ? 'flex' : 'none'}>
                         <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="gray.200" as="label" htmlFor="maxwidth">Width (px)</FormLabel>
                         <Input
+                            readOnly
                             type="text"
                             className=""
                             id="maxwidth"
@@ -261,6 +259,7 @@ function DevManageGameEnvironment(props) {
                     <VStack display={displayWidthHeight ? 'flex' : 'none'}>
                         <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="gray.200" as="label" htmlFor="maxheight">Height (px)</FormLabel>
                         <Input
+
                             type="text"
                             className=""
                             id="maxheight"
@@ -273,7 +272,7 @@ function DevManageGameEnvironment(props) {
                 </HStack>
 
 
-            </VStack>
+            </VStack> */}
         </VStack>
     )
 }

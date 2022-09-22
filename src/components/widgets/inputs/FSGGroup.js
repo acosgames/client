@@ -7,7 +7,7 @@ function FSGGroup(props) {
     const borderColor = useColorModeValue('red.500', 'red.200')
 
     return (
-        <VStack align='stretch' width={props.width || "100%"}>
+        <VStack align='stretch' width={props.width || "100%"} py={props.py || 0} px={props.px || 0}>
             <Heading
                 as={props.as || 'h2'}
                 // ml="0rem"

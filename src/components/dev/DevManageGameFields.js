@@ -218,16 +218,16 @@ function DevManageGameFields(props) {
 
                 </HStack>
             </FSGGroup>
-            <FSGGroup hfontSize="md" title="Github">
+            <FSGGroup hfontSize="md" title="Github" py="2rem">
                 <DevManageGameGithub devgame={props.devgame} />
             </FSGGroup>
 
-            <FSGGroup hfontSize="md" title="Deployment">
+            <FSGGroup hfontSize="md" title="Deployment" py="2rem">
                 <DevManageGameEnvironment devgame={props.devgame} />
             </FSGGroup>
 
 
-            <FSGGroup hfontSize="md" title="Featured Image">
+            <FSGGroup hfontSize="md" title="Featured Image" py="2rem">
                 <Center>
                     <DevImageUpload
                         uploadFunc={uploadGameImages} />
@@ -236,7 +236,7 @@ function DevManageGameFields(props) {
 
             <DevGameErrors />
 
-            <FSGGroup hfontSize="md" title="Game Details">
+            <FSGGroup hfontSize="md" title="Game Details" py="2rem">
                 <FSGTextInput
                     rules='update-game_info'
                     group={'devgame>name'}

@@ -17,7 +17,7 @@ function DevManageGameGithub(props) {
     const toast = useToast();
 
     return (
-        <VStack w="100%" alignItems={'flex-start'}>
+        <VStack w="100%" alignItems={'flex-start'} >
             <Text as="span" fontSize="xs" fontWeight={'light'} color="gray.100">Clone your <Link target="_blank" fontWeight={'light'} color="gray.100" fontSize="sm" href={githubURL}>GitHub repo</Link> to get started</Text>
             {/* <Link target="_blank" fontWeight={'light'} color="gray.100" fontSize="sm" href={githubURL}>{githubURL}</Link> */}
             {/* <Text>
