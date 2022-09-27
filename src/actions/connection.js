@@ -32,7 +32,6 @@ fs.set('latency', 0);
 var messageQueue = {};
 var onResize = null;
 
-var timerHandle = 0;
 
 var forcedLatency = Math.round(RandRange(50, 200));
 // console.log("FORCED LATENCY: ", forcedLatency);
@@ -40,6 +39,7 @@ function RandRange(min, max) {
     return Math.random() * (max - min) + min;
 }
 
+var timerHandle = 0;
 export function timerLoop(cb) {
 
     if (cb)
