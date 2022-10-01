@@ -534,10 +534,10 @@ export function recvFrameMessage(evt) {
 
     action.room_slug = room_slug;
     if (gamestate && gamestate.timer)
-        action.timeseq = gamestate.timer.seq || 0;
+        action.timeseq = gamestate.timer.sequence || 0;
     else
         action.timeseq = 0;
-    // if (action.payload && action.payload.cell) {
+    // if (action.payload && action.payload.cell) { 
     //     action.payload.cell = 100;
     // }
     wsSend(action);
@@ -782,27 +782,27 @@ export async function wsJoinGame(mode, game_slug) {
     // console.timeEnd('ActionLoop');
 }
 
-export async function wsJoinRoom(game_slug, room_slug, private_key) {
-    let ws = await reconnect(true);
-    if (!ws || !ws.isReady) {
-        console.log("RETRYING wSJoinRoom");
-        setTimeout(() => { wsJoinRoom(game_slug, room_slug, private_key); }, 1000);
-        return;
-    }
+// export async function wsJoinRoom(game_slug, room_slug, private_key) {
+//     let ws = await reconnect(true);
+//     if (!ws || !ws.isReady) {
+//         console.log("RETRYING wSJoinRoom");
+//         setTimeout(() => { wsJoinRoom(game_slug, room_slug, private_key); }, 1000);
+//         return;
+//     }
 
-    if (!room_slug) {
-        console.error("Room [" + room_slug + "] is invalid.  Something went wrong.");
-        return;
-    }
+//     if (!room_slug) {
+//         console.error("Room [" + room_slug + "] is invalid.  Something went wrong.");
+//         return;
+//     }
 
-    gtag('event', 'joinroom', { game_slug: game_slug });
+//     gtag('event', 'joinroom', { game_slug: game_slug });
 
-    let action = { type: 'joinroom', payload: { game_slug, room_slug, private_key } }
-    wsSend(action);
+//     let action = { type: 'joinroom', payload: { game_slug, room_slug, private_key } }
+//     wsSend(action);
 
-    console.log("[Outgoing] Joining room [" + room_slug + "]: ", game_slug, action);
-    // console.timeEnd('ActionLoop');
-}
+//     console.log("[Outgoing] Joining room [" + room_slug + "]: ", game_slug, action);
+//     // console.timeEnd('ActionLoop');
+// }
 
 export async function wsSpectateGame(game_slug) {
     let ws = await reconnect(true);
@@ -837,27 +837,27 @@ export async function wsJoinPublicGame(game) {
     wsJoinGame('public', game.game_slug);
 }
 
-export async function wsJoin(game_slug, room_slug) {
-    wsJoinRoom(game_slug, room_slug);
-}
+// export async function wsJoin(game_slug, room_slug) {
+//     wsJoinRoom(game_slug, room_slug);
+// }
 
-export async function wsJoinPrivate(game_slug, room_slug, private_key) {
-    wsJoinRoom(game_slug, room_slug, private_key);
-}
+// export async function wsJoinPrivate(game_slug, room_slug, private_key) {
+//     wsJoinRoom(game_slug, room_slug, private_key);
+// }
 
-export async function wsRejoinRoom(game_slug, room_slug, private_key) {
-    gtag('event', 'joinroom', { mode: 'rank' });
-    await wsJoinRoom(game_slug, room_slug, private_key);
-}
+// export async function wsRejoinRoom(game_slug, room_slug, private_key) {
+//     gtag('event', 'joinroom', { mode: 'rank' });
+//     await wsJoinRoom(game_slug, room_slug, private_key);
+// }
 
-export async function wsRejoinRooms() {
-    let rooms = fs.get('rooms') || localStorage.getItem('rooms') || {};
-    let roomList = Object.keys(rooms);
-    for (var rs of roomList) {
-        let room = rooms[rs];
-        await wsRejoinRoom(room.game_slug, room.room_slug);
-    }
-}
+// export async function wsRejoinRooms() {
+//     let rooms = fs.get('rooms') || localStorage.getItem('rooms') || {};
+//     let roomList = Object.keys(rooms);
+//     for (var rs of roomList) {
+//         let room = rooms[rs];
+//         await wsRejoinRoom(room.game_slug, room.room_slug);
+//     }
+// }
 
 
 function sleep(ms) {
@@ -923,7 +923,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
 
             fs.set('duplicatetabs', false);
             fs.set('wsConnected', true);
-            wsRejoinRooms();
+            // wsRejoinRooms();
 
             var currentdate = new Date();
             var datetime = "WS Opened: " + currentdate.getDate() + "/"
@@ -1228,7 +1228,7 @@ async function wsIncomingMessage(message) {
 
         let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug);
         let room = gamepanel?.room;
-        let gamestate = gamepanel?.gamestate;
+        let gamestate = JSON.parse(JSON.stringify(gamepanel?.gamestate));
 
         // console.log("[Previous State]: ", gamestate);
         if (msg.type == 'private') {
@@ -1301,6 +1301,7 @@ async function wsIncomingMessage(message) {
             gamepanel.gamestate = mergedState;
             updateGamePanel(gamepanel);
 
+            msg.payload = mergedState;
             // setGameState(msg.payload);
         }
 

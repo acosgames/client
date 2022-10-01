@@ -93,7 +93,7 @@ function GameMessageOverlay(props) {
         let isSoloGame = room.maxplayers == 1;
         let hasHighscore = isSoloGame || room.lbscore;
         let extra = <></>
-        if (gamestate?.timer?.seq <= 2 && !isSoloGame) {
+        if (gamestate?.timer?.sequence <= 2 && !isSoloGame) {
             extra = <Text as="h3" fontSize="3xl">Game Over. Players left early.</Text>
         }
         else if (!isSoloGame) {

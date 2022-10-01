@@ -184,7 +184,7 @@ function GameInfo2(props) {
                         <GameInfoJoinButton {...game} {...playerStats} />
                     </Flex>
 
-                    <GameInfoReplay game_slug={game.game_slug} />
+                    {/* <GameInfoReplay game_slug={game.game_slug} /> */}
 
                     <GameInfoLeaderboard gameinfo={game} />
 
