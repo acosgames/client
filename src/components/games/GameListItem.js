@@ -59,7 +59,16 @@ function GameListItem(props) {
 
     let gameQueueCount = game.queueCount;
 
-
+    let gameType = "Free-for-all";
+    if (game.maxteams == 0) {
+        gameType = "Free-for-all"
+    } else if (game.maxteams == 1 && game.maxplayers != (game.teams && game.teams[0].maxplayers)) {
+        gameType = "Battle Royale"
+    } else if (game.maxteams == 1) {
+        gameType = "Free-for-all"
+    } else if (game.maxteams > 1) {
+        gameType = "Team-based"
+    }
     let inQueue = findQueue(game.game_slug);
     return (
         <Box
@@ -144,11 +153,17 @@ function GameListItem(props) {
                     <strong>{gameQueueCount}</strong> player(s) waiting
                 </Text>
             </Link> */}
-                    <HStack spacing="4px" color="gray.175" pb="1rem">
+                    <VStack spacing="0" color="gray.175" alignItems={"flex-start"} justifyContent="flex-start" pb="1rem">
+
                         {/* <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} /> */}
                         <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player game</Text>
-                    </HStack>
 
+
+
+                        {/* <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} /> */}
+                        <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{gameType}</Text>
+
+                    </VStack>
                     <Box w="100%">
                         <PlayButton inQueue={inQueue} handleJoin={handleJoin} />
                     </Box>
