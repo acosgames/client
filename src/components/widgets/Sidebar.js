@@ -38,7 +38,7 @@ function Sidebar() {
             h="100%"
             marginTop="0"
             id="wrapper-sidebar"
-            bgColor={'blacks.200'}
+            bgColor={'gray.900'}
             // boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
             // borderRadius={navSize == "small" ? "15px" : "30px"}
             w={['4rem', '4rem', '18rem']}

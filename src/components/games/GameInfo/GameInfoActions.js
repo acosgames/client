@@ -93,22 +93,39 @@ function GameInfoActions(game) {
         }
     }
 
-
     return (
 
         <Flex wrap={'wrap'} alignItems={['center', 'center', 'left']} justifyContent={['center', 'center', 'left']} >
             <HStack spacing="2rem" wrap={['wrap', 'wrap', 'nowrap']}>
-                <Button onClick={onShareClick} height="2.4rem" leftIcon={<IoShareSocial size="1.4rem" />}>
-                    <Text color="white" fontSize="xxs">SHARE</Text>
+                <Button
+                    p="2rem"
+                    height="4.5rem"
+                    bgColor="gray.900"
+                    borderRadius="2rem"
+                    //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                    onClick={onShareClick}
+                    leftIcon={
+                        <IoShareSocial size="2rem" />
+                    }
+                >
+                    <Text color="gray.100" fontWeight={"bold"} lineHeight="1.4rem" fontSize={['xxs', 'xxs', 'xs']}>SHARE</Text>
                 </Button>
 
-                <HStack h='100%' spacing="0.5rem" >
-                    <Tooltip label="Yes">
-                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsUp size="1.4rem" />} onClick={onLike} color={liked ? 'brand.100' : 'white'} />
+                <HStack w='100px' spacing="0.5rem"
+                    p="2rem"
+                    height="4.5rem"
+                    bgColor="gray.900"
+                    borderRadius="2rem"
+                    //boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                    justifyContent="center"
+                >
+
+                    <Tooltip label="Great!">
+                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsUp size="2rem" />} onClick={onLike} color={liked ? 'brand.100' : 'gray.100'} />
                     </Tooltip>
-                    <Text color="white" fontSize={'xs'} fontWeight={'500'} px="0.1rem">{votes}</Text>
-                    <Tooltip label="No">
-                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsDown size="1.4rem" />} onClick={onDislike} color={disliked ? 'red.300' : 'white'} />
+                    <Text color="gray.100" fontSize={'xs'} fontWeight={"bold"} px="0.5rem">{votes}</Text>
+                    <Tooltip label="Bad!">
+                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsDown size="2rem" />} onClick={onDislike} color={disliked ? 'red.300' : 'gray.100'} />
                     </Tooltip>
                 </HStack>
                 {/* <HStack spacing="0" pr="1rem" alignContent={'center'} alignItems={'center'}>
@@ -116,27 +133,49 @@ function GameInfoActions(game) {
                     <Text lineHeight={'1.2rem'} color="white" fontSize={['1rem']} pl={'0.4rem'}>PLAYING</Text>
 
                 </HStack> */}
-                <Tooltip label="Discuss issues on GitHub">
-                    <Link target="_blank" href={`https://github.com/acosgames/${game.game_slug}/issues`}>
-                        <HStack spacing="4px" color="white" lineHeight={'2rem'}>
-                            <Icon fontSize={['xxs', 'xxs', 'xs']} as={FaGithub} />
-                            <Text fontSize={['xxs', 'xxs', 'xs']} >DISCUSS</Text>
-                        </HStack>
-                    </Link>
-                    {/* <Text color="white" fontSize="xs" lineHeight={"1.3rem"}>
+                <Box
+                    p="2rem"
+                    height="4.5rem"
+                    bgColor="gray.900"
+                    borderRadius="2rem"
+                //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                >
+
+
+                    <Tooltip label="Discuss issues on GitHub">
+                        <Link _hover={{ textDecor: 'none' }} textDecoration={'none'} target="_blank" href={`https://github.com/acosgames/${game.game_slug}/issues`} height="1.4rem">
+                            <HStack h="100%" w="100%" spacing="4px" color="gray.100" alignItems={"center"} justifyContent="center">
+
+                                <Icon height="3rem" as={FaGithub} />
+
+
+                                <Text textDecoration={'none'} as="span" fontSize={['xxs', 'xxs', 'xs']} fontWeight={"bold"} >DISCUSS</Text>
+
+
+                            </HStack>
+                        </Link>
+                        {/* <Text color="white" fontSize="xs" lineHeight={"1.3rem"}>
                         
                             <Icon color="white" as={FaGithub} fontSize={'1.6rem'} />DISCUSS
                         </Link>
                     </Text> */}
 
-                </Tooltip>
+                    </Tooltip>
+                </Box>
                 <Box alignContent={'right'} ml="1rem">
 
                     <Menu>
-                        <MenuButton as={Button} variant="clear" p={0} >
+                        <MenuButton as={Button} variant="clear"
+                            p="2rem"
+                            height="4.5rem"
+                            bgColor="gray.900"
+                            borderRadius="2rem"
+                        //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                        >
 
-                            <HStack spacing="2px" color={"gray.500"} lineHeight={'2rem'}>
-                                <Icon fontSize={['xxs', 'xxs', 'xs']} as={IoWarningSharp} p="0" />
+
+                            <HStack spacing="2px" color={"gray.100"} lineHeight={'2rem'}>
+                                <Icon size="2rem" as={IoWarningSharp} p="0" />
                                 <Text as="span" fontSize={['xxs', 'xxs', 'xs']} >{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
                             </HStack>
 

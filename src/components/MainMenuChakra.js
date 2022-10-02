@@ -119,7 +119,11 @@ function MainMenuChakra(props) {
                             </Box>
                             <Box p="0" m="0" height="100%" lineHeight={'100%'}>
                                 <Button onClick={() => { fs.set('chatToggle', !fs.get('chatToggle')) }} height="100%">
-                                    <Icon as={props.isMobile ? (props.chatToggle ? CgChevronDoubleDownR : CgChevronDoubleUpR) : (props.chatToggle ? CgChevronDoubleRightR : CgChevronDoubleLeftR)} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'white'} />
+                                    <Icon
+                                        as={props.isMobile ? (props.chatToggle ? CgChevronDoubleDownR : CgChevronDoubleUpR) : (props.chatToggle ? CgChevronDoubleRightR : CgChevronDoubleLeftR)}
+                                        // filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'}
+                                        fontSize="2.5rem"
+                                        color={'gray.100'} />
                                 </Button>
                             </Box>
 

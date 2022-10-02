@@ -13,6 +13,7 @@ import ColorHash from 'color-hash'
 import { Link, useLocation } from 'react-router-dom';
 import GameActions from '../games/GameDisplay/GameActions';
 import QueuePanel from '../games/QueuePanel.js';
+import Scrollbars from 'react-custom-scrollbars-2';
 
 fs.set('chat', []);
 fs.set('chatMessage', '');
@@ -57,7 +58,7 @@ function ChatPanel(props) {
 
         <HStack
             spacing='0' m="0" p='0'
-            bgColor={'blacks.200'}
+            bgColor={'gray.1000'}
             flexGrow='1 !important'
             height={!props.isMobile ? "100%" : (toggle ? '20rem' : '0')}
             transition="width 0.3s ease, height 0.3s ease"
@@ -122,11 +123,12 @@ function ChatPanel(props) {
 
 
 
-
                 <ChatHeader toggle={toggle} isMobile={props.isMobile} />
                 <QueuePanel />
-                <ChatMessages toggle={toggle} />
-                <ChatSend />
+                <Box flex="1" w="100%">
+
+                    <ChatMessages toggle={toggle} />
+                </Box>
 
 
             </VStack>
@@ -148,6 +150,7 @@ function ChatHeader(props) {
         <HStack
             boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
             pl={'1rem'}
+            bgColor="gray.800"
             width={props.isMobile ? '100%' : (props.toggle ? ['24.0rem', '24rem', '34.0rem'] : '0rem')}
             height={['3rem', '4rem', '5rem']}
             spacing={'2rem'}
@@ -183,26 +186,49 @@ function ChatMessages(props) {
             }
 
             rows.push(
-                <Box key={msg.displayname + msg.timestamp} width="100%" lineHeight={['1.3rem', '2rem']} fontSize={['1rem', "1.3rem"]}>
+                <Box
+                    bgColor="gray.700"
+                    borderRadius="2rem"
+                    p={["0.2rem", "0.2rem", "0.5rem"]}
+                    pl={["1.5rem", "1.5rem", "1.5rem"]}
+                    pr="0"
+                    my="0.5rem"
+                    key={msg.displayname + msg.timestamp}
+                    width="100%"
+
+                    boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                    position="relative"
+
+                >
                     {showThumb &&
-                        (<Link to={`/g/${msg.game_slug}`}>
-                            <Text as="span" lineHeight="1.3rem" pr="0.5rem">
+                        (
+
+                            <Link w="100%" h="100%" to={`/g/${msg.game_slug}`}>
                                 <Image
                                     alt={'A cup of skill logo'}
                                     src={`${config.https.cdn}g/${msg.game_slug}/preview/${msg.icon}`}
-                                    h="1.3rem" maxHeight={'90%'}
+                                    h="2rem"
+                                    w="2rem"
+                                    mr="0.5rem"
                                     display="inline-block"
                                     verticalAlign={'middle'}
                                 />
-                            </Text>
-                        </Link>)
+                            </Link>
+                        )
                     }
                     <Link to={`/profile/${msg.displayname}`}>
-                        <Text fontWeight={'900'} as="span" color={colorHash.hex(msg.displayname)}>{msg.displayname}</Text>
+                        <Text fontWeight={'900'} fontSize="xs" as="span" color={colorHash.hex(msg.displayname)}>{msg.displayname}</Text>
                     </Link>
-                    <Text fontWeight={'light'} as="span">: </Text>
-                    <Text fontWeight={'300'} as="span">{msg.message}</Text>
-                </Box>)
+                    <Text fontWeight={'light'} fontSize="xxs" as="span">: </Text>
+                    <Text
+                        fontWeight={'300'}
+                        fontSize="xxs"
+                        as="span"
+                        textShadow="0px 1px 2px rgb(0 0 0 / 75%)"
+                    >
+                        {msg.message}
+                    </Text>
+                </Box >)
         }
         return rows;
     }
@@ -253,10 +279,48 @@ function ChatMessages(props) {
     }, [])
 
     return (
-        <Box pl={'1rem'} flex="1" alignSelf="stretch" width="100%" overflow="hidden" overflowY="scroll" ref={scrollRef}>
-            <VStack width="100%" height="100%" spacing={['0.2rem', '0.3rem', "0.5rem"]} justifyContent={'flex-end'} >
-                {renderChatMessages()}
-                <div ref={messageListRef} />
+        <Box
+            p="0"
+            bgColor="gray.850"
+            borderRadius="2rem"
+            width="100%"
+            height="100%"
+            overflow="hidden"
+            ref={scrollRef}
+        >
+            <VStack pr="1rem" pl="1rem" width="100%" height="100%" spacing={['0.2rem', '0.3rem', "0.5rem"]} justifyContent={'flex-end'} >
+                <Box w="100%" h={["100%"]} position="relative" >
+                    <Scrollbars
+                        renderView={(props) => (
+                            <div
+                                className="main-scrollbars"
+                                style={{
+                                    position: 'absolute',
+                                    inset: '0px',
+                                    paddingRight: '0px',
+                                    margin: '0',
+                                    padding: '0',
+                                    overflow: 'hidden scroll',
+                                    width: '100%'
+                                    // marginRight: '-8px',
+                                    // marginBottom: '-8px'
+                                }}
+                            />)}
+                        // renderThumbVertical={(style, props) => <Box  {...props} {...style} w="10px" bgColor={'blacks.700'} className="thumb-vertical" />}
+                        hideTracksWhenNotNeeded={true}
+                        autoHide
+                        autoHideTimeout={2000}
+                        autoHideDuration={200}
+                    >
+
+                        {renderChatMessages()}
+                    </Scrollbars>
+                </Box>
+                <Box ref={messageListRef} />
+
+
+                <ChatSend />
+
             </VStack>
         </Box>
 
@@ -283,9 +347,9 @@ function ChatSend(props) {
     }
 
     return (
-        <HStack
-            width={props.isMobile ? "100%" : ['24.0rem', '24rem', '28.0rem']}
-            height="3rem" px="2rem">
+        <Box
+            position={'relative'}
+            width={"100%"} pb="1rem" spacing="0" m="0">
             <FSGTextInput
                 name="name"
                 id="name"
@@ -301,21 +365,24 @@ function ChatSend(props) {
                     }
                 }}
             />
-            <Box
+            <HStack
+                alignItems={'center'} justifyContent="center"
                 width="3rem"
-                height="3rem"
+                height="4rem"
+                position="absolute"
+                top="0"
+                right="0"
             >
                 <IconButton
                     onClick={onSubmit}
 
                     icon={<IoSend size="1.6rem" />}
                     width="2.8rem"
-                    height="2.8rem"
                     isRound="true"
                 />
-            </Box>
+            </HStack>
 
-        </HStack>
+        </Box>
     )
 }
 ChatSend = fs.connect(['chatMessage'])(ChatSend);

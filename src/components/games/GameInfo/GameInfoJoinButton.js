@@ -100,6 +100,11 @@ function GameInfoJoinButton(props) {
                 bg="gray.900"
                 justifyContent="center"
 
+                bgColor="gray.800"
+                // borderRadius="2rem"
+                boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+
+
             // zIndex={-1}
             >
                 <VStack>
@@ -113,13 +118,14 @@ function GameInfoJoinButton(props) {
                     <HStack>
                         <Text
                             display={props.played >= 10 ? 'block' : 'none'}
-
+                            color="gray.50"
                             fontSize={['xxs', 'xs', 'md',]}
                             fontWeight="bold"
                             lineHeight={'1.6rem'}
                             pr={'1rem'}
                             align="center">{rating} </Text>
                         <Text
+                            color="gray.50"
                             display={props.played < 10 ? 'block' : 'none'}
                             fontSize={['xxs', 'xs', 'xs']}
                             pl="0.5rem"
@@ -144,7 +150,7 @@ function GameInfoJoinButton(props) {
                     // icon={<FaPlay />}
                     borderTopLeftRadius={"9999px"}
                     borderBottomLeftRadius={"9999px"}
-
+                    //boxShadow={`inset 0 1px 3px 0 rgb(255 255 255 / 60%), inset 0 0 3px 5px rgb(0 0 0 / 5%)`}
                     borderTopRightRadius={hasExtra ? 0 : '9999px'}
                     borderBottomRightRadius={hasExtra ? 0 : '9999px'}
                     onClick={handleJoin}

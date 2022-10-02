@@ -31,9 +31,9 @@ function GameInfoTop10(props) {
             let isLocalPlayer = user?.displayname == player.value;
             let isPast5Rank = player.rank == 10 && (playerGameStats && playerGameStats.ranking > 10);
             elems.push(
-                <Tr key={tag + '-leaderboard-' + player.value} lineHeight="4rem" height="4rem" >
+                <Tr key={tag + '-leaderboard-' + player.value} lineHeight="4rem" height="4rem" borderColor="gray.100" >
                     <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'gray.300' : 'gray.600'} >
                         <HStack width="auto" justifyContent={'flex-end'} spacing="1rem">
                             {player.rank == 1 && (<Icon as={GiLaurelsTrophy} color='gold' />)}
                             {player.rank == 2 && (<Icon as={GiLaurelsTrophy} color='silver' />)}
@@ -49,7 +49,7 @@ function GameInfoTop10(props) {
                         </HStack>
                     </Td>
                     <Td borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'gray.300' : 'gray.600'}>
                         <Link to={'/profile/' + player.value}>
                             <Text
                                 fontSize="xs"
@@ -61,7 +61,7 @@ function GameInfoTop10(props) {
                     </Td>
                     <Td
                         borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'gray.300' : 'gray.600'}>
                         <Text
                             fontSize="xs"
                             fontWeight={isLocalPlayer ? 'bold' : 'normal'}
@@ -93,13 +93,13 @@ function GameInfoTop10(props) {
         )
     }
     return (
-        <Box w="100%" pt="1rem" pb="2rem">
+        <Box w="100%" pt="0" pb="1rem">
 
             <VStack w="100%">
 
                 <Table variant='simple' mb={playerRank == -1 ? '1rem' : '0'} width="100%">
                     <Thead>
-                        <Tr>
+                        <Tr borderBottomColor="gray.600">
                             <Th color={'gray.100'} width="10rem" fontSize="sm" lineHeight="3rem" height="3rem" isNumeric>Rank</Th>
                             <Th color={'gray.100'} width="20rem" fontSize="sm" lineHeight="3rem" height="3rem" >Player</Th>
                             <Th color={'gray.100'} width="10rem" fontSize="sm" lineHeight="3rem" height="3rem">Rating</Th>
@@ -109,8 +109,8 @@ function GameInfoTop10(props) {
                         {renderRankings()}
                     </Tbody>
                 </Table>
-                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="gray.300" fontWeight='300'>
-                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.300">{playerRank || -1}</Text> of {lbCount}
+                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="gray.100" fontWeight='300'>
+                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.100">{playerRank || -1}</Text> of {lbCount}
                         {/* in
                         <Text as="span" > Rankings</Text> */}
                     </Text>

@@ -58,7 +58,7 @@ a {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0;
   overflow:visible;
   
 }
@@ -66,7 +66,7 @@ a {
 /* Track */
 ::-webkit-scrollbar-track {
   background: transparent;
-  width:8px;
+  width:0;
 }
 
 /* Handle */
@@ -74,8 +74,8 @@ a {
   // background-color: rgb(136, 136, 136);
   border-radius:4px;
   transition: background-color 1s ease;
-  background-color: rgb(24,24,24);
-  width:8px;
+  background-color: rgb(14,16,20);
+  width:0;
 }
 
 .showscroll::-webkit-scrollbar-thumb {
@@ -83,7 +83,7 @@ a {
 }
 
 .hidescroll::-webkit-scrollbar-thumb {
-  background-color: rgb(24,24,24);
+  background-color: rgb(14,16,20);
 }
 
 /* Handle on hover */

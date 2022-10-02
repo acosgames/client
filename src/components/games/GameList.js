@@ -37,8 +37,8 @@ class GameList extends Component {
         return (
             <VStack width="100%" align="left" spacing="4rem">
                 <VStack align="left">
-                    <Heading as="h1" size="md" pb="0rem">Ranked Games</Heading>
-                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.300">You'll need skill to reach the top</Heading>
+                    <Heading as="h1" size="md" pb="0rem" color="white">Ranked Games</Heading>
+                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">You'll need skill to reach the top</Heading>
                     <Wrap w="96%" spacing={['0.6rem', '1rem', "1.4rem"]}>
                         {
                             rankList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
@@ -47,8 +47,8 @@ class GameList extends Component {
                 </VStack>
                 <Divider />
                 <VStack align="left" display={soloList.length == 0 ? 'none' : undefined}>
-                    <Heading as="h1" size="md">Solo Highscore</Heading>
-                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.300">Play by yourself against the world</Heading>
+                    <Heading as="h1" size="md" color="white">Solo Highscore</Heading>
+                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Play by yourself against the world</Heading>
                     <Flex w="100%" spacing={['0.6rem', '1rem', "1.4rem"]}>
                         {
                             soloList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
@@ -57,8 +57,8 @@ class GameList extends Component {
                 </VStack>
                 <Divider display={experimentalList.length == 0 ? 'none' : undefined} />
                 <VStack align="left" display={experimentalList.length == 0 ? 'none' : undefined}>
-                    <Heading as="h1" size="md">Early Access</Heading>
-                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.300">Not yet published, but the devs need your help!</Heading>
+                    <Heading as="h1" size="md" color="white">Early Access</Heading>
+                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Not yet published, but the devs need your help!</Heading>
                     <Flex w="100%" spacing={['0.6rem', '1rem', "1.4rem"]}>
                         {
                             experimentalList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
@@ -68,21 +68,54 @@ class GameList extends Component {
                 <Divider />
                 <VStack align="left" justify={"left"}>
                     <ChLink isExternal textDecoration={"none"} href={'https://sdk.acos.games'} >
-                        <Heading mb="0.5rem" as="h1" size="md">Develop Games using our Simulator and SDK</Heading>
+                        <Heading mb="0.5rem" as="h1" size="md" color="white">Develop Games using our Simulator and SDK</Heading>
                     </ChLink>
-                    <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.300">Build, deploy, and play your game on ACOS instantly for free!</Text>
-                    <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.300">Check our documentation to quickly learn how to develop for ACOS.</Text>
+                    <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.175">Build, deploy, and play your game on ACOS instantly for free!</Text>
+                    <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.175">Check our documentation to quickly learn how to develop for ACOS.</Text>
                     <Wrap spacing="2rem">
-                        <ChLink isExternal textDecoration={"none"} href={'https://sdk.acos.games'} >
-                            <Text fontSize="xs" display="flex" color="white" ><Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="sm" />&nbsp;Docs</Text>
+                        <ChLink isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} href={'https://sdk.acos.games'} p="2rem"
+                            height="4.5rem"
+                            display="flex"
+                            flexDir={"row"}
+                            bgColor="gray.800"
+                            borderRadius="2rem"
+                            boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                            justifyContent="center" alignItems={'center'}>
+                            <Text fontSize="xs" display="flex" color="white" >
+                                <Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="sm" />&nbsp;Documentation</Text>
                         </ChLink>
-                        <Link to="/dev">
-                            <Text fontSize="xs" display="flex" color="white"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="sm" />&nbsp;Developer Zone</Text>
-                        </Link>
-                        <ChLink isExternal textDecoration={"none"} href={'https://discord.gg/ydHkCcNgHD'} >
+                        <Box p="2rem"
+                            height="4.5rem"
+                            display="flex"
+                            flexDir={"row"}
+                            bgColor="gray.800"
+                            borderRadius="2rem"
+                            boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                            justifyContent="center" alignItems={'center'} _hover={{ textDecoration: 'none' }} >
+                            <Link to="/dev">
+                                <Text fontSize="xs" display="flex" color="white"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="sm" />&nbsp;Developer Zone</Text>
+                            </Link>
+                        </Box>
+                        <ChLink isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} href={'https://discord.gg/ydHkCcNgHD'} p="2rem"
+                            height="4.5rem"
+                            display="flex"
+                            flexDir={"row"}
+                            bgColor="gray.800"
+                            borderRadius="2rem"
+                            boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                            justifyContent="center" alignItems={'center'}
+                        >
                             <Text fontSize="xs" display="flex" color="white"><Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="sm" />&nbsp;Discord</Text>
                         </ChLink>
-                        <ChLink isExternal textDecoration={"none"} href={'https://github.com/acosgames'} >
+                        <ChLink isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} href={'https://github.com/acosgames'} p="2rem"
+                            height="4.5rem"
+                            display="flex"
+                            flexDir={"row"}
+                            bgColor="gray.800"
+                            borderRadius="2rem"
+                            boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                            justifyContent="center" alignItems={'center'}>
+
                             <Text fontSize="xs" display="flex" color="white"><Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="sm" />&nbsp;GitHub</Text>
                         </ChLink>
 
@@ -90,28 +123,42 @@ class GameList extends Component {
                 </VStack >
                 <Divider />
                 <VStack align="left" justify={"left"}>
-                    <Heading as="h1" size="md">Latest Blogs</Heading>
-                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.300">Read the latest news for ACOS.games</Heading>
+                    <Heading as="h1" size="md" color="white">Latest Blogs</Heading>
+                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Read the latest news for ACOS.games</Heading>
                     <HStack>
-                        <Box w={['16rem']}>
-                            <ChLink isExternal textDecoration={"none"} href={'https://medium.com/@JoeOfTex/acos-web-developers-want-to-build-games-too-so-i-made-an-online-platform-to-make-it-easy-d225974fa2d8'} >
+                        <ChLink isExternal textDecoration={"none"} href={'https://medium.com/@JoeOfTex/acos-web-developers-want-to-build-games-too-so-i-made-an-online-platform-to-make-it-easy-d225974fa2d8'} >
+                            <HStack w={['100%']} spacing="1rem"
+                                p="2rem"
+                                display="flex"
+                                flexDir={"row"}
+                                bgColor="gray.900"
+                                borderRadius="2rem"
+                                boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                                justifyContent="flex-start" alignItems={'center'} _hover={{ textDecoration: 'none' }}
+                            >
+
                                 <Box position={'relative'}>
                                     <Image
-                                        w={['16rem']}
-                                        minW={['16rem']}
-                                        h={['16rem']}
-                                        minH={['16rem']}
+                                        w={['5rem']}
+                                        minW={['5rem']}
+                                        h={['5rem']}
+                                        minH={['5rem']}
                                         alt={'ACOS Logo'}
                                         src={'https://miro.medium.com/max/700/0*Jmxu0QcJ9STs3sji.png'}
                                         pb="0.3rem"
                                     // fallbackSrc={config.https.cdn + 'placeholder.png'}
                                     />
-                                    <Text as="span" fontWeight={'light'} fontSize="2xs" backgroundColor="rgba(0,0,0,0.5)" display={'block'} position='absolute' top="0" left="0" padding="0.2rem" lineHeight={'1rem'}>March 29, 2022</Text>
+
                                 </Box>
-                                <Heading p="1rem" as="h2" fontWeight="light" fontSize="xs">Build web games using serverless code, persistent JSON state, and any JavaScript browser framework</Heading>
+                                <VStack justifyContent={'flex-start'} alignItems="flex-start">
+                                    <Text as="span" fontWeight={'light'} fontSize="2xs" display={'block'} lineHeight={'1rem'} color="gray.150">March 29, 2022</Text>
+                                    <Heading as="h2" fontWeight="light" fontSize="xs" color="white">Build web games using serverless code, persistent JSON state, and any JavaScript browser framework</Heading>
+                                </VStack>
+
                                 {/* <Text as="span" fontWeight={'light'} fontSize="sm">ACOS.games is a new type of serverless platform for simplifying the full-stack development of real-time, turn-based, competitive games.</Text> */}
-                            </ChLink>
-                        </Box>
+
+                            </HStack>
+                        </ChLink>
                     </HStack>
                 </VStack >
             </VStack >

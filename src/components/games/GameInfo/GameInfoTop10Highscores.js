@@ -90,7 +90,7 @@ function GameInfoTop10Highscores(props) {
         )
     }
     return (
-        <Box w="100%" pt="1rem" pb="2rem">
+        <Box w="100%" pt="0" pb="1rem">
 
             <VStack w="100%">
                 <Table variant='simple' mb={playerRank == -1 ? '1rem' : '0'} width="100%">
@@ -107,8 +107,8 @@ function GameInfoTop10Highscores(props) {
                 </Table>
 
 
-                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="gray.300" fontWeight={'300'}>
-                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.300">{playerRank || -1}</Text> of {lbCount}
+                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="gray.100" fontWeight={'300'}>
+                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.100">{playerRank || -1}</Text> of {lbCount}
                         {/* in
                         <Text as="span" > Highscore</Text> */}
                     </Text>

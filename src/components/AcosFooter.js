@@ -29,17 +29,17 @@ function AcosFooter(props) {
             </HStack> */}
 
             <VStack display={['flex', 'flex',]}>
-                <HStack spacing="1.4rem" >
+                <HStack spacing="1.4rem" color="gray.100" alignItems={'center'} justifyContent="center">
                     <Text fontSize="xxs"><Link to="/">Games</Link></Text>
                     <Text fontSize="xxs"><Link to="/dev">Dev Zone</Link></Text>
                     <Text fontSize="xxs"><ChLink isExternal href="https://sdk.acos.games">Docs</ChLink></Text>
                     <Text fontSize="xxs"><Link to="/privacy">Privacy</Link></Text>
                     <Text fontSize="xxs"><Link to="/terms">Terms</Link></Text>
-                    <Text fontSize="md"><ChLink isExternal href="https://github.com/acosgames"><Icon as={FaGithub} /></ChLink></Text>
-                    <Text fontSize="md"><ChLink isExternal href="https://twitter.com/acosgames"><Icon as={FaTwitter} /></ChLink></Text>
-                    <Text fontSize="md"><ChLink isExternal href='https://discord.gg/ydHkCcNgHD' ><Icon as={FaDiscord} /></ChLink></Text>
+                    <ChLink display="inline-block" isExternal href="https://github.com/acosgames"><Icon as={FaGithub} /></ChLink>
+                    <ChLink isExternal href="https://twitter.com/acosgames"><Icon as={FaTwitter} /></ChLink>
+                    <ChLink isExternal href='https://discord.gg/ydHkCcNgHD' ><Icon as={FaDiscord} /></ChLink>
                 </HStack>
-                <Text as="span" fontWeight="100" fontSize="xxs">Copyright © 2022 ACOS</Text>
+                <Text as="span" fontWeight="100" fontSize="xxs" color="gray.175">Copyright © 2022 ACOS</Text>
             </VStack>
 
 

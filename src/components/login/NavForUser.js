@@ -28,7 +28,7 @@ function NavForUser(props) {
 
 
     let latency = props.latency || 0;
-    let latencyColor = 'green.400';
+    let latencyColor = 'green.300';
     if (latency > 400) {
         latencyColor = 'orange.300';
     }
@@ -81,7 +81,7 @@ function NavForUser(props) {
                     <Text as="span" fontSize="xxs" color={latencyColor}>{props.wsConnected ? (latency + 'ms') : props.duplicatetabs ? 'offline, dupe tabs' : 'offline'}</Text>
                 </HStack>
 
-                <MenuDivider color="blacks.700" />
+                <MenuDivider color="gray.700" />
                 <Link to="/dev" width="100%">
                     <MenuItem fontSize="xxs" fontWeight="400">
                         <Icon as={IoHammer} mr="0.5rem" /> Developer Zone
@@ -92,7 +92,7 @@ function NavForUser(props) {
                         <Icon as={ImUser} mr="0.5rem" />Profile
                     </MenuItem>
                 </Link>
-                <MenuDivider color="blacks.700" />
+                <MenuDivider color="gray.700" />
                 <Logout />
 
                 <LoginTempUser />

@@ -148,18 +148,18 @@ function GameInfo2(props) {
 
                 <VStack width="100%" align="center">
 
-                    <Flex w="100%" >
-                        <GameInfoImage game_slug={game.game_slug} imgUrl={imgUrl} />
+                    <HStack w="100%" h="100%" justifyContent={'center'} spacing="2rem" >
+                        <GameInfoImage borderRadius="2rem" game_slug={game.game_slug} imgUrl={imgUrl} />
 
 
-                        <Flex ml="1rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
-                            <Heading fontSize={['xl', '2xl']}>{game.name}</Heading>
+                        <Flex ml="3rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
+                            <Heading color="gray.50" fontSize={['xl', '2xl']}>{game.name}</Heading>
 
-                            <Text as="h5" pt="0.5rem" fontSize={['xxs', 'xs']} fontWeight="400">{game.shortdesc}</Text>
-                            <Text as="span" color="gray.500" fontSize="xxs">version {game.version}</Text>
+                            <Text color="gray.100" as="h5" pt="0.5rem" fontSize={['xxs', 'xs']} fontWeight="400">{game.shortdesc}</Text>
+                            <Text color="gray.175" as="span" fontSize="xxs">v{game.version}</Text>
 
                             <Box flexGrow={'1'}>
-                                <Text as="span" fontSize="xxs">Developed by </Text>
+                                <Text color="gray.100" as="span" fontSize="xxs">Developed by </Text>
                                 <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="yellow.100">{game.displayname}</Text></Link>
                             </Box>
                             {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
@@ -171,8 +171,7 @@ function GameInfo2(props) {
                         </Flex>
 
 
-                    </Flex>
-
+                    </HStack>
 
                     <Box pt="1rem" display={['block', 'block', 'block', 'none']} >
                         <Center>
@@ -217,35 +216,35 @@ function GameInfo2(props) {
                                 hfontSize="xs"
                                 fontSize="xs"
                                 title="Released"
-                                color={'white'}
+                                color={'color.100'}
                                 value={parseDate(game.tsinsert)}
                             />
                             <FSGRead disabled={true}
                                 hfontSize="xs"
                                 fontSize="xs"
                                 title="Updated"
-                                color={'white'}
+                                color={'color.100'}
                                 value={parseDate(game.tsupdate)}
                             />
                             <FSGRead disabled={true}
                                 hfontSize="xs"
                                 fontSize="xs"
                                 title="Published"
-                                color={'white'}
+                                color={'color.100'}
                                 value={'v' + game.version}
                             />
                             <FSGRead disabled={true}
                                 hfontSize="xs"
                                 fontSize="xs"
                                 title="Experimental"
-                                color={'white'}
+                                color={'color.100'}
                                 value={'v' + game.latest_version}
                             />
                             <FSGRead disabled={true}
                                 hfontSize="xs"
                                 fontSize="xs"
                                 title="Screen"
-                                color={'white'}
+                                color={'color.100'}
                                 value={screentype}
                             />
                             <Box display={game.screentype == 1 ? 'none' : 'block'}>
@@ -255,7 +254,7 @@ function GameInfo2(props) {
                                     hfontSize="xs"
                                     fontSize="xs"
                                     title="Resolution"
-                                    color={'white'}
+                                    color={'color.100'}
                                     value={resolution}
                                 />
                             </Box>
@@ -266,7 +265,7 @@ function GameInfo2(props) {
 
                 </VStack >
             </Center >
-        </Box>
+        </Box >
 
     )
 
@@ -300,6 +299,7 @@ function GameInfoImage(props) {
             className="gameinfo-image"
         >
             <Image
+                borderRadius={'2rem'}
                 position="absolute"
                 width="100%"
                 minHeight={'10rem'}

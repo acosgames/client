@@ -31,7 +31,7 @@ function LoadingBox(props) {
             w="100%"
             h="100%"
             zIndex={100}
-            bgColor={'blacks.100'}
+            bgColor={'gray.900'}
             transition={'filter 0.4s ease-in'}
             filter={props.isDoneLoading ? 'opacity(0)' : 'opacity(1)'}
         >

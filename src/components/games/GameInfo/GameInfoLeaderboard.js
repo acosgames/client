@@ -27,9 +27,9 @@ function GameInfoLeaderboard(props) {
     return (
         <Box pt="3rem" pb="3rem" width="100%">
             <Tabs w="100%" variant='enclosed' >
-                <TabList>
-                    <Tab fontSize="xs" color="gray.300" _selected={{ color: 'white', textShadow: '0px 0px 5px #63ed56' }}>Global Rankings</Tab>
-                    <Tab fontSize="xs" color="gray.300" _selected={{ color: 'white', textShadow: '0px 0px 5px #63ed56' }}>Global Top Scores</Tab>
+                <TabList borderBottom="0">
+                    <Tab fontSize="xs" color="gray.300" _focus={{ outline: 'none', }} _selected={{ fontWeight: "bold", fontSize: 'md', color: 'gray.100', }}>Rankings</Tab>
+                    <Tab fontSize="xs" color="gray.300" _focus={{ outline: 'none', }} _selected={{ fontWeight: "bold", fontSize: 'md', color: 'gray.100', }}>Top Scores</Tab>
                 </TabList>
                 <TabPanels>
 
@@ -46,7 +46,7 @@ function GameInfoLeaderboard(props) {
                 </TabPanels>
 
             </Tabs>
-        </Box>
+        </Box >
     )
 }
 

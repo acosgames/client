@@ -62,88 +62,101 @@ function GameListItem(props) {
 
     let inQueue = findQueue(game.game_slug);
     return (
-
-        <VStack
-            // bgColor={'blacks.900'}
-            // boxShadow={'0px 0px 4px 0.4px rgb(255 255 255 / 5%)'}
-            borderRadius={'6px 6px 6px 6px'}
-            w={['8rem', '14rem', '18rem', '18rem']}
-            pl="2px"
-            pr="2px"
-            cursor="pointer"
-            pt="0"
-            spacing="0"
-            key={game.game_slug} position="relative"
-
+        <Box
+            borderRadius={"2rem"}
+            p="1rem"
+            bgColor={"gray.900"}
+            boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+            overflow="hidden"
         >
 
+            <VStack
+                // bgColor={'blacks.900'}
+                // boxShadow={'0px 0px 4px 0.4px rgb(255 255 255 / 5%)'}
+                borderRadius={'6px 6px 6px 6px'}
+                w={['8rem', '14rem', '18rem', '18rem']}
+                pl="2px"
+                pr="2px"
+                cursor="pointer"
+                pt="0"
+                spacing="0"
+                key={game.game_slug} position="relative"
+
+            >
 
 
-            <Link to={'/g/' + game.game_slug}>
-                <Image
-                    borderRadius={'6px'}
-                    w={['8rem', '14rem', '18rem', '18rem']}
-                    minW={['8rem', '14rem', '18rem', '18rem']}
-                    h={['8rem', '14rem', '18rem', '18rem']}
-                    minH={['8rem', '14rem', '18rem', '18rem']}
-                    alt={gameName}
-                    src={imgUrl}
-                    transition="transform 0.4s ease"
-                    transform={'transform:scale(1)'}
-                    _hover={{ transform: 'scale(1.05)' }}
-                // fallbackSrc={config.https.cdn + 'placeholder.png'}
-                />
-            </Link>
 
-            <VStack pt="0.8125rem" pb="" pl="0.5rem" pr="0.5rem" width="100%" alignItems={'flex-start'} spacing='0'>
-
-
-                {/* <HStack alignSelf={'flex-start'} flex="1" alignItems={'flex-end'}> */}
-                <Link to={'/g/' + game.game_slug} display="block">
-                    <Text
-                        as="h4"
-                        fontSize={['xxs', "xs", 'sm']}
-                        fontWeight={''}
-                        color={'white'}
-                        w="100%"
-                        h="2.4rem"
-                        p="0"
-                        lineHeight="2.4rem"
-                        // pt="0.5rem"
-                        // pb="0.5rem"
-
-                        m="0"
-                        textOverflow={'ellipsis'}
-                        overflow="hidden"
-                        whiteSpace={'nowrap'}
-                    // textAlign={'center'}
-                    // alignSelf={'flex-end'}
-                    >{gameName}</Text>
+                <Link to={'/g/' + game.game_slug}>
+                    <Image
+                        borderRadius={'2rem'}
+                        w={['8rem', '14rem', '18rem', '18rem']}
+                        minW={['8rem', '14rem', '18rem', '18rem']}
+                        h={['8rem', '14rem', '18rem', '18rem']}
+                        minH={['8rem', '14rem', '18rem', '18rem']}
+                        alt={gameName}
+                        src={imgUrl}
+                        transition="transform 0.4s ease"
+                        transform={'transform:scale(1)'}
+                        _hover={{ transform: 'scale(1.05)' }}
+                    // fallbackSrc={config.https.cdn + 'placeholder.png'}
+                    />
                 </Link>
 
-                {/* </HStack> */}
-                {/* 
+                <VStack pt="0.8125rem" pb="" pl="0.5rem" pr="0.5rem" width="100%" alignItems={'flex-start'} spacing='0'>
+
+
+                    {/* <HStack alignSelf={'flex-start'} flex="1" alignItems={'flex-end'}> */}
+                    <Tooltip label={gameName} placement="top">
+                        <Link to={'/g/' + game.game_slug} display="block">
+
+                            <Text
+                                as="h4"
+                                fontSize={['xxs', "xs", 'sm']}
+                                fontWeight={'bold'}
+                                color={'white'}
+                                w="100%"
+                                p="0"
+                                py="1rem"
+                                // pt="0.5rem"
+                                // pb="0.5rem"
+
+                                m="0"
+                                textOverflow={'ellipsis'}
+                                overflow="hidden"
+                                whiteSpace={'nowrap'}
+                            // textAlign={'center'}
+                            // alignSelf={'flex-end'}
+                            >{gameName}</Text>
+
+                        </Link>
+                    </Tooltip>
+                    {/* </HStack> */}
+                    {/* 
                 <Box mt="0" height="3.2rem" overflow="hidden">
                     <Text as="h5" mt="0" p="0" lineHeight="1.6rem" fontSize={['sm']} fontWeight="light">{game.shortdesc}</Text>
 
                 </Box> */}
 
-                {/* <Box>
-                <PlayButton inQueue={inQueue} handleJoin={handleJoin} />
-            </Box> */}
 
-                {/* <Link to={'/g/' + game.game_slug} >
+
+                    {/* <Link to={'/g/' + game.game_slug} >
                 <Text as="span" fontWeight={'light'} fontSize="xs" display={game.queueCount > 0 ? 'inline-block' : 'none'} color={'yellow.100'}>
                     <strong>{gameQueueCount}</strong> player(s) waiting
                 </Text>
             </Link> */}
-                <HStack spacing="4px" color="gray.100" pb="1rem">
-                    <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} />
-                    <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player</Text>
-                </HStack>
+                    <HStack spacing="4px" color="gray.175" pb="1rem">
+                        {/* <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} /> */}
+                        <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player game</Text>
+                    </HStack>
+
+                    <Box w="100%">
+                        <PlayButton inQueue={inQueue} handleJoin={handleJoin} />
+                    </Box>
+                </VStack>
+
             </VStack>
 
-        </VStack>
+        </Box>
         // <div className="game-item" >
 
         //     <div className="game-title"><span></span></div>
@@ -165,12 +178,13 @@ function PlayButton(props) {
             <Button
                 display={props.inQueue ? 'none' : 'flex'}
                 flex="1"
-                bgColor='gray.800'
-                _hover={{ bg: "gray.800" }}
-                _active={{ bg: "gray.800" }}
+                bgColor="brand.500"
+                _hover={{ bg: "brand.600" }}
+                _active={{ bg: "brand.900" }}
+                boxShadow={`inset 0 1px 3px 0 rgb(255 255 255 / 60%), inset 0 0 3px 5px rgb(0 0 0 / 5%)`}
                 size="md"
                 mr="0"
-                w="30%"
+                w="100%"
                 p="0.5rem"
                 // position="absolute"
                 // top="-10px"
