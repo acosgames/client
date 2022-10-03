@@ -16,7 +16,7 @@ import {
     HStack
 } from '@chakra-ui/react'
 
-import { FiLogOut, IoHammer, ImUser, BsBackspace, BsBarChartFill, GiSaveArrow } from '@react-icons';
+import { IoExitOutline, IoHammer, ImUser, AiOutlineDelete, BsBarChartFill, GiSaveArrow } from '@react-icons';
 
 import fs from 'flatstore';
 import SLink from '../widgets/SLink';
@@ -41,7 +41,7 @@ function NavForUser(props) {
     }
     return (
 
-        <Menu placement='bottom-end' modifiers={{ name: 'eventListeners', options: { scroll: false } }}  >
+        <Menu placement='bottom-end' modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
             <VStack display="flex" justifyContent="center" height="100%" spacing="0">
                 <MenuButton
                     as={Button}
@@ -72,27 +72,27 @@ function NavForUser(props) {
                         />
                     </Link>
                 </Center> */}
-                <Center>
-                    <Link to="/profile"><Text fontSize="xs">{props?.user?.displayname}</Text></Link>
+                <Center p="1rem">
+                    <Link to="/profile"><Text fontSize="md" color="gray.100">{props?.user?.displayname}</Text></Link>
 
                 </Center>
                 <HStack spacing="0.4rem" width="100%" justifyContent={'center'}>
-                    <Icon as={BsBarChartFill} size="1rem" color={latencyColor} />
-                    <Text as="span" fontSize="xxs" color={latencyColor}>{props.wsConnected ? (latency + 'ms') : props.duplicatetabs ? 'offline, dupe tabs' : 'offline'}</Text>
+                    <Icon as={BsBarChartFill} size="1.6rem" mr="1rem" color={latencyColor} />
+                    <Text as="span" fontSize="xs" color={latencyColor}>{props.wsConnected ? (latency + 'ms') : props.duplicatetabs ? 'offline, dupe tabs' : 'offline'}</Text>
                 </HStack>
 
-                <MenuDivider color="gray.700" />
+                {/* <MenuDivider color="gray.500" /> */}
                 <Link to="/dev" width="100%">
-                    <MenuItem fontSize="xxs" fontWeight="400">
-                        <Icon as={IoHammer} mr="0.5rem" /> Developer Zone
+                    <MenuItem fontSize="sm" color="gray.100" fontWeight="400" px="2rem" py="1rem">
+                        <Icon as={IoHammer} mr="1.5rem" fontSize="2rem" /> Developer Zone
                     </MenuItem>
                 </Link>
                 <Link to="/profile" width="100%">
-                    <MenuItem fontSize="xxs" fontWeight="400">
-                        <Icon as={ImUser} mr="0.5rem" />Profile
+                    <MenuItem fontSize="sm" color="gray.100" fontWeight="400" px="2rem" py="1rem">
+                        <Icon as={ImUser} mr="1.5rem" fontSize="2rem" />Profile
                     </MenuItem>
                 </Link>
-                <MenuDivider color="gray.700" />
+                <MenuDivider color="gray.500" />
                 <Logout />
 
                 <LoginTempUser />
@@ -110,7 +110,7 @@ function Logout(props) {
     if (!isTempUser)
         return (
             // <Link to="/logout" width="100%">
-            <MenuItem onClick={() => { logout() }} fontSize="xxs" fontWeight="400"><Icon as={FiLogOut} mr="0.5rem" />Logout</MenuItem>
+            <MenuItem onClick={() => { logout() }} color="gray.100" fontWeight="400" px="2rem" py="1rem"><Icon mr="1.5rem" as={IoExitOutline} color="gray.100" fontSize="2rem" />Logout</MenuItem>
             // </Link>
         )
 
@@ -118,7 +118,7 @@ function Logout(props) {
         <>
             <MenuDivider />
             {/* <Link to="/logout" width="100%"> */}
-            <MenuItem onClick={() => { logout() }} fontSize="xxs" fontWeight="400"><Icon as={BsBackspace} mr="0.5rem" />Delete Account</MenuItem>
+            <MenuItem onClick={() => { logout() }} color="gray.100" fontWeight="400" px="2rem" py="1rem"><Icon mr="1.5rem" as={AiOutlineDelete} color="gray.100" fontSize="2rem" />Delete Account</MenuItem>
             {/* </Link> */}
         </>
 
@@ -137,7 +137,7 @@ function LoginTempUser(props) {
 
     return (
         <Link to="/login" width="100%">
-            <MenuItem fontSize="xxs"><Icon as={GiSaveArrow} mr="0.5rem" />Sign in and save</MenuItem>
+            <MenuItem color="gray.100" px="2rem" py="1rem"><Icon as={GiSaveArrow} color="gray.100" fontSize="2rem" mr="1.5rem" />Sign in and save</MenuItem>
         </Link>
     )
 }

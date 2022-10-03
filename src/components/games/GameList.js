@@ -70,8 +70,8 @@ class GameList extends Component {
                     <ChLink isExternal textDecoration={"none"} href={'https://sdk.acos.games'} >
                         <Heading mb="0.5rem" as="h1" size="md" color="white">Develop Games using our Simulator and SDK</Heading>
                     </ChLink>
-                    <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.175">Build, deploy, and play your game on ACOS instantly for free!</Text>
-                    <Text as="span" fontWeight={'light'} fontSize="sm" color="gray.175">Check our documentation to quickly learn how to develop for ACOS.</Text>
+                    <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175">Build, deploy, and play your game on ACOS instantly for free!</Text>
+                    <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175" pb="2rem">Check our documentation to quickly learn how to develop for ACOS.</Text>
                     <Wrap spacing="2rem">
                         <ChLink isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} href={'https://sdk.acos.games'} p="2rem"
                             height="4.5rem"
@@ -131,7 +131,7 @@ class GameList extends Component {
                                 p="2rem"
                                 display="flex"
                                 flexDir={"row"}
-                                bgColor="gray.900"
+                                bgColor="gray.800"
                                 borderRadius="2rem"
                                 boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                                 justifyContent="flex-start" alignItems={'center'} _hover={{ textDecoration: 'none' }}
@@ -139,6 +139,7 @@ class GameList extends Component {
 
                                 <Box position={'relative'}>
                                     <Image
+                                        borderRadius={'50%'}
                                         w={['5rem']}
                                         minW={['5rem']}
                                         h={['5rem']}

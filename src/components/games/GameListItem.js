@@ -25,6 +25,7 @@ function GameListItem(props) {
 
         setLastJoinType('rank');
 
+        fs.set('game', game);
         if (!validateLogin()) {
             return;
         }
@@ -74,7 +75,7 @@ function GameListItem(props) {
         <Box
             borderRadius={"2rem"}
             p="1rem"
-            bgColor={"gray.900"}
+            bgColor={"gray.800"}
             boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
             overflow="hidden"
         >

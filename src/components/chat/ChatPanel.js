@@ -125,9 +125,9 @@ function ChatPanel(props) {
 
                 <ChatHeader toggle={toggle} isMobile={props.isMobile} />
                 <QueuePanel />
-                <Box flex="1" w="100%">
+                <Box flex="1" w="100%" pr="1rem" pl="1rem">
 
-                    <ChatMessages toggle={toggle} />
+                    <ChatMessages toggle={toggle} isMobile={props.isMobile} />
                 </Box>
 
 
@@ -151,7 +151,7 @@ function ChatHeader(props) {
             boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
             pl={'1rem'}
             bgColor="gray.800"
-            width={props.isMobile ? '100%' : (props.toggle ? ['24.0rem', '24rem', '34.0rem'] : '0rem')}
+            width={props.isMobile ? '100%' : (['24.0rem', '24rem', '34.0rem'])}
             height={['3rem', '4rem', '5rem']}
             spacing={'2rem'}
             mt={'0 !important'} >
@@ -281,48 +281,63 @@ function ChatMessages(props) {
     return (
         <Box
             p="0"
-            bgColor="gray.850"
+            bgColor="gray.800"
             borderRadius="2rem"
-            width="100%"
+            width={props.isMobile ? "100%" : (['22.0rem', '22rem', '26.0rem'])}
             height="100%"
             overflow="hidden"
             ref={scrollRef}
         >
-            <VStack pr="1rem" pl="1rem" width="100%" height="100%" spacing={['0.2rem', '0.3rem', "0.5rem"]} justifyContent={'flex-end'} >
-                <Box w="100%" h={["100%"]} position="relative" >
-                    <Scrollbars
-                        renderView={(props) => (
-                            <div
-                                className="main-scrollbars"
-                                style={{
-                                    position: 'absolute',
-                                    inset: '0px',
-                                    paddingRight: '0px',
-                                    margin: '0',
-                                    padding: '0',
-                                    overflow: 'hidden scroll',
-                                    width: '100%'
-                                    // marginRight: '-8px',
-                                    // marginBottom: '-8px'
-                                }}
-                            />)}
-                        // renderThumbVertical={(style, props) => <Box  {...props} {...style} w="10px" bgColor={'blacks.700'} className="thumb-vertical" />}
-                        hideTracksWhenNotNeeded={true}
-                        autoHide
-                        autoHideTimeout={2000}
-                        autoHideDuration={200}
-                    >
 
+            <Box w="100%" h={["100%"]} position="relative" >
+                <Scrollbars
+                    renderView={(props) => (
+                        <div
+                            className="main-scrollbars"
+                            style={{
+                                position: 'absolute',
+                                inset: '0px',
+                                paddingRight: '0px',
+                                margin: '0',
+                                padding: '0',
+                                overflow: 'hidden scroll',
+                                width: '100%'
+                                // marginRight: '-8px',
+                                // marginBottom: '-8px'
+                            }}
+                        />)}
+                    // renderThumbVertical={(style, props) => <Box  {...props} {...style} w="10px" bgColor={'blacks.700'} className="thumb-vertical" />}
+                    hideTracksWhenNotNeeded={true}
+                    autoHide
+                    autoHideTimeout={2000}
+                    autoHideDuration={200}
+                >
+                    <VStack
+                        className="chat-message-panel"
+                        boxShadow={'inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)'}
+                        pr="1rem"
+                        pl="1rem"
+                        width="100%"
+                        height="100%"
+                        spacing={['0.2rem', '0.3rem', "0.5rem"]}
+
+                        justifyContent={'flex-end'} >
                         {renderChatMessages()}
-                    </Scrollbars>
-                </Box>
-                <Box ref={messageListRef} />
+                    </VStack>
+                </Scrollbars>
+            </Box>
+            <Box ref={messageListRef} />
 
-
+            <VStack
+                pr="1rem"
+                pl="1rem"
+                width="100%"
+                spacing={['0.2rem', '0.3rem', "0.5rem"]}
+                justifyContent={'flex-end'} >
                 <ChatSend />
-
             </VStack>
-        </Box>
+
+        </Box >
 
     )
 }
@@ -349,13 +364,18 @@ function ChatSend(props) {
     return (
         <Box
             position={'relative'}
-            width={"100%"} pb="1rem" spacing="0" m="0">
+
+            width={"100%"} pb="0.5rem" spacing="0" m="0">
             <FSGTextInput
                 name="name"
                 id="name"
                 title=""
+                borderRadius="2rem"
                 maxLength="120"
+                pr={"3rem"}
                 height="3rem"
+                fontSize="xs"
+                placeholder="Type a message..."
                 autoComplete="off"
                 value={props.chatMessage || ''}
                 onChange={inputChange}
@@ -372,6 +392,8 @@ function ChatSend(props) {
                 position="absolute"
                 top="0"
                 right="0"
+                spacing="0"
+                zIndex={10}
             >
                 <IconButton
                     onClick={onSubmit}

@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 
@@ -21,9 +21,14 @@ function FSGSubmit(props) {
     }, []);
 
     return (
-        <div className="form-row">
+        <Box className="form-row">
             <Button
                 disabled={loading}
+                fontWeight={props.fontWeight}
+                fontSize={props.fontSize}
+                px={props.px}
+                py={props.py}
+                borderRadius={props.borderRadius || '0'}
                 className="submit"
                 color={props.color}
                 onClick={async (e) => {
@@ -41,7 +46,7 @@ function FSGSubmit(props) {
                 }}>
                 {title}
             </Button>
-        </div>
+        </Box>
     )
 }
 

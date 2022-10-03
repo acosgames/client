@@ -31,7 +31,7 @@ function FSGTextInput(props) {
         <FormControl as='fieldset' mb="0">
             <FormLabel as='legend' fontSize="xs" color="gray.100" fontWeight="bold">
                 <HStack>
-                    <Text>{props.title}</Text>
+                    <Text color="white">{props.title}</Text>
                     {props.required && (
                         <Text display="inline-block" color="red.800">*</Text>
                     )}
@@ -42,6 +42,9 @@ function FSGTextInput(props) {
                 id={props.id}
                 ref={props.ref || inputRef}
                 placeholder={props.placeholder}
+                fontWeight={props.fontWeight || 'light'}
+                fontSize={props.fontSize || 'sm'}
+                pr={props.pr || 0}
                 maxLength={props.maxLength}
                 value={value || ''}
                 size={props.size}
@@ -49,6 +52,7 @@ function FSGTextInput(props) {
                 height={props.height}
                 onKeyPress={props.onKeyPress}
                 onKeyUp={props.onKeyUp}
+                borderRadius={props.borderRadius || "0"}
                 onKeyDown={props.onKeyDown}
                 onChange={(e) => {
                     if (props.rules && props.group) {

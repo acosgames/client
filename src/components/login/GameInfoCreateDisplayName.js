@@ -18,7 +18,9 @@ function GameInfoCreateDisplayname(props) {
     const isOpen = props.isOpen;
     const onOpen = props.onOpen;
 
-    const [displayName, setDisplayName] = useState('');
+    let defaultPlayerName = "Player" + Math.round(Math.random() * 10000);
+
+    const [displayName, setDisplayName] = useState(defaultPlayerName);
     const [error, setError] = useState(null);
 
     let joinqueues = getJoinQueues();
@@ -106,7 +108,7 @@ function GameInfoCreateDisplayname(props) {
     let joinButtonTitle = "Let's Go!";
     let game = fs.get('game');
     if (loginFrom == 'game') {
-        if (game.maxplayers == 1) {
+        if (game?.maxplayers == 1) {
             joinButtonTitle = 'Join Game';
         } else {
             joinButtonTitle = 'Join Queue';
@@ -116,23 +118,27 @@ function GameInfoCreateDisplayname(props) {
 
     return (
         <Box>
-            <Modal size={'xl'} isOpen={props.isOpen || props.isCreateDisplayName} onClose={(e) => {
+            <Modal borderRadius="2rem" size={'2xl'} isOpen={props.isOpen || props.isCreateDisplayName} onClose={(e) => {
                 fs.set('isCreateDisplayName', false);
                 onClose(e);
             }}>
                 <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Login to play</ModalHeader>
+                <ModalContent borderRadius="2rem">
+                    <ModalHeader color="gray.100">Create your player</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <VStack>
-                            <FSGGroup>
+                        <VStack spacing="2rem">
+                            <FSGGroup >
 
                                 <FSGTextInput
                                     onChange={onChange}
                                     maxLength="32"
                                     title="Choose Name"
+                                    borderRadius="2rem"
                                     focus={true}
+                                    onFocus={(e) => {
+                                        e.target.select();
+                                    }}
                                     value={displayName}
                                     onKeyDown={onKeyDown}
                                 // helpText={'This is a temporary acount, login to make it permanent'}
@@ -146,46 +152,71 @@ function GameInfoCreateDisplayname(props) {
                                     )
                                 }
                             </FSGGroup>
-                            <FSGSubmit onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
-                            <Divider pt={'1rem'} />
-                            <Heading color="gray.300" pt={'1rem'} pb="1rem" size="xs">Or, sign in to reserve your name</Heading>
+                            <FSGSubmit px={'2rem'} py="2rem" fontSize="md" fontWeight="bold" borderRadius="2rem" onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
+                            <Divider pt={'0'} />
+                            <Heading color="gray.100" pt={'0'} pb="0" size="xs">Or, sign in to access more features</Heading>
                             {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
                             <HStack w={['100%']} justifyItems={'center'} gap="0">
                                 {/* Google */}
-                                <ChLink href={"/login/google" + refPath} w="50%">
-                                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="16px" />}>
+                                <ChLink href={"/login/google" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
+                                    height="4.5rem"
+                                    display="flex"
+                                    flexDir={"row"}
+                                    bgColor="gray.800"
+                                    borderRadius="2rem"
+                                    color="gray.100"
+                                    boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                                    justifyContent="center" alignItems={'center'}>
+                                    <FaGoogle size="2rem" />
+                                    <Text fontSize="sm" fontWeight={'bold'} pl="0.5rem">Google</Text>
 
-                                        <Text color="gray.100" fontSize="xs" pl="0.2rem">Google</Text>
-
-                                    </Button>
                                 </ChLink>
 
                                 {/* Microsoft */}
-                                <ChLink href={"/login/microsoft" + refPath} w="50%">
-                                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="16px" />}>
+                                <ChLink href={"/login/microsoft" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
+                                    height="4.5rem"
+                                    display="flex"
+                                    flexDir={"row"}
+                                    bgColor="gray.800"
+                                    borderRadius="2rem"
+                                    color="gray.100"
+                                    boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                                    justifyContent="center" alignItems={'center'}>
+                                    <FaMicrosoft size="2rem" />
+                                    <Text fontSize="sm" fontWeight={'bold'} pl="0.5rem">Microsoft</Text>
 
-                                        <Text color="gray.100" fontSize="xs" pl="0.2rem">Microsoft</Text>
-
-                                    </Button>
                                 </ChLink>
                             </HStack>
                             <HStack w={['100%']}>
                                 {/* Facebook */}
-                                <ChLink href={"/login/facebook" + refPath} w={'50%'}>
-                                    <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="16px" />}>
+                                <ChLink href={"/login/facebook" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
+                                    height="4.5rem"
+                                    display="flex"
+                                    flexDir={"row"}
+                                    bgColor="gray.800"
+                                    borderRadius="2rem"
+                                    color="gray.100"
+                                    boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                                    justifyContent="center" alignItems={'center'}>
 
-                                        <Text color="gray.100" fontSize="xs" pl="0.2rem">Facebook</Text>
+                                    <FaFacebook size="2rem" />
+                                    <Text fontSize="sm" fontWeight={'bold'} pl="0.5rem">Facebook</Text>
 
-                                    </Button>
                                 </ChLink>
 
                                 {/* GitHub */}
-                                <ChLink href={"/login/github" + refPath} w={'50%'}>
-                                    <Button w="100%" color="gray.100" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="16px" />}>
+                                <ChLink href={"/login/github" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
+                                    height="4.5rem"
+                                    display="flex"
+                                    flexDir={"row"}
+                                    bgColor="gray.800"
+                                    borderRadius="2rem"
+                                    color="gray.100"
+                                    boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                                    justifyContent="center" alignItems={'center'}>
+                                    <FaGithub size="2rem" />
+                                    <Text fontSize="sm" fontWeight={'bold'} pl="0.5rem">GitHub</Text>
 
-                                        <Text color="gray.100" fontSize="xs" pl="0.2rem">GitHub</Text>
-
-                                    </Button>
                                 </ChLink>
                             </HStack>
                         </VStack>

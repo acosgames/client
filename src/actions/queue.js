@@ -33,7 +33,7 @@ export async function addJoinQueues(game_slug, mode) {
 }
 
 export function getJoinQueues() {
-    let joinqueues = fs.get('joinqueues');
+    let joinqueues = fs.get('joinqueues') || [];
     try {
         if (!joinqueues) {
             joinqueues = localStorage.getItem('joinqueues');

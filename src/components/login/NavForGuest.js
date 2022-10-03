@@ -31,8 +31,16 @@ function NavForGuest(props) {
                 rounded={'full'}
                 icon={<FiUser size="2rem" />}
                 // variant={'link'}
-                fontSize={'xs'}
-                _hover={{ bgColor: 'gray.300' }}
+                color="gray.50"
+                boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                fontSize={'sm'}
+                fontWeight="bold"
+                p={['1rem', '1rem', '1.5rem']}
+                bgColor='gray.700'
+                _hover={{
+                    bgColor: 'gray.600',
+                    boxShadow: `inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`
+                }}
                 cursor={'pointer'}
                 onClick={() => {
                     fs.set('loginFrom', 'signin');
@@ -41,7 +49,7 @@ function NavForGuest(props) {
                 minW={0} >
                 Sign In
             </Button>
-        </VStack>
+        </VStack >
         // <Menu placement='bottom-end'>
         //     <VStack display="flex" justifyContent="center" height="100%" spacing="0">
         //         <MenuButton

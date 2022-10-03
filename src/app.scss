@@ -20,12 +20,7 @@
   // background-color: red;
 }
 
-::selection {
-  background: #838383; /* WebKit/Blink Browsers */
-}
-::-moz-selection {
-  background: #838383; /* Gecko Browsers */
-}
+
 
 * {
   -webkit-tap-highlight-color: transparent;
@@ -696,15 +691,15 @@ code {
 }
 
 .form-row > button {
-  width: 10rem;
-  height: 3rem;
+  // width: 10rem;
+  // height: 3rem;
   border: 0;
 }
 .form-row > button.submit {
   background-color: #63ed56;
-  font-size: 1.2rem;
+  
   font-weight: bold;
-  font-family: "Inter", "Oswald", sans-serif;
+  // font-family: "Inter", "Oswald", sans-serif;
 }
 .form-row > button.submit:hover {
   background-color: #52c548;

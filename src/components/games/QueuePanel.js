@@ -279,6 +279,7 @@ function QueuePanel(props) {
                 // top={['0.25rem', '0.25rem', "0.5rem"]}
                 // width={['6rem', '6rem', "7rem"]}
                 w="100%"
+                px="1rem"
                 align="center"
                 justifyItems={'center'}
                 // transform='translateX(-50%)'
@@ -289,17 +290,16 @@ function QueuePanel(props) {
                 <HStack
                     borderRadius={'30px'}
                     position="relative"
-                    bgColor={'gray.600'}
-
+                    bgColor={'gray.800'}
+                    boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                     height={['2.5rem', '3.5rem', "4.0rem"]}
-
+                    w="100%"
                     justifyContent={'flex-start'}
                     spacing="0rem">
                     <HStack
                         // position="absolute"
                         // top="0"
                         // left="2rem"
-                        width={['6rem', '6rem', "7rem"]}
                         ml="1rem"
                         height="100%"
                         spacing="1rem"
@@ -337,7 +337,21 @@ function QueuePanel(props) {
                             <PopoverContent mb="2rem" _focus={{ outline: 'none' }}>
                                 <PopoverArrow />
                                 <PopoverCloseButton onClick={onClose} />
-                                <PopoverHeader h="2rem" lineHeight={'2rem'} pt="0"><Text h="2rem" lineHeight={'2rem'} as="span" fontSize="2xs" fontWeight="bolder">QUEUES</Text></PopoverHeader>
+                                <PopoverHeader
+                                    h="3rem"
+                                    lineHeight={'3rem'}
+                                    bgColor="gray.800"
+                                    pt="0">
+                                    <Text h="3rem"
+                                        lineHeight={'3rem'}
+                                        as="span"
+                                        fontSize="sm"
+                                        fontWeight="bolder"
+                                        color="gray.150"
+                                    >
+                                        Queues
+                                    </Text>
+                                </PopoverHeader>
                                 <PopoverBody bgColor={'gray.900'}>
                                     <VStack divider={<Divider />} spacing="0.2rem">
                                         {
@@ -347,7 +361,7 @@ function QueuePanel(props) {
                                                 let title = game?.name || game_slug;
                                                 return (
                                                     <HStack key={'queueitem-' + game_slug}>
-                                                        <Text color="white" as="span" fontSize="2xs" fontWeight={'bold'}>{title}</Text>
+                                                        <Text color="white" as="span" fontSize="xs" fontWeight={'bold'}>{title}</Text>
                                                         <HStack>
                                                             {
                                                                 modes.map(m => (

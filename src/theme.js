@@ -16,7 +16,15 @@ const styles = {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
             bg: 'gray.1000',
         },
-        'body': { 'fontSize': '160%' }
+        'body': { 'fontSize': '160%' },
+
+        '::selection': {
+            background: 'gray.400' /* WebKit/Blink Browsers */
+        },
+        '::-moz-selection': {
+            background: 'gray.400' /* Gecko Browsers */
+        }
+
     }
 };
 
