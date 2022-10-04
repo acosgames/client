@@ -123,6 +123,8 @@ function GameInfo2(props) {
 
 
     const parseDate = (dt) => {
+        if (!dt)
+            return '';
         return dt.split('T')[0];
     }
 

@@ -6024,18 +6024,18 @@
   "resolved" "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.3.tgz"
   "version" "3.0.3"
 
-"simplebar-react@^2.4.1":
-  "integrity" "sha512-lw0ZPj+80ez2mh1YTOligFUNzDch2sUbOzDp4WUhU5SpS+qMiyyOzNfMbHa0l4FyWox+tnGNO7jybxqIda3roQ=="
-  "resolved" "https://registry.npmjs.org/simplebar-react/-/simplebar-react-2.4.1.tgz"
-  "version" "2.4.1"
+"simplebar-react@^2.4.3":
+  "integrity" "sha512-Ep8gqAUZAS5IC2lT5RE4t1ZFUIVACqbrSRQvFV9a6NbVUzXzOMnc4P82Hl8Ak77AnPQvmgUwZS7aUKLyBoMAcg=="
+  "resolved" "https://registry.npmjs.org/simplebar-react/-/simplebar-react-2.4.3.tgz"
+  "version" "2.4.3"
   dependencies:
     "prop-types" "^15.6.1"
-    "simplebar" "^5.3.8"
+    "simplebar" "^5.3.9"
 
-"simplebar@^5.3.8":
-  "integrity" "sha512-LOHjyOcihx++zFN+vuktoZBGpCarFCtHIVDWXOf2VELbGDknq3Hw/sddafRp1aCg123VNkHWOFHUDHYEXAtufQ=="
-  "resolved" "https://registry.npmjs.org/simplebar/-/simplebar-5.3.8.tgz"
-  "version" "5.3.8"
+"simplebar@^5.3.9":
+  "integrity" "sha512-1vIIpjDvY9sVH14e0LGeiCiTFU3ILqAghzO6OI9axeG+mvU/vMSrvXeAXkBolqFFz3XYaY8n5ahH9MeP3sp2Ag=="
+  "resolved" "https://registry.npmjs.org/simplebar/-/simplebar-5.3.9.tgz"
+  "version" "5.3.9"
   dependencies:
     "@juggle/resize-observer" "^3.3.1"
     "can-use-dom" "^0.1.0"

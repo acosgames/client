@@ -49,6 +49,7 @@ function FSGTextInput(props) {
                 value={value || ''}
                 size={props.size}
                 width={props.width}
+
                 height={props.height}
                 onKeyPress={props.onKeyPress}
                 onKeyUp={props.onKeyUp}
@@ -63,7 +64,8 @@ function FSGTextInput(props) {
                 onFocus={props.onFocus}
                 disabled={props.disabled}
                 autoComplete={props.autoComplete}
-                bgColor="gray.800"
+                _placeholder={{ ...props._placeholder }}
+                bgColor={props.bgColor || "gray.800"}
             />
 
             <FormHelperText>{props.helpText}</FormHelperText>
