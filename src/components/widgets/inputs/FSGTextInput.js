@@ -29,7 +29,7 @@ function FSGTextInput(props) {
     let value = (props.group && props[props.group]) || props.value;
     return (
         <FormControl as='fieldset' mb="0">
-            <FormLabel as='legend' fontSize="xs" color="gray.100" fontWeight="bold">
+            <FormLabel as='legend' fontSize="xs" color="gray.100" fontWeight="bold" display={props.title ? 'block' : 'none'}>
                 <HStack>
                     <Text color="white">{props.title}</Text>
                     {props.required && (
@@ -49,7 +49,7 @@ function FSGTextInput(props) {
                 value={value || ''}
                 size={props.size}
                 width={props.width}
-
+                border={props.border}
                 height={props.height}
                 onKeyPress={props.onKeyPress}
                 onKeyUp={props.onKeyUp}
@@ -64,11 +64,12 @@ function FSGTextInput(props) {
                 onFocus={props.onFocus}
                 disabled={props.disabled}
                 autoComplete={props.autoComplete}
+                _focus={{ ...props._focus }}
                 _placeholder={{ ...props._placeholder }}
                 bgColor={props.bgColor || "gray.800"}
             />
 
-            <FormHelperText>{props.helpText}</FormHelperText>
+            <FormHelperText display={props.helpText ? 'block' : 'none'}>{props.helpText}</FormHelperText>
 
 
         </FormControl>

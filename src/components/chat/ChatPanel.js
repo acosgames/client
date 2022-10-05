@@ -55,29 +55,74 @@ function ChatPanel(props) {
     let desktopIcon = toggle ? <Icon as={AiFillCloseCircle} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.400'} /> : <Icon as={BsChatDotsFill} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.100'} />;
     let mobileIcon = toggle ? <Icon as={AiFillCloseCircle} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.400'} /> : <Icon as={BsChatDotsFill} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.100'} />
     return (
-        <VStack
+        <Box
             transition="width 0.3s ease, height 0.3s ease"
-            width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
+            width={props.isMobile ? '100%' : !toggle ? '0' : ['24.0rem', '24rem', '28.0rem']}
             height={!props.isMobile ? "100%" : (toggle ? '30rem' : '0')}
-
-            // alignItems="stretch"
-            pb={'0'}
             position="relative"
-            // overflow="hidden"
-
-            // flexGrow='1 !important'
-            display='flex !important'
-            flexDirection='column !important'
-            spacing="0"
-            mt="0"
+        // overflow="hidden"
         >
-            <ChatHeader toggle={toggle} isMobile={props.isMobile} />
-            <QueuePanel />
-            <Box flex="1" w="100%"
+
+            <VStack
+                transition="width 0.3s ease, height 0.3s ease"
+                // position="relative"
+                // top="0"
+                // left="0"
+                width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
+                height={!props.isMobile ? "100%" : '30rem'}
+
+                // alignItems="stretch"
+                pb={'0'}
+
+
+                // flexGrow='1 !important'
+                // display='flex !important'
+                // flexDirection='column !important'
+                spacing="0"
+                mt="0"
             >
-                <ChatMessages toggle={toggle} isMobile={props.isMobile} />
-            </Box>
-        </VStack>
+
+                <VStack
+                    p="0"
+                    bgColor="gray.800"
+                    // borderRadius="2rem"
+                    //boxShadow={'inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)'}
+                    // width="100%"//{props.isMobile ? "100%" : (['22.0rem', '22rem', '26.0rem'])}
+                    // height="calc(100vh - 6rem)"
+                    spacing="0"
+                    // height={['calc(100vh - 7rem)', 'calc(100vh - 8rem)', 'calc(100vh - 9rem)']}
+                    height="100%"
+                    // minHeight={['calc(100vh - 7rem)', 'calc(100vh - 8rem)', 'calc(100vh - 9rem)']}
+                    // ref={scrollRef}
+                    width="100%"
+                    overflow="hidden"
+                    position="relative"
+                    justifyContent="flex-start"
+                    alignItems={"flex-start"}
+                // width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
+                >
+
+                    <ChatHeader toggle={toggle} isMobile={props.isMobile} />
+                    <QueuePanel />
+
+                    <ChatMessages toggle={toggle} isMobile={props.isMobile} />
+
+                    <Box
+                        // pr="1rem"
+                        // pl="1rem"
+                        width="100%"
+                        bgColor="gray.800"
+                        // boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                        height="4rem"
+                    // justifyContent={'flex-end'}
+                    >
+                        <ChatSend />
+                    </Box>
+
+                </VStack >
+
+            </VStack>
+        </Box>
     )
 }
 ChatPanel = fs.connect(['chatToggle', 'isMobile', 'displayMode'])(ChatPanel);
@@ -95,15 +140,15 @@ function ChatHeader(props) {
             boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
             pl={'1rem'}
             bgColor="gray.800"
-            width={'100%'}
+            width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
             height={['3rem', '4rem', '5rem']}
             spacing={'2rem'}
             justifyContent='center'
             alignItems={'center'}
         >
-            <Text cursor='pointer' as={'span'} fontSize={mode == 'all' ? 'sm' : 'sm'} fontWeight={mode == 'all' ? "bold" : 'normal'} color={mode == 'all' ? 'gray.100' : 'gray.175'} onClick={() => { onChangeMode('all') }}>Chat</Text>
-            <Text cursor='pointer' as={'span'} fontSize={mode == 'game' ? 'sm' : 'sm'} fontWeight={mode == 'game' ? "bold" : 'normal'} color={mode == 'game' ? 'gray.100' : 'gray.175'} onClick={() => { onChangeMode('game') }}>Game</Text>
-            <Text cursor='pointer' as={'span'} fontSize={mode == 'party' ? 'sm' : 'sm'} fontWeight={mode == 'party' ? "bold" : 'normal'} color={mode == 'party' ? 'gray.100' : 'gray.175'} onClick={() => { onChangeMode('party') }}>Party</Text>
+            <Text cursor='pointer' as={'span'} fontSize={mode == 'all' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'all' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('all') }}>Chat</Text>
+            <Text cursor='pointer' as={'span'} fontSize={mode == 'game' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'game' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('game') }}>Friends</Text>
+            <Text cursor='pointer' as={'span'} fontSize={mode == 'party' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'party' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('party') }}>Bounties</Text>
 
         </HStack>
     )
@@ -143,6 +188,7 @@ function ChatMessages(props) {
 
                     key={msg.displayname + msg.timestamp}
                     width="100%"
+                    overflow="hidden"
 
                     //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                     position="relative"
@@ -229,21 +275,14 @@ function ChatMessages(props) {
     let maxHeight = !props.isMobile ? "100%" : (props.toggle ? '23rem' : '0');
 
     return (
-        <VStack
-            p="0"
-            bgColor="gray.800"
-            // borderRadius="2rem"
-            boxShadow={'inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)'}
-            width="100%"//{props.isMobile ? "100%" : (['22.0rem', '22rem', '26.0rem'])}
-            // height="calc(100vh - 6rem)"
-            spacing="0"
-            height={['calc(100vh - 7rem)', 'calc(100vh - 8rem)', 'calc(100vh - 9rem)']}
-            minHeight={['calc(100vh - 7rem)', 'calc(100vh - 8rem)', 'calc(100vh - 9rem)']}
-            ref={scrollRef}
 
-        >
+        <>
 
-            <SimpleBar style={{ width: '100%', height: '100%', paddingBottom: '0.5rem' }}>
+            <SimpleBar style={{
+                width: '100%',
+                // width: props.isMobile ? '100%' : '28.0rem',
+                height: 'auto', flex: '1', paddingBottom: '0.5rem', overflow: 'hidden scroll', boxSizing: 'border-box'
+            }} scrollableNodeProps={{ ref: scrollRef }}>
                 {/* <Scrollbars
                     renderView={(props) => (
                         <div
@@ -272,8 +311,6 @@ function ChatMessages(props) {
                     pr="1rem"
                     pl="1rem"
                     width="100%"
-                    height="100%"
-                    overflow="hidden"
                     spacing={['0.2rem', '0.3rem', "0.5rem"]}
 
                     justifyContent={'flex-end'} >
@@ -281,20 +318,9 @@ function ChatMessages(props) {
                 </VStack>
             </SimpleBar>
             {/* </Scrollbars> */}
-            <Box ref={messageListRef} />
+            {/* <Box height="0px" ref={messageListRef} /> */}
 
-            <Box
-                pr="1rem"
-                pl="1rem"
-                width="100%"
-                bgColor="gray.800"
-                boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-            // justifyContent={'flex-end'}
-            >
-                <ChatSend />
-            </Box>
-
-        </VStack >
+        </>
 
     )
 }
@@ -327,15 +353,17 @@ function ChatSend(props) {
                 name="name"
                 id="name"
                 title=""
-                borderRadius="2rem"
+                //borderRadius="2rem"
                 maxLength="120"
                 pr={"3rem"}
-                height="3rem"
-                bgColor="blacks.900"
+                height="4rem"
+                border="0"
+                bgColor="gray.800"
                 color="gray.100"
                 fontSize="xs"
                 placeholder="Type a message..."
                 autoComplete="off"
+                _focus={{ outline: 'gray.100', bgColor: 'black' }}
                 _placeholder={{ color: 'gray.175' }}
                 value={props.chatMessage || ''}
                 onChange={inputChange}

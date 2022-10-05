@@ -9,7 +9,7 @@ import config from '../../config'
 import { findQueue } from '../../actions/queue';
 import fs from 'flatstore';
 import { useEffect } from "react";
-import { VStack, Image, Text, HStack, Icon, Button, Tooltip, Box } from "@chakra-ui/react";
+import { VStack, Image, Text, HStack, Icon, Button, Tooltip, Box, Link as ChLink } from "@chakra-ui/react";
 
 import { FaPlay, GiCheckMark, IoPeople } from '@react-icons';
 import { getUser, login } from "../../actions/person";
@@ -117,7 +117,7 @@ function GameListItem(props) {
 
                     {/* <HStack alignSelf={'flex-start'} flex="1" alignItems={'flex-end'}> */}
                     <Tooltip label={gameName} placement="top">
-                        <Link to={'/g/' + game.game_slug} display="block">
+                        <ChLink to={'/g/' + game.game_slug} display="block" width="100%">
 
                             <Text
                                 as="h4"
@@ -127,6 +127,9 @@ function GameListItem(props) {
                                 w="100%"
                                 p="0"
                                 py="1rem"
+                                width="100%"
+                                height="4rem"
+                                // text-overflow="ellipsis"
                                 // pt="0.5rem"
                                 // pb="0.5rem"
 
@@ -138,7 +141,7 @@ function GameListItem(props) {
                             // alignSelf={'flex-end'}
                             >{gameName}</Text>
 
-                        </Link>
+                        </ChLink>
                     </Tooltip>
                     {/* </HStack> */}
                     {/* 
