@@ -53,7 +53,7 @@ function GameInfoTop10(props) {
                         <Link to={'/profile/' + player.value}>
                             <Text
                                 fontSize="xs"
-                                fontWeight={isLocalPlayer ? 'bold' : 'normal'}
+                                fontWeight={'bold'}
                                 color={isLocalPlayer ? "yellow.100" : 'white'}>
                                 {player.value}
                             </Text>

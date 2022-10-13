@@ -29,6 +29,7 @@ import GameInfoJoinButton from './GameInfoJoinButton'
 import { findQueue } from "../../../actions/queue";
 import GameInfoLeaderboard from "./GameInfoLeaderboard";
 import GameInfoReplay from "./GameInfoReplay";
+import ratingtext from "shared/util/ratingtext";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
@@ -142,6 +143,13 @@ function GameInfo2(props) {
     if (game.screentype == 3) {
         resolution += ' @ ' + screenwidth + 'px';
     }
+
+    let played = playerStats.played;
+    played = 0;
+    let ratingTxt = ratingtext.ratingToRank(playerStats.rating);
+    let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
+    let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
+
     return (
 
         <Box className="gameinfo" display="inline-block" width="100%" >
@@ -150,20 +158,34 @@ function GameInfo2(props) {
 
                 <VStack width="100%" align="center">
 
-                    <HStack w="100%" h="100%" justifyContent={'center'} spacing="2rem" >
+                    <HStack w="100%" h="100%" justifyContent={'center'} spacing="2rem" alignItems={'flex-start'}>
                         <GameInfoImage borderRadius="2rem" game_slug={game.game_slug} imgUrl={imgUrl} />
 
 
                         <Flex ml="3rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
-                            <Heading color="gray.50" fontSize={['xl', '2xl']}>{game.name}</Heading>
 
-                            <Text color="gray.100" as="h5" pt="0.5rem" fontSize={['xxs', 'xs']} fontWeight="400">{game.shortdesc}</Text>
-                            <Text color="gray.175" as="span" fontSize="xxs">v{game.version}</Text>
+                            <HStack w="100%">
+                                <VStack flex="1" alignItems={'flex-start'}>
+                                    <Heading color="gray.50" fontSize={['xl', '2xl']}>{game.name}</Heading>
 
-                            <Box flexGrow={'1'}>
-                                <Text color="gray.100" as="span" fontSize="xxs">Developed by </Text>
-                                <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="yellow.100">{game.displayname}</Text></Link>
-                            </Box>
+
+                                    <Box flexGrow={'1'}>
+                                        <Text color="gray.100" as="span" fontSize="xxs">By </Text>
+                                        <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="gray.100">{game.displayname}</Text></Link>
+                                    </Box>
+
+                                    <Text color="gray.100" as="h5" pt="0.5rem" fontSize={['xs', 'sm']} fontWeight="400">{game.shortdesc}</Text>
+
+                                </VStack>
+
+
+                            </HStack>
+
+
+                            <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "1rem"]}>
+                                <GameInfoJoinButton {...game} {...playerStats} />
+                            </Flex>
+
                             {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Box> */}
@@ -171,6 +193,7 @@ function GameInfo2(props) {
                                 <GameInfoActions {...game} {...playerStats} />
                             </Box>
                         </Flex>
+
 
 
                     </HStack>
@@ -181,13 +204,16 @@ function GameInfo2(props) {
                         </Center>
                     </Box>
 
-                    <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "3rem"]}>
-                        <GameInfoJoinButton {...game} {...playerStats} />
-                    </Flex>
+
 
                     {/* <GameInfoReplay game_slug={game.game_slug} /> */}
 
-                    <GameInfoLeaderboard gameinfo={game} />
+                    <Flex w="100%">
+
+
+                        <GameInfoLeaderboard gameinfo={game} />
+                    </Flex>
+
 
                     <Box p="0" m="0" pt="0" pb="3rem" width="100%">
                         <FSGGroup fontSize="0.8rem" title="Description" hfontSize="sm">
@@ -296,8 +322,8 @@ function GameInfoImage(props) {
                 paddingBottom: '100%'
             }}
             position="relative"
-            w={['12rem', '12rem', '25.6rem']}
-            minW={['12rem', '12rem', '12.8rem']}
+            w={['12rem', '16rem', '24rem']}
+            minW={['12rem', '16rem', '24rem']}
             className="gameinfo-image"
         >
             <Image

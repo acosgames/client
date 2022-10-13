@@ -1352,8 +1352,8 @@ async function postIncomingMessage(msg) {
                 if (player_stat) {
                     if (player.rating)
                         player_stat.rating = player.rating;
-                    if (player.ratingTxt)
-                        player_stat.ratingTxt = player.ratingTxt;
+                    //if (player.ratingTxt)
+                    //    player_stat.ratingTxt = player.ratingTxt;
                     player_stats[room.game_slug] = player_stat;
                 }
                 fs.set('player_stats', player_stats);

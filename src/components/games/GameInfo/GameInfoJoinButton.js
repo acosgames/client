@@ -1,4 +1,4 @@
-import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack, useDisclosure } from '@chakra-ui/react'
+import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack, useDisclosure, Image } from '@chakra-ui/react'
 import { FaCaretDown, FaPlay, AiTwotoneExperiment, GiSpectacles } from '@react-icons';
 
 import fs from 'flatstore';
@@ -9,6 +9,9 @@ import { getUser, login } from '../../../actions/person';
 import { joinGame } from "../../../actions/game";
 import { getLastJoinType, setLastJoinType } from '../../../actions/room';
 import { validateLogin } from '../../../actions/connection';
+
+import config from '../../../config'
+import RatingText from 'shared/util/ratingtext';
 
 fs.set('isCreateDisplayName', false);
 
@@ -80,63 +83,32 @@ function GameInfoJoinButton(props) {
     let latest_version = props.latest_version || 0;
     let hasExtra = version < latest_version;
 
-    let rating = props.played >= 10 ? '' + props.rating + '' : ' ';
-    let ratingTxt = props.played >= 10 ? props.ratingTxt : 'UNRANKED';
+    let myrating = props.rating;
+    // myrating = 1200;
+    let myplayed = props.played;
+    // myplayed = 12;
+
+    let rating = myplayed >= 10 ? '' + myrating + '' : ' ';
+    let ratingTxt = myplayed >= 10 ? RatingText.ratingToRank(rating) : 'UNRANKED';
     ratingTxt = ratingTxt.toUpperCase();
 
-    // if (props.played >= 10 && playerGameStats.ranking == 1)
+    // if (myplayed >= 10 && playerGameStats.ranking == 1)
     //     ratingTxt = 'YOU ARE KING';
 
-    // hasExtra = false;
+    hasExtra = true;
+
 
     return (
-        <VStack w="full" spacing="0" pt={hasRankLeaderboard ? '0' : '1rem'}>
-
-            <HStack
-                display={(isValidUser && hasRankLeaderboard) ? 'flex' : 'none'}
-                transform="perspective(15px) rotateX(1deg)"
-                w="90%"
-                height="5rem"
-                bg="gray.900"
-                justifyContent="center"
-
-                bgColor="gray.800"
-                // borderRadius="2rem"
-                boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-
-
-            // zIndex={-1}
-            >
-                <VStack>
-
-                    <Text
-                        color="yellow.200"
-                        fontSize={['xxs', 'xs', 'md',]}
-                        fontWeight={'bolder'}
-                        lineHeight="1.6rem"
-                        align="center">{ratingTxt}</Text>
-                    <HStack>
-                        <Text
-                            display={props.played >= 10 ? 'block' : 'none'}
-                            color="gray.50"
-                            fontSize={['xxs', 'xs', 'md',]}
-                            fontWeight="bold"
-                            lineHeight={'1.6rem'}
-                            pr={'1rem'}
-                            align="center">{rating} </Text>
-                        <Text
-                            color="gray.50"
-                            display={props.played < 10 ? 'block' : 'none'}
-                            fontSize={['xxs', 'xs', 'xs']}
-                            pl="0.5rem"
-                            lineHeight="1.6rem">{props.played || 0} of 10 games remaining</Text>
-                    </HStack>
-                </VStack>
-
-
-            </HStack>
-
-            <Flex spacing="0" w="full">
+        <VStack
+            w="full"
+            spacing="1rem"
+        //pt={hasRankLeaderboard ? '0' : '1rem'}
+        //p="1rem"
+        //borderRadius="2rem"
+        //bgColor="gray.900"
+        //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+        >
+            <HStack spacing="0" w="full">
 
                 <Button
                     flex="1"
@@ -145,8 +117,8 @@ function GameInfoJoinButton(props) {
                     _active={{ bg: "brand.900" }}
                     size="lg"
                     mr="0"
-                    w="70%"
-                    h={['3rem', '4rem', "5rem"]}
+                    w="100%"
+                    h={['3rem', '3rem', "4rem"]}
                     // icon={<FaPlay />}
                     borderTopLeftRadius={"9999px"}
                     borderBottomLeftRadius={"9999px"}
@@ -155,18 +127,21 @@ function GameInfoJoinButton(props) {
                     borderBottomRightRadius={hasExtra ? 0 : '9999px'}
                     onClick={handleJoin}
                 >
-                    <Icon ml={hasExtra ? '65px' : 0} as={FaPlay} />
+                    <Icon ml={hasExtra ? '65px' : 0} as={FaPlay}
+                        height={["1rem", "1.6rem"]}
+                        width={["1rem", "1.6rem"]} />
                 </Button>
-                <Box display={hasExtra ? 'block' : 'none'} >
+                <Box display={hasExtra ? 'block' : 'none'} h={['3rem', '3rem', "4rem"]}>
 
                     <Menu m="0" >
                         <MenuButton
                             as={Button}
                             size="lg"
-                            h={['3rem', '4rem', "5rem"]}
+                            h={['3rem', '3rem', "4rem"]}
                             borderLeftWidth={'1px'}
                             borderLeftStyle="solid"
-                            borderLeftColor="green.300"
+                            borderLeftColor="green.500"
+                            verticalAlign={'top'}
                             bgColor={'brand.500'}
                             _hover={{ bg: "brand.600" }}
                             _active={{ bg: "brand.900" }}
@@ -187,7 +162,8 @@ function GameInfoJoinButton(props) {
 
                 </Box>
 
-            </Flex>
+            </HStack>
+
             <Text pt={'0.5rem'} as="span" fontWeight={'light'} fontSize="xs" display={game.queueCount > 0 ? 'inline-block' : 'none'} color={'yellow.100'}>
                 <strong>{game.queueCount}</strong> player(s) waiting
             </Text>

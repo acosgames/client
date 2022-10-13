@@ -65,6 +65,9 @@ function DevManageGameTeams(props) {
         }
     })
 
+    if (prevMaxTeams == 0) {
+        return <></>
+    }
     return (
         <>
             <FSGGroup hfontSize="md" title="Team Configuration">

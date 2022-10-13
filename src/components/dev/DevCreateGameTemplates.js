@@ -52,7 +52,7 @@ function DevCreateGameTemplates(props) {
     const onTemplateChange = (value) => {
 
 
-        updateGameField('template', value, 'create-game_info', 'devgame', 'devgameerror');
+        updateGameField('template', value, 'create-game_info', 'devgame>template', 'devgameerror');
     }
 
     let templates = props.gametemplates || [];

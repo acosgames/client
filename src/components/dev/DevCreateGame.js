@@ -47,45 +47,58 @@ function DevCreateGameError(props) {
 
 DevCreateGameError = fs.connect(['devgameerror'])(DevCreateGameError);
 
+fs.set('devgame', { name: '', game_slug: '', shortdesc: '', template: '' })
 
 function DevFields(props) {
+
+    let [devgame] = fs.useWatch('devgame');
 
     const inputChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
 
-        updateGameField(name, value, 'create-game_info', 'devgame', 'devgameerror');
+        //updateGameField(name, value, 'create-game_info', 'devgame', 'devgameerror'); 
     }
+
+    useEffect(() => {
+        fs.set('devgame', { name: '', game_slug: '', shortdesc: '', template: '' })
+    }, [])
 
     const rules = schema['create-game_info'];
     return (
         <FSGGroup title="Game Details">
             <FSGTextInput
+                rules='create-game_info'
+                group={'devgame>name'}
                 name="name"
                 id="name"
                 title="Game Name"
                 maxLength="60"
-                value={props.devgame.name || ''}
                 helpText="The advertised name on the website"
                 required={rules['name'].required}
+                value={devgame.name || ''}
                 onChange={inputChange}
             />
             <FSGTextInput
+                rules='create-game_info'
+                group={'devgame>game_slug'}
                 name="game_slug"
                 id="game_slug"
                 title="Slug Name (lower a-z and - only)"
                 maxLength="32"
-                value={props.devgame.game_slug || ''}
+                value={devgame.game_slug || ''}
                 helpText="Note: This value does not change once created!  It is used in the URL for your game."
                 required={rules['name'].required}
                 onChange={inputChange}
             />
             <FSGTextInput
+                rules='create-game_info'
+                group={'devgame>shortdesc'}
                 name="shortdesc"
                 id="shortdesc"
                 title="Short Description (120 characters)"
                 maxLength="120"
-                value={props.devgame.shortdesc || ''}
+                value={devgame.shortdesc || ''}
                 required={rules['name'].required}
                 onChange={inputChange}
             />
@@ -95,14 +108,14 @@ function DevFields(props) {
     )
 }
 
-DevFields = fs.connect(['devgame'])(DevFields);
+// DevFields = fs.connect(['devgame'])(DevFields);
 
 
 function DevCreateGame(props) {
 
     useEffect(async () => {
         await clearGameFields();
-        updateGameField('template', '0', 'create-game_info', 'devgame', 'devgameerror');
+        updateGameField('template', '0', 'create-game_info', 'devgame>template', 'devgameerror');
         gtag('event', 'devcreategame');
     }, [])
 

@@ -53,7 +53,7 @@ function FSGTextInput(props) {
                 height={props.height}
                 onKeyPress={props.onKeyPress}
                 onKeyUp={props.onKeyUp}
-                borderRadius={props.borderRadius || "0"}
+                borderRadius={props.borderRadius}
                 onKeyDown={props.onKeyDown}
                 onChange={(e) => {
                     if (props.rules && props.group) {

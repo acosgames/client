@@ -84,7 +84,7 @@ function GameListItem(props) {
                 // bgColor={'blacks.900'}
                 // boxShadow={'0px 0px 4px 0.4px rgb(255 255 255 / 5%)'}
                 borderRadius={'6px 6px 6px 6px'}
-                w={['8rem', '14rem', '18rem', '18rem']}
+                w={['8rem', '14rem', '14rem', '14rem']}
                 pl="2px"
                 pr="2px"
                 cursor="pointer"
@@ -99,10 +99,10 @@ function GameListItem(props) {
                 <Link to={'/g/' + game.game_slug}>
                     <Image
                         borderRadius={'2rem'}
-                        w={['8rem', '14rem', '18rem', '18rem']}
-                        minW={['8rem', '14rem', '18rem', '18rem']}
-                        h={['8rem', '14rem', '18rem', '18rem']}
-                        minH={['8rem', '14rem', '18rem', '18rem']}
+                        w={['8rem', '14rem', '14rem', '14rem']}
+                        minW={['8rem', '14rem', '14rem', '14rem']}
+                        h={['8rem', '14rem', '14rem', '14rem']}
+                        minH={['8rem', '14rem', '14rem', '14rem']}
                         alt={gameName}
                         src={imgUrl}
                         transition="transform 0.4s ease"

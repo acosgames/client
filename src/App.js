@@ -92,7 +92,11 @@ function App(props) {
           // bg={'blacks.300'}
           >
           </HStack>
-          <Box w="100%" h="100%" pt="2rem">
+          <Box
+            w="100%"
+            h="100%"
+          // pt="2rem"
+          >
             <Switch>
               <Route path="/dev/login"
                 component={() => (
@@ -109,7 +113,8 @@ function App(props) {
         </VStack>
         <VStack className="panel-main" height="100%" width="100%" spacing="0" justifyContent={'center'} >
           <HStack
-            //boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
+            boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
+            // boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
             spacing="0"
             w="100%"
             h={['3rem', '4rem', '5rem']}

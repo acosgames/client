@@ -7,7 +7,7 @@ import config from '../config'
 import fs from 'flatstore';
 
 import { getUser } from './person';
-import { wsJoinRankedGame, wsJoinBetaGame, wsRejoinRoom } from './connection';
+import { wsJoinRankedGame, wsJoinBetaGame } from './connection';
 import { addRoom } from './room';
 import { decode } from 'shared/util/encoder';
 

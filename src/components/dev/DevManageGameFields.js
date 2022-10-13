@@ -218,11 +218,11 @@ function DevManageGameFields(props) {
 
                 </HStack>
             </FSGGroup>
-            <FSGGroup hfontSize="md" title="Github" py="2rem">
+            <FSGGroup hfontSize="md" title="Github" py="0rem">
                 <DevManageGameGithub devgame={props.devgame} />
             </FSGGroup>
 
-            <FSGGroup hfontSize="md" title="Deployment" py="2rem">
+            <FSGGroup hfontSize="md" title="Deployment" py="0rem">
                 <DevManageGameEnvironment devgame={props.devgame} />
             </FSGGroup>
 

@@ -11,7 +11,7 @@ import fs from 'flatstore';
 // import GameInfo from '../components/games/GameInfo';
 // import GameScreen from '../components/games/GameScreen';
 import { useEffect } from "react";
-import GameInfo2 from "../components/games/GameInfo/GameInfo2";
+import GameInfo2 from "../components/games/GameInfo/GameInfoDesktop";
 
 
 var RoutesGame = () => {

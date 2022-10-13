@@ -1,5 +1,5 @@
 
-import { Box, HStack, VStack, Text, IconButton, Image, Flex, Button, Icon } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text, IconButton, Image, Flex, Button, Icon, chakra } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { useEffect, useRef, useState } from 'react';
 import { clearChatMessages, getChatMessages, sendChatMessage } from '../../actions/chat.js';
@@ -84,7 +84,7 @@ function ChatPanel(props) {
 
                 <VStack
                     p="0"
-                    bgColor="gray.800"
+                    bgColor="gray.1000"
                     // borderRadius="2rem"
                     //boxShadow={'inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)'}
                     // width="100%"//{props.isMobile ? "100%" : (['22.0rem', '22rem', '26.0rem'])}
@@ -111,9 +111,11 @@ function ChatPanel(props) {
                         // pr="1rem"
                         // pl="1rem"
                         width="100%"
-                        bgColor="gray.800"
+                        // bgColor="gray.1000"
                         // boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-                        height="4rem"
+                        height={["3.5rem", "3.5rem", "4.5rem"]}
+                        px="0.5rem"
+                        pb="0.5rem"
                     // justifyContent={'flex-end'}
                     >
                         <ChatSend />
@@ -139,7 +141,7 @@ function ChatHeader(props) {
         <HStack
             boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
             pl={'1rem'}
-            bgColor="gray.800"
+            bgColor="gray.900"
             width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
             height={['3rem', '4rem', '5rem']}
             spacing={'2rem'}
@@ -184,12 +186,12 @@ function ChatMessages(props) {
                     //p={["0.2rem", "0.2rem", "0.5rem"]}
                     //pl={["1rem", "1rem", "1rem"]}
                     pr="0"
-                    my="0.5rem"
+                    my="0.0rem"
 
                     key={msg.displayname + msg.timestamp}
                     width="100%"
                     overflow="hidden"
-
+                    lineHeight="1.5rem"
                     //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                     position="relative"
 
@@ -274,15 +276,28 @@ function ChatMessages(props) {
 
     let maxHeight = !props.isMobile ? "100%" : (props.toggle ? '23rem' : '0');
 
+    const ChakraSimpleBar = chakra(SimpleBar)
+
     return (
 
-        <>
+        <VStack p="0.5rem" width="100%" height="auto" boxSizing='border-box' flex="1" overflow='hidden'>
 
-            <SimpleBar style={{
-                width: '100%',
-                // width: props.isMobile ? '100%' : '28.0rem',
-                height: 'auto', flex: '1', paddingBottom: '0.5rem', overflow: 'hidden scroll', boxSizing: 'border-box'
-            }} scrollableNodeProps={{ ref: scrollRef }}>
+            <ChakraSimpleBar
+                bgColor="gray.700"
+                borderRadius="2rem"
+                boxSizing='border-box'
+                // height="100%"
+                // m="0.5rem"
+                style={{
+                    width: '100%',
+                    // width: props.isMobile ? '100%' : '28.0rem',
+                    height: 'auto', flex: '1', paddingBottom: '0.5rem', overflow: 'hidden scroll', boxSizing: 'border-box',
+                    // borderRadius: '2rem',
+                    // bgColor: 'gray.700',
+                    // paddingLeft: "0.5rem",
+                    // paddingRight: '0.5rem'
+                    // p: "0.5rem"
+                }} scrollableNodeProps={{ ref: scrollRef }}>
                 {/* <Scrollbars
                     renderView={(props) => (
                         <div
@@ -307,20 +322,23 @@ function ChatMessages(props) {
                 > */}
                 <VStack
                     className="chat-message-panel"
+                    // bgColor="gray.700"
+                    // borderRadius="2rem"
+                    height="100%"
 
                     pr="1rem"
                     pl="1rem"
                     width="100%"
-                    spacing={['0.2rem', '0.3rem', "0.5rem"]}
+                    spacing={['0.2rem', '0.2rem', "0.2rem"]}
 
                     justifyContent={'flex-end'} >
                     {renderChatMessages()}
                 </VStack>
-            </SimpleBar>
+            </ChakraSimpleBar>
             {/* </Scrollbars> */}
             {/* <Box height="0px" ref={messageListRef} /> */}
 
-        </>
+        </VStack>
 
     )
 }
@@ -353,12 +371,12 @@ function ChatSend(props) {
                 name="name"
                 id="name"
                 title=""
-                //borderRadius="2rem"
+                borderRadius="2rem"
                 maxLength="120"
                 pr={"3rem"}
-                height="4rem"
+                height={["3rem", "3rem", "4rem"]}
                 border="0"
-                bgColor="gray.800"
+                bgColor="gray.900"
                 color="gray.100"
                 fontSize="xs"
                 placeholder="Type a message..."
@@ -376,7 +394,7 @@ function ChatSend(props) {
             <HStack
                 alignItems={'center'} justifyContent="center"
                 width="3rem"
-                height="4rem"
+                height={["3rem", "3rem", "4rem"]}
                 position="absolute"
                 top="0"
                 right="0"
