@@ -265,6 +265,7 @@ function GameIFrame(props) {
 
                 <Box
                     ref={gamescreenRef}
+                    key={"gamescreenRef-" + gamepanel.id}
                     height="100%"
                     position="relative"
                     boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}
@@ -295,7 +296,7 @@ function GameIFrame(props) {
                             // }, 1000);
                             updateGamePanel(gamepanel);
                         }}
-                        src={true ? `/iframe.html` : `${config.https.cdn}static/iframe.html`}
+                        src={true ? `http://localhost:8080/iframe.html` : `${config.https.cdn}static/iframe.html`}
                         // srcDoc={iframeSrc}
                         sandbox="allow-scripts allow-same-origin"
                     />

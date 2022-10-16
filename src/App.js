@@ -34,6 +34,7 @@ import AllContent from './components/AllContent';
 
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import GamePanelSpawner from "./components/games/GameDisplay/GamePanelSpawner";
+import GamePanelDraggables from "./components/games/GameDisplay/GamePanelDraggables";
 // import PerfectScrollbar from 'react-perfect-scrollbar'
 
 fs.delimiter('>');
@@ -74,7 +75,9 @@ function App(props) {
       <ActivateUserProfile />
       <VersionControl />
       <GameInfoCreateDisplayName {...disclosure} />
+
       <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} />
+
       <ToastMessage />
 
       <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
@@ -129,6 +132,7 @@ function App(props) {
           </HStack>
 
           <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef}>
+            <GamePanelDraggables primaryCanvasRef={primaryCanvasRef} />
             <Scrollbars
               renderView={(props) => (
                 <div

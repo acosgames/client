@@ -8,9 +8,14 @@ function PlayerRankInfo(props) {
 
     let [player_stats] = fs.useWatch('player_stats');
 
-    let played = player_stats.played;
-    played = 0;
-    let ratingTxt = ratingtext.ratingToRank(player_stats.rating);
+    let stats = player_stats[props.game_slug];
+    if (!stats)
+        stats = { played: 0, rating: 2500 }
+    console.log(stats);
+    let played = Number.parseInt(stats.played);
+    // played = 10;
+    // stats.rating = 3000;
+    let ratingTxt = ratingtext.ratingToRank(Number.parseInt(stats.rating));
     let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
     let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
 
@@ -20,7 +25,7 @@ function PlayerRankInfo(props) {
             <VStack>
                 <Text
                     color="yellow.200"
-                    fontSize={['xxs', 'xs', 'md',]}
+                    fontSize={['xs', 'xs', 'md',]}
                     fontWeight={'bolder'}
                     lineHeight="1.6rem"
                     align="center">{ratingTextFormatted}</Text>
@@ -28,11 +33,11 @@ function PlayerRankInfo(props) {
                     <Text
                         display={played >= 10 ? 'block' : 'none'}
                         color="gray.50"
-                        fontSize={['xxs', 'xs', 'md',]}
+                        fontSize={['xs', 'xs', 'md',]}
                         fontWeight="bold"
                         lineHeight={'1.6rem'}
                         pr={'1rem'}
-                        align="center">{player_stats.rating} </Text>
+                        align="center">{stats.rating} </Text>
                     <Text
                         color="gray.50"
                         display={played < 10 ? 'block' : 'none'}
@@ -44,7 +49,7 @@ function PlayerRankInfo(props) {
             <Image
                 src={`${config.https.cdn}icons/ranks/${ratingImageFile}.png`}
                 width={'auto'}
-                height={["3.4rem", "6.4rem", "8rem"]}
+                height={["6.4rem", "6.4rem", "8rem"]}
             />
         </HStack>
     )

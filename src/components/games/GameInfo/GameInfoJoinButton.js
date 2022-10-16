@@ -118,7 +118,7 @@ function GameInfoJoinButton(props) {
                     size="lg"
                     mr="0"
                     w="100%"
-                    h={['3rem', '3rem', "4rem"]}
+                    h={['4rem', '4rem', "4rem"]}
                     // icon={<FaPlay />}
                     borderTopLeftRadius={"9999px"}
                     borderBottomLeftRadius={"9999px"}
@@ -131,13 +131,13 @@ function GameInfoJoinButton(props) {
                         height={["1rem", "1.6rem"]}
                         width={["1rem", "1.6rem"]} />
                 </Button>
-                <Box display={hasExtra ? 'block' : 'none'} h={['3rem', '3rem', "4rem"]}>
+                <Box display={hasExtra ? 'block' : 'none'} h={['4rem', '4rem', "4rem"]}>
 
                     <Menu m="0" >
                         <MenuButton
                             as={Button}
                             size="lg"
-                            h={['3rem', '3rem', "4rem"]}
+                            h={['4rem', '4rem', "4rem"]}
                             borderLeftWidth={'1px'}
                             borderLeftStyle="solid"
                             borderLeftColor="green.500"

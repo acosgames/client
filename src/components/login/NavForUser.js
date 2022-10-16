@@ -22,6 +22,7 @@ import fs from 'flatstore';
 import SLink from '../widgets/SLink';
 import { logout } from '../../actions/person';
 import { useHistory, Link } from 'react-router-dom';
+import { minimizeGamePanel } from '../../actions/room';
 function NavForUser(props) {
 
     const history = useHistory();
@@ -82,12 +83,12 @@ function NavForUser(props) {
                 </HStack>
 
                 {/* <MenuDivider color="gray.500" /> */}
-                <Link to="/dev" width="100%">
+                <Link to="/dev" width="100%" onClick={(e) => { minimizeGamePanel() }}>
                     <MenuItem fontSize="sm" color="gray.100" fontWeight="400" px="2rem" py="1rem">
                         <Icon as={IoHammer} mr="1.5rem" fontSize="2rem" /> Developer Zone
                     </MenuItem>
                 </Link>
-                <Link to="/profile" width="100%">
+                <Link to="/profile" width="100%" onClick={(e) => { minimizeGamePanel() }}>
                     <MenuItem fontSize="sm" color="gray.100" fontWeight="400" px="2rem" py="1rem">
                         <Icon as={ImUser} mr="1.5rem" fontSize="2rem" />Profile
                     </MenuItem>

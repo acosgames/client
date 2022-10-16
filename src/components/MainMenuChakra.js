@@ -19,7 +19,7 @@ import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
 import { useHistory, Link, useParams, withRouter } from 'react-router-dom';
 import config from '../config'
-import { getRoomStatus } from '../actions/room';
+import { getRoomStatus, minimizeGamePanel } from '../actions/room';
 import { IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
 import GameActions from './games/GameDisplay/GameActions';
 import { decodeReplay, downloadReplay } from '../actions/connection';
@@ -89,7 +89,7 @@ function MainMenuChakra(props) {
                 <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '4rem', '5rem']} width="100%" maxW={['1200px']}>
                     <HStack spacing={['2rem', '2rem', "4rem"]} justifyContent={'center'}>
                         <Box
-                        ><Link to="/" className="">
+                        ><Link to="/" className="" onClick={(e) => { minimizeGamePanel() }}>
                                 <Image
                                     alt={'A cup of skill logo'}
                                     src={`${config.https.cdn}acos-logo-standalone4.png`}

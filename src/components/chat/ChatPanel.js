@@ -69,7 +69,7 @@ function ChatPanel(props) {
                 // top="0"
                 // left="0"
                 width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
-                height={!props.isMobile ? "100%" : '30rem'}
+                height={!props.isMobile ? "100%" : '24rem'}
 
                 // alignItems="stretch"
                 pb={'0'}

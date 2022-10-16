@@ -121,11 +121,11 @@ function GameInfoActions(game) {
                 >
 
                     <Tooltip label="Great!">
-                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsUp size="2rem" />} onClick={onLike} color={liked ? 'brand.100' : 'gray.100'} />
+                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsUp />} onClick={onLike} color={liked ? 'brand.100' : 'gray.100'} />
                     </Tooltip>
                     <Text color="gray.100" fontSize={'xs'} fontWeight={"bold"} px="0.5rem">{votes}</Text>
                     <Tooltip label="Bad!">
-                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsDown size="2rem" />} onClick={onDislike} color={disliked ? 'red.300' : 'gray.100'} />
+                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsDown />} onClick={onDislike} color={disliked ? 'red.300' : 'gray.100'} />
                     </Tooltip>
                 </HStack>
                 {/* <HStack spacing="0" pr="1rem" alignContent={'center'} alignItems={'center'}>

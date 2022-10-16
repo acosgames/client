@@ -54,6 +54,7 @@ function GameInfoTop10(props) {
                             <Text
                                 fontSize="xs"
                                 fontWeight={'bold'}
+                                wordBreak="break-all"
                                 color={isLocalPlayer ? "yellow.100" : 'white'}>
                                 {player.value}
                             </Text>

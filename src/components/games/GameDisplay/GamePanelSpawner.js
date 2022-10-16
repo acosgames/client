@@ -2,6 +2,8 @@ import { Box, Portal } from "@chakra-ui/react";
 import fs from "flatstore"
 import Connection from "../Connection";
 import GamePanel from "./GamePanel";
+import Draggable from 'react-draggable';
+import { useRef } from "react";
 
 function GamePanelSpawner(props) {
 
@@ -28,6 +30,7 @@ function GamePanelSpawner(props) {
 
         return panelElements;
     }
+
 
     return (
         <Box>

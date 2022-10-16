@@ -47,6 +47,8 @@ function GameMessageOverlay(props) {
     }
 
     let players = gamestate.players;
+    let teams = gamestate.teams;
+
     const renderPlayers = () => {
         let elems = [];
         for (var key in players) {
@@ -101,23 +103,59 @@ function GameMessageOverlay(props) {
             if (local && players) {
 
 
-                let playerList = Object.keys(players);
-                let bestRank = 100000;
-                for (var i = 0; i < playerList.length; i++) {
-                    let playerid = playerList[i];
-                    let p = players[playerid];
-                    if (p.rank < bestRank)
-                        bestRank = p.rank;
+                let rankers = players;
+                if (teams) {
+                    rankers = teams;
                 }
+                let rankerIds = Object.keys(rankers);
+
+                let bestRankCount = 0;
+                let bestName = '';
+
+                let bestRank = 100000;
+                for (let i = 0; i < rankerIds.length; i++) {
+                    let playerid = rankerIds[i];
+                    let p = rankers[playerid];
+                    if (p.rank < bestRank) {
+                        bestRank = p.rank;
+                        bestName = p.name || p.displayname;
+                    }
+                }
+
+                for (let i = 0; i < rankerIds.length; i++) {
+                    let playerid = rankerIds[i];
+                    let p = rankers[playerid];
+                    if (p.rank == bestRank) {
+                        bestRankCount++;
+                    }
+                }
+
                 let player = players[local.shortid] || {};
                 let rank = player.rank;
-                if (!Number.isInteger(rank))
-                    rank = 10000;
-                if (rank == bestRank) {
-                    extra = <Text key="header-you-win" as="h3" fontSize="3xl">You Win</Text>
-                } else {
-                    extra = <Text key="header-new-you-lose" as="h3" fontSize="3xl">You Lose</Text>
+                if (teams && player.teamid) {
+                    rank = teams[player.teamid]?.rank || 999;
                 }
+
+                if (!Number.isInteger(rank))
+                    rank = 999;
+
+                // if (rank == bestRank) {
+                if (bestRankCount == rankerIds.length) {
+                    extra = <Text key="header-you-win" as="h3" fontSize="3xl">Tie Game</Text>
+                }
+                else
+                    extra = (<HStack key="header-winner">
+                        <Text as="h3" fontSize="2xl" fontWeight="bold">
+                            WINNER
+                        </Text>
+                        <Text as="h4" fontSize="3xl" fontWeight="bold">
+                            {bestName}
+                        </Text>
+                    </HStack>)
+                // }
+                // else {
+                //     extra = <Text key="header-new-you-lose" as="h3" fontSize="3xl">You Lose</Text>
+                // }
             }
         }
         else {
@@ -191,8 +229,9 @@ function GameMessageOverlay(props) {
         <Box
             display={'block'}
             // w="200px" 
-            bgColor={'gray.800'}
-            borderRadius="6px"
+            bgColor='black'
+            width="100%"
+            // borderRadius="6px"
             // height="150px"
             position="absolute"
             // bottom="0"

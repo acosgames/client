@@ -169,7 +169,12 @@ function GameActions(props) {
                 </IconButton>
             </Box>
 
-            <Timeleft id={gamepanel.id} />
+            <HStack width="3rem" height={'100%'} alignContent='center'>
+                <Icon as={IoTimeOutline} fontSize='xxs' color={'gray.200'}></Icon>
+                <Timeleft id={gamepanel.id} />
+            </HStack>
+
+
 
 
             {/* <LeaveGame></LeaveGame> */}
@@ -182,11 +187,14 @@ function GameActions(props) {
 
 
 function Timeleft(props) {
+
+    let [timeleft] = fs.useWatch('timeleft/' + props.id) || 0;
+
     let gamepanel = getGamePanel(props.id);
     if (!gamepanel)
         return <></>
 
-    let timeleft = fs.get('timeleft/' + props.id) || 0;
+
 
     try {
         timeleft = Number.parseInt(timeleft) / 1000;
@@ -198,11 +206,11 @@ function Timeleft(props) {
         timeleft = 0;
     }
 
+    if (Number.isNaN(timeleft))
+        timeleft = 0;
 
     return (
-        <HStack width="3rem" height={'100%'} alignContent='center'>
-            <Icon as={IoTimeOutline} fontSize='xxs' color={'gray.200'}></Icon> <Text color={'gray.100'} fontSize='xxs'>{timeleft}</Text>
-        </HStack>
+        <Text color={'gray.100'} fontSize='xxs'>{timeleft}</Text>
     )
 }
 

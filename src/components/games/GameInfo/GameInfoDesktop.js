@@ -133,11 +133,11 @@ function GameInfo2(props) {
 
                 <VStack width="100%" align="center">
 
-                    <HStack w="100%" h="100%" justifyContent={'center'} spacing="2rem" alignItems={'flex-start'}>
+                    <HStack w="100%" h="100%" justifyContent={'center'} spacing="0rem" alignItems={'flex-start'}>
                         <GameInfoImage borderRadius="2rem" game_slug={game.game_slug} imgUrl={imgUrl} />
 
 
-                        <Flex ml="3rem" direction="column" alignSelf={'flex-start'} w="100%" position="relative">
+                        <Flex pl="1rem" flex="1" ml="3rem" direction="column" alignSelf={'flex-start'} w="auto" position="relative">
 
                             <HStack w="100%">
                                 <VStack flex="1" alignItems={'flex-start'} spacing="0">
@@ -166,8 +166,8 @@ function GameInfo2(props) {
                         </Flex>
 
 
-                        <VStack display={['none', 'none', 'none', 'flex']} width="60rem">
-                            <PlayerRankInfo />
+                        <VStack display={['none', 'none', 'none', 'flex']} width="30rem">
+                            <PlayerRankInfo game_slug={game_slug} />
                             <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "1rem"]}>
                                 <GameInfoJoinButton {...game} {...playerStats} />
                             </Flex>
@@ -176,7 +176,7 @@ function GameInfo2(props) {
 
                     <VStack display={['flex', 'flex', 'flex', 'none']} width="100%" alignItems={'center'} justifyContent='center'>
 
-                        <PlayerRankInfo />
+                        <PlayerRankInfo game_slug={game_slug} />
                         <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "1rem"]}>
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Flex>

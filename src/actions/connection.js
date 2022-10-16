@@ -162,7 +162,7 @@ export function fastForwardMessages(room_slug) {
 
 export function sendFrameMessage(msg) {
 
-    let room_slug = msg.room_slug;
+    let room_slug = msg?.room?.room_slug;
     // let room = fs.get('rooms>' + room_slug);
 
     let gamepanel = findGamePanelByRoom(room_slug);
@@ -247,7 +247,7 @@ export async function refreshGameState(room_slug) {
         local = { name: user.displayname, id: user.shortid };
     }
 
-    let out = { local, room_slug, ...gamestate };
+    let out = { local, ...gamestate };
 
 
     // console.timeEnd('ActionLoop');
@@ -514,6 +514,7 @@ export function recvFrameMessage(evt) {
 
             gamepanel.loaded = true;
             updateGamePanel(gamepanel);
+            // fs.set('loaded/' + gamepanel.id, true);
             // fs.set('gameLoaded', true);
         }, 300)
         return;
@@ -544,6 +545,8 @@ export function recvFrameMessage(evt) {
     console.log("[Outgoing] Action: ", action);
     // }
 }
+
+
 
 export async function wsSendFAKE(action) {
 
@@ -882,10 +885,12 @@ export function validateLogin() {
 
 export function wsConnect(url, onMessage, onOpen, onError) {
     return new Promise(async (rs, rj) => {
-        console.log("CONNECT #1")
+
         let ws = fs.get('ws');
         let user = fs.get('user') || { token: 'LURKER' };
         fs.set('wsConnected', false);
+
+        console.log("CONNECT #1", ws, user)
         // if (!user) {
         //     //let ws = await reconnect();
         //     rs(ws);
@@ -1150,13 +1155,22 @@ async function wsIncomingMessage(message) {
                     return;
                 }
 
-                await addRooms(msg.payload);
+
+                addRooms(msg.payload);
+                // for (const room of msg.payload) {
+                //     await addRoom(room.gamestate);
+                // }
+                msg.payload = msg.payload[0].gamestate;
+                msg.room_slug = msg.payload?.room?.room_slug;
+
                 // fs.set('gameLoaded', false);
                 setLastJoinType('');
                 await clearGameQueues();
 
+                timerLoop();
+
                 //lets move into the first room on the list
-                let room = msg.payload[0];
+                // let room = msg.payload[0];
 
                 //update the gamestate
                 // if (window.location.href.indexOf(room.room_slug) > -1) {
@@ -1290,6 +1304,8 @@ async function wsIncomingMessage(message) {
             // }
 
 
+            gamestate.action = {};
+            gamestate.events = {};
 
             let deltaState = JSON.parse(JSON.stringify(msg.payload));
             let mergedState = JSON.parse(JSON.stringify(msg.payload));
@@ -1315,7 +1331,7 @@ async function wsIncomingMessage(message) {
         msg.local = { name: user.displayname, id: user.shortid };
     }
 
-    let out = { local: msg.local, room_slug: (msg.room_slug || msg.room.room_slug), ...msg.payload };
+    let out = { local: msg.local, ...msg.payload };
 
 
     // console.timeEnd('ActionLoop');

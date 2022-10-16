@@ -80,6 +80,10 @@ export function setPrimaryGamePanel(gamepanel) {
     else {
         fs.set('primaryGamePanel', gamepanel.id);
 
+        let primaryCanvasRef = fs.get('primaryCanvasRef');
+        gamepanel.canvasRef = primaryCanvasRef;
+
+
         let game_slug = gamepanel?.room?.game_slug;
         if (game_slug) {
             let game = fs.get('games>' + game_slug);
@@ -215,6 +219,7 @@ export function addRooms(roomList) {
         return;
 
     let rooms = getRooms();
+    let user = fs.get('user');
 
     let foundFirst = false;
     for (var r of roomList) {
@@ -222,11 +227,22 @@ export function addRooms(roomList) {
 
         let gamestate = r.gamestate;
         //remove from the rooms object, so we can keep it separate
-        if (r.gamestate)
-            delete r.gamestate;
+        // if (r.gamestate)
+        //     delete r.gamestate;
+        let gamepanel = findGamePanelByRoom(r.room_slug || r.room.room_slug)
+        if (!gamepanel) {
+            gamepanel = reserveGamePanel();
+            gamepanel.room = r;
+        }
 
-        let gamepanel = reserveGamePanel();
-        gamepanel.room = r;
+        if (gamestate && gamestate.players) {
+            gamestate.local = gamestate.players[user.shortid];
+            if (gamestate.local)
+                gamestate.local.id = user.shortid;
+        } else {
+            gamestate.local = { name: user.displayname, id: user.shortid };
+        }
+
         gamepanel.gamestate = gamestate;
         updateGamePanel(gamepanel);
 
@@ -272,6 +288,22 @@ export function addRoom(msg) {
 
 
     return gamepanel;
+}
+
+export async function maximizeGamePanel(gamepanel) {
+    setPrimaryGamePanel(gamepanel);
+    updateGamePanel(gamepanel);
+}
+
+export async function minimizeGamePanel() {
+    let primaryGamePanel = getPrimaryGamePanel();
+    if (primaryGamePanel) {
+
+        primaryGamePanel.canvasRef = primaryGamePanel.draggableRef;
+
+        setPrimaryGamePanel(null);
+        updateGamePanel(primaryGamePanel);
+    }
 }
 
 export function clearPrimaryGamePanel() {
@@ -363,4 +395,70 @@ export function processsRoomStatus(gamepanel) {
 
     return "GAME";
 
+}
+
+
+export function isUserNext(gamepanel) {
+
+    let gamestate = gamepanel?.gamestate;
+    let local = gamestate?.local;
+
+    if (!gamestate || !local) return;
+
+    let userid = local.id;
+    let next = gamestate?.next;
+    let nextid = next?.id;
+    let room = gamestate.room;
+
+    if (room?.status == 'pregame')
+        return true;
+
+    if (!next || !nextid)
+        return false;
+
+    if (!gamestate.state)
+        return false;
+
+    //check if we ven have teams
+    let teams = gamestate?.teams;
+
+
+    if (typeof nextid === 'string') {
+        //anyone can send actions
+        if (nextid == '*')
+            return true;
+
+        //only specific user can send actions
+        if (nextid == userid)
+            return true;
+
+        //validate team has players
+        if (!teams || !teams[nextid] || !teams[nextid].players)
+            return false;
+
+        //allow players on specified team to send actions
+        if (Array.isArray(teams[nextid].players) && teams[nextid].players.includes(userid)) {
+            return true;
+        }
+    }
+    else if (Array.isArray(nextid)) {
+
+        //multiple users can send actions if in the array
+        if (nextid.includes(userid))
+            return true;
+
+        //validate teams exist
+        if (!teams)
+            return false;
+
+        //multiple teams can send actions if in the array
+        for (var i = 0; i < nextid.length; i++) {
+            let teamid = nextid[i];
+            if (Array.isArray(teams[teamid].players) && teams[teamid].players.includes(userid)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
