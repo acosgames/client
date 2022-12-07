@@ -188,7 +188,7 @@ export function sendFrameMessage(msg) {
 
         //next frame
         // setTimeout(() => {
-        console.log("SendFrameMessage: ", msg);
+        //console.log("SendFrameMessage: ", msg);
         try {
             iframe.current.contentWindow.postMessage(msg, '*');
         }
@@ -464,7 +464,7 @@ export function replaySendGameStart(room_slug) {
     replayJumpToIndex(room_slug, replayStartIndex);
 }
 
-export function recvFrameMessage(evt) {
+export async function recvFrameMessage(evt) {
     let action = evt.data;
     let origin = evt.origin;
     let source = evt.source;
@@ -510,6 +510,7 @@ export function recvFrameMessage(evt) {
 
     //game loaded
     if (action.type == 'loaded') {
+        fs.set('showLoadingBox', false);
         setTimeout(() => {
 
             gamepanel.loaded = true;
@@ -541,8 +542,8 @@ export function recvFrameMessage(evt) {
     // if (action.payload && action.payload.cell) { 
     //     action.payload.cell = 100;
     // }
-    wsSend(action);
-    console.log("[Outgoing] Action: ", action);
+    let byteLen = await wsSend(action);
+    console.log("[Outgoing] Action:", '[' + byteLen + ' bytes]', action);
     // }
 }
 
@@ -566,6 +567,7 @@ export async function wsSend(action) {
     try {
         let buffer = encode(action);
         ws.send(buffer);
+        return buffer.byteLength;
     }
     catch (e) {
         console.error(e);
@@ -651,8 +653,9 @@ export async function wsLeaveGame(game_slug, room_slug) {
     }
 
     let action = { type: 'leave', room_slug }
-    console.log("[Outgoing] Leaving: ", action);
-    wsSend(action);
+
+    let byteLen = await wsSend(action);
+    console.log("[Outgoing] Leaving:", '[' + byteLen + ' bytes]', action);
 
     setRoomActive(room_slug, false);
     revertBrowserTitle();
@@ -679,11 +682,11 @@ export async function wsLeaveQueue() {
     fs.set('joinqueues', null);
     localStorage.removeItem('joinqueues');
     let action = { type: 'leavequeue' }
-    wsSend(action);
+    let byteLen = await wsSend(action);
 
     // await disconnect();
 
-    console.log("[Outgoing] Leave Queue ");
+    console.log("[Outgoing] Leave Queue:", '[' + byteLen + ' bytes]');
 }
 
 export async function wsRejoinQueues() {
@@ -733,9 +736,9 @@ export async function wsJoinQueues(queues, owner) {
     let players = [{ shortid: user.shortid, displayname: user.displayname }]
     let payload = { queues, owner, players, captain: user.shortid };
     let action = { type: 'joinqueues', payload }
-    wsSend(action);
+    let byteLen = await wsSend(action);
 
-    console.log("[Outgoing] Queing ", action);
+    console.log("[Outgoing] Queing:", '[' + byteLen + ' bytes]', action);
 
     fs.set('queues', queues);
 
@@ -769,10 +772,12 @@ export async function wsJoinGame(mode, game_slug) {
     let queues = [{ mode, game_slug }];
     let players = [{ shortid: user.shortid, displayname: user.displayname }]
     let action = { type: 'joingame', payload: { captain: user.shortid, queues, players } }
-    wsSend(action);
+    let byteLen = await wsSend(action);
 
 
-    console.log("[Outgoing] Joining " + mode + ": ", action);
+
+
+    console.log("[Outgoing] Joining " + mode + ":", '[' + byteLen + ' bytes]', action);
 
     // let games = fs.get('games');
     // let game = games[game_slug];
@@ -819,9 +824,9 @@ export async function wsSpectateGame(game_slug) {
     }
 
     let action = { type: 'spectate', payload: { game_slug } }
-    wsSend(action);
+    let byteLen = await wsSend(action);
 
-    console.log("[Outgoing] Spectating [" + game_slug + "]: ", action);
+    console.log("[Outgoing] Spectating [" + game_slug + "]:", '[' + byteLen + ' bytes]', action);
     // console.timeEnd('ActionLoop');
 }
 
@@ -988,12 +993,12 @@ export function wsConnect(url, onMessage, onOpen, onError) {
 var latencyStart = 0;
 var latency = 0;
 
-function sendPing(ws) {
+async function sendPing(ws) {
     latencyStart = new Date().getTime();
     let action = { type: 'ping', payload: latencyStart }
 
-    console.log("[Outgoing] Ping: ", action);
-    wsSend(action);
+    let byteLen = await wsSend(action);
+    console.log("[Outgoing] Ping:", '[' + byteLen + ' bytes]', action);
 }
 
 function onPong(message) {
@@ -1113,13 +1118,13 @@ async function wsIncomingMessage(message) {
             onPong(msg);
             return;
         case 'addedQueue':
-            console.log("[Incoming] queue: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] queue:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             addGameQueue(msg.payload.queues);
             // fs.set('playerCount', msg.playerCount || 0);
 
             return;
         case 'removedQueue':
-            console.log("[Incoming] queue: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] queue:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             await wsLeaveQueue();
             // fs.set('playerCount', msg.playerCount || 0);
 
@@ -1128,7 +1133,7 @@ async function wsIncomingMessage(message) {
             console.log("iframe is ready!");
             return;
         case 'noshow':
-            console.log("[Incoming] No SHOW!", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] No SHOW!", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'notexist':
             let currentPath = window.location.href;
@@ -1145,7 +1150,7 @@ async function wsIncomingMessage(message) {
             return;
 
         case 'inrooms':
-            console.log("[Incoming] InRooms: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] InRooms:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             if (msg.payload && Array.isArray(msg.payload) && msg.payload.length > 0) {
 
                 fs.set('playerCount', msg.playerCount || 0);
@@ -1187,7 +1192,7 @@ async function wsIncomingMessage(message) {
             }
             break;
         case 'joined':
-            console.log("[Incoming] Joined: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] Joined:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             // setCurrentRoom(msg.room.room_slug);
 
             gtag('event', 'joined', { game_slug: msg.room.game_slug });
@@ -1212,29 +1217,29 @@ async function wsIncomingMessage(message) {
             //     history.push(urlPath);
             break;
         case 'join':
-            console.log("[Incoming] Player joined the game!", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] Player joined the game!", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'kicked':
-            console.log("[Incoming] You were kicked from game!", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] You were kicked from game!", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'gameover':
-            console.log("[Incoming] Game Over!", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] Game Over!", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'private':
-            console.log("[Incoming] Private State: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] Private State:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'update':
-            console.log("[Incoming] Update: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] Update:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'error':
-            console.log("[Incoming] ERROR:: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] ERROR::", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
         case 'duplicatetabs':
-            console.log("[Incoming] ERROR :: Duplicate Tabs:: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] ERROR :: Duplicate Tabs:: ", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             fs.set('duplicatetabs', true);
             return;
         default:
-            console.log("[Incoming] Unknown type: ", JSON.parse(JSON.stringify(msg, null, 2)));
+            console.log("[Incoming] Unknown type: ", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             return;
     }
 

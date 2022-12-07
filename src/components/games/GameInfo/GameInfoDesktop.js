@@ -167,7 +167,7 @@ function GameInfo2(props) {
 
 
                         <VStack display={['none', 'none', 'none', 'flex']} width="30rem">
-                            <PlayerRankInfo game_slug={game_slug} />
+                            <PlayerRankInfo game_slug={game_slug} game={game} />
                             <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "1rem"]}>
                                 <GameInfoJoinButton {...game} {...playerStats} />
                             </Flex>
@@ -176,7 +176,7 @@ function GameInfo2(props) {
 
                     <VStack display={['flex', 'flex', 'flex', 'none']} width="100%" alignItems={'center'} justifyContent='center'>
 
-                        <PlayerRankInfo game_slug={game_slug} />
+                        <PlayerRankInfo game_slug={game_slug} game={game} />
                         <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "1rem"]}>
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Flex>

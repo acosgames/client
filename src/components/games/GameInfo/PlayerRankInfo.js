@@ -7,7 +7,7 @@ import ratingtext from 'shared/util/ratingtext';
 function PlayerRankInfo(props) {
 
     let [player_stats] = fs.useWatch('player_stats');
-
+    let [playerHighScore] = fs.useWatch('localPlayerHighscore');
     let stats = player_stats[props.game_slug];
     if (!stats)
         stats = { played: 0, rating: 2500 }
@@ -19,6 +19,23 @@ function PlayerRankInfo(props) {
     let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
     let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
 
+    if (props?.game?.maxplayers <= 1 && playerHighScore) {
+
+
+        return (
+            <HStack>
+                <Text
+                    color="yellow.200"
+                    fontWeight={'bold'}>
+                    Highscore:
+                </Text>
+                <Text
+                    fontWeight={'bold'}>
+                    {playerHighScore.score}
+                </Text>
+            </HStack>
+        )
+    }
     return (
         <HStack spacing="1rem" >
 

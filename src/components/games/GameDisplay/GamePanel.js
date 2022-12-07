@@ -26,12 +26,14 @@ function GamePanel(props) {
     let [loaded] = fs.useWatch(key + '>loaded');
     // const gamepanel = props.gamepanel;
     if (!gamepanel) {
-        return <LoadingBox />
+        return <></>
+        // return <LoadingBox />
     }
 
     const room_slug = gamepanel?.room?.room_slug;
     if (!room_slug)
-        return <LoadingBox />
+        return <></>
+    // return <LoadingBox />
 
     // let room = getRoom(room_slug);
     // if (!room)
@@ -41,12 +43,12 @@ function GamePanel(props) {
     // if (!game)
     // return <LoadingBox />
 
-    let primaryCanvasRef = fs.get('primaryCanvasRef');
+    //let primaryCanvasRef = fs.get('primaryCanvasRef');
 
     return (
-        <Portal containerRef={gamepanel.canvasRef || primaryCanvasRef}>
-            <GameIFrame gamepanel={gamepanel} />
-        </Portal>
+        // <Portal containerRef={gamepanel.draggableRef}>
+        <GameIFrame gamepanel={gamepanel} />
+        // </Portal>
     )
 
 }
@@ -231,100 +233,103 @@ function GameIFrame(props) {
     let displayMode = props.displayMode;
 
     return (
+        <>
 
-        <VStack
-            spacing="0"
-            width="100%"
-            height="100%"
-            position="absolute"
-            zIndex={10}
-            top={0}
-            left={0}
-            justifyContent={'center'}
-            alignContent={'center'}
-            ref={gameResizer}
-            transition={'filter 0.3s ease-in, opacity 0.5s ease-in'}
-            filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
-            className={'gameResizer'}
-            bgColor={'black'}
-        >
 
             <VStack
-                className="screen-wrapper"
-                // justifyContent={'flex-start'}
-                // alignContent={'center'}
-                w="100%"
-                h={'100%'}
-                ref={gamewrapperRef}
-                transition={'filter 0.3s ease-in, opacity 0.5s ease-in'}
-                filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
-                justifyContent={'flex-start'}
+                spacing="0"
+                width="100%"
+                height="100%"
+                position="absolute"
+                zIndex={10}
+                top={0}
+                left={0}
+                justifyContent={'center'}
                 alignContent={'center'}
-                position='relative'
+                ref={gameResizer}
+                // transition={isOpen ? 'filter 0.3s ease-in, opacity 0.5s ease-in' : ''}
+                // filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
+                className={'gameResizer'}
+                bgColor={'black'}
             >
-
-                <Box
-                    ref={gamescreenRef}
-                    key={"gamescreenRef-" + gamepanel.id}
-                    height="100%"
-                    position="relative"
-                    boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}
-                    alignSelf="center">
-                    {/* <ScaleFade initialScale={1} in={gamepanel.loaded} width="100%" height="100%" position="relative"> */}
-                    <LoadingBox isDoneLoading={gamepanel.loaded} />
-                    {/* </ScaleFade> */}
-                    <iframe
-                        className="gamescreen"
-                        ref={iframeRef}
-                        // onResize={onResize}
-                        onLoad={() => {
-
-                            //let gamepanel = findGamePanelByRoom(room_slug);
-                            gamepanel.iframe = iframeRef;
-                            // setIFrame(room_slug, iframeRef);
-
-                            // let iframes = fs.get('iframes') || {};
-                            // iframes[room_slug] = iframeRef;
-                            // fs.set('iframeLoaded', true);
-                            // fs.set('iframes', iframes);
-                            // fs.set('gamepanel', gamescreenRef);
-                            // fs.set('gamewrapper', gamewrapperRef);
-                            sendLoadMessage(room_slug, game_slug, version);
-                            onResize();
-                            // setTimeout(() => {
-                            //     onResize();
-                            // }, 1000);
-                            updateGamePanel(gamepanel);
-                        }}
-                        src={true ? `http://localhost:8080/iframe.html` : `${config.https.cdn}static/iframe.html`}
-                        // srcDoc={iframeSrc}
-                        sandbox="allow-scripts allow-same-origin"
-                    />
-                    <GameMessageOverlay gamepanel={gamepanel} />
-
-                </Box>
-
-            </VStack>
-            <Box position="absolute" bottom="1rem" right="1rem" display={(props.isFullScreen || displayMode == 'theatre') ? 'block' : 'none'}>
-                <IconButton
-                    fontSize={'2rem'}
-                    colorScheme={'clear'}
-                    icon={<CgMinimizeAlt color="gray.300" />}
-                    onClick={() => {
-                        if (props.displayMode == 'theatre') {
-                            fs.set('displayMode', 'none');
-                        }
-                        if (props.isFullScreen)
-                            document.exitFullscreen();
-                        // openFullscreen(props.fullScreenElem)
-                    }}
+                {/* <LoadingBox isDoneLoading={gamepanel.loaded} /> */}
+                <VStack
+                    className="screen-wrapper"
+                    // justifyContent={'flex-start'}
+                    // alignContent={'center'}
+                    w="100%"
+                    h={'100%'}
+                    ref={gamewrapperRef}
+                    transition={'filter 0.3s ease-in, opacity 0.5s ease-in'}
+                    filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
+                    justifyContent={'flex-start'}
+                    alignContent={'center'}
+                    position='relative'
                 >
-                    Exit Full Screen
-                </IconButton>
-            </Box>
-            {/* <Box w="100%" height="3rem" bgColor="blue"></Box> */}
-        </VStack>
 
+                    <Box
+                        ref={gamescreenRef}
+                        key={"gamescreenRef-" + gamepanel.id}
+                        height="100%"
+                        position="relative"
+                        boxShadow={'0px 12px 24px rgba(0,0,0,0.2)'}
+                        alignSelf="center">
+                        {/* <ScaleFade initialScale={1} in={gamepanel.loaded} width="100%" height="100%" position="relative"> */}
+
+                        {/* </ScaleFade> */}
+                        <iframe
+                            key={'iframe-game-' + gamepanel.id}
+                            className="gamescreen"
+                            ref={iframeRef}
+                            // onResize={onResize}
+                            onLoad={() => {
+
+                                //let gamepanel = findGamePanelByRoom(room_slug);
+                                gamepanel.iframe = iframeRef;
+                                // setIFrame(room_slug, iframeRef);
+
+                                // let iframes = fs.get('iframes') || {};
+                                // iframes[room_slug] = iframeRef;
+                                // fs.set('iframeLoaded', true);
+                                // fs.set('iframes', iframes);
+                                // fs.set('gamepanel', gamescreenRef);
+                                // fs.set('gamewrapper', gamewrapperRef);
+                                sendLoadMessage(room_slug, game_slug, version);
+                                onResize();
+                                // setTimeout(() => {
+                                //     onResize();
+                                // }, 1000);
+                                updateGamePanel(gamepanel);
+                            }}
+                            src={true ? `http://localhost:8080/iframe.html` : `${config.https.cdn}static/iframe.html`}
+                            // srcDoc={iframeSrc}
+                            sandbox="allow-scripts allow-same-origin"
+                        />
+                        <GameMessageOverlay gamepanel={gamepanel} />
+
+                    </Box>
+
+                </VStack>
+                <Box position="absolute" bottom="1rem" right="1rem" display={(props.isFullScreen || displayMode == 'theatre') ? 'block' : 'none'}>
+                    <IconButton
+                        fontSize={'2rem'}
+                        colorScheme={'clear'}
+                        icon={<CgMinimizeAlt color="gray.300" />}
+                        onClick={() => {
+                            if (props.displayMode == 'theatre') {
+                                fs.set('displayMode', 'none');
+                            }
+                            if (props.isFullScreen)
+                                document.exitFullscreen();
+                            // openFullscreen(props.fullScreenElem)
+                        }}
+                    >
+                        Exit Full Screen
+                    </IconButton>
+                </Box>
+                {/* <Box w="100%" height="3rem" bgColor="blue"></Box> */}
+            </VStack>
+        </>
     )
 }
 

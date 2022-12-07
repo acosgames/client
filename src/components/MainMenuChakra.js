@@ -19,10 +19,11 @@ import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
 import { useHistory, Link, useParams, withRouter } from 'react-router-dom';
 import config from '../config'
-import { getRoomStatus, minimizeGamePanel } from '../actions/room';
+import { findGamePanelByRoom, getPrimaryGamePanel, getRoomStatus, minimizeGamePanel } from '../actions/room';
 import { IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
 import GameActions from './games/GameDisplay/GameActions';
 import { decodeReplay, downloadReplay } from '../actions/connection';
+import QueuePanel from './games/QueuePanel';
 
 const NavLink = ({ children }) => (
     <Link
@@ -39,6 +40,8 @@ const NavLink = ({ children }) => (
 );
 
 function MainMenuChakra(props) {
+
+    let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
 
     const updateHistory = () => {
         let history = fs.get('pagehistory');
@@ -68,6 +71,8 @@ function MainMenuChakra(props) {
 
     const loggedIn = props.loggedIn;
 
+    const gamepanel = findGamePanelByRoom(room_slug);
+    const isPrimary = getPrimaryGamePanel() != gamepanel;
     return (
         <>
 
@@ -89,7 +94,11 @@ function MainMenuChakra(props) {
                 <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '4rem', '5rem']} width="100%" maxW={['1200px']}>
                     <HStack spacing={['2rem', '2rem', "4rem"]} justifyContent={'center'}>
                         <Box
-                        ><Link to="/" className="" onClick={(e) => { minimizeGamePanel() }}>
+                        ><Link to="/" className="" onClick={(e) => {
+                            if (isPrimary)
+                                e.preventDefault();
+                            minimizeGamePanel()
+                        }}>
                                 <Image
                                     alt={'A cup of skill logo'}
                                     src={`${config.https.cdn}acos-logo-standalone4.png`}
@@ -104,8 +113,7 @@ function MainMenuChakra(props) {
                         </Box> */}
                     </HStack>
                     <Box w="100%" h="100%">
-
-                        <GameActions />
+                        <QueuePanel />
 
                     </Box>
                     <Flex alignItems={'center'} height="100%">

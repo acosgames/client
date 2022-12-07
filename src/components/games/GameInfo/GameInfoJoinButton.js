@@ -153,7 +153,7 @@ function GameInfoJoinButton(props) {
                             <Icon as={FaCaretDown} mr={1} width="16px" height="16px" />
                         </MenuButton>
                         <MenuList boxShadow={'0 4px 8px rgba(0,0,0,0.4),0 0px 4px rgba(0,0,0,0.4)'} border="0" borderRadius="8px" p="1rem">
-                            <MenuItem icon={<GiSpectacles fontSize={'2rem'} />} onClick={() => { }}>Watch Live Matches</MenuItem>
+                            {/* <MenuItem icon={<GiSpectacles fontSize={'2rem'} />} onClick={() => { }}>Watch Live Matches</MenuItem> */}
                             <MenuItem icon={<AiTwotoneExperiment fontSize={'2rem'} />} onClick={handleJoinBeta}>Play Experimental Build</MenuItem>
 
                             {/* <MenuItem>Create Private Room</MenuItem> */}

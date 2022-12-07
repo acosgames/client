@@ -5,21 +5,26 @@ import config from '../../../config'
 
 function LoadingBox(props) {
 
+    let [showLoadingBox] = fs.useWatch('showLoadingBox');
+
     const toast = useToast();
     const [show, setShow] = useState(true);
 
     useEffect(() => {
 
-        if (props.isDoneLoading) {
+        if (!showLoadingBox) {
             toast.closeAll()
             setTimeout(() => {
                 setShow(false);
 
             }, 400)
+        } else {
+            setShow(true);
         }
     })
 
-    if (!show)
+    // return <></>
+    if (!showLoadingBox)
         return <></>
 
     return (
@@ -30,10 +35,10 @@ function LoadingBox(props) {
             top="0"
             w="100%"
             h="100%"
-            zIndex={100}
+            zIndex={1000}
             bgColor={'gray.900'}
-            transition={'filter 0.4s ease-in'}
-            filter={props.isDoneLoading ? 'opacity(0)' : 'opacity(1)'}
+        // transition={'filter 0.4s ease-in'}
+        // filter={props.isDoneLoading ? 'opacity(0)' : 'opacity(1)'}
         >
             <VStack w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>
                 {/* <Text>Loading...</Text> */}
@@ -50,4 +55,4 @@ function LoadingBox(props) {
     )
 }
 
-export default fs.connect([])(LoadingBox);
+export default LoadingBox;

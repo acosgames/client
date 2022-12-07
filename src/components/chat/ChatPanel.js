@@ -84,7 +84,7 @@ function ChatPanel(props) {
 
                 <VStack
                     p="0"
-                    bgColor="gray.1000"
+                    bgColor="gray.900"
                     // borderRadius="2rem"
                     //boxShadow={'inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)'}
                     // width="100%"//{props.isMobile ? "100%" : (['22.0rem', '22rem', '26.0rem'])}
@@ -102,8 +102,10 @@ function ChatPanel(props) {
                 // width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
                 >
 
+
+                    <GameActions />
                     <ChatHeader toggle={toggle} isMobile={props.isMobile} />
-                    <QueuePanel />
+
 
                     <ChatMessages toggle={toggle} isMobile={props.isMobile} />
 
@@ -139,7 +141,7 @@ function ChatHeader(props) {
     }
     return (
         <HStack
-            boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
+            // boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
             pl={'1rem'}
             bgColor="gray.900"
             width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
@@ -148,9 +150,9 @@ function ChatHeader(props) {
             justifyContent='center'
             alignItems={'center'}
         >
-            <Text cursor='pointer' as={'span'} fontSize={mode == 'all' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'all' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('all') }}>Chat</Text>
-            <Text cursor='pointer' as={'span'} fontSize={mode == 'game' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'game' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('game') }}>Friends</Text>
-            <Text cursor='pointer' as={'span'} fontSize={mode == 'party' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'party' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('party') }}>Bounties</Text>
+            <Text cursor='pointer' as={'span'} fontSize={mode == 'all' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'all' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('all') }}>ACOS Chat</Text>
+            {/* <Text cursor='pointer' as={'span'} fontSize={mode == 'game' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'game' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('game') }}>Friends</Text>
+            <Text cursor='pointer' as={'span'} fontSize={mode == 'party' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'party' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('party') }}>Bounties</Text> */}
 
         </HStack>
     )
@@ -181,11 +183,11 @@ function ChatMessages(props) {
 
             rows.push(
                 <Box
-                    //bgColor="gray.700"
-                    //borderRadius="2rem"
-                    //p={["0.2rem", "0.2rem", "0.5rem"]}
+                    bgColor="gray.700"
+                    borderRadius="0.4rem"
+                    p={["0.2rem", "0.2rem", "0.5rem"]}
                     //pl={["1rem", "1rem", "1rem"]}
-                    pr="0"
+                    // pr="0"
                     my="0.0rem"
 
                     key={msg.displayname + msg.timestamp}
@@ -283,8 +285,8 @@ function ChatMessages(props) {
         <VStack p="0.5rem" width="100%" height="auto" boxSizing='border-box' flex="1" overflow='hidden'>
 
             <ChakraSimpleBar
-                bgColor="gray.700"
-                borderRadius="2rem"
+                // bgColor="gray.800"
+                //borderRadius="2rem"
                 boxSizing='border-box'
                 // height="100%"
                 // m="0.5rem"
@@ -329,7 +331,7 @@ function ChatMessages(props) {
                     pr="1rem"
                     pl="1rem"
                     width="100%"
-                    spacing={['0.2rem', '0.2rem', "0.2rem"]}
+                    spacing={['0.2rem', '0.2rem', "0.5rem"]}
 
                     justifyContent={'flex-end'} >
                     {renderChatMessages()}

@@ -8,7 +8,7 @@ import config from '../../config'
 
 import { findQueue } from '../../actions/queue';
 import fs from 'flatstore';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { VStack, Image, Text, HStack, Icon, Button, Tooltip, Box, Link as ChLink } from "@chakra-ui/react";
 
 import { FaPlay, GiCheckMark, IoPeople } from '@react-icons';
@@ -18,6 +18,12 @@ import { setLastJoinType } from "../../actions/room";
 import { validateLogin } from "../../actions/connection";
 
 function GameListItem(props) {
+    let defaultStackType = (VStack)
+    if (window.innerWidth < 480)
+        defaultStackType = (HStack)
+
+
+    let [StackType, setStackType] = useState(defaultStackType)
 
     const game = props.game;
 
@@ -71,20 +77,32 @@ function GameListItem(props) {
         gameType = "Team-based"
     }
     let inQueue = findQueue(game.game_slug);
+
+    // let StackType = window.innerWidth < 500 ? HStack : VStack;
+
+    useEffect(() => {
+        window.addEventListener('resize', (e) => {
+            if (window.innerWidth < 480)
+                setStackType(HStack)
+            else
+                setStackType(VStack)
+        })
+    }, []);
     return (
         <Box
+            w={['32rem', '16rem', '16rem', '16rem']}
             borderRadius={"2rem"}
-            p="1rem"
+            p={["0.2rem", "1rem"]}
             bgColor={"gray.800"}
             boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
             overflow="hidden"
         >
 
-            <VStack
+            <StackType
                 // bgColor={'blacks.900'}
                 // boxShadow={'0px 0px 4px 0.4px rgb(255 255 255 / 5%)'}
                 borderRadius={'6px 6px 6px 6px'}
-                w={['8rem', '14rem', '14rem', '14rem']}
+                //w={['32rem', '14rem', '14rem', '14rem']}
                 pl="2px"
                 pr="2px"
                 cursor="pointer"
@@ -112,7 +130,7 @@ function GameListItem(props) {
                     />
                 </Link>
 
-                <VStack pt="0.8125rem" pb="" pl="0.5rem" pr="0.5rem" width="100%" alignItems={'flex-start'} spacing='0'>
+                <VStack pt={['0.1rem', "0.8125rem"]} pb="" pl="0.5rem" pr="0.5rem" width="100%" alignItems={'flex-start'} spacing='0' flex={['1', '']}>
 
 
                     {/* <HStack alignSelf={'flex-start'} flex="1" alignItems={'flex-end'}> */}
@@ -124,11 +142,11 @@ function GameListItem(props) {
                                 fontSize={['xxs', "xs", 'sm']}
                                 fontWeight={'bold'}
                                 color={'white'}
-                                w="100%"
+                                w={['7rem', "100%"]}
                                 p="0"
-                                py="1rem"
+                                py={['0.1rem', "1rem"]}
                                 width="100%"
-                                height="4rem"
+                                height={['2rem', "4rem"]}
                                 // text-overflow="ellipsis"
                                 // pt="0.5rem"
                                 // pb="0.5rem"
@@ -157,7 +175,7 @@ function GameListItem(props) {
                     <strong>{gameQueueCount}</strong> player(s) waiting
                 </Text>
             </Link> */}
-                    <VStack spacing="0" color="gray.175" alignItems={"flex-start"} justifyContent="flex-start" pb="1rem">
+                    <VStack width="100%" spacing="0" color="gray.175" alignItems={"flex-start"} justifyContent="flex-start" pb={['0.1rem', "1rem"]}>
 
                         {/* <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} /> */}
                         <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player game</Text>
@@ -168,14 +186,14 @@ function GameListItem(props) {
                         <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{gameType}</Text>
 
                     </VStack>
-                    <Box w="100%">
+                    <Box w={['100%', "100%"]} pb={['0.2rem', '0']}>
                         <PlayButton inQueue={inQueue} handleJoin={handleJoin} />
                     </Box>
                 </VStack>
 
-            </VStack>
+            </StackType>
 
-        </Box>
+        </Box >
         // <div className="game-item" >
 
         //     <div className="game-title"><span></span></div>

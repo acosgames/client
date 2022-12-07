@@ -9,6 +9,24 @@ import { AiOutlineDisconnect } from '@react-icons';
 import { FaCheck } from '@react-icons';
 
 import { getPrimaryGamePanel, getRoomStatus } from '../../../actions/room';
+import MessageGameOverMulti from './MessageOverlays/MessageGameOverMulti';
+
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+
+function isDark(hex) {
+    var rgb = hexToRgb(hex);
+
+    var sum = Math.round(((parseInt(rgb.r) * 299) + (parseInt(rgb.g) * 587) + (parseInt(rgb.b) * 114)) / 1000);
+    return (sum <= 128);
+}
 
 function GameMessageOverlay(props) {
 
@@ -78,14 +96,14 @@ function GameMessageOverlay(props) {
     let isStarting = gameroom?.status == 'starting';
     let isGamestart = gameroom?.status == 'gamestart';
     let isGameover = gameroom?.status == 'gameover' || events?.gameover;
-
+    let isPrimary = gamepanel.isPrimary;
     let roomStatus = getRoomStatus(room_slug);
     // if (isGamestart)
     //     return <></>
 
     if (roomStatus == 'NOSHOW') {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-            <Text as="h3" fontSize="3xl">Not all players joined.</Text>
+            <Text as="h3" fontSize={isPrimary ? "3xl" : 'xxs'}>Not all players joined.</Text>
         </VStack>;
     }
     else if (roomStatus == 'GAMEOVER') {
@@ -96,80 +114,27 @@ function GameMessageOverlay(props) {
         let hasHighscore = isSoloGame || room.lbscore;
         let extra = <></>
         if (gamestate?.timer?.sequence <= 2 && !isSoloGame) {
-            extra = <Text as="h3" fontSize="3xl">Game Over. Players left early.</Text>
+            extra = <Text as="h3" fontSize={isPrimary ? "3xl" : 'xxs'}>Game Over. Players left early.</Text>
         }
         else if (!isSoloGame) {
 
             if (local && players) {
+                extra = <MessageGameOverMulti players={players} teams={teams} local={local} isPrimary={isPrimary} />
 
-
-                let rankers = players;
-                if (teams) {
-                    rankers = teams;
-                }
-                let rankerIds = Object.keys(rankers);
-
-                let bestRankCount = 0;
-                let bestName = '';
-
-                let bestRank = 100000;
-                for (let i = 0; i < rankerIds.length; i++) {
-                    let playerid = rankerIds[i];
-                    let p = rankers[playerid];
-                    if (p.rank < bestRank) {
-                        bestRank = p.rank;
-                        bestName = p.name || p.displayname;
-                    }
-                }
-
-                for (let i = 0; i < rankerIds.length; i++) {
-                    let playerid = rankerIds[i];
-                    let p = rankers[playerid];
-                    if (p.rank == bestRank) {
-                        bestRankCount++;
-                    }
-                }
-
-                let player = players[local.shortid] || {};
-                let rank = player.rank;
-                if (teams && player.teamid) {
-                    rank = teams[player.teamid]?.rank || 999;
-                }
-
-                if (!Number.isInteger(rank))
-                    rank = 999;
-
-                // if (rank == bestRank) {
-                if (bestRankCount == rankerIds.length) {
-                    extra = <Text key="header-you-win" as="h3" fontSize="3xl">Tie Game</Text>
-                }
-                else
-                    extra = (<HStack key="header-winner">
-                        <Text as="h3" fontSize="2xl" fontWeight="bold">
-                            WINNER
-                        </Text>
-                        <Text as="h4" fontSize="3xl" fontWeight="bold">
-                            {bestName}
-                        </Text>
-                    </HStack>)
-                // }
-                // else {
-                //     extra = <Text key="header-new-you-lose" as="h3" fontSize="3xl">You Lose</Text>
-                // }
             }
         }
         else {
             extra = [
-                <Text key="header-gameover" as="h3" fontSize={'3xl'}>Game Over</Text>
+                <Text key="header-gameover" as="h3" fontSize={isPrimary ? "3xl" : 'xxs'}>Game Over</Text>
             ]
 
             let localPlayerHighscore = fs.get('localPlayerHighscore');
 
             if (localPlayerHighscore && localPlayerHighscore?.score < localPlayer.score) {
-                extra.push(<Text key="header-new-high-score" as="h4" fontSize={'md'}>NEW High Score: {localPlayer.highscore}</Text>);
+                extra.push(<Text key="header-new-high-score" as="h4" fontSize={isPrimary ? "md" : 'xxs'}>NEW High Score: {localPlayer.highscore}</Text>);
             }
             else
-                extra.push(<Text key="header-high-score" as="h4" fontSize={'md'}>High Score: {localPlayer.highscore}</Text>)
+                extra.push(<Text key="header-high-score" as="h4" fontSize={isPrimary ? "md" : 'xxs'}>High Score: {localPlayer.highscore}</Text>)
         }
 
 
@@ -179,13 +144,13 @@ function GameMessageOverlay(props) {
     }
     else if (roomStatus == 'ERROR') {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-            <Text as="h4" fontSize="md">Error in Game</Text>
-            <Text as="h3" fontSize="3xl">{events?.error}</Text>
+            <Text as="h4" fontSize={isPrimary ? "md" : 'xxs'}>Error in Game</Text>
+            <Text as="h3" fontSize={isPrimary ? "3xl" : 'xxs'}>{events?.error}</Text>
         </VStack>;
     }
     else if ((isPregame && room.maxplayers > 1) || ((isStarting && room.maxplayers > 1) && timeleft > 4)) {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-            <Text as="h4" fontSize="md">Waiting for players</Text>
+            <Text as="h4" fontSize={isPrimary ? "md" : 'xxs'}>Waiting for players</Text>
             {renderPlayers()}
 
             <Text display={isStarting ? 'none' : 'block'} as="h3" fontSize="3xl">{timeleft}</Text>
@@ -193,8 +158,8 @@ function GameMessageOverlay(props) {
     }
     else if (isStarting && room.maxplayers > 1) {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
-            <Text as="h4" fontSize="md">Starting in </Text>
-            <Text as="h3" fontSize="3xl">{timeleft > 0 ? timeleft : 'GO!'}</Text>
+            <Text as="h4" fontSize={isPrimary ? "md" : 'xxs'}>Starting in </Text>
+            <Text as="h3" fontSize={isPrimary ? "3xl" : 'xxs'}>{timeleft > 0 ? timeleft : 'GO!'}</Text>
         </VStack>;
     }
     else if (isGamestart) {
@@ -204,10 +169,10 @@ function GameMessageOverlay(props) {
             message = (
                 <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
                     <HStack>
-                        <Icon as={AiOutlineDisconnect} fontSize="24px" color='red.400' />
-                        <Text as="h4" fontSize="md">DISCONNECTED</Text>
+                        <Icon as={AiOutlineDisconnect} fontSize={isPrimary ? "2.4rem" : 'xxs'} color='red.400' />
+                        <Text as="h4" fontSize={isPrimary ? "md" : 'xxs'}>DISCONNECTED</Text>
                     </HStack>
-                    <Text as="h3" fontSize="md">Reconnecting to server...</Text>
+                    <Text as="h3" fontSize={isPrimary ? "md" : 'xxs'}>Reconnecting to server...</Text>
                 </VStack>
             );
         else
@@ -229,7 +194,7 @@ function GameMessageOverlay(props) {
         <Box
             display={'block'}
             // w="200px" 
-            bgColor='black'
+            bgColor='rgba(0,0,0,0.5)'
             width="100%"
             // borderRadius="6px"
             // height="150px"

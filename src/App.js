@@ -76,7 +76,7 @@ function App(props) {
       <VersionControl />
       <GameInfoCreateDisplayName {...disclosure} />
 
-      <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} />
+      {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
 
       <ToastMessage />
 

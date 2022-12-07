@@ -1,9 +1,12 @@
 import { Box, Icon, IconButton, Portal, Text, VStack } from "@chakra-ui/react";
 import fs from "flatstore"
 import Draggable from 'react-draggable';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isUserNext, maximizeGamePanel, updateGamePanel } from "../../../actions/room";
 import { FaExpandAlt } from '@react-icons';
+import GamePanel from "./GamePanel";
+import Connection from "../Connection";
+import LoadingBox from "./LoadingBox";
 
 function GamePanelDraggables(props) {
 
@@ -33,7 +36,9 @@ function GamePanelDraggables(props) {
 
     return (
         <>
+            <LoadingBox />
             {renderDraggables()}
+            <Connection></Connection>
         </>
     )
 
@@ -43,6 +48,7 @@ function GamePanelDraggable(props) {
 
     let [gamepanel] = fs.useWatch('gamepanel/' + props.gamepanel.id);
 
+    let [justMinimized, setJustMinimized] = useState(0);
     // useEffect(() => {
     //     //if (gamepanel.draggableRef)
     //     //updateGamePanel(gamepanel);
@@ -52,34 +58,59 @@ function GamePanelDraggable(props) {
     let width = 100;
     let height = 100;
 
-    let isActive = gamepanel.canvasRef == gamepanel.draggableRef;
+    let isPrimary = gamepanel.isPrimary;// = gamepanel.canvasRef == gamepanel.draggableRef;
 
 
     let isNext = isUserNext(gamepanel);
 
+    useEffect(() => {
+        if (!isPrimary) {
+            if (justMinimized == 0) {
+                setJustMinimized(1);
+                setTimeout(() => { setJustMinimized(2); }, 50)
+            }
+
+        }
+        if (isPrimary && justMinimized > 0) {
+            setJustMinimized(0);
+        }
+    })
+
+    let viewport_width = window.innerWidth;
+    let leftBounds = viewport_width - 180;
 
     return (
-        <Draggable key={'draggable-' + gamepanel.id}      >
+        <Draggable
+            key={'draggable-' + gamepanel.id}
+            disabled={isPrimary}
+            position={isPrimary ? { x: 0, y: 0 } : justMinimized <= 1 ? { x: 0, y: 0 } : undefined}
+            //bounds={{ left: leftBounds + 'px', right: '2rem' }}
+            bounds={{ top: 0, bottom: (window.innerHeight - 300) }}
+            axis={'y'}
+        >
             <Box
-                display={isActive ? 'block' : 'none'}
+                // display={isActive ? 'block' : 'none'}
                 className={"draggable-ref"}
 
 
                 position={'absolute'}
-                top={0}
-                left={0}
-                width={'16rem'}
-                height={'11rem'}
+                top={isPrimary ? 0 : '5rem'}
+                right={isPrimary ? 0 : '2rem'}
+                width={isPrimary ? '100%' : '16rem'}
+                height={isPrimary ? '100%' : '11rem'}
+                // transition={isPrimary ? "all 0.1s ease" : "width 0.1s ease, height 0.1s ease"}
+                transition={isPrimary ? "" : "width 0.1s ease, height 0.1s ease"}
                 zIndex={999}
-                border="2px solid"
+                border={isPrimary ? '0' : "2px solid"}
                 borderColor={isNext ? "brand.300" : "yellow.300"}
                 // borderRadius={'2rem'}
                 overflow="hidden"
                 ref={gamepanel.draggableRef}
-                _hover={{ borderColor: isNext ? "brand.500" : "yellow.500" }}
+                _hover={{ borderColor: isPrimary ? '' : isNext ? "brand.500" : "yellow.500" }}
             >
 
                 <Box
+                    display={isPrimary ? 'none' : 'block'}
                     position="absolute"
                     height="100%"
                     width="100%"
@@ -117,6 +148,8 @@ function GamePanelDraggable(props) {
 
                     </VStack>
                 </Box>
+
+                <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} />
             </Box>
         </Draggable >
     )

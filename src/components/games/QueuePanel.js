@@ -280,18 +280,19 @@ function QueuePanel(props) {
             w="100%"
             px="1rem"
             pt="0.5rem"
-            height={['2.5rem', '3.5rem', "4.0rem"]}
+            height={['3.5rem', '4.5rem', "5.0rem"]}
             align="center"
             justifyItems={'center'}
             // transform='translateX(-50%)'
             // left="50%"
+            bgColor="gray.1000"
             zIndex={99}
         >
 
             <HStack
                 borderRadius={'30px'}
                 position="relative"
-                bgColor={'gray.900'}
+                bgColor={'gray.800'}
                 // boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                 height={['2.5rem', '3.5rem', "4.0rem"]}
                 w="100%"

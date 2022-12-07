@@ -38,9 +38,9 @@ var Routes = () => {
     const refPath = history.location.pathname;
     if (refPath.indexOf("/login") == -1) {
         let curPath = localStorage.getItem("refPath");
-        console.log("current", curPath);
+        //console.log("current", curPath);
         localStorage.setItem('refPath', refPath);
-        console.log("next", refPath);
+        //console.log("next", refPath);
     }
 
     // let iframe = fs.get('iframe');
