@@ -82,7 +82,7 @@ function App(props) {
 
       <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
         <VStack bgColor={'gray.800'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
-          <HStack
+          {/* <HStack
             boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
             spacing="0"
             w="100%"
@@ -94,7 +94,7 @@ function App(props) {
 
           // bg={'blacks.300'}
           >
-          </HStack>
+          </HStack> */}
           <Box
             w="100%"
             h="100%"
@@ -123,7 +123,7 @@ function App(props) {
             h={['3rem', '4rem', '5rem']}
             position={props.displayMode == 'theatre' ? 'absolute' : "relative"}
             top={props.displayMode == 'theatre' ? '-100rem' : '0'}
-            zIndex="20"
+            zIndex="1000"
             justifyContent={'center'}
             // overflow="hidden"
             px={['0.5rem', '1rem', '5rem']}

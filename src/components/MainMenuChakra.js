@@ -24,6 +24,7 @@ import { IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR
 import GameActions from './games/GameDisplay/GameActions';
 import { decodeReplay, downloadReplay } from '../actions/connection';
 import QueuePanel from './games/QueuePanel';
+import Timeleft from './games/GameDisplay/Timeleft';
 
 const NavLink = ({ children }) => (
     <Link
@@ -77,7 +78,7 @@ function MainMenuChakra(props) {
         <>
 
             <Box
-                zIndex="20"
+                zIndex="1000"
                 filter={room_slug ? 'blur(20px)' : 'blur(0)'}
                 display={'flex'}
                 // px={'1rem'}
@@ -112,10 +113,15 @@ function MainMenuChakra(props) {
                             <Link to="/" className=""><Text fontSize={['xs', 'sm', "lg"]} fontWeight="700">Browse</Text></Link>
                         </Box> */}
                     </HStack>
-                    <Box w="100%" h="100%">
-                        <QueuePanel />
 
-                    </Box>
+                    <QueuePanel />
+
+                    <GameActions />
+
+                    {/* <Icon as={IoTimeOutline} fontSize='xxs' color={'gray.200'}></Icon> */}
+
+
+
                     <Flex alignItems={'center'} height="100%">
                         <Stack direction={'row'} spacing={0} height="100%">
                             {/* <Button onClick={toggleColorMode}>

@@ -90,7 +90,7 @@ function GameListItem(props) {
     }, []);
     return (
         <Box
-            w={['32rem', '16rem', '16rem', '16rem']}
+            w={['100%', '16rem', '16rem', '16rem']}
             borderRadius={"2rem"}
             p={["0.2rem", "1rem"]}
             bgColor={"gray.800"}
@@ -139,7 +139,7 @@ function GameListItem(props) {
 
                             <Text
                                 as="h4"
-                                fontSize={['xxs', "xs", 'sm']}
+                                fontSize={['xs', "sm", 'md']}
                                 fontWeight={'bold'}
                                 color={'white'}
                                 w={['7rem', "100%"]}

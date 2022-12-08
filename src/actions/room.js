@@ -255,7 +255,7 @@ export function addRooms(roomList) {
 
         gamepanel.gamestate = gamestate;
         updateGamePanel(gamepanel);
-
+        fs.set('showLoadingBox', true);
         if (!foundFirst) {
             foundFirst = true;
             setPrimaryGamePanel(gamepanel);
@@ -280,6 +280,8 @@ export function addRoom(msg) {
     //merge with any existing
     // let existing = rooms[msg.room.room_slug] || {};
     // room = Object.assign({}, existing, room);
+
+    fs.set('showLoadingBox', true);
 
     //reserve and update gamepanel
     gamepanel = reserveGamePanel();

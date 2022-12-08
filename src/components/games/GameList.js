@@ -39,7 +39,7 @@ class GameList extends Component {
                 <VStack align="left">
                     <Heading as="h1" size="md" pb="0rem" color="white">Ranked Games</Heading>
                     <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">You'll need skill to reach the top</Heading>
-                    <Wrap w="96%" spacing={['0.6rem', '1rem', "1.4rem"]}>
+                    <Wrap w="100%" spacing={['1.2rem', '2rem', "1.4rem"]}>
                         {
                             rankList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }

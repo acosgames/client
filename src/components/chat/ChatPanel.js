@@ -16,6 +16,8 @@ import QueuePanel from '../games/QueuePanel.js';
 import Scrollbars from 'react-custom-scrollbars-2';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
+import Timeleft from '../games/GameDisplay/Timeleft.js';
+import { getPrimaryGamePanel } from '../../actions/room.js';
 
 fs.set('chat', []);
 fs.set('chatMessage', '');
@@ -51,6 +53,7 @@ function ChatPanel(props) {
 
     // let width = '24.0rem';
 
+
     let toggle = fs.get('chatToggle') && props.displayMode != 'theatre';
     let desktopIcon = toggle ? <Icon as={AiFillCloseCircle} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.400'} /> : <Icon as={BsChatDotsFill} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.100'} />;
     let mobileIcon = toggle ? <Icon as={AiFillCloseCircle} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.400'} /> : <Icon as={BsChatDotsFill} filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'} fontSize="2rem" color={'gray.100'} />
@@ -58,7 +61,8 @@ function ChatPanel(props) {
         <Box
             transition="width 0.3s ease, height 0.3s ease"
             width={props.isMobile ? '100%' : !toggle ? '0' : ['24.0rem', '24rem', '28.0rem']}
-            height={!props.isMobile ? "100%" : (toggle ? '30rem' : '0')}
+            height={!props.isMobile ? "100%" : (toggle ? '100%' : '0')}
+            minHeight={!props.isMobile ? "100%" : (toggle ? '34rem' : '0')}
             position="relative"
         // overflow="hidden"
         >
@@ -69,7 +73,7 @@ function ChatPanel(props) {
                 // top="0"
                 // left="0"
                 width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
-                height={!props.isMobile ? "100%" : '24rem'}
+                height={'100%'}
 
                 // alignItems="stretch"
                 pb={'0'}
@@ -102,8 +106,7 @@ function ChatPanel(props) {
                 // width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
                 >
 
-
-                    <GameActions />
+                    <Scoreboard toggle={toggle} isMobile={props.isMobile} />
                     <ChatHeader toggle={toggle} isMobile={props.isMobile} />
 
 
@@ -131,6 +134,137 @@ function ChatPanel(props) {
 }
 ChatPanel = fs.connect(['chatToggle', 'isMobile', 'displayMode'])(ChatPanel);
 
+
+
+function ScoreboardTimer(props) {
+    let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
+
+    if (typeof primaryGamePanelId === 'undefined' || primaryGamePanelId == null)
+        return <></>
+
+    return (
+        <VStack
+            bgColor="gray.900"
+            width={props.isMobile ? '100%' : ['24.0rem', '24rem', '28.0rem']}
+            height={['4rem', '5rem', '5rem']}
+            spacing="0"
+            justifyContent={'center'}
+            alignItems="center">
+            <Timeleft id={primaryGamePanelId} />
+        </VStack>
+    )
+}
+
+function ScoreboardPlayerStats(props) {
+    let player = props.player;
+    let rank = player.rank + "";
+    // if (rank.length < 2) {
+    //     rank = "0" + rank;
+    // }
+
+    let user = fs.get('user');
+
+    return (
+        <HStack width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={user.shortid == player.id ? 'bold' : ''} borderRight={props.team ? ('1rem solid ' + props.team.color) : ''}>
+            <Text w='3rem' align="center" fontSize="xxs" color="gray.100">{rank}</Text>
+            <Text w={props.team ? '15rem' : '16rem'} align="left" fontSize="xxs" color="gray.100">{player.name}</Text>
+            <Text w='3rem' align="center" fontSize="xxs" color="gray.100">{player.score}</Text>
+        </HStack>
+    )
+}
+
+function Scoreboard(props) {
+    let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
+    if (typeof primaryGamePanelId === 'undefined' || primaryGamePanelId == null)
+        return <></>
+
+    return (
+        <>
+            <ScoreboardTimer toggle={props.toggle} isMobile={props.isMobile} />
+            <ScoreboardBody id={primaryGamePanelId} toggle={props.toggle} isMobile={props.isMobile} />
+        </>
+    )
+}
+
+function ScoreboardBody(props) {
+    const scrollRef = useRef();
+    let [gamepanel] = fs.useWatch('gamepanel/' + props.id);
+    if (!gamepanel)
+        return <></>
+
+
+
+    let gamestate = gamepanel?.gamestate;
+    let players = gamestate?.players;
+
+    if (!players)
+        return <></>
+
+
+
+
+    let playerElems = [];
+
+
+    let teams = gamestate?.teams || {};
+    let teamCount = Object.keys(teams).length;
+    let teamElems = [];
+    if (teamCount > 1) {
+
+        for (const teamid in teams) {
+            let team = teams[teamid];
+            teamElems.push(
+                <HStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} pt="1rem" key={'team-' + team.name} borderRight={'1rem solid ' + team.color}>
+                    <Text as="span" w='4rem' align="center" fontSize="xxs" fontWeight={'bold'} color="white">{team.score}</Text>
+                    <Text as="span" w='15rem' align="left" fontSize="sm" fontWeight={'bold'} color="white">{team.name}</Text>
+                    <Text as="span" w='4rem' align="left" fontSize="xs" fontWeight={'bold'} color="white"></Text>
+                </HStack>
+            )
+            teamElems.push(
+                <HStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} key={'teamplayerheader-' + team.name} borderRight={'1rem solid ' + team.color}>
+                    <Text as="span" w='4rem' align="center" fontSize="3xs" color="gray.150">#</Text>
+                    <Text as="span" w='15rem' align="left" fontSize="3xs" color="gray.150">Name</Text>
+                    <Text as="span" w='4rem' align="center" fontSize="3xs" color="gray.150">Score</Text>
+                </HStack>
+            )
+            for (const id of team.players) {
+                let player = players[id];
+                teamElems.push(<ScoreboardPlayerStats player={player} key={"player-" + player.name} team={team} />);
+            }
+            teamElems.push(<Box key={'teamspacer-' + team.name} pb="1rem" borderRight={'1rem solid ' + team.color}></Box>)
+        }
+    } else {
+        teamElems.push(
+            <HStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} key={'playerheader'}>
+                <Text as="span" w='4rem' align="center" fontSize="3xs" color="gray.175">#</Text>
+                <Text as="span" w='16rem' align="left" fontSize="3xs" color="gray.175">Name</Text>
+                <Text as="span" w='4rem' align="center" fontSize="3xs" color="gray.175">Score</Text>
+            </HStack>
+        );
+
+        for (const id in players) {
+            let player = players[id];
+            teamElems.push(<ScoreboardPlayerStats player={player} key={"player-" + player.name} />);
+        }
+
+    }
+    const ChakraSimpleBar = chakra(SimpleBar)
+
+    return (
+        <VStack w="100%" maxHeight={"24rem"} spacing="0" justifyContent={'center'} alignItems="center">
+            <ChakraSimpleBar
+                boxSizing='border-box'
+                style={{
+                    width: '100%',
+                    height: 'auto', flex: '1', paddingBottom: '0.5rem', overflow: 'hidden scroll', boxSizing: 'border-box',
+                }} scrollableNodeProps={{ ref: scrollRef }}>
+
+                {teamElems}
+
+            </ChakraSimpleBar>
+        </VStack>
+    )
+}
 function ChatHeader(props) {
 
     let [mode, setMode] = useState('all');
@@ -150,7 +284,7 @@ function ChatHeader(props) {
             justifyContent='center'
             alignItems={'center'}
         >
-            <Text cursor='pointer' as={'span'} fontSize={mode == 'all' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'all' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('all') }}>ACOS Chat</Text>
+            <Text cursor='pointer' as={'span'} fontSize={mode == 'all' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'all' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('all') }}>Lobby Chat</Text>
             {/* <Text cursor='pointer' as={'span'} fontSize={mode == 'game' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'game' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('game') }}>Friends</Text>
             <Text cursor='pointer' as={'span'} fontSize={mode == 'party' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'party' ? 'gray.100' : 'gray.500'} onClick={() => { onChangeMode('party') }}>Bounties</Text> */}
 
@@ -417,7 +551,7 @@ function ChatSend(props) {
 }
 ChatSend = fs.connect(['chatMessage'])(ChatSend);
 
-export default fs.connect([])(ChatPanel);
+export default ChatPanel;
 
 
 

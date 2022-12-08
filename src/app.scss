@@ -1098,6 +1098,9 @@ code {
 
 /* LOADING SPINNER */
 
+.digitaltimer {
+  font-variant-numeric: tabular-nums;
+}
 
 @keyframes timerblink {
   0% {

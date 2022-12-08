@@ -42,7 +42,7 @@ function NavForUser(props) {
     }
     return (
 
-        <Menu placement='bottom-end' modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
+        <Menu zIndex="1001" placement='bottom-end' modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
             <VStack display="flex" justifyContent="center" height="100%" spacing="0">
                 <MenuButton
                     as={Button}
