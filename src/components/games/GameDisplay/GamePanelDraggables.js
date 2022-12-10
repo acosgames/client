@@ -107,6 +107,9 @@ function GamePanelDraggable(props) {
                 overflow="hidden"
                 ref={gamepanel.draggableRef}
                 _hover={{ borderColor: isPrimary ? '' : isNext ? "brand.500" : "yellow.500" }}
+                onClick={() => {
+                    maximizeGamePanel(gamepanel);
+                }}
             >
 
                 <Box
@@ -119,10 +122,9 @@ function GamePanelDraggable(props) {
                     backgroundColor={"rgba(0,0,0,0)"}
                     transition="background-color 0.1s ease"
                     _hover={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-                    // borderRadius={'2rem'}
-                    onDoubleClick={() => {
-                        maximizeGamePanel(gamepanel);
-                    }}
+                // borderRadius={'2rem'}
+
+
                 >
                     <VStack alignItems='center' position="absolute" top="0" left="0" spacing="0" justifyContent='flex-end' width="100%" height="100%" opacity="1" transition="opacity 0.2s ease" _hover={{ opacity: '0' }}>
                         <Text color="white" fontWeight={'bold'} textAlign="center" h="2rem" lineHeight="2rem" fontSize="xs" bgColor="rgba(0,0,0,0.9)">{isNext ? 'You are next!' : ''}</Text>

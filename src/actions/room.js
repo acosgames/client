@@ -242,8 +242,9 @@ export function addRooms(roomList) {
         let gamepanel = findGamePanelByRoom(r.room_slug || r.room.room_slug)
         if (!gamepanel) {
             gamepanel = reserveGamePanel();
-            gamepanel.room = r;
+
         }
+        gamepanel.room = r;
 
         if (gamestate && gamestate.players) {
             gamestate.local = gamestate.players[user.shortid];
@@ -414,15 +415,80 @@ export function processsRoomStatus(gamepanel) {
 
 }
 
-
-export function isUserNext(gamepanel) {
-
+export function isNextTeam(gamepanel) {
     let gamestate = gamepanel?.gamestate;
     let local = gamestate?.local;
 
     if (!gamestate || !local) return;
 
     let userid = local.id;
+    let next = gamestate?.next;
+    let nextid = next?.id;
+    let room = gamestate.room;
+
+    if (room?.status == 'pregame')
+        return true;
+
+    if (!next || !nextid)
+        return false;
+
+    if (!gamestate.state)
+        return false;
+
+    //check if we ven have teams
+    let teams = gamestate?.teams;
+
+
+    if (typeof nextid === 'string') {
+        //anyone can send actions
+        if (nextid == '*')
+            return true;
+
+        //only specific user can send actions
+        // if (nextid == userid)
+        //     return false;
+
+        //validate team has players
+        if (!teams || !teams[nextid] || !teams[nextid].players)
+            return false;
+
+        //allow players on specified team to send actions
+        if (Array.isArray(teams[nextid].players) && teams[nextid].players.includes(userid)) {
+            return true;
+        }
+    }
+    else if (Array.isArray(nextid)) {
+
+        //multiple users can send actions if in the array
+        // if (nextid.includes(userid))
+        //     return false;
+
+        //validate teams exist
+        if (!teams)
+            return false;
+
+        //multiple teams can send actions if in the array
+        for (var i = 0; i < nextid.length; i++) {
+            let teamid = nextid[i];
+            let team = teams[teamid];
+            let teamplayers = team?.players;
+            if (Array.isArray(teamplayers) && teamplayers.includes(userid)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+export function isUserNext(gamepanel, userid) {
+
+    let gamestate = gamepanel?.gamestate;
+    let user = fs.get('user');
+
+    if (!gamestate || !user) return;
+
+    userid = userid || user.shortid;
     let next = gamestate?.next;
     let nextid = next?.id;
     let room = gamestate.room;
@@ -471,7 +537,9 @@ export function isUserNext(gamepanel) {
         //multiple teams can send actions if in the array
         for (var i = 0; i < nextid.length; i++) {
             let teamid = nextid[i];
-            if (Array.isArray(teams[teamid].players) && teams[teamid].players.includes(userid)) {
+            let team = teams[teamid];
+            let teamplayers = team?.players;
+            if (Array.isArray(teamplayers) && teamplayers.includes(userid)) {
                 return true;
             }
         }

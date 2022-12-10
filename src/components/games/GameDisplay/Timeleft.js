@@ -68,7 +68,11 @@ function TimeleftDisplay(props) {
                 bgColor={isNext ? 'gray.700' : ""}
                 borderRadius="2rem"
                 spacing="0"
-                fontSize='2xl'>
+                fontSize='xl'
+                onClick={() => {
+                    let scoreboardExpanded = fs.get('scoreboardExpanded');
+                    fs.set('scoreboardExpanded', !scoreboardExpanded);
+                }}>
 
                 <HStack spacing="0" display={hour > 0 ? 'flex' : 'none'}>
                     <Text
@@ -77,7 +81,7 @@ function TimeleftDisplay(props) {
                         color={greaterThan10 ? 'gray.100' : 'red.500'}
                         fontWeight="bold"
                         className="digitaltimer"
-                        fontVariantNumeric="tabular-nums"
+                    // fontVariantNumeric="tabular-nums"
                     >
                         {(hour < 10) ? ("0" + hour) : hour}
                     </Text>
@@ -90,7 +94,7 @@ function TimeleftDisplay(props) {
                         color={greaterThan10 ? 'gray.100' : 'red.500'}
                         fontWeight="bold"
                         className="digitaltimer"
-                        fontVariantNumeric="tabular-nums"
+                    // fontVariantNumeric="tabular-nums"
                     >
                         {(min < 10) ? ("0" + min) : min}
                     </Text>
@@ -105,7 +109,7 @@ function TimeleftDisplay(props) {
                         fontWeight="bold"
 
                         className="digitaltimer"
-                        fontVariantNumeric="tabular-nums"
+                    // fontVariantNumeric="tabular-nums"
                     >
                         {(min > 0 && sec < 10) ? ("0" + sec) : sec}
 
@@ -121,7 +125,7 @@ function TimeleftDisplay(props) {
                         color={greaterThan10 ? 'gray.100' : 'red.500'}
                         fontWeight="bold"
                         className="digitaltimer"
-                        fontVariantNumeric="tabular-nums"
+                    // fontVariantNumeric="tabular-nums"
                     >
                         {ms}
 
