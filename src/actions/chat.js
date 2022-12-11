@@ -1,6 +1,7 @@
 import { wsSend } from "./connection";
 
 import fs from 'flatstore';
+import { getPrimaryGamePanel } from "./room";
 
 
 
@@ -57,12 +58,24 @@ export function filterChatMessages(chatMessages, chatMode) {
         if (game) {
             let filtered = [];
             for (var msg of chatMessages) {
+                if (msg.room_slug)
+                    continue;
                 if (msg.game_slug == game.game_slug) {
                     filtered.push(msg);
                 }
             }
             chatMessages = filtered;
         }
+    }
+    else if (chatMode == 'room') {
+        let filtered = [];
+        let gamepanel = getPrimaryGamePanel();
+        for (var msg of chatMessages) {
+            if (msg.room_slug == gamepanel?.room?.room_slug) {
+                filtered.push(msg);
+            }
+        }
+        chatMessages = filtered;
     }
     return chatMessages;
 }
@@ -89,7 +102,10 @@ export async function sendChatMessage() {
     let game = fs.get('game');
     let game_slug = game?.game_slug;
 
-    let payload = { message, game_slug }
+    let gamepanel = getPrimaryGamePanel();
+    let room_slug = gamepanel?.room?.room_slug;
+
+    let payload = { message, game_slug, room_slug }
 
     await wsSend({ type: 'chat', payload })
 }

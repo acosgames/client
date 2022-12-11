@@ -55,30 +55,32 @@ function TimeleftDisplay(props) {
     let isNext = isUserNext(gamepanel);
 
     return (
-
-        <Tooltip position={'bottom'} label={isNext ? 'Your move' : 'Waiting for opponent'}>
+        <>
             <HStack
+                className="timeleft-wrapper"
                 // width="100%" 
                 height={'3rem'}
                 maxWidth="100%"
                 alignContent='center'
-                p="0.1rem"
                 px="2rem"
-
-                bgColor={isNext ? 'gray.700' : ""}
+                cursor="pointer"
+                //bgColor={isNext ? 'gray.700' : ""}
                 borderRadius="2rem"
                 spacing="0"
                 fontSize='xl'
                 onClick={() => {
                     let scoreboardExpanded = fs.get('scoreboardExpanded');
                     fs.set('scoreboardExpanded', !scoreboardExpanded);
+                    if (scoreboardExpanded) {
+                        fs.set('layoutRightMode', 'none');
+                    }
                 }}>
 
                 <HStack spacing="0" display={hour > 0 ? 'flex' : 'none'}>
                     <Text
                         as="span"
                         //animation={greaterThan10 ? '' : 'timerblink 1s infinite'}
-                        color={greaterThan10 ? 'gray.100' : 'red.500'}
+                        color={greaterThan10 ? 'yellow.100' : 'red.500'}
                         fontWeight="bold"
                         className="digitaltimer"
                     // fontVariantNumeric="tabular-nums"
@@ -91,7 +93,7 @@ function TimeleftDisplay(props) {
                     <Text
                         as="span"
                         //animation={greaterThan10 ? '' : 'timerblink 1s infinite'}
-                        color={greaterThan10 ? 'gray.100' : 'red.500'}
+                        color={greaterThan10 ? 'yellow.100' : 'red.500'}
                         fontWeight="bold"
                         className="digitaltimer"
                     // fontVariantNumeric="tabular-nums"
@@ -105,7 +107,7 @@ function TimeleftDisplay(props) {
                     <Text
                         as="span"
                         //animation={greaterThan10 ? '' : 'timerblink 1s infinite'}
-                        color={greaterThan10 ? 'gray.100' : 'red.500'}
+                        color={greaterThan10 ? 'yellow.100' : 'red.500'}
                         fontWeight="bold"
 
                         className="digitaltimer"
@@ -122,7 +124,7 @@ function TimeleftDisplay(props) {
                     <Text
                         as="span"
                         // animation={greaterThan10 ? '' : 'timerblink 1s infinite'}
-                        color={greaterThan10 ? 'gray.100' : 'red.500'}
+                        color={greaterThan10 ? 'yellow.100' : 'red.500'}
                         fontWeight="bold"
                         className="digitaltimer"
                     // fontVariantNumeric="tabular-nums"
@@ -133,7 +135,12 @@ function TimeleftDisplay(props) {
                 </HStack>
 
             </HStack>
-        </Tooltip>
+            <Text as="span" px="0.5rem" height="2rem" lineHeight={'2rem'} display="block" position="absolute" top="1rem" right="0" fontWeight={'bold'}
+                bgColor={isNext ? 'brand.900' : 'yellow.500'}
+                textShadow="1px 1px 6px #888">
+                {isNext ? 'GO' : 'WAIT'}
+            </Text>
+        </>
     )
 }
 

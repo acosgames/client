@@ -281,7 +281,7 @@ function QueuePanel(props) {
                 w="100%"
                 px="1rem"
                 pt={["0.25rem", "0.25rem", "0.5rem"]}
-                height={['3.5rem', '4.5rem', "5.0rem"]}
+                height={['4rem']}
                 align="center"
                 justifyItems={'center'}
                 alignContent="center"

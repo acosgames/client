@@ -20,11 +20,14 @@ import NavForUser from './login/NavForUser';
 import { useHistory, Link, useParams, withRouter } from 'react-router-dom';
 import config from '../config'
 import { findGamePanelByRoom, getPrimaryGamePanel, getRoomStatus, minimizeGamePanel } from '../actions/room';
-import { IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
+import { BsFillGearFill, AiFillLayout, IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
 import GameActions from './games/GameDisplay/GameActions';
 import { decodeReplay, downloadReplay } from '../actions/connection';
 import QueuePanel from './games/QueuePanel';
 import Timeleft from './games/GameDisplay/Timeleft';
+import ActionMenu from './chat/ActionMenu';
+
+
 
 const NavLink = ({ children }) => (
     <Link
@@ -86,14 +89,16 @@ function MainMenuChakra(props) {
                 transition={'filter 0.3s ease-in'}
                 width="100%"
                 maxWidth="1200px"
-                h={['3rem', '4rem', '5rem']}
+                h={['4rem']}
                 justifyContent={'center'}
             // alignContent={'center'}
             // justifyItems={'center'}
             // alignItems={'center'}
             >
-                <Flex alignItems={'center'} justifyContent={'space-between'} h={['3rem', '4rem', '5rem']} width="100%" maxW={['1200px']}>
+                <Flex alignItems={'center'} justifyContent={'space-between'} h={['4rem']} width="100%" maxW={['1200px']}>
                     <HStack spacing={['2rem', '2rem', "4rem"]} justifyContent={'center'}>
+
+
                         <Box
                         ><Link to="/" className="" onClick={(e) => {
                             if (isPrimary)
@@ -131,14 +136,16 @@ function MainMenuChakra(props) {
                                 {(loggedIn != 'LURKER') && <NavForUser />}
                                 {(loggedIn == 'LURKER') && <NavForGuest />}
                             </Box>
-                            <Box p="0" m="0" height="100%" lineHeight={'100%'}>
+                            <Box p="0" pl="1rem" m="0" height="100%" lineHeight={'100%'}>
+                                <ActionMenu />
+                                {/*                             
                                 <Button onClick={() => { fs.set('chatToggle', !fs.get('chatToggle')) }} height="100%">
                                     <Icon
-                                        as={props.isMobile ? (props.chatToggle ? CgChevronDoubleDownR : CgChevronDoubleUpR) : (props.chatToggle ? CgChevronDoubleRightR : CgChevronDoubleLeftR)}
+                                        as={AiFillLayout}
                                         // filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'}
                                         fontSize="2.5rem"
                                         color={'gray.100'} />
-                                </Button>
+                                </Button> */}
                             </Box>
 
                             {/* <Box p="0" m="0" height="100%" lineHeight={'100%'}>

@@ -82,11 +82,11 @@ function GamePanelDraggable(props) {
     return (
         <Draggable
             key={'draggable-' + gamepanel.id}
-            disabled={isPrimary}
+            disabled={true}
             position={isPrimary ? { x: 0, y: 0 } : justMinimized <= 1 ? { x: 0, y: 0 } : undefined}
-            //bounds={{ left: leftBounds + 'px', right: '2rem' }}
-            bounds={{ top: 0, bottom: (window.innerHeight - 300) }}
-            axis={'y'}
+        //bounds={{ left: leftBounds + 'px', right: '2rem' }}
+        //bounds={{ top: 0, bottom: (window.innerHeight - 300) }}
+        //axis={'y'}
         >
             <Box
                 // display={isActive ? 'block' : 'none'}
@@ -94,15 +94,15 @@ function GamePanelDraggable(props) {
 
 
                 position={'absolute'}
-                top={isPrimary ? 0 : '5rem'}
-                right={isPrimary ? 0 : '2rem'}
-                width={isPrimary ? '100%' : '16rem'}
-                height={isPrimary ? '100%' : '11rem'}
+                top={isPrimary ? 0 : '-4rem'}
+                right={isPrimary ? 0 : 'calc(50% - 3.5rem)'}
+                width={isPrimary ? '100%' : '7.27rem'}
+                height={isPrimary ? '100%' : '5rem'}
                 // transition={isPrimary ? "all 0.1s ease" : "width 0.1s ease, height 0.1s ease"}
                 transition={isPrimary ? "" : "width 0.1s ease, height 0.1s ease"}
-                zIndex={999}
+                zIndex={isPrimary ? 999 : 9999}
                 border={isPrimary ? '0' : "2px solid"}
-                borderColor={isNext ? "brand.300" : "yellow.300"}
+                borderColor={isNext ? 'brand.900' : 'yellow.500'}
                 // borderRadius={'2rem'}
                 overflow="hidden"
                 ref={gamepanel.draggableRef}
@@ -122,15 +122,18 @@ function GamePanelDraggable(props) {
                     backgroundColor={"rgba(0,0,0,0)"}
                     transition="background-color 0.1s ease"
                     _hover={{ backgroundColor: "rgba(0,0,0,0.4)" }}
-                // borderRadius={'2rem'}
-
+                    filter={'drop-shadow(0px -12px 24px rgba(0,0,0,0.2))'}
+                    // borderRadius={'2rem'}
+                    onClick={() => {
+                        maximizeGamePanel(gamepanel);
+                    }}
 
                 >
-                    <VStack alignItems='center' position="absolute" top="0" left="0" spacing="0" justifyContent='flex-end' width="100%" height="100%" opacity="1" transition="opacity 0.2s ease" _hover={{ opacity: '0' }}>
-                        <Text color="white" fontWeight={'bold'} textAlign="center" h="2rem" lineHeight="2rem" fontSize="xs" bgColor="rgba(0,0,0,0.9)">{isNext ? 'You are next!' : ''}</Text>
-                    </VStack>
+                    {/* <VStack alignItems='center' position="absolute" top="0" left="0" spacing="0" justifyContent='flex-end' width="100%" height="100%" opacity="1" transition="opacity 0.2s ease" _hover={{ opacity: '0' }}> */}
+                    {/* <Text color="white" fontWeight={'bold'} textAlign="center" h="2rem" lineHeight="2rem" fontSize="xs" bgColor="rgba(0,0,0,0.9)">{isNext ? 'You are next!' : ''}</Text> */}
+                    {/* </VStack> */}
                     <VStack spacing="0" alignItems={'center'} justifyContent='flex-start' width="100%" height="100%" opacity="0" transition="opacity 0.2s ease" _hover={{ opacity: '1' }}>
-                        <Text textAlign={'center'} color="white" fontWeight={'bold'} w="100%" height="2rem" fontSize="xs" bgColor="rgba(0,0,0,0.9)">Ranked Match</Text>
+                        {/* <Text textAlign={'center'} color="white" fontWeight={'bold'} w="100%" height="2rem" fontSize="xs" bgColor="rgba(0,0,0,0.9)">Ranked Match</Text> */}
                         <VStack
                             flex="1"
                             alignItems={'center'}

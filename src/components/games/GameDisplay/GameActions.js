@@ -111,7 +111,7 @@ function GameActions(props) {
 
     return (
         <VStack
-            // h={props.isMobile ? '100%' : '5rem'} 
+            // h={props.isBottomLayout ? '100%' : '5rem'} 
             w={'100%'}
             justify={'center'}
             bgColor={'gray.800'}

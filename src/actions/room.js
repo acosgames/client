@@ -77,6 +77,11 @@ export function setPrimaryGamePanel(gamepanel) {
     let primaryId = fs.get('primaryGamePanel');
     let primary = getGamePanel(primaryId);
 
+    if (primary) {
+        primary.isPrimary = false;
+        updateGamePanel(primary);
+    }
+
     if (!gamepanel) {
         fs.set('primaryGamePanel', null);
     }
@@ -98,10 +103,7 @@ export function setPrimaryGamePanel(gamepanel) {
         updateGamePanel(gamepanel);
     }
 
-    if (primary) {
-        primary.isPrimary = false;
-        updateGamePanel(primary);
-    }
+
 }
 
 export function cleanupGamePanel(gamepanel) {
@@ -250,6 +252,11 @@ export function addRooms(roomList) {
             gamestate.local = gamestate.players[user.shortid];
             if (gamestate.local)
                 gamestate.local.id = user.shortid;
+
+            for (const id in gamestate.players) {
+                gamestate.players[id].id = id;
+            }
+
         } else {
             gamestate.local = { name: user.displayname, id: user.shortid };
         }

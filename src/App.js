@@ -39,19 +39,32 @@ import GamePanelDraggables from "./components/games/GameDisplay/GamePanelDraggab
 
 fs.delimiter('>');
 fs.set("isMobile", false);
+fs.set('layoutMode', 'right');
+fs.set('layoutBottomMode', 'none');
+fs.set('layoutRightMode', 'none');
+fs.set('scoreboardExpanded', true);
+fs.set('chatExpanded', true);
 
 function App(props) {
 
   const disclosure = useDisclosure()
   const primaryCanvasRef = useRef();
 
-  let [isMobile, setIsMobile] = useState(false);
+  let [layoutMode] = fs.useWatch('layoutMode');
+
+  // let [isMobile, setIsMobile] = useState(false);
 
   const onResize = () => {
     let screenWidth = window.screen.width;
-    let isMobile = screenWidth <= 600;
-    setIsMobile(isMobile);
-    fs.set("isMobile", isMobile)
+    let screenHeight = window.screen.height;
+    let isMobileCheck = screenWidth < 600;
+    fs.set("isMobile", isMobileCheck);
+
+    let layoutMode = fs.get('layoutMode');
+    if (layoutMode != 'bottom' && isMobileCheck)
+      fs.set('layoutMode', 'bottom');
+    if (layoutMode != 'right' && !isMobileCheck)
+      fs.set('layoutMode', 'right');
   }
 
   useEffect(() => {
@@ -120,7 +133,7 @@ function App(props) {
             // boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
             spacing="0"
             w="100%"
-            h={['3rem', '4rem', '5rem']}
+            h={['4rem']}
             position={props.displayMode == 'theatre' ? 'absolute' : "relative"}
             top={props.displayMode == 'theatre' ? '-100rem' : '0'}
             zIndex="1000"
@@ -131,7 +144,7 @@ function App(props) {
             <MainMenuChakra />
           </HStack>
 
-          <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef}>
+          <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef} >
             <GamePanelDraggables primaryCanvasRef={primaryCanvasRef} />
             <Scrollbars
               renderView={(props) => (
@@ -157,12 +170,12 @@ function App(props) {
               </VStack>
             </Scrollbars>
           </Box>
-          {isMobile && (
+          {layoutMode == 'bottom' && (
             <ChatPanelWrapper />
           )}
         </VStack>
         {
-          !isMobile && (
+          layoutMode == 'right' && (
             <ChatPanelWrapper />
           )
         }

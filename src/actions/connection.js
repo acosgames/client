@@ -1112,6 +1112,7 @@ async function wsIncomingMessage(message) {
 
     switch (msg.type) {
         case 'chat':
+            console.log("[ChatMessage]:", msg);
             addChatMessage(msg);
             return;
         case 'pong':
@@ -1231,6 +1232,9 @@ async function wsIncomingMessage(message) {
         case 'update':
             console.log("[Incoming] Update:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
+        case 'leave':
+            console.log("[Incoming] Player Left:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
+            break;
         case 'error':
             console.log("[Incoming] ERROR::", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             break;
@@ -1320,6 +1324,13 @@ async function wsIncomingMessage(message) {
             mergedState.delta = deltaState;
 
             gamepanel.gamestate = mergedState;
+
+            if (gamepanel.gamestate.players) {
+                for (const id in gamepanel.gamestate.players) {
+                    gamepanel.gamestate.players[id].id = id;
+                }
+            }
+
             updateGamePanel(gamepanel);
 
             msg.payload = mergedState;
