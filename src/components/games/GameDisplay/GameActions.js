@@ -114,7 +114,7 @@ function GameActions(props) {
             // h={props.isBottomLayout ? '100%' : '5rem'} 
             w={'100%'}
             justify={'center'}
-            bgColor={'gray.800'}
+            bgColor={'gray.600'}
             py="0.6rem">
             {/* <HStack alignItems={'center'}>
                 <BsBarChartFill size="1.2rem" color={latencyColor} /><Text as="span" fontSize="xxs"> {latency}ms</Text>

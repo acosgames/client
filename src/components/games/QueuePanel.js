@@ -280,8 +280,8 @@ function QueuePanel(props) {
                 // width={['6rem', '6rem', "7rem"]}
                 w="100%"
                 px="1rem"
-                pt={["0.25rem", "0.25rem", "0.5rem"]}
-                height={['4rem']}
+                pt={["0.25rem"]}
+                height={['3.5rem']}
                 align="center"
                 justifyItems={'center'}
                 alignContent="center"
@@ -296,7 +296,7 @@ function QueuePanel(props) {
                     position="relative"
                     bgColor={'gray.900'}
                     // boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-                    height={['2.5rem', '3.5rem', "4.0rem"]}
+                    height={["4.0rem"]}
                     w="100%"
                     justifyContent={'flex-start'}
                     spacing="0rem">

@@ -6,9 +6,9 @@ import { GiLaurelsTrophy, } from '@react-icons';
 function GameInfoTop10Highscores(props) {
 
     if (!props.leaderboardHighscore) {
-        return <Box>
-            <Text as="h4">No highscores yet.</Text>
-        </Box>
+        return <HStack justifyContent={'center'} alignItems='center' w="100%">
+            <Text as="span" mt='1rem' fontWeight={'bold'}>No highscores yet.</Text>
+        </HStack>
     }
 
     let user = fs.get('user');
@@ -29,14 +29,13 @@ function GameInfoTop10Highscores(props) {
             let isPast5Rank = player.rank == 10 && (playerGameStats && playerGameStats.ranking > 10);
             elems.push(
                 <Tr key={tag + '-leaderboard-hs-' + player.value}>
-                    <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
-                        <HStack width="auto" justifyContent={'flex-end'} spacing="1rem">
+                    <Td isNumeric p="0" border="0" px="1rem" w="3rem">
+                        <HStack px="1rem" width="auto" justifyContent={'flex-end'} spacing="1rem">
                             {player.rank == 1 && (<Icon as={GiLaurelsTrophy} color='gold' />)}
                             {player.rank == 2 && (<Icon as={GiLaurelsTrophy} color='silver' />)}
                             {player.rank == 3 && (<Icon as={GiLaurelsTrophy} color='#A78553' />)}
                             <Text
-                                fontSize="xs"
+                                fontSize="2xs"
                                 fontWeight={isLocalPlayer ? 'bold' : 'normal'}
                                 color={isLocalPlayer ? "yellow.100" : 'white'}>
 
@@ -44,11 +43,10 @@ function GameInfoTop10Highscores(props) {
                             </Text>
                         </HStack>
                     </Td>
-                    <Td borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
+                    <Td p="0" border="0">
                         <Link to={'/profile/' + player.value}>
                             <Text
-                                fontSize="xs"
+                                fontSize="2xs"
                                 fontWeight={isLocalPlayer ? 'bold' : 'normal'}
                                 color={isLocalPlayer ? "yellow.100" : 'white'}>
                                 {player.value}
@@ -57,10 +55,9 @@ function GameInfoTop10Highscores(props) {
                         </Link>
                     </Td>
                     <Td
-                        borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
+                        p="0" border="0">
                         <Text
-                            fontSize="xs"
+                            fontSize="2xs"
                             fontWeight={isLocalPlayer ? 'bold' : 'normal'}
                             color={isLocalPlayer ? "yellow.100" : 'white'} width="auto" display="inline-block" >
                             {player.score}
@@ -84,13 +81,13 @@ function GameInfoTop10Highscores(props) {
     let lbCount = props.leaderboardHighscoreCount || 0;
     if (lbCount == 0) {
         return (
-            <Box>
-                <Text mt='1rem' fontWeight={'bold'}>No highscores yet.</Text>
-            </Box>
+            <HStack justifyContent={'center'} alignItems='center' w="100%">
+                <Text as="span" mt='1rem' fontWeight={'bold'}>No highscores yet.</Text>
+            </HStack>
         )
     }
     return (
-        <Box w="100%" pb="1rem" pt="3rem">
+        <Box w="100%" pb="1rem" >
 
             <VStack w="100%">
                 <Text as="h4" fontWeight={'bold'} color="gray.100">Top scores</Text>

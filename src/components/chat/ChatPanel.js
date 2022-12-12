@@ -49,6 +49,8 @@ function ChatPanel(props) {
             maxHeight={!isBottomLayout ? '' : '50%'}
             minHeight={!isBottomLayout ? "100%" : ('')}
             position="relative"
+            borderLeft="1px solid"
+            borderLeftColor="gray.800"
         >
             <VStack
                 transition="width 0.3s ease, height 0.3s ease"
@@ -57,6 +59,8 @@ function ChatPanel(props) {
                 pb={'0'}
                 spacing="0"
                 mt="0"
+                borderLeft="2px solid"
+                borderLeftColor="gray.900"
             >
                 <Scoreboard toggle={toggle} layoutMode={layoutMode} />
                 <ChatView toggle={toggle} layoutMode={layoutMode} />
@@ -193,7 +197,7 @@ function ChatHeader(props) {
     return (
         <HStack
             pl={'1rem'}
-            bgColor="gray.900"
+            bgColor="gray.800"
             width={props.isBottomLayout ? '100%' : ['24.0rem', '24rem', '28.0rem']}
             height={['4rem']}
             spacing={'2rem'}

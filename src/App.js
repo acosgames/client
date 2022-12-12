@@ -94,7 +94,7 @@ function App(props) {
       <ToastMessage />
 
       <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
-        <VStack bgColor={'gray.800'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
+        <VStack bgColor={'gray.600'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
           {/* <HStack
             boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
             spacing="0"
@@ -140,7 +140,7 @@ function App(props) {
             justifyContent={'center'}
             // overflow="hidden"
             px={['0.5rem', '1rem', '5rem']}
-            bg={'gray.800'}>
+            bg={'gray.600'}>
             <MainMenuChakra />
           </HStack>
 

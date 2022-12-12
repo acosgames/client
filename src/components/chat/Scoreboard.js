@@ -64,7 +64,7 @@ function Scoreboard(props) {
     if (typeof primaryGamePanelId === 'undefined' || primaryGamePanelId == null)
         return <></>
     let gamepanel = getPrimaryGamePanel();
-    let mode = Number.isInteger(gamepanel.room.mode) ? getGameModeName(gamepanel.room.mode) : gamepanel.room.mode;
+
 
 
     let layoutFlex = '1';
@@ -77,9 +77,9 @@ function Scoreboard(props) {
 
     }
 
-    if (scoreboardExpanded && chatExpanded) {
-        let height = chatViewRef?.current?.clientHeight || window.innerHeight;
-        if (height < 300) {
+    if (scoreboardExpanded && chatExpanded && gamepanel?.room?.maxplayers > 1) {
+        let height = scoreboardRef?.current?.clientHeight || window.innerHeight;
+        if (height > (window.innerHeight / 2)) {
             layoutHeight = '50%';
             layoutFlex = '0';
         } else {
@@ -98,16 +98,10 @@ function Scoreboard(props) {
 
     return (
         // <Accordion defaultIndex={[0, 1]} allowMultiple w="100%">
-        <VStack spacing="0" w="100%" height={layoutHeight} flex={layoutFlex} ref={scoreboardRef}>
+        <VStack spacing="0" w="100%" height={layoutHeight} flex={layoutFlex} ref={scoreboardRef} overflow="hidden">
             <ScoreboardTimer isBottomLayout={props.layoutMode == 'bottom'} />
-            <HStack px="0.25rem" spacing="1rem" bgColor="gray.1000" w="100%" height={scoreboardExpanded ? "3rem" : '0'} overflow="hidden" justifyContent={'center'} alignItems='center'>
-                <Text as="h5" fontWeight={'bold'} color={'white'} p="0" m="0" lineHeight="1.2rem" height="1.2rem" overflow="hidden">{gamepanel.room.name || gamepanel.room.game_slug}</Text>
-                <Text as="h5" fontWeight={'bold'} color={'gray.150'} fontSize={'2xs'} textTransform={'uppercase'}>{mode}</Text>
-            </HStack>
+
             <ScoreboardBody expanded={scoreboardExpanded} id={primaryGamePanelId} />
-            <Box w="100%">
-                <Highscores />
-            </Box>
         </VStack>
     )
 }
@@ -124,7 +118,7 @@ function ScoreboardTimer(props) {
 
     return (
         <VStack
-            bgColor="gray.900"
+            bgColor="gray.800"
             width={props.isBottomLayout ? '100%' : ['24.0rem', '24rem', '28.0rem']}
             height={['4rem']}
             spacing="0"
@@ -154,7 +148,7 @@ function ScoreboardPlayerStatsMulti(props) {
     let ratingImageFile = ratingTxt.replace(/ /ig, '');
 
     return (
-        <HStack bgColor="gray.1000" width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={props.isNext ? 'bold' : ''}
+        <HStack width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={props.isNext ? 'bold' : ''}
             borderRight={'0.5rem solid ' + props?.team?.color}
             borderLeft={'0.5rem solid'}
             borderLeftColor={props.isNext ? 'gray.100' : 'transparent'}>
@@ -180,7 +174,7 @@ function ScoreboardPlayerStatsSolo(props) {
     // }
 
     return (
-        <HStack bgColor="gray.1000" width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={props.isNext ? 'bold' : ''}
+        <HStack width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={props.isNext ? 'bold' : ''}
             borderRight={'0.5rem solid ' + props?.team?.color}
             borderLeft={'0.5rem solid'}
             borderLeftColor={props.isNext ? 'gray.100' : 'transparent'}>
@@ -196,6 +190,7 @@ function ScoreboardPlayerStatsSolo(props) {
 function ScoreboardBody(props) {
     const scrollRef = useRef();
     let [gamepanel] = fs.useWatch('gamepanel/' + props.id);
+    let [scoreboardExpanded] = fs.useWatch('scoreboardExpanded');
     if (!gamepanel)
         return <></>
 
@@ -270,16 +265,16 @@ function ScoreboardBody(props) {
                 borderLeft={'0.5rem solid'}
                 borderLeftColor={isTeamNext ? 'gray.500' : 'transparent'}
             ></Box>)
-            teamElems.push(<Box w="100%" bgColor="gray.900" key={'teamspacer2-' + team.name} pb="0.5rem"></Box>)
+            // teamElems.push(<Box w="100%" bgColor="gray.900" key={'teamspacer2-' + team.name} pb="0.5rem"></Box>)
         }
 
         teamElems.pop();
     } else {
         teamElems.push(
             <HStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} key={'playerheader'}>
-                <Text as="span" w='4rem' align="center" fontSize="3xs" color="gray.500">#</Text>
-                <Text as="span" w='13rem' align="left" fontSize="3xs" color="gray.500">Name</Text>
-                <Text as="span" w='6rem' align="center" fontSize="3xs" color="gray.500">Score</Text>
+                <Text as="span" w='4rem' align="center" fontSize="xxs" color="gray.300">#</Text>
+                <Text as="span" w='13rem' align="left" fontSize="xxs" color="gray.300">Name</Text>
+                <Text as="span" w='6rem' align="center" fontSize="xxs" color="gray.300">Score</Text>
             </HStack>
         );
 
@@ -307,6 +302,7 @@ function ScoreboardBody(props) {
     }
     const ChakraSimpleBar = chakra(SimpleBar)
 
+    let mode = Number.isInteger(gamepanel.room.mode) ? getGameModeName(gamepanel.room.mode) : gamepanel.room.mode;
 
     return (
         <VStack w="100%" spacing="0" justifyContent={'center'} alignItems="center" height={props.expanded ? "" : '0'} boxSizing='border-box' overflow='hidden'>
@@ -323,16 +319,29 @@ function ScoreboardBody(props) {
                     // bgColor="gray.700"
                     // borderRadius="2rem"
                     height="100%"
-
+                    p="1rem"
                     width="100%"
-                    spacing={'0'}
+                    spacing={'1rem'}
 
                     justifyContent={'flex-end'} >
 
 
-                    {teamElems}
+                    <VStack py="1rem" pb="2rem" bgColor="gray.1000" borderRadius={"2rem"} spacing="0" w="100%">
+                        <HStack px="0.25rem" spacing="1rem" w="100%" height={scoreboardExpanded ? "3rem" : '0'} overflow="hidden" justifyContent={'center'} alignItems='center'>
+                            <Text as="h5" fontWeight={'bold'} color={'white'} fontSize="xs" p="0" m="0" lineHeight="1.2rem" height="1.2rem" overflow="hidden">{gamepanel.room.name || gamepanel.room.game_slug}</Text>
+                            <Text as="h5" fontWeight={'bold'} color={'gray.150'} fontSize={'2xs'} textTransform={'uppercase'}>{mode}</Text>
+                        </HStack>
+
+                        {teamElems}
+                    </VStack>
+
+                    <Box w="100%" py="1rem" pb="2rem" bgColor="gray.1000" borderRadius={"2rem"}>
+                        <Highscores />
+                    </Box>
                 </VStack>
             </ChakraSimpleBar>
+
+
         </VStack>
     )
 }
