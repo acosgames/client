@@ -13,41 +13,47 @@ export function addChatMessage(msg) {
     if (!msg.payload)
         return null;
 
-    let chatMessages = fs.get('chat');
+    let channel = 'chat';
+    let chatMessages = [];
+
     if (Array.isArray(msg.payload)) {
 
-        let startOfNewMesssages = 0;
-        let lastMessage = chatMessages[chatMessages.length - 1];
-        if (lastMessage) {
-            for (let i = 0; i < msg.payload.length; i++) {
-                if (lastMessage.displayname != msg.payload[i].displayname && lastMessage.timestamp != msg.payload[i].timestamp) {
-                    startOfNewMesssages = i;
-                    break;
-                }
+        for (var i = 0; i < msg.payload.length; i++) {
+            let payload = msg.payload[i];
+            if (payload.room_slug) {
+                channel = 'chat/' + payload.room_slug;
+            } else {
+                channel = 'chat';
             }
+
+            chatMessages = getChatMessages(channel);
+            chatMessages.push(payload);
+            saveChatMessages(channel, chatMessages);
         }
 
-
-        chatMessages = chatMessages.concat(msg.payload.slice(startOfNewMesssages, msg.payload.length));
+        if (msg.payload.length > 0)
+            fs.set('chatUpdated', Date.now());
 
     } else {
+        if (msg.payload.room_slug) {
+            channel = 'chat/' + msg.payload.room_slug;
+        }
+
+        chatMessages = getChatMessages(channel);
         chatMessages.push(msg.payload);
+        saveChatMessages(channel, chatMessages);
     }
 
-    let count = chatMessages.length;
-    if (count > 100) {
-        chatMessages = chatMessages.slice(count - 100, count);
-    }
 
-    fs.set('chat', chatMessages);
-    localStorage.setItem('chat', JSON.stringify(chatMessages));
+
 
     // localStorage.removeItem(key)
 }
 
-export function clearChatMessages() {
-    localStorage.removeItem('chat');
-    fs.set('chat', []);
+export function clearChatMessages(channel) {
+    channel = channel || 'chat';
+    localStorage.removeItem(channel);
+    fs.set(channel, []);
 }
 
 export function filterChatMessages(chatMessages, chatMode) {
@@ -79,16 +85,32 @@ export function filterChatMessages(chatMessages, chatMode) {
     }
     return chatMessages;
 }
-export function getChatMessages(chatMode) {
 
-    let chatMessages = fs.get('chat');
+export function saveChatMessages(channel, chatMessages) {
+
+    let count = chatMessages.length;
+    if (count > 100) {
+        chatMessages = chatMessages.slice(count - 100, count);
+    }
+
+    fs.set(channel, chatMessages);
+    localStorage.setItem(channel, JSON.stringify(chatMessages));
+    fs.set('chatUpdated', Date.now());
+}
+export function getChatMessages(channel) {
+
+    // let channel = 'chat';
+    // if (chatMode != 'all') {
+    //     channel = 'chat/' + chatMode;
+    // }
+    let chatMessages = fs.get(channel);
     if (!chatMessages) {
-        chatMessages = JSON.parse(localStorage.getItem('chat'));
+        chatMessages = JSON.parse(localStorage.getItem(channel));
         if (!chatMessages)
             chatMessages = [];
     }
 
-    chatMessages = filterChatMessages(chatMessages, chatMode);
+    // chatMessages = filterChatMessages(chatMessages, chatMode);
 
     return chatMessages;
 }

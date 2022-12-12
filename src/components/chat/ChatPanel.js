@@ -12,6 +12,7 @@ import { Link, useLocation } from 'react-router-dom';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import Scoreboard from './Scoreboard.js';
+import { getPrimaryGamePanel } from '../../actions/room.js';
 
 
 fs.set('chat', []);
@@ -33,6 +34,12 @@ function ChatPanel(props) {
 
     let isBottomLayout = layoutMode == 'bottom';
 
+    let gamepanel = getPrimaryGamePanel();
+    let isSolo = false;
+    if (gamepanel?.room) {
+        if (gamepanel.room.maxplayers == 1)
+            isSolo = true;
+    }
 
     return (
         <Box
@@ -61,7 +68,7 @@ function ChatPanel(props) {
 function ChatView(props) {
     let [chatExpanded] = fs.useWatch('chatExpanded');
     let [scoreboardExpanded] = fs.useWatch('scoreboardExpanded');
-
+    let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
     let chatViewRef = useRef();
 
     let simplebarRef = null;
@@ -75,6 +82,7 @@ function ChatView(props) {
 
     let [layoutRightMode] = fs.useWatch('layoutRightMode');
     let [scoreboardRef] = fs.useWatch('scoreboardRef');
+    let [chatMode] = fs.useWatch('chatMode');
 
     useEffect(() => {
         setTimeout(() => {
@@ -139,10 +147,18 @@ function ChatView(props) {
     }, [])
 
 
+    if (typeof primaryGamePanelId !== 'undefined' && primaryGamePanelId != null) {
+        let gamepanel = getPrimaryGamePanel();
+        if (gamepanel?.room?.maxplayers == 1) {
+            return <></>
+        }
+    }
+
+
     return (
         <VStack ref={chatViewRef} spacing="0" w="100%" height="auto" overflow="hidden" flex={chatExpanded ? "1" : ''}>
             <ChatHeader height={['3rem', '4rem', '5rem']} toggle={props.toggle} isBottomLayout={props.layoutMode == 'bottom'} />
-            <ChatMessages expanded={chatExpanded} toggle={props.toggle} isBottomLayout={props.layoutMode == 'bottom'} />
+            <ChatMessages chatMode={chatMode} expanded={chatExpanded} toggle={props.toggle} isBottomLayout={props.layoutMode == 'bottom'} />
             <Box
                 width="100%"
                 height={chatExpanded ? ["3.5rem", "3.5rem", "4.5rem"] : '0'}
@@ -165,8 +181,14 @@ function ChatHeader(props) {
     }
 
     let title = "Lobby Chat";
-    if (typeof primaryGamePanelId !== 'undefined' && primaryGamePanelId != null)
+    if (typeof primaryGamePanelId !== 'undefined' && primaryGamePanelId != null) {
+
         title = "Room Chat"
+    }
+    // useEffect(() => {
+    //     let gamepanel = getPrimaryGamePanel();
+    //     onChangeMode(gamepanel.room.room_slug);
+    // }, []);
 
     return (
         <HStack
@@ -180,8 +202,7 @@ function ChatHeader(props) {
             onClick={() => {
             }}
         >
-            <Text cursor='pointer' as={'span'} fontSize={mode == 'all' ? 'sm' : 'sm'} fontWeight="bold" color={mode == 'all' ? 'white' : 'gray.500'} onClick={() => {
-                onChangeMode('all')
+            <Text cursor='pointer' as={'span'} fontSize={'sm'} fontWeight="bold" color={'white'} onClick={() => {
                 let chatExpanded = fs.get('chatExpanded');
                 fs.set('chatExpanded', !chatExpanded);
             }}>
@@ -193,14 +214,21 @@ function ChatHeader(props) {
 
 function ChatMessages(props) {
 
-    let [chat] = fs.useWatch('chat');
-    let [chatMode] = fs.useWatch('chatMode');
+    let chatMode = props.chatMode;
+    let channel = 'chat';
+    if (chatMode != 'all') {
+        channel = 'chat/' + chatMode;
+    }
+    // let [chat] = fs.useWatch(channel);
+    let [chatUpdated] = fs.useWatch('chatUpdated');
+
+
 
     const messageListRef = useRef();
 
     const renderChatMessages = () => {
         let rows = [];
-        let messages = getChatMessages(chatMode);
+        let messages = getChatMessages(channel);
         for (let msg of messages) {
             if (!msg || Array.isArray(msg))
                 continue;
@@ -212,17 +240,19 @@ function ChatMessages(props) {
     //scroll to bottom of chat
     useEffect(() => {
         if (props.toggle)
-            setTimeout(() => {
-                // messageListRef.current.scrollIntoView({ behavior: "smooth", block: 'nearest', inline: 'start' });
-                if (scrollRef && scrollRef.current)
-                    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-            }, 100)
+            // setTimeout(() => {
+            // messageListRef.current.scrollIntoView({ behavior: "smooth", block: 'nearest', inline: 'start' });
+
+            if (scrollRef && scrollRef.current)
+                scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight)
+        // scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        // }, 100)
     })
 
     //update chatMode for when user changes pages
-    useEffect(() => {
-        fs.set('chatMode', fs.get('chatMode'));
-    }, [])
+    // useEffect(() => {
+    //     fs.set('chatMode', fs.get('chatMode'));
+    // }, [])
 
     let timeHandle = 0;
     const scrollBarHideDelay = 2000;
@@ -293,7 +323,7 @@ function ChatMessage(props) {
     return (
         <Box
             bgColor="gray.700"
-            borderRadius="0.4rem"
+            borderRadius="2rem"
             p={["0.2rem", "0.2rem", "0.5rem"]}
             my="0.0rem"
 

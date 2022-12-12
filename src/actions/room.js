@@ -1,5 +1,6 @@
 import fs from 'flatstore';
 import { getWithExpiry, removeWithExpiry, setWithExpiry } from './cache';
+import { clearChatMessages } from './chat';
 import { updateBrowserTitle } from './connection';
 
 
@@ -84,10 +85,13 @@ export function setPrimaryGamePanel(gamepanel) {
 
     if (!gamepanel) {
         fs.set('primaryGamePanel', null);
+        fs.set('chatMode', 'all');
     }
     else {
 
         fs.set('primaryGamePanel', gamepanel.id);
+
+        fs.set('chatMode', gamepanel.room.room_slug);
 
         //let primaryCanvasRef = fs.get('primaryCanvasRef');
         //gamepanel.canvasRef = primaryCanvasRef;
@@ -244,7 +248,7 @@ export function addRooms(roomList) {
         let gamepanel = findGamePanelByRoom(r.room_slug || r.room.room_slug)
         if (!gamepanel) {
             gamepanel = reserveGamePanel();
-
+            fs.set('showLoadingBox', true);
         }
         gamepanel.room = r;
 
@@ -263,7 +267,7 @@ export function addRooms(roomList) {
 
         gamepanel.gamestate = gamestate;
         updateGamePanel(gamepanel);
-        fs.set('showLoadingBox', true);
+
         if (!foundFirst) {
             foundFirst = true;
             setPrimaryGamePanel(gamepanel);
@@ -356,6 +360,8 @@ export function clearRoom(room_slug) {
     delete rooms[room_slug];
     fs.set('rooms', rooms);
     setWithExpiry('rooms', JSON.stringify(rooms), 120);
+
+    clearChatMessages(room_slug);
 }
 
 

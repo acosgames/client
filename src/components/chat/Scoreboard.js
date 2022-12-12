@@ -8,6 +8,7 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import ratingtext from 'shared/util/ratingtext';
 import config from '../../config'
+import Highscores from './Highscores';
 
 
 const ModeFromID = [
@@ -104,6 +105,9 @@ function Scoreboard(props) {
                 <Text as="h5" fontWeight={'bold'} color={'gray.150'} fontSize={'2xs'} textTransform={'uppercase'}>{mode}</Text>
             </HStack>
             <ScoreboardBody expanded={scoreboardExpanded} id={primaryGamePanelId} />
+            <Box w="100%">
+                <Highscores />
+            </Box>
         </VStack>
     )
 }
@@ -138,7 +142,7 @@ function ScoreboardTimer(props) {
     )
 }
 
-function ScoreboardPlayerStats(props) {
+function ScoreboardPlayerStatsMulti(props) {
     let player = props.player;
     let rank = player.rank + "";
     // if (rank.length < 2) {
@@ -164,6 +168,26 @@ function ScoreboardPlayerStats(props) {
             </HStack>
             <Text w={props.team ? '13rem' : '13rem'} align="left" fontSize="xxs" color={player.ingame === false ? 'gray.175' : "white"}>{player.name}</Text>
             <Text w='6rem' align="center" fontSize="xxs" color={player.ingame === false ? 'gray.175' : "gray.100"}>{player.score}</Text>
+        </HStack>
+    )
+}
+
+function ScoreboardPlayerStatsSolo(props) {
+    let player = props.player;
+    let rank = player.rank + "";
+    // if (rank.length < 2) {
+    //     rank = "0" + rank;
+    // }
+
+    return (
+        <HStack bgColor="gray.1000" width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={props.isNext ? 'bold' : ''}
+            borderRight={'0.5rem solid ' + props?.team?.color}
+            borderLeft={'0.5rem solid'}
+            borderLeftColor={props.isNext ? 'gray.100' : 'transparent'}>
+            {/* <Text w='3rem' align="center" fontSize="xxs" color="gray.100"></Text> */}
+            <HStack width="3rem" justifyContent={'center'} alignItems={'center'}></HStack>
+            <Text w={props.team ? '13rem' : '13rem'} align="left" fontSize="sm" color={player.ingame === false ? 'gray.175' : "white"}>{player.name}</Text>
+            <Text w='6rem' align="center" fontSize="sm" color={player.ingame === false ? 'gray.175' : "gray.100"}>{player.score}</Text>
         </HStack>
     )
 }
@@ -239,7 +263,8 @@ function ScoreboardBody(props) {
                 // let player = team.players[id];
                 let isNext = isUserNext(gamepanel, player.id);
 
-                teamElems.push(<ScoreboardPlayerStats isNext={isNext} player={player} key={"player-" + player.name} team={team} />);
+
+                teamElems.push(<ScoreboardPlayerStatsMulti isNext={isNext} player={player} key={"player-" + player.name} team={team} />);
             }
             teamElems.push(<Box w="100%" bgColor="gray.1000" key={'teamspacer-' + team.name} pb="1rem" borderRight={'0.5rem solid ' + team.color}
                 borderLeft={'0.5rem solid'}
@@ -273,7 +298,10 @@ function ScoreboardBody(props) {
 
         for (const player of playersSorted) {
             let isNext = isUserNext(gamepanel, player.id);
-            teamElems.push(<ScoreboardPlayerStats isNext={isNext} player={player} key={"player-" + player.name} />);
+            if (gamepanel.room.maxplayers > 1)
+                teamElems.push(<ScoreboardPlayerStatsMulti isNext={isNext} player={player} key={"player-" + player.name} />);
+            else
+                teamElems.push(<ScoreboardPlayerStatsSolo isNext={isNext} player={player} key={"player-" + player.name} />);
         }
 
     }
