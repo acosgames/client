@@ -1,9 +1,5 @@
 import React, { Component, useEffect, useState } from "react";
 
-import {
-    Link,
-    withRouter,
-} from "react-router-dom";
 
 import fs from 'flatstore';
 import { wsLeaveGame, wsJoinRankedGame, wsJoinBetaGame } from "../../actions/connection";
@@ -92,4 +88,4 @@ function LeaveGame(props) {
 
 }
 
-export default withRouter(fs.connect(['room_slug', 'events'])(LeaveGame));
+export default (fs.connect(['room_slug', 'events'])(LeaveGame));

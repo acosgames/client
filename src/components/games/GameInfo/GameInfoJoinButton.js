@@ -2,7 +2,6 @@ import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, Menu
 import { FaCaretDown, FaPlay, AiTwotoneExperiment, GiSpectacles } from '@react-icons';
 
 import fs from 'flatstore';
-import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { getUser, login } from '../../../actions/person';
@@ -17,7 +16,6 @@ fs.set('isCreateDisplayName', false);
 
 function GameInfoJoinButton(props) {
 
-    const history = useHistory();
 
 
     const handleJoin = async () => {

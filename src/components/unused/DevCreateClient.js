@@ -1,8 +1,5 @@
 import { Component, Fragment } from "react";
 
-import {
-    withRouter,
-} from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
 
 import { updateClientField, createClient } from '../../actions/devgame';
@@ -133,4 +130,4 @@ class DevCreateClient extends Component {
     }
 }
 
-export default withRouter(fs.connect(['devclient', 'devclienterror', 'showCreateClient'])(DevCreateClient));
+export default (fs.connect(['devclient', 'devclienterror', 'showCreateClient'])(DevCreateClient));

@@ -1,8 +1,6 @@
 import { Component, Fragment, useEffect, useRef, useState } from "react";
 
-import {
-    withRouter,
-} from "react-router-dom";
+
 import DevManageGameFields from "./DevManageGameFields";
 // import DevClientBundle from "./DevClientBundle";
 // import DevCreateServer from './DevCreateServer';
@@ -15,12 +13,15 @@ import fs from 'flatstore';
 
 
 import { VStack } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 
 function DevManageGame(props) {
 
+    let params = useParams();
+
     useEffect(() => {
         clearGameFields();
-        let gameid = props.match.params.gameid;
+        let gameid = params.gameid;
         findGame(gameid);
 
 
@@ -45,4 +46,4 @@ function DevManageGame(props) {
     )
 }
 
-export default fs.connect(['loaded/devgame'])(withRouter(DevManageGame));
+export default fs.connect(['loaded/devgame'])((DevManageGame));

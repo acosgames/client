@@ -2,7 +2,7 @@ import { Component } from "react";
 
 import {
     Link,
-    withRouter,
+
 } from "react-router-dom";
 import { Redirect } from 'react-router';
 
@@ -181,4 +181,4 @@ class GameList extends Component {
     }
 }
 
-export default withRouter(fs.connect(['gameLists'])(GameList));
+export default (fs.connect(['gameLists'])(GameList));

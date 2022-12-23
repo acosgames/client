@@ -1,6 +1,5 @@
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, Text, useToast, VStack } from "@chakra-ui/react";
 import { useRef, useState } from "react";
-import { withRouter } from "react-router-dom";
 import { deleteGame } from "../../actions/devgame";
 
 
@@ -78,4 +77,4 @@ function DevManageGameDelete(props) {
     )
 }
 
-export default withRouter(DevManageGameDelete);
+export default (DevManageGameDelete);

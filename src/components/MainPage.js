@@ -1,8 +1,6 @@
 import { Component } from "react";
 
-import {
-    withRouter,
-} from "react-router-dom";
+
 import GameList from "./games/GameList";
 
 
@@ -28,5 +26,5 @@ class MainPage extends Component {
     }
 }
 
-export default withRouter(MainPage);
+export default (MainPage);
 

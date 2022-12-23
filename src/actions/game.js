@@ -9,7 +9,10 @@ import fs from 'flatstore';
 import { getUser } from './person';
 import { wsJoinRankedGame, wsJoinBetaGame } from './connection';
 import { addRoom } from './room';
-import { decode } from 'shared/util/encoder';
+// import { decode } from 'shared/util/encoder';
+import ACOSEncoder from 'shared/util/encoder';
+// const encode = ACOSEncoder.encode;
+const decode = ACOSEncoder.decode;
 
 fs.set('rankList', []);
 fs.set('experimentalList', []);

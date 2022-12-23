@@ -1,4 +1,4 @@
-import { HStack, Text, Tooltip } from '@chakra-ui/react';
+import { Box, HStack, Text, Tooltip } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { getGamePanel, getPrimaryGamePanel, isUserNext } from '../../../actions/room';
 
@@ -55,19 +55,33 @@ function TimeleftDisplay(props) {
     let isNext = isUserNext(gamepanel);
 
     return (
-        <>
+        <HStack width="100%" align="center"
+            alignContent='center'
+            justifyContent={'center'}
+            alignItems='center'
+            className="timeleft-wrapper"
+        >
             <HStack
                 className="timeleft-wrapper"
                 // width="100%" 
                 height={'3rem'}
-                maxWidth="100%"
                 alignContent='center'
+                justifyContent={'center'}
+                alignItems='center'
                 px="2rem"
                 cursor="pointer"
                 //bgColor={isNext ? 'gray.700' : ""}
                 borderRadius="2rem"
+                // bgColor="gray.700"
+                border="2px solid"
+                bgColor="gray.1200"
+                borderColor={isNext ? 'brand.1000' : 'yellow.800'}//"gray.175"
+                width="20rem"
                 spacing="0"
                 fontSize='xl'
+                fontWeight="light"
+                color={greaterThan10 ? 'white' : 'red.500'}
+
                 onClick={() => {
                     let scoreboardExpanded = fs.get('scoreboardExpanded');
                     fs.set('scoreboardExpanded', !scoreboardExpanded);
@@ -79,11 +93,8 @@ function TimeleftDisplay(props) {
                 <HStack spacing="0" display={hour > 0 ? 'flex' : 'none'}>
                     <Text
                         as="span"
-                        //animation={greaterThan10 ? '' : 'timerblink 1s infinite'}
-                        color={greaterThan10 ? 'yellow.100' : 'red.500'}
-                        fontWeight="bold"
+
                         className="digitaltimer"
-                    // fontVariantNumeric="tabular-nums"
                     >
                         {(hour < 10) ? ("0" + hour) : hour}
                     </Text>
@@ -92,26 +103,17 @@ function TimeleftDisplay(props) {
                 <HStack spacing="0" display={min > 0 ? 'flex' : 'none'} >
                     <Text
                         as="span"
-                        //animation={greaterThan10 ? '' : 'timerblink 1s infinite'}
-                        color={greaterThan10 ? 'yellow.100' : 'red.500'}
-                        fontWeight="bold"
                         className="digitaltimer"
-                    // fontVariantNumeric="tabular-nums"
                     >
                         {(min < 10) ? ("0" + min) : min}
                     </Text>
-                    <Text as="span" px="0.1rem"
+                    <Text as="span" px="0.1rem" color="white"
                     >:</Text>
                 </HStack>
                 <HStack spacing="0">
                     <Text
                         as="span"
-                        //animation={greaterThan10 ? '' : 'timerblink 1s infinite'}
-                        color={greaterThan10 ? 'yellow.100' : 'red.500'}
-                        fontWeight="bold"
-
                         className="digitaltimer"
-                    // fontVariantNumeric="tabular-nums"
                     >
                         {(min > 0 && sec < 10) ? ("0" + sec) : sec}
 
@@ -124,8 +126,6 @@ function TimeleftDisplay(props) {
                     <Text
                         as="span"
                         // animation={greaterThan10 ? '' : 'timerblink 1s infinite'}
-                        color={greaterThan10 ? 'yellow.100' : 'red.500'}
-                        fontWeight="bold"
                         className="digitaltimer"
                     // fontVariantNumeric="tabular-nums"
                     >
@@ -135,12 +135,14 @@ function TimeleftDisplay(props) {
                 </HStack>
 
             </HStack>
-            <Text as="span" px="0.5rem" height="2rem" lineHeight={'2rem'} display="block" position="absolute" top="1rem" right="0" fontWeight={'bold'}
-                bgColor={isNext ? 'brand.900' : 'yellow.500'}
-                textShadow="1px 1px 6px #888">
+            <Text as="span" px="0.5rem" fontSize="sm" height="4rem" lineHeight={'4rem'} display="block" position="absolute" top="0" right="0" fontWeight={'bold'}
+                //bgColor={isNext ? 'brand.900' : 'yellow.500'}
+                textShadow="1px 1px 8px #044588"
+                color={isNext ? 'brand.900' : 'yellow.500'}
+            >
                 {isNext ? 'GO' : 'WAIT'}
             </Text>
-        </>
+        </HStack>
     )
 }
 

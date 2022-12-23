@@ -1,7 +1,11 @@
 import {
     Route,
-    useHistory,
-    Switch
+    // useHistory,
+    // Switch,
+    Routes,
+    useLocation,
+    useNavigate,
+    useParams
 } from "react-router-dom";
 
 
@@ -16,9 +20,10 @@ import GameInfo2 from "../components/games/GameInfo/GameInfoDesktop";
 
 var RoutesGame = () => {
 
-    const history = useHistory();
+    const history = useNavigate();
+    const location = useLocation();
 
-    const refPath = history.location.pathname;
+    const refPath = location.pathname;
     if (refPath.indexOf("/login") == -1) {
         let curPath = localStorage.getItem("refPath");
         console.log("current", curPath);
@@ -38,27 +43,26 @@ var RoutesGame = () => {
 
 
     return (
+        // <Route path="/g/*" >
+
         <>
-            <Switch>
-
-
-                <Route
-                    exact
-                    path="/g/:game_slug"
-                    component={GameInfo2}
-                />
-                <Route
-                    exact
-                    path="/g/:game_slug/:room_slug"
-                    component={GameInfo2}
-                />
-                <Route
-                    exact
-                    path="/g/:game_slug/:mode/:room_slug"
-                    component={GameInfo2}
-                />
-            </Switch>
+            <Route
+                exact
+                path="/g/:game_slug"
+                element={<GameInfo2 />}
+            ></Route>
+            <Route
+                exact
+                path="/g/:game_slug/:room_slug"
+                element={<GameInfo2 />}
+            ></Route>
+            <Route
+                exact
+                path="/g/:game_slug/:mode/:room_slug"
+                element={<GameInfo2 />}
+            ></Route>
         </>
+        // </Route>
     )
 }
 

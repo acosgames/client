@@ -2,59 +2,50 @@ import { Component } from "react";
 
 import {
     Route,
-    Redirect,
-    withRouter,
+    Navigate,
+    Outlet,
+    useLocation,
 } from "react-router-dom";
 import fs from 'flatstore';
 import SocialLogin from "./SocialLogin";
 
-class ProtectedRoute extends Component {
-    constructor(props) {
-        super(props);
+function ProtectedRoute(props) {
 
-        this.state = {
-        }
+    let [user] = fs.useWatch('user');
+    let location = useLocation();
+    let needsPlayerName = (
+        user &&
+        !user.ecode &&
+        !user.displayname &&
+        location.pathname.indexOf("/player/create") == -1
+    )
+
+    let loggedIn = fs.get('loggedIn');
+    if (typeof loggedIn === 'undefined') {
+        return <></>
     }
 
-    render() {
+    if ((loggedIn == 'LURKER'))
+        return <Navigate to={props.redirectTo || "/login"}></Navigate>
 
-        // if (!this.props.user && this.props.location.pathname.indexOf("/login") == -1) {
-        //     return <Redirect to="/login"></Redirect>
-        // }
+    let validated = props.verify && props.verify(user);
 
-        let needsPlayerName = (
-            this.props.user &&
-            !this.props.user.ecode &&
-            !this.props.user.displayname &&
-            this.props.location.pathname.indexOf("/player/create") == -1
-        )
-
-        let loggedIn = fs.get('loggedIn');
-        if (typeof loggedIn === 'undefined') {
-            return <></>
-        }
-
-        if ((loggedIn == 'LURKER'))
-            return <Redirect to={this.props.redirectTo || "/login"}></Redirect>
-
-        let validated = this.props.verify && this.props.verify(this.props.user);
-
-        if (this.props.user && !validated && this.props.location.pathname.indexOf(this.props.redirectTo || "/login") != 0) {
-            return <Redirect to={this.props.redirectTo || "/login"}></Redirect>
-        }
-
-        if (needsPlayerName) {
-            return <Redirect to="/player/create"></Redirect>
-        }
-
-        let Child = this.props.component;
-        return (
-            <Route exact={this.props.exact} path={this.props.path}>
-                <Child user={this.props.user}></Child>
-            </Route>
-        )
+    if (user && !validated && location.pathname.indexOf(props.redirectTo || "/login") != 0) {
+        return <Navigate to={props.redirectTo || "/login"}></Navigate>
     }
+
+    if (needsPlayerName) {
+        return <Navigate to="/player/create"></Navigate>
+    }
+
+    let Child = props.component;
+
+    return (
+        <Child user={user} />
+
+    )
+
 }
 
-export default withRouter(fs.connect(['user'])(ProtectedRoute));
+export default ProtectedRoute;
 

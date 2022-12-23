@@ -1,7 +1,9 @@
 import {
     Route,
     useHistory,
-    Switch
+    Routes,
+    useNavigate,
+    useLocation
 } from "react-router-dom";
 
 import ProtectedRoute from '../components/login/ProtectedRoute';
@@ -23,11 +25,14 @@ import Logout from "../components/login/Logout";
 import Profile from "../components/profile/Profile";
 import LoginAccountExists from "../components/login/LoginAccountExists";
 import JoinQueuePage from "../components/games/JoinQueuePage";
+import DevCreateGame from "../components/dev/DevCreateGame";
+import DevManageGame from "../components/dev/DevManageGame";
+import DevMyGames from "../components/dev/DevMyGames";
 
-var Routes = () => {
+var ACOSRoutes = () => {
 
-    const history = useHistory();
-
+    const history = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         fs.set('history', history);
@@ -35,7 +40,7 @@ var Routes = () => {
     }, [])
 
 
-    const refPath = history.location.pathname;
+    const refPath = location.pathname;
     if (refPath.indexOf("/login") == -1) {
         let curPath = localStorage.getItem("refPath");
         //console.log("current", curPath);
@@ -47,45 +52,48 @@ var Routes = () => {
 
     return (
         // <Box display="inline-block" width="100%" pl={iframe ? 0 : [3, 4, 12]} pr={iframe ? 0 : [3, 4, 12]} pt={6}>
-        <Switch>
-            <ProtectedRoute
-                exact
-                path="/player/create"
-                verify={(user) => !user.displayname}
-                component={CreateDisplayName}
-            />
+        <Routes>
+            <Route path="/player/create" element={
+                <ProtectedRoute
+                    exact
+                    path="/player/create"
+                    verify={(user) => !user.displayname}
+                    component={CreateDisplayName}
+                />
+            } />
+
             <Route
                 exact
                 path="/join/:queues"
-                component={JoinQueuePage}
+                element={<JoinQueuePage />}
             />
             <Route
                 exact
                 path="/join/:owner/:queues"
-                component={JoinQueuePage}
+                element={<JoinQueuePage />}
             />
             <Route
                 exact
                 path="/"
-                component={MainPage}
+                element={<MainPage />}
             />
             <Route
                 exact
                 path="/g"
-                component={MainPage}
+                element={<MainPage />}
             />
 
 
             <Route
                 exact
                 path="/profile"
-                component={Profile}
+                element={<Profile />}
             />
 
             <Route
 
                 path="/profile/:displayname"
-                component={Profile}
+                element={<Profile />}
             />
 
 
@@ -93,89 +101,85 @@ var Routes = () => {
             <Route
 
                 path="/login/success"
-                component={LoginSuccess}
+                element={<LoginSuccess />}
             />
 
             <Route
 
                 path="/login/accountexists"
-                component={LoginAccountExists}
+                element={<LoginAccountExists />}
             />
 
             <Route
 
                 path="/privacy"
-                component={PrivacyPolicy}
+                element={<PrivacyPolicy />}
             />
             <Route
 
                 path="/terms"
-                component={TermsAndConditions}
+                element={<TermsAndConditions />}
             />
 
             <Route
 
                 path="/login"
-                component={SocialLogin}
+                element={<SocialLogin />}
             />
             <Route
 
                 path="/logout"
-                component={Logout}
+                element={<Logout />}
             />
 
             <Route
                 exact
                 path="/dev/login"
-                component={DevLogin}
+                element={<DevLogin />}
             />
 
-            <ProtectedRoute
 
-                path="/dev*"
-                component={RoutesDev}
-                verify={
-                    (user) => {
-                        return user.isdev || user.github
-                    }}
-                redirectTo="/dev/login"
-            />
 
-            {/* <Route
-                exact
-                path="/dev/login"
-                component={DevLogin}
-            /> */}
-            {/* <ProtectedRoute
-
-                path="/dev/game/create"
+            <Route path="/dev/game/create" element={<ProtectedRoute
+                path="game/create"
                 component={DevCreateGame}
-                verify={(user) => true}
+                verify={(user) => {
+                    return (user['isdev'])
+                }}
                 redirectTo="/dev/login"
-            />
-            <ProtectedRoute
+            />}>
 
-                path="/dev/game/:gameid"
+            </Route>
+            <Route path="/dev/game/:gameid" element={<ProtectedRoute
+                path="game/:gameid"
                 component={DevManageGame}
-                verify={(user) => 'github' in user}
+                verify={(user) => {
+                    return (user['isdev'])
+                }}
                 redirectTo="/dev/login"
-            />
-            <ProtectedRoute
-                exact
-                path="/dev/:id?"
+            />}>
+
+            </Route>
+            <Route path="/dev/*" element={<ProtectedRoute
+                path="*"
                 component={DevMyGames}
-                verify={(user) => 'github' in user}
+                verify={(user) => {
+                    return (user['isdev'])
+                }}
                 redirectTo="/dev/login"
-            /> */}
+            />}>
+
+            </Route>
+
 
             <Route
                 exact
                 path="/games"
-                component={MainPage}
+                component={<MainPage />}
             />
-        </Switch>
+        </Routes>
         // </Box>
     )
 }
 
-export default Routes;
+export default ACOSRoutes;

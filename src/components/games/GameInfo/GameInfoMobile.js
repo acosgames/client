@@ -2,7 +2,6 @@ import { Component, useEffect } from "react";
 
 import {
     Link,
-    withRouter,
     useHistory
 } from "react-router-dom";
 import { Redirect } from 'react-router';
@@ -367,4 +366,4 @@ function GameInfoImage(props) {
 
 GameInfoImage = fs.connect(['queues'])(GameInfoImage);
 
-export default withRouter(fs.connect(['game', 'player_stats'])(GameInfo2));
+export default (fs.connect(['game', 'player_stats'])(GameInfo2));

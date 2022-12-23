@@ -1,8 +1,5 @@
 import { Component, useEffect, useRef, useState } from "react";
 
-import {
-    withRouter,
-} from "react-router-dom";
 
 import { createDisplayName } from '../../actions/person';
 import fs from 'flatstore';
@@ -10,6 +7,7 @@ import { Heading, VStack, Text } from "@chakra-ui/react";
 import FSGTextInput from "../widgets/inputs/FSGTextInput";
 import FSGSubmit from "../widgets/inputs/FSGSubmit";
 import FSGGroup from "../widgets/inputs/FSGGroup";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function CreateDisplayName(props) {
 
@@ -18,6 +16,7 @@ function CreateDisplayName(props) {
     const [displayName, setDisplayName] = useState(defaultDisplayname);
     const [error, setError] = useState(null);
 
+    let navigate = useNavigate();
     const inputRef = useRef();
 
 
@@ -78,10 +77,10 @@ function CreateDisplayName(props) {
         let user = fs.get('user');
 
         if (user && (user.isdev || user.github)) {
-            props.history.push('/dev');
+            navigate('/dev');
         }
         else
-            props.history.push('/g');
+            navigate('/g');
 
         // let previous = history[history.length - 2] || history[history.length - 1];
         // if (previous.pathname.indexOf('/player/create') > -1) {
@@ -134,4 +133,4 @@ function CreateDisplayName(props) {
 
 }
 
-export default withRouter(CreateDisplayName);
+export default CreateDisplayName;

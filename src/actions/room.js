@@ -60,7 +60,23 @@ export function findGamePanelByIFrame(iframeRef) {
 }
 
 export function updateGamePanel(gamepanel) {
+    console.log("Updating gamepanel/" + gamepanel.id);
     fs.set('gamepanel/' + gamepanel.id, gamepanel);
+
+    if (gamepanel.isPrimary) {
+
+
+        if (gamepanel.gamestate) {
+            fs.set('primary/state', gamepanel.gamestate.state);
+            fs.set('primary/players', gamepanel.gamestate.players);
+            fs.set('primary/teams', gamepanel.gamestate.teams);
+            fs.set('primary/next', gamepanel.gamestate.next);
+            fs.set('primary/roomstate', gamepanel.gamestate.room);
+            fs.set('primary/events', gamepanel.gamestate.events);
+            fs.set('primary/timer', gamepanel.gamestate.timer);
+            fs.set('primary/action', gamepanel.gamestate.action);
+        }
+    }
 }
 
 export function getPrimaryGamePanel() {
@@ -93,6 +109,7 @@ export function setPrimaryGamePanel(gamepanel) {
 
         fs.set('chatMode', gamepanel.room.room_slug);
 
+        fs.set('chatUpdated', Date.now());
         //let primaryCanvasRef = fs.get('primaryCanvasRef');
         //gamepanel.canvasRef = primaryCanvasRef;
         gamepanel.isPrimary = true;
@@ -175,6 +192,7 @@ export function reserveGamePanel() {
     let gp = createGamePanel();
     gp.id = gamepanels.length;
     gamepanels.push(gp);
+    console.log("reserverGamePanel updating gamepanel/" + gp.id);
     fs.set('gamepanel/' + gp.id, gp);
     fs.set('gamepanels', gamepanels);
     return gp;
@@ -250,6 +268,7 @@ export function addRooms(roomList) {
             gamepanel = reserveGamePanel();
             fs.set('showLoadingBox', true);
         }
+
         gamepanel.room = r;
 
         if (gamestate && gamestate.players) {
@@ -270,6 +289,7 @@ export function addRooms(roomList) {
 
         if (!foundFirst) {
             foundFirst = true;
+            fs.set('primary/room', gamepanel.room);
             setPrimaryGamePanel(gamepanel);
         }
     }
@@ -301,9 +321,11 @@ export function addRoom(msg) {
     gamepanel.gamestate = msg.payload;
     updateGamePanel(gamepanel);
 
-    if (!msg.room.isReplay)
+    if (!msg.room.isReplay) {
         //should we make it primary immediately? might need to change this
         setPrimaryGamePanel(gamepanel);
+        fs.set('primary/room', gamepanel.room);
+    }
 
 
     rooms[msg.room.room_slug] = msg.room;

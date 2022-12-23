@@ -1,10 +1,12 @@
 import { Box } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { getGamePanel, getGamePanels } from '../actions/room';
-import Routes from '../routes/Routes';
+import ACOSRoutes from '../routes/ACOSRoutes';
 import RoutesGame from '../routes/RoutesGame';
 import AcosFooter from './AcosFooter';
+
+import GameInfo2 from '../components/games/GameInfo/GameInfoDesktop'
 
 function AllContent(props) {
 
@@ -39,16 +41,11 @@ function AllContent(props) {
             maxW={['1200px']}
 
         >
-            <Switch>
-                <Route path="/g/*" >
-                    <RoutesGame />
-                    <AcosFooter />
-                </Route>
-                <Route path="*" >
-                    <Routes />
-                    <AcosFooter />
-                </Route>
-            </Switch>
+            <Routes>
+                <Route path="/g/:game_slug" element={<GameInfo2 />}>                </Route>
+                <Route path="*" element={<ACOSRoutes />}>                </Route>
+            </Routes>
+            <AcosFooter />
         </Box>
     )
 }

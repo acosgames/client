@@ -1,3 +1,5 @@
+// experiments.futureDefaults = true
+
 const webpack = require('webpack');
 const path = require('path');
 const CompressionPlugin = require("compression-webpack-plugin");
@@ -122,6 +124,7 @@ module.exports = {
     output: {
         path: uploadPath,
         filename: uploadFilename,
+        hashFunction: 'xxhash64',
     },
     //node: { console: false, fs: 'empty', net: 'empty', tls: 'empty' },
     module: {

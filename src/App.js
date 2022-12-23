@@ -7,15 +7,13 @@
 import React, { Component, useEffect, useRef, useState } from "react";
 import {
   BrowserRouter,
-  Switch,
+  Routes,
   Route,
   Link,
   useHistory
 } from "react-router-dom";
 
 import MainMenuChakra from './components/MainMenuChakra'
-import Routes from './routes/Routes';
-import RoutesGame from './routes/RoutesGame';
 
 
 import { getUser } from './actions/person';
@@ -35,6 +33,7 @@ import AllContent from './components/AllContent';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import GamePanelSpawner from "./components/games/GameDisplay/GamePanelSpawner";
 import GamePanelDraggables from "./components/games/GameDisplay/GamePanelDraggables";
+import RoomPanel from "./components/games/GameDisplay/room/RoomPanel";
 // import PerfectScrollbar from 'react-perfect-scrollbar'
 
 fs.delimiter('>');
@@ -51,13 +50,17 @@ function App(props) {
   const primaryCanvasRef = useRef();
 
   let [layoutMode] = fs.useWatch('layoutMode');
-
+  let [displayMode] = fs.useWatch('displayMode');
   // let [isMobile, setIsMobile] = useState(false);
 
   const onResize = () => {
-    let screenWidth = window.screen.width;
+    // let screenWidth = window.screen.width;
+    let screenWidth = window.innerWidth
+      || document.documentElement.clientWidth
+      || document.body.clientWidth;
+
     let screenHeight = window.screen.height;
-    let isMobileCheck = screenWidth < 600;
+    let isMobileCheck = screenWidth < 700;
     fs.set("isMobile", isMobileCheck);
 
     let layoutMode = fs.get('layoutMode');
@@ -94,7 +97,7 @@ function App(props) {
       <ToastMessage />
 
       <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
-        <VStack bgColor={'gray.600'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
+        <VStack bgColor={'gray.900'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
           {/* <HStack
             boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
             spacing="0"
@@ -113,38 +116,21 @@ function App(props) {
             h="100%"
           // pt="2rem"
           >
-            <Switch>
-              <Route path="/dev/login"
-                component={() => (
-                  <></>
-                )} />
+            <Routes>
+              {/* <Route path="/dev/login">
+                <></>
+              </Route> */}
               <Route
-                path="/dev*"
-                component={() => (
-                  <Sidebar />
-                )}
-              />
-            </Switch>
+                path="/dev/*" element={<Sidebar />}>
+
+              </Route>
+            </Routes>
           </Box>
         </VStack>
         <VStack className="panel-main" height="100%" width="100%" spacing="0" justifyContent={'center'} >
-          <HStack
-            boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
-            // boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
-            spacing="0"
-            w="100%"
-            h={['4rem']}
-            position={props.displayMode == 'theatre' ? 'absolute' : "relative"}
-            top={props.displayMode == 'theatre' ? '-100rem' : '0'}
-            zIndex="1000"
-            justifyContent={'center'}
-            // overflow="hidden"
-            px={['0.5rem', '1rem', '5rem']}
-            bg={'gray.600'}>
-            <MainMenuChakra />
-          </HStack>
 
-          <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef} >
+          <MainMenuChakra />
+          <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef} height="auto" flex="1">
             <GamePanelDraggables primaryCanvasRef={primaryCanvasRef} />
             <Scrollbars
               renderView={(props) => (
@@ -171,12 +157,12 @@ function App(props) {
             </Scrollbars>
           </Box>
           {layoutMode == 'bottom' && (
-            <ChatPanelWrapper />
+            <RoomPanel />
           )}
         </VStack>
         {
           layoutMode == 'right' && (
-            <ChatPanelWrapper />
+            <RoomPanel />
           )
         }
       </HStack >
@@ -187,25 +173,25 @@ function App(props) {
 
 function ChatPanelWrapper() {
 
-  return (<Switch>
+  return (<Routes>
 
     <Route
       exact
       path="/g/:game_slug"
-      component={ChatPanel}
+      element={<ChatPanel />}
     />
     <Route
       exact
       path="/g/:game_slug/:room_slug"
-      component={ChatPanel}
+      element={<ChatPanel />}
     />
     <Route
       exact
       path="/g/:game_slug/:mode/:room_slug"
-      component={ChatPanel}
+      element={<ChatPanel />}
     />
-    <Route path="*" component={ChatPanel} />
-  </Switch>)
+    <Route path="/" element={<ChatPanel />} />
+  </Routes>)
 }
 
-export default fs.connect(['displayMode'])(App);
+export default App;

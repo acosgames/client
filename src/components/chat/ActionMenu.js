@@ -9,7 +9,7 @@ function ActionMenu(props) {
     let [layoutMode] = fs.useWatch('layoutMode');
 
     return (
-        <Menu zIndex="1001" placement='bottom-end' modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
+        <Menu zIndex="1001" placement='bottom-end' modifiers={[{ name: 'eventListeners', options: { scroll: false } }]}>
             <VStack display="flex" justifyContent="center" height="100%" spacing="0">
                 <MenuButton
                     as={IconButton}

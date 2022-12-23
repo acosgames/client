@@ -1,7 +1,8 @@
 import {
-    Route,
-    useHistory,
-    Switch
+    // Route,
+    // useHistory,
+    Routes,
+    useNavigate
 } from "react-router-dom";
 
 import ProtectedRoute from '../components/login/ProtectedRoute';
@@ -22,43 +23,41 @@ import { useEffect } from "react";
 
 var RoutesDev = () => {
 
-    const history = useHistory();
+    const history = useNavigate();
     // useEffect(() => {
     //     fs.set('history', history);
     // })
 
     return (
         <>
-            <Switch>
 
-                <ProtectedRoute
+            <ProtectedRoute
 
-                    path="/dev/game/create"
-                    component={DevCreateGame}
-                    verify={(user) => {
-                        return (user['isdev'])
-                    }}
-                    redirectTo="/dev/login"
-                />
-                <ProtectedRoute
+                path="/dev/game/create"
+                component={DevCreateGame}
+                verify={(user) => {
+                    return (user['isdev'])
+                }}
+                redirectTo="/dev/login"
+            />
+            <ProtectedRoute
 
-                    path="/dev/game/:gameid"
-                    component={DevManageGame}
-                    verify={(user) => {
-                        return (user['isdev'])
-                    }}
-                    redirectTo="/dev/login"
-                />
-                <ProtectedRoute
-                    path="/dev*"
-                    component={DevMyGames}
-                    verify={(user) => {
-                        return (user['isdev'])
-                    }}
-                    redirectTo="/dev/login"
-                />
+                path="/dev/game/:gameid"
+                component={DevManageGame}
+                verify={(user) => {
+                    return (user['isdev'])
+                }}
+                redirectTo="/dev/login"
+            />
+            <ProtectedRoute
+                path="/dev/*"
+                component={DevMyGames}
+                verify={(user) => {
+                    return (user['isdev'])
+                }}
+                redirectTo="/dev/login"
+            />
 
-            </Switch>
         </>
     )
 }

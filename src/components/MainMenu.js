@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 
-import {
-    Link,
-    withRouter,
-} from "react-router-dom";
-import SocialLogin from "./login/SocialLogin";
+
 
 import fs from 'flatstore';
 
@@ -137,5 +133,5 @@ function ProfileMenu({ user, menuActive, onClick, urlPath }) {
     )
 }
 
-export default withRouter(fs.connect(['user'])(MainMenu));
+export default (fs.connect(['user'])(MainMenu));
 

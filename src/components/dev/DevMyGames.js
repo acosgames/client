@@ -1,8 +1,7 @@
 
 import {
     Link,
-    useHistory,
-    withRouter,
+
 } from "react-router-dom";
 import fs from 'flatstore';
 import SLink from "../widgets/SLink";
@@ -17,7 +16,6 @@ fs.set('loadingGames', true);
 function DevMyGames(props) {
 
 
-    const history = useHistory();
 
     const showInvitation = () => {
         let user = props.user;
@@ -120,5 +118,5 @@ function DevMyGames(props) {
 
 }
 
-export default withRouter(fs.connect(['devgames', 'loadingGames'])(DevMyGames));
+export default (fs.connect(['devgames', 'loadingGames'])(DevMyGames));
 

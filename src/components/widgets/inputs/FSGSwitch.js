@@ -25,7 +25,7 @@ function FSGSwitch(props) {
 
     }, [])
 
-    let value = (props.group && props[props.group]) || props.checked;
+    let value = (props.group && props[props.group]) || props.value;
 
     return (
         <FormControl as='fieldset' mb="0">
@@ -86,7 +86,7 @@ let onCustomWatched = ownProps => {
 let onCustomProps = (key, value, store, ownProps) => {
     // if (key == (ownProps.group + '>' + ownProps.name))
     //     return { [key]: value }
-    return { [ownProps.id]: value };
+    return { 'value': value };
 };
 
 export default fs.connect([], onCustomWatched, onCustomProps)(FSGSwitch);

@@ -1,24 +1,18 @@
 import { Component, useEffect } from "react";
 
 import {
-    Link,
-    withRouter,
-    useHistory
+    Link, useParams,
 } from "react-router-dom";
-import { Redirect } from 'react-router';
 
 import config from '../../../config'
 
 import fs from 'flatstore';
-import { getUser } from '../../../actions/person';
+import { getUser, loadUserGameData } from '../../../actions/person';
 import { findGame, findGamePerson } from "../../../actions/game";
-import { getRoomStatus, setCurrentRoom } from '../../../actions/room';
 
 
 import { VStack, Image, Text, Heading, Center, Box, Flex, IconButton, useDisclosure, Portal, Tooltip, Button, Icon, Wrap, HStack, Grid } from "@chakra-ui/react";
 import { GiCheckMark } from '@react-icons';
-import FSGGroup from "../../widgets/inputs/FSGGroup";
-import FSGRead from "../../widgets/inputs/FSGRead";
 // import FSGTextInput from "../widgets/inputs/FSGTextInput";
 
 import GameInfoActions from './GameInfoActions'
@@ -26,26 +20,28 @@ import GameInfoJoinButton from './GameInfoJoinButton'
 
 import { findQueue } from "../../../actions/queue";
 import GameInfoLeaderboard from "./GameInfoLeaderboard";
-import GameInfoReplay from "./GameInfoReplay";
 import GameInfoDescription from "./GameInfoDescription";
 import GameInfoBuild from "./GameInfoBuild";
 import PlayerRankInfo from "./PlayerRankInfo";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
-    const game_slug = props.match.params.game_slug;
-    const room_slug = props.match.params.room_slug;
-    const mode = props.match.params.mode || 'rank';
+
+    let [game] = fs.useWatch('game');
+    let [player_stats] = fs.useWatch('player_stats');
+
+    let { game_slug, room_slug, mode } = useParams();
+
+    mode = mode || 'rank';
     // let roomStatus = getRoomStatus(room_slug);
 
-    const history = useHistory();
 
-    useEffect(async () => {
+    useEffect(() => {
         gtag('event', 'gameinfo', { game_slug });
 
     }, [])
 
-    useEffect(async () => {
+    useEffect(() => {
         let test = 1;
 
         // setCurrentRoom('room_slug');
@@ -65,43 +61,16 @@ function GameInfo2(props) {
 
         // fs.set('iframeLoaded', false);
         // fs.set('gamepanel', null);
-        let player_stats = fs.get('player_stats');
-        let player_stat = player_stats[game_slug];
 
-        try {
-            let curgame = fs.get('game');
-            let game = null;
-            let user = await getUser();
-            if (user && user.shortid && !player_stat) {
 
-                await findGamePerson(game_slug);
-                return;
-            }
-
-            game = fs.get('games>' + game_slug);
-            if (game && game.longdesc && (!curgame || !curgame.longdesc)) {
-                fs.set('game', game);
-                return;
-            }
-
-            if (!curgame || curgame.game_slug != game_slug) {
-                await findGame(game_slug)
-                return;
-            }
-
-        }
-        catch (e) {
-
-        }
-    })
+        loadUserGameData(game_slug)
+    }, [])
 
 
 
     // let game_slug = props.match.params.game_slug;
     // let gamestate = fs.get('gamestate');
-    let player_stats = fs.get('player_stats');
     let playerStats = player_stats[game_slug] || {};
-    let game = props.game;
     if (!game || game.game_slug != game_slug) {
         //fs.set('game', null);
 
@@ -212,7 +181,10 @@ function GameInfo2(props) {
 
 function GameInfoLoading(props) {
 
-    if (props.loadingGameInfo)
+    // let [game] = fs.useWatch('game');
+    let [loadingGameInfo] = fs.useWatch('loadingGameInfo');
+
+    if (loadingGameInfo)
         return <></>
     // return (<Text fontSize="4xl" color={'#D9E63A'}>Loading</Text>)
     return (
@@ -220,10 +192,9 @@ function GameInfoLoading(props) {
     )
 }
 
-GameInfoLoading = fs.connect(['game', 'loadingGameInfo'])(GameInfoLoading);
-
 
 function GameInfoImage(props) {
+    // let [queues] = fs.useWatch('queues');
     let inQueue = findQueue(props.game_slug);
     return (
         <Box
@@ -276,6 +247,5 @@ function GameInfoImage(props) {
     )
 }
 
-GameInfoImage = fs.connect(['queues'])(GameInfoImage);
 
-export default withRouter(fs.connect(['game', 'player_stats'])(GameInfo2));
+export default GameInfo2;

@@ -1,8 +1,5 @@
 import { Component, Fragment } from "react";
 
-import {
-    withRouter,
-} from "react-router-dom";
 import DevImageUpload from "./DevImageUpload";
 
 import { updateServerField, createServer } from '../../actions/devgame';
@@ -84,4 +81,4 @@ class DevCreateServer extends Component {
     }
 }
 
-export default withRouter(fs.connect(['devserver', 'devservererror'])(DevCreateServer));
+export default (fs.connect(['devserver', 'devservererror'])(DevCreateServer));

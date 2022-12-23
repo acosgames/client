@@ -3,7 +3,6 @@ import { FaDiscord, FaDev, FaGithub, TiDocumentText } from '@react-icons';
 
 import fs from 'flatstore';
 import { useEffect } from "react";
-import { useHistory, withRouter } from "react-router-dom";
 import { getPlayer } from "../../actions/person";
 import ProfileDev from "./ProfileDev";
 import ProfileRanks from "./ProfileRanks";
@@ -65,4 +64,4 @@ function Profile(props) {
 
 }
 
-export default fs.connect(['profile'])(withRouter(Profile));
+export default fs.connect(['profile'])((Profile));

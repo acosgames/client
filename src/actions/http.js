@@ -29,7 +29,7 @@ export async function GET(url, extras) {
         let ecode = response.data.ecode;
         if (ecode == 'E_NOTAUTHORIZED' && url != '/api/v1/person' && url.indexOf('/api/v1/game/lbhs/') == -1) {
             let history = fs.get('history');
-            history.push('/login');
+            history('/login');
         }
     }
     return response;
@@ -43,7 +43,7 @@ export async function POSTFORM(url, data, extras) {
         let ecode = response.data.ecode;
         if (ecode == 'E_NOTAUTHORIZED') {
             let history = fs.get('history');
-            history.push('/login');
+            history('/login');
         }
     }
     return response;
@@ -68,7 +68,7 @@ export async function POST(url, data, extras) {
         let ecode = response.data.ecode;
         if (ecode == 'E_NOTAUTHORIZED') {
             let history = fs.get('history');
-            history.push('/login');
+            history('/login');
         }
     }
     return response;

@@ -1,8 +1,6 @@
 
 import { useEffect } from "react";
-import {
-    withRouter,
-} from "react-router-dom";
+
 import { wsJoinQueues } from "../../actions/connection";
 import { joinGame } from "../../actions/game";
 import GameList from "./GameList";
@@ -49,5 +47,5 @@ function JoinQueuePage(props) {
 
 }
 
-export default withRouter(JoinQueuePage);
+export default (JoinQueuePage);
 

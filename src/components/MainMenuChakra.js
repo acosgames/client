@@ -17,7 +17,7 @@ import SLink from './widgets/SLink';
 import fs from 'flatstore';
 import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
-import { useHistory, Link, useParams, withRouter } from 'react-router-dom';
+import { Link, useParams, } from 'react-router-dom';
 import config from '../config'
 import { findGamePanelByRoom, getPrimaryGamePanel, getRoomStatus, minimizeGamePanel } from '../actions/room';
 import { BsFillGearFill, AiFillLayout, IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
@@ -46,6 +46,7 @@ const NavLink = ({ children }) => (
 function MainMenuChakra(props) {
 
     let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
+    let [displayMode] = fs.useWatch('displayMode');
 
     const updateHistory = () => {
         let history = fs.get('pagehistory');
@@ -58,7 +59,6 @@ function MainMenuChakra(props) {
         fs.set('pagehistory', history);
     }
 
-    const history = useHistory();
     let params = useParams();
 
     const { colorMode, toggleColorMode } = useColorMode();
@@ -77,8 +77,24 @@ function MainMenuChakra(props) {
 
     const gamepanel = findGamePanelByRoom(room_slug);
     const isPrimary = getPrimaryGamePanel() != gamepanel;
+
+    if (isPrimary) {
+        return <></>
+    }
     return (
-        <>
+        <HStack
+            boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
+            // boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
+            spacing="0"
+            w="100%"
+            h={['4rem']}
+            position={displayMode == 'theatre' ? 'absolute' : "relative"}
+            top={displayMode == 'theatre' ? '-100rem' : '0'}
+            zIndex="1000"
+            justifyContent={'center'}
+            // overflow="hidden"
+            px={['0.5rem', '1rem', '5rem']}
+            bg={'gray.600'}>
 
             <Box
                 zIndex="1000"
@@ -121,7 +137,7 @@ function MainMenuChakra(props) {
 
                     <QueuePanel />
 
-                    <GameActions />
+                    {/* <GameActions /> */}
 
                     {/* <Icon as={IoTimeOutline} fontSize='xxs' color={'gray.200'}></Icon> */}
 
@@ -163,8 +179,8 @@ function MainMenuChakra(props) {
                     </Flex>
                 </Flex >
             </Box >
-        </>
+        </HStack>
     );
 }
 
-export default fs.connect(['loggedIn', 'chatToggle', 'isMobile'])(withRouter(MainMenuChakra));
+export default fs.connect(['loggedIn', 'chatToggle', 'isMobile'])((MainMenuChakra));

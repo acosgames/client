@@ -41,6 +41,10 @@ function ChatPanel(props) {
             isSolo = true;
     }
 
+    if (layoutMode == 'off') {
+        return <></>
+    }
+
     return (
         <Box
             transition="width 0.3s ease, height 0.3s ease"
@@ -56,6 +60,7 @@ function ChatPanel(props) {
                 transition="width 0.3s ease, height 0.3s ease"
                 width={isBottomLayout ? '100%' : ['24.0rem', '24rem', '28.0rem']}
                 height={'100%'}
+                flex="1"
                 pb={'0'}
                 spacing="0"
                 mt="0"

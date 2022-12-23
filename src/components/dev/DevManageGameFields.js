@@ -1,8 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 
-import {
-    withRouter,
-} from "react-router-dom";
+
 import DevImageUpload from "./DevImageUpload";
 import { updateGameField, updateGame, uploadGameImages, clearGameFields, deleteGame } from '../../actions/devgame';
 import fs from 'flatstore';
@@ -414,4 +412,4 @@ function DevGameErrors(props) {
 DevGameErrors = fs.connect(['devgameerror'])(DevGameErrors);
 
 
-export default withRouter(fs.connect([])(DevManageGameFields));
+export default (fs.connect([])(DevManageGameFields));

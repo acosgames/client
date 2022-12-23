@@ -1,9 +1,5 @@
 import { Component, Fragment, useEffect, useRef, useState } from "react";
 
-import {
-    withRouter,
-} from "react-router-dom";
-import DevImageUpload from "./DevImageUpload";
 
 
 import { updateGameField, createGame, clearGameFields } from '../../actions/devgame';
@@ -113,8 +109,8 @@ function DevFields(props) {
 
 function DevCreateGame(props) {
 
-    useEffect(async () => {
-        await clearGameFields();
+    useEffect(() => {
+        clearGameFields();
         updateGameField('template', '0', 'create-game_info', 'devgame>template', 'devgameerror');
         gtag('event', 'devcreategame');
     }, [])
@@ -224,4 +220,4 @@ function DevCreateGame(props) {
 
 }
 
-export default withRouter(DevCreateGame);
+export default (DevCreateGame);

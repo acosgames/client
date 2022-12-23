@@ -10,11 +10,11 @@ import {
 } from '@chakra-ui/react'
 import NavHoverBox from './NavHoverBox'
 import SLink from './SLink'
-import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-function NavItem({ location, icon, url, title, description, active, navSize, isExternal }) {
+function NavItem({ icon, url, title, description, active, navSize, isExternal }) {
     active = false;
+    let location = useLocation();
     let urlPath = location.pathname;
     if (urlPath == url)
         active = true;
@@ -56,4 +56,4 @@ function NavItem({ location, icon, url, title, description, active, navSize, isE
     )
 }
 
-export default withRouter(NavItem)
+export default NavItem;

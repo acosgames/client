@@ -3,7 +3,6 @@ import { Badge, Box, Button, Text, Flex, IconButton, Input, Portal, Spacer, HSta
 import { BsArrowsFullscreen, RiLayoutRightLine, IoTimeOutline } from '@react-icons';
 
 import fs from 'flatstore';
-import { useLocation, useParams, withRouter } from 'react-router-dom';
 
 import { joinGame } from '../../../actions/game';
 import { wsLeaveGame } from '../../../actions/connection';
@@ -114,7 +113,7 @@ function GameActions(props) {
             // h={props.isBottomLayout ? '100%' : '5rem'} 
             w={'100%'}
             justify={'center'}
-            bgColor={'gray.600'}
+            // bgColor={'gray.600'}
             py="0.6rem">
             {/* <HStack alignItems={'center'}>
                 <BsBarChartFill size="1.2rem" color={latencyColor} /><Text as="span" fontSize="xxs"> {latency}ms</Text>
@@ -154,6 +153,7 @@ function GameActions(props) {
             <HStack>
                 <Box>
                     <Button
+                        height="1.6rem"
                         display={!isGameover ? 'block' : 'none'}
                         fontSize={'xxs'}
                         bgColor={'red.800'}
@@ -164,6 +164,7 @@ function GameActions(props) {
 
                 <Box>
                     <Button
+                        height="1.6rem"
                         display={isGameover ? 'block' : 'none'}
                         fontSize={'xxs'}
                         bgColor={'red.800'}
@@ -174,6 +175,7 @@ function GameActions(props) {
 
                 <Box display={isGameover ? 'block' : 'none'} ml="1rem">
                     <Button
+                        height="1.6rem"
                         fontSize={'xxs'}
                         bgColor="brand.500"
                         _hover={{ bg: "brand.600" }}

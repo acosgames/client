@@ -1,15 +1,15 @@
 import {
-    useHistory
+    useNavigate
 } from "react-router-dom";
 
 
 var SLink = (props) => {
-    const history = useHistory();
+    const history = useNavigate();
 
     let to = props.to;
     return (
         <a onClick={() => {
-            history.push(to);
+            history(to);
         }} {...props}>{props.children}</a>
     )
 }

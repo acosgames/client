@@ -3,12 +3,16 @@ import fs from 'flatstore';
 import { Link } from 'react-router-dom';
 
 import { GiLaurelsTrophy, } from '@react-icons';
-function GameInfoTop10Highscores(props) {
+function Highscores(props) {
 
-    if (!props.lbscore)
+    let [leaderboardHighscore] = fs.useWatch('leaderboardHighscore');
+    let [leaderboardHighscoreCount] = fs.useWatch('leaderboardHighscoreCount');
+    let [room] = fs.useWatch('primary/room');
+
+    if (!room?.lbscore)
         return <></>
 
-    if (!props.leaderboardHighscore) {
+    if (!leaderboardHighscore) {
         return <HStack justifyContent={'center'} alignItems='center' w="100%">
             <Text as="span" mt='1rem' fontWeight={'bold'}>No highscores yet.</Text>
         </HStack>
@@ -23,7 +27,7 @@ function GameInfoTop10Highscores(props) {
 
     const renderHighscores = (players) => {
 
-        let leaderboard = props.leaderboardHighscore || [];
+        let leaderboard = leaderboardHighscore || [];
         let elems = [];
 
         let tag = props.tag || 'default'
@@ -74,7 +78,7 @@ function GameInfoTop10Highscores(props) {
     }
 
     let playerRank = -1;
-    for (var player of props.leaderboardHighscore) {
+    for (var player of leaderboardHighscore) {
         let isLocalPlayer = user?.displayname == player.value;
         if (isLocalPlayer) {
             playerRank = player.rank;
@@ -82,7 +86,7 @@ function GameInfoTop10Highscores(props) {
         }
     }
 
-    let lbCount = props.leaderboardHighscoreCount || 0;
+    let lbCount = leaderboardHighscoreCount || 0;
     if (lbCount == 0) {
         return (
             <HStack justifyContent={'center'} alignItems='center' w="100%">
@@ -91,8 +95,8 @@ function GameInfoTop10Highscores(props) {
         )
     }
     return (
-        <Box w="100%" py="1rem" pb="2rem" bgColor="gray.1000" borderRadius={"2rem"}>
-            <Box w="100%" pb="1rem" >
+        <Box w="100%" p="1rem"  >
+            <Box w="100%" p="1rem" bgColor="gray.1200" borderRadius={"2rem"}>
 
                 <VStack w="100%">
                     <Text as="h4" fontWeight={'bold'} color="gray.100">Top scores</Text>
@@ -113,7 +117,7 @@ function GameInfoTop10Highscores(props) {
                     <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="gray.100" fontWeight={'300'}>
                         <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.100">{playerRank || -1}</Text> of {lbCount}
                             {/* in
-                        <Text as="span" > Highscore</Text> */}
+                        <Text as="span" > Highscore</Text>  */}
                         </Text>
                     </Box>
 
@@ -124,4 +128,4 @@ function GameInfoTop10Highscores(props) {
     )
 }
 
-export default fs.connect(['leaderboardHighscore', 'leaderboardHighscoreCount'])(GameInfoTop10Highscores);
+export default Highscores;

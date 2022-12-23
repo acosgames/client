@@ -2,8 +2,7 @@ import { Component, Fragment, useEffect, useState } from "react";
 import fs from 'flatstore';
 
 import {
-    Redirect,
-    withRouter,
+    Navigate, Route,
 } from "react-router-dom";
 import {
     Button, Text, Heading, VStack, Center,
@@ -53,10 +52,10 @@ function DevLogin(props) {
     let user = props.user;
     if (user && (user.isdev && user.github)) {
 
-        return <Redirect to="/dev" />
+        return <Navigate to="/dev" />
     }
     if (user && user.apikey && user.apikey.length > 0 && user.apikey != 'undefined') {
-        return <Fragment></Fragment>
+        return <></>
     }
 
     if (props.loadingUser) {
@@ -188,4 +187,4 @@ function DevLogin(props) {
 
 }
 
-export default withRouter(fs.connect(['user', 'loadingUser'])(DevLogin));
+export default (fs.connect(['user', 'loadingUser'])(DevLogin));

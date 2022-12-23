@@ -19,11 +19,9 @@ import SLink from '../widgets/SLink';
 
 
 import { FiUser, FiLogOut } from '@react-icons';
-import { Link, useHistory } from 'react-router-dom';
 
 function NavForGuest(props) {
 
-    const history = useHistory();
 
     return (
         <VStack display="flex" justifyContent="center" height="100%" spacing="0">

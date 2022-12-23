@@ -3,9 +3,9 @@ import fs from 'flatstore';
 
 import {
     Link,
-    withRouter,
     Redirect,
-    useHistory
+    useHistory,
+    useNavigate
 } from "react-router-dom";
 import Logout from "./Logout";
 import { Heading, VStack, Button, Center, Text, chakra, Link as ChLink, useToast, Modal, Box, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Divider, HStack, ModalFooter } from "@chakra-ui/react";
@@ -85,7 +85,7 @@ function SocialLogin(props) {
     const [error, setError] = useState(null);
 
     const toast = useToast();
-    const history = useHistory();
+    const history = useNavigate();
     useEffect(() => {
         removeWithExpiry('user');
         gtag('event', 'sociallogin');
@@ -145,7 +145,7 @@ function SocialLogin(props) {
             // setTimeout(redirect, 1000);
             loginComplete();
 
-            history.push('/login/success');
+            history('/login/success');
         }
 
     }
@@ -253,4 +253,4 @@ function SocialLogin(props) {
 }
 
 
-export default withRouter(fs.connect(['userCheckedLogin', 'user'])(SocialLogin));
+export default (fs.connect(['userCheckedLogin', 'user'])(SocialLogin));

@@ -13,7 +13,6 @@ import LoadingBox from './LoadingBox';
 import GameMessageOverlay from './GameMessageOverlay';
 
 import iframeSrc from './iframesrc'
-import { withRouter } from 'react-router-dom';
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
@@ -124,8 +123,34 @@ function GameIFrame(props) {
         let isFullscreen = checkFullScreen();
         // let windowWidth = isFullscreen ? window.screen.width : gamewrapperRef.current.offsetWidth;
         // let windowHeight = isFullscreen ? window.screen.height : gamewrapperRef.current.offsetHeight;
-        let windowWidth = gamewrapperRef.current.offsetWidth;
-        let windowHeight = gamewrapperRef.current.offsetHeight;
+
+
+        var w = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+
+        var h = window.innerHeight
+            || document.documentElement.clientHeight
+            || document.body.clientHeight;
+
+        let windowWidth = w;//gamewrapperRef.current.offsetWidth;
+        let windowHeight = h;//gamewrapperRef.current.offsetHeight;
+
+        let roomPanelRef = fs.get('roomPanelRef');
+        let layoutMode = fs.get('layoutMode');
+        if (roomPanelRef?.current) {
+            if (layoutMode == 'bottom') {
+                // windowWidth += roomPanelRef.current.offsetWidth;
+                windowHeight += 50;
+
+                if (windowHeight > h * 0.6) {
+                    windowHeight = (h * 0.6) - 50;
+                }
+            }
+            else {
+                windowWidth -= 240;
+            }
+        }
 
         let roomStatus = getRoomStatus(room_slug);
         let offsetRatio = !isLoaded ? 0.1 : 1;
@@ -180,6 +205,8 @@ function GameIFrame(props) {
             gamescreenRef.current.style.height = windowHeight + 'px';
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }
+
+        fs.set('resized', Date.now());
     }
 
 
@@ -208,6 +235,10 @@ function GameIFrame(props) {
 
         myObserver.observe(gameResizer.current);
 
+
+        if (gamepanel.isPrimary) {
+            fs.set('gamescreenRef', gamescreenRef);
+        }
         setTimeout(() => {
             setIsOpen(true);
         }, 10)
@@ -345,4 +376,4 @@ GameIFrame = fs.connect(['resize', 'isFullScreen', 'displayMode'])(GameIFrame);
 // };
 
 
-export default withRouter(GamePanel);
+export default (GamePanel);

@@ -21,11 +21,9 @@ import { IoExitOutline, IoHammer, ImUser, AiOutlineDelete, BsBarChartFill, GiSav
 import fs from 'flatstore';
 import SLink from '../widgets/SLink';
 import { logout } from '../../actions/person';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { minimizeGamePanel } from '../../actions/room';
 function NavForUser(props) {
-
-    const history = useHistory();
 
 
     let latency = props.latency || 0;
@@ -42,7 +40,7 @@ function NavForUser(props) {
     }
     return (
 
-        <Menu zIndex="1001" placement='bottom-end' modifiers={{ name: 'eventListeners', options: { scroll: false } }}>
+        <Menu zIndex="1001" placement='bottom-end' modifiers={[{ name: 'eventListeners', options: { scroll: false } }]}>
             <VStack display="flex" justifyContent="center" height="100%" spacing="0">
                 <MenuButton
                     as={Button}

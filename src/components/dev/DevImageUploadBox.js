@@ -1,8 +1,5 @@
 import { Component, Fragment } from "react";
 
-import {
-    withRouter,
-} from "react-router-dom";
 
 class DevImageUploadBox extends Component {
     constructor(props) {
@@ -38,12 +35,12 @@ class DevImageUploadBox extends Component {
                             this.props.onImageUpdate(index);
                         }}>
                             Update
-                            </div>
+                        </div>
                         <div className="imageremove" onClick={(e) => {
                             this.props.onImageRemove(index);
                         }}>
                             Remove
-                            </div>
+                        </div>
                     </Fragment>
                 )}
             </div>
@@ -51,5 +48,5 @@ class DevImageUploadBox extends Component {
     }
 }
 
-export default withRouter(DevImageUploadBox);
+export default (DevImageUploadBox);
 

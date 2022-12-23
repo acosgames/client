@@ -1,8 +1,7 @@
 
 import { Box, Flex, HStack, Icon, Portal, Spinner, Text, VStack } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { useEffect, useRef, useState } from 'react';
-import { useLocation, useParams, withRouter } from 'react-router-dom';
+import { useState } from 'react';
 
 import { AiOutlineDisconnect } from '@react-icons';
 

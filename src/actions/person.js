@@ -6,6 +6,7 @@ import { getWithExpiry, setWithExpiry, removeWithExpiry } from './cache';
 import { wsRejoinRoom, reconnect, disconnect, wsRejoinQueues, wsJoinQueues } from './connection';
 import { addGameQueue, addJoinQueues, clearGameQueues, getJoinQueues } from './queue';
 import { clearRooms, getLastJoinType, getRoomList, getRooms, setLastJoinType } from './room';
+import { findGame, findGamePerson } from './game';
 
 
 fs.set('loggedIn', 'LURKER');
@@ -109,6 +110,33 @@ export async function getPlayer(displayname) {
         }
 
         fs.set('profile', player);
+    }
+    catch (e) {
+
+    }
+}
+
+export async function loadUserGameData(game_slug) {
+    try {
+        let player_stats = fs.get('player_stats');
+        let player_stat = player_stats[game_slug];
+
+        let curgame = fs.get('game');
+        let game = null;
+        let user = await getUser();
+        if (user && user.shortid && !player_stat) {
+
+            await findGamePerson(game_slug);
+        }
+        else if (!curgame || curgame.game_slug != game_slug) {
+            await findGame(game_slug)
+        }
+        else {
+            game = fs.get('games>' + game_slug);
+            if (game && game.longdesc && (!curgame || !curgame.longdesc)) {
+                fs.set('game', game);
+            }
+        }
     }
     catch (e) {
 
@@ -220,7 +248,7 @@ export async function getUserProfile() {
 
         if (!user.displayname || user.displayname.length == 0) {
             let history = fs.get('history');
-            history.push('/player/create');
+            history('/player/create');
             return user;
         }
 

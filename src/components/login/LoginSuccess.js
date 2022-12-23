@@ -1,7 +1,8 @@
 
 import {
-    Redirect,
-    useHistory
+    Navigate,
+    Route,
+    useNavigate
 } from "react-router-dom";
 import fs from 'flatstore';
 import { useToast } from "@chakra-ui/react";
@@ -9,13 +10,13 @@ import { useToast } from "@chakra-ui/react";
 
 function LoginSuccess(props) {
 
-    const history = useHistory();
+    const history = useNavigate();
 
-    let urlpath = history.location.pathname
+    // let urlpath = history.location.pathname
 
     let refPath = localStorage.getItem("refPath");
     if (refPath) {
-        history.push(refPath);
+        history(refPath);
     }
     else {
         refPath = '/'
@@ -23,14 +24,14 @@ function LoginSuccess(props) {
 
     fs.set('success', 'Logged in.  Enjoy the games!');
 
-    let toast = useToast();
+    // let toast = useToast();
     // toast({
     //     description: 'Logged in.  Enjoy the games!',
     //     status: 'success'
     // })
 
     return (
-        <Redirect to={refPath} />
+        <Navigate to={refPath} />
     )
 }
 

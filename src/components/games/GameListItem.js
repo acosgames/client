@@ -1,7 +1,6 @@
 
 import {
     Link,
-    withRouter,
 } from "react-router-dom";
 
 import config from '../../config'
@@ -264,4 +263,4 @@ function PlayButton(props) {
     )
 }
 
-export default withRouter(fs.connect(['queues'])(GameListItem));
+export default (fs.connect(['queues'])(GameListItem));

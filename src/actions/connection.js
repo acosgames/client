@@ -1,7 +1,10 @@
 
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { encode, decode, defaultDict } from 'shared/util/encoder';
+// import { encode, decode, defaultDict } from 'shared/util/encoder';
+import ACOSEncoder from 'shared/util/encoder';
+const encode = ACOSEncoder.encode;
+const decode = ACOSEncoder.decode;
 import { getUser, isUserLoggedIn, login } from './person';
 
 import config from '../config'
@@ -1143,7 +1146,7 @@ async function wsIncomingMessage(message) {
                 let gamemode = currentParts[1].split('/');
                 let game_slug = gamemode[0];
 
-                history.push('/g/' + game_slug);
+                history('/g/' + game_slug);
             }
 
             clearRoom(msg.room_slug);

@@ -4,9 +4,7 @@ import fs from 'flatstore';
 import { logout } from '../../actions/person';
 
 import {
-    Link,
-    withRouter,
-    Redirect,
+    Navigate,
 } from "react-router-dom";
 import SLink from "../widgets/SLink";
 
@@ -20,9 +18,9 @@ class Logout extends Component {
 
 
         return (
-            <Redirect to="/" />
+            <Route path="*"><Navigate to="/" /></Route>
         );
     }
 }
 
-export default withRouter(Logout);
+export default (Logout);

@@ -20,15 +20,15 @@ import { IoDocuments, IoLogoGithub, FiHome, FaDiscord } from '@react-icons'
 import { PlusSquareIcon } from '@chakra-ui/icons'
 
 import NavItem from './NavItem'
-import { withRouter } from 'react-router'
 
 import fs from 'flatstore';
 
 
-function Sidebar() {
+function Sidebar(props) {
     const [navSize, changeNavSize] = useState("large")
 
-    let userProfile = fs.get('user');
+    let [userProfile] = fs.useWatch('user');
+    // let userProfile = fs.get('user');
 
 
     return (
@@ -115,4 +115,4 @@ function Sidebar() {
 }
 
 
-export default withRouter(fs.connect(['user'])(Sidebar));
+export default Sidebar;

@@ -11,7 +11,11 @@ import './app.scss';
 import * as serviceWorker from './serviceWorker';
 
 
-ReactDOM.render(
+import { createRoot } from 'react-dom/client';
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
   // <React.StrictMode>
 
   <ChakraProvider theme={theme}>
@@ -19,9 +23,6 @@ ReactDOM.render(
 
     <App />
   </ChakraProvider>
-  ,
-  // </React.StrictMode>,
-  document.getElementById('root')
 );
 
 
