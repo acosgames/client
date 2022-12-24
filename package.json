@@ -39,6 +39,7 @@
     "react-mde": "^11.5.0",
     "react-perfect-scrollbar": "^1.5.8",
     "react-router-dom": "^6.4.5",
+    "react-social-login-buttons": "^3.6.1",
     "react-sortablejs": "^6.1.4",
     "react-spring": "^9.6.0",
     "remark-gfm": "^3.0.1",

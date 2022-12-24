@@ -3,7 +3,7 @@ import { Box, Text, Image } from "@chakra-ui/react";
 import { Link, useLocation } from 'react-router-dom';
 import ColorHash from 'color-hash';
 const colorHash = new ColorHash({ lightness: 0.7 });
-import config from '../../../../config';
+import config from '../../config';
 
 function ChatMessage(props) {
 

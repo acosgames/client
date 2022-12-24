@@ -3,8 +3,8 @@ import { HStack, Text, VStack } from '@chakra-ui/react';
 import fs from 'flatstore';
 
 import ratingtext from 'shared/util/ratingtext';
-import { getPrimaryGamePanel, isUserNext } from '../../../../actions/room';
-import config from '../../../../config'
+import { getPrimaryGamePanel, isUserNext } from '../../actions/room';
+import config from '../../config'
 
 export default function ScoreboardSolo(props) {
 
@@ -24,7 +24,7 @@ export default function ScoreboardSolo(props) {
     // }
 
     return (
-        <VStack width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={isNext ? 'bold' : ''} key={"player-rank-" + player.name}
+        <VStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={isNext ? 'bold' : ''} key={"player-rank-" + player.name}
 
         >
             {/* <Text w='3rem' align="center" fontSize="xxs" color="gray.100"></Text> */}
@@ -45,8 +45,8 @@ export default function ScoreboardSolo(props) {
             >
                 {player.name}
             </Text> */}
-            <Text as="span" align="center" fontSize="lg" color="gray.200">Score</Text>
-            <Text w='6rem' align="center" fontSize="2xl" color={player.ingame === false ? 'gray.175' : "gray.100"}>{player.score}</Text>
+            <Text as="span" align="center" fontWeight="light" fontSize="lg" color="gray.100">Score</Text>
+            <Text lineHeight='3rem' height="3rem" w='6rem' align="center" fontSize="4xl" color={player.ingame === false ? 'gray.175' : "gray.100"}>{player.score}</Text>
         </VStack>
     )
 }

@@ -6,7 +6,7 @@ function TermsAndConditions(props) {
 
     return (
         <VStack justifyContent={'center'}>
-            <Box className={'statictext'}>
+            <Box className={'statictext'} w="100%">
                 <h2><strong>Terms and Conditions</strong></h2>
 
                 <p>Welcome to A cup of skill!</p>

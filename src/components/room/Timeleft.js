@@ -1,6 +1,6 @@
 import { Box, HStack, Text, Tooltip } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { getGamePanel, getPrimaryGamePanel, isUserNext } from '../../../actions/room';
+import { getGamePanel, getPrimaryGamePanel, isUserNext } from '../../actions/room';
 
 function Timeleft(props) {
     let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
@@ -40,7 +40,7 @@ function TimeleftDisplay(props) {
 
     let hour = Math.floor((timeleft % 86400) / 3600);
     let min = Math.floor((timeleft % 3600) / 60);
-    let sec = Math.ceil(timeleft) % 60;
+    let sec = Math.floor(timeleft) % 60;
     let ms = (100 * (timeleft - Math.floor(timeleft)));
     if (ms < 10) {
         ms = "0" + ms;
@@ -49,7 +49,7 @@ function TimeleftDisplay(props) {
     }
     ms = ms.substring(0, 2);
 
-    let greaterThan10 = timeleft >= 9;
+    let greaterThan10 = timeleft >= 10;
     let isEven = timeleft % 2 == 0;
 
     let isNext = isUserNext(gamepanel);
@@ -68,15 +68,16 @@ function TimeleftDisplay(props) {
                 alignContent='center'
                 justifyContent={'center'}
                 alignItems='center'
-                px="2rem"
+                px="0rem"
+                py="1rem"
                 cursor="pointer"
                 //bgColor={isNext ? 'gray.700' : ""}
                 borderRadius="2rem"
                 // bgColor="gray.700"
-                border="2px solid"
+                // border="2px solid"
                 bgColor="gray.1200"
-                borderColor={isNext ? 'brand.1000' : 'yellow.800'}//"gray.175"
-                width="20rem"
+                // borderColor={isNext ? 'brand.1000' : 'yellow.800'}//"gray.175"
+                width="15rem"
                 spacing="0"
                 fontSize='xl'
                 fontWeight="light"
@@ -85,9 +86,9 @@ function TimeleftDisplay(props) {
                 onClick={() => {
                     let scoreboardExpanded = fs.get('scoreboardExpanded');
                     fs.set('scoreboardExpanded', !scoreboardExpanded);
-                    if (scoreboardExpanded) {
-                        fs.set('layoutRightMode', 'none');
-                    }
+                    // if (scoreboardExpanded) {
+                    //     fs.set('layoutRightMode', 'none');
+                    // }
                 }}>
 
                 <HStack spacing="0" display={hour > 0 ? 'flex' : 'none'}>

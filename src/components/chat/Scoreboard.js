@@ -2,7 +2,7 @@ import { Box, chakra, HStack, Image, Text, VStack } from '@chakra-ui/react';
 import fs from 'flatstore'
 import { useEffect, useRef } from 'react';
 import { getPrimaryGamePanel, isNextTeam, isUserNext } from '../../actions/room';
-import Timeleft from '../games/GameDisplay/Timeleft';
+import Timeleft from '../room/Timeleft';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';

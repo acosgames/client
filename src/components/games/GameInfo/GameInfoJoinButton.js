@@ -21,9 +21,8 @@ function GameInfoJoinButton(props) {
     const handleJoin = async () => {
         setLastJoinType('rank');
 
-        if (!validateLogin()) {
+        if (!(await validateLogin()))
             return;
-        }
 
         //let game_slug = props.match.params.game_slug;
         let game = fs.get('game');
@@ -37,9 +36,8 @@ function GameInfoJoinButton(props) {
 
         setLastJoinType('experimental');
 
-        if (!validateLogin()) {
+        if (!(await validateLogin()))
             return;
-        }
         //let game_slug = props.match.params.game_slug;
         let game = fs.get('game');
         if (!game)

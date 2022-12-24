@@ -85,7 +85,7 @@ function GameActions(props) {
 
         fs.set('displayMode', 'none');
         clearRoom(room_slug);
-        clearPrimaryGamePanel();
+        // clearPrimaryGamePanel();
         let isExperimental = mode == 'experimental';// (window.location.href.indexOf('/experimental/') != -1);
         // await wsLeaveGame(game_slug, room_slug);
 
@@ -150,10 +150,10 @@ function GameActions(props) {
 
 
 
-            <HStack>
+            <HStack h="4rem">
                 <Box>
                     <Button
-                        height="1.6rem"
+                        // height="1.6rem"
                         display={!isGameover ? 'block' : 'none'}
                         fontSize={'xxs'}
                         bgColor={'red.800'}
@@ -164,7 +164,7 @@ function GameActions(props) {
 
                 <Box>
                     <Button
-                        height="1.6rem"
+                        // height="1.6rem"
                         display={isGameover ? 'block' : 'none'}
                         fontSize={'xxs'}
                         bgColor={'red.800'}
@@ -175,7 +175,7 @@ function GameActions(props) {
 
                 <Box display={isGameover ? 'block' : 'none'} ml="1rem">
                     <Button
-                        height="1.6rem"
+                        // height="1.6rem"
                         fontSize={'xxs'}
                         bgColor="brand.500"
                         _hover={{ bg: "brand.600" }}

@@ -14,12 +14,12 @@ const styles = {
         },
         'html, body': {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
-            bg: 'gray.900',
+            bg: 'gray.1100',
         },
         'body': { 'fontSize': '160%' },
 
         '::selection': {
-            background: 'gray.400' /* WebKit/Blink Browsers */
+            background: 'gray.1100' /* WebKit/Blink Browsers */
         },
         '::-moz-selection': {
             background: 'gray.400' /* Gecko Browsers */

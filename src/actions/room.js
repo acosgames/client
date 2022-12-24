@@ -337,6 +337,8 @@ export function addRoom(msg) {
 }
 
 export async function maximizeGamePanel(gamepanel) {
+    if (gamepanel.isPrimary)
+        return;
     setPrimaryGamePanel(gamepanel);
     updateGamePanel(gamepanel);
 }

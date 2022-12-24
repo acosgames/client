@@ -1,24 +1,15 @@
 import { Box, HStack, IconButton } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { sendChatMessage } from '../../../../actions/chat';
+import { sendChatMessage } from '../../actions/chat';
 import { IoSend } from '@react-icons';
 
-import FSGTextInput from '../../../widgets/inputs/FSGTextInput'
-import { getPrimaryGamePanel } from '../../../../actions/room';
+import FSGTextInput from '../widgets/inputs/FSGTextInput'
+import { getPrimaryGamePanel } from '../../actions/room';
 
 function ChatSend(props) {
 
     let [chatMessage] = fs.useWatch('chatMessage');
-    let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
 
-    if (typeof primaryGamePanelId === 'undefined') {
-        return <></>
-    }
-
-    let gamepanel = getPrimaryGamePanel();
-    if (gamepanel?.room?.maxplayers == 1) {
-        return <></>
-    }
     const inputChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
@@ -33,7 +24,7 @@ function ChatSend(props) {
     }
 
     return (
-        <Box w="100%" height="3.5rem" px="1rem" >
+        <Box w="100%" height="3.5rem" px="1rem" position="absolute" bottom="0" left="0" >
             <Box
                 position={'relative'}
                 pb="0.5rem"

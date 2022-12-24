@@ -35,10 +35,11 @@ function Sidebar(props) {
         <Flex
             pos="sticky"
             left="0"
+            pt="4rem"
             h="100%"
             marginTop="0"
             id="wrapper-sidebar"
-            bgColor={'gray.900'}
+            bgColor={'gray.1200'}
             // boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
             // borderRadius={navSize == "small" ? "15px" : "30px"}
             w={['4rem', '4rem', '18rem']}
@@ -104,7 +105,7 @@ function Sidebar(props) {
                     <ChLink isExternal textDecoration={"none"} target="_blank" href={'https://discord.gg/ydHkCcNgHD'} >
                         <VStack align="center">
                             <Icon as={FaDiscord} fontSize="20" />
-                            <Text fontSize="2xs" fontWeight={'bold'} align="center">Discord</Text>
+                            <Text display={['none', 'none', 'block']} fontSize="2xs" fontWeight={'bold'} align="center">Discord</Text>
                         </VStack>
                     </ChLink>
                 </Center>

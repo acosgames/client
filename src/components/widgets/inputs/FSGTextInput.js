@@ -31,7 +31,7 @@ function FSGTextInput(props) {
         <FormControl as='fieldset' mb="0">
             <FormLabel as='legend' fontSize="xs" color="gray.100" fontWeight="bold" display={props.title ? 'block' : 'none'}>
                 <HStack>
-                    <Text color="white">{props.title}</Text>
+                    <Text color={props.titleColor || "white"}>{props.title}</Text>
                     {props.required && (
                         <Text display="inline-block" color="red.800">*</Text>
                     )}

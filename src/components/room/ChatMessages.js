@@ -4,9 +4,9 @@ import { Box, chakra, Text, VStack } from "@chakra-ui/react";
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import { useEffect, useRef } from 'react';
-import { getChatMessages } from '../../../../actions/chat';
+import { getChatMessages } from '../../actions/chat';
 import ChatMessage from './ChatMessage';
-import { getPrimaryGamePanel } from '../../../../actions/room';
+import { getPrimaryGamePanel } from '../../actions/room';
 
 function ChatMessages(props) {
     let [chatUpdated] = fs.useWatch('chatUpdated');
@@ -35,12 +35,12 @@ function ChatMessages(props) {
 
     //scroll to bottom of chat
     useEffect(() => {
-        if (props.toggle)
-            // setTimeout(() => {
-            // messageListRef.current.scrollIntoView({ behavior: "smooth", block: 'nearest', inline: 'start' });
+        //if (props.toggle)
+        // setTimeout(() => {
+        // messageListRef.current.scrollIntoView({ behavior: "smooth", block: 'nearest', inline: 'start' });
 
-            if (scrollRef && scrollRef.current)
-                scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight)
+        if (scrollRef && scrollRef.current)
+            scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight)
         // scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         // }, 100)
     })

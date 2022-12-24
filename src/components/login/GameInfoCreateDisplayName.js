@@ -8,9 +8,18 @@ import FSGSubmit from "../widgets/inputs/FSGSubmit";
 import FSGTextInput from "../widgets/inputs/FSGTextInput";
 
 import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
-import { useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation, useNavigate } from "react-router-dom";
 import { wsJoinQueues } from '../../actions/connection';
 import { getJoinQueues } from "../../actions/queue";
+
+
+import {
+    FacebookLoginButton,
+    GoogleLoginButton,
+    GithubLoginButton,
+    MicrosoftLoginButton,
+    YahooLoginButton
+} from "react-social-login-buttons";
 
 function GameInfoCreateDisplayname(props) {
 
@@ -22,6 +31,8 @@ function GameInfoCreateDisplayname(props) {
 
     const [displayName, setDisplayName] = useState(defaultPlayerName);
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
 
     let joinqueues = getJoinQueues();
 
@@ -105,7 +116,7 @@ function GameInfoCreateDisplayname(props) {
 
     let loginFrom = fs.get('loginFrom');
 
-    let joinButtonTitle = "Let's Go!";
+    let joinButtonTitle = "Play now!";
     let game = fs.get('game');
     if (loginFrom == 'game') {
         if (game?.maxplayers == 1) {
@@ -123,18 +134,22 @@ function GameInfoCreateDisplayname(props) {
                 onClose(e);
             }}>
                 <ModalOverlay />
-                <ModalContent borderRadius="2rem">
-                    <ModalHeader color="gray.100">Create your player</ModalHeader>
+                <ModalContent borderRadius="2rem" bgColor="gray.1000">
+                    <ModalHeader color="gray.100">Ready to play?</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <VStack spacing="2rem">
-                            <FSGGroup >
+                        <VStack spacing="1rem">
+                            {/* <FSGGroup bgColor="gray.1100"> */}
 
+                            <VStack spacing="1rem">
                                 <FSGTextInput
                                     onChange={onChange}
                                     maxLength="32"
-                                    title="Choose Name"
+                                    titleColor="gray.100"
+                                    title="Pick Name"
                                     borderRadius="2rem"
+                                    bgColor="gray.1200"
+                                    height="4rem"
                                     focus={true}
                                     onFocus={(e) => {
                                         e.target.select();
@@ -151,14 +166,46 @@ function GameInfoCreateDisplayname(props) {
                                         </Text>
                                     )
                                 }
-                            </FSGGroup>
-                            <FSGSubmit px={'2rem'} py="2rem" fontSize="md" fontWeight="bold" borderRadius="2rem" onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
-                            <Divider pt={'0'} />
-                            <Heading color="gray.100" pt={'0'} pb="0" size="xs">Or, sign in to access more features</Heading>
+                                {/* </FSGGroup> */}
+                                <FSGSubmit px={'2rem'} pb="1rem" py="2rem" color="white" fontSize="md" fontWeight="bold" borderRadius="2rem" onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
+                            </VStack>
+                            <Divider pt={'0'} pb="1rem" />
+                            <Heading pt="0" mt="0" color="white" fontWeight="light" fontSize="xs">Or, sign in to remember and continue your battle</Heading>
+                            <Heading pt="0" mt="0" color="gray.100" fontSize="2xs" pb="1rem" fontWeight={'light'}>By signing in, you agree to our <Link to="/privacy">Privacy Policy</Link></Heading>
                             {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
-                            <HStack w={['100%']} justifyItems={'center'} gap="0">
-                                {/* Google */}
-                                <ChLink href={"/login/google" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
+
+                            <FacebookLoginButton
+                                size="3rem"
+                                iconSize="2rem"
+                                style={{ fontSize: '1.6rem' }}
+                                onClick={() => {
+                                    window.location.href = ('/login/facebook' + refPath);
+                                }} />
+                            <GoogleLoginButton
+                                size="3rem"
+                                iconSize="2rem"
+                                style={{ fontSize: '1.6rem' }}
+                                onClick={() => {
+                                    window.location.href = ('/login/google' + refPath);
+                                }} />
+                            <GithubLoginButton
+                                size="3rem"
+                                iconSize="2rem"
+                                style={{ fontSize: '1.6rem' }}
+                                onClick={() => {
+                                    window.location.href = '/login/github' + refPath;
+                                }} />
+                            <MicrosoftLoginButton
+                                size="3rem"
+                                iconSize="2rem"
+                                style={{ fontSize: '1.6rem' }}
+                                onClick={() => {
+                                    window.location.href = ('/login/microsoft' + refPath);
+                                }} />
+
+                            {/* <HStack w={['100%']} justifyItems={'center'} gap="0"> */}
+                            {/* Google */}
+                            {/* <ChLink href={"/login/google" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
                                     height="4.5rem"
                                     display="flex"
                                     flexDir={"row"}
@@ -170,10 +217,10 @@ function GameInfoCreateDisplayname(props) {
                                     <FaGoogle size="2rem" />
                                     <Text fontSize="sm" fontWeight={'bold'} pl="0.5rem">Google</Text>
 
-                                </ChLink>
+                                </ChLink> */}
 
-                                {/* Microsoft */}
-                                <ChLink href={"/login/microsoft" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
+                            {/* Microsoft */}
+                            {/* <ChLink href={"/login/microsoft" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
                                     height="4.5rem"
                                     display="flex"
                                     flexDir={"row"}
@@ -187,9 +234,9 @@ function GameInfoCreateDisplayname(props) {
 
                                 </ChLink>
                             </HStack>
-                            <HStack w={['100%']}>
-                                {/* Facebook */}
-                                <ChLink href={"/login/facebook" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
+                            <HStack w={['100%']}> */}
+                            {/* Facebook */}
+                            {/* <ChLink href={"/login/facebook" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
                                     height="4.5rem"
                                     display="flex"
                                     flexDir={"row"}
@@ -202,10 +249,10 @@ function GameInfoCreateDisplayname(props) {
                                     <FaFacebook size="2rem" />
                                     <Text fontSize="sm" fontWeight={'bold'} pl="0.5rem">Facebook</Text>
 
-                                </ChLink>
+                                </ChLink> */}
 
-                                {/* GitHub */}
-                                <ChLink href={"/login/github" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
+                            {/* GitHub */}
+                            {/* <ChLink href={"/login/github" + refPath} isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} p="2rem"
                                     height="4.5rem"
                                     display="flex"
                                     flexDir={"row"}
@@ -218,7 +265,7 @@ function GameInfoCreateDisplayname(props) {
                                     <Text fontSize="sm" fontWeight={'bold'} pl="0.5rem">GitHub</Text>
 
                                 </ChLink>
-                            </HStack>
+                            </HStack> */}
                         </VStack>
 
 

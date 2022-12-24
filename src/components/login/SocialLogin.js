@@ -186,7 +186,7 @@ function SocialLogin(props) {
 
             <VStack width={["100%", "80%", "80%", "60%"]}>
                 <Heading align={'left'} size="lg">asdfChoose a player name</Heading>
-                <FSGGroup  >
+                <FSGGroup  bgColor="gray.1200">
 
                     <FSGTextInput
                         onChange={onChange}

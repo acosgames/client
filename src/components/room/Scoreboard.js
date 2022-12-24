@@ -8,8 +8,8 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 
 
-import { getGameModeName } from '../../../../util/helper'
-import { getPrimaryGamePanel, isNextTeam, isUserNext } from '../../../../actions/room';
+import { getGameModeName } from '../../util/helper'
+import { getPrimaryGamePanel, isNextTeam, isUserNext } from '../../actions/room';
 import ScoreboardMulti from './ScoreboardMulti';
 import ScoreboardSolo from './ScoreboardSolo';
 

@@ -1,5 +1,6 @@
 
 import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import { wsJoinQueues } from "../../actions/connection";
 import { joinGame } from "../../actions/game";
@@ -8,9 +9,10 @@ import GameList from "./GameList";
 
 function JoinQueuePage(props) {
 
+    const params = useParams();
 
-    const paramOwner = props?.match?.params?.owner;
-    const paramQueues = props?.match?.params?.queues;
+    const paramOwner = params?.owner;
+    const paramQueues = params?.queues;
     const parts = paramQueues.split('+') || [];
 
 

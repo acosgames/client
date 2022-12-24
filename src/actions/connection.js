@@ -513,11 +513,13 @@ export async function recvFrameMessage(evt) {
 
     //game loaded
     if (action.type == 'loaded') {
-        fs.set('showLoadingBox', false);
+
         setTimeout(() => {
 
             gamepanel.loaded = true;
             updateGamePanel(gamepanel);
+
+            fs.set('showLoadingBox', false);
             // fs.set('loaded/' + gamepanel.id, true);
             // fs.set('gameLoaded', true);
         }, 300)
@@ -708,7 +710,7 @@ export async function wsRejoinQueues() {
 
 export async function wsJoinQueues(queues, owner) {
 
-    if (!validateLogin())
+    if (!(await validateLogin()))
         return false;
 
     if (!queues || queues.length == 0 || !queues[0].game_slug) {
@@ -875,8 +877,11 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function validateLogin() {
-    if (!isUserLoggedIn()) {
+export async function validateLogin() {
+
+    let user = await getUser();
+
+    if (!user && !isUserLoggedIn()) {
 
         login();
 

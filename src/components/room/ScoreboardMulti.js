@@ -1,9 +1,9 @@
 import { Box, HStack, Image, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { getPrimaryGamePanel, isNextTeam, isUserNext } from '../../../../actions/room';
+import { getPrimaryGamePanel, isNextTeam, isUserNext } from '../../actions/room';
 
 import ratingtext from 'shared/util/ratingtext';
-import config from '../../../../config'
+import config from '../../config'
 
 export default function ScoreboardMulti(props) {
 
@@ -95,13 +95,35 @@ export default function ScoreboardMulti(props) {
 
         // teamElems.pop();
     } else {
-        teamElems.push(
-            <HStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} key={'playerheader'}>
-                <Text as="span" w='4rem' align="center" fontSize="xxs" color="gray.200">#</Text>
-                <Text as="span" w='13rem' align="left" fontSize="xxs" color="gray.200">Name</Text>
-                <Text as="span" w='6rem' align="center" fontSize="xxs" color="gray.200">Score</Text>
-            </HStack>
-        );
+
+        let header = (
+            <Thead key={'allplayerheader-'} >
+                <Tr
+                    // bgColor="gray.1000" 
+
+                    spacing="0" width="100%" justifyContent={'center'} alignItems={'center'}
+                // borderRight={'0.5rem solid ' + team.color}
+                >
+                    <Th textAlign={'center'} borderBottom="0" px="0.5rem" width="4rem" p="0" pt="0.5rem" borderLeft="0.5rem solid transparent" height="2rem" >
+                        <Text align="center" color="gray.100" fontSize="xxs" fontWeight={'bold'} >#</Text>
+                    </Th>
+                    <Th borderBottom="0" p="0" pt="0.5rem" >
+                        <Text align="left" color="gray.100" fontSize="xxs" fontWeight={'bold'} >Name</Text>
+                    </Th>
+                    <Th borderBottom="0" w="6rem" p="0" pt="0.5rem">
+                        <Text align="center" color="gray.100" fontSize="xxs" >Score</Text>
+                    </Th>
+                </Tr>
+            </Thead>
+        )
+
+        // teamElems.push(
+        //     <HStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} key={'playerheader'}>
+        //         <Text as="span" w='4rem' align="center" fontSize="xxs" color="gray.200">#</Text>
+        //         <Text as="span" w='13rem' align="left" fontSize="xxs" color="gray.200">Name</Text>
+        //         <Text as="span" w='6rem' align="center" fontSize="xxs" color="gray.200">Score</Text>
+        //     </HStack>
+        // );
 
         let playersSorted = [];
         for (const id in players) {
@@ -123,7 +145,8 @@ export default function ScoreboardMulti(props) {
         }
 
         teamElems.push((
-            <Table w="100%" key={"table-player-elems"}>
+            <Table w="100%" key={"table-player-elems"} style={{ borderCollapse: "separate", borderSpacing: "0 0.25rem" }} pb="1rem">
+                {header}
                 <Tbody>
                     {playerElems}
                 </Tbody>
@@ -156,7 +179,7 @@ function ScoreboardPlayersMulti(props) {
     }
 
     return (
-        <Tr background="linear-gradient(90deg, rgba(4,16,42,1) 0%, rgba(4,16,42,1) 46%, rgba(2,89,165,1) 100%)">
+        <Tr background="linear-gradient(90deg, rgba(23,23,23,0.3) 0%, rgba(59,59,59,0.3) 46%, rgba(110,110,110,0.3) 100%)">
             <Td
                 p="0"
 
@@ -181,15 +204,15 @@ function ScoreboardPlayersMulti(props) {
                 <Text
                     // w={props.team ? '13rem' : '13rem'}
                     maxWidth={layoutMode == 'bottom' ? '100%' : "14rem"}
-                    height="3rem"
-                    lineHeight="3rem"
+                    height="2.5rem"
+                    lineHeight="2.5rem"
                     align="left"
                     fontSize="xxs"
                     color={player.ingame === false ? 'gray.175' : "white"}
                     whiteSpace="nowrap"
                     overflow="hidden"
                     textOverflow={'ellipsis'}
-                    maxHeight="3rem"
+                    maxHeight="2.5rem"
                 //bgColor="gray.1000"
                 >
                     {displayname}

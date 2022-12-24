@@ -44,7 +44,7 @@ function LoadingBox(props) {
                 {/* <Text>Loading...</Text> */}
                 <Image
                     alt={'A cup of skill logo'}
-                    src={`${config.https.cdn}acos-logo-combined.png`}
+                    src={`${config.https.cdn}acos-logo-large.png`}
                     w="300px" h="124.5px"
                 />
                 <div className="ldr-1"><div className="ball1"></div><div className="ball2"></div><div className="ball3"></div><div className="ball4"></div></div>

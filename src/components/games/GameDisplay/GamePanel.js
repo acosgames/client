@@ -13,6 +13,7 @@ import LoadingBox from './LoadingBox';
 import GameMessageOverlay from './GameMessageOverlay';
 
 import iframeSrc from './iframesrc'
+import { calculateGameSize } from '../../../util/helper';
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
@@ -111,7 +112,7 @@ function GameIFrame(props) {
     }
 
     const onResize = () => {
-        if (!gamescreenRef?.current || !iframeRef?.current)
+        if (!gamescreenRef?.current || !iframeRef?.current || fs.get('showLoadingBox'))
             return;
 
         var now = (new Date).getTime();
@@ -136,21 +137,38 @@ function GameIFrame(props) {
         let windowWidth = w;//gamewrapperRef.current.offsetWidth;
         let windowHeight = h;//gamewrapperRef.current.offsetHeight;
 
-        let roomPanelRef = fs.get('roomPanelRef');
+        let roomPanelRef = document.querySelector('.actionpanel-wrapper');// fs.get('roomPanelRef');
         let layoutMode = fs.get('layoutMode');
-        if (roomPanelRef?.current) {
-            if (layoutMode == 'bottom') {
-                // windowWidth += roomPanelRef.current.offsetWidth;
-                windowHeight += 50;
+        // if (roomPanelRef) {
+        //     if (layoutMode == 'bottom') {
+        //         windowHeight = h - roomPanelRef.offsetHeight;
+        //     } else {
+        //         windowWidth = w - roomPanelRef.offsetWidth;
+        //     }
+        // } else {
 
-                if (windowHeight > h * 0.6) {
-                    windowHeight = (h * 0.6) - 50;
-                }
+        // }
+        // if (roomPanelRef) {
+        if (layoutMode == 'bottom') {
+
+            // if (screentype == '1') {
+            // windowWidth += roomPanelRef.current.offsetWidth;
+            // windowHeight += 50;
+
+            if (windowHeight > h * 0.6) {
+                windowHeight = (h * 0.6);
             }
-            else {
-                windowWidth -= 240;
-            }
+            // }
         }
+        else {
+            if (h >= 992) {
+                windowWidth -= 400;
+            } else {
+                windowWidth -= 300;
+            }
+            // windowWidth -= 240;
+        }
+        // }
 
         let roomStatus = getRoomStatus(room_slug);
         let offsetRatio = !isLoaded ? 0.1 : 1;
@@ -165,25 +183,29 @@ function GameIFrame(props) {
         }
 
 
-        windowWidth *= offsetRatio;
-        windowHeight *= offsetRatio;
+        let { bgWidth, bgHeight } = calculateGameSize(windowWidth, windowHeight, resow, resoh, offsetRatio);
 
-        let bgWidth = 0;
-        let bgHeight = 0;
+        // windowWidth *= offsetRatio;
+        // windowHeight *= offsetRatio;
+
+        // let bgWidth = 0;
+        // let bgHeight = 0;
         let scale = 1;
-        let wsteps = (windowWidth / resow);
-        let hsteps = (windowHeight / resoh);
-        let steps = 0;
+        // let wsteps = (windowWidth / resow);
+        // let hsteps = (windowHeight / resoh);
+        // let steps = 0;
 
-        if (wsteps < hsteps) {
-            steps = wsteps
-        }
-        else {
-            steps = hsteps
-        }
+        // if (wsteps < hsteps) {
+        //     steps = wsteps
+        // }
+        // else {
+        //     steps = hsteps
+        // }
 
-        bgWidth = (steps * resow);
-        bgHeight = (steps * resoh);
+        // bgWidth = (steps * resow);
+        // bgHeight = (steps * resoh);
+
+        let oldHeight = gamescreenRef.current.style.height;
 
         if (screentype == '3') {
             gamescreenRef.current.style.width = bgWidth + 'px';
@@ -206,7 +228,8 @@ function GameIFrame(props) {
             iframeRef.current.setAttribute('style', 'width:100%; height:100%;')
         }
 
-        fs.set('resized', Date.now());
+        if (oldHeight !== '' && oldHeight != gamescreenRef.current.style.height)
+            fs.set('resized', Date.now());
     }
 
 
@@ -231,14 +254,14 @@ function GameIFrame(props) {
         window.addEventListener('resize', onResize);
         document.addEventListener('fullscreenchange', onFullScreenChange);
 
-        fs.set('fullScreenElem', gameResizer);
+        // fs.set('fullScreenElem', gameResizer);
 
         myObserver.observe(gameResizer.current);
 
 
-        if (gamepanel.isPrimary) {
-            fs.set('gamescreenRef', gamescreenRef);
-        }
+        // if (gamepanel.isPrimary) {
+        // fs.set('gamescreenRef', gamescreenRef);
+        // }
         setTimeout(() => {
             setIsOpen(true);
         }, 10)
@@ -300,6 +323,7 @@ function GameIFrame(props) {
 
                     <Box
                         ref={gamescreenRef}
+                        className="gamescreenRef"
                         key={"gamescreenRef-" + gamepanel.id}
                         height="100%"
                         position="relative"

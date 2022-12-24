@@ -77,7 +77,7 @@ class GameList extends Component {
                             height="4.5rem"
                             display="flex"
                             flexDir={"row"}
-                            bgColor="gray.800"
+                            bgColor="blacks.100"
                             borderRadius="2rem"
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="center" alignItems={'center'}>
@@ -88,7 +88,7 @@ class GameList extends Component {
                             height="4.5rem"
                             display="flex"
                             flexDir={"row"}
-                            bgColor="gray.800"
+                            bgColor="blacks.100"
                             borderRadius="2rem"
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="center" alignItems={'center'} _hover={{ textDecoration: 'none' }} >
@@ -100,7 +100,7 @@ class GameList extends Component {
                             height="4.5rem"
                             display="flex"
                             flexDir={"row"}
-                            bgColor="gray.800"
+                            bgColor="blacks.100"
                             borderRadius="2rem"
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="center" alignItems={'center'}
@@ -111,7 +111,7 @@ class GameList extends Component {
                             height="4.5rem"
                             display="flex"
                             flexDir={"row"}
-                            bgColor="gray.800"
+                            bgColor="blacks.100"
                             borderRadius="2rem"
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="center" alignItems={'center'}>
@@ -131,7 +131,7 @@ class GameList extends Component {
                                 p="2rem"
                                 display="flex"
                                 flexDir={"row"}
-                                bgColor="gray.800"
+                                bgColor="blacks.100"
                                 borderRadius="2rem"
                                 boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                                 justifyContent="flex-start" alignItems={'center'} _hover={{ textDecoration: 'none' }}

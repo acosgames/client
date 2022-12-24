@@ -16,7 +16,7 @@ function ActionMenu(props) {
                     aria-label='Options'
                     w="3.5rem" h="3.5rem"
                     icon={<BsFillGearFill w="3.5rem" h="3.5rem" />}
-                    variant='outline'
+                    variant='none'
                 />
             </VStack>
             <MenuList>

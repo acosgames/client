@@ -13,18 +13,18 @@ import {
     VStack,
     Button,
 } from '@chakra-ui/react';
-import SLink from './widgets/SLink';
+// import SLink from './widgets/SLink';
 import fs from 'flatstore';
 import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
 import { Link, useParams, } from 'react-router-dom';
 import config from '../config'
 import { findGamePanelByRoom, getPrimaryGamePanel, getRoomStatus, minimizeGamePanel } from '../actions/room';
-import { BsFillGearFill, AiFillLayout, IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
-import GameActions from './games/GameDisplay/GameActions';
-import { decodeReplay, downloadReplay } from '../actions/connection';
+// import { BsFillGearFill, AiFillLayout, IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
+// import GameActions from './games/GameDisplay/GameActions';
+// import { decodeReplay, downloadReplay } from '../actions/connection';
 import QueuePanel from './games/QueuePanel';
-import Timeleft from './games/GameDisplay/Timeleft';
+// import Timeleft from './games/GameDisplay/Timeleft';
 import ActionMenu from './chat/ActionMenu';
 
 
@@ -75,15 +75,15 @@ function MainMenuChakra(props) {
 
     const loggedIn = props.loggedIn;
 
-    const gamepanel = findGamePanelByRoom(room_slug);
-    const isPrimary = getPrimaryGamePanel() != gamepanel;
+    const gamepanel = getPrimaryGamePanel();
+    // const isPrimary = getPrimaryGamePanel();
 
-    if (isPrimary) {
+    if (gamepanel && gamepanel.isPrimary && !gamepanel.available) {
         return <></>
     }
     return (
         <HStack
-            boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
+            // boxShadow={'0 10px 15px -3px rgba(0, 0, 0, .2), 0 4px 6px -2px rgba(0, 0, 0, .1);'}
             // boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
             spacing="0"
             w="100%"
@@ -94,7 +94,7 @@ function MainMenuChakra(props) {
             justifyContent={'center'}
             // overflow="hidden"
             px={['0.5rem', '1rem', '5rem']}
-            bg={'gray.600'}>
+            bgColor={'gray.1100'}>
 
             <Box
                 zIndex="1000"

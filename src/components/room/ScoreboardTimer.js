@@ -1,7 +1,7 @@
 import { VStack } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { getPrimaryGamePanel, isUserNext } from '../../../../actions/room';
-import Timeleft from '../Timeleft';
+import { getPrimaryGamePanel, isUserNext } from '../../actions/room';
+import Timeleft from '../room/Timeleft';
 
 export default function ScoreboardTimer(props) {
     let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');

@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { Route, Routes } from 'react-router-dom';
-import { getGamePanel, getGamePanels } from '../actions/room';
+import { getGamePanel, getGamePanels, getPrimaryGamePanel } from '../actions/room';
 import ACOSRoutes from '../routes/ACOSRoutes';
 import RoutesGame from '../routes/RoutesGame';
 import AcosFooter from './AcosFooter';
@@ -20,7 +20,7 @@ function AllContent(props) {
     if (gamepanel) {
         displayMode = 'standard';
     }
-    let shouldDarkenBackground = displayMode == 'standard' || displayMode == 'theatre' || displayMode == 'fullscreen';
+    let shouldDarkenBackground = getPrimaryGamePanel();
 
 
 
@@ -36,8 +36,8 @@ function AllContent(props) {
 
             flexDirection='column'
 
-            transition={'filter 0.3s ease-in'}
-            filter={shouldDarkenBackground ? 'blur(20px)' : 'blur(0)'}
+            // transition={'filter 1s ease-in'}
+            // filter={shouldDarkenBackground ? 'blur(20px)' : 'blur(0)'}
             maxW={['1200px']}
 
         >

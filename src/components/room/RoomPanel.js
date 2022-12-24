@@ -2,12 +2,7 @@
 import fs from 'flatstore';
 import { Box, chakra, VStack, } from '@chakra-ui/react';
 
-import { clearChatMessages, getChatMessages, sendChatMessage } from '../../../../actions/chat.js';
-
-import config from '../../../../config'
 import ColorHash from 'color-hash'
-import ratingtext from 'shared/util/ratingtext';
-import Timeleft from '../Timeleft';
 import ScoreboardTimer from './ScoreboardTimer.js';
 import Scoreboard from './Scoreboard.js';
 import ChatMessages from './ChatMessages.js';
@@ -16,7 +11,8 @@ import Highscores from './Highscores.js';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import { useEffect, useRef } from 'react';
-import GameActions from '../GameActions.js';
+import GameActions from '../games/GameDisplay/GameActions.js';
+import { calculateGameSize } from '../../util/helper.js';
 
 fs.set('chat', []);
 fs.set('chat_room', []);
@@ -45,10 +41,19 @@ function getGameModeName(id) {
 
 function RoomPanel(props) {
     let [layoutMode] = fs.useWatch('layoutMode');
-    let [gamescreenRef] = fs.useWatch('gamescreenRef');
+    // let [gamescreenRefWatch] = fs.useWatch('gamescreenRef');
     let [resized] = fs.useWatch('resized');
+
+    let [scoreboardExpanded] = fs.useWatch('scoreboardExpanded');
+    let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
+    const scrollRef = useRef();
+    const roomPanelRef = useRef();
+
+
+
     let width = '100%';
     let height = '100%';
+    let minHeight = '40%';
 
     switch (layoutMode) {
         case 'off': break;
@@ -57,30 +62,37 @@ function RoomPanel(props) {
             break;
         case 'bottom':
             width = '100%'
-
+            height = '40%';
             let room = fs.get('primary/room');
-            if (!room || room.screentype == 1) {
-                height = "40%";
-            } else {
-                // let gamescreenRef = fs.get('gamescreenRef')
-                const domRect = gamescreenRef.current.getBoundingClientRect();
+            let roomstate = fs.get('primary/roomstate');
+            let gamescreenRef = document.querySelector('.gamescreenRef');
 
-                var w = window.innerWidth
-                    || document.documentElement.clientWidth
-                    || document.body.clientWidth;
+            var w = window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
 
-                var h = window.innerHeight
-                    || document.documentElement.clientHeight
-                    || document.body.clientHeight;
+            var h = window.innerHeight
+                || document.documentElement.clientHeight
+                || document.body.clientHeight;
 
-                height = h - (domRect.height + 40);
+            let windowWidth = w;//gamewrapperRef.current.offsetWidth;
+            let windowHeight = h;//gamewrapperRef.current.offsetHeight;
+
+            if (room.screentype == '1') {
+                if (windowHeight > h * 0.6) {
+                    windowHeight = (h * 0.6);
+                }
             }
+
+            let { bgWidth, bgHeight } = calculateGameSize(windowWidth, windowHeight, room.resow, room.resoh, 1);
+
+            height = h - bgHeight;
+
             break;
     }
     let timeHandle = 0;
     const scrollBarHideDelay = 2000;
-    const scrollRef = useRef();
-    const roomPanelRef = useRef();
+
 
     //setup scroll styling with classes
     const onScroll = () => {
@@ -105,13 +117,17 @@ function RoomPanel(props) {
     }, [])
 
     useEffect(() => {
-        fs.set('roomPanelRef', roomPanelRef);
+        // fs.set('roomPanelRef', roomPanelRef);
     })
 
     const ChakraSimpleBar = chakra(SimpleBar)
 
+    if (typeof primaryGamePanelId === 'undefined' || primaryGamePanelId == null) {
+        return <></>
+    }
+
     return (
-        <VStack ref={roomPanelRef} minHeight="40%" h={height} w={width} spacing="0" justifyContent={'flex-start'} alignItems="flex-start" bgColor="gray.1100">
+        <VStack ref={roomPanelRef} className="actionpanel-wrapper" minHeight={minHeight} h={height} w={width} spacing="0" justifyContent={'flex-start'} alignItems="flex-start" bgColor="gray.1100">
             <Box w="100%" height="4rem" >
                 <ScoreboardTimer isBottomLayout={layoutMode == 'bottom'} />
             </Box>
