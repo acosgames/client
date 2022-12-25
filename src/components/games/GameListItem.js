@@ -5,7 +5,7 @@ import {
 
 import config from '../../config'
 
-import { findQueue } from '../../actions/queue';
+import { addJoinQueues, findQueue } from '../../actions/queue';
 import fs from 'flatstore';
 import { useEffect, useState } from "react";
 import { VStack, Image, Text, HStack, Icon, Button, Tooltip, Box, Link as ChLink } from "@chakra-ui/react";
@@ -14,7 +14,7 @@ import { FaPlay, GiCheckMark, IoPeople } from '@react-icons';
 import { getUser, login } from "../../actions/person";
 import { joinGame } from "../../actions/game";
 import { setLastJoinType } from "../../actions/room";
-import { validateLogin } from "../../actions/connection";
+import { validateLogin, wsJoinQueues } from "../../actions/connection";
 
 function GameListItem(props) {
     let defaultStackType = (VStack)
@@ -31,8 +31,14 @@ function GameListItem(props) {
         setLastJoinType('rank');
 
         fs.set('game', game);
+
+        addJoinQueues(game.game_slug, 'rank');
+
         if (!(await validateLogin()))
             return;
+
+
+
 
         joinGame(game);
     }

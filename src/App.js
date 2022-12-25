@@ -64,7 +64,7 @@ function App(props) {
       || document.body.clientWidth;
 
     let screenHeight = window.screen.height;
-    let isMobileCheck = screenWidth < 600;
+    let isMobileCheck = screenWidth < 500;
     fs.set("isMobile", isMobileCheck);
 
     let layoutMode = fs.get('layoutMode');

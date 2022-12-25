@@ -1,6 +1,6 @@
 import { Box, HStack, Text, Tooltip } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { getGamePanel, getPrimaryGamePanel, isUserNext } from '../../actions/room';
+import { getGamePanel, getPrimaryGamePanel, getRoomStatus, isUserNext } from '../../actions/room';
 
 function Timeleft(props) {
     let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
@@ -15,9 +15,9 @@ function TimeleftDisplay(props) {
 
 
     let [timeleft] = fs.useWatch('timeleft/' + props.id) || 0;
+    let [gamepanel] = fs.useWatch('gamepanel/' + props.id);
 
-
-    let gamepanel = getGamePanel(props.id);
+    // let gamepanel = getGamePanel(props.id);
     if (!gamepanel)
         return <></>
 
@@ -53,6 +53,20 @@ function TimeleftDisplay(props) {
     let isEven = timeleft % 2 == 0;
 
     let isNext = isUserNext(gamepanel);
+
+    let roomStatus = 'NONE';
+    if (gamepanel?.room?.room_slug)
+        roomStatus = getRoomStatus(gamepanel.room.room_slug);
+
+    let nextColor = 'yellow.500'
+    let nextText = 'WAIT';
+    if (roomStatus == 'GAME' && isNext) {
+        nextText = 'GO';
+        nextColor = 'brand.900'
+    } else if (roomStatus != 'GAME' && roomStatus != 'LOADING') {
+        nextText = 'GG';
+        nextColor = 'gray.200'
+    }
 
     return (
         <HStack width="100%" align="center"
@@ -136,12 +150,22 @@ function TimeleftDisplay(props) {
                 </HStack>
 
             </HStack>
-            <Text as="span" px="0.5rem" fontSize="sm" height="4rem" lineHeight={'4rem'} display="block" position="absolute" top="0" right="0" fontWeight={'bold'}
+            <Text
+                as="span"
+                px="0.5rem"
+                fontSize="sm"
+                height="4rem"
+                lineHeight={'4rem'}
+                display={'block'}
+                position="absolute"
+                top="0"
+                left="0"
+                fontWeight={'bold'}
                 //bgColor={isNext ? 'brand.900' : 'yellow.500'}
                 textShadow="1px 1px 8px #044588"
-                color={isNext ? 'brand.900' : 'yellow.500'}
+                color={nextColor}
             >
-                {isNext ? 'GO' : 'WAIT'}
+                {nextText}
             </Text>
         </HStack>
     )

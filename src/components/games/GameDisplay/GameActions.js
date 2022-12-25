@@ -6,7 +6,7 @@ import fs from 'flatstore';
 
 import { joinGame } from '../../../actions/game';
 import { wsLeaveGame } from '../../../actions/connection';
-import { clearPrimaryGamePanel, clearRoom, getGamePanel, getPrimaryGamePanel, getRoomStatus } from '../../../actions/room';
+import { clearPrimaryGamePanel, clearRoom, getGamePanel, getPrimaryGamePanel, getRoomStatus, setRoomForfeited } from '../../../actions/room';
 
 const resizeEvent = new Event('resize');
 
@@ -66,6 +66,7 @@ function GameActions(props) {
             clearPrimaryGamePanel();
         }
         else {
+            setRoomForfeited(room_slug);
             wsLeaveGame(game_slug, room_slug);
         }
 

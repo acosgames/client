@@ -133,6 +133,15 @@ export function cleanupGamePanel(gamepanel) {
 }
 
 
+export function setRoomForfeited(room_slug) {
+    let gamepanel = findGamePanelByRoom(room_slug)
+    gamepanel.active = false;
+    gamepanel.forfeit = true;
+
+    updateRoomStatus(room_slug);
+    updateGamePanel(gamepanel);
+}
+
 export function setRoomActive(room_slug, active) {
     let gamepanel = findGamePanelByRoom(room_slug)
     gamepanel.active = active;
@@ -160,6 +169,7 @@ export function createGamePanel() {
     gp.available = false;
     gp.loaded = false;
     gp.ready = false;
+    gp.forfeit = false;
     gp.canvasRef = null;
     gp.gamestate = null;
     gp.gameover = false;
@@ -177,6 +187,7 @@ export function reserveGamePanel() {
             gp.available = false;
 
             gp.loaded = false;
+            gp.forfeit = false;
             gp.ready = false;
             gp.gamestate = null;
             gp.gameover = false;
@@ -271,6 +282,8 @@ export function addRooms(roomList) {
 
         gamepanel.room = r;
 
+
+
         if (gamestate && gamestate.players) {
             gamestate.local = gamestate.players[user.shortid];
             if (gamestate.local)
@@ -285,7 +298,10 @@ export function addRooms(roomList) {
         }
 
         gamepanel.gamestate = gamestate;
+        updateRoomStatus(r.room_slug);
+
         updateGamePanel(gamepanel);
+
 
         if (!foundFirst) {
             foundFirst = true;
@@ -437,6 +453,9 @@ export function processsRoomStatus(gamepanel) {
         return "NOSHOW";
     }
 
+    if (gamepanel.forfeit) {
+        return "FORFEIT";
+    }
     // let iframeLoaded = fs.get('iframeLoaded');
     // if (!iframeLoaded) {
     //     return "LOADING";

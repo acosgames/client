@@ -76,7 +76,7 @@ function MainMenuChakra(props) {
     const loggedIn = props.loggedIn;
 
     const gamepanel = getPrimaryGamePanel();
-    // const isPrimary = getPrimaryGamePanel();
+    // const isPrimary = getPrimaryGamePanel();http://localhost:8000/join/test-game-1+rank
 
     if (gamepanel && gamepanel.isPrimary && !gamepanel.available) {
         return <></>
@@ -94,7 +94,7 @@ function MainMenuChakra(props) {
             justifyContent={'center'}
             // overflow="hidden"
             px={['0.5rem', '1rem', '5rem']}
-            bgColor={'gray.1100'}>
+            bgColor={'gray.800'}>
 
             <Box
                 zIndex="1000"

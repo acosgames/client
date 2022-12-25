@@ -13,6 +13,7 @@ import 'simplebar-react/dist/simplebar.min.css';
 import { useEffect, useRef } from 'react';
 import GameActions from '../games/GameDisplay/GameActions.js';
 import { calculateGameSize } from '../../util/helper.js';
+import ActionMenu from '../chat/ActionMenu.js';
 
 fs.set('chat', []);
 fs.set('chat_room', []);
@@ -58,7 +59,7 @@ function RoomPanel(props) {
     switch (layoutMode) {
         case 'off': break;
         case 'right':
-            width = ['30rem', '30rem', '30rem', '40rem']
+            width = ['30rem', '30rem', '30rem']//, '40rem']
             break;
         case 'bottom':
             width = '100%'
@@ -84,11 +85,17 @@ function RoomPanel(props) {
                 }
             }
 
+
             let { bgWidth, bgHeight } = calculateGameSize(windowWidth, windowHeight, room.resow, room.resoh, 1);
 
-            height = h - bgHeight;
+            height = (h - bgHeight) + 'px';
 
             break;
+    }
+
+    if (layoutMode == 'bottom' && !scoreboardExpanded) {
+        height = '4rem';
+        minHeight = '4rem'
     }
     let timeHandle = 0;
     const scrollBarHideDelay = 2000;
@@ -127,7 +134,22 @@ function RoomPanel(props) {
     }
 
     return (
-        <VStack ref={roomPanelRef} className="actionpanel-wrapper" minHeight={minHeight} h={height} w={width} spacing="0" justifyContent={'flex-start'} alignItems="flex-start" bgColor="gray.1100">
+        <VStack
+            ref={roomPanelRef}
+            className="actionpanel-wrapper"
+            minHeight={minHeight}
+            h={height}
+            w={width}
+            spacing="0"
+            justifyContent={'flex-start'}
+            alignItems="flex-start"
+            bgColor="gray.1100"
+            position="relative"
+        >
+            <Box position="absolute" height="4rem" top="0" right="0" zIndex="1000">
+                <ActionMenu />
+            </Box>
+
             <Box w="100%" height="4rem" >
                 <ScoreboardTimer isBottomLayout={layoutMode == 'bottom'} />
             </Box>

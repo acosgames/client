@@ -154,11 +154,19 @@ function GameIFrame(props) {
             // if (screentype == '1') {
             // windowWidth += roomPanelRef.current.offsetWidth;
             // windowHeight += 50;
-
-            if (windowHeight > h * 0.6) {
+            let scoreboardExpanded = fs.get('scoreboardExpanded');
+            if (!scoreboardExpanded) {
+                if (windowHeight > h - 40) {
+                    windowHeight = h - 40;
+                }
+            }
+            else if (windowHeight > h * 0.6) {
                 windowHeight = (h * 0.6);
             }
             // }
+        }
+        else if (layoutMode == 'off') {
+
         }
         else {
             if (h >= 992) {

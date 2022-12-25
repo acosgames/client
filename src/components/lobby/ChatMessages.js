@@ -18,10 +18,12 @@ function ChatMessages(props) {
     const renderChatMessages = () => {
         let rows = [];
         let messages = getChatMessages(channel);
+        let salt = 0;
         for (let msg of messages) {
             if (!msg || Array.isArray(msg))
                 continue;
-            rows.push(<ChatMessage key={msg.displayname + msg.timestamp} msg={msg} />)
+
+            rows.push(<ChatMessage key={msg.displayname + msg.timestamp + (salt++)} msg={msg} />)
         }
         return rows;
     }
@@ -74,27 +76,29 @@ function ChatMessages(props) {
     const ChakraSimpleBar = chakra(SimpleBar)
 
     return (
-        <Box p="1rem" pb="0" w="100%" flex="1" overflow="hidden">
+        <VStack spacing="0" p="1rem" pt="0rem" pb="0" w="100%" flex="1" overflow="hidden">
 
-
+            <Box w="100%" height="3rem">
+                <Text w="100%" as="div" align="center" fontSize="xs" fontWeight={'bold'} color="white" lineHeight={'3rem'}>Lobby</Text>
+            </Box>
             <VStack w="100%"
-                bgColor="gray.1200"
+                bgColor="gray.1100"
                 borderRadius="2rem"
                 //border="2px solid"
                 borderColor={'gray.175'}
                 // minHeight={"10rem"}
-                height="100%"
+                // height="100%"
+                flex="1"
                 spacing={'0rem'}
+                overflow="hidden"
             // py="0.5rem"
             // overflow="hidden"
             >
 
-                <Box w="100%" height="3rem">
-                    <Text w="100%" as="div" align="center" fontSize="xs" fontWeight={'bold'} color="white" lineHeight={'3rem'}>Lobby</Text>
-                </Box>
+
 
                 <VStack width="100%"
-                    height="100%"
+                    // height="100%"
                     // height={"auto"}
                     //  maxHeight={props.isBottomLayout ? "20rem" : ''} 
                     boxSizing='border-box'
@@ -128,7 +132,7 @@ function ChatMessages(props) {
                 </VStack>
                 {/* <Box height="0px" ref={messageListRef} /> */}
             </VStack>
-        </Box>
+        </VStack>
     )
 }
 

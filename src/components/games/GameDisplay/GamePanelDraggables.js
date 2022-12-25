@@ -7,10 +7,13 @@ import { FaExpandAlt } from '@react-icons';
 import GamePanel from "./GamePanel";
 import Connection from "../Connection";
 import LoadingBox from "./LoadingBox";
+import ActionMenu from "../../chat/ActionMenu";
 
 function GamePanelDraggables(props) {
 
     let [gamepanels] = fs.useWatch('gamepanels');
+
+    let [layoutMode] = fs.useWatch('layoutMode');
 
     const renderDraggables = () => {
 
@@ -36,6 +39,9 @@ function GamePanelDraggables(props) {
 
     return (
         <>
+            <Box position="absolute" bottom="0rem" right="0rem" zIndex="1000" display={layoutMode == 'off' ? 'block' : 'none'}>
+                <ActionMenu />
+            </Box>
             <LoadingBox />
             {renderDraggables()}
             <Connection></Connection>

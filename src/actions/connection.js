@@ -517,6 +517,7 @@ export async function recvFrameMessage(evt) {
         setTimeout(() => {
 
             gamepanel.loaded = true;
+            updateRoomStatus(room_slug);
             updateGamePanel(gamepanel);
 
             fs.set('showLoadingBox', false);
@@ -696,9 +697,8 @@ export async function wsLeaveQueue() {
 
 export async function wsRejoinQueues() {
 
-    if (!validateLogin()) {
+    if (!(await validateLogin()))
         return;
-    }
 
     let joinqueues = getJoinQueues() || {};
     let user = fs.get('user');
@@ -708,7 +708,16 @@ export async function wsRejoinQueues() {
         wsJoinQueues(joinqueues.queues, joinqueues.owner);
 }
 
-export async function wsJoinQueues(queues, owner) {
+export async function wsJoinQueues(queues, owner, attempt) {
+
+    attempt = attempt || 1;
+
+    let joinQueues = { queues, owner };
+    fs.set('joinqueues', joinQueues);
+    localStorage.setItem('joinqueues', JSON.stringify(joinQueues));
+
+    if (attempt > 10)
+        return false;
 
     if (!(await validateLogin()))
         return false;
@@ -724,13 +733,14 @@ export async function wsJoinQueues(queues, owner) {
         // return false;
     }
 
-    let joinQueues = { queues, owner };
-    fs.set('joinqueues', joinQueues);
-    localStorage.setItem('joinqueues', JSON.stringify(joinQueues));
+
 
 
     let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
+        setTimeout(() => {
+            wsJoinQueues(queues, owner, attempt + 1);
+        }, 500)
         return false;
     }
 
@@ -759,7 +769,7 @@ export async function wsJoinQueues(queues, owner) {
 
 export async function wsJoinGame(mode, game_slug) {
 
-    if (!validateLogin())
+    if (!(await validateLogin()))
         return false;
 
     let ws = await reconnect(true);

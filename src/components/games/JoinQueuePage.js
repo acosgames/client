@@ -1,11 +1,11 @@
 
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 import { wsJoinQueues } from "../../actions/connection";
 import { joinGame } from "../../actions/game";
 import GameList from "./GameList";
-
+import fs from 'flatstore';
 
 function JoinQueuePage(props) {
 
@@ -15,11 +15,13 @@ function JoinQueuePage(props) {
     const paramQueues = params?.queues;
     const parts = paramQueues.split('+') || [];
 
+    let [queues] = fs.useWatch('queues');
+
 
     useEffect(() => {
         gtag('event', 'joinqueuepage');
 
-        let queues = [];
+        let requestQueues = [];
 
         for (var i = 0; i < parts.length; i += 2) {
 
@@ -31,15 +33,18 @@ function JoinQueuePage(props) {
             if (!mode)
                 mode = 'rank';
 
-            queues.push({ game_slug, mode });
+            requestQueues.push({ game_slug, mode });
         }
 
-        setTimeout(() => {
-            wsJoinQueues(queues, paramOwner);
-        }, 1)
+        // setTimeout(() => {
+        wsJoinQueues(requestQueues, paramOwner);
+        // }, 1000)
 
     }, [])
 
+    if (queues && queues.length > 0) {
+        return <Navigate to="/" />
+    }
 
     return (
         <div id="mainpage">

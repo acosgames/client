@@ -104,6 +104,7 @@ function GameInfoJoinButton(props) {
         //bgColor="gray.900"
         //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
         >
+            <Text as="h3" fontWeight={'bold'} color="white" fontSize="xs" fontStyle={'italic'}>COMPETITIVE RANK</Text>
             <HStack spacing="0" w="full">
 
                 <Button
@@ -123,7 +124,11 @@ function GameInfoJoinButton(props) {
                     borderBottomRightRadius={hasExtra ? 0 : '9999px'}
                     onClick={handleJoin}
                 >
-                    <Icon ml={hasExtra ? '65px' : 0} as={FaPlay}
+                    {/* <Text as="span" pr="1rem">LET'S GO</Text> */}
+                    <Icon
+                        // ml={0}
+                        ml={hasExtra ? '65px' : 0}
+                        as={FaPlay}
                         height={["1rem", "1.6rem"]}
                         width={["1rem", "1.6rem"]} />
                 </Button>
@@ -150,7 +155,7 @@ function GameInfoJoinButton(props) {
                         </MenuButton>
                         <MenuList boxShadow={'0 4px 8px rgba(0,0,0,0.4),0 0px 4px rgba(0,0,0,0.4)'} border="0" borderRadius="8px" p="1rem">
                             {/* <MenuItem icon={<GiSpectacles fontSize={'2rem'} />} onClick={() => { }}>Watch Live Matches</MenuItem> */}
-                            <MenuItem icon={<AiTwotoneExperiment fontSize={'2rem'} />} onClick={handleJoinBeta}>Play Experimental Build</MenuItem>
+                            <MenuItem icon={<AiTwotoneExperiment fontSize={'2rem'} />} onClick={handleJoinBeta}>Play Casual</MenuItem>
 
                             {/* <MenuItem>Create Private Room</MenuItem> */}
                         </MenuList>

@@ -41,18 +41,18 @@ function LobbyPanel(props) {
     let [resized] = fs.useWatch('resized');
     let width = '100%';
     let height = '100%';
-    let minHeight = '30%';
+    let minHeight = '40%';
 
     switch (layoutMode) {
         case 'off': break;
         case 'right':
-            width = ['30rem', '30rem', '30rem', '40rem']
+            width = ['30rem', '30rem', '30rem']//, '40rem']
             break;
         case 'bottom':
             width = '100%'
 
-            height = "30%";
-            minHeight = "30%";
+            height = "40%";
+            minHeight = "40%";
 
 
             break;
@@ -61,7 +61,18 @@ function LobbyPanel(props) {
     const ChakraSimpleBar = chakra(SimpleBar)
 
     return (
-        <VStack className="actionpanel-wrapper" minHeight={minHeight} h={height} w={width} spacing="0" justifyContent={'flex-start'} alignItems="flex-start" bgColor="gray.1100" position="relative" pb="4rem" overflow="hidden">
+        <VStack
+            className="actionpanel-wrapper"
+            minHeight={minHeight}
+            h={height}
+            w={width}
+            spacing="0"
+            justifyContent={'flex-start'}
+            alignItems="flex-start"
+            bgColor="gray.1200"
+            position="relative"
+            pb="4rem"
+            overflow="hidden">
 
             <ChatMessages />
 

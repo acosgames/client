@@ -28,7 +28,9 @@ function isDark(hex) {
 }
 
 function GameMessageOverlay(props) {
-
+    let [gamestatusUpdated] = fs.useWatch('gamestatusUpdated');
+    let [wsConnected] = fs.useWatch('wsConnected');
+    let [timeleftUpdated] = fs.useWatch('timeleftUpdated');
     // const params = useParams();
     // const location = useLocation();
 
@@ -38,8 +40,9 @@ function GameMessageOverlay(props) {
     // const game_slug = params.game_slug;
     // const mode = params.mode;
     // const room_slug = params.room_slug;
+    let [gamepanel] = fs.useWatch('gamepanel/' + props.gamepanel.id);
 
-    let gamepanel = props.gamepanel;//getPrimaryGamePanel();
+    // let gamepanel = props.gamepanel;//getPrimaryGamePanel();
 
     if (!gamepanel)
         return <></>
@@ -103,6 +106,11 @@ function GameMessageOverlay(props) {
     if (roomStatus == 'NOSHOW') {
         message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
             <Text as="h3" fontSize={isPrimary ? "3xl" : 'xxs'}>Not all players joined.</Text>
+        </VStack>;
+    }
+    else if (roomStatus == 'FORFEIT') {
+        message = <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
+            <Text as="h3" fontSize={isPrimary ? "3xl" : 'xxs'}>Forfeit</Text>
         </VStack>;
     }
     else if (roomStatus == 'GAMEOVER') {
@@ -226,4 +234,4 @@ function GameMessageOverlay(props) {
 
 
 
-export default (fs.connect(['gamestatusUpdated', 'timeleftUpdated', 'wsConnected'])(GameMessageOverlay));
+export default GameMessageOverlay;

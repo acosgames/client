@@ -174,7 +174,7 @@ export async function login() {
         return;
 
     let game = fs.get('game');
-    if (game) {
+    if (game && window.location.pathname.indexOf("/g/") > -1) {
         let mode = getLastJoinType();
         addJoinQueues(game.game_slug, mode);
     }

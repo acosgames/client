@@ -85,7 +85,7 @@ export default function ScoreboardMulti(props) {
 
             teamElems.push(<Box w="100%"
                 // bgColor="gray.1000"
-                key={'teamspacer-' + team.name} pb="2rem"
+                key={'teamspacer-' + team.name} pb="1rem"
                 //borderRight={'0.5rem solid ' + team.color}
                 borderLeft={'0.3rem solid'}
                 borderLeftColor={isTeamNext ? 'gray.100' : 'transparent'}
