@@ -29,6 +29,9 @@ export default function Scoreboard(props) {
 
     let mode = Number.isInteger(room.mode) ? getGameModeName(room.mode) : room.mode;
 
+    if (mode == 'experimental')
+        mode = 'casual'
+
     return (
         <VStack w="100%" spacing="0" justifyContent={'center'} alignItems="center" boxSizing='border-box' key="scoreboard-body" p="1rem">
 

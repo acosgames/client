@@ -5,7 +5,7 @@ import config from '../../../config'
 
 function LoadingBox(props) {
 
-    let [showLoadingBox] = fs.useWatch('showLoadingBox');
+    let [showLoadingBox] = fs.useWatch('showLoadingBox/' + props.id);
 
     const toast = useToast();
     const [show, setShow] = useState(true);

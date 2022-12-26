@@ -14,12 +14,15 @@ function GameInfoDescription(props) {
                             "strong",
                             "span",
                             "emphasis",
+                            "img",
+                            "a",
                             "i",
                             "b",
                             "p",
                             "strike",
                             "s",
                             "del",
+                            "h1", "h2", "h3", "h4", "h5", "h6",
                             "div",
                             "table", "thead", "tbody", "tr", "th", "td"
                         ]}

@@ -66,7 +66,7 @@ function PlayerRankInfo(props) {
             <Image
                 src={`${config.https.cdn}icons/ranks/${ratingImageFile}.png`}
                 width={'auto'}
-                height={["6.4rem", "6.4rem", "8rem"]}
+                height={["4.8rem", "4.8rem", "4.8rem"]}
             />
         </HStack>
     )

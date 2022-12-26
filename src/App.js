@@ -46,6 +46,7 @@ fs.set('layoutMode', 'right');
 fs.set('layoutBottomMode', 'none');
 fs.set('layoutRightMode', 'none');
 fs.set('scoreboardExpanded', true);
+fs.set('lobbyExpanded', true);
 fs.set('chatExpanded', true);
 
 function App(props) {

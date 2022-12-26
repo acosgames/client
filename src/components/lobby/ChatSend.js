@@ -9,7 +9,7 @@ import { getPrimaryGamePanel } from '../../actions/room';
 function ChatSend(props) {
 
     let [chatMessage] = fs.useWatch('chatMessage');
-
+    let [lobbyExpanded] = fs.useWatch('lobbyExpanded');
     const inputChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
@@ -22,6 +22,9 @@ function ChatSend(props) {
         await sendChatMessage();
         fs.set('chatMessage', '');
     }
+
+    if (!lobbyExpanded)
+        return <></>
 
     return (
         <Box w="100%" height="3.5rem" px="1rem" position="absolute" bottom="0" left="0" >

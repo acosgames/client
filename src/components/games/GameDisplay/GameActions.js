@@ -82,7 +82,7 @@ function GameActions(props) {
         //     return
 
         if (room.maxplayers == 1)
-            fs.set('showLoadingBox', true);
+            fs.set('showLoadingBox/' + gamepanel.id, true);
 
         fs.set('displayMode', 'none');
         clearRoom(room_slug);

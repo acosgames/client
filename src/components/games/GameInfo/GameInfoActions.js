@@ -101,21 +101,25 @@ function GameInfoActions(game) {
                     p="1rem"
                     boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
                     height="4.5rem"
-                    bgColor="blacks.100"
+                    minWidth="4.5rem"
+                    bgColor="gray.1200"
                     borderRadius="2rem"
+                    textAlign={"center"}
                     //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                     onClick={onShareClick}
-                    leftIcon={
-                        <IoShareSocial size="2rem" />
-                    }
+
                 >
-                    <Text color="gray.100" fontWeight={"bold"} lineHeight="1.4rem" fontSize={['xxs', 'xxs', 'xs']}></Text>
+                    <HStack spacing="2px" color={"gray.100"} lineHeight={'4.5rem'} justifyContent="center" alignItems={"center"}>
+                        <IoShareSocial size="2.3rem" />
+                    </HStack>
+
+                    {/* <Text color="gray.100" fontWeight={"bold"} lineHeight="1.4rem" fontSize={['xxs', 'xxs', 'xs']}></Text> */}
                 </Button>
 
                 <HStack w='100px' spacing="0.5rem"
                     p="1rem"
                     height="4.5rem"
-                    bgColor="blacks.100"
+                    bgColor="gray.1200"
                     borderRadius="2rem"
                     boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
                     //boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
@@ -138,7 +142,7 @@ function GameInfoActions(game) {
                 <Box
                     p="1rem"
                     height="4.5rem"
-                    bgColor="blacks.100"
+                    bgColor="gray.1200"
                     borderRadius="2rem"
                     boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
                 //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
@@ -170,16 +174,18 @@ function GameInfoActions(game) {
                     <Menu>
                         <MenuButton as={Button} variant="clear"
                             p="1rem"
+                            minWidth="4.5rem"
                             height="4.5rem"
-                            bgColor="blacks.100"
+                            bgColor="gray.1200"
                             borderRadius="2rem"
+                            textAlign={"center"}
                             boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
                         //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                         >
 
 
-                            <HStack spacing="2px" color={"gray.100"} lineHeight={'2rem'}>
-                                <Icon size="2rem" as={IoWarningSharp} p="0" />
+                            <HStack spacing="2px" color={"gray.100"} lineHeight={'4.5rem'} justifyContent="center" alignItems={"center"}>
+                                <Icon size="2.3rem" as={IoWarningSharp} p="0" />
                             </HStack>
 
 
@@ -209,7 +215,7 @@ function GameInfoActions(game) {
                     </Menu>
                 </Box>
             </HStack>
-        </Flex>
+        </Flex >
 
 
     )

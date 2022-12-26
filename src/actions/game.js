@@ -10,9 +10,11 @@ import { getUser } from './person';
 import { wsJoinRankedGame, wsJoinBetaGame } from './connection';
 import { addRoom } from './room';
 // import { decode } from 'shared/util/encoder';
-import ACOSEncoder from 'shared/util/encoder';
+import ACOSEncoder from '../util/encoder';
+// const ACOSEncoder = require('shared/util/encoder');
 // const encode = ACOSEncoder.encode;
 const decode = ACOSEncoder.decode;
+import delta from 'shared/util/delta';
 
 fs.set('rankList', []);
 fs.set('experimentalList', []);
@@ -142,11 +144,17 @@ function base64ToBytesArr(str) {
 }
 
 export function decodeReplay(data) {
-    let buffer = base64ToBytesArr(data);
+    // let buffer = base64ToBytesArr(data);
 
     console.log('[REPLAY] data size = ', data.length);
-    console.log('[REPLAY] buffer size = ', buffer.length);
-    let msg = decode(buffer);
+    // console.log('[REPLAY] buffer size = ', buffer.length);
+    // let msg = decode(buffer);
+    let msg = data;
+
+    if (msg.length > 0) {
+        msg[0].payload = delta.merge({}, msg[0].payload);
+        msg[0].payload = delta.merge({}, msg[0].payload);
+    }
 
     console.log("[REPLAY] json size", JSON.stringify(msg).length)
     return msg;
@@ -159,7 +167,7 @@ export async function downloadGameReplay(replay) {
         return;
 
 
-    let url = `${config.https.cdn}g/${replay.game_slug}/replays/${replay.version}/${replay.mode}/${replay.filename}`
+    let url = `${config.https.cdn}g/${replay.game_slug}/replays/${replay.mode}.${replay.version}.${replay.filename}`
 
     let response = await GET(url);
 
@@ -173,7 +181,7 @@ export async function downloadGameReplay(replay) {
     replay.room_slug = 'REPLAY/' + replay.game_slug;
     replay.isReplay = true;
 
-    replay.version = 21;
+    // replay.version = 21;
 
     console.log(history);
     fs.set('replay/' + replay.game_slug, replay.room_slug);

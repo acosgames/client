@@ -104,7 +104,7 @@ function GameInfoJoinButton(props) {
         //bgColor="gray.900"
         //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
         >
-            <Text as="h3" fontWeight={'bold'} color="white" fontSize="xs" fontStyle={'italic'}>COMPETITIVE RANK</Text>
+            <Text as="h3" fontWeight={'bold'} color="white" fontSize="xs" fontStyle={''}>COMPETITIVE RANK</Text>
             <HStack spacing="0" w="full">
 
                 <Button

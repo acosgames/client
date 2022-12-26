@@ -77,10 +77,6 @@ function ChatMessages(props) {
 
     return (
         <VStack spacing="0" p="1rem" pt="0rem" pb="0" w="100%" flex="1" overflow="hidden">
-
-            <Box w="100%" height="3rem">
-                <Text w="100%" as="div" align="center" fontSize="xs" fontWeight={'bold'} color="white" lineHeight={'3rem'}>Lobby</Text>
-            </Box>
             <VStack w="100%"
                 bgColor="gray.1100"
                 borderRadius="2rem"

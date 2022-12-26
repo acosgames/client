@@ -26,6 +26,8 @@ function FSGSubmit(props) {
                 disabled={loading}
                 fontWeight={props.fontWeight}
                 fontSize={props.fontSize}
+                height={props.height}
+                width={props.width}
                 px={props.px}
                 py={props.py}
                 borderRadius={props.borderRadius || '0'}

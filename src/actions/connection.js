@@ -2,9 +2,10 @@
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 // import { encode, decode, defaultDict } from 'shared/util/encoder';
-import ACOSEncoder from 'shared/util/encoder';
-const encode = ACOSEncoder.encode;
-const decode = ACOSEncoder.decode;
+// const { encode, decode, defaultDict } = require('shared/util/encoder');
+import ACOSEncoder from '../util/encoder';
+// const encode = ACOSEncoder.encode;
+// const decode = ACOSEncoder.decode;
 import { getUser, isUserLoggedIn, login } from './person';
 
 import config from '../config'
@@ -272,8 +273,8 @@ export function replayPrevIndex(room_slug) {
     let jumpIndex = gamepanel.room.replayIndex - 1;
 
     //if we are currently in gameover state, jump back 2 times
-    if (gamepanel.room.replayIndex == gamepanel.gamestate.length - 1)
-        jumpIndex -= 1;
+    // if (gamepanel.room.replayIndex == gamepanel.gamestate.length - 1)
+    //     jumpIndex -= 1;
 
     replayJumpToIndex(room_slug, jumpIndex);
 }
@@ -330,14 +331,17 @@ export function replayNextIndex(room_slug) {
             let nextMerged = JSON.parse(JSON.stringify(merged));
             delta.merge(nextMerged, nextCopy);
 
-            let nextEnd = nextMerged.timer.end;
-            let nextSeconds = nextMerged.timer.seconds;
-            let nextStartTime = nextEnd - (nextSeconds * 1000);
 
-            let currentEnd = merged.timer.end;
-            let currentSeconds = merged.timer.seconds;
-            let currentStartTime = currentEnd - (currentSeconds * 1000);
-            replayTimerTriggerNext(room_slug, nextStartTime - currentStartTime);
+            let nextUpdated = nextMerged.room.updated;
+            let currentUpdated = merged.room.updated;
+            // let nextEnd = nextMerged.timer.end;
+            // let nextSeconds = nextMerged.timer.seconds;
+            // let nextStartTime = nextEnd - (nextSeconds * 1000);
+
+            // let currentEnd = merged.timer.end;
+            // let currentSeconds = merged.timer.seconds;
+            // let currentStartTime = currentEnd - (currentSeconds * 1000);
+            replayTimerTriggerNext(room_slug, nextUpdated - currentUpdated);
         }
 
         merged.timer.end = (merged.timer.seconds * 1000) + Date.now();
@@ -396,14 +400,16 @@ export function replayJumpToIndex(room_slug, startIndex) {
             let nextMerged = JSON.parse(JSON.stringify(merged));
             delta.merge(nextMerged, nextCopy);
 
-            let nextEnd = nextMerged.timer.end;
-            let nextSeconds = nextMerged.timer.seconds;
-            let nextStartTime = nextEnd - (nextSeconds * 1000);
+            let nextUpdated = nextMerged.room.updated;
+            let currentUpdated = merged.room.updated;
+            // let nextEnd = nextMerged.timer.end;
+            // let nextSeconds = nextMerged.timer.seconds;
+            // let nextStartTime = nextEnd - (nextSeconds * 1000);
 
-            let currentEnd = merged.timer.end;
-            let currentSeconds = merged.timer.seconds;
-            let currentStartTime = currentEnd - (currentSeconds * 1000);
-            replayTimerTriggerNext(room_slug, nextStartTime - currentStartTime);
+            // let currentEnd = merged.timer.end;
+            // let currentSeconds = merged.timer.seconds;
+            // let currentStartTime = currentEnd - (currentSeconds * 1000);
+            replayTimerTriggerNext(room_slug, nextUpdated - currentUpdated);
         }
 
 
@@ -520,7 +526,7 @@ export async function recvFrameMessage(evt) {
             updateRoomStatus(room_slug);
             updateGamePanel(gamepanel);
 
-            fs.set('showLoadingBox', false);
+            fs.set('showLoadingBox/' + gamepanel.id, false);
             // fs.set('loaded/' + gamepanel.id, true);
             // fs.set('gameLoaded', true);
         }, 300)
@@ -571,7 +577,7 @@ export async function wsSend(action) {
         return false;
 
     try {
-        let buffer = encode(action);
+        let buffer = ACOSEncoder.encode(action);
         ws.send(buffer);
         return buffer.byteLength;
     }
@@ -1121,7 +1127,7 @@ async function wsIncomingMessage(message) {
     // let gamestate = getGameState();
 
     let buffer = await message.data;
-    let msg = decode(buffer);
+    let msg = ACOSEncoder.decode(buffer);
     if (!msg) {
         console.error("Error: Unable to decode buffer of size " + buffer.byteLength);
         return;

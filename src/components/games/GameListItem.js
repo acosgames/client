@@ -97,7 +97,7 @@ function GameListItem(props) {
             w={['100%', '16rem', '16rem', '16rem']}
             borderRadius={"2rem"}
             p={["0.2rem", "1rem"]}
-            bgColor={"blacks.100"}
+            bgColor={"gray.1200"}
             boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 15%)`}
             overflow="hidden"
         >

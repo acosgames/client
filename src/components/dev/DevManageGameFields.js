@@ -158,7 +158,7 @@ function DevManageGameFields(props) {
                     </VStack>
 
                     <Box flex="1" pb="0rem" pt="0rem" align="right">
-                        <FSGSubmit onClick={onSubmit}></FSGSubmit>
+                        <FSGSubmit height="3rem" px="1rem" py="1rem" borderRadius="2rem" onClick={onSubmit}></FSGSubmit>
                         {
                             props.devgame.status == 1 && (
                                 <DevManageGameDelete devgame={props.devgame} />
@@ -353,7 +353,7 @@ function DevManageGameFields(props) {
             <DevManageGameTeams devgame={props.devgame} />
 
             <Box pb="3rem" pt="1rem" width="100%" align="right">
-                <FSGSubmit onClick={onSubmit}></FSGSubmit>
+                <FSGSubmit height="3rem" px="1rem" py="1rem" borderRadius="2rem" onClick={onSubmit}></FSGSubmit>
                 {
                     props.devgame.status == 1 && (
                         <DevManageGameDelete devgame={props.devgame} />

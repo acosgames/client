@@ -134,10 +134,10 @@ function GameInfoCreateDisplayname(props) {
                 onClose(e);
             }}>
                 <ModalOverlay />
-                <ModalContent borderRadius="2rem" bgColor="gray.1000">
-                    <ModalHeader color="gray.100">Ready to play?</ModalHeader>
+                <ModalContent borderRadius="2rem" bgColor="gray.800">
+                    <ModalHeader color="white" fontWeight={'light'} textAlign={"center"} pb="0">Ready to play?</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
+                    <ModalBody >
                         <VStack spacing="1rem">
                             {/* <FSGGroup bgColor="gray.1100"> */}
 
@@ -146,7 +146,7 @@ function GameInfoCreateDisplayname(props) {
                                     onChange={onChange}
                                     maxLength="32"
                                     titleColor="gray.100"
-                                    title="Pick Name"
+                                    // title="Pick Name"
                                     borderRadius="2rem"
                                     bgColor="gray.1200"
                                     height="4rem"
@@ -174,34 +174,37 @@ function GameInfoCreateDisplayname(props) {
                             <Heading pt="0" mt="0" color="gray.100" fontSize="2xs" pb="1rem" fontWeight={'light'}>By signing in, you agree to our <Link to="/privacy">Privacy Policy</Link></Heading>
                             {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
 
-                            <FacebookLoginButton
-                                size="3rem"
-                                iconSize="2rem"
-                                style={{ fontSize: '1.6rem' }}
-                                onClick={() => {
-                                    window.location.href = ('/login/facebook' + refPath);
-                                }} />
-                            <GoogleLoginButton
-                                size="3rem"
-                                iconSize="2rem"
-                                style={{ fontSize: '1.6rem' }}
-                                onClick={() => {
-                                    window.location.href = ('/login/google' + refPath);
-                                }} />
-                            <GithubLoginButton
-                                size="3rem"
-                                iconSize="2rem"
-                                style={{ fontSize: '1.6rem' }}
-                                onClick={() => {
-                                    window.location.href = '/login/github' + refPath;
-                                }} />
-                            <MicrosoftLoginButton
-                                size="3rem"
-                                iconSize="2rem"
-                                style={{ fontSize: '1.6rem' }}
-                                onClick={() => {
-                                    window.location.href = ('/login/microsoft' + refPath);
-                                }} />
+                            <VStack w="100%" maxWidth="22rem">
+                                <FacebookLoginButton
+                                    size="2.4rem"
+                                    iconSize="1.4rem"
+
+                                    style={{ fontSize: '1.2rem' }}
+                                    onClick={() => {
+                                        window.location.href = ('/login/facebook' + refPath);
+                                    }} />
+                                <GoogleLoginButton
+                                    size="2.4rem"
+                                    iconSize="1.4rem"
+                                    style={{ fontSize: '1.2rem' }}
+                                    onClick={() => {
+                                        window.location.href = ('/login/google' + refPath);
+                                    }} />
+                                <GithubLoginButton
+                                    size="2.4rem"
+                                    iconSize="1.4rem"
+                                    style={{ fontSize: '1.2rem' }}
+                                    onClick={() => {
+                                        window.location.href = '/login/github' + refPath;
+                                    }} />
+                                <MicrosoftLoginButton
+                                    size="2.4rem"
+                                    iconSize="1.4rem"
+                                    style={{ fontSize: '1.2rem' }}
+                                    onClick={() => {
+                                        window.location.href = ('/login/microsoft' + refPath);
+                                    }} />
+                            </VStack>
 
                             {/* <HStack w={['100%']} justifyItems={'center'} gap="0"> */}
                             {/* Google */}

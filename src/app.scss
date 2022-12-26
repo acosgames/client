@@ -788,7 +788,7 @@ code {
   }
 }
 
-.chakra-ui-light {
+// .chakra-ui-light {
 
 
   #game-info-longdesc,
@@ -799,6 +799,51 @@ code {
     padding: 1rem;
     p {
       margin-bottom: 1rem;
+    }
+    blockquote {
+      padding-left:2rem;
+      border-left:0.5rem solid #08225a;
+    }
+    a {
+      text-decoration: underline;
+      color:#f1f9ff;
+    }
+    code {
+      background-color:#08225a;
+      border-radius: 0.2rem;
+      padding-left:0.5rem;
+      padding-right:0.5rem;
+    }
+    strong {
+      font-weight:bold;
+    }
+    em {
+      //font-weight:bold;
+      font-style: italic;
+    }
+    h1 { 
+      font-weight:bold;
+      font-size:24px;
+    }
+    h2 {
+      font-weight:bold;
+      font-size:22px;
+    }
+    h3 {
+      font-weight:bold;
+      font-size:20px;
+    }
+    h4 {
+      font-weight:bold;
+      font-size:16px;
+    }
+    h5 {
+      font-size:14px;
+      font-weight:bold;
+    }
+    h6 {
+      font-size:12px;
+      font-weight:bold;
     }
     table {
       border: 1px solid #000;
@@ -825,7 +870,7 @@ code {
       }
     }
   }
-}
+// }
 
 .chakra-form-control {
   margin-bottom: 2rem;

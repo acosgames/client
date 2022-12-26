@@ -34,7 +34,7 @@ function FSGGroup(props) {
                 color={props.color || "gray.100"}
                 borderRadius={props.borderRadius || "2rem"}
 
-                bgColor={props.bgColor || "blacks.100"}
+                bgColor={props.bgColor || "gray.800"}
                 boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
             >
 

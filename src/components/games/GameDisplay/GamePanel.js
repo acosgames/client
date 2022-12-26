@@ -47,7 +47,11 @@ function GamePanel(props) {
 
     return (
         // <Portal containerRef={gamepanel.draggableRef}>
-        <GameIFrame gamepanel={gamepanel} />
+        <>
+            <LoadingBox id={gamepanel.id} />
+            <GameIFrame gamepanel={gamepanel} />
+        </>
+
         // </Portal>
     )
 
@@ -112,7 +116,7 @@ function GameIFrame(props) {
     }
 
     const onResize = () => {
-        if (!gamescreenRef?.current || !iframeRef?.current || fs.get('showLoadingBox'))
+        if (!gamescreenRef?.current || !iframeRef?.current || fs.get('showLoadingBox/' + gamepanel.id))
             return;
 
         var now = (new Date).getTime();
@@ -134,6 +138,8 @@ function GameIFrame(props) {
             || document.documentElement.clientHeight
             || document.body.clientHeight;
 
+
+
         let windowWidth = w;//gamewrapperRef.current.offsetWidth;
         let windowHeight = h;//gamewrapperRef.current.offsetHeight;
 
@@ -149,7 +155,11 @@ function GameIFrame(props) {
 
         // }
         // if (roomPanelRef) {
-        if (layoutMode == 'bottom') {
+        if (gamepanel?.canvasRef?.current) {
+            windowWidth = gamepanel.canvasRef.current.offsetWidth;
+            windowHeight = gamepanel.canvasRef.current.offsetHeight;
+        }
+        else if (layoutMode == 'bottom') {
 
             // if (screentype == '1') {
             // windowWidth += roomPanelRef.current.offsetWidth;

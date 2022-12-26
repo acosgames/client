@@ -1,6 +1,6 @@
 
 import fs from 'flatstore';
-import { Box, chakra, VStack, } from '@chakra-ui/react';
+import { Box, chakra, Text, VStack, } from '@chakra-ui/react';
 
 import ColorHash from 'color-hash'
 import ChatMessages from './ChatMessages.js';
@@ -37,7 +37,7 @@ function getGameModeName(id) {
 
 function LobbyPanel(props) {
     let [layoutMode] = fs.useWatch('layoutMode');
-    // let [gamescreenRef] = fs.useWatch('gamescreenRef');
+    let [lobbyExpanded] = fs.useWatch('lobbyExpanded');
     let [resized] = fs.useWatch('resized');
     let width = '100%';
     let height = '100%';
@@ -55,7 +55,14 @@ function LobbyPanel(props) {
             minHeight = "40%";
 
 
+
+
             break;
+    }
+
+    if (layoutMode == 'bottom' && !lobbyExpanded) {
+        height = '4rem';
+        minHeight = '4rem'
     }
 
     const ChakraSimpleBar = chakra(SimpleBar)
@@ -74,6 +81,17 @@ function LobbyPanel(props) {
             pb="4rem"
             overflow="hidden">
 
+            <Box w="100%" height="4rem"
+                onClick={() => {
+                    let lobbyExpanded = fs.get('lobbyExpanded');
+                    fs.set('lobbyExpanded', !lobbyExpanded);
+                    // if (scoreboardExpanded) {
+                    //     fs.set('layoutRightMode', 'none');
+                    // }
+                }}>
+
+                <Text w="100%" as="div" align="center" fontSize="xs" fontWeight={'bold'} color="gray.200" lineHeight={'4rem'}>Lobby</Text>
+            </Box>
             <ChatMessages />
 
             <ChatSend />

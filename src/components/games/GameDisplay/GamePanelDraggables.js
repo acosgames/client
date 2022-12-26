@@ -42,7 +42,7 @@ function GamePanelDraggables(props) {
             <Box position="absolute" bottom="0rem" right="0rem" zIndex="1000" display={layoutMode == 'off' ? 'block' : 'none'}>
                 <ActionMenu />
             </Box>
-            <LoadingBox />
+            {/* <LoadingBox /> */}
             {renderDraggables()}
             <Connection></Connection>
         </>
@@ -84,6 +84,12 @@ function GamePanelDraggable(props) {
 
     let viewport_width = window.innerWidth;
     let leftBounds = viewport_width - 180;
+
+    if (gamepanel.canvasRef) {
+        return <Portal containerRef={gamepanel.canvasRef}>
+            <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} />
+        </Portal>
+    }
 
     return (
         <Draggable

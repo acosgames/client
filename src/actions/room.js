@@ -277,7 +277,7 @@ export function addRooms(roomList) {
         let gamepanel = findGamePanelByRoom(r.room_slug || r.room.room_slug)
         if (!gamepanel) {
             gamepanel = reserveGamePanel();
-            fs.set('showLoadingBox', true);
+            fs.set('showLoadingBox/' + gamepanel.id, true);
         }
 
         gamepanel.room = r;
@@ -329,12 +329,14 @@ export function addRoom(msg) {
     // let existing = rooms[msg.room.room_slug] || {};
     // room = Object.assign({}, existing, room);
 
-    fs.set('showLoadingBox', true);
+
 
     //reserve and update gamepanel
     gamepanel = reserveGamePanel();
     gamepanel.room = msg.room;
     gamepanel.gamestate = msg.payload;
+
+    fs.set('showLoadingBox/' + gamepanel.id, true);
     updateGamePanel(gamepanel);
 
     if (!msg.room.isReplay) {

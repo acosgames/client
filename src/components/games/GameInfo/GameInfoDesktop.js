@@ -23,6 +23,7 @@ import GameInfoLeaderboard from "./GameInfoLeaderboard";
 import GameInfoDescription from "./GameInfoDescription";
 import GameInfoBuild from "./GameInfoBuild";
 import PlayerRankInfo from "./PlayerRankInfo";
+import GameInfoReplay from "./GameInfoReplay";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
@@ -136,17 +137,18 @@ function GameInfo2(props) {
 
 
                         <VStack display={['none', 'none', 'none', 'flex']} width="30rem">
-                            <PlayerRankInfo game_slug={game_slug} game={game} />
-                            <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt={['1rem', "1rem", "1rem"]}>
+
+                            <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pb="1rem">
                                 <GameInfoJoinButton {...game} {...playerStats} />
                             </Flex>
+                            <PlayerRankInfo game_slug={game_slug} game={game} />
                         </VStack>
                     </HStack>
 
                     <VStack display={['flex', 'flex', 'flex', 'none']} width="100%" alignItems={'center'} justifyContent='center'>
 
 
-                        <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt="1rem" pb={['1rem', "1rem", "1rem"]}>
+                        <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt="1rem" pb="1rem">
                             <GameInfoJoinButton {...game} {...playerStats} />
                         </Flex>
                         <PlayerRankInfo game_slug={game_slug} game={game} />
@@ -158,7 +160,7 @@ function GameInfo2(props) {
 
 
 
-                    {/* <GameInfoReplay game_slug={game.game_slug} /> */}
+                    <GameInfoReplay game_slug={game.game_slug} />
 
                     <Flex w="100%">
 
@@ -205,8 +207,8 @@ function GameInfoImage(props) {
                 paddingBottom: '100%'
             }}
             position="relative"
-            w={['8rem', '12rem', '20rem']}
-            minW={['8rem', '12rem', '20rem']}
+            w={['8rem', '12rem', '14rem']}
+            minW={['8rem', '12rem', '14rem']}
             className="gameinfo-image"
         >
             <Image

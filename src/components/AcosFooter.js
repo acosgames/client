@@ -1,4 +1,4 @@
-import { Box, Divider, HStack, SimpleGrid, Text, VStack, Link as ChLink, Icon } from "@chakra-ui/react";
+import { Box, Divider, HStack, SimpleGrid, Text, VStack, Link as ChLink, Icon, Flex, Wrap } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import { FaGithub, FaTwitter, FaDiscord } from '@react-icons';
@@ -28,18 +28,21 @@ function AcosFooter(props) {
                 <Text fontSize="md"><ChLink isExternal href='https://discord.gg/ydHkCcNgHD' ><Icon as={FaDiscord} /></ChLink></Text>
             </HStack> */}
 
-            <VStack display={['flex', 'flex',]}>
-                <HStack spacing="1.4rem" color="gray.100" alignItems={'center'} justifyContent="center">
+            <VStack display={['flex', 'flex',]} spacing="1rem">
+                <HStack w="100%" spacing="1.4rem" color="gray.100" alignItems={'center'} justifyContent="center" pb="0.5rem">
                     <Text fontSize="xxs"><Link to="/">Games</Link></Text>
                     <Text fontSize="xxs"><Link to="/dev">Dev Zone</Link></Text>
                     <Text fontSize="xxs"><ChLink isExternal href="https://sdk.acos.games">Docs</ChLink></Text>
                     <Text fontSize="xxs"><Link to="/privacy">Privacy</Link></Text>
                     <Text fontSize="xxs"><Link to="/terms">Terms</Link></Text>
+
+                </HStack>
+                <HStack w="100%" spacing="1.4rem" color="gray.100" alignItems={'center'} justifyContent="center">
                     <ChLink display="inline-block" isExternal href="https://github.com/acosgames"><Icon as={FaGithub} /></ChLink>
-                    <ChLink isExternal href="https://twitter.com/acosgames"><Icon as={FaTwitter} /></ChLink>
+                    {/* <ChLink isExternal href="https://twitter.com/acosgames"><Icon as={FaTwitter} /></ChLink> */}
                     <ChLink isExternal href='https://discord.gg/ydHkCcNgHD' ><Icon as={FaDiscord} /></ChLink>
                 </HStack>
-                <Text as="span" fontWeight="100" fontSize="xxs" color="gray.175">Copyright © 2022 ACOS</Text>
+                <Text as="span" fontWeight="100" fontSize="xxs" color="gray.200">Copyright © 2022 ACOS</Text>
             </VStack>
 
 

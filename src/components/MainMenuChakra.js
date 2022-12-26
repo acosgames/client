@@ -17,7 +17,11 @@ import {
 import fs from 'flatstore';
 import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
-import { Link, useParams, } from 'react-router-dom';
+import {
+    Link,
+    //Link, 
+    useParams,
+} from 'react-router-dom';
 import config from '../config'
 import { findGamePanelByRoom, getPrimaryGamePanel, getRoomStatus, minimizeGamePanel } from '../actions/room';
 // import { BsFillGearFill, AiFillLayout, IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
@@ -117,7 +121,7 @@ function MainMenuChakra(props) {
 
                         <Box
                         ><Link to="/" className="" onClick={(e) => {
-                            if (isPrimary)
+                            if (gamepanel?.isPrimary)
                                 e.preventDefault();
                             minimizeGamePanel()
                         }}>
