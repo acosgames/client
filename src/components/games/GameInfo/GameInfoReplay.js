@@ -12,6 +12,7 @@ function GameInfoReplay(props) {
 
     let game_slug = props.game_slug;
     let [room_slug] = fs.useWatch('replay/' + game_slug);
+    let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
 
     useEffect(() => {
         if (!game_slug)
@@ -26,6 +27,8 @@ function GameInfoReplay(props) {
         return <></>
     }
 
+    if (typeof primaryGamePanelId !== 'undefined' && primaryGamePanelId != null)
+        return <></>
     // let randomReplay = props.replays[Math.floor(Math.random() * props.replays.length)];
 
     // if (!replay) {
