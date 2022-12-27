@@ -1,4 +1,4 @@
-import { Box, Button, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Header, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { downloadGameReplay, findGameReplays } from "../../../actions/game";
 import EmbeddedGamePanel from "../GameDisplay/EmbeddedGamePanel";
@@ -33,8 +33,9 @@ function GameInfoReplay(props) {
     // }
 
     return (
-        <Box width="30rem" height="30rem" position="relative">
+        <Box pt="2rem" width="30rem" height="30rem" position="relative">
             <VStack w="100%" h="100%">
+                <Text as="h3" fontWeight={'bold'} color="white">Watch Replay</Text>
                 <EmbeddedGamePanel room_slug={room_slug} />
                 <ReplayControls room_slug={room_slug} />
             </VStack>
