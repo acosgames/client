@@ -15,6 +15,15 @@ import { createTempUser, loginComplete } from "../../actions/person";
 import FSGGroup from "../widgets/inputs/FSGGroup";
 import FSGTextInput from "../widgets/inputs/FSGTextInput";
 import FSGSubmit from "../widgets/inputs/FSGSubmit";
+
+import {
+    FacebookLoginButton,
+    GoogleLoginButton,
+    GithubLoginButton,
+    MicrosoftLoginButton,
+    YahooLoginButton
+} from "react-social-login-buttons";
+
 function SocialLoginSimple(props) {
 
     let refPath = fs.get('refPath');
@@ -24,50 +33,49 @@ function SocialLoginSimple(props) {
     else {
         refPath = '';
     }
+
+    let user = fs.get('user');
+
     return (
         <VStack>
 
-            <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Login to reserve your name</Heading>
             {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Or, login to save your temporary account</Heading> */}
 
-            <VStack justifyContent={'center'} width="100%" height="100%">
+            <Heading pt="0" mt="0" color="white" fontWeight="bold" fontSize="md">Sign in to remember and continue your battle</Heading>
+            <Heading pt="0" mt="0" color="yellow.100" fontWeight="bold" fontSize="md">{user.displayname}</Heading>
+            <Heading pt="0" mt="0" color="gray.100" fontSize="xs" pb="1rem" fontWeight={'light'}>By signing in, you agree to our <Link to="/privacy">Privacy Policy</Link></Heading>
+            {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
 
-                <VStack w={['15rem']} justifyItems={'center'} gap="0">
-                    {/* Google */}
-                    <ChLink href={"/login/google" + refPath} w="100%">
-                        <Button w="100%" height="5rem" color="white" justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="24px" />}>
+            <VStack w="100%" maxWidth="22rem">
+                <FacebookLoginButton
+                    size="2.4rem"
+                    iconSize="1.4rem"
 
-                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Google</Text>
-
-                        </Button>
-                    </ChLink>
-
-                    {/* Microsoft */}
-                    <ChLink href={"/login/microsoft" + refPath} w="100%">
-                        <Button w="100%" height="5rem" color="white" justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="24px" />}>
-
-                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Microsoft</Text>
-
-                        </Button>
-                    </ChLink>
-                    {/* Facebook */}
-                    <ChLink href={"/login/facebook" + refPath} w={'100%'}>
-                        <Button w="100%" height="5rem" color="white" justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="24px" />}>
-
-                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Facebook</Text>
-
-                        </Button>
-                    </ChLink>
-
-                    {/* GitHub */}
-                    <ChLink href={"/login/github" + refPath} w={'100%'}>
-                        <Button w="100%" height="5rem" color="white" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
-
-                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">GitHub</Text>
-
-                        </Button>
-                    </ChLink>
-                </VStack>
+                    style={{ fontSize: '1.2rem' }}
+                    onClick={() => {
+                        window.location.href = ('/login/facebook' + refPath);
+                    }} />
+                <GoogleLoginButton
+                    size="2.4rem"
+                    iconSize="1.4rem"
+                    style={{ fontSize: '1.2rem' }}
+                    onClick={() => {
+                        window.location.href = ('/login/google' + refPath);
+                    }} />
+                <GithubLoginButton
+                    size="2.4rem"
+                    iconSize="1.4rem"
+                    style={{ fontSize: '1.2rem' }}
+                    onClick={() => {
+                        window.location.href = '/login/github' + refPath;
+                    }} />
+                <MicrosoftLoginButton
+                    size="2.4rem"
+                    iconSize="1.4rem"
+                    style={{ fontSize: '1.2rem' }}
+                    onClick={() => {
+                        window.location.href = ('/login/microsoft' + refPath);
+                    }} />
             </VStack>
         </VStack>
     )
@@ -81,7 +89,8 @@ function SocialLogin(props) {
     const isOpen = props.isOpen;
     const onOpen = props.onOpen;
 
-    const [displayName, setDisplayName] = useState('');
+    let defaultPlayerName = "Player" + Math.round(Math.random() * 10000);
+    const [displayName, setDisplayName] = useState(defaultPlayerName);
     const [error, setError] = useState(null);
 
     const toast = useToast();
@@ -179,71 +188,94 @@ function SocialLogin(props) {
         return <SocialLoginSimple />
     }
 
+
+    let loginFrom = fs.get('loginFrom');
+    let joinButtonTitle = "Play now!";
+    let game = fs.get('game');
+    if (loginFrom == 'game') {
+        if (game?.maxplayers == 1) {
+            joinButtonTitle = 'Join Game';
+        } else {
+            joinButtonTitle = 'Join Queue';
+        }
+    }
+
+
     return (
         <VStack w="100%" justifyContent={'center'}>
 
 
 
             <VStack width={["100%", "80%", "80%", "60%"]}>
-                <Heading align={'left'} size="lg">asdfChoose a player name</Heading>
-                <FSGGroup  bgColor="gray.1200">
+                <Heading align={'left'} color="white" size="lg">Ready to play?</Heading>
 
-                    <FSGTextInput
-                        onChange={onChange}
-                        maxLength="32"
-                        title="Player Name"
-                        focus={true}
-                        value={displayName}
-                        onKeyDown={onKeyDown}
-                        helpText={'This is a temporary acount, login to make it permanent'}
-                    />
+                <VStack spacing="1rem">
+                    <VStack spacing="1rem">
+                        <FSGTextInput
+                            onChange={onChange}
+                            maxLength="32"
+                            titleColor="gray.100"
+                            // title="Pick Name"
+                            borderRadius="2rem"
+                            bgColor="gray.1200"
+                            height="4rem"
+                            focus={true}
+                            onFocus={(e) => {
+                                e.target.select();
+                            }}
+                            value={displayName}
+                            onKeyDown={onKeyDown}
+                        />
 
-                    {
-                        hasError && (
-                            <Text color="red.600">
-                                {error.message}
-                            </Text>
-                        )
-                    }
-                </FSGGroup>
-                <FSGSubmit onClick={onSubmit} title="Create" loadingText="Creating" />
-                <Divider pt={'1rem'} />
-                <Heading color="gray.100" pt={'1rem'} pb="0" size="md">Sign in to reserve your name</Heading>
-                <VStack w={['100%']} justifyItems={'center'} gap="0">
-                    {/* Google */}
-                    <ChLink href={"/login/google" + refPath} w="100%">
-                        <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGoogle size="24px" />}>
+                        {
+                            hasError && (
+                                <Text color="red.600">
+                                    {error.message}
+                                </Text>
+                            )
+                        }
+                        {/* </FSGGroup> */}
+                        <FSGSubmit px={'2rem'} pb="1rem" py="2rem" color="white" fontSize="md" fontWeight="bold" borderRadius="2rem" onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
+                    </VStack>
+                    <br />
+                    {/* <Divider pt={'0'} pb="1rem" /> */}
+                    <Heading pt="0" mt="0" color="white" fontWeight="bold" fontSize="xs">Or, sign in to remember and continue your battle</Heading>
+                    <Heading pt="0" mt="0" color="gray.100" fontSize="2xs" pb="1rem" fontWeight={'light'}>By signing in, you agree to our <Link to="/privacy">Privacy Policy</Link></Heading>
+                    {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
 
-                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Google</Text>
+                    <VStack w="100%" maxWidth="22rem">
+                        <FacebookLoginButton
+                            size="2.4rem"
+                            iconSize="1.4rem"
 
-                        </Button>
-                    </ChLink>
+                            style={{ fontSize: '1.2rem' }}
+                            onClick={() => {
+                                window.location.href = ('/login/facebook' + refPath);
+                            }} />
+                        <GoogleLoginButton
+                            size="2.4rem"
+                            iconSize="1.4rem"
+                            style={{ fontSize: '1.2rem' }}
+                            onClick={() => {
+                                window.location.href = ('/login/google' + refPath);
+                            }} />
+                        <GithubLoginButton
+                            size="2.4rem"
+                            iconSize="1.4rem"
+                            style={{ fontSize: '1.2rem' }}
+                            onClick={() => {
+                                window.location.href = '/login/github' + refPath;
+                            }} />
+                        <MicrosoftLoginButton
+                            size="2.4rem"
+                            iconSize="1.4rem"
+                            style={{ fontSize: '1.2rem' }}
+                            onClick={() => {
+                                window.location.href = ('/login/microsoft' + refPath);
+                            }} />
+                    </VStack>
 
-                    {/* Microsoft */}
-                    <ChLink href={"/login/microsoft" + refPath} w="100%">
-                        <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaMicrosoft size="24px" />}>
 
-                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Microsoft</Text>
-
-                        </Button>
-                    </ChLink>
-                    {/* Facebook */}
-                    <ChLink href={"/login/facebook" + refPath} w={'100%'}>
-                        <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaFacebook size="24px" />}>
-
-                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with Facebook</Text>
-
-                        </Button>
-                    </ChLink>
-
-                    {/* GitHub */}
-                    <ChLink href={"/login/github" + refPath} w={'100%'}>
-                        <Button w="100%" color="gray.300" justifyContent="left" variant={'outline'} leftIcon={<FaGithub size="24px" />}>
-
-                            <Text color="gray.100" fontWeight="300" fontSize="md" pl="0.2rem">Sign in with GitHub</Text>
-
-                        </Button>
-                    </ChLink>
                 </VStack>
             </VStack>
 
