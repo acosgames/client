@@ -1348,6 +1348,7 @@ async function wsIncomingMessage(message) {
             mergedState.delta = deltaState;
 
             gamepanel.gamestate = mergedState;
+            console.log("[FULL GAMESTATE]", mergedState);
 
             if (gamepanel.gamestate.players) {
                 for (const id in gamepanel.gamestate.players) {
