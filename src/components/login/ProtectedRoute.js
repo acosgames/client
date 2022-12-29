@@ -26,16 +26,16 @@ function ProtectedRoute(props) {
     }
 
     if ((loggedIn == 'LURKER'))
-        return <Navigate to={props.redirectTo || "/login"}></Navigate>
+        return <Navigate to={props.redirectTo || "/login"} replace={true}></Navigate>
 
     let validated = props.verify && props.verify(user);
 
     if (user && !validated && location.pathname.indexOf(props.redirectTo || "/login") != 0) {
-        return <Navigate to={props.redirectTo || "/login"}></Navigate>
+        return <Navigate to={props.redirectTo || "/login"} replace={true}></Navigate>
     }
 
     if (needsPlayerName) {
-        return <Navigate to="/player/create"></Navigate>
+        return <Navigate to="/player/create" replace={true}></Navigate>
     }
 
     let Child = props.component;

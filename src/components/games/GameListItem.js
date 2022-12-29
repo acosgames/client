@@ -94,10 +94,14 @@ function GameListItem(props) {
     }, []);
     return (
         <Box
-            w={['100%', '16rem', '16rem', '16rem']}
+            // w={['100%', '16rem', '16rem', '16rem']}
+            w={['100%', '14rem', '14rem', '14rem']}
+            h={['10rem', 'auto']}
             borderRadius={"2rem"}
-            p={["0.2rem", "1rem"]}
-            bgColor={"gray.1200"}
+            // borderTopLeftRadius={0}
+            // borderBottomLeftRadius={0}
+            p={["0.0rem", "0rem"]}
+            bgColor={"gray.800"}
             boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 15%)`}
             overflow="hidden"
         >
@@ -105,10 +109,12 @@ function GameListItem(props) {
             <StackType
                 // bgColor={'blacks.900'}
                 // boxShadow={'0px 0px 4px 0.4px rgb(255 255 255 / 5%)'}
-                borderRadius={'6px 6px 6px 6px'}
+                // borderRadius={'6px 6px 6px 6px'}
+                // borderTopLeftRadius={0}
+                // borderBottomLeftRadius={0}
                 //w={['32rem', '14rem', '14rem', '14rem']}
-                pl="2px"
-                pr="2px"
+                // pl="2px"
+                // pr="2px"
                 cursor="pointer"
                 pt="0"
                 spacing="0"
@@ -121,10 +127,12 @@ function GameListItem(props) {
                 <Link to={'/g/' + game.game_slug}>
                     <Image
                         borderRadius={'2rem'}
-                        w={['8rem', '14rem', '14rem', '14rem']}
-                        minW={['8rem', '14rem', '14rem', '14rem']}
-                        h={['8rem', '14rem', '14rem', '14rem']}
-                        minH={['8rem', '14rem', '14rem', '14rem']}
+                        // borderTopLeftRadius={0}
+                        // borderBottomLeftRadius={0}
+                        w={['10rem', '14rem', '14rem', '14rem']}
+                        minW={['10rem', '14rem', '14rem', '14rem']}
+                        h={['10rem', '14rem', '14rem', '14rem']}
+                        minH={['10rem', '14rem', '14rem', '14rem']}
                         alt={gameName}
                         src={imgUrl}
                         transition="transform 0.4s ease"
@@ -134,7 +142,7 @@ function GameListItem(props) {
                     />
                 </Link>
 
-                <VStack pt={['0.1rem', "0.8125rem"]} pb="" pl="0.5rem" pr="0.5rem" width="100%" alignItems={'flex-start'} spacing='0' flex={['1', '']}>
+                <VStack pt={['0.1rem', "0.8125rem"]} pb="" pl="1rem" pr="1rem" width="100%" alignItems={'flex-start'} spacing='0' flex={['1', '']}>
 
 
                     {/* <HStack alignSelf={'flex-start'} flex="1" alignItems={'flex-end'}> */}
@@ -145,7 +153,7 @@ function GameListItem(props) {
                                 as="h4"
                                 fontSize={['xs', "sm", 'md']}
                                 fontWeight={'bold'}
-                                color={'white'}
+                                color={'gray.50'}
                                 w={['7rem', "100%"]}
                                 p="0"
                                 py={['0.1rem', "1rem"]}
@@ -179,18 +187,18 @@ function GameListItem(props) {
                     <strong>{gameQueueCount}</strong> player(s) waiting
                 </Text>
             </Link> */}
-                    <VStack width="100%" spacing="0" color="gray.175" alignItems={"flex-start"} justifyContent="flex-start" pb={['0.1rem', "1rem"]}>
+                    <VStack width="100%" spacing="0" color="gray.200" alignItems={"flex-start"} justifyContent="flex-start" pb={['0.1rem', "1rem"]}>
 
                         {/* <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} /> */}
-                        <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player game</Text>
+                        <Text fontSize={['xxs', 'xxs', 'xxs']} fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player game</Text>
 
 
 
                         {/* <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} /> */}
-                        <Text fontSize={['2xs', 'xxs', 'xs']} fontWeight={'light'}>{gameType}</Text>
+                        <Text fontSize={['xxs', 'xxs', 'xxs']} fontWeight={'light'}>{gameType}</Text>
 
                     </VStack>
-                    <Box w={['100%', "100%"]} pb={['0.2rem', '0']}>
+                    <Box w={['100%', "100%"]} pb={['0.2rem', '0.5rem']}>
                         <PlayButton inQueue={inQueue} handleJoin={handleJoin} />
                     </Box>
                 </VStack>

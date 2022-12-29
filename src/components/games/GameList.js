@@ -10,7 +10,7 @@ import SimpleBarReact from "simplebar-react";
 import { findGames } from '../../actions/game';
 import fs from 'flatstore';
 import GameListItem from "./GameListItem";
-import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap, chakra, Link as ChLink, Image } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, HStack, Icon, Text, VStack, Wrap, chakra, Link as ChLink, Image, Grid } from "@chakra-ui/react";
 import { FaDiscord, FaDev, FaGithub, TiDocumentText } from '@react-icons';
 import SLink from "../widgets/SLink";
 
@@ -68,98 +68,162 @@ class GameList extends Component {
                 <Divider />
                 <VStack align="left" justify={"left"}>
                     <ChLink isExternal textDecoration={"none"} href={'https://sdk.acos.games'} >
-                        <Heading mb="0.5rem" as="h1" size="md" color="white">Develop Games using our Simulator and SDK</Heading>
+                        <Heading mb="0.5rem" as="h1" size="md" color="white">Join our community</Heading>
                     </ChLink>
-                    <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175">Build, deploy, and play your game on ACOS instantly for free!</Text>
-                    <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175" pb="2rem">Check our documentation to quickly learn how to develop for ACOS.</Text>
-                    <Wrap spacing="2rem">
+                    {/* <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175"></Text>
+                    <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175" pb="2rem"></Text> */}
+                    <Grid
+                        width="100%"
+                        gap={'2rem'}
+                        gridTemplateColumns={['repeat(1, minmax(0, 1fr))', 'repeat(2, minmax(0, 1fr))']}
+                        rowGap={'1rem'}
+                        fontWeight='400'
+                        justifyContent="flex-start"
+                        alignItems={'flex-start'}>
                         <ChLink isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} href={'https://sdk.acos.games'} p="2rem"
-                            height="4.5rem"
+                            // height="4.5rem"
                             display="flex"
-                            flexDir={"row"}
-                            bgColor="gray.1200"
+                            w="100%"
+                            h="100%"
+                            flexDir={"column"}
+                            bgColor="gray.800"
                             borderRadius="2rem"
+                            _hover={{ bgColor: 'gray.1100' }}
+                            _active={{ bgColor: 'gray.1100' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-                            justifyContent="center" alignItems={'center'}>
-                            <Text fontSize="xs" display="flex" color="white" >
-                                <Icon color="white" alignSelf={'center'} as={TiDocumentText} fontSize="sm" />&nbsp;Documentation</Text>
+                            justifyContent="flex-start" alignItems={'flex-start'}>
+                            <HStack pb="1rem">
+                                <Text fontSize="sm" display="flex" color="white" fontWeight="bold" >
+                                    <Icon
+                                        color="white"
+                                        alignSelf={'center'}
+                                        as={TiDocumentText}
+                                        fontSize="md" />
+                                    &nbsp;Documentation
+                                </Text>
+                            </HStack>
+                            <Text>
+                                Create your own browser game using JavaScript frontend and backend with automatic multiplayer driven by JSON. The platform supports realtime online turn-based games.  Focus on gameplay, let the platform handle everything else for free.
+                            </Text>
                         </ChLink>
+
                         <Box p="2rem"
-                            height="4.5rem"
+                            // height="4.5rem"
                             display="flex"
-                            flexDir={"row"}
-                            bgColor="gray.1200"
+                            w="100%"
+                            h="100%"
+                            flexDir={"column"}
+                            bgColor="gray.800"
                             borderRadius="2rem"
+                            _hover={{ bgColor: 'gray.1100' }}
+                            _active={{ bgColor: 'gray.1100' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-                            justifyContent="center" alignItems={'center'} _hover={{ textDecoration: 'none' }} >
+                            justifyContent="flex-start" alignItems={'flex-start'} >
                             <Link to="/dev">
-                                <Text fontSize="xs" display="flex" color="white"><Icon color="white" alignSelf={'center'} as={FaDev} fontSize="sm" />&nbsp;Developer Zone</Text>
+                                <HStack pb="1rem">
+
+                                    <Text fontSize="sm" display="flex" color="white" fontWeight="bold">
+                                        <Icon color="white" alignSelf={'center'} as={FaDev} fontSize="md" />&nbsp;Developer Zone</Text>
+
+                                </HStack>
+                                <Text>
+                                    Become an ACOS Developer by signing up with your Github account and joining our acosgames organizatoin.
+                                </Text>
                             </Link>
                         </Box>
-                        <ChLink isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} href={'https://discord.gg/ydHkCcNgHD'} p="2rem"
-                            height="4.5rem"
+                        <ChLink isExternal href={'https://discord.gg/ydHkCcNgHD'} p="2rem"
                             display="flex"
-                            flexDir={"row"}
-                            bgColor="gray.1200"
+                            w="100%"
+                            h="100%"
+                            flexDir={"column"}
+                            bgColor="gray.800"
                             borderRadius="2rem"
+                            _hover={{ bgColor: 'gray.1100' }}
+                            _active={{ bgColor: 'gray.1100' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-                            justifyContent="center" alignItems={'center'}
+                            justifyContent="flex-start" alignItems={'flex-start'}
                         >
-                            <Text fontSize="xs" display="flex" color="white"><Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="sm" />&nbsp;Discord</Text>
+                            <Text fontSize="sm" display="flex" color="white" fontWeight="bold">
+                                <Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="md" />&nbsp;Discord</Text>
+                            <Text>
+                                Have a suggestion?  Come join us on Discord to discuss games, features, and more.
+                            </Text>
                         </ChLink>
                         <ChLink isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} href={'https://github.com/acosgames'} p="2rem"
-                            height="4.5rem"
                             display="flex"
-                            flexDir={"row"}
-                            bgColor="gray.1200"
+                            w="100%"
+                            h="100%"
+                            flexDir={"column"}
+                            bgColor="gray.800"
                             borderRadius="2rem"
+                            _hover={{ bgColor: 'gray.1100' }}
+                            _active={{ bgColor: 'gray.1100' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-                            justifyContent="center" alignItems={'center'}>
-
-                            <Text fontSize="xs" display="flex" color="white"><Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="sm" />&nbsp;GitHub</Text>
+                            justifyContent="flex-start" alignItems={'flex-start'}>
+                            <Text fontSize="sm" display="flex" color="white" fontWeight="bold">
+                                <Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="md" />
+                                &nbsp;GitHub
+                            </Text>
+                            <Text>
+                                Many of our games are open source, including the Simulator, check out the code on GitHub.
+                            </Text>
                         </ChLink>
 
-                    </Wrap>
+                    </Grid>
                 </VStack >
                 <Divider />
                 <VStack align="left" justify={"left"}>
                     <Heading as="h1" size="md" color="white">Latest Blogs</Heading>
                     <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Read the latest news for ACOS.games</Heading>
                     <HStack>
-                        <ChLink isExternal textDecoration={"none"} href={'https://medium.com/@JoeOfTex/acos-web-developers-want-to-build-games-too-so-i-made-an-online-platform-to-make-it-easy-d225974fa2d8'} >
-                            <HStack w={['100%']} spacing="1rem"
-                                p="2rem"
-                                display="flex"
-                                flexDir={"row"}
-                                bgColor="gray.1200"
-                                borderRadius="2rem"
-                                boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-                                justifyContent="flex-start" alignItems={'center'} _hover={{ textDecoration: 'none' }}
-                            >
 
-                                <Box position={'relative'}>
-                                    <Image
-                                        borderRadius={'50%'}
-                                        w={['5rem']}
-                                        minW={['5rem']}
-                                        h={['5rem']}
-                                        minH={['5rem']}
-                                        alt={'ACOS Logo'}
-                                        src={'https://miro.medium.com/max/700/0*Jmxu0QcJ9STs3sji.png'}
-                                        pb="0.3rem"
-                                    // fallbackSrc={config.https.cdn + 'placeholder.png'}
-                                    />
+                        <HStack w={['100%']} spacing="1rem"
+                            p="2rem"
+                            display="flex"
+                            flexDir={"row"}
+                            bgColor="gray.800"
+                            borderRadius="2rem"
+                            boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                            justifyContent="flex-start" alignItems={'flex-start'} _hover={{ textDecoration: 'none' }}
+                        >
 
-                                </Box>
-                                <VStack justifyContent={'flex-start'} alignItems="flex-start">
-                                    <Text as="span" fontWeight={'light'} fontSize="2xs" display={'block'} lineHeight={'1rem'} color="gray.150">March 29, 2022</Text>
-                                    <Heading as="h2" fontWeight="light" fontSize="xs" color="white">Build web games using serverless code, persistent JSON state, and any JavaScript browser framework</Heading>
-                                </VStack>
+                            <Box position={'relative'}>
+                                <Image
+                                    borderRadius={'50%'}
+                                    w={['5rem']}
+                                    minW={['5rem']}
+                                    h={['5rem']}
+                                    minH={['5rem']}
+                                    alt={'ACOS Logo'}
+                                    src={'https://miro.medium.com/max/700/0*Jmxu0QcJ9STs3sji.png'}
+                                    pb="0.3rem"
+                                // fallbackSrc={config.https.cdn + 'placeholder.png'}
+                                />
 
-                                {/* <Text as="span" fontWeight={'light'} fontSize="sm">ACOS.games is a new type of serverless platform for simplifying the full-stack development of real-time, turn-based, competitive games.</Text> */}
+                            </Box>
+                            <VStack justifyContent={'flex-start'} alignItems="flex-start">
+                                <Text as="span" fontWeight={'light'} fontSize="2xs" display={'block'} lineHeight={'1rem'} color="gray.150">March 29, 2022</Text>
 
-                            </HStack>
-                        </ChLink>
+                                <ChLink isExternal textDecoration={"none"} href={'https://medium.com/@JoeOfTex/acos-web-developers-want-to-build-games-too-so-i-made-an-online-platform-to-make-it-easy-d225974fa2d8'} >
+                                    <Heading as="h2" fontWeight="bold" fontSize="sm" color="white">Build web games using serverless code, persistent JSON state, and any JavaScript browser framework</Heading>
+
+                                </ChLink>
+                                <Text fontSize="xs">
+                                    ACOS.games is a new type of serverless platform for simplifying the full-stack development of real-time, turn-based, competitive games.
+                                </Text>
+                                <Text fontSize="xs">
+                                    I abstracted away all the networking, hosting, deployment, global rankings, and much more. ACOS platform has been finely crafted to give developers full-control of their game development and publish to the platform at scale and zero-cost.
+                                </Text>
+                                <ChLink isExternal href={'https://medium.com/@JoeOfTex/acos-web-developers-want-to-build-games-too-so-i-made-an-online-platform-to-make-it-easy-d225974fa2d8'}>
+                                    <Text as="span" fontSize="xs">
+                                        Read more
+                                    </Text>
+                                </ChLink>
+                            </VStack>
+
+                            {/* <Text as="span" fontWeight={'light'} fontSize="sm">ACOS.games is a new type of serverless platform for simplifying the full-stack development of real-time, turn-based, competitive games.</Text> */}
+
+                        </HStack>
                     </HStack>
                 </VStack >
             </VStack >

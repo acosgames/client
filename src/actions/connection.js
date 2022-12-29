@@ -170,6 +170,9 @@ export function sendFrameMessage(msg) {
     // let room = fs.get('rooms>' + room_slug);
 
     let gamepanel = findGamePanelByRoom(room_slug);
+    if (!gamepanel)
+        return;
+
     let iframe = gamepanel.iframe;// getIFrame(room_slug);
     // if (iframe)
 
@@ -354,7 +357,8 @@ export function replayNextIndex(room_slug) {
     gamepanel.room.replayState = merged;
     updateGamePanel(gamepanel);
 
-    iframe.current.contentWindow.postMessage(merged, '*');
+    if (iframe?.current?.contentWindow)
+        iframe.current.contentWindow.postMessage(merged, '*');
 }
 
 export function replayJumpToIndex(room_slug, startIndex) {

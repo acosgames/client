@@ -19,7 +19,7 @@ function PlayerRankInfo(props) {
     let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
     let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
 
-    if (props?.game?.maxplayers <= 1 && playerHighScore) {
+    if (props?.game?.maxplayers <= 1) {
 
 
         return (
@@ -31,7 +31,7 @@ function PlayerRankInfo(props) {
                 </Text>
                 <Text
                     fontWeight={'bold'}>
-                    {playerHighScore.score}
+                    {playerHighScore?.score || 0}
                 </Text>
             </HStack>
         )

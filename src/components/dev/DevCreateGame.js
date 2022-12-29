@@ -13,6 +13,7 @@ import schema from 'shared/model/schema.json';
 import { Text, VStack, useToast, Box, Spacer } from "@chakra-ui/react";
 import FSGGroup from "../widgets/inputs/FSGGroup";
 import DevCreateGameTemplates from "./DevCreateGameTemplates";
+import { useNavigate } from "react-router-dom";
 
 
 function DevCreateGameError(props) {
@@ -119,7 +120,7 @@ function DevCreateGame(props) {
     const executeScroll = () => myRef.current.scrollIntoView()
 
     const toast = useToast();
-
+    const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         //console.log(e);
@@ -149,7 +150,7 @@ function DevCreateGame(props) {
                 duration: 1200
             })
 
-            props.history.replace('/dev/game/' + game.gameid);
+            navigate('/dev/game/' + game.gameid, { replace: true });
             // props.history.replace('/dev/game/' + props.devgame.gameid);
         }
         catch (e) {

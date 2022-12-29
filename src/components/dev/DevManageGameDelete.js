@@ -1,5 +1,6 @@
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, Text, useToast, VStack } from "@chakra-ui/react";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { deleteGame } from "../../actions/devgame";
 
 
@@ -11,7 +12,7 @@ function DevManageGameDelete(props) {
     const cancelRef = useRef()
 
     const toast = useToast();
-
+    const navigate = useNavigate();
     const onDelete = async (e) => {
         try {
             let game = await deleteGame();
@@ -35,7 +36,7 @@ function DevManageGameDelete(props) {
             })
 
             setTimeout(() => {
-                props.history.replace('/dev/game/');
+                navigate('/dev/game/', { replace: true });
             }, 1)
         }
         catch (e) {

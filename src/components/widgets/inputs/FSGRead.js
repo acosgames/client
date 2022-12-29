@@ -22,7 +22,7 @@ function FSGRead(props) {
                     )}
                 </HStack>
             </FormLabel>
-            <Text fontSize={props.fontSize} color={props.color || 'gray.300'}>{props.value}</Text>
+            <Text fontWeight={props.fontWeight} fontSize={props.fontSize} color={props.color || 'gray.300'}>{props.value}</Text>
 
             <FormHelperText>{props.helpText}</FormHelperText>
 

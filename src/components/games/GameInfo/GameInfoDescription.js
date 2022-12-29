@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm'
 function GameInfoDescription(props) {
     return (
         <Box p="0" m="0" pt="0" pb="3rem" width="100%">
-            <FSGGroup fontSize="0.8rem" title="Description" hfontSize="sm">
+            <FSGGroup fontSize="lg" title="Description" hfontSize="sm">
                 <Box width="100%" align="left" id="game-info-longdesc">
                     <ReactMarkdown
                         allowed

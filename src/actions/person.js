@@ -118,6 +118,7 @@ export async function getPlayer(displayname) {
 
 export async function loadUserGameData(game_slug) {
     try {
+        fs.set('loadingGameInfo', true);
         let player_stats = fs.get('player_stats');
         let player_stat = player_stats[game_slug];
 
@@ -137,9 +138,10 @@ export async function loadUserGameData(game_slug) {
                 fs.set('game', game);
             }
         }
+        fs.set('loadingGameInfo', false);
     }
     catch (e) {
-
+        fs.set('loadingGameInfo', false);
     }
 }
 

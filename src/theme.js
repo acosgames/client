@@ -10,13 +10,17 @@ const styles = {
             'fontSize': '62.5%',
             'WebkitTextSizeAdjust': '100%',
             'MozTextSizeAdjust': '100%',
-            'textSizeAdjust': '100%'
+            'textSizeAdjust': '100%',
+            'fontFeatureSettings': '"kern","lig"'
+
         },
         'html, body': {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
-            bg: 'gray.1100',
+            bg: 'gray.1000',
+            color: 'rgb(223, 225, 245)',
+            fontWeight: 500
         },
-        'body': { 'fontSize': '160%' },
+        'body': { 'fontSize': '160%', },
 
         '::selection': {
             background: 'gray.1100' /* WebKit/Blink Browsers */
@@ -35,8 +39,10 @@ const config = {
 }
 
 const fonts = {
-    body: "proxima-nova, sans-serif;",
-    heading: "proxima-nova, sans-serif;"
+    // body: "proxima-nova, sans-serif;",
+    // heading: "proxima-nova, sans-serif;"
+    body: "Open Sans, sans-serif;",
+    heading: "Open Sans, sans-serif;"
     // heading: '"Inter", "Oswald", sans-serif;',
     //body: '"Inter", "Oswald", sans-serif;'
 }

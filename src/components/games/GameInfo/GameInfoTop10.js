@@ -1,8 +1,11 @@
-import { Box, IconButton, VStack, Text, Icon, HStack, Grid, GridItem, Tr, Table, Th, Thead, Tbody, Td } from '@chakra-ui/react';
+import { Box, IconButton, VStack, Text, Icon, HStack, Grid, GridItem, Tr, Table, Th, Thead, Tbody, Td, Image } from '@chakra-ui/react';
 import fs from 'flatstore';
 import { Link } from 'react-router-dom';
 
 import { GiLaurelsTrophy, } from '@react-icons';
+
+import config from '../../../config'
+import ratingtext from 'shared/util/ratingtext';
 
 function GameInfoTop10(props) {
 
@@ -36,6 +39,10 @@ function GameInfoTop10(props) {
                 displayname = displayname.substr(0, 16) + '...';
             }
 
+            let ratingTxt = ratingtext.ratingToRank(Number.parseInt(player.score));
+            let ratingTextFormatted = ratingTxt.toUpperCase();
+            let ratingImageFile = ratingTxt.replace(/ /ig, '');
+
             elems.push(
                 <Tr key={tag + '-leaderboard-' + player.value} lineHeight="4rem" height="4rem" borderColor="blacks.100" >
                     <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
@@ -56,6 +63,7 @@ function GameInfoTop10(props) {
                     </Td>
                     <Td borderBottom={isPast5Rank ? '2px solid' : undefined}
                         borderBottomColor={isPast5Rank ? 'blacks.300' : 'blacks.600'}>
+
                         <Link to={'/profile/' + player.value}>
                             <Text
                                 fontSize="xs"
@@ -65,16 +73,24 @@ function GameInfoTop10(props) {
                                 {displayname}
                             </Text>
                         </Link>
+
                     </Td>
                     <Td
                         borderBottom={isPast5Rank ? '2px solid' : undefined}
                         borderBottomColor={isPast5Rank ? 'blacks.300' : 'blacks.600'}>
-                        <Text
-                            fontSize="xs"
-                            fontWeight={isLocalPlayer ? 'bold' : 'normal'}
-                            color={isLocalPlayer ? "yellow.100" : 'white'}>
-                            {player.score}
-                        </Text>
+                        <HStack>
+                            <Image
+                                src={`${config.https.cdn}icons/ranks/${ratingImageFile}.png`}
+                                width={'auto'}
+                                height={["2.4rem"]}
+                            />
+                            <Text
+                                fontSize="xs"
+                                fontWeight={isLocalPlayer ? 'bold' : 'normal'}
+                                color={isLocalPlayer ? "yellow.100" : 'white'}>
+                                {player.score}
+                            </Text>
+                        </HStack>
                     </Td>
                 </Tr>
             )
@@ -109,24 +125,26 @@ function GameInfoTop10(props) {
                         <Tr
                         //borderBottomColor="gray.600"
                         >
-                            <Th color={'gray.100'} width="10rem" fontSize="sm" lineHeight="3rem" height="3rem" isNumeric>Rank</Th>
-                            <Th color={'gray.100'} width="20rem" fontSize="sm" lineHeight="3rem" height="3rem" >Player</Th>
-                            <Th color={'gray.100'} width="10rem" fontSize="sm" lineHeight="3rem" height="3rem">Rating</Th>
+                            <Th color={'gray.200'} width="5rem" fontSize="sm" lineHeight="3rem" height="3rem">
+                                <HStack width="100%" justifyContent={'flex-end'} spacing="1rem"><Text>Rank</Text></HStack>
+                            </Th>
+                            <Th color={'gray.200'} width="20rem" fontSize="sm" lineHeight="3rem" height="3rem" >Player</Th>
+                            <Th color={'gray.200'} width="10rem" fontSize="sm" lineHeight="3rem" height="3rem">Rating</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         {renderRankings()}
                     </Tbody>
                 </Table>
-                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="gray.100" fontWeight='300'>
-                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.100">{playerRank || -1}</Text> of {lbCount}
+                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="sm" color="gray.200" fontWeight='300'>
+                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.200">{playerRank || -1}</Text> of {lbCount}
                         {/* in
                         <Text as="span" > Rankings</Text> */}
                     </Text>
                 </Box>
 
             </VStack>
-        </Box>
+        </Box >
 
     )
 }

@@ -74,10 +74,10 @@ export async function findGames() {
 
 export async function findGame(game_slug) {
     try {
-        fs.set('loadingGameInfo', true);
+
         let response = await GET('/api/v1/game/' + game_slug);
         let result = response.data;
-        fs.set('loadingGameInfo', false);
+        // fs.set('loadingGameInfo', false);
         if (result.ecode) {
             throw result.ecode;
         }
@@ -288,10 +288,10 @@ export async function findGameLeaderboardHighscore(game_slug) {
 
 export async function findGameLeaderboard(game_slug) {
     try {
-        fs.set('loadingGameInfo', true);
+        // fs.set('loadingGameInfo', true);
         let response = await GET('/api/v1/game/lb/' + game_slug);
         let result = response.data;
-        fs.set('loadingGameInfo', false);
+        // fs.set('loadingGameInfo', false);
         if (result.ecode) {
             if (result.ecode == 'E_NOTAUTHORIZED') {
                 return await findGame(game_slug);
@@ -364,10 +364,10 @@ export async function findGameLeaderboard(game_slug) {
 
 export async function findGamePerson(game_slug) {
     try {
-        fs.set('loadingGameInfo', true);
+        // fs.set('loadingGameInfo', true);
         let response = await GET('/api/v1/game/person/' + game_slug);
         let result = response.data;
-        fs.set('loadingGameInfo', false);
+        // fs.set('loadingGameInfo', false);
         if (result.ecode) {
 
             if (result.ecode == 'E_NOTAUTHORIZED') {

@@ -46,7 +46,7 @@ fs.set('layoutMode', 'right');
 fs.set('layoutBottomMode', 'none');
 fs.set('layoutRightMode', 'none');
 fs.set('scoreboardExpanded', true);
-fs.set('lobbyExpanded', true);
+fs.set('lobbyExpanded', false);
 fs.set('chatExpanded', true);
 
 function App(props) {
@@ -69,8 +69,11 @@ function App(props) {
     fs.set("isMobile", isMobileCheck);
 
     let layoutMode = fs.get('layoutMode');
-    if (layoutMode != 'bottom' && isMobileCheck)
+    if (layoutMode != 'bottom' && isMobileCheck) {
       fs.set('layoutMode', 'bottom');
+      fs.set('lobbyExpanded', false);
+    }
+
     if (layoutMode != 'right' && !isMobileCheck)
       fs.set('layoutMode', 'right');
   }
