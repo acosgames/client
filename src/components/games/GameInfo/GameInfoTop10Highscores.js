@@ -35,14 +35,14 @@ function GameInfoTop10Highscores(props) {
             elems.push(
                 <Tr key={tag + '-leaderboard-hs-' + player.value}>
                     <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'blacks.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
                         <HStack width="auto" justifyContent={'flex-end'} spacing="1rem">
                             {player.rank == 1 && (<Icon as={GiLaurelsTrophy} color='gold' />)}
                             {player.rank == 2 && (<Icon as={GiLaurelsTrophy} color='silver' />)}
                             {player.rank == 3 && (<Icon as={GiLaurelsTrophy} color='#A78553' />)}
                             <Text
                                 fontSize="xs"
-                                fontWeight={isLocalPlayer ? 'bold' : 'normal'}
+                                fontWeight={isLocalPlayer ? 'bold' : 'bold'}
                                 color={isLocalPlayer ? "yellow.100" : 'white'}>
 
                                 {player.rank}
@@ -50,11 +50,12 @@ function GameInfoTop10Highscores(props) {
                         </HStack>
                     </Td>
                     <Td borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'blacks.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
                         <Link to={'/profile/' + player.value}>
                             <Text
                                 fontSize="xs"
-                                fontWeight={isLocalPlayer ? 'bold' : 'normal'}
+                                fontWeight={'bold'}
+                                wordBreak="break-all"
                                 color={isLocalPlayer ? "yellow.100" : 'white'}>
                                 {displayname}
 
@@ -63,7 +64,7 @@ function GameInfoTop10Highscores(props) {
                     </Td>
                     <Td
                         borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'blacks.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
                         <Text
                             fontSize="xs"
                             fontWeight={isLocalPlayer ? 'bold' : 'normal'}
@@ -98,12 +99,18 @@ function GameInfoTop10Highscores(props) {
         <Box w="100%" pt="0" pb="1rem">
 
             <VStack w="100%">
-                <Table variant='none' mb={playerRank == -1 ? '1rem' : '0'} width="100%">
-                    <Thead>
-                        <Tr>
-                            <Th color={'gray.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem" isNumeric>Rank</Th>
-                            <Th color={'gray.100'} fontSize="sm" width="20rem" lineHeight="3rem" height="3rem" >Player</Th>
-                            <Th color={'gray.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem">Score</Th>
+                <Table variant='none' mb={playerRank == -1 ? '1rem' : '0'} width="100%"
+                    style={{ borderCollapse: "separate", borderSpacing: "0 0.25rem" }}
+                >
+                    <Thead fontSize="xs">
+                        <Tr
+                        //borderBottomColor="gray.600"
+                        >
+                            <Th color={'gray.100'} width="5rem" lineHeight="1rem" height="1rem">
+                                <HStack width="100%" justifyContent={'flex-end'} spacing="1rem"><Text fontSize="2xs">Rank</Text></HStack>
+                            </Th>
+                            <Th color={'gray.100'} width="20rem" lineHeight="1rem" height="1rem" fontSize="2xs">Player</Th>
+                            <Th color={'gray.100'} width="10rem" lineHeight="1rem" height="1rem" fontSize="2xs">Score</Th>
                         </Tr>
                     </Thead>
                     <Tbody>

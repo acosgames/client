@@ -11,13 +11,13 @@ function FSGGroup(props) {
             <Heading
                 as={props.as || 'h2'}
                 // ml="0rem"
-                // pl="0.4rem"
+                pl="0.4rem"
                 // pr="0.4rem"
                 display={props.title ? 'block' : 'none'}
                 pt={props.hpt || "4"}
                 pb={props.hpb || "0.5rem"}
                 fontSize={props.hfontSize || "2xl"}
-                fontWeight={props.hfontWeight || "800"}
+                fontWeight={props.hfontWeight || "700"}
                 color={props.hcolor || "gray.100"}>
                 {props.title}
             </Heading>
@@ -34,8 +34,8 @@ function FSGGroup(props) {
                 color={props.color}
                 borderRadius={props.borderRadius || "2rem"}
                 fontWeight={props.fontWeight || 800}
-                bgColor={props.bgColor || "gray.800"}
-                boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
+                bgColor={props.bgColor}
+            // boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
             >
 
 
@@ -51,7 +51,7 @@ function FSGGroup(props) {
 
 
             </VStack >
-        </VStack>
+        </VStack >
     )
 
 }

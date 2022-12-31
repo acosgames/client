@@ -30,6 +30,8 @@ function GameInfo2(props) {
 
     let [game] = fs.useWatch('game');
     let [player_stats] = fs.useWatch('player_stats');
+    let [loadingGameInfo] = fs.useWatch('loadingGameInfo');
+
 
     let { game_slug, room_slug, mode } = useParams();
 
@@ -71,17 +73,28 @@ function GameInfo2(props) {
 
     // let game_slug = props.match.params.game_slug;
     // let gamestate = fs.get('gamestate');
-    let playerStats = player_stats[game_slug] || {};
-    if (!game || game.game_slug != game_slug) {
-        //fs.set('game', null);
 
+    if (loadingGameInfo)
         return (
             <Box className="gameinfo" display="inline-block" width="100%" >
                 <Center>
-                    <GameInfoLoading />
+                    <Text fontWeight={"bold"} color="white">Loading...</Text>
+                </Center>
+            </Box >
+        )
+
+
+    let playerStats = player_stats[game_slug] || {};
+    if (!game || game.game_slug != game_slug) {
+        //fs.set('game', null);
+        return (
+            <Box className="gameinfo" display="inline-block" width="100%" >
+                <Center>
+                    <GameInfo404 />
                 </Center>
             </Box>
         )
+
     }
 
     let imgUrl = config.https.cdn + 'placeholder.png';
@@ -182,14 +195,14 @@ function GameInfo2(props) {
 
 }
 
-function GameInfoLoading(props) {
+function GameInfo404(props) {
 
     // let [game] = fs.useWatch('game');
-    let [loadingGameInfo] = fs.useWatch('loadingGameInfo');
+    // let [loadingGameInfo] = fs.useWatch('loadingGameInfo');
 
-    if (loadingGameInfo)
-        return <></>
-    // return (<Text fontSize="4xl" color={'#D9E63A'}>Loading</Text>)
+    // if (loadingGameInfo)
+    //     return <></>
+    // // return (<Text fontSize="4xl" color={'#D9E63A'}>Loading</Text>)
     return (
         <Text fontSize="4xl">404: Game Not Found</Text>
     )

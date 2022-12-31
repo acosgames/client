@@ -95,15 +95,15 @@ function GameListItem(props) {
     return (
         <Box
             // w={['100%', '16rem', '16rem', '16rem']}
-            w={['100%', '14rem', '14rem', '14rem']}
+            w={['100%', '12rem', '18rem', '18rem']}
             h={['10rem', 'auto']}
             borderRadius={"2rem"}
             // borderTopLeftRadius={0}
             // borderBottomLeftRadius={0}
             p={["0.0rem", "0rem"]}
-            bgColor={"gray.800"}
-            boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 15%)`}
-            overflow="hidden"
+        //bgColor={"gray.800"}
+        // boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 15%)`}
+        // overflow="hidden"
         >
 
             <StackType
@@ -129,10 +129,10 @@ function GameListItem(props) {
                         borderRadius={'2rem'}
                         // borderTopLeftRadius={0}
                         // borderBottomLeftRadius={0}
-                        w={['10rem', '14rem', '14rem', '14rem']}
-                        minW={['10rem', '14rem', '14rem', '14rem']}
-                        h={['10rem', '14rem', '14rem', '14rem']}
-                        minH={['10rem', '14rem', '14rem', '14rem']}
+                        w={['10rem', '12rem', '18rem', '18rem']}
+                        minW={['10rem', '12rem', '18rem', '18rem']}
+                        h={['10rem', '12rem', '18rem', '18rem']}
+                        minH={['10rem', '12rem', '18rem', '18rem']}
                         alt={gameName}
                         src={imgUrl}
                         transition="transform 0.4s ease"
@@ -142,16 +142,17 @@ function GameListItem(props) {
                     />
                 </Link>
 
-                <VStack pt={['0.1rem', "0.8125rem"]} pb="" pl="1rem" pr="1rem" width="100%" alignItems={'flex-start'} spacing='0' flex={['1', '']}>
+                <VStack pt={['0.1rem', "0.2rem"]} pb="" pl="1rem" pr="1rem" width="100%" alignItems={'flex-start'} spacing='0' flex={['1', '']}>
 
 
                     {/* <HStack alignSelf={'flex-start'} flex="1" alignItems={'flex-end'}> */}
                     <Tooltip label={gameName} placement="top">
-                        <ChLink to={'/g/' + game.game_slug} display="block" width="100%">
+                        <Link to={'/g/' + game.game_slug}>
+                            {/* <ChLink to={'/g/' + game.game_slug} display="block" width="100%"> */}
 
                             <Text
                                 as="h4"
-                                fontSize={['xs', "sm", 'md']}
+                                fontSize={['xs', "xs", 'sm']}
                                 fontWeight={'bold'}
                                 color={'gray.50'}
                                 w={['7rem', "100%"]}
@@ -170,8 +171,8 @@ function GameListItem(props) {
                             // textAlign={'center'}
                             // alignSelf={'flex-end'}
                             >{gameName}</Text>
-
-                        </ChLink>
+                        </Link>
+                        {/* </ChLink> */}
                     </Tooltip>
                     {/* </HStack> */}
                     {/* 

@@ -44,16 +44,18 @@ function GameInfoTop10(props) {
             let ratingImageFile = ratingTxt.replace(/ /ig, '');
 
             elems.push(
-                <Tr key={tag + '-leaderboard-' + player.value} lineHeight="4rem" height="4rem" borderColor="blacks.100" >
+                <Tr key={tag + '-leaderboard-' + player.value} lineHeight="4rem" height="4rem" borderColor="gray.100" >
                     <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'blacks.300' : 'blacks.600'} >
+                        borderBottomColor={isPast5Rank ? 'gray.300' : 'gray.600'}
+                    // bgColor="gray.600"
+                    >
                         <HStack width="auto" justifyContent={'flex-end'} spacing="1rem">
                             {player.rank == 1 && (<Icon as={GiLaurelsTrophy} color='gold' />)}
                             {player.rank == 2 && (<Icon as={GiLaurelsTrophy} color='silver' />)}
                             {player.rank == 3 && (<Icon as={GiLaurelsTrophy} color='#A78553' />)}
                             <Text
                                 fontSize="xs"
-                                fontWeight={isLocalPlayer ? 'bold' : 'normal'}
+                                fontWeight={isLocalPlayer ? 'bold' : 'bold'}
                                 color={isLocalPlayer ? "yellow.100" : 'white'}>
 
 
@@ -62,7 +64,9 @@ function GameInfoTop10(props) {
                         </HStack>
                     </Td>
                     <Td borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'blacks.300' : 'blacks.600'}>
+                        borderBottomColor={isPast5Rank ? 'gray.300' : 'gray.600'}
+                    // bgColor="gray.400"
+                    >
 
                         <Link to={'/profile/' + player.value}>
                             <Text
@@ -77,7 +81,9 @@ function GameInfoTop10(props) {
                     </Td>
                     <Td
                         borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'blacks.300' : 'blacks.600'}>
+                        borderBottomColor={isPast5Rank ? 'gray.300' : 'gray.600'}
+                    // bgColor="gray.100"
+                    >
                         <HStack>
                             <Image
                                 src={`${config.https.cdn}icons/ranks/${ratingImageFile}.png`}
@@ -120,16 +126,18 @@ function GameInfoTop10(props) {
 
             <VStack w="100%">
 
-                <Table variant='none' mb={playerRank == -1 ? '1rem' : '0'} width="100%">
-                    <Thead>
+                <Table variant='none' mb={playerRank == -1 ? '1rem' : '0'} width="100%"
+                    style={{ borderCollapse: "separate", borderSpacing: "0 0.25rem" }}
+                >
+                    <Thead >
                         <Tr
                         //borderBottomColor="gray.600"
                         >
-                            <Th color={'gray.200'} width="5rem" fontSize="sm" lineHeight="3rem" height="3rem">
-                                <HStack width="100%" justifyContent={'flex-end'} spacing="1rem"><Text>Rank</Text></HStack>
+                            <Th color={'gray.100'} width="5rem" lineHeight="1rem" height="1rem">
+                                <HStack width="100%" justifyContent={'flex-end'} spacing="1rem"><Text fontSize="2xs">Rank</Text></HStack>
                             </Th>
-                            <Th color={'gray.200'} width="20rem" fontSize="sm" lineHeight="3rem" height="3rem" >Player</Th>
-                            <Th color={'gray.200'} width="10rem" fontSize="sm" lineHeight="3rem" height="3rem">Rating</Th>
+                            <Th color={'gray.100'} width="20rem" lineHeight="1rem" height="1rem" fontSize="2xs">Player</Th>
+                            <Th color={'gray.100'} width="10rem" lineHeight="1rem" height="1rem" fontSize="2xs">Rating</Th>
                         </Tr>
                     </Thead>
                     <Tbody>

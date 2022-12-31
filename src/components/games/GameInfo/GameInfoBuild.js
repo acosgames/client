@@ -31,50 +31,51 @@ function GameInfoBuild(props) {
     }
 
     return (
-        <FSGGroup title="Build Information" spacing="1rem" hfontSize="sm">
+        <FSGGroup title="Build Information" pl="0" pr="0" spacing="1rem" hfontSize="sm">
             <Grid
                 width="100%"
                 spacing={'2rem'}
+                p="1rem"
                 gridTemplateColumns={'repeat(3, minmax(0, 1fr))'}
                 rowGap={'1rem'}
 
             >
                 <FSGRead disabled={true}
                     hfontSize="xs"
-                    fontSize="sm"
+                    fontSize="xs"
                     title="Released"
                     color={'color.100'}
-                    fontWeight='500'
+                    fontWeight='700'
                     value={parseDate(game.tsinsert)}
                 />
                 <FSGRead disabled={true}
                     hfontSize="xs"
-                    fontSize="sm"
+                    fontSize="xs"
                     title="Updated"
-                    fontWeight='500'
+                    fontWeight='700'
                     color={'color.100'}
                     value={parseDate(game.tsupdate)}
                 />
                 <FSGRead disabled={true}
                     hfontSize="xs"
-                    fontSize="sm"
+                    fontSize="xs"
                     title="Published"
-                    fontWeight='500'
+                    fontWeight='700'
                     color={'color.100'}
                     value={'v' + game.version}
                 />
                 <FSGRead disabled={true}
                     hfontSize="xs"
-                    fontSize="sm"
-                    fontWeight='500'
+                    fontSize="xs"
+                    fontWeight='700'
                     title="Experimental"
                     color={'color.100'}
                     value={'v' + game.latest_version}
                 />
                 <FSGRead disabled={true}
                     hfontSize="xs"
-                    fontSize="sm"
-                    fontWeight='500'
+                    fontSize="xs"
+                    fontWeight='700'
                     title="Screen"
                     color={'color.100'}
                     value={screentype}
@@ -84,8 +85,8 @@ function GameInfoBuild(props) {
 
                     <FSGRead disabled={true}
                         hfontSize="xs"
-                        fontSize="sm"
-                        fontWeight='500'
+                        fontSize="xs"
+                        fontWeight='700'
                         title="Resolution"
                         color={'color.100'}
                         value={resolution}

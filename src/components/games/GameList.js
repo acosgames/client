@@ -39,7 +39,7 @@ class GameList extends Component {
                 <VStack align="left">
                     <Heading as="h1" size="md" pb="0rem" color="white">Ranked Games</Heading>
                     <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">You'll need skill to reach the top</Heading>
-                    <Wrap w="100%" spacing={['1.2rem', '2rem', "1.4rem"]}>
+                    <Wrap w="100%" spacing={['1.2rem', '2rem', "1.4rem"]} overflow="visible">
                         {
                             rankList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }
@@ -49,7 +49,7 @@ class GameList extends Component {
                 <VStack align="left" display={soloList.length == 0 ? 'none' : undefined}>
                     <Heading as="h1" size="md" color="white">Solo Highscore</Heading>
                     <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Play by yourself against the world</Heading>
-                    <Flex w="100%" spacing={['0.6rem', '1rem', "1.4rem"]}>
+                    <Flex w="100%" spacing={['0.6rem', '1rem', "1.4rem"]} overflow="visible">
                         {
                             soloList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }
@@ -59,7 +59,7 @@ class GameList extends Component {
                 <VStack align="left" display={experimentalList.length == 0 ? 'none' : undefined}>
                     <Heading as="h1" size="md" color="white">Early Access</Heading>
                     <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Not yet published, but the devs need your help!</Heading>
-                    <Flex w="100%" spacing={['0.6rem', '1rem', "1.4rem"]}>
+                    <Flex w="100%" spacing={['0.6rem', '1rem', "1.4rem"]} overflow="visible">
                         {
                             experimentalList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
                         }
@@ -86,16 +86,16 @@ class GameList extends Component {
                             w="100%"
                             h="100%"
                             flexDir={"column"}
-                            bgColor="gray.800"
+                            bgColor="gray.1100"
                             borderRadius="2rem"
-                            _hover={{ bgColor: 'gray.1100' }}
-                            _active={{ bgColor: 'gray.1100' }}
-                            boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
+                            color="gray.100"
+                            _hover={{ bgColor: 'gray.800' }}
+                            _active={{ bgColor: 'gray.600' }}
+                            boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 8px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'}>
-                            <HStack pb="1rem">
-                                <Text fontSize="sm" display="flex" color="white" fontWeight="bold" >
+                            <HStack pb="1rem" >
+                                <Text fontSize="sm" display="flex" fontWeight="bold" >
                                     <Icon
-                                        color="white"
                                         alignSelf={'center'}
                                         as={TiDocumentText}
                                         fontSize="md" />
@@ -113,17 +113,18 @@ class GameList extends Component {
                             w="100%"
                             h="100%"
                             flexDir={"column"}
-                            bgColor="gray.800"
+                            bgColor="gray.1100"
                             borderRadius="2rem"
-                            _hover={{ bgColor: 'gray.1100' }}
-                            _active={{ bgColor: 'gray.1100' }}
+                            color="gray.100"
+                            _hover={{ bgColor: 'gray.800' }}
+                            _active={{ bgColor: 'gray.600' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'} >
                             <Link to="/dev">
                                 <HStack pb="1rem">
 
-                                    <Text fontSize="sm" display="flex" color="white" fontWeight="bold">
-                                        <Icon color="white" alignSelf={'center'} as={FaDev} fontSize="md" />&nbsp;Developer Zone</Text>
+                                    <Text fontSize="sm" display="flex" fontWeight="bold">
+                                        <Icon alignSelf={'center'} as={FaDev} fontSize="md" />&nbsp;Developer Zone</Text>
 
                                 </HStack>
                                 <Text>
@@ -136,15 +137,16 @@ class GameList extends Component {
                             w="100%"
                             h="100%"
                             flexDir={"column"}
-                            bgColor="gray.800"
+                            bgColor="gray.1100"
                             borderRadius="2rem"
-                            _hover={{ bgColor: 'gray.1100' }}
-                            _active={{ bgColor: 'gray.1100' }}
+                            color="gray.100"
+                            _hover={{ bgColor: 'gray.800' }}
+                            _active={{ bgColor: 'gray.600' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'}
                         >
-                            <Text fontSize="sm" display="flex" color="white" fontWeight="bold">
-                                <Icon color="white" alignSelf={'center'} as={FaDiscord} fontSize="md" />&nbsp;Discord</Text>
+                            <Text fontSize="sm" display="flex" fontWeight="bold">
+                                <Icon alignSelf={'center'} as={FaDiscord} fontSize="md" />&nbsp;Discord</Text>
                             <Text>
                                 Have a suggestion?  Come join us on Discord to discuss games, features, and more.
                             </Text>
@@ -154,14 +156,15 @@ class GameList extends Component {
                             w="100%"
                             h="100%"
                             flexDir={"column"}
-                            bgColor="gray.800"
+                            bgColor="gray.1100"
                             borderRadius="2rem"
-                            _hover={{ bgColor: 'gray.1100' }}
-                            _active={{ bgColor: 'gray.1100' }}
+                            color="gray.100"
+                            _hover={{ bgColor: 'gray.800' }}
+                            _active={{ bgColor: 'gray.600' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'}>
-                            <Text fontSize="sm" display="flex" color="white" fontWeight="bold">
-                                <Icon color="white" alignSelf={'center'} as={FaGithub} fontSize="md" />
+                            <Text fontSize="sm" display="flex" fontWeight="bold">
+                                <Icon alignSelf={'center'} as={FaGithub} fontSize="md" />
                                 &nbsp;GitHub
                             </Text>
                             <Text>
@@ -183,6 +186,9 @@ class GameList extends Component {
                             flexDir={"row"}
                             bgColor="gray.800"
                             borderRadius="2rem"
+                            color="gray.100"
+                            _hover={{ bgColor: 'gray.800' }}
+                            _active={{ bgColor: 'gray.1000' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'} _hover={{ textDecoration: 'none' }}
                         >
