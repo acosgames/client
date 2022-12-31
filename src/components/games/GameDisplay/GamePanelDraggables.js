@@ -91,6 +91,9 @@ function GamePanelDraggable(props) {
         </Portal>
     }
 
+    if (gamepanel?.room?.isReplay)
+        return <></>
+
     return (
         <Draggable
             key={'draggable-' + gamepanel.id}
