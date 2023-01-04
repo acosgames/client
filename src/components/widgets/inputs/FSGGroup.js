@@ -1,6 +1,6 @@
 
 import { FormControl, FormLabel, FormHelperText } from "@chakra-ui/form-control";
-import { useColorModeValue, VStack, Heading, StackDivider } from "@chakra-ui/react";
+import { useColorModeValue, VStack, Heading, StackDivider, Text } from "@chakra-ui/react";
 
 function FSGGroup(props) {
 
@@ -8,19 +8,23 @@ function FSGGroup(props) {
 
     return (
         <VStack align='stretch' width={props.width || "100%"} py={props.py || 0} px={props.px || 0}>
-            <Heading
-                as={props.as || 'h2'}
+            <Text
+                as={props.as || 'span'}
                 // ml="0rem"
-                pl="0.4rem"
+                pl="1rem"
                 // pr="0.4rem"
-                display={props.title ? 'block' : 'none'}
-                pt={props.hpt || "4"}
-                pb={props.hpb || "0.5rem"}
+                bgColor="gray.900"
+                borderRadius="4px"
+                align={props.align}
+                w="auto"
+                display={props.title ? 'inline-block' : 'none'}
+                pt={props.hpt || "1rem"}
+                pb={props.hpb || "1rem"}
                 fontSize={props.hfontSize || "2xl"}
                 fontWeight={props.hfontWeight || "700"}
                 color={props.hcolor || "gray.100"}>
                 {props.title}
-            </Heading>
+            </Text>
             <VStack
                 // as='fieldset'
                 pl={props.pl || ['1rem', '2rem', "3rem"]}

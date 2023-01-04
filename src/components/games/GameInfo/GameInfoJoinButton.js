@@ -119,6 +119,7 @@ function GameInfoJoinButton(props) {
                     // icon={<FaPlay />}
                     borderTopLeftRadius={"9999px"}
                     borderBottomLeftRadius={"9999px"}
+                    boxShadow={`inset 0 1px 3px 0 rgb(255 255 255 / 60%), inset 0 0 3px 5px rgb(0 0 0 / 5%)`}
                     //boxShadow={`inset 0 1px 3px 0 rgb(255 255 255 / 60%), inset 0 0 3px 5px rgb(0 0 0 / 5%)`}
                     borderTopRightRadius={hasExtra ? 0 : '9999px'}
                     borderBottomRightRadius={hasExtra ? 0 : '9999px'}
@@ -127,6 +128,7 @@ function GameInfoJoinButton(props) {
                     {/* <Text as="span" pr="1rem">LET'S GO</Text> */}
                     <Icon
                         // ml={0}
+                        color="white"
                         ml={hasExtra ? '65px' : 0}
                         as={FaPlay}
                         height={["1rem", "1.6rem"]}
@@ -150,6 +152,7 @@ function GameInfoJoinButton(props) {
                             borderBottomLeftRadius={"0"}
                             borderTopRightRadius={"9999px"}
                             borderBottomRightRadius={"9999px"}
+                            boxShadow={`inset 0 1px 3px 0 rgb(255 255 255 / 60%), inset 0 0 3px 5px rgb(0 0 0 / 5%)`}
                         >
                             <Icon as={FaCaretDown} mr={1} width="16px" height="16px" />
                         </MenuButton>

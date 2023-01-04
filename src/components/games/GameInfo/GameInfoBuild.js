@@ -45,14 +45,14 @@ function GameInfoBuild(props) {
                     fontSize="xs"
                     title="Released"
                     color={'color.100'}
-                    fontWeight='700'
+                    fontWeight='500'
                     value={parseDate(game.tsinsert)}
                 />
                 <FSGRead disabled={true}
                     hfontSize="xs"
                     fontSize="xs"
                     title="Updated"
-                    fontWeight='700'
+                    fontWeight='500'
                     color={'color.100'}
                     value={parseDate(game.tsupdate)}
                 />
@@ -60,14 +60,14 @@ function GameInfoBuild(props) {
                     hfontSize="xs"
                     fontSize="xs"
                     title="Published"
-                    fontWeight='700'
+                    fontWeight='500'
                     color={'color.100'}
                     value={'v' + game.version}
                 />
                 <FSGRead disabled={true}
                     hfontSize="xs"
                     fontSize="xs"
-                    fontWeight='700'
+                    fontWeight='500'
                     title="Experimental"
                     color={'color.100'}
                     value={'v' + game.latest_version}
@@ -75,7 +75,7 @@ function GameInfoBuild(props) {
                 <FSGRead disabled={true}
                     hfontSize="xs"
                     fontSize="xs"
-                    fontWeight='700'
+                    fontWeight='500'
                     title="Screen"
                     color={'color.100'}
                     value={screentype}
@@ -86,7 +86,7 @@ function GameInfoBuild(props) {
                     <FSGRead disabled={true}
                         hfontSize="xs"
                         fontSize="xs"
-                        fontWeight='700'
+                        fontWeight='500'
                         title="Resolution"
                         color={'color.100'}
                         value={resolution}

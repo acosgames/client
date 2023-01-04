@@ -118,13 +118,12 @@ function GameInfoTop10Highscores(props) {
                     </Tbody>
                 </Table>
 
-
-                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="gray.100" fontWeight={'300'}>
-                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.100">{playerRank || -1}</Text> of {lbCount}
-                        {/* in
-                        <Text as="span" > Highscore</Text> */}
+                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="sm" color="gray.200" fontWeight='300'>
+                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>
+                        Rank <Text as="span" fontWeight='bold' color="gray.200">{playerRank || -1}</Text> of {lbCount}
                     </Text>
                 </Box>
+
 
 
             </VStack>

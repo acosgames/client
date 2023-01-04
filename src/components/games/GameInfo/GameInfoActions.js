@@ -171,7 +171,7 @@ function GameInfoActions(game) {
                 </Box>
                 <Box alignContent={'right'} ml="1rem">
 
-                    <Menu>
+                    <Menu placement='top'>
                         <MenuButton as={Button} variant="clear"
                             p="1rem"
                             minWidth="4.5rem"

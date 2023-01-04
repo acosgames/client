@@ -24,6 +24,7 @@ import GameInfoDescription from "./GameInfoDescription";
 import GameInfoBuild from "./GameInfoBuild";
 import PlayerRankInfo from "./PlayerRankInfo";
 import GameInfoReplay from "./GameInfoReplay";
+import GameInfoTag from "./GameInfoTag";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
@@ -106,7 +107,9 @@ function GameInfo2(props) {
         playerCntRange = game.minplayers;
 
 
-
+    let hasOpenSource = game.opensource == 1
+    let hasTeams = game.minteams > 0
+    let hasMultiplayerTopScore = game.lbscore == 1 && game.maxplayers > 1;
 
     return (
 
@@ -120,10 +123,15 @@ function GameInfo2(props) {
                         <GameInfoImage borderRadius="2rem" game_slug={game.game_slug} imgUrl={imgUrl} />
 
 
-                        <Flex pl="1rem" flex="1" ml="3rem" direction="column" alignSelf={'flex-start'} w="auto" position="relative">
+                        <Flex pl="1rem" flex="1" ml="3rem"
+                            direction="column"
+                            alignSelf={'flex-start'}
+                            w="auto"
+                            h="100%"
+                            position="relative">
 
-                            <HStack w="100%">
-                                <VStack flex="1" alignItems={'flex-start'} spacing="0">
+                            <HStack w="100%" height="100%">
+                                <VStack alignItems={'flex-start'} spacing="0">
                                     <Heading color="gray.50" fontSize={['xl', '2xl']} lineHeight={['2rem', '2rem', '3rem']}>{game.name}</Heading>
 
 
@@ -132,6 +140,22 @@ function GameInfo2(props) {
                                         <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="gray.100" pt="0">{game.displayname}</Text></Link>
                                     </Box>
 
+                                    <Wrap width="100%" pt="1rem" flex="1" justifyContent={'flex-start'} alignItems={"flex-end"}>
+                                        {
+                                            hasOpenSource &&
+                                            <GameInfoTag to={"https://github.com/acosgames/" + game.game_slug}
+                                                title="opensource" />
+                                        }
+                                        {
+                                            hasMultiplayerTopScore &&
+                                            <GameInfoTag title="topscore" />
+                                        }
+                                        {
+                                            hasTeams &&
+                                            <GameInfoTag title="teams" />
+                                        }
+                                        <GameInfoTag title="replays" />
+                                    </Wrap>
                                     {/* <Text color="gray.100" as="h5" pt="0.5rem" fontSize={['xs', 'sm']} fontWeight="400">{game.shortdesc}</Text> */}
 
                                 </VStack>
