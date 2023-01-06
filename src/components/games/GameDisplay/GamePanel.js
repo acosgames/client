@@ -2,7 +2,7 @@ import { Box, Center, Fade, Flex, Heading, IconButton, Image, Portal, ScaleFade,
 
 import { useEffect, useRef, useState } from 'react';
 import fs from 'flatstore';
-import { sendLoadMessage } from '../../../actions/connection';
+import { replaySendGameStart, sendLoadMessage } from '../../../actions/connection';
 import config from '../../../config'
 import { BsArrowsFullscreen, CgMinimizeAlt } from '@react-icons';
 
@@ -372,7 +372,11 @@ function GameIFrame(props) {
                                 // setTimeout(() => {
                                 //     onResize();
                                 // }, 1000);
-                                updateGamePanel(gamepanel);
+                                if (gamepanel.room.isReplay) {
+                                    replaySendGameStart(room_slug);
+                                } else {
+                                    updateGamePanel(gamepanel);
+                                }
                             }}
                             src={false ? `http://localhost:8080/iframe.html` : `${config.https.cdn}static/iframe.html`}
                             // srcDoc={iframeSrc}

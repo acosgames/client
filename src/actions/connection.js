@@ -365,7 +365,7 @@ export function replayJumpToIndex(room_slug, startIndex) {
     let gamepanel = findGamePanelByRoom(room_slug);
     let iframe = gamepanel.iframe;
 
-    if (!iframe)
+    if (!iframe || !iframe.current || !iframe.current.contentWindow)
         return false;
 
     let history = gamepanel.gamestate;// fs.get('gamestate') || {};
@@ -505,7 +505,7 @@ export async function recvFrameMessage(evt) {
         // updateGamePanel(gamepanel);
 
         if (gamepanel.room.isReplay && !gamepanel.room.replayStarted) {
-            replaySendGameStart(gamepanel.room.room_slug);
+
         }
         else {
             fastForwardMessages(room_slug);
@@ -531,6 +531,9 @@ export async function recvFrameMessage(evt) {
             updateGamePanel(gamepanel);
 
             fs.set('showLoadingBox/' + gamepanel.id, false);
+            if (gamepanel.room.isReplay) {
+                replaySendGameStart(room_slug);
+            }
             // fs.set('loaded/' + gamepanel.id, true);
             // fs.set('gameLoaded', true);
         }, 300)

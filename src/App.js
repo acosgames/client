@@ -20,7 +20,7 @@ import MainMenuChakra from './components/MainMenuChakra'
 // import QueuePanel from "./components/games/QueuePanel";
 import fs from 'flatstore';
 import Sidebar from './components/widgets/Sidebar';
-import { Box, Flex, HStack, VStack, Divider } from "@chakra-ui/layout";
+import { Box, Flex, HStack, VStack, Divider, Text } from "@chakra-ui/layout";
 // import AcosFooter from "./components/AcosFooter";
 import VersionControl from "./components/widgets/VersionControl";
 import GameInfoCreateDisplayName from "./components/login/GameInfoCreateDisplayName";
@@ -72,6 +72,8 @@ function App(props) {
     if (layoutMode != 'bottom' && isMobileCheck) {
       fs.set('layoutMode', 'bottom');
       fs.set('lobbyExpanded', false);
+    } else {
+      fs.set('lobbyExpanded', true);
     }
 
     if (layoutMode != 'right' && !isMobileCheck)
@@ -132,6 +134,7 @@ function App(props) {
                 path="/dev/*" element={<Sidebar />}>
 
               </Route>
+              <Route path="*" element={<Text></Text>}></Route>
             </Routes>
           </Box>
         </VStack>

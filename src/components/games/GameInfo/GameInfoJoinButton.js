@@ -1,5 +1,5 @@
 import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack, useDisclosure, Image } from '@chakra-ui/react'
-import { FaCaretDown, FaPlay, AiTwotoneExperiment, GiSpectacles } from '@react-icons';
+import { FaCaretDown, FaPlay, AiTwotoneExperiment, IoSunny } from '@react-icons';
 
 import fs from 'flatstore';
 import { useEffect } from 'react';
@@ -158,7 +158,7 @@ function GameInfoJoinButton(props) {
                         </MenuButton>
                         <MenuList boxShadow={'0 4px 8px rgba(0,0,0,0.4),0 0px 4px rgba(0,0,0,0.4)'} border="0" borderRadius="8px" p="1rem">
                             {/* <MenuItem icon={<GiSpectacles fontSize={'2rem'} />} onClick={() => { }}>Watch Live Matches</MenuItem> */}
-                            <MenuItem icon={<AiTwotoneExperiment fontSize={'2rem'} />} onClick={handleJoinBeta}>Play Casual</MenuItem>
+                            <MenuItem icon={<IoSunny fontSize={'2.5rem'} />} onClick={handleJoinBeta}>Play Casual</MenuItem>
 
                             {/* <MenuItem>Create Private Room</MenuItem> */}
                         </MenuList>

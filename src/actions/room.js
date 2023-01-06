@@ -60,7 +60,7 @@ export function findGamePanelByIFrame(iframeRef) {
 }
 
 export function updateGamePanel(gamepanel) {
-    console.log("Updating gamepanel/" + gamepanel.id);
+    // console.log("Updating gamepanel/" + gamepanel.id);
     fs.set('gamepanel/' + gamepanel.id, gamepanel);
 
     if (gamepanel.isPrimary) {
