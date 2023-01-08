@@ -100,19 +100,26 @@ export function isUserLoggedIn() {
 
 export async function getPlayer(displayname) {
     try {
+
+        fs.set('loadingProfile', true);
+
         let response = await GET('/api/v1/person/' + displayname);
         let player = response.data;
 
         if (player.ecode) {
             console.error('Player not found: ', displayname);
             fs.set('profile', null);
+            fs.set('loadingProfile', false);
             return null;
         }
 
         fs.set('profile', player);
     }
     catch (e) {
-
+        fs.set('profile', null);
+    }
+    finally {
+        fs.set('loadingProfile', false);
     }
 }
 
