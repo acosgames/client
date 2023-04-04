@@ -22,13 +22,16 @@ fs.set('iframesLoaded', {});
 function GamePanel(props) {
 
     let key = 'gamepanel/' + props.id;
-    let [gamepanel] = fs.useWatch(key, fs.get(key));
-    let [loaded] = fs.useWatch(key + '>loaded');
+    let [gamepanel] = fs.useWatch(key);//, fs.get(key));
+    let [loaded] = fs.useWatch('showLoadingBox/' + props.id);
     // const gamepanel = props.gamepanel;
     if (!gamepanel) {
         return <></>
         // return <LoadingBox />
     }
+
+    if (gamepanel.available)
+        return <></>;
 
     const room_slug = gamepanel?.room?.room_slug;
     if (!room_slug)
@@ -41,12 +44,12 @@ function GamePanel(props) {
 
     // let game = getGame(room.game_slug);
     // if (!game)
-    // return <LoadingBox />
+    // return <LoadingBox /> 
 
-    //let primaryCanvasRef = fs.get('primaryCanvasRef');
+    //let primaryCanvasRef = fs.get('primaryCanvasRef'); 
 
     return (
-        // <Portal containerRef={gamepanel.draggableRef}>
+        // <Portal containerRef={gamepanel.draggableRef}> 
         <>
             <LoadingBox id={gamepanel.id} />
             <GameIFrame gamepanel={gamepanel} />
@@ -58,6 +61,9 @@ function GamePanel(props) {
 }
 
 function GameIFrame(props) {
+
+
+    // 'resize', 'isFullScreen', 'displayMode'
 
     let gamepanel = props.gamepanel;
     let room = gamepanel.room;
@@ -378,7 +384,7 @@ function GameIFrame(props) {
                                     updateGamePanel(gamepanel);
                                 }
                             }}
-                            src={false ? `http://localhost:8080/iframe.html` : `${config.https.cdn}static/iframe.html`}
+                            src={true ? `http://localhost:8080/iframe.html` : `${config.https.cdn}static/iframe.html`}
                             // srcDoc={iframeSrc}
                             sandbox="allow-scripts allow-same-origin"
                         />
@@ -410,7 +416,6 @@ function GameIFrame(props) {
     )
 }
 
-GameIFrame = fs.connect(['resize', 'isFullScreen', 'displayMode'])(GameIFrame);
 
 // let onCustomWatched = ownProps => {
 //     return ['gamepanel/' + ownProps.id];

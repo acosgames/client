@@ -13,6 +13,13 @@ const resizeEvent = new Event('resize');
 function GameActions(props) {
 
 
+    // 'primaryGamePanel', 'isMobile', 'gamestatusUpdated', 'fullScreenElem'
+    let [primaryGamePanel] = fs.useWatch('primaryGamePanel');
+    let [isMobile] = fs.useWatch('isMobile');
+    let [gamestatusUpdated] = fs.useWatch('gamestatusUpdated');
+    let [fullScreenElem] = fs.useWatch('fullScreenElem');
+
+
     // const params = useParams();
     // const location = useLocation();
 
@@ -198,4 +205,4 @@ function GameActions(props) {
 
 
 
-export default (fs.connect(['primaryGamePanel', 'isMobile', 'gamestatusUpdated', 'fullScreenElem'])(GameActions));
+export default GameActions;

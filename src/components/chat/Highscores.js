@@ -5,10 +5,14 @@ import { Link } from 'react-router-dom';
 import { GiLaurelsTrophy, } from '@react-icons';
 function GameInfoTop10Highscores(props) {
 
+    let [leaderboardHighscore] = fs.useWatch('leaderboardHighscore');
+    let [leaderboardHighscoreCount] = fs.useWatch('leaderboardHighscoreCount');
+
+
     if (!props.lbscore)
         return <></>
 
-    if (!props.leaderboardHighscore) {
+    if (!leaderboardHighscore) {
         return <HStack justifyContent={'center'} alignItems='center' w="100%">
             <Text as="span" mt='1rem' fontWeight={'bold'}>No highscores yet.</Text>
         </HStack>
@@ -23,7 +27,7 @@ function GameInfoTop10Highscores(props) {
 
     const renderHighscores = (players) => {
 
-        let leaderboard = props.leaderboardHighscore || [];
+        let leaderboard = eaderboardHighscore || [];
         let elems = [];
 
         let tag = props.tag || 'default'
@@ -74,7 +78,7 @@ function GameInfoTop10Highscores(props) {
     }
 
     let playerRank = -1;
-    for (var player of props.leaderboardHighscore) {
+    for (var player of leaderboardHighscore) {
         let isLocalPlayer = user?.displayname == player.value;
         if (isLocalPlayer) {
             playerRank = player.rank;
@@ -82,7 +86,7 @@ function GameInfoTop10Highscores(props) {
         }
     }
 
-    let lbCount = props.leaderboardHighscoreCount || 0;
+    let lbCount = leaderboardHighscoreCount || 0;
     if (lbCount == 0) {
         return (
             <HStack justifyContent={'center'} alignItems='center' w="100%">
@@ -124,4 +128,4 @@ function GameInfoTop10Highscores(props) {
     )
 }
 
-export default fs.connect(['leaderboardHighscore', 'leaderboardHighscoreCount'])(GameInfoTop10Highscores);
+export default GameInfoTop10Highscores;

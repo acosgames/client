@@ -2,7 +2,7 @@ import { Box, Icon, IconButton, Portal, Text, VStack } from "@chakra-ui/react";
 import fs from "flatstore"
 import Draggable from 'react-draggable';
 import { useEffect, useRef, useState } from "react";
-import { isUserNext, maximizeGamePanel, updateGamePanel } from "../../../actions/room";
+import { findGamePanelByRoom, isUserNext, maximizeGamePanel, updateGamePanel } from "../../../actions/room";
 import { FaExpandAlt } from '@react-icons';
 import GamePanel from "./GamePanel";
 import Connection from "../Connection";
@@ -11,31 +11,37 @@ import ActionMenu from "../../chat/ActionMenu";
 
 function GamePanelDraggables(props) {
 
-    let [gamepanels] = fs.useWatch('gamepanels');
-
+    // let [gamepanels] = fs.useWatch('gamepanels', []);
+    let [rooms] = fs.useWatch('rooms');
     let [layoutMode] = fs.useWatch('layoutMode');
 
     const renderDraggables = () => {
 
         let draggables = [];
 
-        for (var i = 0; i < gamepanels.length; i++) {
-            let gamepanel = gamepanels[i];
+        for (const key in rooms) {
+            // for (var i = 0; i < gamepanels.length; i++) {
+            // let gamepanel = gamepanels[i];
+            let gamepanel = findGamePanelByRoom(rooms[key].room_slug)
 
+            if (!gamepanel)
+                continue;
             //let's not show gamepanels that are available to reserve 
             if (gamepanel.available)
                 continue;
 
 
 
-            draggables.push((
+            draggables.push(
                 <GamePanelDraggable key={'gpdraggable-' + gamepanel.id} gamepanel={gamepanel} />
-            ))
+            )
         }
 
 
         return draggables;
     }
+
+    let elems = renderDraggables();
 
     return (
         <>
@@ -43,7 +49,7 @@ function GamePanelDraggables(props) {
                 <ActionMenu />
             </Box>
             {/* <LoadingBox /> */}
-            {renderDraggables()}
+            {elems}
             <Connection></Connection>
         </>
     )
@@ -52,14 +58,16 @@ function GamePanelDraggables(props) {
 
 function GamePanelDraggable(props) {
 
-    let [gamepanel] = fs.useWatch('gamepanel/' + props.gamepanel.id);
+    // let gamepanel = props.gamepanel;
+    let gamepanel = props.gamepanel;
+    // let [gamepanelUpdated] = fs.useWatch('gamepanel/' + gamepanel.id);
 
     let [justMinimized, setJustMinimized] = useState(0);
     // useEffect(() => {
     //     //if (gamepanel.draggableRef)
     //     //updateGamePanel(gamepanel);
     // }, [])
-    gamepanel.draggableRef = useRef();
+    // let draggableRef = useRef();
 
     let width = 100;
     let height = 100;
@@ -70,6 +78,7 @@ function GamePanelDraggable(props) {
     let isNext = isUserNext(gamepanel);
 
     useEffect(() => {
+        // gamepanel.draggableRef = draggableRef;
         if (!isPrimary) {
             if (justMinimized == 0) {
                 setJustMinimized(1);
@@ -85,10 +94,14 @@ function GamePanelDraggable(props) {
     let viewport_width = window.innerWidth;
     let leftBounds = viewport_width - 180;
 
+    if (gamepanel.available) {
+        return <></>
+    }
     if (gamepanel.canvasRef) {
-        return <Portal containerRef={gamepanel.canvasRef}>
-            <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} />
-        </Portal>
+        return <></>
+        // <Portal containerRef={gamepanel.canvasRef}>
+        //     <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} />
+        // </Portal>
     }
 
     if (gamepanel?.room?.isReplay)
@@ -120,7 +133,7 @@ function GamePanelDraggable(props) {
                 borderColor={isNext ? 'brand.900' : 'yellow.500'}
                 // borderRadius={'2rem'}
                 overflow="hidden"
-                ref={gamepanel.draggableRef}
+                // ref={draggableRef}
                 _hover={{ borderColor: isPrimary ? '' : isNext ? "brand.500" : "yellow.500" }}
                 onClick={() => {
                     maximizeGamePanel(gamepanel);

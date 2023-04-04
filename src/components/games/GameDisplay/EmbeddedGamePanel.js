@@ -1,13 +1,16 @@
 import { Box } from '@chakra-ui/react';
 import fs from 'flatstore';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { replayJumpToIndex, replaySendGameStart } from '../../../actions/connection';
 import { findGamePanelByRoom, updateGamePanel } from '../../../actions/room';
+import GamePanel from './GamePanel';
 
 
 function EmbeddedGamePanel(props) {
 
     const embeddedRef = useRef();
+
+    let [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
 
@@ -19,7 +22,7 @@ function EmbeddedGamePanel(props) {
             let gamepanel = findGamePanelByRoom(props.room_slug);
             gamepanel.canvasRef = embeddedRef;
             updateGamePanel(gamepanel);
-
+            setLoaded(true);
         }
 
 
@@ -38,8 +41,12 @@ function EmbeddedGamePanel(props) {
         }
     }, [])
 
+    let gamepanel = findGamePanelByRoom(props.room_slug);
     return (
         <Box position="relative" w="300px" h="300px" p="0" m="0" ref={embeddedRef}>
+            {loaded && (
+                <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} w={300} h={300} />
+            )}
         </Box>
     )
 }

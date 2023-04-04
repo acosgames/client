@@ -36,6 +36,8 @@ function GameNone(props) {
 
 function DevCreateGameTemplates(props) {
 
+    let [gametemplates] = fs.useWatch('gametemplates');
+
     useEffect(() => {
         findGameTemplates();
 
@@ -55,7 +57,7 @@ function DevCreateGameTemplates(props) {
         updateGameField('template', value, 'create-game_info', 'devgame>template', 'devgameerror');
     }
 
-    let templates = props.gametemplates || [];
+    let templates = gametemplates || [];
     return (
         <RadioGroup defaultValue='0' w='100%' onChange={onTemplateChange}>
             <Wrap spacing={16} direction='row'>
@@ -65,4 +67,4 @@ function DevCreateGameTemplates(props) {
     )
 }
 
-export default fs.connect(['gametemplates'])(DevCreateGameTemplates);
+export default DevCreateGameTemplates;

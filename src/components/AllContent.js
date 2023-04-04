@@ -10,12 +10,14 @@ import GameInfo2 from '../components/games/GameInfo/GameInfoDesktop'
 
 function AllContent(props) {
 
+    let [displayMode] = fs.useWatch('displayMode');
+    let [primaryGamePanel] = fs.useWatch('primaryGamePanel');
 
     let gamepanelID = props.primaryGamePanel;
     let gamepanel = getGamePanel(gamepanelID);
     //display modes for primary gamepanel: none, standard, theatre, fullscreen
     // if displayMode == none, its because all gamepanels are embedded or floating
-    let displayMode = fs.get('displayMode') || 'none'
+    // let displayMode = fs.get('displayMode') || 'none'
 
     if (gamepanel) {
         displayMode = 'standard';
@@ -51,4 +53,4 @@ function AllContent(props) {
 }
 
 
-export default fs.connect(['displayMode', 'primaryGamePanel'])(AllContent);
+export default AllContent;

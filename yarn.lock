@@ -3899,10 +3899,10 @@
     "locate-path" "^5.0.0"
     "path-exists" "^4.0.0"
 
-"flatstore@^1.0.16":
-  "integrity" "sha512-NdB9SP9AngUAXEusuVnKsyZWqUboBuMF8B0jfGD1rLA2WX9xdfGuaUeqjahD4QHLLRC+1c1wNS8MNTlsYCEgWA=="
-  "resolved" "https://registry.npmjs.org/flatstore/-/flatstore-1.0.16.tgz"
-  "version" "1.0.16"
+"flatstore@^1.1.3":
+  "integrity" "sha512-SiJivpuymj2mfPhSUBwCfXmHbP8cD3ijiLfaL/EBu5E3fKkx4/WUo54RYWc7sGgfglKZGMKYf1UyGvC/GQ0jtQ=="
+  "resolved" "https://registry.npmjs.org/flatstore/-/flatstore-1.1.3.tgz"
+  "version" "1.1.3"
 
 "focus-lock@^0.11.2":
   "integrity" "sha512-LzZWJcOBIcHslQ46N3SUu/760iLPSrUtp8omM4gh9du438V2CQdks8TcOu1yvmu2C68nVOBnl1WFiKGPbQ8L6g=="

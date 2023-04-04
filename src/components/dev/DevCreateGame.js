@@ -18,11 +18,12 @@ import { useNavigate } from "react-router-dom";
 
 function DevCreateGameError(props) {
 
-    let hasError = (props.devgameerror && props.devgameerror.length > 0);
+    let [devgameerror] = fs.useWatch('devgameerror');
+    let hasError = (devgameerror && devgameerror.length > 0);
     if (!hasError)
         return <Fragment></Fragment>
 
-    let errors = props.devgameerror;
+    let errors = devgameerror;
     let errorElems = [];
     errors.forEach((error, id) => {
         errorElems.push((<Text key={id} color="red.600">{errorMessage(error)}</Text>))
@@ -42,7 +43,6 @@ function DevCreateGameError(props) {
     )
 }
 
-DevCreateGameError = fs.connect(['devgameerror'])(DevCreateGameError);
 
 fs.set('devgame', { name: '', game_slug: '', shortdesc: '', template: '' })
 
@@ -105,7 +105,6 @@ function DevFields(props) {
     )
 }
 
-// DevFields = fs.connect(['devgame'])(DevFields);
 
 
 function DevCreateGame(props) {

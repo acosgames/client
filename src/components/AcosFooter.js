@@ -7,7 +7,8 @@ import fs from 'flatstore';
 
 function AcosFooter(props) {
 
-    let queues = props.queues;
+    let [queues] = fs.useWatch('queues');
+    // let queues = props.queues;
     let inQueues = queues && queues.length > 0;
     // if (!queues || queues.length == 0) {
     //     return (<React.Fragment></React.Fragment>)
@@ -50,4 +51,4 @@ function AcosFooter(props) {
     )
 }
 
-export default fs.connect(['queues'])(AcosFooter);
+export default AcosFooter;

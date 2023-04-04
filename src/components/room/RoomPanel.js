@@ -44,9 +44,10 @@ function RoomPanel(props) {
     let [layoutMode] = fs.useWatch('layoutMode');
     // let [gamescreenRefWatch] = fs.useWatch('gamescreenRef');
     let [resized] = fs.useWatch('resized');
-
+    let [rooms] = fs.useWatch('rooms');
     let [scoreboardExpanded] = fs.useWatch('scoreboardExpanded');
     let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
+
     const scrollRef = useRef();
     const roomPanelRef = useRef();
 

@@ -45,7 +45,7 @@ var ACOSRoutes = () => {
         let curPath = localStorage.getItem("refPath");
         //console.log("current", curPath);
         localStorage.setItem('refPath', refPath);
-        //console.log("next", refPath);
+        //console.log("next", refPath); 
     }
 
     // let iframe = fs.get('iframe');

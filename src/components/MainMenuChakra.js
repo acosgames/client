@@ -19,6 +19,7 @@ import NavForGuest from './login/NavForGuest';
 import NavForUser from './login/NavForUser';
 import {
     Link,
+    useLocation,
     //Link, 
     useParams,
 } from 'react-router-dom';
@@ -51,10 +52,15 @@ function MainMenuChakra(props) {
 
     let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
     let [displayMode] = fs.useWatch('displayMode');
+    let [loggedIn] = fs.useWatch('loggedIn');
+    let [chatToggle] = fs.useWatch('chatToggle');
+    let [isMobile] = fs.useWatch('isMobile');
+
+    let location = useLocation();
 
     const updateHistory = () => {
         let history = fs.get('pagehistory');
-        history.push(Object.assign({}, this.props.location));
+        history.push(Object.assign({}, location));
 
         if (history.length > 20) {
             history = history.splice(history.length - 21);
@@ -69,7 +75,7 @@ function MainMenuChakra(props) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const room_slug = params?.room_slug;
-    // const roomStatus = getRoomStatus();
+    // const roomStatus = getRoomStatus(); 
     // updateHistory();
     // let urlPath = this.props.location.pathname;
     // let classFindGames = '';
@@ -77,7 +83,7 @@ function MainMenuChakra(props) {
     //     classFindGames = 'active';
     // }
 
-    const loggedIn = props.loggedIn;
+    // const loggedIn = props.loggedIn;
 
     const gamepanel = getPrimaryGamePanel();
     // const isPrimary = getPrimaryGamePanel();http://localhost:8000/join/test-game-1+rank
@@ -187,4 +193,4 @@ function MainMenuChakra(props) {
     );
 }
 
-export default fs.connect(['loggedIn', 'chatToggle', 'isMobile'])((MainMenuChakra));
+export default MainMenuChakra

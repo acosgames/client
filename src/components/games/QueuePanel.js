@@ -181,6 +181,9 @@ function InviteToPlayButton(props) {
 }
 
 function PlayerCount(props) {
+
+    let [playerCount] = fs.useWatch('playerCount');
+
     const abbrevNumber = (num) => {
         if (num > 999999) {
             return (num / 1000000.0).toFixed(1) + "M";
@@ -191,16 +194,14 @@ function PlayerCount(props) {
         return num;
     }
 
-    let playerCount = props.playerCount || 0;
-    playerCount = abbrevNumber(playerCount);
+    let countText = abbrevNumber(playerCount || 0);
     return (
         <Text as="span" color={props.color || 'white'} fontSize={props.fontSize || 'md'}>
-            {playerCount || 0} player{props.playerCount != 1 ? 's' : ''} online
+            {countText || 0} player{playerCount != 1 ? 's' : ''} online
         </Text>
     )
 }
 
-PlayerCount = fs.connect(['playerCount'])(PlayerCount);
 
 function QueuePanel(props) {
 
