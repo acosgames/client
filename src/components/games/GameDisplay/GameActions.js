@@ -158,7 +158,7 @@ function GameActions(props) {
 
 
 
-            <HStack h="4rem">
+            <HStack h="4rem" color="#fff">
                 <Box>
                     <Button
                         // height="1.6rem"
