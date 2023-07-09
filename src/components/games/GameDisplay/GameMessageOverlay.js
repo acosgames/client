@@ -151,8 +151,12 @@ function GameMessageOverlay(props) {
             if (localPlayerHighscore && localPlayerHighscore?.score < localPlayer.score) {
                 extra.push(<Text key="header-new-high-score" as="h4" fontSize={isPrimary ? "md" : 'xxs'}>NEW High Score: {localPlayer.highscore}</Text>);
             }
-            else
+            else if (room.isReplay) {
+                extra.push(<Text key="header-high-score" as="h4" fontSize={isPrimary ? "md" : 'xxs'}>Score: {localPlayer.score}</Text>)
+            } else {
+
                 extra.push(<Text key="header-high-score" as="h4" fontSize={isPrimary ? "md" : 'xxs'}>High Score: {localPlayer.highscore}</Text>)
+            }
         }
 
 
