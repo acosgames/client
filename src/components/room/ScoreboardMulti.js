@@ -174,7 +174,7 @@ function ScoreboardPlayersMulti(props) {
 
     let layoutMode = fs.get('layoutMode');
     let user = fs.get('user');
-    let ratingTxt = ratingtext.ratingToRank(Number.parseInt(player.rating));
+    let ratingTxt = typeof player.rating !== 'undefined' ? ratingtext.ratingToRank(Number.parseInt(player.rating)) : 'Unranked';
     let ratingImageFile = ratingTxt.replace(/ /ig, '');
 
     let displayname = player.name;

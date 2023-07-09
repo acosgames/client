@@ -116,13 +116,19 @@ function GameMessageOverlay(props) {
     else if (roomStatus == 'GAMEOVER') {
 
         let local = fs.get('user');
+        let playerList = Object.keys(players);
         if (!local) {
-            let playerList = Object.keys(players);
             localid = playerList[Math.floor(Math.random() * playerList.length)];
             local = players[local];
         }
         let localPlayer = players[local.shortid] || {};
-        let isSoloGame = room.maxplayers == 1;
+        let isSoloGame = false;
+        if (typeof room.maxplayers !== 'undefined') {
+            isSoloGame = room.maxplayers == 1;
+        } else {
+            isSoloGame = playerList.length == 1;
+        }
+
         let hasHighscore = isSoloGame || room.lbscore;
         let extra = <></>
         if (gamestate?.timer?.sequence <= 2 && !isSoloGame) {
