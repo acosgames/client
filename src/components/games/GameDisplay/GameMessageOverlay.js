@@ -116,6 +116,11 @@ function GameMessageOverlay(props) {
     else if (roomStatus == 'GAMEOVER') {
 
         let local = fs.get('user');
+        if (!local) {
+            let playerList = Object.keys(players);
+            localid = playerList[Math.floor(Math.random() * playerList.length)];
+            local = players[local];
+        }
         let localPlayer = players[local.shortid] || {};
         let isSoloGame = room.maxplayers == 1;
         let hasHighscore = isSoloGame || room.lbscore;
