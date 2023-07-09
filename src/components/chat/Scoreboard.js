@@ -292,7 +292,7 @@ function ScoreboardPlayers(props) {
             teamElems.push(
                 <HStack bgColor="gray.1000" spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} key={'teamplayerheader-' + team.name} borderRight={'0.5rem solid ' + team.color}
                     borderLeft={'0.5rem solid'}
-                    borderLeftColor={isTeamNext ? 'gray.500' : 'transparent'}
+                    borderLeftColor={isNextTeam(gamepanel, teamid) ? 'gray.500' : 'transparent'}
 
                 >
                     <Text as="span" w='4rem' align="center" fontSize="sm" fontWeight={'bold'} color={'gray.125'}>{team.score}</Text>

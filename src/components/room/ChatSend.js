@@ -19,6 +19,11 @@ function ChatSend(props) {
     if (gamepanel?.room?.maxplayers == 1) {
         return <></>
     }
+
+    if (gamepanel?.room?.isReplay) {
+        return <></>
+    }
+
     const inputChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
@@ -31,6 +36,8 @@ function ChatSend(props) {
         await sendChatMessage();
         fs.set('chatMessage', '');
     }
+
+
 
     return (
         <Box w="100%" height="4rem" px="1rem" >

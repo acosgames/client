@@ -20,7 +20,7 @@ export default function ScoreboardMulti(props) {
     let teams = gamepanel?.gamestate?.teams || {};
     let teamCount = Object.keys(teams).length;
     let teamElems = [];
-    let isTeamNext = isNextTeam(gamepanel);
+
 
 
     // let players = props.players;
@@ -30,6 +30,7 @@ export default function ScoreboardMulti(props) {
         for (const teamid in teams) {
             let team = teams[teamid];
             let playerElems = [];
+            let isTeamNext = isNextTeam(gamepanel, teamid);
             let header = (
                 <Thead key={'teamplayerheader-' + team.name} >
                     <Tr
@@ -56,6 +57,7 @@ export default function ScoreboardMulti(props) {
             )
             let playersSorted = [];
             for (const id of team.players) {
+                players[id].id = id;
                 playersSorted.push(players[id]);
             }
 
@@ -141,6 +143,8 @@ export default function ScoreboardMulti(props) {
         let playerElems = [];
         for (const player of playersSorted) {
             let isNext = isUserNext(gamepanel, player.id);
+            let isTeamNext = isNextTeam(gamepanel);
+
             playerElems.push(<ScoreboardPlayersMulti isNext={isNext} isTeamNext={isTeamNext} player={player} key={"player-" + player.name} />);
         }
 

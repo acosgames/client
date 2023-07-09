@@ -68,6 +68,11 @@ function TimeleftDisplay(props) {
         nextColor = 'gray.200'
     }
 
+    if (gamepanel?.room?.isReplay) {
+        nextText = 'REPLAY';
+        nextColor = 'red.500';
+    }
+
     return (
         <HStack width="100%" align="center"
             alignContent='center'
@@ -162,7 +167,7 @@ function TimeleftDisplay(props) {
                 left="0"
                 fontWeight={'bold'}
                 //bgColor={isNext ? 'brand.900' : 'yellow.500'}
-                textShadow="1px 1px 8px #044588"
+                textShadow="1px 1px 8px #111"
                 color={nextColor}
             >
                 {nextText}

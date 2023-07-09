@@ -5,8 +5,10 @@ import { BsArrowsFullscreen, RiLayoutRightLine, IoTimeOutline } from '@react-ico
 import fs from 'flatstore';
 
 import { joinGame } from '../../../actions/game';
-import { wsLeaveGame } from '../../../actions/connection';
-import { clearPrimaryGamePanel, clearRoom, getGamePanel, getPrimaryGamePanel, getRoomStatus, setRoomForfeited } from '../../../actions/room';
+import { replayNextIndex, replayPrevIndex, wsLeaveGame } from '../../../actions/connection';
+import { clearPrimaryGamePanel, clearRoom, findGamePanelByRoom, getGamePanel, getPrimaryGamePanel, getRoomStatus, setPrimaryGamePanel, setRoomForfeited } from '../../../actions/room';
+import { useState } from 'react';
+import { BiSkipPrevious, BiSkipNext, BiCollapse } from '@react-icons';
 
 const resizeEvent = new Event('resize');
 
@@ -115,6 +117,9 @@ function GameActions(props) {
         latencyColor = 'yellow';
     }
 
+    if (gamepanel.room.isReplay) {
+        return <GameActionsReplay room_slug={room.room_slug} />
+    }
 
     return (
         <VStack
@@ -203,6 +208,71 @@ function GameActions(props) {
 
 
 
+function GameActionsReplay(props) {
+
+
+    let [paused, setPaused] = useState(false);
+    // let [room_slug] = fs.useWatch('replay/' + game_slug);
+
+    let gamepanel = findGamePanelByRoom(props.room_slug);
+
+    let [gp] = fs.useWatch('gamepanel/' + gamepanel.id);
+
+    let history = gamepanel?.room.history || [];
+
+    let startIndex = 0;
+    for (let i = 0; i < history.length; i++) {
+        let h = history[i];
+        if (h.payload.room.status == 'gamestart') {
+            startIndex = i;
+            break;
+        }
+    }
+
+    let endIndex = history.length;
+    let total = endIndex - startIndex;
+    let replayIndex = gamepanel.room.replayIndex || startIndex;
+    let currentOffset = (replayIndex - startIndex) + 1;
+    return (
+        <Box w="100%">
+            <HStack spacing="0">
+                <Button p="0" m="0" onClick={() => {
+                    replayPrevIndex(props.room_slug);
+                }}><Icon
+                        as={BiSkipPrevious}
+                        height='3rem'
+                        width='3rem' /></Button>
+                {/* <Button onClick={() => {
+                    if (paused)
+                        sendUnpauseMessage(props.room_slug);
+                    else
+                        sendPauseMessage(props.room_slug);
+                    setPaused(!paused);
+                }}>{paused ? 'Play' : 'Pause'}</Button> */}
+                <Box px="0.25rem" align="center" fontSize="xs" color="white">
+                    <Text as="span">{currentOffset}</Text>
+                    <Text as="span" px="0.5rem">of</Text>
+                    <Text as="span">{total}</Text>
+                </Box>
+                <Button p="0" m="0" onClick={() => {
+                    replayNextIndex(props.room_slug);
+                }}><Icon
+                        as={BiSkipNext}
+                        height='3rem'
+                        width='3rem' /></Button>
+                <Box flex="1"></Box>
+                <Box>
+                    <Button p="0" m="0" onClick={() => {
+                        setPrimaryGamePanel();
+                    }}><Icon
+                            as={BiCollapse}
+                            height='2rem'
+                            width='2rem' /></Button>
+                </Box>
+            </HStack>
+        </Box>
+    )
+}
 
 
 export default GameActions;

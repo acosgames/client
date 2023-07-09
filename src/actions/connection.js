@@ -85,6 +85,9 @@ export function timerLoop(cb) {
         if (!deadline)
             continue;
 
+        if (gamestate?.events?.gameover)
+            continue;
+
         let now = (new Date()).getTime();
         let elapsed = deadline - now;
 
@@ -304,7 +307,7 @@ export function replayNextIndex(room_slug) {
     if (!iframe)
         return false;
 
-    let history = gamepanel.gamestate;// fs.get('gamestate') || {};
+    let history = gamepanel.room.history;// fs.get('gamestate') || {};
     if (!(history || history.length == 0)) {
         //    iframe.resize();
         return false;
@@ -314,7 +317,7 @@ export function replayNextIndex(room_slug) {
     if (nextId >= history.length)
         return false;
 
-    let merged = gamepanel.room.replayState;
+    let merged = gamepanel.gamestate;
     let copy = JSON.parse(JSON.stringify(history[nextId].payload));
 
     if (merged?.events) {
@@ -354,8 +357,10 @@ export function replayNextIndex(room_slug) {
     merged.local = players[gamepanel.room.replayFollow];
 
     gamepanel.room.replayIndex = gamepanel.room.replayIndex + 1;
-    gamepanel.room.replayState = merged;
+    //gamepanel.room.replayState = merged;
+    gamepanel.gamestate = merged;
     updateGamePanel(gamepanel);
+    updateRoomStatus(room_slug);
 
     if (iframe?.current?.contentWindow)
         iframe.current.contentWindow.postMessage(merged, '*');
@@ -368,7 +373,7 @@ export function replayJumpToIndex(room_slug, startIndex) {
     if (!iframe || !iframe.current || !iframe.current.contentWindow)
         return false;
 
-    let history = gamepanel.gamestate;// fs.get('gamestate') || {};
+    let history = gamepanel.room.history;// fs.get('gamestate') || {};
     if (!(history || history.length == 0)) {
         //    iframe.resize();
         return false;
@@ -435,9 +440,10 @@ export function replayJumpToIndex(room_slug, startIndex) {
 
 
     gamepanel.room.replayIndex = startIndex;
-    gamepanel.room.replayState = merged;
+    //gamepanel.room.replayState = merged;
+    gamepanel.gamestate = merged;
     updateGamePanel(gamepanel);
-
+    updateRoomStatus(room_slug);
     // iframe.current.contentWindow.postMessage({ type: 'load', payload: { game_slug: gamepanel.room.game_slug, version: gamepanel.room.version } }, '*');
 
     // iframe.current.contentWindow.location.reload()
@@ -454,7 +460,7 @@ export function replaySendGameStart(room_slug) {
     if (!iframe)
         return false;
 
-    let history = gamepanel.gamestate;// fs.get('gamestate') || {};
+    let history = gamepanel.room.history;// fs.get('gamestate') || {};
     if (!(history || history.length == 0)) {
         //    iframe.resize();
         return false;
@@ -472,7 +478,8 @@ export function replaySendGameStart(room_slug) {
 
     gamepanel.room.replayStarted = true;
     gamepanel.room.replayStartIndex = replayStartIndex;
-    updateGamePanel(gamepanel);
+    //gamepanel.gamestate = merged;
+    //updateGamePanel(gamepanel);
 
     replayJumpToIndex(room_slug, replayStartIndex);
 }

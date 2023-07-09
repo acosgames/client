@@ -1,7 +1,7 @@
 import fs from 'flatstore';
 import { getWithExpiry, removeWithExpiry, setWithExpiry } from './cache';
 import { clearChatMessages } from './chat';
-import { updateBrowserTitle } from './connection';
+import { timerLoop, updateBrowserTitle } from './connection';
 
 
 fs.set('gamepanels', []);
@@ -67,14 +67,18 @@ export function updateGamePanel(gamepanel) {
 
 
         if (gamepanel.gamestate) {
-            fs.set('primary/state', gamepanel.gamestate.state);
-            fs.set('primary/players', gamepanel.gamestate.players);
-            fs.set('primary/teams', gamepanel.gamestate.teams);
-            fs.set('primary/next', gamepanel.gamestate.next);
-            fs.set('primary/roomstate', gamepanel.gamestate.room);
-            fs.set('primary/events', gamepanel.gamestate.events);
-            fs.set('primary/timer', gamepanel.gamestate.timer);
-            fs.set('primary/action', gamepanel.gamestate.action);
+            let gamestate = gamepanel.gamestate;
+
+            fs.set('primary/state', gamestate.state);
+            fs.set('primary/players', gamestate.players);
+            fs.set('primary/teams', gamestate.teams);
+            fs.set('primary/next', gamestate.next);
+            fs.set('primary/roomstate', gamestate.room);
+            fs.set('primary/events', gamestate.events);
+            fs.set('primary/timer', gamestate.timer);
+            fs.set('primary/action', gamestate.action);
+
+            fs.set('primary/room', gamepanel.room);
         }
     }
 }
@@ -105,13 +109,15 @@ export function setPrimaryGamePanel(gamepanel) {
     }
     else {
 
+
+
         fs.set('primaryGamePanel', gamepanel.id);
 
         fs.set('chatMode', gamepanel.room.room_slug);
 
         fs.set('chatUpdated', Date.now());
         //let primaryCanvasRef = fs.get('primaryCanvasRef');
-        //gamepanel.canvasRef = primaryCanvasRef;
+        //gamepanel.canvasRef = null;
         gamepanel.isPrimary = true;
 
         let game_slug = gamepanel?.room?.game_slug;
@@ -122,6 +128,8 @@ export function setPrimaryGamePanel(gamepanel) {
             }
         }
         updateGamePanel(gamepanel);
+
+        timerLoop();
     }
 
 
@@ -305,7 +313,6 @@ export function addRooms(roomList) {
 
         if (!foundFirst) {
             foundFirst = true;
-            fs.set('primary/room', gamepanel.room);
             setPrimaryGamePanel(gamepanel);
         }
     }
@@ -334,7 +341,12 @@ export function addRoom(msg) {
     //reserve and update gamepanel
     gamepanel = reserveGamePanel();
     gamepanel.room = msg.room;
-    gamepanel.gamestate = msg.payload;
+    if (msg.room.isReplay) {
+        gamepanel.gamestate = msg.payload[0];
+        gamepanel.room.history = msg.payload;
+    } else {
+        gamepanel.gamestate = msg.payload;
+    }
 
     fs.set('showLoadingBox/' + gamepanel.id, true);
     updateGamePanel(gamepanel);
@@ -342,7 +354,7 @@ export function addRoom(msg) {
     if (!msg.room.isReplay) {
         //should we make it primary immediately? might need to change this
         setPrimaryGamePanel(gamepanel);
-        fs.set('primary/room', gamepanel.room);
+
     }
 
 
@@ -473,13 +485,13 @@ export function processsRoomStatus(gamepanel) {
 
 }
 
-export function isNextTeam(gamepanel) {
+export function isNextTeam(gamepanel, userid) {
     let gamestate = gamepanel?.gamestate;
     let local = gamestate?.local;
 
-    if (!gamestate || !local) return;
+    if (!gamestate) return;
 
-    let userid = local.id;
+    userid = userid || local?.id;
     let next = gamestate?.next;
     let nextid = next?.id;
     let room = gamestate.room;

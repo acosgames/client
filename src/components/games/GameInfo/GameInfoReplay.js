@@ -4,8 +4,8 @@ import { downloadGameReplay, findGameReplays } from "../../../actions/game";
 import EmbeddedGamePanel from "../GameDisplay/EmbeddedGamePanel";
 import fs from 'flatstore';
 import { replayNextIndex, replayPrevIndex, sendPauseMessage, sendUnpauseMessage } from "../../../actions/connection";
-import { findGamePanelByRoom } from "../../../actions/room";
-import { BiSkipPrevious, BiSkipNext } from '@react-icons';
+import { findGamePanelByRoom, setPrimaryGamePanel } from "../../../actions/room";
+import { BiSkipPrevious, BiSkipNext, BiExpand } from '@react-icons';
 
 
 function GameInfoReplay(props) {
@@ -57,7 +57,7 @@ function ReplayControls(props) {
 
     let [gp] = fs.useWatch('gamepanel/' + gamepanel.id);
 
-    let history = gamepanel?.gamestate || [];
+    let history = gamepanel?.room.history || [];
 
     let startIndex = 0;
     for (let i = 0; i < history.length; i++) {
@@ -99,7 +99,15 @@ function ReplayControls(props) {
                         as={BiSkipNext}
                         height='3rem'
                         width='3rem' /></Button>
-
+                <Box flex="1"></Box>
+                <Box>
+                    <Button p="0" m="0" onClick={() => {
+                        setPrimaryGamePanel(gamepanel);
+                    }}><Icon
+                            as={BiExpand}
+                            height='2rem'
+                            width='2rem' /></Button>
+                </Box>
             </HStack>
         </Box>
     )

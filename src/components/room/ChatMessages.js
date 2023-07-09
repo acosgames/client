@@ -86,6 +86,10 @@ function ChatMessages(props) {
         return <></>
     }
 
+
+    if (gamepanel?.room?.isReplay) {
+        return <></>
+    }
     // let maxHeight = !props.isBottomLayout ? "100%" : '23rem';
     const ChakraSimpleBar = chakra(SimpleBar)
 

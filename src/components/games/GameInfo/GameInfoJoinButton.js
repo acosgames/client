@@ -152,6 +152,7 @@ function GameInfoJoinButton(props) {
                             borderBottomLeftRadius={"0"}
                             borderTopRightRadius={"9999px"}
                             borderBottomRightRadius={"9999px"}
+                            color={'white'}
                             boxShadow={`inset 0 1px 3px 0 rgb(255 255 255 / 60%), inset 0 0 3px 5px rgb(0 0 0 / 5%)`}
                         >
                             <Icon as={FaCaretDown} mr={1} width="16px" height="16px" />

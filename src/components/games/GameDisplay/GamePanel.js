@@ -161,7 +161,7 @@ function GameIFrame(props) {
 
         // }
         // if (roomPanelRef) {
-        if (gamepanel?.canvasRef?.current) {
+        if (!gamepanel.isPrimary && gamepanel?.canvasRef?.current) {
             windowWidth = gamepanel.canvasRef.current.offsetWidth;
             windowHeight = gamepanel.canvasRef.current.offsetHeight;
         }

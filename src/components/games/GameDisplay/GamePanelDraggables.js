@@ -12,6 +12,8 @@ import ActionMenu from "../../chat/ActionMenu";
 function GamePanelDraggables(props) {
 
     // let [gamepanels] = fs.useWatch('gamepanels', []);
+    let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
+
     let [rooms] = fs.useWatch('rooms');
     let [layoutMode] = fs.useWatch('layoutMode');
 
@@ -97,15 +99,15 @@ function GamePanelDraggable(props) {
     if (gamepanel.available) {
         return <></>
     }
-    if (gamepanel.canvasRef) {
+    if (!gamepanel.isPrimary && gamepanel.canvasRef) {
         return <></>
         // <Portal containerRef={gamepanel.canvasRef}>
         //     <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} />
         // </Portal>
     }
 
-    if (gamepanel?.room?.isReplay)
-        return <></>
+    // if (gamepanel?.room?.isReplay)
+    //     return <></>
 
     return (
         <Draggable
