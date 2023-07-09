@@ -117,7 +117,7 @@ function GameMessageOverlay(props) {
 
         let local = fs.get('user');
         let playerList = Object.keys(players);
-        if (!local) {
+        if (!local || room.isReplay) {
             localid = playerList[Math.floor(Math.random() * playerList.length)];
             local = players[local];
         }
