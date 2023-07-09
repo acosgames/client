@@ -117,11 +117,13 @@ function GameMessageOverlay(props) {
 
         let local = fs.get('user');
         let playerList = Object.keys(players);
+        let shortid = local.shortid;
         if (!local || room.isReplay) {
-            localid = playerList[Math.floor(Math.random() * playerList.length)];
-            local = players[local];
+            shortid = playerList[Math.floor(Math.random() * playerList.length)];
+            // local = players[shortid];
         }
-        let localPlayer = players[local.shortid] || {};
+
+        let localPlayer = players[shortid] || {};
         let isSoloGame = false;
         if (typeof room.maxplayers !== 'undefined') {
             isSoloGame = room.maxplayers == 1;
@@ -136,8 +138,8 @@ function GameMessageOverlay(props) {
         }
         else if (!isSoloGame) {
 
-            if (local && players) {
-                extra = <MessageGameOverMulti players={players} teams={teams} local={local} isPrimary={isPrimary} />
+            if (players) {
+                extra = <MessageGameOverMulti players={players} teams={teams} local={shortid} isPrimary={isPrimary} />
 
             }
         }

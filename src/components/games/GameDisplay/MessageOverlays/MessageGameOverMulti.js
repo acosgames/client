@@ -32,7 +32,7 @@ function MessageGameOverMulti(props) {
     }
 
 
-    let player = props.players[props.local.shortid] || {};
+    let player = props.players[props.local] || {};
     let rank = player.rank;
     if (props.teams && player.teamid) {
         rank = props.teams[player.teamid]?.rank || 999;
