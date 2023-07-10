@@ -13,6 +13,7 @@ function GameInfoDescription(props) {
                         allowedElements={[
                             "strong",
                             "span",
+                            "blockquote",
                             "emphasis",
                             "img",
                             "a",

@@ -1,6 +1,6 @@
 import { POST, GET, POSTFORM } from './http';
 
-import { validateSimple, validateField } from 'shared/util/validation';
+import { validateSimple, validateField } from 'shared/util/validation.mjs';
 // import { genShortId } from 'shared/util/idgen.js';
 import { getWithExpiry, setWithExpiry } from './cache';
 import fs from 'flatstore';

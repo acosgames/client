@@ -67,9 +67,18 @@ class GameList extends Component {
                 </VStack>
                 <Divider />
                 <VStack align="left" justify={"left"}>
-                    <ChLink isExternal textDecoration={"none"} href={'https://sdk.acos.games'} >
-                        <Heading mb="0.5rem" as="h1" size="md" color="white">Join our community</Heading>
-                    </ChLink>
+
+
+                    <HStack mb="2rem">
+                        <VStack w="40%">
+                            <Heading as="h1" size="4xl" color="white" fontWeight={'light'} lineHeight={'6rem'} >Developing a competitive game has never been this easy!</Heading>
+                            <Heading as="h2" size="md" color="gray.150" lineHeight={'3rem'}>Code your server gameplay and client user-interface, and we do the rest.</Heading>
+                        </VStack>
+                        <Box width={'60%'}></Box>
+                    </HStack>
+
+
+                    <Heading mb="0.5rem" as="h1" size="md" color="white" >Join our community</Heading>
                     {/* <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175"></Text>
                     <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175" pb="2rem"></Text> */}
                     <Grid
@@ -80,7 +89,11 @@ class GameList extends Component {
                         fontWeight='400'
                         justifyContent="flex-start"
                         alignItems={'flex-start'}>
-                        <ChLink isExternal _hover={{ textDecoration: 'none' }} textDecoration={"none"} href={'https://sdk.acos.games'} p="2rem"
+                        <ChLink isExternal
+                            // _hover={{  }} 
+                            textDecoration={"none"}
+                            href={'https://sdk.acos.games'}
+                            p="2rem"
                             // height="4.5rem"
                             display="flex"
                             w="100%"
@@ -89,7 +102,7 @@ class GameList extends Component {
                             bgColor="gray.1100"
                             borderRadius="2rem"
                             color="gray.100"
-                            _hover={{ bgColor: 'gray.800' }}
+                            _hover={{ bgColor: 'gray.800', textDecoration: 'none' }}
                             _active={{ bgColor: 'gray.600' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 8px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'}>

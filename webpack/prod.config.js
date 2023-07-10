@@ -13,12 +13,13 @@ const mysql = new MySQL(productionCredentials);
 var ENTRY_FILE = './src/index.js';
 var OUTPUT_PATH = './webpack/builds';
 
-const UploadFile = require('shared/services/uploadfile');
-const upload = new UploadFile();
+// const UploadFile = require('shared/services/uploadfile');
+// const upload = new UploadFile();
 
 const { Readable } = require('stream');
 const zlib = require('zlib');
 const fs = require('fs');
+const { uploadByStreamGzip } = require('../../api/src/api/ACOSStorage');
 
 
 function updateClientVersion() {
@@ -49,7 +50,7 @@ async function uploadToStorage() {
         let filepath = baseFilepath + '.gz';
         let fileStream = fs.createReadStream(filepath);
 
-        let result = await upload.uploadByStreamGzip('acospub', 'static/' + uploadFilename, fileStream);
+        let result = await uploadByStreamGzip('acospub', 'static/' + uploadFilename, fileStream);
         console.log('Uploaded to acospub: ', result);
 
         let db = await mysql.db();
