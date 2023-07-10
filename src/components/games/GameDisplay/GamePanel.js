@@ -384,7 +384,7 @@ function GameIFrame(props) {
                                     updateGamePanel(gamepanel);
                                 }
                             }}
-                            src={true ? `http://localhost:8080/iframe.html` : `${config.https.cdn}static/iframe.html`}
+                            src={`${config.https.cdn}static/iframe.html`}
                             // srcDoc={iframeSrc}
                             sandbox="allow-scripts allow-same-origin"
                         />
