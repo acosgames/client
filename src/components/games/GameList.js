@@ -174,7 +174,7 @@ class GameList extends Component {
                             <Heading textAlign={['', '', '']} as="h1" fontSize="36px" color="white" fontWeight={'normal'} lineHeight={'5rem'} >Join our community and collaborate on open source games and projects</Heading>
                             <Heading textAlign={['', '', '']} as="h2" size="md" color="gray.150" fontWeight={'normal'} lineHeight={'3rem'}>Learning to code?  We can help you build your first game.  Simply join us on Discord.  Games are built using ReactJS and JavaScript.</Heading>
 
-                            <HStack spacing="10rem" alignContent={'center'}>
+                            <HStack spacing="6rem" alignContent={'center'}>
                                 <ChLink isExternal href={"https://github.com/acosgames"}>
                                     <Center>
                                         <Icon alignSelf={'center'} as={FaGithub} fontSize="64px" color="white" />
