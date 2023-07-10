@@ -74,14 +74,14 @@ class GameList extends Component {
                 <VStack align="left" justify={"left"}>
 
 
-                    <HStack mb="15rem" mt="">
+                    <HStack mb="18rem" mt="">
                         <VStack w={[]} spacing={['3rem']}>
                             <Box display={['block', 'block', 'block', 'none']} w={'70%'} mb={'-5%'} mt={'-5%'}>
                                 <LottieAnimation speed={0.1} src={config.https.cdn + 'gamedev-animation-1.json'} style={{ height: '100px' }} />
                             </Box>
 
-                            <Heading textAlign={['', '', '']} as="h1" fontSize="36px" color="white" fontWeight={'light'} lineHeight={'5rem'} >Build games using our SDK to launch and play instantly against the world</Heading>
-                            <Heading textAlign={['', '', '']} as="h2" size="md" color="gray.150" fontWeight={'light'} lineHeight={'3rem'}>Code your server gameplay and client user-interface, then deploy for free.  </Heading>
+                            <Heading textAlign={['', '', '']} as="h1" fontSize="36px" color="white" fontWeight={'normal'} lineHeight={'5rem'} >Build games using our SDK to launch and play instantly against the world</Heading>
+                            <Heading textAlign={['', '', '']} as="h2" size="md" color="gray.150" fontWeight={'normal'} lineHeight={'3rem'}>Code your server gameplay and client user-interface, then deploy for free.  </Heading>
 
                             <HStack spacing="3rem" >
                                 <ChLink href={"/dev"}>
@@ -113,7 +113,7 @@ class GameList extends Component {
                                     </Button>
                                 </ChLink>
                                 <ChLink isExternal href={"https://sdk.acos.games"}>
-                                    <Heading as="h3" size="sm" fontWeight="light">Read the Docs</Heading>
+                                    <Heading as="h3" size="sm" fontWeight="normal">Read the Docs</Heading>
                                 </ChLink>
                             </HStack>
                         </VStack>
@@ -123,7 +123,7 @@ class GameList extends Component {
                     </HStack>
 
 
-                    <HStack mb="15rem" mt="" spacing="6rem" >
+                    <HStack mb="18rem" mt="" spacing="6rem" >
                         {/* <Box width={'60%'} display={['none', 'none', 'none', 'block']}>
                             <Box
                                 width="100%"
@@ -139,44 +139,46 @@ class GameList extends Component {
                         <VStack w={[]} spacing={['2rem']} alignItems={'flex-start'}>
 
 
-                            <Heading as="h1" fontSize="36px" color="white" fontWeight={'light'} lineHeight={'5rem'} >ACOS Simulator helps guide your game development</Heading>
-                            <Heading as="h2" size="md" color="gray.150" fontWeight={'light'} lineHeight={'3rem'}>Inspect the networked game state, simulate fake players, configure game settings, rewind and fast forward between states.</Heading>
-                            <Box
-                                mt="5rem"
-                                // display={['block', 'block', 'block', 'none']} 
-                                w={'100%'} >
-                                <Box position="relative"
-                                    width="100%"
-                                    paddingBottom="56.75%" overflow="hidden">
+                            <Heading as="h1" fontSize="36px" color="white" fontWeight={'normal'} lineHeight={'5rem'} >ACOS Simulator helps guide your game development</Heading>
+                            <Heading as="h2" size="md" color="gray.150" fontWeight={'normal'} lineHeight={'3rem'}>Inspect the networked game state, simulate fake players, configure game settings, rewind and fast forward between states.</Heading>
+                            <Center w="100%">
+                                <Box
+                                    mt="3rem"
+                                    // display={['block', 'block', 'block', 'none']} 
+                                    w={'80%'} >
+                                    <Box position="relative"
+                                        width="100%"
+                                        paddingBottom="56.75%" overflow="hidden">
 
-                                    <iframe
-                                        style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }}
+                                        <iframe
+                                            style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }}
 
-                                        src="https://www.youtube.com/embed/keGjP5ySqyg" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                                            src="https://www.youtube.com/embed/keGjP5ySqyg" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
 
+                                    </Box>
                                 </Box>
-                            </Box>
+                            </Center>
                         </VStack>
 
                     </HStack>
 
 
 
-                    <HStack mb="15rem" mt="" spacing="6rem" >
+                    <HStack mb="18rem" mt="" spacing="6rem" >
 
                         <VStack w={[]} spacing={['3rem']} alignItems={'flex-start'}>
                             <Box display={['block', 'block', 'block', 'none']} w={'70%'} mb={'-2%'} mt={'-5%'}>
                                 <LottieAnimation src={config.https.cdn + 'collaborate-animation-1.json'} style={{ height: '100px' }} />
                             </Box>
 
-                            <Heading textAlign={['', '', '']} as="h1" fontSize="36px" color="white" fontWeight={'light'} lineHeight={'5rem'} >Join our community and collaborate on open source games and projects</Heading>
-                            <Heading textAlign={['', '', '']} as="h2" size="md" color="gray.150" fontWeight={'light'} lineHeight={'3rem'}>Learning to code?  We can help you build your first game.  Simply join us on Discord.  Games are built using ReactJS and JavaScript.</Heading>
+                            <Heading textAlign={['', '', '']} as="h1" fontSize="36px" color="white" fontWeight={'normal'} lineHeight={'5rem'} >Join our community and collaborate on open source games and projects</Heading>
+                            <Heading textAlign={['', '', '']} as="h2" size="md" color="gray.150" fontWeight={'normal'} lineHeight={'3rem'}>Learning to code?  We can help you build your first game.  Simply join us on Discord.  Games are built using ReactJS and JavaScript.</Heading>
 
                             <HStack spacing="10rem" alignContent={'center'}>
                                 <ChLink isExternal href={"https://github.com/acosgames"}>
                                     <Center>
                                         <Icon alignSelf={'center'} as={FaGithub} fontSize="64px" color="white" />
-                                        <Heading ml="1rem" as="h3" size="lg" fontWeight="light" color="white" >
+                                        <Heading ml="1rem" as="h3" size="lg" fontWeight="normal" color="white" >
                                             GitHub
                                         </Heading>
                                     </Center>
@@ -184,7 +186,7 @@ class GameList extends Component {
                                 <ChLink isExternal href={"https://discord.gg/ydHkCcNgHD"}>
                                     <Center>
                                         <Icon alignSelf={'center'} as={FaDiscord} fontSize="64px" color={'white'} />
-                                        <Heading ml="1rem" as="h3" size="lg" fontWeight="hairline" color={'white'}>Discord</Heading>
+                                        <Heading ml="1rem" as="h3" size="lg" fontWeight="normal" color={'white'}>Discord</Heading>
                                     </Center>
                                 </ChLink>
                             </HStack>
