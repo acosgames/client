@@ -99,7 +99,7 @@ function GamePanelDraggable(props) {
     if (gamepanel.available) {
         return <></>
     }
-    if (!gamepanel.isPrimary && gamepanel.canvasRef) {
+    if (!gamepanel.isPrimary && (gamepanel.canvasRef || gamepanel?.room?.isReplay)) {
         return <></>
         // <Portal containerRef={gamepanel.canvasRef}>
         //     <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} />

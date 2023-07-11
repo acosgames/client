@@ -26,7 +26,7 @@ function GameInfoReplay(props) {
         findGameReplays(game_slug);
 
 
-    }, [])
+    }, [game_slug || filename])
 
 
     if (!room_slug || typeof filename !== 'undefined') {

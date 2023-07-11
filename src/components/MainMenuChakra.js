@@ -24,7 +24,7 @@ import {
     useParams,
 } from 'react-router-dom';
 import config from '../config'
-import { clearRoom, findGamePanelByRoom, getPrimaryGamePanel, getRoomStatus, minimizeGamePanel } from '../actions/room';
+import { clearRoom, findGamePanelByRoom, getPrimaryGamePanel, getRoomStatus, minimizeGamePanel, setPrimaryGamePanel, updateGamePanel } from '../actions/room';
 // import { BsFillGearFill, AiFillLayout, IoSend, CgChevronDoubleRightR, CgChevronDoubleDownR, CgChevronDoubleUpR, BsBoxArrowDown, IoChatbubbleEllipsesSharp, CgChevronDoubleLeftR } from '@react-icons';
 // import GameActions from './games/GameDisplay/GameActions';
 // import { decodeReplay, downloadReplay } from '../actions/connection';
@@ -130,7 +130,10 @@ function MainMenuChakra(props) {
                             // if (gamepanel?.isPrimary)
                             //     e.preventDefault();
                             if (gamepanel?.isPrimary && gamepanel?.room?.isReplay) {
-                                clearRoom('REPLAY/' + gamepanel.room.game_slug);
+                                //clearRoom('REPLAY/' + gamepanel.room.game_slug);
+                                setPrimaryGamePanel();
+                                // gamepanel.available = true;
+                                // updateGamePanel(gamepanel);
                             }
                         }}>
                                 <Image
