@@ -128,8 +128,8 @@ function MainMenuChakra(props) {
                         <Box
                         ><Link to="/" className="" onClick={(e) => {
                             // if (gamepanel?.isPrimary)
-                            // e.preventDefault();
-                            // minimizeGamePanel()
+                            //     e.preventDefault();
+                            minimizeGamePanel()
                         }}>
                                 <Image
                                     alt={'A cup of skill logo'}
