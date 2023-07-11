@@ -210,6 +210,12 @@ function GameIFrame(props) {
             // windowWidth -= 240;
             console.log("Rendering IFrame", "right", windowWidth, windowHeight, resow, resoh, isLoaded);
         }
+
+        if (gamepanel.isPrimary && gamepanel?.room?.isReplay) {
+            if (windowHeight > h - 40) {
+                windowHeight = h - 40;
+            }
+        }
         // }
 
         let roomStatus = getRoomStatus(room_slug);
