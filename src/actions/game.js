@@ -164,8 +164,11 @@ export function decodeReplay(data) {
 export async function downloadGameReplay(replay) {
 
     if (!replay || !replay.filename || !replay.version || !replay.mode)
-        return;
+        return null;
 
+    //add json ext if missing
+    if (replay.filename.indexOf('.json') == -1)
+        replay.filename += '.json';
 
     let url = `${config.https.cdn}g/${replay.game_slug}/replays/${replay.mode}.${replay.version}.${replay.filename}`
 
@@ -177,7 +180,12 @@ export async function downloadGameReplay(replay) {
         history = decodeReplay(history);
     }
 
+    if (history[0] && history[0].version && history[0].gameid) {
+        replay = Object.assign(replay, history[0]);
+        history.shift();
+    }
 
+    replay.replayId = `${replay.mode}.${replay.version}.${replay.filename}`;
     replay.room_slug = 'REPLAY/' + replay.game_slug;
     replay.isReplay = true;
 
@@ -195,6 +203,8 @@ export async function downloadGameReplay(replay) {
     console.log('[downloadGameReplay] ', gamepanel);
 
     fs.set('replay/' + replay.game_slug, replay.room_slug);
+
+    return gamepanel;
 }
 
 export async function findGameLeaderboardHighscore(game_slug) {

@@ -21,7 +21,7 @@ function DevManageGameEnvironment(props) {
     let defaultResolution = defaultResow + ':' + defaultResoh;
 
     const generateCommand = (screentype, rw, rh, mw) => {
-        let cmd = defaultDeployCmd + '';
+        let cmd = defaultDeployCmd + '' + (process.env.NODE_ENV === 'development' ? ' --local' : '');
         // switch (screentype) {
         //     case 1:
         //         cmd += ' --screentype=1'

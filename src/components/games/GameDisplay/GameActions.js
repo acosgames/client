@@ -9,6 +9,7 @@ import { replayNextIndex, replayPrevIndex, wsLeaveGame } from '../../../actions/
 import { clearPrimaryGamePanel, clearRoom, findGamePanelByRoom, getGamePanel, getPrimaryGamePanel, getRoomStatus, setPrimaryGamePanel, setRoomForfeited } from '../../../actions/room';
 import { useState } from 'react';
 import { BiSkipPrevious, BiSkipNext, BiCollapse } from '@react-icons';
+import { useNavigate } from 'react-router-dom';
 
 const resizeEvent = new Event('resize');
 
@@ -212,6 +213,7 @@ function GameActionsReplay(props) {
 
 
     let [paused, setPaused] = useState(false);
+    let navigate = useNavigate();
     // let [room_slug] = fs.useWatch('replay/' + game_slug);
 
     let gamepanel = findGamePanelByRoom(props.room_slug);
@@ -263,7 +265,16 @@ function GameActionsReplay(props) {
                 <Box flex="1"></Box>
                 <Box>
                     <Button p="0" m="0" onClick={() => {
+                        // setPrimaryGamePanel();
+                        let navigated = fs.get('replay/navigated');
+                        // if (navigated)
+                        //     navigate(-1);
+                        // else {
+                        //clearRoom('REPLAY/' + gamepanel.room.game_slug);
                         setPrimaryGamePanel();
+                        navigate('/g/' + gamepanel.room.game_slug);
+
+                        // }
                     }}><Icon
                             as={BiCollapse}
                             height='2rem'

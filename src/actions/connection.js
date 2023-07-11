@@ -512,7 +512,7 @@ export async function recvFrameMessage(evt) {
         // updateGamePanel(gamepanel);
 
         if (gamepanel.room.isReplay && !gamepanel.room.replayStarted) {
-
+            // replaySendGameStart(room_slug);
         }
         else {
             fastForwardMessages(room_slug);
@@ -539,7 +539,9 @@ export async function recvFrameMessage(evt) {
 
             fs.set('showLoadingBox/' + gamepanel.id, false);
             if (gamepanel.room.isReplay) {
+                // setTimeout(() => {
                 replaySendGameStart(room_slug);
+                // }, 1000)
             }
             // fs.set('loaded/' + gamepanel.id, true);
             // fs.set('gameLoaded', true);

@@ -189,7 +189,7 @@ function GameMessageOverlay(props) {
     else if (isGamestart) {
 
         let ws = fs.get('wsConnected');
-        if (!ws)
+        if (!ws && !room.isReplay)
             message = (
                 <VStack w="100%" h="100%" justifyContent={'center'} alignContent={'center'} alignItems={'center'}>
                     <HStack>

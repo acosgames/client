@@ -63,7 +63,7 @@ function MainMenuChakra(props) {
         history.push(Object.assign({}, location));
 
         if (history.length > 20) {
-            history = history.splice(history.length - 21);
+            history.shift();
         }
 
         fs.set('pagehistory', history);
@@ -88,7 +88,7 @@ function MainMenuChakra(props) {
     const gamepanel = getPrimaryGamePanel();
     // const isPrimary = getPrimaryGamePanel();http://localhost:8000/join/test-game-1+rank
 
-    if (gamepanel && gamepanel.isPrimary && !gamepanel.available) {
+    if (gamepanel && (gamepanel.isPrimary && !gamepanel.room.isReplay) && !gamepanel.available) {
         return <></>
     }
     return (

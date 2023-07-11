@@ -4,11 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { replayJumpToIndex, replaySendGameStart } from '../../../actions/connection';
 import { findGamePanelByRoom, updateGamePanel } from '../../../actions/room';
 import GamePanel from './GamePanel';
+import { useParams } from 'react-router-dom';
 
 
 function EmbeddedGamePanel(props) {
 
     const embeddedRef = useRef();
+
 
     let [loaded, setLoaded] = useState(false);
 

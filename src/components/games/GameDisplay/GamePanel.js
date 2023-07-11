@@ -6,17 +6,18 @@ import { replaySendGameStart, sendLoadMessage } from '../../../actions/connectio
 import config from '../../../config'
 import { BsArrowsFullscreen, CgMinimizeAlt } from '@react-icons';
 
-import { findGamePanelByRoom, getGame, getRoom, getRoomStatus, setIFrame, updateGamePanel } from '../../../actions/room';
+import { findGamePanelByRoom, getGame, getRoom, getRoomStatus, setIFrame, setPrimaryGamePanel, updateGamePanel } from '../../../actions/room';
 
 import LoadingBox from './LoadingBox';
 
 import GameMessageOverlay from './GameMessageOverlay';
 
-import iframeSrc from './iframesrc'
 import { calculateGameSize } from '../../../util/helper';
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
+
+import useBackButton from '../../widgets/useBackButton';
 
 
 function GamePanel(props) {
@@ -24,7 +25,16 @@ function GamePanel(props) {
     let key = 'gamepanel/' + props.id;
     let [gamepanel] = fs.useWatch(key);//, fs.get(key));
     let [loaded] = fs.useWatch('showLoadingBox/' + props.id);
+
+    const isBack = useBackButton(() => {
+        if (gamepanel.isPrimary && gamepanel.room.isReplay) {
+            setPrimaryGamePanel();
+        }
+    });
     // const gamepanel = props.gamepanel;
+
+
+
     if (!gamepanel) {
         return <></>
         // return <LoadingBox />
@@ -122,13 +132,18 @@ function GameIFrame(props) {
     }
 
     const onResize = () => {
-        if (!gamescreenRef?.current || !iframeRef?.current || fs.get('showLoadingBox/' + gamepanel.id))
+        if (!gamescreenRef?.current || !iframeRef?.current || fs.get('showLoadingBox/' + gamepanel.id)) {
+            console.log("NOT FOUND - gamescreenRef or iframeRef or loadingBox");
             return;
+        }
 
         var now = (new Date).getTime();
         if (now - timestamp < THROTTLE) {
+            console.log("Throttled: ", now - timestamp);
             return onResize;
         }
+
+
         timestamp = now;
 
         let isFullscreen = checkFullScreen();
@@ -164,6 +179,7 @@ function GameIFrame(props) {
         if (!gamepanel.isPrimary && gamepanel?.canvasRef?.current) {
             windowWidth = gamepanel.canvasRef.current.offsetWidth;
             windowHeight = gamepanel.canvasRef.current.offsetHeight;
+            console.log("Rendering IFrame", "embedded");
         }
         else if (layoutMode == 'bottom') {
 
@@ -179,6 +195,7 @@ function GameIFrame(props) {
             else if (windowHeight > h * 0.6) {
                 windowHeight = (h * 0.6);
             }
+            console.log("Rendering IFrame", "bottom");
             // }
         }
         else if (layoutMode == 'off') {
@@ -191,6 +208,7 @@ function GameIFrame(props) {
                 windowWidth -= 300;
             }
             // windowWidth -= 240;
+            console.log("Rendering IFrame", "right", windowWidth, windowHeight, resow, resoh, isLoaded);
         }
         // }
 
@@ -379,7 +397,7 @@ function GameIFrame(props) {
                                 //     onResize();
                                 // }, 1000);
                                 if (gamepanel.room.isReplay) {
-                                    replaySendGameStart(room_slug);
+                                    //replaySendGameStart(room_slug);
                                 } else {
                                     updateGamePanel(gamepanel);
                                 }

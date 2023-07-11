@@ -25,6 +25,7 @@ import GameInfoBuild from "./GameInfoBuild";
 import PlayerRankInfo from "./PlayerRankInfo";
 import GameInfoReplay from "./GameInfoReplay";
 import GameInfoTag from "./GameInfoTag";
+import GameReplayDesktop from "../GameReplay/GameReplayDesktop";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
@@ -114,7 +115,7 @@ function GameInfo2(props) {
     return (
 
         <Box className="gameinfo" display="inline-block" width="100%" >
-
+            <GameReplayDesktop />
             <Center>
 
                 <VStack width="100%" align="center">

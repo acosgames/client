@@ -403,10 +403,9 @@ export function clearRoom(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
     cleanupGamePanel(gamepanel);
 
-    // let primaryGamePanel = getPrimaryGamePanel();
-    // if (gamepanel == primaryGamePanel) {
-    //     setPrimaryGamePanel(null);
-    // }
+    if (gamepanel.isPrimary) {
+        setPrimaryGamePanel();
+    }
 
     let rooms = fs.get('rooms');
     if (!rooms[room_slug])

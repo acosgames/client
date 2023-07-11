@@ -4,8 +4,9 @@ import { downloadGameReplay, findGameReplays } from "../../../actions/game";
 import EmbeddedGamePanel from "../GameDisplay/EmbeddedGamePanel";
 import fs from 'flatstore';
 import { replayNextIndex, replayPrevIndex, sendPauseMessage, sendUnpauseMessage } from "../../../actions/connection";
-import { findGamePanelByRoom, setPrimaryGamePanel } from "../../../actions/room";
+import { clearRoom, findGamePanelByRoom, setPrimaryGamePanel } from "../../../actions/room";
 import { BiSkipPrevious, BiSkipNext, BiExpand } from '@react-icons';
+import { useNavigate, useParams } from "react-router-dom";
 
 
 function GameInfoReplay(props) {
@@ -14,16 +15,21 @@ function GameInfoReplay(props) {
     let [room_slug] = fs.useWatch('replay/' + game_slug);
     let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
 
+    // const location = useLocation();
+    const { filename } = useParams();
+
+
     useEffect(() => {
-        if (!game_slug)
+        if (!game_slug || typeof filename !== 'undefined')
             return;
 
         findGameReplays(game_slug);
 
+
     }, [])
 
 
-    if (!room_slug) {
+    if (!room_slug || typeof filename !== 'undefined') {
         return <></>
     }
 
@@ -50,6 +56,7 @@ function GameInfoReplay(props) {
 function ReplayControls(props) {
 
 
+    let navigate = useNavigate();
     let [paused, setPaused] = useState(false);
     // let [room_slug] = fs.useWatch('replay/' + game_slug);
 
@@ -102,7 +109,10 @@ function ReplayControls(props) {
                 <Box flex="1"></Box>
                 <Box>
                     <Button p="0" m="0" onClick={() => {
+                        //clearRoom('REPLAY/' + gamepanel.room.game_slug);
                         setPrimaryGamePanel(gamepanel);
+                        fs.set('replay/navigated', true);
+                        navigate(`/g/${gamepanel.room.game_slug}/replays/${gamepanel.room.mode}/${gamepanel.room.version}/${gamepanel.room.filename.replace('.json', '')}`);
                     }}><Icon
                             as={BiExpand}
                             height='2rem'

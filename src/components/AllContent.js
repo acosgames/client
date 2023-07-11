@@ -7,6 +7,7 @@ import RoutesGame from '../routes/RoutesGame';
 import AcosFooter from './AcosFooter';
 
 import GameInfo2 from '../components/games/GameInfo/GameInfoDesktop'
+import GameReplayDesktop from './games/GameReplay/GameReplayDesktop';
 
 function AllContent(props) {
 
@@ -44,8 +45,10 @@ function AllContent(props) {
 
         >
             <Routes>
-                <Route path="/g/:game_slug" element={<GameInfo2 />}>                </Route>
-                <Route path="*" element={<ACOSRoutes />}>                </Route>
+                <Route path="/g/:game_slug" element={<GameInfo2 />}></Route>
+                <Route path="/g/:game_slug/replays/:mode/:version/:filename" element={<GameInfo2 />}></Route>
+                <Route path="/g/:game_slug/ingame/:roomId" element={<GameInfo2 />}></Route>
+                <Route path="*" element={<ACOSRoutes />}></Route>
             </Routes>
             <AcosFooter />
         </Box>

@@ -26,7 +26,7 @@ class MainMenu extends Component {
         history.push(Object.assign({}, this.props.location));
 
         if (history.length > 20) {
-            history = history.splice(history.length - 21);
+            history.shift();
         }
 
         fs.set('pagehistory', history);
