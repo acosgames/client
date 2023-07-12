@@ -188,6 +188,7 @@ export async function downloadGameReplay(replay) {
     replay.replayId = `${replay.mode}.${replay.version}.${replay.filename}`;
     replay.room_slug = 'REPLAY/' + replay.game_slug;
     replay.isReplay = true;
+    replay.timerSequence = 0;
 
     // replay.version = 21;
 

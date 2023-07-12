@@ -331,56 +331,32 @@ export function replayNextIndex(room_slug) {
 
     if (merged?.timer?.seconds) {
 
-        if (history.length >= nextId + 1) {
+        if (history.length > nextId + 1) {
             let nextHistory = history[nextId + 1];
             let nextCopy = JSON.parse(JSON.stringify(nextHistory.payload));
             let nextMerged = JSON.parse(JSON.stringify(merged));
             delta.merge(nextMerged, nextCopy);
 
-
             let nextUpdated = nextMerged.room.updated;
             let currentUpdated = merged.room.updated;
-            // let nextEnd = nextMerged.timer.end;
-            // let nextSeconds = nextMerged.timer.seconds;
-            // let nextStartTime = nextEnd - (nextSeconds * 1000);
-
-            // let currentEnd = merged.timer.end;
-            // let currentSeconds = merged.timer.seconds;
-            // let currentStartTime = currentEnd - (currentSeconds * 1000);
-            let now = Date.now();
-            let started = merged.room.started;
-            let updated = merged.room.updated;
 
             if (gamepanel.room.timerSequence != merged?.timer?.sequence) {
+                let now = Date.now();
                 gamepanel.room.timerSequence = merged?.timer?.sequence || 0;
                 gamepanel.room.timerStarted = merged?.room?.updated || 0;
-                gamepanel.room.timerEnd = merged?.timer?.end || 0;
-                merged.timer.end = now + (nextUpdated - currentUpdated);
+                gamepanel.room.timerEnd = now + (merged.timer.seconds * 1000);
             }
 
-            // merged.timer.end = now + (nextUpdated - currentUpdated);
-
-            //merged.timer.end = (gamepanel.room.timerEnd - merged.room.updated) + Date.now();
             replayTimerTriggerNext(room_slug, nextUpdated - currentUpdated);
         }
-        // else {
-
-        // if (gamepanel.room.timerSequence != merged?.timer?.sequence) {
-
-        //     merged.timer.end = (merged.timer.seconds * 1000) + Date.now();;
-
-        //     gamepanel.room.timerSequence = merged.timer.sequence;
-        //     gamepanel.room.timerEnd = merged.timer.end;
-        // }
-        //
-        // }
     }
+
+    merged.timer.end = gamepanel.room.timerEnd;
 
     let players = merged?.players;
     merged.local = players[gamepanel.room.replayFollow];
 
     gamepanel.room.replayIndex = gamepanel.room.replayIndex + 1;
-    //gamepanel.room.replayState = merged;
     gamepanel.gamestate = merged;
     updateGamePanel(gamepanel);
     updateRoomStatus(room_slug);
@@ -411,7 +387,6 @@ export function replayJumpToIndex(room_slug, startIndex) {
     }
 
     let merged = {};
-
     gamepanel.room.timerSequence = -1;
     gamepanel.room.timerEnd = 0;
     for (let i = 0; i <= startIndex; i++) {
@@ -424,14 +399,15 @@ export function replayJumpToIndex(room_slug, startIndex) {
         let copy = JSON.parse(JSON.stringify(history[i].payload));
         if ('events' in merged)
             merged.events = {};
-
-
+        if ('action' in merged) {
+            merged.action = [];
+        }
 
         delta.merge(merged, copy);
 
         if (gamepanel.room.timerSequence != merged?.timer?.sequence) {
             gamepanel.room.timerSequence = merged?.timer?.sequence || 0;
-            gamepanel.room.timerEnd = Date.now() + (merged?.timer?.seconds || 0);
+            gamepanel.room.timerEnd = Date.now() + (merged?.timer?.seconds * 1000 || 0);
         }
     }
 
