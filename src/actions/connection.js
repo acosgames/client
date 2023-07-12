@@ -1291,7 +1291,7 @@ async function wsIncomingMessage(message) {
 
         let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug);
         let room = gamepanel?.room;
-        let gamestate = JSON.parse(JSON.stringify(gamepanel?.gamestate));
+        let gamestate = gamepanel?.gamestate;//JSON.parse(JSON.stringify(gamepanel?.gamestate));
 
         // console.log("[Previous State]: ", gamestate);
         if (msg.type == 'private') {
