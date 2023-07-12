@@ -117,8 +117,8 @@ function GameMessageOverlay(props) {
 
         let local = fs.get('user');
         let playerList = Object.keys(players);
-        let shortid = local.shortid;
-        if (!local || room.isReplay) {
+        let shortid = local?.shortid;
+        if (!local || !shortid || room.isReplay) {
             shortid = playerList[Math.floor(Math.random() * playerList.length)];
             // local = players[shortid];
         }
