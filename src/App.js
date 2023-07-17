@@ -40,6 +40,8 @@ import RoomPanel from "./components/room/RoomPanel";
 import LobbyPanel from "./components/lobby/LobbyPanel";
 // import PerfectScrollbar from 'react-perfect-scrollbar'
 
+import IndexPage from './pages/IndexPage.jsx';
+
 fs.delimiter('>');
 fs.set("isMobile", false);
 fs.set('layoutMode', 'right');
@@ -95,6 +97,22 @@ function App(props) {
 
   const ChakraSimpleBar = chakra(SimpleBar)
 
+
+  return (
+    <BrowserRouter>
+      <ActivateUserProfile />
+      <VersionControl />
+      <GameInfoCreateDisplayName {...disclosure} />
+
+      {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
+
+      <ToastMessage />
+
+      <Routes>
+        <Route path="/" element={<IndexPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
 
   return (
     <BrowserRouter>

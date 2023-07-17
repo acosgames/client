@@ -42,7 +42,7 @@ class GameList extends Component {
         return (
             <VStack width="100%" align="left" spacing="4rem">
                 <VStack align="left">
-                    <Heading as="h1" size="md" pb="0rem" color="white">Ranked Games</Heading>
+                    <Heading as="h1" size="md" pb="0rem" color="white">Ranked Games 4</Heading>
                     <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">You'll need skill to reach the top</Heading>
                     <Wrap w="100%" spacing={['1.2rem', '2rem', "1.4rem"]} overflow="visible">
                         {

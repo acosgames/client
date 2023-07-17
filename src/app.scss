@@ -1,8 +1,11 @@
-// @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+/* // @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 // @import url("https://fonts.googleapis.com/css?family=Oswald:400,500,700");
 // @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-// @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+// @import url("https://fonts.googleapis.com/icon?family=Material+Icons"); */
+
+@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Inter:wght@100;300;400;500;600;700;800;900&display=swap");
+
 
 * {
   box-sizing: border-box;
@@ -17,7 +20,7 @@
     height: 100%;
     position: relative;
     width: 100%;
-  // background-color: red;
+  /* background-color: red; */
 }
 
 
@@ -33,14 +36,14 @@ body {
   width: 100%;
   padding: 0;
   margin: 0;
-  // overflow: hidden;
+  /* // overflow: hidden;
   //   background-color: #333;
   //   color: #fff;
   //   font-size: 16px;
   //   font-weight: 400;
   // font-family: "Inter", "Oswald", sans-serif;
   //   -webkit-font-smoothing: antialiased;
-  //   -moz-osx-font-smoothing: grayscale;
+  //   -moz-osx-font-smoothing: grayscale; */
 }
 
 
@@ -81,19 +84,22 @@ a {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  // background-color: rgb(136, 136, 136);
+  /* // background-color: rgb(136, 136, 136); */
   border-radius:4px;
   transition: background-color 1s ease;
-  background-color: #fff;// rgb(14,16,20);
+  background-color: #fff;
+  /* // rgb(14,16,20); */
   width:0;
 }
 
 .showscroll::-webkit-scrollbar-thumb {
-  background-color: #fff;// rgb(80, 80, 80);
+  background-color: #fff;
+  /* // rgb(80, 80, 80); */
 }
 
 .hidescroll::-webkit-scrollbar-thumb {
-  background-color: #fff;///rgb(14,16,20);
+  background-color: #fff;
+  /* ///rgb(14,16,20); */
 }
 
 /* Handle on hover */
@@ -105,13 +111,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-// #wrapper {
+/* // #wrapper {
 //   display: flex;
 //   flex-direction: column;
 //   width: 100%;
 //   height: 100%;
 //   min-height: 100%;
-// }
+// } */
 
 .chakra-ui-dark {
   #wrapper-header {
@@ -121,7 +127,7 @@ code {
     box-shadow: rgba(0, 0, 0, 0.7) 0px 1px 2px 0px,
       rgba(0, 0, 0, 0.8) 0px 0px 2px 0px;
     background-color: #202024;
-    // background-color: rgb(0, 52, 104);
+    /* // background-color: rgb(0, 52, 104); */
   }
 }
 
@@ -133,7 +139,7 @@ code {
     box-shadow: rgba(0, 0, 0, 0.4) 0px 1px 2px 0px,
       rgba(0, 0, 0, 0.5) 0px 0px 2px 0px;
     background-color: #202024;
-    // background-color: rgb(0, 52, 104);
+    /* // background-color: rgb(0, 52, 104); */
   }
 }
 
@@ -153,7 +159,7 @@ code {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  // align-items: center;
+  /* // align-items: center; */
 }
 
 #mainmenu ul {
@@ -179,7 +185,7 @@ code {
   color: #aaa;
   margin-left: -8px;
   margin-top: 5px;
-  // z-index: 10;
+  /* // z-index: 10; */
   font-size: 1rem;
 }
 
@@ -195,7 +201,7 @@ code {
 #mainmenu ul li ul.submenu {
   display: block;
   position: absolute;
-  // z-index: 999;
+  /* // z-index: 999; */
   margin-left: -1rem;
 }
 
@@ -218,7 +224,7 @@ code {
   font-weight: 700;
   color: #fff;
   background-color: #202024;
-  // background-color: rgb(0, 52, 104);
+  /* // background-color: rgb(0, 52, 104); */
   text-decoration-thickness: auto;
   text-size-adjust: 100%;
   transition: background-color 200ms;
@@ -228,7 +234,7 @@ code {
   border-bottom: 2px solid #94ff97;
 }
 #mainmenu a:hover {
-  // background-color: #001b47;
+  /* // background-color: #001b47; */
   color: #94ff97;
 }
 
@@ -278,7 +284,7 @@ code {
 #game-grid-wrapper {
   width: 90%;
   margin: 0 auto;
-  // z-index: 5;
+  /* // z-index: 5; */
   position: relative;
 }
 
@@ -297,7 +303,7 @@ code {
 #game-info {
   display: flex;
   justify-content: center;
-  // margin-top:-3rem;
+  /* // margin-top:-3rem; */
 }
 
 #game-info-content {
@@ -317,9 +323,9 @@ code {
   height: 100%;
   display: flex;
   flex-wrap: wrap;
-  // grid-template-columns: 160px 160px 160px 160px 160px 160px 160px 160px 160px 160px;
+  /* // grid-template-columns: 160px 160px 160px 160px 160px 160px 160px 160px 160px 160px;
   // grid-column-gap: 1rem;
-  // grid-row-gap: 1rem;
+  // grid-row-gap: 1rem; */
 }
 
 @media screen and (max-width: 700px) {
@@ -328,22 +334,22 @@ code {
 }
 
 .game-item {
-  // width: 100%;
-  // height: 100%;
+  /* // width: 100%;
+  // height: 100%; */
   width: 160px;
-  // height: 150px;
+  /* // height: 150px; */
   margin-top: 4px;
   margin-bottom: 1rem;
   padding: 0.3125rem;
-  // margin-left: 10px;
-  // margin-right: 10px;
+  /* // margin-left: 10px;
+  // margin-right: 10px; */
   position: relative;
   cursor: pointer;
 
-  // display: flex;
+  /* // display: flex;
   // justify-content: center;
   // align-items: center;
-  // flex-direction: column;
+  // flex-direction: column; */
 
   flex: 0 0 auto;
 }
@@ -361,28 +367,28 @@ code {
   height: 150px;
   display: block;
   transition: transform 200ms;
-  // width: 100%;
+  /* // width: 100%;
   // height: 100%;
-  // border-radius: 4px;
+  // border-radius: 4px; */
 }
 .game-title {
   transition: background-color 400ms;
-  // display: block;
+  /* // display: block;
   // position: absolute;
   // bottom: 0px;
   // left: 0px;
   // margin-top: -24px;
-  // color: #6acd64;
+  // color: #6acd64; */
   width: 150px;
   font-size: 18px;
-  // max-height: 128px;
+  /* // max-height: 128px; */
   font-weight: 700;
 
-  // background-color: rgb(0, 52, 104);
+  /* // background-color: rgb(0, 52, 104); */
   /* opacity: 0.2; */
 
   overflow: hidden;
-  // border-radius: 3px;
+  /* // border-radius: 3px; */
 }
 
 .game-title span {
@@ -452,12 +458,12 @@ code {
   height: 100%;
 }
 
-// .gamescreen {
+/* // .gamescreen {
 //   width: 100%;
 //   height: 100%;
 //   border: 0;
 //   background-color: #fff;
-// }
+// } */
 
 .btn-forfeit {
   width: 50px;
@@ -472,7 +478,7 @@ code {
   bottom: 0;
   left: 0;
   right: 0;
-  // z-index: 99;
+  /* // z-index: 99; */
 }
 
 #gameloading-wrapper {
@@ -483,7 +489,7 @@ code {
   bottom: 0;
   left: 0;
   right: 0;
-  // z-index: 100;
+  /* // z-index: 100; */
 }
 
 #gameloading > * {
@@ -499,7 +505,7 @@ code {
   left: 0;
   width: 100%;
   height: 100%;
-  // z-index: 4;
+  /* // z-index: 4; */
 }
 
 #queue-panel {
@@ -509,11 +515,11 @@ code {
   bottom: 0;
   left: 0;
   z-index: 6;
-  // transition: height 500ms ease;
+  /* // transition: height 500ms ease; */
   pointer-events: none;
   user-select: none;
-  // transition: transform 0.5s ease;
-  // transform: translateY(60px);
+  /* // transition: transform 0.5s ease; */
+  /* // transform: translateY(60px); */
 }
 
 #queue-header {
@@ -706,15 +712,15 @@ code {
 }
 
 .form-row > button {
-  // width: 10rem;
-  // height: 3rem;
+  /* // width: 10rem;
+  // height: 3rem; */
   border: 0;
 }
 .form-row > button.submit {
   background-color: #63ed56;
   
   font-weight: bold;
-  // font-family: "Inter", "Oswald", sans-serif;
+  /* // font-family: "Inter", "Oswald", sans-serif; */
 }
 .form-row > button.submit:hover {
   background-color: #52c548;
@@ -755,9 +761,9 @@ code {
 
   #game-info-longdesc,
   .mde-preview-content {
-    //   background: #777;
+    /* //   background: #777;
     // background-color: #333;
-    // margin: 1rem 0;
+    // margin: 1rem 0; */
 
     p {
       margin-top: 0.5rem;
@@ -790,14 +796,14 @@ code {
   }
 }
 
-// .chakra-ui-light {
+/* // .chakra-ui-light { */
 
 
   #game-info-longdesc,
   .mde-preview-content {
-    //   background: #777;
+    /* //   background: #777;
     // background-color: 333;
-    // margin: 1rem 0;
+    // margin: 1rem 0; */
     padding: 1rem;
     p {
       margin-bottom: 2rem;
@@ -811,7 +817,7 @@ code {
       color:#f1f9ff;
     }
     code {
-      //background-color:#08225a;
+      /* //background-color:#08225a; */
       border-radius: 0.2rem;
       padding-left:0.5rem;
       padding-right:0.5rem;
@@ -820,7 +826,7 @@ code {
       font-weight:bold;
     }
     em {
-      //font-weight:bold;
+      /* //font-weight:bold; */
       font-style: italic;
     }
     h1 { 
@@ -872,7 +878,7 @@ code {
       }
     }
   }
-// }
+/* // } */
 
 .chakra-form-control {
   margin-bottom: 2rem;
@@ -1078,7 +1084,7 @@ code {
   margin-bottom: 0;
   text-align: center;
   color: rgba(148, 255, 151, 0.1);
-  background: -webkit-gradient(
+  background: gradient(
     linear,
     left top,
     right top,
