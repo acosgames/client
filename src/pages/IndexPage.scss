@@ -1,11 +1,11 @@
 
 .banner-section {
-    background-color: var(--chakra-colors-gray-800);
+    /* background-color: var(--chakra-colors-gray-800); */
 }
 .banner-section::before, .banner-section::after {
     position: absolute;
     content: "";
-    width: 395px;
+    
     height: 100%;
     bottom: 0;
     background: var(--chakra-colors-brand-500);
@@ -21,7 +21,7 @@
 
 .banner-section::after {
     width: 20px;
-    right: 12%;
+    right: 9%;
     animation: MoveUpDown 5s linear infinite alternate;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .banner-section .overlay::before {
-    left: 0;
+    left: 10%;
     animation: MoveDownUp 5s linear infinite alternate;
 }
 
@@ -62,7 +62,7 @@ img {
 }
 
 .banner-section .banner-content {
-    padding-top: 160px;
+    /* padding-top: 160px; */
 }
 
 

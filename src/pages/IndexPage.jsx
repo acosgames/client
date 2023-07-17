@@ -12,6 +12,13 @@ import {
   Center,
 } from "@chakra-ui/react";
 
+import {
+  Link,
+  useLocation,
+  //Link,
+  useParams,
+} from "react-router-dom";
+
 import PlanetImg from "../assets/images/abs-items/planet.png";
 import Console1Img from "../assets/images/abs-items/console-1.png";
 import Console2Img from "../assets/images/abs-items/console-2.png";
@@ -36,12 +43,13 @@ function IndexPage({}) {
 
 function TopSection() {
   return (
-    <Box w="100%" position="relative" overflow="hidden">
-      <Box
+    <Box w="100%" position="relative">
+      <VStack
         className="banner-section"
         w="100%"
-        //   overflow="hidden"
+        overflow="hidden"
         position="relative"
+        _before={{ width: ["100px", "150px", "250px", "395px"] }}
       >
         <Box className="shape-area">
           <Image
@@ -49,8 +57,9 @@ function TopSection() {
             className="shape-1"
             alt="icon"
             position="absolute"
-            top="20%"
+            top="15%"
             left="5%"
+            width="8%"
             animation="rotate 35s linear infinite"
           />
           <Image
@@ -58,8 +67,9 @@ function TopSection() {
             className="shape-2"
             alt="icon"
             position="absolute"
-            bottom="0%"
-            left="calc(50% - 250px)"
+            bottom="5%"
+            width={["12%"]}
+            left="calc(50% - 20%)"
           />
           <Image
             src={Console2Img}
@@ -67,6 +77,7 @@ function TopSection() {
             alt="icon"
             position="absolute"
             top="5%"
+            width={["25%"]}
             left="calc(50% - 250px)"
           />
         </Box>
@@ -99,7 +110,8 @@ function TopSection() {
           <Box
             className="banner-content position-relative"
             position="relative"
-            pt={["rem", "23rem"]}
+            pb={["12rem", "18rem", "23rem"]}
+            pt={["12rem", "18rem", "23rem"]}
           >
             {/* <Box
             className="box-items d-inline-flex flex-wrap position-absolute"
@@ -192,52 +204,74 @@ function TopSection() {
             <Box className="single-item"></Box>
             <Box className="single-item"></Box>
           </Box> */}
-            <Box
+            <HStack
               // className="container position-relative cus-z1"
               position="relative"
-              width={["100%", "54rem", "72rem", "96rem", "132rem"]}
-              paddingRight={"0.75rem"}
-              paddingLeft={"0.75rem"}
+              width={["100%", "90%", "70rem", "90rem", "120rem"]}
+              px={"1.2rem"}
               margin="0 auto"
             >
               <VStack
                 justifyContent={"flex-start"}
                 alignItems={"flex-start"}
                 className="row justify-content-between justify-content-center align-items-center"
-                width={["100%", "100%", "58.3%"]}
+                width={["100%", "100%", "80%"]}
               >
                 <Heading
                   as="h3"
-                  fontSize={"3.2rem"}
-                  lineHeight={"3.98rem"}
+                  fontSize={["2.4rem", "3.2rem"]}
+                  lineHeight={["2.6rem", "3.98rem"]}
                   marginBottom={"1.6rem"}
                   className="visible-slowly-bottom"
                 >
                   <Text as="span" color="brand.100">
-                    Gamers Developing Games
+                    A Cup Of Skill
                   </Text>
                 </Heading>
-                <Heading as="h1" fontSize="8rem" className="display-one">
-                  Challenge The World And Reach{" "}
-                  <Text as="span">Next Level</Text>
+                <Heading
+                  as="h1"
+                  fontSize={["4rem", "5rem", "6rem"]}
+                  className="display-one"
+                >
+                  Challenge Yourself And Reach <Text as="span">Next Level</Text>
                 </Heading>
                 <Text
                   as="p"
                   color={"gray.50"}
-                  fontSize={"2.4rem"}
+                  fontSize={["1.6rem", "2rem", "2.4rem"]}
                   fontWeight={"400"}
                   lineHeight={"3.12rem"}
                 >
-                  We are a game development firm that focuses on making games
-                  that are imaginative, fun, and colourful.
+                  We are a community of gamers and developers with a focus on
+                  competitive web games played on any device through the web.
                 </Text>
-                <Box mt="3.2rem" className="btn-area alt-bg">
-                  <a href="game.html" className="box-style btn-box d-center">
-                    Explore Games
-                  </a>
-                </Box>
+                <HStack spacing={"3rem"}>
+                  <Box mt="3.2rem" className="btn-area alt-bg">
+                    <Link
+                      href="game.html"
+                      className="box-style btn-box d-center"
+                    >
+                      Play Games
+                    </Link>
+                  </Box>
+                  <Box mt="3.2rem" className="btn-area alt-bg">
+                    <Link href="game.html">
+                      <Text
+                        as="span"
+                        color="gray.0"
+                        borderRadius={"16px"}
+                        border="1px solid"
+                        borderColor={"gray.100"}
+                        display="inline-block"
+                        p={"13px 25px"}
+                      >
+                        Become a Developer
+                      </Text>
+                    </Link>
+                  </Box>
+                </HStack>
               </VStack>
-              <HStack pt="12rem">
+              {/* <HStack pt="12rem">
                 <Box w="100%" className="btn-item">
                   <a
                     href="game.html"
@@ -266,11 +300,11 @@ function TopSection() {
                     </Text>
                   </a>
                 </Box>
-              </HStack>
-            </Box>
+              </HStack> */}
+            </HStack>
           </Box>
         </Box>
-      </Box>
+      </VStack>
     </Box>
   );
 }
