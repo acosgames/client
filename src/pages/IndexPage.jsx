@@ -10,6 +10,8 @@ import {
   VStack,
   HStack,
   Center,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 
 import {
@@ -57,9 +59,9 @@ function TopSection() {
             className="shape-1"
             alt="icon"
             position="absolute"
-            top="15%"
-            left="5%"
-            width="8%"
+            width={["16%", "16%", "8%"]}
+            top={["15%"]}
+            right={["5%"]}
             animation="rotate 35s linear infinite"
           />
           <Image
@@ -67,18 +69,20 @@ function TopSection() {
             className="shape-2"
             alt="icon"
             position="absolute"
-            bottom="5%"
-            width={["12%"]}
-            left="calc(50% - 20%)"
+            width={["30%", "20%", "20%", "12%"]}
+            zIndex={1}
+            bottom={["0%", "5%", "0%"]}
+            left={["initial", "initial", "70%"]}
+            right={["0", "10%", "initial"]}
           />
           <Image
             src={Console2Img}
             className="shape-3"
             alt="icon"
             position="absolute"
-            top="5%"
             width={["25%"]}
-            left="calc(50% - 250px)"
+            top={["8%", "10%", "7%", "4%", "0%"]}
+            left={["50%", "50%", "35%"]}
           />
         </Box>
         <Box className="ellipse-area ellipse-one position-absolute">
@@ -111,7 +115,7 @@ function TopSection() {
             className="banner-content position-relative"
             position="relative"
             pb={["12rem", "18rem", "23rem"]}
-            pt={["12rem", "18rem", "23rem"]}
+            pt={["6rem", "10rem", "16rem"]}
           >
             {/* <Box
             className="box-items d-inline-flex flex-wrap position-absolute"
@@ -207,15 +211,15 @@ function TopSection() {
             <HStack
               // className="container position-relative cus-z1"
               position="relative"
-              width={["100%", "90%", "70rem", "90rem", "120rem"]}
+              width={["100%", "90%", "90%", "90%", "90%"]}
               px={"1.2rem"}
-              margin="0 auto"
+              //   margin="0 auto"
             >
               <VStack
                 justifyContent={"flex-start"}
                 alignItems={"flex-start"}
                 className="row justify-content-between justify-content-center align-items-center"
-                width={["100%", "100%", "80%"]}
+                width={["100%", "100%", "100%"]}
               >
                 <Heading
                   as="h3"
@@ -230,10 +234,11 @@ function TopSection() {
                 </Heading>
                 <Heading
                   as="h1"
-                  fontSize={["4rem", "5rem", "6rem"]}
+                  fontSize={["3rem", "3rem", "4rem", "6rem"]}
                   className="display-one"
                 >
-                  Challenge Yourself And Reach <Text as="span">Next Level</Text>
+                  Crush The <Text as="span">Competition</Text> And Become{" "}
+                  <Text as="span">#1</Text>
                 </Heading>
                 <Text
                   as="p"
@@ -242,34 +247,63 @@ function TopSection() {
                   fontWeight={"400"}
                   lineHeight={"3.12rem"}
                 >
-                  We are a community of gamers and developers with a focus on
-                  competitive web games played on any device through the web.
+                  Queue up for a ranked match and reach the top of the
+                  leaderboards. Or, are you learning to code? Try making your
+                  own game by becoming a developer.
                 </Text>
-                <HStack spacing={"3rem"}>
-                  <Box mt="3.2rem" className="btn-area alt-bg">
-                    <Link
-                      href="game.html"
-                      className="box-style btn-box d-center"
-                    >
-                      Play Games
-                    </Link>
-                  </Box>
-                  <Box mt="3.2rem" className="btn-area alt-bg">
+                <Wrap spacing={"3rem"} mt="3.2rem">
+                  <WrapItem className="btn-area alt-bg">
                     <Link href="game.html">
                       <Text
                         as="span"
-                        color="gray.0"
+                        color="brand.300"
                         borderRadius={"16px"}
-                        border="1px solid"
-                        borderColor={"gray.100"}
+                        bgColor="transparent"
+                        border="2px solid"
+                        borderColor="brand.300"
+                        transition={"all 0.2s ease"}
+                        _hover={{
+                          bgColor: "brand.300",
+                          color: "gray.900",
+                          borderColor: "brand.300",
+                        }}
+                        // border="1px solid"
+                        // borderColor={"gray.100"}
+                        display="inline-block"
+                        p={"13px 25px"}
+                      >
+                        Play Games
+                      </Text>
+                    </Link>
+                  </WrapItem>
+                  <WrapItem className="btn-area alt-bg">
+                    <Link href="game.html">
+                      <Text
+                        as="span"
+                        color="gray.20"
+                        borderRadius={"16px"}
+                        bgColor="transparent"
+                        border="2px solid"
+                        borderColor="gray.400"
+                        transition={"all 0.2s ease"}
+                        // textShadow={
+                        //   "0.25rem 0.25rem 1rem var(--chakra-colors-gray-1000)"
+                        // }
+                        _hover={{
+                          bgColor: "gray.1000",
+                          color: "gray.0",
+                          borderColor: "gray.1000",
+                        }}
+                        // border="1px solid"
+                        // borderColor={"gray.100"}
                         display="inline-block"
                         p={"13px 25px"}
                       >
                         Become a Developer
                       </Text>
                     </Link>
-                  </Box>
-                </HStack>
+                  </WrapItem>
+                </Wrap>
               </VStack>
               {/* <HStack pt="12rem">
                 <Box w="100%" className="btn-item">

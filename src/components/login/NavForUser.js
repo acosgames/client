@@ -27,7 +27,7 @@ function NavForUser(props) {
 
 
     let latency = props.latency || 0;
-    let latencyColor = 'green.300';
+    let latencyColor = 'brand.300';
     if (latency > 400) {
         latencyColor = 'orange.300';
     }
@@ -41,7 +41,7 @@ function NavForUser(props) {
     return (
 
         <Menu zIndex="1001" placement='bottom-end' modifiers={[{ name: 'eventListeners', options: { scroll: false } }]}>
-            <VStack display="flex" justifyContent="center" height="100%" spacing="0">
+            <HStack alignItems={'center'} justifyContent={'center'} height="100%" spacing="1rem">
                 <MenuButton
                     as={Button}
                     className={'menuUserNav'}
@@ -51,14 +51,35 @@ function NavForUser(props) {
                     minW={0}>
                     <Avatar
                         // name={props?.user?.displayname}
-                        width={['2.5rem']}
-                        height={['2.5rem']}
+                        width={['3rem']}
+                        height={['3rem']}
+                        bgColor="gray.1000"
                     // bgColor={'blacks.300'}
                     >
-                        <AvatarBadge bg={latencyColor} border="0" top={'1.2rem'} right={'2.2rem'} boxSize="1rem" />
+                        {/* <AvatarBadge bg={latencyColor} border="0" top={'-0.3rem'} right={'-0.2rem'} boxSize="1rem" /> */}
                     </Avatar>
                 </MenuButton>
-            </VStack>
+                <HStack
+                    py="1rem"
+                    spacing="0rem"
+                    width="100%"
+                    justifyContent={"center"}
+                >
+                    <Icon
+                        as={BsBarChartFill}
+                        size="1.6rem"
+                        mr="0.5rem"
+                        color={latencyColor}
+                    />
+                    <Text as="span" fontSize="xs" color={latencyColor}>
+                        {props.wsConnected
+                            ? latency + "ms"
+                            : props.duplicatetabs
+                                ? "offline, dupe tabs"
+                                : "offline"}
+                    </Text>
+                </HStack>
+            </HStack>
             <MenuList top={'-5rem'} alignItems={'center'} boxShadow={'0 4px 8px rgba(0,0,0,0.4),0 0px 4px rgba(0,0,0,0.4)'} border="0" borderRadius="8px">
                 {/* <br />
                 <Center>
@@ -75,7 +96,7 @@ function NavForUser(props) {
                     <Link to="/profile"><Text fontSize="md" color="gray.100">{props?.user?.displayname}</Text></Link>
 
                 </Center>
-                <HStack spacing="0.4rem" width="100%" justifyContent={'center'}>
+                <HStack py="1rem" spacing="0.4rem" width="100%" justifyContent={'center'}>
                     <Icon as={BsBarChartFill} size="1.6rem" mr="1rem" color={latencyColor} />
                     <Text as="span" fontSize="xs" color={latencyColor}>{props.wsConnected ? (latency + 'ms') : props.duplicatetabs ? 'offline, dupe tabs' : 'offline'}</Text>
                 </HStack>

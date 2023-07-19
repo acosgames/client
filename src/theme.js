@@ -274,6 +274,13 @@ const components = {
         defaultProps: {
             variant: 'base'
         }
+    },
+    Progress: {
+        baseStyle: {
+            filledTrack: {
+                bg: 'brand.300'
+            }
+        }
     }
 }
 

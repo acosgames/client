@@ -1,6 +1,6 @@
 
 .banner-section {
-    /* background-color: var(--chakra-colors-gray-800); */
+    background-color: var(--chakra-colors-gray-800);
 }
 .banner-section::before, .banner-section::after {
     position: absolute;
@@ -10,7 +10,7 @@
     bottom: 0;
     background: var(--chakra-colors-brand-500);
     transform: skew(-17deg);
-    /* z-index: -1; */
+    z-index: 0;
 }
 
 .banner-section::before {
@@ -45,7 +45,8 @@
 }
 
 .banner-section .overlay::before {
-    left: 10%;
+    left: 5%;
+    width: 15%;
     animation: MoveDownUp 5s linear infinite alternate;
 }
 
@@ -71,6 +72,7 @@ img {
     height: 100px;
     animation: stretch 5s linear infinite;
     position:absolute;
+    z-index:1;
 }
 
 .banner-section .ellipse-area.ellipse-one {
@@ -80,17 +82,17 @@ img {
 
 .banner-section .ellipse-area.ellipse-two {
     top: 18%;
-    left: 0%;
+    right: 0%;
 }
 
 .banner-section .ellipse-area.ellipse-three {
     top: 40%;
-    left: 5%;
+    right: 15%;
 }
 
 .banner-section .ellipse-area.ellipse-four {
-    left: calc(50% + 50px);
-    bottom: calc(50% - 160px);
+    right: calc(50% + 50px);
+    bottom: calc(50% - 300px);
 }
 
 .banner-section .ellipse-area img {
@@ -98,11 +100,11 @@ img {
 }
 
 .banner-section .ellipse-area .ellipse-1 {
-    right: 0;
+    right: 15%;
 }
 
 .banner-section .ellipse-area .ellipse-2 {
-    right: 0;
+    right: 5%;
     bottom: 0;
 }
 
