@@ -2,7 +2,7 @@ import { HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 export default function ChatMessage({ flagCode, username, msgTime, msg }) {
   return (
-    <VStack w="100%" spacing="0.75rem" mt="1rem" mb="1rem">
+    <VStack w="100%" spacing="0.5rem" mb="1rem">
       <HStack w="100%" height="1rem">
         <HStack justifyContent={"flex-start"} flex="1">
           <Image src={flagCode} borderRadius="3px" height="14px" />
@@ -19,7 +19,7 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
         display="block"
         fontSize="1.2rem"
         fontWeight="medium"
-        color="gray.70"
+        color="gray.50"
         width="100%"
         textAlign={"left"}
       >

@@ -14,7 +14,13 @@ export default function ChatSend({}) {
     //   </HStack>
     // </Box>
 
-    <Box position={"relative"} width={"100%"} spacing="0" m="0">
+    <Box
+      position={"relative"}
+      width={"100%"}
+      spacing="0"
+      m="0"
+      borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+    >
       <Input
         name="name"
         id="name"
@@ -25,10 +31,10 @@ export default function ChatSend({}) {
         pr={"3rem"}
         height={["3rem", "3rem", "3rem"]}
         border="0"
-        bgColor="gray.900"
+        bgColor="gray.600"
         color="gray.50"
         fontSize="1.2rem"
-        placeholder="Type a message..."
+        placeholder="Send a message"
         autoComplete="off"
         shadow={""}
         _focusVisible={{
@@ -38,7 +44,7 @@ export default function ChatSend({}) {
           //   borderTopColor: "gray.700",
           bgColor: "gray.900",
         }}
-        _placeholder={{ color: "gray.200" }}
+        _placeholder={{ color: "gray.50" }}
         value={message || ""}
         onChange={(e) => {
           setMessage(e.target.value);
@@ -66,7 +72,7 @@ export default function ChatSend({}) {
           icon={<IoSend size="1.6rem" />}
           width="2.8rem"
           isRound="true"
-          color="gray.50"
+          color="brand.300"
         />
       </HStack>
     </Box>

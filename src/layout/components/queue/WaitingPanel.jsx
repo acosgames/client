@@ -1,23 +1,96 @@
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
+  Collapse,
   HStack,
   Heading,
   Icon,
   Image,
   Text,
   VStack,
+  chakra,
+  useDisclosure,
 } from "@chakra-ui/react";
+import SimpleBar from "simplebar-react";
 
 export default function WaitingPanel({}) {
+  const { isOpen, onToggle } = useDisclosure();
   return (
-    <VStack w="100%" px={["0.5rem", "2rem"]}>
-      <HStack alignItems={"flex-start"} w="100%" mb="1rem">
-        <Heading as="h4" fontWeight={"bold"} fontSize="1.6rem" color="gray.0">
-          Waiting In Queue
-        </Heading>
-      </HStack>
-      <GamesWithQueue />
+    <VStack w="100%" px={["0.5rem", "1rem"]}>
+      <Accordion allowToggle w="100%" defaultIndex={0}>
+        <AccordionItem
+          w="100%"
+          borderTop="0"
+          borderBottom="0"
+          bgColor="gray.800"
+          borderRadius="0.5rem"
+        >
+          <AccordionButton p="0" onClick={onToggle}>
+            <HStack w="100%" alignItems={"center"} pb="0.5rem">
+              <Heading
+                as="h4"
+                fontWeight={"bold"}
+                fontSize="1.6rem"
+                color="gray.0"
+                flex="1"
+                textAlign={"left"}
+                pl="1rem"
+                pt="0.5rem"
+              >
+                Waiting In Queue
+              </Heading>
+              <VStack
+                position="relative"
+                top="0.3rem"
+                //   top="-0.8rem"
+                //   left="-0.8rem"
+                bgColor="gray.900"
+                zIndex="2"
+                borderRadius="50%"
+                alignItems={"center"}
+                justifyContent={"center"}
+                width="2.4rem"
+                height="2.4rem"
+                border="2px solid var(--chakra-colors-gray-900)"
+                // boxShadow={
+                //   "inset 0.2em 0.2em 0.2em 0 rgba(255,255,255,0.2), inset -0.2em -0.2em 0.2em 0 rgba(0,0,0,0.2)"
+                // }
+              >
+                <Text
+                  as="span"
+                  color="brand.500"
+                  fontWeight="bold"
+                  fontSize="1.4rem"
+                  display="inline-block"
+                  textAlign={"center"}
+                  lineHeight={"2.2rem"}
+                >
+                  3
+                </Text>
+              </VStack>
+              <AccordionIcon position="relative" top="0.3rem" color="gray.50" />
+            </HStack>
+          </AccordionButton>
+          <Box
+            as={Collapse}
+            in={!isOpen}
+            startingHeight="0"
+            w="100%"
+            maxHeight={"14.9rem"}
+            display="flex !important"
+            flexDirection={"column"}
+            position="relative"
+            overflow="hidden"
+          >
+            <GamesWithQueue isOpen={isOpen} />
+          </Box>
+        </AccordionItem>
+      </Accordion>
     </VStack>
   );
 }
@@ -32,17 +105,66 @@ function NoQueues() {
   );
 }
 
-function GamesWithQueue() {
+function GamesWithQueue({ isOpen }) {
+  const ChakraSimpleBar = chakra(SimpleBar);
+
   return (
-    <HStack w="100%" justifyContent={"flex-start"}>
-      <GameQueue />
-    </HStack>
+    <VStack
+      width="100%"
+      height={!isOpen ? "100%" : "0%"}
+      transition={"all 0.1s ease"}
+      boxSizing="border-box"
+      spacing="0"
+      position="relative"
+      overflow="hidden"
+      bgColor="gray.800"
+    >
+      <ChakraSimpleBar
+        boxSizing="border-box"
+        maxHeight={!isOpen ? "14.9rem" : "0%"}
+        borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+        style={{
+          width: "100%",
+          height: "auto",
+          overflow: "hidden scroll",
+          boxSizing: "border-box",
+        }}
+      >
+        <VStack
+          w="100%"
+          justifyContent={"flex-start"}
+          spacing="0.5rem"
+          px="1rem"
+          pb="0.5rem"
+        >
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+          <GameQueue />
+        </VStack>
+      </ChakraSimpleBar>
+    </VStack>
   );
 }
 
 function GameQueue() {
   return (
-    <HStack width="100%" justifyContent={"flex-start"} alignItems={"center"}>
+    <HStack
+      width="100%"
+      justifyContent={"flex-start"}
+      alignItems={"center"}
+      bgColor="gray.600"
+      p="0.5rem"
+      borderRadius={"1rem"}
+    >
       <Image
         // borderRadius={"2rem"}
         // position="absolute"
@@ -59,7 +181,7 @@ function GameQueue() {
       <VStack
         justifyContent={"flex-start"}
         alignItems={"flex-start"}
-        spacing="0"
+        spacing="0.5rem"
         flex="1"
       >
         <Text
@@ -72,9 +194,9 @@ function GameQueue() {
           display="inline-block"
           overflow="hidden"
         >
-          Tic Tac Toe is a really long name
+          Advanced Tic Tac Toe
         </Text>
-        <Text as="span" fontSize="1.2rem" fontWeight={"medium"} color="gray.20">
+        <Text as="span" fontSize="1rem" fontWeight={"medium"} color="gray.50">
           <Text as="span" fontWeight="bold">
             2
           </Text>{" "}
@@ -85,7 +207,7 @@ function GameQueue() {
         border="3px solid"
         height="3rem"
         borderColor="brand.400"
-        color="brand.400"
+        color="brand.300"
         borderRadius={"2rem"}
         fontSize="1rem"
         fontWeight="bold"

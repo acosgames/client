@@ -41,6 +41,7 @@ import LobbyPanel from "./components/lobby/LobbyPanel";
 // import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import IndexPage from './pages/IndexPage.jsx';
+import GamesPage from "./pages/GamesPage.jsx";
 
 fs.delimiter('>');
 fs.set("isMobile", false);
@@ -109,7 +110,7 @@ function App(props) {
       <ToastMessage />
 
       <Routes>
-        <Route path="/" element={<IndexPage />} />
+        <Route path="/" element={<GamesPage />} />
       </Routes>
     </BrowserRouter>
   )

@@ -28,6 +28,7 @@ function Layout({ children }) {
             spacing="0"
             w="100%"
             h="100%"
+            pt={["5rem", "12rem"]}
             position={"relative"}
             alignItems={"flex-start"}
           >

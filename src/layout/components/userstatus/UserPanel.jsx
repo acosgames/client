@@ -90,8 +90,8 @@ function UserFrame() {
 export default function UserPanel() {
   return (
     <VStack spacing="0.75rem" w="100%" px={["0.5rem", "2rem"]} mt="1rem">
-      <UserLogin />
-      {/* <UserFrame /> */}
+      {/* <UserLogin /> */}
+      <UserFrame />
     </VStack>
   );
 }

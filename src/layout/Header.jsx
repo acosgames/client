@@ -1,4 +1,4 @@
-import { Box, HStack, Image, Text } from "@chakra-ui/react";
+import { Box, HStack, Heading, Image, Text } from "@chakra-ui/react";
 import fs from "flatstore";
 import config from "../config";
 import {
@@ -63,26 +63,28 @@ function Header({}) {
         >
           <HStack spacing={["2rem", "2rem", "3rem"]}>
             <Link to="/games" className="">
-              <Text
-                as="span"
+              <Heading
+                as="h4"
                 color="gray.0"
-                fontSize={["1.2rem", "1.2rem", "1.6rem"]}
+                fontWeight="bold"
+                fontSize={["1.2rem", "1.6rem", "2rem"]}
                 transition={"all 0.3s ease"}
                 _hover={{ color: "brand.300" }}
               >
                 Games
-              </Text>
+              </Heading>
             </Link>
             <Link to="/dev" className="">
-              <Text
-                as="span"
+              <Heading
+                as="h4"
                 color="gray.0"
-                fontSize={["1.2rem", "1.2rem", "1.6rem"]}
+                fontWeight="bold"
+                fontSize={["1.2rem", "1.6rem", "2rem"]}
                 transition={"all 0.3s ease"}
                 _hover={{ color: "brand.300" }}
               >
                 Develop
-              </Text>
+              </Heading>
             </Link>
           </HStack>
         </HStack>
