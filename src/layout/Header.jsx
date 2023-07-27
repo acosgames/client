@@ -25,7 +25,7 @@ function Header({}) {
       top="0"
       left="0"
       height={["4rem", "4rem", "7rem"]}
-      width="100%"
+      width={["100%", "calc(100% - 27rem)", "calc(100% - 30rem)"]}
       zIndex={"999"}
       background={[
         "transparent",
@@ -39,7 +39,8 @@ function Header({}) {
       <HStack
         // py="2.4rem"
         px={["0", "0", "1.2rem"]}
-        width={["100%", "90%", "100%", "100%", "90%"]}
+        maxWidth={["100%", "90%", "90%", "90%", "90%", "1200px"]}
+        width={["100%"]}
       >
         <HStack
           //pl={["24rem", "23rem"]}

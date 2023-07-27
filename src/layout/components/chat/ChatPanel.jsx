@@ -30,9 +30,12 @@ export default function ChatPanel({}) {
   const onScroll = () => {
     if (timeHandle > 0) clearTimeout(timeHandle);
 
+    if (!scrollRef?.current?.classList) return;
+
     scrollRef.current.classList.add("showscroll");
     scrollRef.current.classList.remove("hidescroll");
     timeHandle = setTimeout(() => {
+      if (!scrollRef?.current?.classList) return;
       scrollRef.current.classList.remove("showscroll");
       scrollRef.current.classList.add("hidescroll");
     }, scrollBarHideDelay);
@@ -55,6 +58,7 @@ export default function ChatPanel({}) {
 
       <VStack
         w="100%"
+        h={["20rem", "auto"]}
         spacing="0"
         px={["0.5rem", "1rem"]}
         position="relative"
@@ -86,6 +90,7 @@ export default function ChatPanel({}) {
               bgColor="gray.800"
               m="0"
               borderRadius="0.5rem"
+              display={["none", "block"]}
             >
               <HStack
                 alignItems={"center"}
@@ -113,7 +118,7 @@ export default function ChatPanel({}) {
                   top="0.3rem"
                   //   top="-0.8rem"
                   //   left="-0.8rem"
-                  bgColor="gray.900"
+                  bgColor="red.500"
                   zIndex="2"
                   borderRadius="50%"
                   alignItems={"center"}
@@ -127,7 +132,7 @@ export default function ChatPanel({}) {
                 >
                   <Text
                     as="span"
-                    color="brand.500"
+                    color="gray.0"
                     fontWeight="bold"
                     fontSize="1.4rem"
                     display="inline-block"

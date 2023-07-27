@@ -6,7 +6,8 @@
     "./src/app.scss",
     "./src/components/widgets/inputs/Markdown.scss",
     "./src/components/static.scss",
-    "./src/pages/IndexPage.scss"
+    "./src/pages/IndexPage.scss",
+    "./src/pages/GamesPage.scss"
   ],
   "proxy": "http://localhost:8080",
   "dependencies": {

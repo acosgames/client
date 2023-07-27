@@ -16,15 +16,15 @@ function RightBar({}) {
     // >
     <Portal>
       <VStack
-        w={["100%", "25rem"]}
+        w={["100%", "27rem", "30rem"]}
         position="fixed"
-        top={["initial", "0"]}
-        bottom={["0", "initial"]}
+        top={["unset", "0"]}
+        bottom={["0", "unset"]}
         right="0"
-        h={["50%", "100vh"]}
+        h={["5rem", "100vh"]}
         zIndex={1001}
         bgColor="gray.900"
-        borderLeft={["0", "1px solid var(--chakra-colors-gray-600)"]}
+        borderLeft={["0", "1px solid var(--chakra-colors-gray-950)"]}
         // boxShadow={[
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
@@ -42,7 +42,7 @@ function Lobby() {
   return (
     <>
       {/* <Box w="100%" h="100%" overflow="hidden"> */}
-      <UserPanel />
+      <UserPanel key="desktop-userpanel" />
       <WaitingPanel />
       <ChatPanel />
       {/* </Box> */}

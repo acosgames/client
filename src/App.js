@@ -42,6 +42,8 @@ import LobbyPanel from "./components/lobby/LobbyPanel";
 
 import IndexPage from './pages/IndexPage.jsx';
 import GamesPage from "./pages/GamesPage.jsx";
+import GamePage from "./pages/GamePage.jsx";
+
 
 fs.delimiter('>');
 fs.set("isMobile", false);
@@ -69,7 +71,7 @@ function App(props) {
 
     let screenHeight = window.screen.height;
     let isMobileCheck = screenWidth < 500;
-    fs.set("isMobile", isMobileCheck);
+    // fs.set("isMobile", isMobileCheck);
 
     let layoutMode = fs.get('layoutMode');
     if (layoutMode != 'bottom' && isMobileCheck) {
@@ -84,8 +86,35 @@ function App(props) {
   }
 
   useEffect(() => {
-    window.addEventListener('resize', onResize);
-    onResize();
+    // window.addEventListener('resize', onResize);
+    // onResize();
+
+    var hasTouchScreen = false;
+
+    if ("maxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.maxTouchPoints > 0;
+    } else if ("msMaxTouchPoints" in navigator) {
+      hasTouchScreen = navigator.msMaxTouchPoints > 0;
+    } else {
+      var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
+      if (mQ && mQ.media === "(pointer:coarse)") {
+        hasTouchScreen = !!mQ.matches;
+      } else if ('orientation' in window) {
+        hasTouchScreen = true; // deprecated, but good fallback
+      } else {
+        // Only as a last resort, fall back to user agent sniffing
+        var UA = navigator.userAgent;
+        hasTouchScreen = (
+          /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+          /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+        );
+      }
+    }
+
+    if (hasTouchScreen) {
+      // fs.set('isMobile', true);
+      // Do something here. 
+    }
 
     return () => {
       window.removeEventListener('resize', onResize);
@@ -111,6 +140,9 @@ function App(props) {
 
       <Routes>
         <Route path="/" element={<GamesPage />} />
+        <Route path="/games" element={<GamesPage />} />
+        <Route path="/g/:game_slug" element={<GamePage />} />
+        <Route path="/about" element={<IndexPage />} />
       </Routes>
     </BrowserRouter>
   )

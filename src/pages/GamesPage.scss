@@ -1,0 +1,26 @@
+
+.game-item-image-link {
+
+    
+    display:inline-block;
+    width: 100%;
+    height:100%;
+
+    img {
+        transition: all 0.1s ease;
+        transform: translate(0,0);
+        filter: drop-shadow(0 0 0px var(--chakra-colors-brand-400));
+        border-bottom: 4px solid transparent;
+    }
+}
+
+.game-item-image-link:hover {
+
+    
+    /* background-color:  var(--chakra-colors-brand-400); */
+    img {
+        /* filter: drop-shadow(0 4px 0px var(--chakra-colors-brand-400)); */
+        border-bottom: 4px solid var(--chakra-colors-brand-400);
+        transform: translate(0, -4px);
+    }
+}

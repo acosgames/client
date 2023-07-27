@@ -17,7 +17,7 @@ const styles = {
         'html, body': {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
             bg: 'gray.900',
-            color: '#212529',
+            color: 'gray.0',
             fontWeight: 500
         },
         'body': { 'fontSize': '160%', },
@@ -108,6 +108,8 @@ const colors = {
         800: '#222434',
         850: '#1e1e1e',
         900: '#161829',
+        950: '#101224',
+        975: '#040618',
         1000: '#060606',
         1100: '#030303',
         1200: '#000'
@@ -284,7 +286,15 @@ const components = {
     }
 }
 
+const breakpoints = {
+    sm: '600px', // 480px
+    md: '768px', // 768px
+    lg: '992px', // 992px
+    xl: '1280px', // 1280px
+    '2xl': '1536px', // 1536px
+}
+
 // 3. extend the theme
-const theme = extendTheme({ config, fonts, colors, styles, fontSizes, components })
+const theme = extendTheme({ config, fonts, colors, styles, fontSizes, components, breakpoints })
 
 export default theme

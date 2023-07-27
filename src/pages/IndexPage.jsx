@@ -211,8 +211,10 @@ function TopSection() {
             <HStack
               // className="container position-relative cus-z1"
               position="relative"
-              width={["100%", "90%", "90%", "90%", "90%"]}
-              px={"1.2rem"}
+              w="100%"
+              m={"0 auto"}
+              maxWidth={["100%", "100%", "100%", "80%", "80%", "1200px"]}
+              p={["1rem", "1rem", "1rem"]}
               //   margin="0 auto"
             >
               <VStack
@@ -284,7 +286,7 @@ function TopSection() {
                         borderRadius={"16px"}
                         bgColor="transparent"
                         border="2px solid"
-                        borderColor="gray.400"
+                        borderColor="gray.1000"
                         transition={"all 0.2s ease"}
                         // textShadow={
                         //   "0.25rem 0.25rem 1rem var(--chakra-colors-gray-1000)"
