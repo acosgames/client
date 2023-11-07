@@ -125,7 +125,7 @@ function GameInfoCreateDisplayname(props) {
             joinButtonTitle = 'Join Queue';
         }
     }
-
+    joinButtonTitle = 'Join'
 
     return (
         <Box>
@@ -135,7 +135,7 @@ function GameInfoCreateDisplayname(props) {
             }}>
                 <ModalOverlay />
                 <ModalContent borderRadius="2rem" bgColor="gray.800">
-                    <ModalHeader color="white" fontWeight={'light'} textAlign={"center"} pb="0">Ready to play?</ModalHeader>
+                    <ModalHeader color="gray.20" fontWeight={'light'} textAlign={"center"} fontSize="xs" pb="0">Enter Player Name</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody >
                         <VStack spacing="1rem">
@@ -167,7 +167,7 @@ function GameInfoCreateDisplayname(props) {
                                     )
                                 }
                                 {/* </FSGGroup> */}
-                                <FSGSubmit px={'2rem'} pb="1rem" py="2rem" color="white" fontSize="md" fontWeight="bold" borderRadius="2rem" onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
+                                <FSGSubmit px={'2rem'} pb="1rem" bgColor={'brand.600'} py="2rem" color="white" fontSize="md" fontWeight="bold" borderRadius="2rem" onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
                             </VStack>
                             <Divider pt={'0'} pb="1rem" />
                             <Heading pt="0" mt="0" color="white" fontWeight="light" fontSize="xs">Or, sign in to remember and continue your battle</Heading>

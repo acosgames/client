@@ -1,9 +1,12 @@
 
 
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-// import { encode, decode, defaultDict } from 'shared/util/encoder';
-// const { encode, decode, defaultDict } = require('shared/util/encoder');
-import ACOSEncoder from '../util/encoder';
+// import { encode, decode, defaultDict } from 'acos-json-encoder';
+// const { encode, decode, defaultDict } = require('acos-json-encoder');
+const ACOSEncoder = require('acos-json-encoder');// '../util/encoder';
+let ACOSDictionary = require('shared/model/acos-dictionary.json');
+ACOSEncoder.createDefaultDict(ACOSDictionary)
+
 // const encode = ACOSEncoder.encode;
 // const decode = ACOSEncoder.decode;
 import { getUser, isUserLoggedIn, login } from './person';
@@ -11,7 +14,7 @@ import { getUser, isUserLoggedIn, login } from './person';
 import config from '../config'
 
 import fs from 'flatstore';
-import delta from 'shared/util/delta';
+import delta from 'acos-json-delta';
 import { addRoom, addRooms, clearRoom, clearRooms, findGamePanelByIFrame, findGamePanelByRoom, getCurrentRoom, getGamePanels, getGameState, getIFrame, getRoom, reserveGamePanel, setCurrentRoom, setGamePanelActive, setGameState, setLastJoinType, setPrimaryGamePanel, setRoomActive, updateGamePanel, updateRoomStatus } from "./room";
 import { addGameQueue, clearGameQueues, getJoinQueues } from "./queue";
 import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";

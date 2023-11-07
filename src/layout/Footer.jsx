@@ -24,35 +24,79 @@ function Footer({}) {
     <VStack
       w="100%"
       alignItems={"center"}
-      pt="15rem"
-      pb="4rem"
+      pt={["7rem"]}
       position="relative"
+      bgColor="gray.800"
+      mt="4rem"
+      _before={{
+        // content: '""',
+        // width: "300rem",
+        // height: "100%",
+        // position: "absolute",
+        // top: "0",
+        // left: "-100rem",
+        // transform: "rotate(-2deg)",
+        // bgColor: "gray.800",
+        // pb: "-10rem",
+        // zIndex: -1,
+        // borderTop: "1rem solid var(--chakra-colors-gray-300)",
+        // borderBottom: "1rem solid var(--chakra-colors-gray-300)",
+
+        content: '""',
+        position: "absolute",
+        left: "0",
+        top: "0",
+        width: "50%",
+        clipPath: "polygon(0 0, 100% 0, 0 100%)",
+        backgroundColor: "brand.300",
+        height: ["20px", "20px", "20px"],
+      }}
+      _after={{
+        content: '""',
+        left: "auto",
+        top: "0",
+        right: "0",
+        position: "absolute",
+        width: "50%",
+        clipPath: "polygon(100% 0, 0 0, 100% 100%)",
+        backgroundColor: "brand.300",
+        height: ["20px", "20px", "20px"],
+      }}
     >
-      <Image
+      {/* <Image
         src={FooterImage1}
         position="absolute"
         content='""'
-        left={["-5rem", "-10rem", "0"]}
-        bottom="15rem"
+        left={["-50rem", "-10rem", "-5rem", "0rem", "5rem", "15rem"]}
+        bottom={["35rem", "25rem", "25rem"]}
         width="40rem"
         height="auto"
-      />
+      /> */}
 
-      <Image
+      {/* <Image
         src={FooterImage2}
         position="absolute"
         content='""'
-        right={["-5rem", "-10rem", "0"]}
+        right={["-55rem", "-10rem", "0"]}
         bottom="0"
-        width="20rem"
+        width={["10rem", "20rem", "20rem"]}
         height="auto"
-      />
+      /> */}
 
-      <VStack alignItems={"flex-start"} spacing="1rem" color="gray.0" pb="4rem">
+      <VStack
+        alignItems={"flex-start"}
+        spacing="1rem"
+        color="gray.0"
+        pb="2rem"
+        zIndex="2"
+      >
         <Text
           as="span"
+          role="group"
           transition={"all 0.5s ease"}
-          _hover={{ transform: "translateX(1rem)", color: "brand.300" }}
+          _hover={{
+            color: "brand.300",
+          }}
         >
           <Link
             to="/games"
@@ -67,6 +111,11 @@ function Footer({}) {
               color="brand.50"
               fontSize="1.2rem"
               mr="1rem"
+              transition={"all 0.5s ease"}
+              _groupHover={{
+                transform: "translateX(0.5rem)",
+                color: "brand.300",
+              }}
             />
             Play Games
           </Link>
@@ -74,8 +123,11 @@ function Footer({}) {
 
         <Text
           as="span"
+          role="group"
           transition={"all 0.5s ease"}
-          _hover={{ transform: "translateX(1rem)", color: "brand.300" }}
+          _hover={{
+            color: "brand.300",
+          }}
         >
           <Link
             to="/dev"
@@ -90,6 +142,11 @@ function Footer({}) {
               color="brand.50"
               fontSize="1.2rem"
               mr="1rem"
+              transition={"all 0.5s ease"}
+              _groupHover={{
+                transform: "translateX(0.5rem)",
+                color: "brand.300",
+              }}
             />
             Developer Zone
           </Link>
@@ -97,8 +154,11 @@ function Footer({}) {
 
         <Text
           as="span"
+          role="group"
           transition={"all 0.5s ease"}
-          _hover={{ transform: "translateX(1rem)", color: "brand.300" }}
+          _hover={{
+            color: "brand.300",
+          }}
         >
           <Link
             to="/about"
@@ -113,6 +173,11 @@ function Footer({}) {
               color="brand.50"
               fontSize="1.2rem"
               mr="1rem"
+              transition={"all 0.5s ease"}
+              _groupHover={{
+                transform: "translateX(0.5rem)",
+                color: "brand.300",
+              }}
             />
             About ACOS
           </Link>
@@ -120,8 +185,11 @@ function Footer({}) {
 
         <Text
           as="span"
+          role="group"
           transition={"all 0.5s ease"}
-          _hover={{ transform: "translateX(1rem)", color: "brand.300" }}
+          _hover={{
+            color: "brand.300",
+          }}
         >
           <Link
             to="https://sdk.acos.games"
@@ -136,6 +204,11 @@ function Footer({}) {
               color="brand.50"
               fontSize="1.2rem"
               mr="1rem"
+              transition={"all 0.5s ease"}
+              _groupHover={{
+                transform: "translateX(0.5rem)",
+                color: "brand.300",
+              }}
             />
             Documentation
           </Link>
@@ -143,8 +216,11 @@ function Footer({}) {
 
         <Text
           as="span"
+          role="group"
           transition={"all 0.5s ease"}
-          _hover={{ transform: "translateX(1rem)", color: "brand.300" }}
+          _hover={{
+            color: "brand.300",
+          }}
         >
           <Link
             to="/privacy"
@@ -159,6 +235,11 @@ function Footer({}) {
               color="brand.50"
               fontSize="1.2rem"
               mr="1rem"
+              transition={"all 0.5s ease"}
+              _groupHover={{
+                transform: "translateX(0.5rem)",
+                color: "brand.300",
+              }}
             />
             Privacy Policy
           </Link>
@@ -166,8 +247,11 @@ function Footer({}) {
 
         <Text
           as="span"
+          role="group"
           transition={"all 0.5s ease"}
-          _hover={{ transform: "translateX(1rem)", color: "brand.300" }}
+          _hover={{
+            color: "brand.300",
+          }}
         >
           <Link
             to="/terms"
@@ -182,13 +266,23 @@ function Footer({}) {
               color="brand.50"
               fontSize="1.2rem"
               mr="1rem"
+              transition={"all 0.5s ease"}
+              _groupHover={{
+                transform: "translateX(0.5rem)",
+                color: "brand.300",
+              }}
             />
             Terms &amp; Conditions
           </Link>
         </Text>
       </VStack>
 
-      <VStack display={["flex", "flex"]} spacing="5rem" color="gray.0">
+      <VStack
+        display={["flex", "flex"]}
+        spacing="5rem"
+        mb="2rem"
+        color="gray.0"
+      >
         <HStack
           w="100%"
           spacing="1.4rem"
@@ -199,8 +293,8 @@ function Footer({}) {
           <ChLink
             isExternal
             href="https://github.com/acosgames"
-            w="9rem"
-            h="9rem"
+            w="12rem"
+            h="12rem"
             display="flex"
             flexDirection={"column"}
             alignItems={"center"}
@@ -233,8 +327,9 @@ function Footer({}) {
             <Text
               as="span"
               color="gray.0"
-              fontSize="1.6rem"
+              fontSize="1.4rem"
               fontWeight="medium"
+              pt="1rem"
             >
               GitHub
             </Text>
@@ -244,8 +339,8 @@ function Footer({}) {
             isExternal
             href="https://discord.gg/ydHkCcNgHD"
             position="relative"
-            w="9rem"
-            h="9rem"
+            w="12rem"
+            h="12rem"
             display="flex"
             flexDirection={"column"}
             alignItems={"center"}
@@ -266,8 +361,8 @@ function Footer({}) {
             />
             <Box
               position="absolute"
-              top="1.5rem"
-              left="3rem"
+              top="2.7rem"
+              left="4.5rem"
               bgColor="gray.0"
               width="2.75rem"
               height="2.5rem"
@@ -275,16 +370,28 @@ function Footer({}) {
             ></Box>
             <Text
               as="span"
-              fontSize="1.6rem"
+              fontSize="1.4rem"
               fontWeight="medium"
               color="gray.0"
+              pt="1rem"
             >
               Discord
             </Text>
           </ChLink>
         </HStack>
-        <Text color="gray.0" as="span" fontWeight="medium" fontSize="xs">
-          Copyright © 2023 ACOS
+      </VStack>
+      <VStack
+        w="100%"
+        bgColor="gray.1000"
+        py="3rem"
+        // borderTop="2px solid"
+        // borderTopColor="gray.900"
+      >
+        <Text color="gray.50" as="span" fontWeight="medium" fontSize="xs">
+          COPYRIGHT © 2024 - ALL RIGHTS RESERVED BY{" "}
+          <Text as="span" color="brand.300">
+            ACOS
+          </Text>
         </Text>
       </VStack>
     </VStack>

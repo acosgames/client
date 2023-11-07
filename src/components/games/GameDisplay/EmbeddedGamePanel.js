@@ -45,9 +45,9 @@ function EmbeddedGamePanel(props) {
 
     let gamepanel = findGamePanelByRoom(props.room_slug);
     return (
-        <Box position="relative" w="300px" h="300px" p="0" m="0" ref={embeddedRef}>
+        <Box position="relative" w="100%" h="100%" p="0" m="0" ref={embeddedRef} >
             {loaded && (
-                <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} w={300} h={300} />
+                <GamePanel key={'gamepanel-' + gamepanel.id} id={gamepanel.id} />
             )}
         </Box>
     )

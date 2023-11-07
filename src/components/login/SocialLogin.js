@@ -207,7 +207,7 @@ function SocialLogin(props) {
 
 
             <VStack width={["100%", "80%", "80%", "60%"]}>
-                <Heading align={'left'} color="white" size="lg">Ready to play?</Heading>
+                <Heading align={'left'} color="white" size="lg">Enter Player Name</Heading>
 
                 <VStack spacing="1rem">
                     <VStack spacing="1rem">

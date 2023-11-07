@@ -19,32 +19,34 @@ export default function ChatSend({}) {
       width={"100%"}
       spacing="0"
       m="0"
-      borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+      bgColor="gray.900"
+      // mt="0.25rem"
+      // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
     >
       <Input
         name="name"
         id="name"
         title=""
-        // borderRadius="4px"
+        borderRadius="4px"
         maxLength="120"
         lineHeight={"3rem"}
         pr={"3rem"}
         height={["3rem", "3rem", "3rem"]}
         border="0"
-        bgColor="gray.600"
-        color="gray.50"
+        bgColor="gray.900"
+        color="gray.10"
         fontSize="1.2rem"
         placeholder="Send a message"
         autoComplete="off"
         shadow={""}
         _focusVisible={{
-          outline: "1px solid",
+          outline: "0px solid",
           outlineColor: "gray.700",
           //   borderTop: "1px solid",
           //   borderTopColor: "gray.700",
-          bgColor: "gray.900",
+          bgColor: "gray.800",
         }}
-        _placeholder={{ color: "gray.50" }}
+        _placeholder={{ color: "gray.50", fontSize: "1rem" }}
         value={message || ""}
         onChange={(e) => {
           setMessage(e.target.value);

@@ -33,6 +33,7 @@ function FSGSubmit(props) {
                 borderRadius={props.borderRadius || '0'}
                 className="submit"
                 color={props.color}
+                bgColor={props.bgColor}
                 onClick={async (e) => {
                     setLoading(true);
                     try {

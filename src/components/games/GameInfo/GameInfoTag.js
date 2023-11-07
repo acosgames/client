@@ -105,58 +105,6 @@ function GameInfoTag(props) {
         </Box>
     )
 
-    return (
-        <Box>
-            <Text
-                background="gray.600"
-                borderRadius='3px 0 0 3px'
-                color='gray.100'
-                display='inline-block'
-                height='2.6rem'
-                fontSize="2xs"
-                lineHeight='26px'
-                padding='0 20px 0 23px'
-                position='relative'
-                margin='0 10px 10px 0'
-                textDecoration='none'
-                //transition='color 0.2s, background-color 0.2s'
-                _before={{
-                    background: 'gray.100',
-                    borderRadius: '10px',
-                    boxShadow: 'inset 0 1px rgba(0, 0, 0, 0.25)',
-                    content: "''",
-                    height: '6px',
-                    left: '10px',
-                    position: 'absolute',
-                    width: '6px',
-                    top: '10px',
-
-                }}
-                _after={{
-                    background: 'gray.1000',
-                    borderBottom: '13px solid transparent',
-                    borderLeft: '10px solid #eee',
-                    borderLeftColor: 'gray.600',
-                    borderTop: '13px solid transparent',
-                    content: "''",
-                    position: 'absolute',
-                    right: '0',
-                    top: '0',
-                    //transition: 'color 0.2s, background-color 0.2s'
-                }}
-                _hover={{
-                    _after: {
-                        borderLeftColor: 'gray.800',
-                        //transition: 'color 0.2s, background-color 0.2s'
-                    },
-                    backgroundColor: 'gray.800',
-                    // color: 'gray.1000',
-                }}
-
-            >{props.title}</Text>
-        </Box>
-    )
-
 }
 
 export default GameInfoTag;

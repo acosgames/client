@@ -6,10 +6,10 @@ export default function UserFlag({ flag }) {
   return (
     <Image
       src={flag || USAFlag}
-      border="2px solid"
+      // border="2px solid"
       borderColor="gray.100"
-      borderRadius="3px"
-      height={["3.5rem", "90%"]}
+      borderRadius="0px"
+      height={["1.6rem"]}
     />
   );
 }

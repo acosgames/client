@@ -13,7 +13,7 @@ export default function ExperienceBar({ percent }) {
         size="xs"
         colorScheme="green"
         w="100%"
-        height="0.4rem"
+        height="0.6rem"
       />
       <Box
         width="0.2rem"

@@ -132,7 +132,8 @@ function GameIFrame(props) {
     }
 
     const onResize = () => {
-        if (!gamescreenRef?.current || !iframeRef?.current || fs.get('showLoadingBox/' + gamepanel.id)) {
+        let showLoading = fs.get('showLoadingBox/' + gamepanel.id);
+        if (!gamescreenRef?.current || !iframeRef?.current || showLoading) {
             console.log("NOT FOUND - gamescreenRef or iframeRef or loadingBox");
             return;
         }
@@ -341,8 +342,8 @@ function GameIFrame(props) {
             <VStack
                 spacing="0"
                 width="100%"
-                height="100%"
-                position="absolute"
+                // height="100%"
+                position="relative"
                 zIndex={10}
                 top={0}
                 left={0}
@@ -351,6 +352,7 @@ function GameIFrame(props) {
                 ref={gameResizer}
                 // transition={isOpen ? 'filter 0.3s ease-in, opacity 0.5s ease-in' : ''}
                 // filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
+
                 className={'gameResizer'}
                 bgColor={'black'}
             >
@@ -360,7 +362,8 @@ function GameIFrame(props) {
                     // justifyContent={'flex-start'}
                     // alignContent={'center'}
                     w="100%"
-                    h={'100%'}
+
+                    // h={'100%'}
                     ref={gamewrapperRef}
                     transition={'filter 0.3s ease-in, opacity 0.5s ease-in'}
                     filter={isOpen ? 'opacity(1)' : 'opacity(0)'}

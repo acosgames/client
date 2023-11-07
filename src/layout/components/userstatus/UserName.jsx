@@ -6,14 +6,14 @@ export default function UserName({}) {
       as="span"
       color="gray.0"
       fontWeight={""}
-      fontSize="1.2rem"
+      fontSize="1.4rem"
       width={["13rem", "17rem"]}
-      height={"1.3rem"}
-      lineHeight="1.3rem"
+      height={"1.6rem"}
+      lineHeight="1.7rem"
       overflow={"hidden"}
       textOverflow={"ellipsis"}
       whiteSpace="nowrap"
-      display="inline-block"
+      display="block"
       float="left"
     >
       JoeOfTexas

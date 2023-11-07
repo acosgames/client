@@ -2553,6 +2553,16 @@
   "resolved" "https://registry.npmjs.org/acorn/-/acorn-8.10.0.tgz"
   "version" "8.10.0"
 
+"acos-json-delta@^1.0.0":
+  "integrity" "sha512-DDZiC8P/VGSAaZ2lhHcWT+I/BMK9KfkkN8WSThkANxVChVonqCsPllQnPzvOyJmE5Nwq17BACUwmCj8+foiTAg=="
+  "resolved" "https://registry.npmjs.org/acos-json-delta/-/acos-json-delta-1.0.0.tgz"
+  "version" "1.0.0"
+
+"acos-json-encoder@^1.0.0":
+  "integrity" "sha512-ow2ZYny3sgXPUv+bVP2/6W+I/aAwp9o8YM7jeHdV+omUAo5fCnlJ4v8eEnJhedaO4FmfLOCWghu25JriWNnKEw=="
+  "resolved" "https://registry.npmjs.org/acos-json-encoder/-/acos-json-encoder-1.0.0.tgz"
+  "version" "1.0.0"
+
 "add-px-to-style@1.0.0":
   "integrity" "sha512-YMyxSlXpPjD8uWekCQGuN40lV4bnZagUwqa2m/uFv1z/tNImSk9fnXVMUI5qwME/zzI3MMQRvjZ+69zyfSSyew=="
   "resolved" "https://registry.npmjs.org/add-px-to-style/-/add-px-to-style-1.0.0.tgz"

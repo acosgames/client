@@ -13,6 +13,7 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  Portal,
   VStack,
   chakra,
   useBoolean,
@@ -41,7 +42,9 @@ function Layout({ children }) {
 
     const currentIsMoble = fs.get("isMobile");
 
-    if (width <= 600) {
+    fs.set("screenResized", true);
+
+    if (width < 600) {
       if (!currentIsMoble) fs.set("isMobile", true);
     } else {
       if (currentIsMoble) fs.set("isMobile", false);
@@ -104,7 +107,7 @@ function MobileLayout({ children, gameResizer }) {
         w={["100%"]}
         overflow="hidden"
         height="100%"
-        pb={["8rem", "1rem"]}
+        pb={["1rem", "1rem"]}
       >
         <VStack
           w={["100%"]}
@@ -114,19 +117,14 @@ function MobileLayout({ children, gameResizer }) {
           h={["6.5rem"]}
           zIndex={1001}
           bgColor={["gray.975", "gray.900"]}
-          pb="0.5rem"
+          pb="0rem"
           borderBottom={["1px solid var(--chakra-colors-gray-800)"]}
-          // boxShadow={[
-          //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
-          //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
-          // ]}
-          //   spacing="1.5rem"
         >
           <UserPanel key="mobile-userpanel" />
         </VStack>
         <ChakraSimpleBar
           boxSizing="border-box"
-          pt={["4rem", "4rem", "7rem"]}
+          pt={["6rem", "6rem", "7rem"]}
           style={{
             width: "100%",
             height: "auto",
@@ -143,111 +141,14 @@ function MobileLayout({ children, gameResizer }) {
             position={"relative"}
             alignItems={"flex-start"}
           >
-            <Box w="100%">{children}</Box>
+            <Box key="content" w="100%">
+              {children}
+            </Box>
             {/* <RightBar /> */}
           </HStack>
 
           <Footer />
         </ChakraSimpleBar>
-        <HStack
-          w={["100%"]}
-          position="fixed"
-          bottom={["0"]}
-          right="0"
-          h={["5rem"]}
-          zIndex={1001}
-          bgColor={["gray.975", "gray.900"]}
-          borderLeft={["0", "1px solid var(--chakra-colors-gray-600)"]}
-          // boxShadow={[
-          //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
-          //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
-          // ]}
-          spacing="1.5rem"
-        >
-          <Popover
-            isOpen={isQueue}
-            onOpen={() => {
-              setIsChat.off();
-              setIsQueue.on();
-            }}
-            onClose={() => {
-              setIsQueue.off();
-            }}
-            placement="top"
-            closeOnBlur={true}
-            bgColor="transparent"
-            //   matchWidth={true}
-            w="100vh"
-            maxHeight="auto"
-          >
-            <PopoverTrigger>
-              <Button
-                w="25%"
-                color={isQueue ? "brand.300" : "gray.0"}
-                as={Heading}
-                //   _active={{ color: "brand.300" }}
-              >
-                Queue
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              maxHeight="auto"
-              w="100vw"
-              overflow="hidden"
-              bgColor="transparent"
-              border="0"
-              _focusVisible={{
-                outline: "0px",
-              }}
-            >
-              <PopoverBody w="100%" h="100%">
-                <WaitingPanel />
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-
-          <Popover
-            placement="top"
-            closeOnBlur={true}
-            w="100vh"
-            isOpen={isChat}
-            onOpen={() => {
-              setIsChat.on();
-              setIsQueue.off();
-            }}
-            onClose={() => {
-              setIsChat.off();
-            }}
-            // matchWidth={true}
-          >
-            <PopoverTrigger>
-              <Button
-                w="25%"
-                color={isChat ? "brand.300" : "gray.0"}
-                as={Heading}
-                //   _active={{ color: "brand.300" }}
-              >
-                Chat
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              maxHeight="50%"
-              w="100vw"
-              bgColor="transparent"
-              border="0"
-              p="0"
-              m="0"
-              _focusVisible={{
-                outline: "0px",
-              }}
-            >
-              <PopoverArrow />
-              <PopoverBody maxHeight="50%" w="100%">
-                <ChatPanel />
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-        </HStack>
       </VStack>
     </>
   );
@@ -261,7 +162,7 @@ function DesktopLayout({ children }) {
       <VStack w={["100%"]} overflow="hidden" height="100%">
         <ChakraSimpleBar
           boxSizing="border-box"
-          pt={["4rem", "4rem", "7rem"]}
+          // pt={["4rem", "4rem", "7rem"]}
           style={{
             width: "100%",
             height: "auto",
@@ -278,7 +179,9 @@ function DesktopLayout({ children }) {
             position={"relative"}
             alignItems={"flex-start"}
           >
-            <Box w="100%">{children}</Box>
+            <Box key="content" w="100%">
+              {children}
+            </Box>
             {/* <RightBar /> */}
           </HStack>
           <RightBar />

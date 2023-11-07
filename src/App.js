@@ -42,7 +42,8 @@ import LobbyPanel from "./components/lobby/LobbyPanel";
 
 import IndexPage from './pages/IndexPage.jsx';
 import GamesPage from "./pages/GamesPage.jsx";
-import GamePage from "./pages/GamePage.jsx";
+import GamePage from "./pages/GamePage/GamePage.jsx";
+import Connection from "./components/games/Connection";
 
 
 fs.delimiter('>');
@@ -59,8 +60,8 @@ function App(props) {
   const disclosure = useDisclosure()
   const primaryCanvasRef = useRef();
 
-  let [layoutMode] = fs.useWatch('layoutMode');
-  let [displayMode] = fs.useWatch('displayMode');
+  // let [layoutMode] = fs.useWatch('layoutMode');
+  // let [displayMode] = fs.useWatch('displayMode');
   // let [isMobile, setIsMobile] = useState(false);
 
   const onResize = () => {
@@ -133,7 +134,7 @@ function App(props) {
       <ActivateUserProfile />
       <VersionControl />
       <GameInfoCreateDisplayName {...disclosure} />
-
+      <Connection />
       {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
 
       <ToastMessage />

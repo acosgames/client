@@ -9,12 +9,13 @@ import fs from 'flatstore';
 import { getUser } from './person';
 import { wsJoinRankedGame, wsJoinBetaGame } from './connection';
 import { addRoom } from './room';
-// import { decode } from 'shared/util/encoder';
-import ACOSEncoder from '../util/encoder';
-// const ACOSEncoder = require('shared/util/encoder');
-// const encode = ACOSEncoder.encode;
+const ACOSEncoder = require('acos-json-encoder/encoder');
+
+let ACOSDictionary = require('shared/model/acos-dictionary.json');
+ACOSEncoder.createDefaultDict(ACOSDictionary)
+
 const decode = ACOSEncoder.decode;
-import delta from 'shared/util/delta';
+import delta from 'acos-json-delta';
 
 fs.set('rankList', []);
 fs.set('experimentalList', []);

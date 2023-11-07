@@ -41,18 +41,20 @@ import { validateLogin } from "../actions/connection.js";
 import MultiplayerBG1 from "../assets/images/abs-items/object-1.png";
 import MultiplayerBG2 from "../assets/images/abs-items/star.png";
 
+const ChakraLink = chakra(Link);
+
 export default function GamesPage({}) {
   useEffect(() => {
     findGames();
   }, []);
   return (
     <Layout>
-      <Box w="100%" pt={["6rem", "3rem", "4rem"]}>
+      <Box w="100%" pt={["8rem", "8rem", "11rem"]}>
         <Box
           //   px={["1rem", "1.5rem", "3rem"]}
           w="100%"
           m={"0 auto"}
-          maxWidth={["100%", "100%", "100%", "70%", "80%", "60%"]}
+          maxWidth={["100%", "100%", "100%", "90%", "90%", "90%"]}
           p={["1rem", "1rem", "1rem"]}
           position="relative"
         >
@@ -99,17 +101,17 @@ function MultiplayerList() {
         h="auto"
         pb={["10rem", "10rem", "10rem"]}
         //mb={["15rem"]}
-        _before={{
-          content: '""',
-          width: "200%",
-          height: "150%",
-          position: "absolute",
-          top: "0rem",
-          left: "-10rem",
-          transform: "rotate(-4deg)",
-          bgColor: "gray.900",
-          zIndex: -2,
-        }}
+        // _before={{
+        //   content: '""',
+        //   width: "200%",
+        //   height: "150%",
+        //   position: "absolute",
+        //   top: "0rem",
+        //   left: "-10rem",
+        //   transform: "rotate(-4deg)",
+        //   bgColor: "gray.900",
+        //   zIndex: -2,
+        // }}
       >
         <Image
           src={MultiplayerBG1}
@@ -127,41 +129,55 @@ function MultiplayerList() {
           Games
         </Heading>
         <Heading as="h4" color="gray.50" fontSize="1.8rem" fontWeight="medium">
-          Battle against players from around the world to reach Grandmaster.
+          Battle against players from around the world and improve yourself.
         </Heading>
-
-        <VStack
-          w="100%"
-          minHeight="20rem"
-          position="relative"
-          mt="4rem"
-          spacing={["3rem", "1.5rem"]}
-          justify={["center", "flex-start"]}
-          templateColumns={[
-            "repeat(2, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(3, 1fr)",
-            "repeat(4, 1fr)",
-            "repeat(5, 1fr)",
-          ]}
-          gap="2rem"
-        >
-          {rankList.map((game) => (
-            // <GridItem key={"gamelistitem-" + game.game_slug}>
-            <GameListItem game={game}></GameListItem>
-            // </GridItem>
-          ))}
-          {/* {rankList.map((game) => (
-            <GridItem>
-              <GameListItem
-                key={"gamelistitem-" + game.game_slug}
-                game={game}
-              ></GameListItem>
-            </GridItem>
-          ))} */}
-        </VStack>
+        <GameList list={rankList} />
       </VStack>
     </>
+  );
+}
+
+function GameList({ list }) {
+  list = list.concat(list).concat(list).concat(list);
+  return (
+    <Grid
+      w="100%"
+      minHeight="20rem"
+      position="relative"
+      mt="2rem"
+      spacing={["2rem", "1.5rem"]}
+      flexDir={["column", "column", "row"]}
+      // justify={["flex-start", "flex-start"]}
+      templateColumns={[
+        "repeat(2, 1fr)",
+        "repeat(2, 1fr)",
+        "repeat(3, 1fr)",
+        "repeat(4, 1fr)",
+        "repeat(5, 1fr)",
+        "repeat(6, 1fr)",
+      ]}
+      gap="2rem"
+    >
+      {list.map((game) => (
+        <GridItem
+          key={"gamelistitem-" + game.game_slug}
+          className="gamelistitem section"
+          overflow="hidden"
+          mt="2rem"
+          //width={["42vw", "18vw", "20vw", "15vw", "10vw"]}
+        >
+          <GameListItem game={game}></GameListItem>
+        </GridItem>
+      ))}
+      {/* {rankList.map((game) => (
+    <GridItem>
+      <GameListItem
+        key={"gamelistitem-" + game.game_slug}
+        game={game}
+      ></GameListItem>
+    </GridItem>
+  ))} */}
+    </Grid>
   );
 }
 
@@ -192,19 +208,19 @@ function SinglePlayerList() {
         pt={["10rem"]}
         mb={["20rem"]}
         // overflow="hidden"
-        _before={{
-          content: '""',
-          width: "300rem",
-          height: "120%",
-          position: "absolute",
-          top: "0",
-          left: "-100rem",
-          transform: "rotate(-2deg)",
-          bgColor: "gray.800",
-          zIndex: -1,
-          borderTop: "3rem solid var(--chakra-colors-gray-300)",
-          borderBottom: "3rem solid var(--chakra-colors-gray-300)",
-        }}
+        // _before={{
+        //   content: '""',
+        //   width: "300rem",
+        //   height: "120%",
+        //   position: "absolute",
+        //   top: "0",
+        //   left: "-100rem",
+        //   transform: "rotate(-2deg)",
+        //   bgColor: "gray.800",
+        //   zIndex: -1,
+        //   borderTop: "1rem solid var(--chakra-colors-gray-300)",
+        //   borderBottom: "1rem solid var(--chakra-colors-gray-300)",
+        // }}
       >
         <Image
           src={MultiplayerBG2}
@@ -225,36 +241,7 @@ function SinglePlayerList() {
         <Heading as="h4" color="gray.50" fontSize="1.8rem" fontWeight="medium">
           Break the daily, monthly, or all-time highscore records.
         </Heading>
-        <VStack
-          w="100%"
-          //   minHeight="20rem"
-          position="relative"
-          mt="4rem"
-          spacing={["3rem", "1.5rem"]}
-          justify={["center", "flex-start"]}
-          templateColumns={[
-            "repeat(2, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(3, 1fr)",
-            "repeat(4, 1fr)",
-            "repeat(5, 1fr)",
-          ]}
-          gap="2rem"
-        >
-          {soloList.map((game) => (
-            // <GridItem w="auto" key={"gamelistitem-" + game.game_slug}>
-            <GameListItem game={game}></GameListItem>
-            // </GridItem>
-          ))}
-          {/* {rankList.map((game) => (
-            <GridItem>
-              <GameListItem
-                key={"gamelistitem-" + game.game_slug}
-                game={game}
-              ></GameListItem>
-            </GridItem>
-          ))} */}
-        </VStack>
+        <GameList list={soloList} />
       </VStack>
     </>
   );
@@ -314,238 +301,71 @@ function GameListItem({ game }) {
     joinGame(game);
   };
 
-  let StyledLink = chakra(Link);
-
   return (
-    <Box
-      w={["100%"]}
-      //   maxH={"20rem"}
-      bgColor={game.maxplayers > 1 ? "gray.600" : "gray.400"}
-      borderRadius="3rem"
-      p={["2rem", "1rem"]}
-      boxShadow="4px 4px 16px var(--chakra-colors-gray-950)"
-      borderBottom="4px solid transparent"
-      borderRight="4px solid transparent"
-      position="relative"
-      _hover={
-        {
-          // borderColor: " var(--chakra-colors-gray-400)",
-          // borderRight: "4px solid var(--chakra-colors-brand-300)",
-        }
-      }
-    >
-      <HStack
-        spacing="2rem"
-        w="100%"
-        minHeight="100%"
-        alignItems={"flex-start"}
-      >
-        <StyledLink
+    <Box display="inline-block" w="100%">
+      <VStack alignItems={"flex-start"} spacing={"0.5rem"} w="100%">
+        <ChakraLink
           to={"/g/" + game.game_slug}
-          display={["none", "inline-block"]}
-          w={["7.5rem", "10rem", "12.8rem"]}
-          borderRadius="1rem"
-          filter="drop-shadow(4px 4px 16px var(--chakra-colors-gray-800))"
-          transition="transform 0.2s ease"
-          _hover={{
-            transform: "scale(1.05) rotate(-2deg)",
-          }}
+          className="game-item-image-link"
         >
-          <Image
-            borderRadius="1rem"
-            w={["7.5rem", "10rem", "12.8rem"]}
-            borderBottom="0"
-            alt={gameName}
-            src={imgUrl}
-          />
-        </StyledLink>
-        <Flex
-          direction="column"
-          alignSelf={"center"}
-          alignItems={["center", "flex-start"]}
-          h="100%"
-          //   position="relative"
-          //   overflow="hidden"
-
-          w="100%"
-          gap={["2rem", "1rem"]}
-        >
-          <StyledLink
-            display={["inline-block", "none"]}
-            to={"/g/" + game.game_slug}
-            w={["10rem", "10rem", "12.8rem"]}
-            borderRadius="1rem"
-            filter="drop-shadow(4px 4px 16px var(--chakra-colors-gray-800))"
-            transition="transform 0.2s ease"
-            _hover={{
-              transform: "scale(1.05) rotate(-2deg)",
-            }}
-          >
-            <Image
-              w={["10rem", "10rem", "12.8rem"]}
-              //   h={["10rem", "10rem", "12.8rem"]}
-              borderRadius="1rem"
-              borderBottom="0"
-              alt={gameName}
-              src={imgUrl}
-            />
-          </StyledLink>
-          <VStack
-            w="100%"
-            minHeight="100%"
-            alignItems={["center", "flex-start"]}
-          >
-            <Heading
-              as="h5"
-              color="gray.0"
-              fontWeight="bold"
-              fontSize="2.2rem"
-              mr="1rem"
-            >
-              <StyledLink
-                to={"/g/" + game.game_slug}
-                _hover={{ color: "brand.300" }}
-              >
-                {game.name}
-              </StyledLink>
-            </Heading>
-
-            <Text
-              as="h4"
-              color="gray.40"
-              fontWeight={"medium"}
-              fontSize="1.4rem"
-              display="inline-block"
-              textAlign={["center", "left"]}
-            >
-              {game.shortdesc}
-            </Text>
-          </VStack>
-          {/* <Spacer /> */}
-          <Wrap
-            flex="1"
-            minHeight="100%"
-            justify={["center", "left"]}
-            spacing={["1rem"]}
-            w="100%"
-          >
-            <WrapItem>
-              <Text
-                fontSize={["1.2rem"]}
-                fontWeight={"medium"}
-                display="inline-block"
-                borderRadius="0.8rem"
-                bgColor="gray.900"
-                color="gray.20"
-                px="1rem"
-              >
-                <Icon
-                  as={FaUsers}
-                  height="1rem"
-                  width="1rem"
-                  position="relative"
-                  // top="2px"
-                  mr="0.5rem"
-                />
-                {abbrevNumber(game.maxplayers)} player
-              </Text>
-            </WrapItem>
-            <WrapItem>
-              <Text
-                fontSize={["1.2rem"]}
-                fontWeight={"medium"}
-                display="inline-block"
-                borderRadius="0.8rem"
-                bgColor="gray.900"
-                color="gray.20"
-                px="1rem"
-                flex="1"
-              >
-                <Icon
-                  as={GiBattleAxe}
-                  height="1rem"
-                  width="1rem"
-                  mr="0.5rem"
-                  position="relative"
-                  // top="1px"
-                />
-                {gameType}
-              </Text>
-            </WrapItem>
-            {/* <WrapItem>
-              <Box w={["10rem"]} pb={["0.2rem", "0.5rem"]}>
-                <PlayButton inQueue={inQueue} handleJoin={handleJoin} />
-              </Box>
-            </WrapItem> */}
-          </Wrap>
-        </Flex>
-      </HStack>
-    </Box>
-  );
-
-  return (
-    <Box display="inline-block">
-      <VStack alignItems={"flex-start"} spacing={"1rem"}>
-        <Link to={"/g/" + game.game_slug} className="game-item-image-link">
           <Image w="100%" h="auto" alt={gameName} src={imgUrl} />
-        </Link>
-        <VStack alignItems={"flex-start"} spacing="1rem">
-          <Heading as="h5" color="gray.0" fontWeight="bold" fontSize="1.6rem">
+        </ChakraLink>
+        <VStack alignItems={"flex-start"} spacing="0.5rem" width="100%">
+          <Heading
+            as="h5"
+            color="gray.0"
+            fontWeight="bold"
+            fontSize={["1.2rem", "1.2rem", "1.2rem", "1.2rem", "1.4rem"]}
+            textOverflow={"ellipsis"}
+            overflow="hidden"
+            maxWidth={["100%"]}
+            whiteSpace="nowrap"
+            title={game.name}
+          >
             {game.name}
           </Heading>
-          {/* <Text
-            as="p"
-            color="gray.50"
-            fontWeight={"medium"}
-            fontSize="1.2rem"
-            display="inline-block"
-            height="6.4rem"
-          >
-            {game.shortdesc}
-          </Text> */}
-
           <HStack alignItems={"flex-start"} w="100%" spacing={["0.5rem"]}>
             <Text
-              fontSize={["1rem"]}
+              fontSize={["1rem", "1.2rem", "1.2rem"]}
               fontWeight={"medium"}
               lineHeight="2rem"
               display="inline-block"
               bgColor="gray.700"
               borderRadius="0.8rem"
-              color="gray.0"
+              color="gray.40"
               px="0.5rem"
               h="2rem"
             >
-              <Icon
+              {/* <Icon
                 as={FaUsers}
-                height="1rem"
-                width="1rem"
+                height={["0.8rem", "1rem", "1rem"]}
+                width={["0.8rem", "1rem", "1rem"]}
                 position="relative"
-                // top="2px"
+                top="1px"
                 mr="0.5rem"
-              />
+              /> */}
               {abbrevNumber(game.maxplayers)} player
             </Text>
 
             <Text
-              fontSize={["1rem"]}
+              fontSize={["1rem", "1.2rem", "1.2rem"]}
               fontWeight={"medium"}
               lineHeight="2rem"
               display="inline-block"
               bgColor="gray.700"
               borderRadius="0.8rem"
-              color="gray.0"
+              color="gray.40"
               px="0.5rem"
               h="2rem"
             >
-              <Icon
+              {/* <Icon
                 as={GiBattleAxe}
-                height="1rem"
-                width="1rem"
+                height={["0.8rem", "1rem", "1rem"]}
+                width={["0.8rem", "1rem", "1rem"]}
                 mr="0.5rem"
                 position="relative"
-                // top="1px"
-              />
+                top="1px"
+              /> */}
               {gameType}
             </Text>
           </HStack>

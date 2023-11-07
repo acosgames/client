@@ -29,7 +29,7 @@ function RightBar({}) {
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
         // ]}
-        spacing="1.5rem"
+        spacing="0.5rem"
       >
         <Lobby />
       </VStack>

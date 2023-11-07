@@ -58,12 +58,13 @@ export default function ChatPanel({}) {
 
       <VStack
         w="100%"
-        h={["20rem", "auto"]}
+        h={["auto"]}
         spacing="0"
-        px={["0.5rem", "1rem"]}
         position="relative"
         overflow="hidden"
+        flex="1"
         mb="0.5rem"
+        pt="0.5rem"
       >
         <Accordion
           allowToggle
@@ -90,7 +91,7 @@ export default function ChatPanel({}) {
               bgColor="gray.800"
               m="0"
               borderRadius="0.5rem"
-              display={["none", "block"]}
+              display={["block"]}
             >
               <HStack
                 alignItems={"center"}
@@ -103,7 +104,7 @@ export default function ChatPanel({}) {
               >
                 <Heading
                   as="h4"
-                  fontWeight={"bold"}
+                  fontWeight={"500"}
                   fontSize="1.6rem"
                   color="gray.0"
                   flex="1"
@@ -123,8 +124,8 @@ export default function ChatPanel({}) {
                   borderRadius="50%"
                   alignItems={"center"}
                   justifyContent={"center"}
-                  width="2.4rem"
-                  height="2.4rem"
+                  width="2rem"
+                  height="2rem"
                   //   border="2px solid var(--chakra-colors-gray-700)"
                   // boxShadow={
                   //   "inset 0.2em 0.2em 0.2em 0 rgba(255,255,255,0.2), inset -0.2em -0.2em 0.2em 0 rgba(0,0,0,0.2)"
@@ -132,12 +133,12 @@ export default function ChatPanel({}) {
                 >
                   <Text
                     as="span"
-                    color="gray.0"
-                    fontWeight="bold"
+                    color="gray.10"
+                    fontWeight="500"
                     fontSize="1.4rem"
                     display="inline-block"
                     textAlign={"center"}
-                    lineHeight={"2.4rem"}
+                    lineHeight={"2rem"}
                     p="0"
                     m="0"
                   >
@@ -167,15 +168,16 @@ export default function ChatPanel({}) {
                 height={!isOpen ? "100%" : "0%"}
                 transition={"all 0.3s ease"}
                 boxSizing="border-box"
-                spacing="0"
+                spacing="0rem"
                 position="relative"
                 overflow="hidden"
-                bgColor="gray.800"
+                mb="0"
+                pb="0"
               >
                 <ChakraSimpleBar
                   boxSizing="border-box"
                   flex="1"
-                  borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+                  // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
                   style={{
                     width: "100%",
                     height: "auto",
@@ -188,10 +190,10 @@ export default function ChatPanel({}) {
                   <VStack
                     className="chat-message-panel"
                     height="100%"
-                    px={["0.5rem", "1rem"]}
                     // pl="2rem"
-                    pt="1rem"
-                    width="100%"
+
+                    px={["0.25rem", "0.5rem"]}
+                    pt="0.25rem"
                     spacing="0.5rem"
                     justifyContent={"flex-end"}
                   >
@@ -205,7 +207,7 @@ export default function ChatPanel({}) {
                       flagCode={USAFlag}
                       username="JoeOfTexas"
                       msgTime="12:31"
-                      msg="Do you want to play a game?"
+                      msg="Do you want to play a game? this is a really long message"
                     />
                     <ChatMessage
                       flagCode={USAFlag}

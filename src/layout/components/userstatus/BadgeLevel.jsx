@@ -17,8 +17,9 @@ export default function BadgeLevel({ level }) {
         as="span"
         fontSize="1.2rem"
         color="gray.0"
-        fontWeight="bold"
+        fontWeight="500"
         lineHeight="1.7rem"
+        letterSpacing={"1px"}
       >
         Lvl {level}
       </Text>

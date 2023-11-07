@@ -31,7 +31,12 @@ export default function WaitingPanel({}) {
           bgColor="gray.800"
           borderRadius="0.5rem"
         >
-          <AccordionButton p="0" onClick={onToggle} display={["none", "block"]}>
+          <AccordionButton
+            p="0"
+            onClick={onToggle}
+            display={["block"]}
+            mt={["1rem", "0rem"]}
+          >
             <HStack w="100%" alignItems={"center"} pb="0.5rem">
               <Heading
                 as="h4"
@@ -163,7 +168,7 @@ function GameQueue() {
       width="100%"
       justifyContent={"flex-start"}
       alignItems={"center"}
-      bgColor="gray.300"
+      bgColor="gray.1100"
       p="0.5rem"
       borderRadius={"1rem"}
     >
@@ -210,7 +215,7 @@ function GameQueue() {
             fontWeight={"bold"}
             // lineHeight="2rem"
             display="inline-block"
-            bgColor="gray.700"
+            bgColor="gray.900"
             borderRadius="0.8rem"
             color="gray.0"
             py="0rem"

@@ -13,7 +13,13 @@ export default function BadgePoints({ points }) {
       spacing="0.3rem"
     >
       <Icon as={FaCoins} fontSize="1rem" color="yellow.200" />
-      <Text as="span" fontSize="1.2rem" color="gray.0" fontWeight="bold">
+      <Text
+        as="span"
+        fontSize="1.2rem"
+        color="gray.0"
+        fontWeight="500"
+        letterSpacing={"1px"}
+      >
         {points}
       </Text>
     </HStack>
