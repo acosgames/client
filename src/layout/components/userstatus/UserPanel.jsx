@@ -54,7 +54,7 @@ function UserLogin() {
 
 function UserFrame() {
   return (
-    <VStack w="100%">
+    <VStack w="100%" spacing="0" p="0">
       <HStack w="100%" spacing="0.5rem" p="0" alignItems={"center"}>
         <UserAvatar />
         <VStack w="100%" pr="0.5rem" spacing="1rem">

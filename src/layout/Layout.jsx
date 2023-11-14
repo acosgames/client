@@ -114,11 +114,11 @@ function MobileLayout({ children, gameResizer }) {
           position="fixed"
           top={["0"]}
           right="0"
-          h={["6.5rem"]}
+          h={["7rem"]}
           zIndex={1001}
           bgColor={["gray.975", "gray.900"]}
           pb="0rem"
-          borderBottom={["1px solid var(--chakra-colors-gray-800)"]}
+          // borderBottom={["1px solid var(--chakra-colors-gray-800)"]}
         >
           <UserPanel key="mobile-userpanel" />
         </VStack>
@@ -140,6 +140,7 @@ function MobileLayout({ children, gameResizer }) {
             h="100%"
             position={"relative"}
             alignItems={"flex-start"}
+            scrollSnapType="y mandatory"
           >
             <Box key="content" w="100%">
               {children}

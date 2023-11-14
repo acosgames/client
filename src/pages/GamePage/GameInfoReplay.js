@@ -1,4 +1,4 @@
-import { Box, Button, Header, Heading, HStack, Icon, Spacer, Text, useBreakpoint, VStack } from "@chakra-ui/react";
+import { Box, Button, Header, Heading, HStack, Icon, Image, Spacer, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useBreakpoint, VStack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { downloadGameReplay, findGameReplays } from "../../actions/game";
 import EmbeddedGamePanel from "../../components/games/GameDisplay/EmbeddedGamePanel";
@@ -9,6 +9,8 @@ import { BiSkipPrevious, BiSkipNext, BiExpand } from '@react-icons';
 import { useNavigate, useParams } from "react-router-dom";
 import { calculateGameSize } from "../../util/helper";
 
+import USAFlag from "../../assets/images/flags/USA.svg";
+import config from '../../config'
 
 function GameInfoReplay({ game_slug }) {
 
@@ -54,9 +56,9 @@ function GameInfoReplay({ game_slug }) {
     if (window.innerWidth < 600)
         w -= 50;
     else if (window.innerWidth < 768)
-        w -= 400
+        w -= w * 0.5
     else
-        w -= 500;
+        w -= w * 0.6;
     let { bgWidth, bgHeight } = calculateGameSize(w, h, replaySettings.resow, replaySettings.resoh, 1);
 
     let replayRating = 0;
@@ -66,57 +68,219 @@ function GameInfoReplay({ game_slug }) {
     }
 
     return (
-        <VStack w="100%" mt="1rem">
-            <VStack ml="1rem" w="100%" alignItems={'center'} _after={{
-                content: '""',
-                display: 'block',
-                clipPath: 'polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)',
-                width: '65px',
-                height: '5px',
-                margin: '0.5rem 0 0',
-                background: 'brand.600',
-            }
-            }>
-                <Text as="span" color="brand.600" letterSpacing={'2px'} fontWeight={'bold'} fontSize={['1.2rem', '1.2rem', "1.4rem"]}>Game Replay</Text>
-                <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "4rem"]} fontWeight={'600'}>Rating {replayRating}</Heading>
+        <VStack pb="9rem" w="100%" mt="3rem" spacing="0" filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))">
+            <VStack
+                ml="1rem"
+                //  mb="2rem" 
+                w="100%"
+                alignItems={'center'}
+                pb="4rem"
+                _after={{
+                    content: '""',
+                    display: 'block',
+                    clipPath: 'polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)',
+                    width: '65px',
+                    height: '5px',
+                    margin: '0.5rem 0 0',
+                    background: 'brand.600',
+                }
+                }>
+                <Text as="span" color="brand.600" letterSpacing={'2px'} fontWeight={'bold'} fontSize={['1.2rem', '1.2rem', "1.4rem"]}>WATCH</Text>
+                <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "4rem"]} fontWeight={'600'}>Game Replay</Heading>
             </VStack>
 
-            <HStack w="90%" mt="1rem" spacing='0' justifyContent={'center'} alignItems={'flex-start'}>
+            <HStack w="90%" spacing='0' justifyContent={'center'} alignItems={'flex-start'} >
 
 
                 {/* <Text as="h3" fontWeight={'bold'} color="white">Watch Replay</Text> */}
-                <Box width={[`${bgWidth}px`]} h={[`${bgHeight}px`]} position="relative" mb="1.5rem" ref={ref}>
-                    <Box width={[`${bgWidth}px`]} h={[`${bgHeight}px`]} borderRadius={'12px'} overflow="hidden" border="3px solid" borderColor="gray.1200" >
+                <Box width={[`${bgWidth}px`]} h={[`${bgHeight}px`]} position="relative" ref={ref} scrollSnapStop={'start'}>
+                    <Box
+                        width={[`${bgWidth}px`]}
+                        h={[`${bgHeight}px`]}
+                        // borderRadius={'12px'}
+                        overflow="hidden"
+                        // border="3px solid"
+                        // borderColor="gray.1200" 
+                        borderRadius="4px"
+                        scrollSnapStop={'start'}>
 
                         <EmbeddedGamePanel key="replay-panel" room_slug={room_slug} />
 
                     </Box>
-                    <svg xmlns="http://www.w3.org/2000/svg" style={{
+                    {/* <svg xmlns="http://www.w3.org/2000/svg" style={{
                         position: 'absolute', left: '10px', bottom: '-15px', fill: 'var(--chakra-colors-gray-1200)'
-                    }} width="130" height="20" viewBox="0 0 65 5">
+                    }}
+                        width="30"
+                        height="15"
+                        viewBox="0 0 65 1">
                         <path d="M968,5630h65l-4,5H972Z" transform="translate(-968 -5630)"></path>
-                    </svg>
+                    </svg> */}
                 </Box>
 
-                <VStack display={['none', 'none', 'flex']}>
+                <VStack display={['none', 'none', 'flex']} h={[`${bgHeight}px`]} maxW="26rem" flex="1" >
+                    {/* <Heading as="h5" fontSize="1.6rem" color="brand.600">Replay <Text as="span" color="gray.10">/SAHdh1</Text></Heading> */}
+                    <VStack
+                        //borderRightRadius={'12px'}
 
-                    <VStack h="100%" flex="1" justifyContent={'flex-end'}>
+                        position="relative" left="-1rem" pl="2rem" h="100%" w="calc(100% + 2rem)" flex="1" justifyContent={'flex-end'} bgColor="gray.1200" borderRadius="4px" spacing="0">
+
+                        <ReplayInfoPanel room_slug={room_slug} />
 
                         <ReplayControls room_slug={room_slug} />
                     </VStack>
                 </VStack>
-            </HStack>
-            <VStack w="100%" display={['flex', 'flex', 'none']}>
+            </HStack >
+            <VStack width={[`${bgWidth}px`]} maxH={[`${bgHeight}px`]} display={['flex', 'flex', 'none']} >
 
-                <VStack h="100%" w="100%" flex="1" justifyContent={'flex-end'}>
-
+                {/* <Heading as="h5" fontSize="1.6rem" color="brand.600">Replay <Text as="span" color="gray.10">/SAHdh1</Text></Heading> */}
+                <VStack borderRightRadius={'12px'} position="relative" left="0rem" h="100%" w="100%" flex="1" justifyContent={'flex-end'} bgColor="gray.1200" spacing="0">
                     <ReplayControls room_slug={room_slug} />
+                    <ReplayInfoPanel room_slug={room_slug} />
                 </VStack>
             </VStack>
-        </VStack>
+        </VStack >
     )
 }
 
+function ReplayInfoPanel({ room_slug }) {
+    return (<Tabs w="100%" h="100%" variant="unstyled">
+        <TabList justifyContent={'center'} bgColor="gray.1200" >
+            <Tab fontSize="1.4rem" color="gray.200" _selected={{ color: 'gray.0', bg: 'gray.1200', border: '1px solid', borderColor: 'gray.1200' }}>Players</Tab>
+            <Tab fontSize="1.4rem" color="gray.200" _selected={{ color: 'gray.0', bg: 'gray.1200', border: '1px solid', borderColor: 'gray.1200' }}> Logs</Tab>
+        </TabList>
+        <TabPanels p="0" minH="12.5rem">
+            <TabPanel p="0">
+                <Box w="100%" h="100%" flex="1">
+                    <PlayersList room_slug={room_slug} />
+                </Box>
+            </TabPanel>
+            <TabPanel >
+
+            </TabPanel>
+        </TabPanels>
+    </Tabs>)
+}
+
+function PlayersList({ room_slug }) {
+
+    let gamepanel = findGamePanelByRoom(room_slug);
+    let room = gamepanel.room;
+
+    if (!room)
+        return <></>
+    let maxplayers = room.maxplayers;
+    if (room.maxteams == 0)
+        return <PlayersFFA gamepanelid={gamepanel.id} />
+
+    return <PlayersTeams gamepanelid={gamepanel.id} />
+}
+
+function PlayersFFA({ gamepanelid }) {
+    let [gamepanel] = fs.useWatch('gamepanel/' + gamepanelid);
+    // let [players] = fs.useWatch('primary/players');
+    let gamestate = gamepanel.gamestate;
+    if (!gamestate || !gamestate.players)
+        return <></>
+    let players = gamestate.players;
+
+    // let history = room.history;
+
+    // let players = history[0].payload.players;
+    let playerIds = Object.keys(players);
+
+    let playerList = [];
+    for (let id of playerIds) {
+        players[id].id = id;
+        playerList.push(players[id]);
+    }
+
+    playerList.sort((a, b) => {
+        if (a.score != b.score)
+            return b.score - a.score;
+        if (a.rating != b.rating)
+            return b.rating - a.rating;
+        return b.localeCompare(a);
+    })
+
+    return (
+        <>
+            {playerList.map((player, index) => {
+                let avatar = player.avatar || 'assorted-3.webp';
+                return (
+                    <ReplayPlayer key={'replay-player-' + player.name} name={player.name} score={player.score} avatar={avatar} rating={player.rating} isLast={index == (playerList.length - 1)} />
+                )
+            })}
+        </>
+    )
+}
+
+function PlayersTeams({ }) {
+
+
+}
+
+function ReplayPlayer({ team, name, score, rating, avatar, isLast, flagCode }) {
+    return (
+        <VStack spacing="0.5rem"
+            w="100%"
+            bgColor="gray.875"
+            h="100%"
+            // borderRadius="4px" 
+
+            mb={isLast ? '0' : "0.5rem"} alignItems={'flex-start'} justifyContent={'flex-start'}>
+            <HStack justifyContent={'flex-start'} spacing="0" w="100%" h={["6rem"]}>
+                <Image
+                    src={`${config.https.cdn}images/portraits/${avatar.replace(".", "-thumbnail.")}`}
+                    loading="lazy"
+
+                    w={["6rem"]}
+                    minW={["6rem"]}
+                />
+                <VStack alignItems={'flex-start'} spacing="0rem" flex="1" h="100%">
+
+
+                    <HStack justifyContent={'flex-end'} pt="0.5rem" h="2.5rem" pl="0.5rem">
+                        <Text as="span" minWidth="0"
+                            whiteSpace={'nowrap'}
+                            overflow={'hidden'}
+                            textOverflow={'ellipsis'}
+                            color="gray.0"
+                            fontSize={["1.4rem", "1.4rem", "1.2rem", "1.4rem"]}
+                        >
+                            {name}
+                        </Text>
+                        <Image
+                            display="inline-block"
+                            src={flagCode || USAFlag}
+                            verticalAlign={"middle"}
+                            // borderRadius="5px"
+                            w="1.6rem"
+                        />
+
+                    </HStack>
+                    <HStack flex="1" spacing="0" justifyContent={'flex-end'} h="100%" alignItems={'center'} >
+                        <HStack h="100%" spacing="0.5rem" px="0.5rem">
+                            <Text as="span" color="gray.100" fontWeight={'light'} fontSize="1rem" >rating</Text>
+                            <Text as="span" fontWeight={'normal'} color="gray.10" fontSize="1rem">{rating}</Text>
+                        </HStack>
+
+                    </HStack>
+                    <HStack spacing="0" w="100%" h="2rem" bgColor="gray.875" pl="0.5rem" justifyContent={'flex-end'}>
+
+                        <HStack spacing="0" justifyContent={'flex-end'} h="100%" alignItems={'center'} >
+                            <HStack h="100%" spacing="0.5rem" px="0.5rem">
+                                {/* <Text as="span" color="gray.50" fontWeight={'bold'} fontSize="1.2rem">SCORE</Text> */}
+                                <Text as="span" fontWeight={'bold'} color="gray.10" fontSize={["1.6rem", "1.6rem", "1.4rem", "1.6rem"]}>{score}</Text>
+                            </HStack>
+                        </HStack>
+
+                    </HStack>
+                </VStack>
+
+            </HStack >
+        </VStack >
+    )
+}
 function ReplayControls({ room_slug }) {
 
 
@@ -144,8 +308,8 @@ function ReplayControls({ room_slug }) {
     let replayIndex = gamepanel.room.replayIndex || startIndex;
     let currentOffset = (replayIndex - startIndex) + 1;
     return (
-        <Box w="100%">
-            <HStack spacing="0">
+        <Box w="100%" h="3rem">
+            <HStack h="3rem" spacing="0" justifyContent={'center'} >
                 <Button p="0" m="0" onClick={() => {
                     replayPrevIndex(room_slug);
                 }}><Icon

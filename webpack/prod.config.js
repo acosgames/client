@@ -70,7 +70,7 @@ async function uploadToStorage() {
         indexTemplate = indexTemplate.replace('$VERSION', clientVersion);
 
         Readable.from([indexTemplate])
-            .pipe(zlib.createGzip())
+            // .pipe(zlib.createGzip())
             .pipe(fs.createWriteStream(indexPath))
             .on("error", (error) => {
                 console.error(error);
@@ -84,7 +84,7 @@ async function uploadToStorage() {
         let swTemplate = fs.readFileSync(swTemplatePath, 'utf-8');
 
         Readable.from([swTemplate])
-            .pipe(zlib.createGzip())
+            // .pipe(zlib.createGzip())
             .pipe(fs.createWriteStream(swPath))
             .on("error", (error) => {
                 console.error(error);

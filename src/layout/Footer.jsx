@@ -26,8 +26,8 @@ function Footer({}) {
       alignItems={"center"}
       pt={["7rem"]}
       position="relative"
-      bgColor="gray.800"
-      mt="4rem"
+      bgColor="gray.900"
+      mt="0rem"
       _before={{
         // content: '""',
         // width: "300rem",
@@ -387,8 +387,16 @@ function Footer({}) {
         // borderTop="2px solid"
         // borderTopColor="gray.900"
       >
-        <Text color="gray.50" as="span" fontWeight="medium" fontSize="xs">
-          COPYRIGHT © 2024 - ALL RIGHTS RESERVED BY{" "}
+        <Text
+          color="gray.50"
+          as="span"
+          textAlign={"center"}
+          fontWeight="medium"
+          fontSize="xs"
+        >
+          COPYRIGHT © 2024
+          <br />
+          ALL RIGHTS RESERVED BY{" "}
           <Text as="span" color="brand.300">
             ACOS
           </Text>

@@ -1,0 +1,28 @@
+{
+  "type": "update",
+  "room_slug": "MFFDF",
+  "payload": {
+    "room": { "sequence": 5, "status": "gamestart", "updated": 1689292975243 },
+    "state": {
+      "_qid": 135,
+      "_history": [135],
+      "category": "Entertainment:JapaneseAnime&Manga",
+      "question": "Inthe'ToLove-Ru'series,howmanyTrans-weaponswerecreated?",
+      "choices": ["1", "2", "3", "4"],
+      "round": 1,
+      "stage": 0,
+      "rounds": 10,
+      "maxplayers": 10
+    },
+    "next": { "id": "*" },
+    "events": { "q": 1 },
+    "timer": { "sequence": 2, "end": 1689292995244, "seconds": 20 },
+    "players": { "CvzDl": { "_choice": -1 }, "8CCkf": { "_choice": -1 } },
+    "action": {
+      "type": "gamestart",
+      "room_slug": "MFFDF",
+      "timeseq": 1,
+      "timeleft": -24
+    }
+  }
+}

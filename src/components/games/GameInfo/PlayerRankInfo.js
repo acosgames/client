@@ -10,7 +10,7 @@ function PlayerRankInfo(props) {
     let [playerHighScore] = fs.useWatch('localPlayerHighscore');
     let stats = player_stats[props.game_slug];
     if (!stats)
-        stats = { played: 0, rating: 2500 }
+        stats = { played: 0, rating: 100 }
     console.log(stats);
     let played = Number.parseInt(stats.played);
     // played = 10;

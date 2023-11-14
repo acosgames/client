@@ -1,7 +1,7 @@
 {
   "local": {
     "https": {
-      "cdn": "https://cdn.acos.games/file/acospub/",
+      "cdn": "https://assets.acos.games/",
       "api": "http://localhost:8080",
       "ws": "ws://127.0.0.1:9002"
     },
@@ -9,7 +9,7 @@
   },
   "mobile": {
     "https": {
-      "cdn": "https://cdn.acos.games/file/acospub/",
+      "cdn": "https://assets.acos.games/",
       "api": "http://localhost:8000",
       "ws": "ws://192.168.1.46:9002"
     },
@@ -17,7 +17,7 @@
   },
   "prod": {
     "https": {
-      "cdn": "https://cdn.acos.games/file/acospub/",
+      "cdn": "https://assets.acos.games/",
       "api": "https://acos.games",
       "ws": "wss://acos.games"
     },

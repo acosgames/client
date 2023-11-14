@@ -127,7 +127,7 @@ export async function findGameReplays(game_slug) {
     }
     catch (e) {
         console.error(e);
-        throw 'E_NOREPLAYS'
+        // throw 'E_NOREPLAYS'
     }
 }
 
@@ -403,10 +403,10 @@ export async function findGamePerson(game_slug) {
         //combine top10 + player leaderboard
         let top10 = result.top10 || [];
         let leaderboard = result.lb || [];
-        let combined = top10.concat(leaderboard);
+        // let combined = top10.concat(leaderboard);
         let rankmap = {};
-        for (var i = 0; i < combined.length; i++) {
-            let ranking = combined[i];
+        for (var i = 0; i < top10.length; i++) {
+            let ranking = top10[i];
             rankmap[ranking.rank] = ranking;
         }
 

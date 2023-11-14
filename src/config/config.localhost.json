@@ -1,6 +1,6 @@
 {
   "https": {
-    "cdn": "https://cdn.acos.games/file/acospub/",
+    "cdn": "https://assets.acos.games/",
     "api": "http://localhost:8080",
     "ws": "ws://127.0.0.1:9002"
   },

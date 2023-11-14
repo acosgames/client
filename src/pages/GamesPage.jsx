@@ -158,9 +158,9 @@ function GameList({ list }) {
       ]}
       gap="2rem"
     >
-      {list.map((game) => (
+      {list.map((game, i) => (
         <GridItem
-          key={"gamelistitem-" + game.game_slug}
+          key={"gamelistitem-" + game.game_slug + i}
           className="gamelistitem section"
           overflow="hidden"
           mt="2rem"

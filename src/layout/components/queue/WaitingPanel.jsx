@@ -179,9 +179,7 @@ function GameQueue() {
         height="6.4rem"
         // height="100%"
         // objectFit={"fill"}
-        src={
-          "https://cdn.acos.games/file/acospub/g/tictactoe/preview/QGNPJ8.png"
-        }
+        src={"https://assets.acos.games/g/tictactoe/preview/QGNPJ8.png"}
         // fallbackSrc={config.https.cdn + 'placeholder.png'}
         // w="100%"
       />

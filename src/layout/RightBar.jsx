@@ -24,7 +24,7 @@ function RightBar({}) {
         h={["5rem", "100vh"]}
         zIndex={1001}
         bgColor="gray.900"
-        borderLeft={["0", "1px solid var(--chakra-colors-gray-950)"]}
+        // borderLeft={["0", "1px solid var(--chakra-colors-gray-950)"]}
         // boxShadow={[
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",

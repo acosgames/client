@@ -17,7 +17,7 @@ const styles = {
         'html, body': {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
             bg: 'gray.900',
-            color: 'gray.100',
+            color: 'gray.30',
             fontWeight: 500
         },
         'body': { 'fontSize': '160%', },
@@ -42,7 +42,7 @@ const fonts = {
     // body: "proxima-nova, sans-serif;",
     // heading: "proxima-nova, sans-serif;"
     body: `'Poppins', sans-serif`,
-    heading: `'Barlow Condensed', sans-serif`
+    heading: `'Barlow', sans-serif`
     // heading: '"Inter", "Oswald", sans-serif;',
     //body: '"Inter", "Oswald", sans-serif;'
 }
@@ -105,13 +105,14 @@ const colors = {
         600: '#394147',
         700: '#31383e',
         750: '#282f35',
-        800: '#20272d',
+        800: '#201f2a',
         850: '#181e24',
+        875: '#182029',
         900: '#0f161b',
-        925: '#0D1116',
-        950: '#091218',
-        975: '#051016',
-        1000: '#020d14',
+        925: '#0b0e13',
+        950: '#090D10',
+        975: '#050506',
+        1000: '#040608',
         1100: '#000912',
         1200: '#00060f'
     },
@@ -288,6 +289,7 @@ const components = {
 }
 
 const breakpoints = {
+
     sm: '600px', // 480px
     md: '768px', // 768px
     lg: '992px', // 992px

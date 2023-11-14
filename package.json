@@ -7,7 +7,8 @@
     "./src/components/widgets/inputs/Markdown.scss",
     "./src/components/static.scss",
     "./src/pages/IndexPage.scss",
-    "./src/pages/GamesPage.scss"
+    "./src/pages/GamesPage.scss",
+    "./src/pages/GamePage/GamePage.scss"
   ],
   "proxy": "http://localhost:8080",
   "dependencies": {
@@ -29,6 +30,8 @@
     "framer-motion": "^10.12.18",
     "history": "^5.0.1",
     "http-proxy-middleware": "^1.0.6",
+    "lodash": "^4.17.21",
+    "lodash.throttle": "^4.1.1",
     "long": "^4.0.0",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.1",

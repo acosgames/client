@@ -6,7 +6,7 @@ import versions from 'shared/model/versions.json';
 
 
 const instance = axios.create({
-    withCredentials: true
+    // withCredentials: false
 })
 
 

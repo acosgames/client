@@ -8,7 +8,7 @@ const IFrameSrc = `<!DOCTYPE html>
         <meta name="author" content="A Cup of Skill" />
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src https://fonts.gstatic.com https://fonts.googleapis.com https://cdn.acos.games 'unsafe-inline' 'self' data:"
+            content="default-src https://fonts.gstatic.com https://fonts.googleapis.com https://cdn.acos.games https://assets.acos.games 'unsafe-inline' 'self' data:"
         />
     </head>
     <body>
@@ -74,7 +74,7 @@ const IFrameSrc = `<!DOCTYPE html>
 
             
 
-            const acosURLPrefix = 'cdn.acos.games/file/acospub/g/'
+            const acosURLPrefix = 'assets.acos.games/g/'
             const onMessage = (evt) => {
                 let m = evt.data
                 let origin = evt.origin
