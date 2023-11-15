@@ -81,7 +81,7 @@ function UserFrame() {
 
             <VStack
               alignSelf={"center"}
-              display={["flex", "none"]}
+              display={["flex", "flex", "none"]}
               spacing="0.5rem"
               h="100%"
             >
@@ -114,7 +114,7 @@ function UserFrame() {
         </VStack>
       </HStack>
       <HStack
-        display={["none", "flex"]}
+        display={["none", "none", "flex"]}
         justifyContent={"center"}
         spacing="2rem"
         w="100%"

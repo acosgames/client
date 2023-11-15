@@ -16,6 +16,12 @@ import {
   Center,
   Icon,
   IconButton,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
+  TabIndicator,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { loadUserGameData } from "../../actions/person.js";
@@ -85,15 +91,54 @@ function GameInfo({}) {
       <GameHeader />
       <GameActionBar />
 
-      <Box w="100%" h="100%">
-        <GameInfoReplay game_slug={game_slug} />
+      <Box w="100%" h="100%" p="0" pt="8rem">
+        <Tabs variant="unstyled">
+          <TabList border="0" justifyContent={"center"}>
+            <Tab
+              as="span"
+              color="gray.200"
+              cursor={"pointer"}
+              _selected={{
+                cursor: "auto",
+                color: "brand.600",
+              }}
+              letterSpacing={"2px"}
+              fontWeight={"bold"}
+              fontSize={["1.2rem", "1.2rem", "1.4rem"]}
+            >
+              REPLAY
+            </Tab>
+            <Tab
+              color="gray.200"
+              cursor={"pointer"}
+              _selected={{
+                cursor: "auto",
+                color: "red.500",
+              }}
+              as="span"
+              letterSpacing={"2px"}
+              fontWeight={"bold"}
+              fontSize={["1.2rem", "1.2rem", "1.4rem"]}
+            >
+              LIVE
+            </Tab>
+          </TabList>
+
+          <TabPanels>
+            <TabPanel p="0">
+              <GameInfoReplay game_slug={game_slug} />
+            </TabPanel>
+            <TabPanel></TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
       <VStack
         w="100%"
         px="0"
-        bgColor="gray.975"
-        py="3rem"
-        pb="6rem"
+        bgColor="gray.925"
+        // py="9rem"
+        pt="8rem"
+        // pb="6rem"
         maxW="100%"
         // zIndex="-2"
         //

@@ -42,7 +42,7 @@ import LobbyPanel from "./components/lobby/LobbyPanel";
 
 import IndexPage from './pages/IndexPage.jsx';
 import GamesPage from "./pages/GamesPage.jsx";
-import GamePage from "./pages/GamePage/GamePage.jsx";
+import GamePage from "./pages/GameInfo/GamePage.jsx";
 import Connection from "./components/games/Connection";
 
 

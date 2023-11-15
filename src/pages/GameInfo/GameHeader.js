@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { BsThreeDotsVertical } from "@react-icons";
 import GameInfoJoinButton from './GameInfoJoinButton';
+import GameMenu from './GameMenu.jsx';
 
 export default function GameHeader({ }) {
     let [game] = fs.useWatch("game");
@@ -25,7 +26,7 @@ export default function GameHeader({ }) {
             // className="section-clip"
             bgColor="gray.1000"
             transformOrigin={"center"}
-            minH={["31rem", "31rem", "40rem", "48rem", "48rem"]}
+            minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}
             w={["100%"]}
             backgroundImage={`url(${bgImgUrl})`}
             backgroundPosition={"center"}
@@ -54,24 +55,7 @@ export default function GameHeader({ }) {
                 height: ["20px", "20px", "20px"],
             }}
         >
-            <VStack
-                spacing="0"
-                position="absolute"
-                top={["4rem", "6rem", "9rem"]}
-                right="2rem"
-            >
-                {/* <UserLevelIcon /> */}
-                <IconButton
-                    icon={
-                        <Icon
-                            as={BsThreeDotsVertical}
-                            color={"gray.10"}
-                            fontSize={["xl", "xl", "xl"]}
-                        />
-                    }
-                    color="gray.0"
-                />
-            </VStack>
+
             <GameHeaderDesktop imgUrl={imgUrl} game={game} />
             {/* {isMobile && <GameHeaderMobile imgUrl={imgUrl} game={game} />} */}
         </VStack>
@@ -83,7 +67,7 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
     let hasTeams = game.minteams > 0;
     let hasMultiplayerTopScore = game.lbscore == 1 && game.maxplayers > 1;
     return (
-        <HStack alignItems="center" spacing="2rem" w="100%" pt={["4rem", "7rem", "4rem", "4rem"]} pb={["4rem", "4rem", '0']}>
+        <HStack alignItems="center" spacing="2rem" w="100%" pb={["4rem", "4rem", '0']}>
             <HStack
                 spacing="1rem"
                 alignItems={"center"}
@@ -93,7 +77,8 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                 <VStack
                     w="100%"
                     justifySelf="flex-start"
-                    spacing="2rem"
+                    spacing={["2rem", "2rem", "2rem", "2rem"]}
+                    pt="3rem"
                     // pl={['0', '0', '3rem', '6rem', '12rem']}
                     alignItems={["center", "center", "center", "center"]}
                 >
@@ -101,6 +86,7 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                         w={["100%", "100%", "50%"]}
                         display={["flex", "flex", "none"]}
                         justifyContent={"center"}
+                        pt="3rem"
                     >
                         <Box
                             position="relative"
@@ -115,52 +101,62 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                                 objectFit={"cover"}
                                 src={imgUrl}
                             />
+                            {/* <VStack
+                                spacing="0"
+                                position="absolute"
+                                top={["0"]}
+                                left="-4rem"
+                            >
+                                <GameMenu />
+                            </VStack> */}
                         </Box>
                     </HStack>
 
                     <VStack
                         alignItems={["center", "center", "flex-start"]}
-                        spacing="1rem"
+                        spacing={["1rem", "1rem"]}
                         mb="1rem"
                     >
-                        <Heading
-                            color="gray.0"
-                            fontSize={["3rem", "3rem", "3rem", "4rem", "5rem"]}
-                            lineHeight={["4rem", "3rem", "3rem", "4rem"]}
-                            textTransform={"uppercase"}
-                            letterSpacing={"1px"}
-                        >
-                            {game.name}
-                        </Heading>
-
-                        <Box>
-                            <Text
+                        <VStack alignItems={["center", "center", "flex-start"]} spacing={["0rem", "0rem", "0rem", "1rem"]}>
+                            <Heading
                                 color="gray.0"
-                                as="span"
-                                fontSize={["1.2rem", "1.2rem", "1.2rem", "1.6rem"]}
-                                pt="0"
-                                fontWeight={"700"}
-                                mr="0.25rem"
+                                fontSize={["3rem", "3rem", "3rem", "4rem", "5rem"]}
+                                lineHeight={["4rem", "3rem", "3rem", "4rem"]}
+                                textTransform={"uppercase"}
+                                letterSpacing={"1px"}
                             >
-                                Developed by{" "}
-                            </Text>
-                            <Link to={"/profile/" + game.displayname}>
+                                {game.name}
+                            </Heading>
+
+                            <Box>
                                 <Text
+                                    color="gray.0"
                                     as="span"
-                                    fontSize={["1.2rem", "1.2rem", "1.6rem"]}
-                                    color="brand.200"
-                                    letterSpacing={"1px"}
+                                    fontSize={["1.2rem", "1.2rem", "1.2rem", "1.4rem"]}
                                     pt="0"
                                     fontWeight={"700"}
+                                    mr="0.25rem"
                                 >
-                                    {game.displayname}
+                                    Developed by{" "}
                                 </Text>
-                            </Link>
-                        </Box>
+                                <Link to={"/profile/" + game.displayname}>
+                                    <Text
+                                        as="span"
+                                        fontSize={["1.2rem", "1.2rem", "1.2rem", "1.4rem"]}
+                                        color="brand.200"
+                                        letterSpacing={"1px"}
+                                        pt="0"
+                                        fontWeight={"700"}
+                                    >
+                                        {game.displayname}
+                                    </Text>
+                                </Link>
+                            </Box>
+                        </VStack>
                         <Wrap
                             flex="1"
-                            justifyContent={"flex-start"}
-                            alignItems={"flex-end"}
+                            justify={"center"}
+                            align={"center"}
                         >
                             {hasOpenSource && (
                                 <GameInfoTag
@@ -171,6 +167,12 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                             {hasMultiplayerTopScore && <GameInfoTag title="topscore" />}
                             {hasTeams && <GameInfoTag title="teams" />}
                             <GameInfoTag title="replays" />
+                            <VStack
+                                spacing="0"
+                                ml="1rem"
+                            >
+                                <GameMenu />
+                            </VStack>
                         </Wrap>
 
                         <GameInfoJoinButton />
@@ -195,6 +197,14 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                         objectFit={"cover"}
                         src={imgUrl}
                     />
+                    {/* <VStack
+                        spacing="0"
+                        position="absolute"
+                        top={["0"]}
+                        left="-4rem"
+                    >
+                        <GameMenu />
+                    </VStack> */}
                 </Box>
             </HStack>
         </HStack>
@@ -210,7 +220,7 @@ function GameInfoTag(props) {
                     <Text
                         display="inline-block"
                         // borderRadius='3px'
-                        py=".3rem"
+                        // py=".3rem"
                         px="0.5rem"
                         borderRadius="4px"
                         background="gray.200"
@@ -238,7 +248,7 @@ function GameInfoTag(props) {
             <Text
                 display="inline-block"
                 // borderRadius='3px'
-                py=".3rem"
+                // py=".3rem"
                 px="0.5rem"
                 borderRadius="4px"
                 background="gray.200"

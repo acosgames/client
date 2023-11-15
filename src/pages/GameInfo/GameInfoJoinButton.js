@@ -154,7 +154,7 @@ function JoinButton({ handleJoin }) {
             // borderBottomColor={'gray.600'}
             // borderRightColor={'gray.600'}
             // filter="drop-shadow(0px 0px 20px var(--chakra-colors-brand-300)) "
-            boxShadow='3px 3px 0 var(--chakra-colors-gray-100)'
+            boxShadow='3px 3px 0 var(--chakra-colors-brand-300)'
             px="3rem"
             pr="2rem"
             py="3rem"
@@ -166,12 +166,12 @@ function JoinButton({ handleJoin }) {
             _focus={{
                 filter: '',
                 // bgColor: 'gray.950',
-                boxShadow: '7px 7px 0 var(--chakra-colors-brand-300)'
+                boxShadow: '10px 7px 0 var(--chakra-colors-brand-300)'
             }}
         >
             <VStack spacing="0" alignItems={'flex-start'}>
                 <Text as="span" textAlign={'left'} fontSize={["1.6rem", "1.6rem", "1.6rem", "2rem"]}>Play Now</Text>
-                <Text color="gray.50" _groupHover={{ color: 'brand.600' }} _groupFocus={{ color: 'brand.300' }} as="p" pl="0.5rem" textAlign={'left'} fontWeight={'bold'} fontSize="1.4rem">Ranked Match</Text>
+                <Text color="brand.300" _groupHover={{ color: 'brand.600' }} _groupFocus={{ color: 'brand.300' }} as="p" pl="0.5rem" textAlign={'left'} fontWeight={'bold'} fontSize="1.4rem">Ranked Match</Text>
             </VStack>
             <Text className="arrows" as="span" display="inline-block" >
                 <svg width="40px" height="25.6px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">

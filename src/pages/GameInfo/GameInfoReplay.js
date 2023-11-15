@@ -53,10 +53,8 @@ function GameInfoReplay({ game_slug }) {
 
     let h = window.innerHeight - 100;
     let w = window.innerWidth
-    if (window.innerWidth < 600)
+    if (window.innerWidth < 800)
         w -= 50;
-    else if (window.innerWidth < 768)
-        w -= w * 0.5
     else
         w -= w * 0.6;
     let { bgWidth, bgHeight } = calculateGameSize(w, h, replaySettings.resow, replaySettings.resoh, 1);
@@ -68,27 +66,34 @@ function GameInfoReplay({ game_slug }) {
     }
 
     return (
-        <VStack pb="9rem" w="100%" mt="3rem" spacing="0" filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))">
+        <VStack pb="9rem" w="100%" spacing="0" filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))">
+
             <VStack
                 ml="1rem"
-                //  mb="2rem" 
+                //  mb="2rem"
                 w="100%"
-                alignItems={'center'}
-                pb="4rem"
+                alignItems={"center"}
+                pb="6rem"
                 _after={{
                     content: '""',
-                    display: 'block',
-                    clipPath: 'polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)',
-                    width: '65px',
-                    height: '5px',
-                    margin: '0.5rem 0 0',
-                    background: 'brand.600',
-                }
-                }>
-                <Text as="span" color="brand.600" letterSpacing={'2px'} fontWeight={'bold'} fontSize={['1.2rem', '1.2rem', "1.4rem"]}>WATCH</Text>
-                <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "4rem"]} fontWeight={'600'}>Game Replay</Heading>
+                    display: "block",
+                    clipPath:
+                        "polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)",
+                    width: "65px",
+                    height: "5px",
+                    margin: "0.5rem 0 0",
+                    background: "brand.600",
+                }}
+            >
+                <Heading
+                    as="h2"
+                    color="gray.0"
+                    fontSize={["2.4rem", "2.4rem", "4rem"]}
+                    fontWeight={"600"}
+                >
+                    Match #123
+                </Heading>
             </VStack>
-
             <HStack w="90%" spacing='0' justifyContent={'center'} alignItems={'flex-start'} >
 
 

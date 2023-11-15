@@ -1,5 +1,5 @@
 import { HStack, VStack, Text, Image, Icon, Wrap, WrapItem } from "@chakra-ui/react";
-import config from '../../config'
+import config from '../../config/index.js'
 
 import fs from 'flatstore';
 import ratingtext from 'shared/util/ratingtext';
@@ -19,6 +19,7 @@ function PlayerRankInfo({ }) {
     let played = Number.parseInt(stats.played);
     // played = 10;
     // stats.rating = 3000;
+    // played = 0
     let ratingTxt = ratingtext.ratingToRank(Number.parseInt(stats.rating));
     let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
     let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
@@ -45,15 +46,16 @@ function PlayerRankInfo({ }) {
         )
     }
     return (
-        <ActionBarItem title={ratingTextFormatted} value={played < 10 ? 'No Class' : stats.rating} spacing="0" ml="0rem" mr="0">
+        <ActionBarItem title={ratingTextFormatted} value={played < 10 ? `${played} / 10` : stats.rating} spacing="0" ml="0rem" mr="0">
             <>
                 <Image
                     display={played >= 10 ? 'inline-block' : 'none'}
                     src={`${config.https.cdn}icons/ranks/platform/${rankNumber}.webp`}
                     loading="lazy"
                     title={ratingTextFormatted}
-                    minW={["4rem", "4rem", "5rem", "6rem"]}
-                    w={["4rem", "4rem", "5rem", "6rem"]}
+                    height="7rem"
+                    position="relative"
+                    top="1rem"
                 // minW='auto'
                 // position="relative"
                 />

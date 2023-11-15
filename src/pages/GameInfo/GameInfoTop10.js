@@ -82,7 +82,7 @@ export default function GameInfoTop10({ }) {
         )
     }
     return (
-        <Box w="100%" maxW={["100%", "100%", "100%", "95%", "70%", "60%"]} pt="0" py="3rem" px="3rem">
+        <Box w="100%" maxW={["100%", "100%", "100%", "95%", "70%", "60%"]} pt="0" pb="9rem" px="3rem">
 
             <VStack w="100%" spacing="1rem" alignItems={'flex-start'}>
                 <VStack
@@ -188,10 +188,10 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
                 p="0"
                 pl="1.5rem"
             >
-                <Text as="span" textAlign={'center'} color="gray.0" fontSize={['1.4rem', '1.4rem', "1.6rem", "1.6rem", "1.8rem"]} position="relative">
+                <Heading as="h6" textAlign={'center'} color="gray.0" fontWeight={'500'} fontSize={['1.4rem', '1.4rem', "1.6rem", "1.6rem", "1.8rem"]} position="relative">
                     {/* <Text as="span" position="absolute" top='-0rem' left="-1.1rem" fontSize="1.2rem" fontWeight='light' color="gray.100">#</Text> */}
                     {rank}
-                </Text>
+                </Heading>
             </Center>
             <Box p="0" flex="1" minW="0">
                 <HStack >
@@ -264,17 +264,17 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
                 <HStack justifyContent={'flex-end'} display={['none', 'none', 'flex']} spacing="0">
 
 
-                    <Text position="relative"
+                    <Heading position="relative"
                         top="0rem"
-                        as="span"
+                        as="h6"
                         display={['none', 'none', 'none', 'inline-block']}
                         // display="inline-block"
                         color={(isLocalPlayer ? 'gray.0' : "gray.50")}//"gray.50"
-                        fontWeight={'light'}
+                        fontWeight={'500'}
                         fontSize="xs"
                         pr="1rem">
                         {ratingTextFormatted}
-                    </Text>
+                    </Heading>
                     <Image
                         src={`${config.https.cdn}icons/ranks/platform/${rankNumber}.webp`}
                         loading="lazy"
@@ -284,9 +284,9 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
                         position="relative"
                     />
                 </HStack>
-                <Text
+                <Heading
                     zIndex={'1'}
-                    as="span"
+                    as="h6"
                     display="inline-block"
                     width={["4.5rem", "4.5rem", "6rem"]}
                     fontSize={['1.6rem', '1.6rem', "1.8rem"]}
@@ -296,7 +296,7 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
                 >
                     {rating}
 
-                </Text>
+                </Heading>
             </HStack>
         </HStack >
     )

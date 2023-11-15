@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import fs from 'flatstore';
 import { Box, Heading, Text, VStack } from "@chakra-ui/react";
+import GameBuildInfo from "./GameBuildInfo.jsx";
 
 export default function GameDescription({ }) {
     let [game] = fs.useWatch("game");
@@ -13,7 +14,11 @@ export default function GameDescription({ }) {
     return (
         <VStack w="100%"
             px="3rem"
-            bgColor="gray.975" pt="0rem" pb="10rem">
+
+            bgColor="gray.925"
+            pt="0rem"
+            boxShadow={'0px 3px 7px 0px rgba(0, 0, 0, 0.21)'}
+            pb="10rem">
             {/* <VStack pb="3rem" w="100%" alignItems={'center'} _after={{
                 content: '""',
                 display: 'block',
@@ -27,9 +32,20 @@ export default function GameDescription({ }) {
                 <Text as="span" color="brand.300" letterSpacing={'2px'} fontWeight={'bold'} fontSize={['1.2rem', '1.2rem', "1.4rem"]}>GAME</Text>
                 <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "4rem"]} fontWeight={'600'}>Description</Heading>
             </VStack> */}
-            <Box p="4rem" bgColor="gray.875" w="100%" maxW={["100%", "100%", "100%", "95%", "70%", "60%"]} border="1px solid" borderColor="gray.800" clipPath='polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)'>
-                <Heading fontSize="3.2rem" fontWeight="700" color="gray.0" lineHeight={'3.2rem'}>GAME DESCRIPTION</Heading>
-                <Box w="100%" my="2.5rem" borderTop={'2px solid'} borderTopColor={'gray.600'}></Box>
+            <Box
+                p="4rem"
+                bgColor="gray.875"
+                borderRadius={"8px"}
+                w="100%"
+                maxW={["100%", "100%", "100%", "95%", "70%", "60%"]}
+                border="1px solid"
+                borderColor="gray.800"
+                mb="9rem"
+
+                clipPath='polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)'>
+                <Heading fontSize={["3.2rem", "2.4rem", "2.4rem", "3.2rem"]} fontWeight="700" color="gray.0" lineHeight={'3.2rem'}>GAME DESCRIPTION</Heading>
+                <Box w="100%" my="2.5rem" borderTop={'2px solid'}
+                    borderTopColor={"brand.500"}></Box>
                 <Box className="game-desc">
 
 
@@ -42,6 +58,7 @@ export default function GameDescription({ }) {
                             "emphasis",
                             "img",
                             "a",
+                            "em",
                             "i",
                             "b",
                             "p",
@@ -69,6 +86,8 @@ export default function GameDescription({ }) {
                     ></ReactMarkdown>
                 </Box>
             </Box>
+
+            <GameBuildInfo game={game} />
         </VStack>
     );
 }

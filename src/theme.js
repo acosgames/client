@@ -63,7 +63,7 @@ const colors = {
     brand: {
         50: '#8affb9',
         75: '#71ffa3',
-        100: "##68fb9a",
+        100: "#68fb9a",
         200: '#51ff8a',
         300: "#45f882",
         400: '#22e46f',
@@ -82,7 +82,7 @@ const colors = {
         400: '#1b23a6',
         500: '#171f91',
     },
-    //experimental blue
+    //experimental blue 0F161B
     gray: {
         0: '#f7ffff',
         10: '#ecf5fd',
@@ -106,6 +106,7 @@ const colors = {
         700: '#31383e',
         750: '#282f35',
         800: '#201f2a',
+        825: '#1b242e',
         850: '#181e24',
         875: '#182029',
         900: '#0f161b',
@@ -290,8 +291,8 @@ const components = {
 
 const breakpoints = {
 
-    sm: '600px', // 480px
-    md: '768px', // 768px
+    sm: '500px', // 480px
+    md: '800px', // 768px
     lg: '992px', // 992px
     xl: '1280px', // 1280px
     '2xl': '1536px', // 1536px

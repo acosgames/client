@@ -1,5 +1,5 @@
 import { Box, Center, HStack, Heading, Icon, IconButton, WrapItem, Text, VStack, Wrap, Image } from '@chakra-ui/react';
-import config from "../../config";
+import config from "../../config/index.js";
 import PlayerRankInfo from "./PlayerRankInfo.js";
 import GameInfoJoinButton from "./GameInfoJoinButton.js";
 import fs from 'flatstore';
@@ -16,33 +16,38 @@ export default function GameActionBar({ }) {
 
             <HStack
 
-                py="2rem"
+                py="4rem"
                 w="100%"
                 justifyContent={"center"}
-                spacing={["2rem", "3rem", "6rem", "6rem"]}
+                spacing={["6rem", "6rem"]}
                 position="relative"
             >
+                <PlayerRankInfo />
                 <ActionBarItem title={'WINS'} value={stats.win || 0}>
                     <Image
                         display={'inline-block'}
                         src={`${config.https.cdn}icons/diamond.svg`}
                         loading="lazy"
                         title={'WINS'}
-                        height={["4rem", "4rem", "5rem", "6rem"]}
+                        height="6rem"
+                        position="relative"
+                        top="0.5rem"
+
                     />
                 </ActionBarItem>
 
                 <ActionBarItem title={'BATTLES'} value={stats.played || 0}>
                     <Image
                         display={'inline-block'}
-                        src={`${config.https.cdn}icons/swords.svg`}
+                        src={`${config.https.cdn}icons/swords4.svg`}
                         loading="lazy"
                         title={'BATTLES'}
-                        height={["4rem", "3.8rem", "4.5rem", "6rem"]}
+                        height="5rem"
+
                     />
                 </ActionBarItem>
 
-                <PlayerRankInfo />
+
             </HStack>
         </Box>
     );

@@ -27,7 +27,7 @@ import ChatPanel from "./components/chat/ChatPanel.jsx";
 import { useEffect, useRef, useState } from "react";
 
 function Layout({ children }) {
-  let [isMobile] = fs.useWatch("isMobile");
+  let [isMobile] = fs.useChange("isMobile");
   const gameResizer = useRef();
 
   const myObserver = new ResizeObserver((entries) => {
@@ -44,7 +44,7 @@ function Layout({ children }) {
 
     fs.set("screenResized", true);
 
-    if (width < 600) {
+    if (width < 800) {
       if (!currentIsMoble) fs.set("isMobile", true);
     } else {
       if (currentIsMoble) fs.set("isMobile", false);
@@ -66,7 +66,7 @@ function Layout({ children }) {
     <VStack
       id="root-container"
       w={["100%"]}
-      pr={["0", "27rem", "30rem"]}
+      pr={["0", "0", "30rem", "30rem"]}
       h={["100%"]}
       position="relative"
     >
@@ -116,7 +116,7 @@ function MobileLayout({ children, gameResizer }) {
           right="0"
           h={["7rem"]}
           zIndex={1001}
-          bgColor={["gray.975", "gray.900"]}
+          bgColor={["gray.900", "gray.900"]}
           pb="0rem"
           // borderBottom={["1px solid var(--chakra-colors-gray-800)"]}
         >
@@ -124,7 +124,9 @@ function MobileLayout({ children, gameResizer }) {
         </VStack>
         <ChakraSimpleBar
           boxSizing="border-box"
-          pt={["6rem", "6rem", "7rem"]}
+          autoHide={false}
+          forceVisible={true}
+          // pt={["6rem", "4rem", "7rem"]}
           style={{
             width: "100%",
             height: "auto",
@@ -158,8 +160,7 @@ function DesktopLayout({ children }) {
   const ChakraSimpleBar = chakra(SimpleBar);
 
   return (
-    <Box w={"100%"} h={"100%"} overflow="hidden">
-      <Header />
+    <Box w={"100%"} h={"100%"}>
       <VStack w={["100%"]} overflow="hidden" height="100%">
         <ChakraSimpleBar
           boxSizing="border-box"
@@ -173,6 +174,7 @@ function DesktopLayout({ children }) {
           }}
           //   scrollableNodeProps={{ ref: scrollRef }}
         >
+          <Header />
           <HStack
             spacing="0"
             w="100%"

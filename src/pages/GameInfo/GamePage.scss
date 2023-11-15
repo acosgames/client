@@ -154,9 +154,9 @@
 
         code {
             font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-            background-color:var(--chakra-colors-gray-800);
+            background-color:var(--chakra-colors-gray-700);
             padding:4px;
-            border-radius:8px;
+            border-radius:4px;
             color:var(--chakra-colors-gray-30);
             margin:0 2px;
         }
@@ -164,12 +164,13 @@
 
     a {
         color: var(--chakra-colors-brand-300);
-
+        text-decoration: underline;
         &:hover {
-            text-decoration: underline;
+            
         }
     }
     blockquote {
+        
         margin: 12px 0;
         font-family: mono;
         padding-left:1rem;
@@ -181,7 +182,8 @@
     }
 
     pre {
-        background-color:var(--chakra-colors-gray-800);
+        border-radius:4px;
+        background-color:var(--chakra-colors-gray-700);
         padding:1rem;
         margin-bottom:2rem;
     }
@@ -194,14 +196,14 @@
 
     table {
 
-
         background-color: var(--chakra-colors-gray-900);
-        border: 1px solid var(--chakra-colors-gray-300);
+        /* background-color: var(--chakra-colors-gray-850); */
+        border: 1px solid var(--chakra-colors-gray-600);
         margin: 2rem auto;
         
 
         thead {
-            border-bottom: 1px solid var(--chakra-colors-gray-300);
+            border-bottom: 1px solid var(--chakra-colors-gray-600);
         }
 
         tbody {
@@ -210,23 +212,24 @@
 
         th { 
             padding: 0.6rem 1.2rem;
-            border-right: 1px solid var(--chakra-colors-gray-300);
-            font-weight:bold;
-            background-color: var(--chakra-colors-gray-800);
+            border-right: 1px solid var(--chakra-colors-gray-600);
+            font-weight:600;
+            color:var(--chakra-colors-gray-10);
         }
 
         tr {
-            border-bottom: 1px solid var(--chakra-colors-gray-300);
+            border-bottom: 1px solid var(--chakra-colors-gray-600);
         }
 
         td {
-            
+            color:var(--chakra-colors-gray-10);
             padding: 0.6rem 1.2rem;
-            border-right: 1px solid var(--chakra-colors-gray-300);
-            font-weight:300;
+            border-right: 1px solid var(--chakra-colors-gray-600);
+            font-weight:400;
             
         }
         tr:nth-child(even) {
+            background-color: var(--chakra-colors-gray-825);
             /* background-color: var(--chakra-colors-gray-800); */
         }
     }
