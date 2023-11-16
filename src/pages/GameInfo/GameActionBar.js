@@ -4,15 +4,29 @@ import PlayerRankInfo from "./PlayerRankInfo.js";
 import GameInfoJoinButton from "./GameInfoJoinButton.js";
 import fs from 'flatstore';
 import ActionBarItem from './ActionBarItem.jsx';
+import AchievementPanel from '../../layout/components/achievement/AchievementPanel.jsx';
 
 export default function GameActionBar({ }) {
     let [game] = fs.useWatch("game");
     let [player_stats] = fs.useWatch('player_stats');
     let stats = player_stats[game.game_slug];
 
-    return (
-        <Box w="100%" bgColor="gray.925">
+    let index = 2;
 
+    let achievements = [];
+    for (let i = 20; i <= 30; i++) {
+        achievements.push(
+            <AchievementPanel key={'achievement' + i} index={i} name={'Top Dawg'} desc={'Win 5 Games'} value={Math.floor(Math.random() * 6)} maxValue={5} />
+        )
+    }
+    return (
+        <HStack w="100%" bgColor="gray.925">
+            <HStack>
+
+                {achievements}
+
+
+            </HStack>
 
             <HStack
 
@@ -49,7 +63,8 @@ export default function GameActionBar({ }) {
 
 
             </HStack>
-        </Box>
+
+        </HStack>
     );
 }
 

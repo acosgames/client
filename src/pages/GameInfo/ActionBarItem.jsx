@@ -40,7 +40,7 @@ export default function ActionBarItem({
         </VStack>
         {/* </WrapItem> */}
         {/* <WrapItem color="gray.0" alignSelf={"center"}> */}
-        <VStack spacing="0" alignItems={"center"}>
+        <VStack spacing="0" alignItems={"center"} justifyContent={"center"}>
           <Heading
             as="h6"
             color="brand.300"
@@ -56,6 +56,12 @@ export default function ActionBarItem({
             as="h5"
             color="gray.0"
             fontWeight="700"
+            w="100%"
+            maxW="10rem"
+            textAlign={"center"}
+            overflow="hidden"
+            textOverflow={"ellipsis"}
+            whiteSpace={"nowrap"}
             fontSize={["2rem", "2rem", "2rem", "2.2rem"]}
           >
             {value}

@@ -115,9 +115,9 @@ export default function GameInfoTop10({ }) {
                             fontSize=""
                         > */}
                 <HStack w="100%" spacing="1rem">
-                    <Text minW="4rem" as="span" p="0" color={'gray.100'} fontSize="xs" textAlign={'right'}>Rank</Text>
-                    <Text as="span" minW="0" flex="1" p="0" color={'gray.100'} fontSize="xs" w={["70%", "70%", "60%", "60%"]} pl="7rem">Player</Text>
-                    <Text justifySelf="flex-end" as="span" p="0" color={'gray.100'} fontSize="xs" textAlign='right' pr={["3rem", "3rem", "4.5rem"]}>ELO</Text>
+                    <Text w={["5rem", "5rem", "6rem", "6rem"]} as="span" p="0" color={'gray.100'} fontSize="xs" textAlign={'right'}>Rank</Text>
+                    <Text as="span" minW="0" flex="1" p="0" color={'gray.100'} fontSize="xs" w={["70%", "70%", "60%", "60%"]} pl={["5rem", "5rem", "7rem", "7rem"]}>Player</Text>
+                    <Text justifySelf="flex-end" as="span" p="0" color={'gray.100'} fontSize="xs" textAlign='right' pr={["1rem", "1rem", "2.5rem"]}>Rating</Text>
                 </HStack>
                 {/* </Tr>
                     </Thead> */}

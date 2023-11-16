@@ -285,6 +285,18 @@ const components = {
             filledTrack: {
                 bg: 'brand.300'
             }
+        },
+        variants: {
+            green: {
+                filledTrack: {
+                    bg: 'brand.300'
+                }
+            },
+            yellow: {
+                filledTrack: {
+                    bg: 'brand.900'
+                }
+            }
         }
     }
 }

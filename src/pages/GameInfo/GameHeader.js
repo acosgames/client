@@ -1,6 +1,6 @@
 import fs from 'flatstore';
 import config from "../../config";
-import { Box, HStack, Heading, Icon, IconButton, Image, Text, VStack, Wrap } from '@chakra-ui/react';
+import { Box, HStack, Heading, Icon, IconButton, Image, Text, VStack, Wrap, Link as ChLink } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { BsThreeDotsVertical } from "@react-icons";
@@ -83,7 +83,7 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                     alignItems={["center", "center", "center", "center"]}
                 >
                     <HStack
-                        w={["100%", "100%", "50%"]}
+                        w={["100%", "100%", "40%"]}
                         display={["flex", "flex", "none"]}
                         justifyContent={"center"}
                         pt="3rem"
@@ -161,17 +161,17 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                             {hasOpenSource && (
                                 <GameInfoTag
                                     to={"https://github.com/acosgames/" + game.game_slug}
-                                    title="opensource"
+                                    title="open source"
                                 />
                             )}
-                            {hasMultiplayerTopScore && <GameInfoTag title="topscore" />}
+                            {hasMultiplayerTopScore && <GameInfoTag title="highscore" />}
                             {hasTeams && <GameInfoTag title="teams" />}
-                            <GameInfoTag title="replays" />
+                            <GameInfoTag title="replay" />
                             <VStack
                                 spacing="0"
                                 ml="1rem"
                             >
-                                <GameMenu />
+                                <GameMenu game={game} />
                             </VStack>
                         </Wrap>
 
@@ -180,7 +180,7 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                 </VStack>
             </HStack>
             <HStack
-                w={["100%", "100%", "50%"]}
+                w={["100%", "100%", "40%"]}
                 display={["none", "none", "flex"]}
                 justifyContent={"center"}
             >
@@ -216,7 +216,7 @@ function GameInfoTag(props) {
     if (props.to) {
         return (
             <Box>
-                <Link href={props.to} target="_blank">
+                <ChLink href={props.to} target="_blank">
                     <Text
                         display="inline-block"
                         // borderRadius='3px'
@@ -238,7 +238,7 @@ function GameInfoTag(props) {
                     >
                         {props.title}
                     </Text>
-                </Link>
+                </ChLink>
             </Box>
         );
     }
