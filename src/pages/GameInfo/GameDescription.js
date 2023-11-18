@@ -14,9 +14,9 @@ export default function GameDescription({ }) {
     return (
         <VStack w="100%"
             px="3rem"
-
-            bgColor="gray.925"
-            pt="0rem"
+            pt="9rem"
+            bgColor="gray.1200"
+            // pt="0rem"
             boxShadow={'0px 3px 7px 0px rgba(0, 0, 0, 0.21)'}
             pb="10rem">
             {/* <VStack pb="3rem" w="100%" alignItems={'center'} _after={{

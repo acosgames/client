@@ -3,7 +3,7 @@ import config from "../../config";
 import { Box, HStack, Heading, Icon, IconButton, Image, Text, VStack, Wrap, Link as ChLink } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-import { BsThreeDotsVertical } from "@react-icons";
+import { FaRegHeart, FaHeart } from "@react-icons";
 import GameInfoJoinButton from './GameInfoJoinButton';
 import GameMenu from './GameMenu.jsx';
 
@@ -167,6 +167,11 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                             {hasMultiplayerTopScore && <GameInfoTag title="highscore" />}
                             {hasTeams && <GameInfoTag title="teams" />}
                             <GameInfoTag title="replay" />
+
+                            <Box ml="1rem">
+
+                                <IconButton color="brand.300" icon={<FaHeart />} />
+                            </Box>
                             <VStack
                                 spacing="0"
                                 ml="1rem"

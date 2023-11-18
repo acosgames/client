@@ -23,6 +23,7 @@ export default function AchievementPanel({
 
   let color = "gray.20";
 
+  desc += "a sdlkfjaskdlf laskdfjlkadsfkladsf";
   let percent = (value / maxValue) * 100;
 
   if (percent >= 100) color = "brand.300";
@@ -31,27 +32,75 @@ export default function AchievementPanel({
   return (
     <VStack
       p="2rem"
-      minW="12rem"
-      bgColor="gray.825"
+      px="1rem"
+      pb="0.5rem"
+      minW="15rem"
+      w="12rem"
+      h="19rem"
+      bgColor="gray.875"
       borderRadius="12px"
       border="1px solid #27313f"
+      position="relative"
+      overflow="hidden"
+      zIndex="1"
+      clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
+      _before={{
+        content: "''",
+        position: "absolute",
+        left: "-3rem",
+        top: "-30px",
+        width: "30px",
+        height: "20rem",
+        bgColor: "gray.900",
+        transform: "rotate(-55deg)",
+        transition: "all 0.3s ease-out 0s",
+        opacity: 0.55,
+        zIndex: -1,
+      }}
+      _after={{
+        content: "''",
+        position: "absolute",
+        left: "auto",
+        right: "-3rem",
+        top: "-30px",
+        width: "30px",
+        height: "20rem",
+        bgColor: "gray.950",
+        transform: "rotate(55deg)",
+        transition: "all 0.3s ease-out 0s",
+        opacity: 0.55,
+        zIndex: -1,
+      }}
     >
       <Heading as="h4" fontSize="1.4rem" fontWeight="bold" color={"gray.10"}>
         {name}
       </Heading>
-      <AchievementIcon index={index} percent={percent} />
-      <Heading as="h5" fontSize="1.2rem" fontWeight={"bold"} color={color}>
+      <Heading
+        as="h5"
+        fontSize="1.4rem"
+        fontWeight={"normal"}
+        color={"gray.0"}
+        title={desc}
+        textAlign={"center"}
+        whiteSpace={"nowrap"}
+        overflow={"hidden"}
+        textOverflow={"ellipsis"}
+        w="100%"
+      >
         {desc}
       </Heading>
-      <AchievementExperienceBar percent={percent} />
-      {maxValue && (
-        <Heading as="h6" fontSize="1.2rem" fontWeight="500" color={"gray.20"}>
-          <Text as="span" fontWeight="bold">
-            {value}
-          </Text>{" "}
-          out of {maxValue}
-        </Heading>
-      )}
+      <AchievementIcon index={index} percent={percent} />
+      <VStack w="100%" flex="1" justifyContent={"flex-end"}>
+        <AchievementExperienceBar percent={percent} />
+        {maxValue && (
+          <Heading as="h6" fontSize="1.2rem" fontWeight="500" color={"gray.20"}>
+            <Text as="span" fontWeight="bold">
+              {value}
+            </Text>{" "}
+            of {maxValue}
+          </Heading>
+        )}
+      </VStack>
     </VStack>
   );
 }

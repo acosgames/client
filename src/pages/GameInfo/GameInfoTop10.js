@@ -99,8 +99,7 @@ export default function GameInfoTop10({ }) {
                         background: 'brand.300',
                     }
                     }>
-                    <Text as="span" color="brand.300" letterSpacing={'2px'} fontWeight={'bold'} fontSize={['1.2rem', '1.2rem', "1.4rem"]}>TOP 10</Text>
-                    <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "4rem"]} fontWeight={'600'}>Leaderboard</Heading>
+                    <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "4rem"]} fontWeight={'600'}>Rankings</Heading>
                 </VStack>
 
 
@@ -260,36 +259,35 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
                 </HStack>
             </Box>
 
-            <HStack justifyContent={'flex-end'} h="100%" px="1rem">
-                <HStack justifyContent={'flex-end'} display={['none', 'none', 'flex']} spacing="0">
+            <HStack justifyContent={'center'} alignItems={'center'} h="100%" px="1rem" overflow={"hidden"}>
 
 
-                    <Heading position="relative"
-                        top="0rem"
-                        as="h6"
-                        display={['none', 'none', 'none', 'inline-block']}
-                        // display="inline-block"
-                        color={(isLocalPlayer ? 'gray.0' : "gray.50")}//"gray.50"
-                        fontWeight={'500'}
-                        fontSize="xs"
-                        pr="1rem">
-                        {ratingTextFormatted}
-                    </Heading>
-                    <Image
+                <Heading position="relative"
+                    top="0.2rem"
+                    as="h6"
+                    display={['none', 'inline-block']}
+                    // display="inline-block"
+                    color={(isLocalPlayer ? 'gray.0' : "gray.50")}//"gray.50"
+                    fontWeight={'500'}
+                    fontSize="xs"
+                    pr="1rem">
+                    {ratingTextFormatted}
+                </Heading>
+
+                {/* <Image
                         src={`${config.https.cdn}icons/ranks/platform/${rankNumber}.webp`}
                         loading="lazy"
                         title={ratingTextFormatted}
                         height={["5rem"]}
                         minW='5rem'
                         position="relative"
-                    />
-                </HStack>
+                    /> */}
                 <Heading
                     zIndex={'1'}
                     as="h6"
                     display="inline-block"
                     width={["4.5rem", "4.5rem", "6rem"]}
-                    fontSize={['1.6rem', '1.6rem', "1.8rem"]}
+                    fontSize={['1.6rem', '1.6rem', "2rem"]}
                     fontWeight={'500'}
                     color={(isLocalPlayer ? 'gray.0' : "gray.0")}
                 // color={'gray.50'}

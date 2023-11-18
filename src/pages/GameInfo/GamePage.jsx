@@ -34,6 +34,7 @@ import GameInfoTop10 from "./GameInfoTop10.js";
 import GameActionBar from "./GameActionBar.js";
 import GameHeader from "./GameHeader.js";
 import GameDescription from "./GameDescription.js";
+import GameLeaderboard from "./GameLeaderboard.js";
 export default function GamePage({}) {
   // let [player_stats] = fs.useWatch("player_stats");
 
@@ -91,61 +92,8 @@ function GameInfo({}) {
       <GameHeader />
       <GameActionBar />
 
-      <Box w="100%" h="100%" p="0" pt="8rem">
-        <Tabs variant="unstyled">
-          <TabList border="0" justifyContent={"center"}>
-            <Tab
-              as="span"
-              color="gray.200"
-              cursor={"pointer"}
-              _selected={{
-                cursor: "auto",
-                color: "brand.600",
-              }}
-              letterSpacing={"2px"}
-              fontWeight={"bold"}
-              fontSize={["1.2rem", "1.2rem", "1.4rem"]}
-            >
-              REPLAY
-            </Tab>
-            <Tab
-              color="gray.200"
-              cursor={"pointer"}
-              _selected={{
-                cursor: "auto",
-                color: "red.500",
-              }}
-              as="span"
-              letterSpacing={"2px"}
-              fontWeight={"bold"}
-              fontSize={["1.2rem", "1.2rem", "1.4rem"]}
-            >
-              LIVE
-            </Tab>
-          </TabList>
-
-          <TabPanels>
-            <TabPanel p="0">
-              <GameInfoReplay game_slug={game_slug} />
-            </TabPanel>
-            <TabPanel></TabPanel>
-          </TabPanels>
-        </Tabs>
-      </Box>
-      <VStack
-        w="100%"
-        px="0"
-        bgColor="gray.925"
-        // py="9rem"
-        pt="8rem"
-        // pb="6rem"
-        maxW="100%"
-        // zIndex="-2"
-        //
-        alignItems={"center"}
-      >
-        <GameInfoTop10 />
-      </VStack>
+      <GameInfoReplay game_slug={game_slug} />
+      <GameLeaderboard />
       <GameDescription />
     </VStack>
   );

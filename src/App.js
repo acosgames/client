@@ -13,7 +13,7 @@ import {
   useHistory
 } from "react-router-dom";
 
-import MainMenuChakra from './components/MainMenuChakra'
+// import MainMenuChakra from './components/MainMenuChakra'
 
 
 // import { getUser } from './actions/person';
@@ -28,7 +28,7 @@ import { useColorModeValue, chakra, useDisclosure } from "@chakra-ui/react";
 import ActivateUserProfile from "./components/widgets/ActivateUserProfile";
 import ToastMessage from "./components/widgets/ToastMessage";
 // import ChatPanel from "./components/chat/ChatPanel";
-import AllContent from './components/AllContent';
+// import AllContent from './components/AllContent';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
@@ -148,105 +148,69 @@ function App(props) {
     </BrowserRouter>
   )
 
-  return (
-    <BrowserRouter>
-      <ActivateUserProfile />
-      <VersionControl />
-      <GameInfoCreateDisplayName {...disclosure} />
+  // return (
+  //   <BrowserRouter>
+  //     <ActivateUserProfile />
+  //     <VersionControl />
+  //     <GameInfoCreateDisplayName {...disclosure} />
 
-      {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
+  //     {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
 
-      <ToastMessage />
+  //     <ToastMessage />
 
-      <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
-        <VStack bgColor={'gray.900'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
-          {/* <HStack
-            boxShadow={'#0003 0 4px 6px -1px, #0000001f 0 2px 4px -1px'}
-            spacing="0"
-            w="100%"
-            // overflow="hidden"
-            h={['3rem', '4rem', '5rem']}
-            minHeight={['3rem', '4rem', '5rem']}
-            zIndex="21"
-            justifyContent={'center'}
+  //     <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
+  //       <VStack bgColor={'gray.900'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
 
-          // bg={'blacks.300'}
-          >
-          </HStack> */}
-          <Box
-            w="100%"
-            h="100%"
-          // pt="2rem"
-          >
-            <Routes>
-              {/* <Route path="/dev/login">
-                <></>
-              </Route> */}
-              <Route
-                path="/dev/*" element={<Sidebar />}>
+  //         <Box
+  //           w="100%"
+  //           h="100%"
 
-              </Route>
-              <Route path="*" element={<Text></Text>}></Route>
-            </Routes>
-          </Box>
-        </VStack>
-        <VStack className="panel-main" height="100%" width="100%" spacing="0" justifyContent={'center'} >
+  //         >
+  //           <Routes>
 
-          <MainMenuChakra />
-          <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef} height="auto" flex="1">
-            <GamePanelDraggables primaryCanvasRef={primaryCanvasRef} />
+  //             <Route
+  //               path="/dev/*" element={<Sidebar />}>
 
-            <ChakraSimpleBar
-              boxSizing='border-box'
-              className="main-scrollbars"
-              style={{
-                width: '100%',
-                position: 'absolute',
-                inset: '0px',
+  //             </Route>
+  //             <Route path="*" element={<Text></Text>}></Route>
+  //           </Routes>
+  //         </Box>
+  //       </VStack>
+  //       <VStack className="panel-main" height="100%" width="100%" spacing="0" justifyContent={'center'} >
 
-                // height: '100%', 
-                // flex: '1',
-                overflow: 'hidden scroll', boxSizing: 'border-box',
-              }} scrollableNodeProps={{}}>
+  //         <MainMenuChakra />
+  //         <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef} height="auto" flex="1">
+  //           <GamePanelDraggables primaryCanvasRef={primaryCanvasRef} />
 
-              {/* <Scrollbars
-              renderView={(props) => (
-                <div
-                  className="main-scrollbars"
-                  style={{
-                    position: 'absolute',
-                    inset: '0px',
-                    overflow: 'hidden scroll',
-                    width: '100%'
-                    // marginRight: '-8px',
-                    // marginBottom: '-8px'
-                  }}
-                />)}
-              // renderThumbVertical={(style, props) => <Box  {...props} {...style} w="10px" bgColor={'blacks.700'} className="thumb-vertical" />}
-              hideTracksWhenNotNeeded={true}
-              autoHide
-              autoHideTimeout={2000}
-              autoHideDuration={200}
-            > */}
-              <VStack px={['0.5rem', '1rem', '5rem']} pt={'2.5rem'} spacing="0" justifyContent={'center'} w="100%" height="100%" >
-                <AllContent />
-              </VStack>
-              {/* </Scrollbars> */}
-            </ChakraSimpleBar>
-          </Box>
-          {layoutMode == 'bottom' && (
-            <ActionPanelWrapper />
-          )}
-        </VStack>
-        {
-          layoutMode == 'right' && (
-            <ActionPanelWrapper />
-          )
-        }
-      </HStack >
+  //           <ChakraSimpleBar
+  //             boxSizing='border-box'
+  //             className="main-scrollbars"
+  //             style={{
+  //               width: '100%',
+  //               position: 'absolute',
+  //               inset: '0px',
+  //               overflow: 'hidden scroll', boxSizing: 'border-box',
+  //             }} scrollableNodeProps={{}}>
 
-    </BrowserRouter >
-  );
+
+  //             <VStack px={['0.5rem', '1rem', '5rem']} pt={'2.5rem'} spacing="0" justifyContent={'center'} w="100%" height="100%" >
+  //               <AllContent />
+  //             </VStack>
+  //           </ChakraSimpleBar>
+  //         </Box>
+  //         {layoutMode == 'bottom' && (
+  //           <ActionPanelWrapper />
+  //         )}
+  //       </VStack>
+  //       {
+  //         layoutMode == 'right' && (
+  //           <ActionPanelWrapper />
+  //         )
+  //       }
+  //     </HStack >
+
+  //   </BrowserRouter >
+  // );
 }
 
 function ActionPanelWrapper() {

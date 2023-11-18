@@ -56,7 +56,7 @@ function Header({}) {
             <Link to="/" className="" onClick={(e) => {}}>
               <Image
                 alt={"A cup of skill logo"}
-                src={`${config.https.cdn}acos-logo-standalone4.png`}
+                src={`${config.https.cdn}acos-logo-standalone-nov-2023.png`}
                 h={["1.5rem", "2rem", "3rem"]}
                 maxHeight={"90%"}
               />

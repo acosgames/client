@@ -31,7 +31,7 @@ export default function ActionBarItem({
         {/* <WrapItem color="gray.0" h="6rem"> */}
         <VStack
           //   transform={["scale(0.60)", "scale(0.7)", "scale(0.75)", "scale(1)"]}
-          h={["6rem"]}
+          h={["4rem"]}
           //   w="6rem"
           justifyContent={"flex-end"}
           mb={"1rem"}

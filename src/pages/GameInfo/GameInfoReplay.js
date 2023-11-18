@@ -12,7 +12,56 @@ import { calculateGameSize } from "../../util/helper";
 import USAFlag from "../../assets/images/flags/USA.svg";
 import config from '../../config'
 
+
 function GameInfoReplay({ game_slug }) {
+    return (
+        <Box w="100%" h="100%" p="0" pt="4rem">
+            <Tabs variant="unstyled">
+                <TabList border="0" justifyContent={"center"}>
+                    <Tab
+                        as="span"
+                        color="gray.200"
+                        cursor={"pointer"}
+                        _selected={{
+                            cursor: "auto",
+                            color: "brand.600",
+                        }}
+                        // letterSpacing={"2px"}
+                        fontWeight={"bold"}
+                        textTransform={'uppercase'}
+                        fontSize={["1.2rem", "1.2rem", "1.4rem"]}
+                    >
+                        REPLAY
+                    </Tab>
+                    <Tab
+                        color="gray.200"
+                        cursor={"pointer"}
+                        _selected={{
+                            cursor: "auto",
+                            color: "red.500",
+                        }}
+                        as="span"
+                        // letterSpacing={"2px"}
+                        fontWeight={"bold"}
+                        textTransform={'uppercase'}
+                        fontSize={["1.2rem", "1.2rem", "1.4rem"]}
+                    >
+                        LIVE
+                    </Tab>
+                </TabList>
+
+                <TabPanels>
+                    <TabPanel p="0">
+                        <GameInfoReplayContent game_slug={game_slug} />
+                    </TabPanel>
+                    <TabPanel></TabPanel>
+                </TabPanels>
+            </Tabs>
+        </Box>
+    )
+}
+
+function GameInfoReplayContent({ game_slug }) {
 
     let [game] = fs.useWatch("game");
     let [room_slug] = fs.useWatch('replay/' + game_slug);
@@ -51,12 +100,12 @@ function GameInfoReplay({ game_slug }) {
     if (!replaySettings)
         return <></>
 
-    let h = window.innerHeight - 100;
+    let h = window.innerHeight - 50;
     let w = window.innerWidth
     if (window.innerWidth < 800)
         w -= 50;
     else
-        w -= w * 0.6;
+        w -= w * 0.5;
     let { bgWidth, bgHeight } = calculateGameSize(w, h, replaySettings.resow, replaySettings.resoh, 1);
 
     let replayRating = 0;
@@ -66,14 +115,14 @@ function GameInfoReplay({ game_slug }) {
     }
 
     return (
-        <VStack pb="9rem" w="100%" spacing="0" filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))">
+        <VStack pb="5rem" w="100%" spacing="0" filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))">
 
             <VStack
                 ml="1rem"
                 //  mb="2rem"
                 w="100%"
                 alignItems={"center"}
-                pb="6rem"
+                pb="2rem"
                 _after={{
                     content: '""',
                     display: "block",

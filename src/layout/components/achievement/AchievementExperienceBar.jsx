@@ -4,6 +4,7 @@ export default function AchievementExperienceBar({ percent, status }) {
   let color = "yellow";
   if (percent >= 100) color = "green";
 
+  if (percent >= 100) return <></>;
   return (
     <HStack position="relative" width="100%" bgColor="gray.400" spacing="0rem">
       <Progress
@@ -14,7 +15,7 @@ export default function AchievementExperienceBar({ percent, status }) {
         w="100%"
         height="0.5rem"
       />
-      {/* <Box
+      <Box
         width="0.2rem"
         height="100%"
         position="absolute"
@@ -45,7 +46,7 @@ export default function AchievementExperienceBar({ percent, status }) {
         top="0"
         left="80%"
         bgColor="gray.700"
-      ></Box> */}
+      ></Box>
       {/* <Box width="0.4rem" height="100%" position="absolute" top="0" left="20%" ></Box> */}
     </HStack>
   );

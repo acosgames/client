@@ -1,4 +1,4 @@
-import { HStack, VStack, Text, Image, Icon, Wrap, WrapItem } from "@chakra-ui/react";
+import { HStack, VStack, Text, Image, Icon, Wrap, WrapItem, Box } from "@chakra-ui/react";
 import config from '../../config/index.js'
 
 import fs from 'flatstore';
@@ -46,9 +46,9 @@ function PlayerRankInfo({ }) {
         )
     }
     return (
-        <ActionBarItem title={ratingTextFormatted} value={played < 10 ? `${played} / 10` : stats.rating} spacing="0" ml="0rem" mr="0">
+        <ActionBarItem title={played >= 10 ? 'RATING' : 'UNRANKED'} value={(played < 10 ? `${played} / 10` : stats.rating)} spacing="0" ml="0rem" mr="0">
             <>
-                <Image
+                {/* <Image
                     display={played >= 10 ? 'inline-block' : 'none'}
                     src={`${config.https.cdn}icons/ranks/platform/${rankNumber}.webp`}
                     loading="lazy"
@@ -56,15 +56,51 @@ function PlayerRankInfo({ }) {
                     height="7rem"
                     position="relative"
                     top="1rem"
-                // minW='auto'
-                // position="relative"
-                />
+                /> */}
+
+                <Box w="4rem" h="4rem" minH="4rem" position="relative" zIndex="1">
+                    {/* <Image
+                        w="10rem"
+                        h="10rem"
+                        minW="10rem"
+                        position="absolute"
+                        // transition="all 1s ease"
+                        // animation="grow_shrink11 3s ease infinite"
+                        top="0"
+                        left="0"
+                        zIndex="-1"
+                        src={`${config.https.cdn}icons/achievements/panel-black-medium.webp`}
+                    /> */}
+                    <Text as="span"
+                        textTransform='uppercase'
+                        display={played >= 10 ? 'block' : 'none'}
+                        fontSize='3rem'
+                        color='gray.200'
+                        // textShadow='0 8px 9px var(--chakra-colors-brand-300) 0px -2px 20px var(--chakra-colors-brand-600)'
+                        textShadow={`2px 2px 2px var(--chakra-colors-gray-10),
+                        -2px 2px 2px var(--chakra-colors-gray-10),
+                        2px -2px 2px var(--chakra-colors-gray-10),
+                        -2px -2px 2px var(--chakra-colors-gray-10)`}
+                        fontWeight='bold'
+                        letterSpacing='0px'
+                        textAlign='center'
+                        lineHeight={'3.5rem'}
+                        position='relative'
+                        top="1rem"
+                        borderRadius='20px'
+
+                    >
+                        {ratingTextFormatted.replace('CLASS ', '')}
+                    </Text>
+                </Box>
+
+
                 <Icon
                     display={played < 10 ? 'inline-block' : 'none'}
                     as={AiOutlineCloseCircle}
                     width={'auto'}
-                    color="gray.200"
-                    height={["6rem"]}
+                    color="gray.10"
+                    height={["3rem"]}
                 />
             </>
         </ActionBarItem>
