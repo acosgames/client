@@ -7,13 +7,15 @@ export default function ExperienceBar({ percent }) {
       width="100%"
       bgColor="gray.400"
       spacing="0.4rem"
+      clipPath="polygon(0 100%, 100% 0, 100% 100%)"
+      top="-0.5rem"
     >
       <Progress
         value={percent}
         size="xs"
         colorScheme="green"
         w="100%"
-        height="0.5rem"
+        height="1rem"
       />
       <Box
         width="0.2rem"

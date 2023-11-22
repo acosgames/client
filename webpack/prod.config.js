@@ -79,19 +79,19 @@ async function uploadToStorage() {
                 console.log("Updated indexTemplate with version: ", clientVersion, indexPath);
             })
 
-        let swTemplatePath = publicPath + '/custom-sw.js';
-        let swPath = publicPath + '/custom-sw.' + clientVersion + '.js';
-        let swTemplate = fs.readFileSync(swTemplatePath, 'utf-8');
+        // let swTemplatePath = publicPath + '/custom-sw.js';
+        // let swPath = publicPath + '/custom-sw.js';
+        // let swTemplate = fs.readFileSync(swTemplatePath, 'utf-8');
 
-        Readable.from([swTemplate])
-            // .pipe(zlib.createGzip())
-            .pipe(fs.createWriteStream(swPath))
-            .on("error", (error) => {
-                console.error(error);
-            })
-            .on("finish", async () => {
-                console.log("Updated indexTemplate with version: ", clientVersion, swTemplatePath);
-            })
+        // Readable.from([swTemplate])
+        //     // .pipe(zlib.createGzip())
+        //     .pipe(fs.createWriteStream(swPath))
+        //     .on("error", (error) => {
+        //         console.error(error);
+        //     })
+        //     .on("finish", async () => {
+        //         console.log("Updated indexTemplate with version: ", clientVersion, swTemplatePath);
+        //     })
 
 
         // fs.writeFileSync(publicPath + '/index.html', indexTemplate, 'utf-8');

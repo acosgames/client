@@ -491,7 +491,7 @@ export async function recvFrameMessage(evt) {
     if (!action.type) return;
 
     let gamepanel = findGamePanelByIFrame(iframe);
-
+    if (!gamepanel) return;
     // console.log('[iframe]: ', action);
 
     let room_slug = gamepanel.room.room_slug;//getCurrentRoom();

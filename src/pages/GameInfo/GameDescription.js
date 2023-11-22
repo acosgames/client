@@ -14,8 +14,8 @@ export default function GameDescription({ }) {
     return (
         <VStack w="100%"
             px="3rem"
-            pt="9rem"
-            bgColor="gray.1200"
+            pt="2rem"
+            bgColor="gray.925"
             // pt="0rem"
             boxShadow={'0px 3px 7px 0px rgba(0, 0, 0, 0.21)'}
             pb="10rem">
@@ -40,7 +40,7 @@ export default function GameDescription({ }) {
                 maxW={["100%", "100%", "100%", "95%", "70%", "60%"]}
                 border="1px solid"
                 borderColor="gray.800"
-                mb="9rem"
+                mb="4rem"
 
                 clipPath='polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)'>
                 <Heading fontSize={["3.2rem", "2.4rem", "2.4rem", "3.2rem"]} fontWeight="700" color="gray.0" lineHeight={'3.2rem'}>GAME DESCRIPTION</Heading>

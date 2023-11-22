@@ -61,6 +61,7 @@ export default function ActionBarItem({
             textAlign={"center"}
             overflow="hidden"
             textOverflow={"ellipsis"}
+            letterSpacing={"1px"}
             whiteSpace={"nowrap"}
             fontSize={["2rem", "2rem", "2rem", "2.2rem"]}
           >

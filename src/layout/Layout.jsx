@@ -101,20 +101,21 @@ function MobileLayout({ children, gameResizer }) {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <VStack
         className="layout-content"
         w={["100%"]}
         overflow="hidden"
         height="100%"
-        pb={["1rem", "1rem"]}
+        // pb={["1rem", "1rem"]}
+        // mt={["7rem", "7rem", "0"]}
       >
         <VStack
           w={["100%"]}
-          position="fixed"
+          // position="fixed"
           top={["0"]}
           right="0"
-          h={["7rem"]}
+          h={["7.5rem"]}
           zIndex={1001}
           bgColor={["gray.900", "gray.900"]}
           pb="0rem"
@@ -124,15 +125,19 @@ function MobileLayout({ children, gameResizer }) {
         </VStack>
         <ChakraSimpleBar
           boxSizing="border-box"
-          autoHide={false}
-          forceVisible={true}
+          autoHide={true}
+          forceVisible={false}
           // pt={["6rem", "4rem", "7rem"]}
           style={{
+            position: "absolute",
+            top: "7.5rem",
+            left: "0",
             width: "100%",
-            height: "auto",
+            height: "calc(100vh - 7rem)",
             flex: "1",
             overflow: "hidden scroll",
             boxSizing: "border-box",
+            // marginTop: "7.5rem",
           }}
           //   scrollableNodeProps={{ ref: scrollRef }}
         >
@@ -164,6 +169,8 @@ function DesktopLayout({ children }) {
       <VStack w={["100%"]} overflow="hidden" height="100%">
         <ChakraSimpleBar
           boxSizing="border-box"
+          autoHide={true}
+          forceVisible={false}
           // pt={["4rem", "4rem", "7rem"]}
           style={{
             width: "100%",

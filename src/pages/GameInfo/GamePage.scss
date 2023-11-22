@@ -196,14 +196,14 @@
 
     table {
 
-        background-color: var(--chakra-colors-gray-900);
+        /* background-color: var(--chakra-colors-gray-750); */
         /* background-color: var(--chakra-colors-gray-850); */
-        border: 1px solid var(--chakra-colors-gray-600);
+        border: 1px solid var(--chakra-colors-gray-800);
         margin: 2rem auto;
         
 
         thead {
-            border-bottom: 1px solid var(--chakra-colors-gray-600);
+            border-bottom: 1px solid var(--chakra-colors-gray-800);
         }
 
         tbody {
@@ -212,24 +212,25 @@
 
         th { 
             padding: 0.6rem 1.2rem;
-            border-right: 1px solid var(--chakra-colors-gray-600);
+            border-right: 1px solid var(--chakra-colors-gray-800);
             font-weight:600;
             color:var(--chakra-colors-gray-10);
+            background-color: var(--chakra-colors-gray-700);
         }
 
         tr {
-            border-bottom: 1px solid var(--chakra-colors-gray-600);
+            border-bottom: 1px solid var(--chakra-colors-gray-800);
         }
 
         td {
             color:var(--chakra-colors-gray-10);
             padding: 0.6rem 1.2rem;
-            border-right: 1px solid var(--chakra-colors-gray-600);
+            border-right: 1px solid var(--chakra-colors-gray-800);
             font-weight:400;
-            
+            background-color: var(--chakra-colors-gray-500);
         }
         tr:nth-child(even) {
-            background-color: var(--chakra-colors-gray-825);
+            /* background-color: var(--chakra-colors-gray-600); */
             /* background-color: var(--chakra-colors-gray-800); */
         }
     }

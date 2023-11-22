@@ -5,15 +5,18 @@ export default function UserName({}) {
     <Text
       as="span"
       color="gray.0"
-      fontWeight={""}
-      fontSize="1.4rem"
-      width={["13rem", "17rem"]}
+      fontWeight={"500"}
+      fontSize="1.3rem"
+      // width={["13rem", "17rem"]}
+      maxW="20rem"
       height={"1.6rem"}
       lineHeight="1.7rem"
+      minWidth="0"
+      whiteSpace={"nowrap"}
       overflow={"hidden"}
       textOverflow={"ellipsis"}
-      whiteSpace="nowrap"
       display="block"
+      pl="0.5rem"
       float="left"
     >
       JoeOfTexas

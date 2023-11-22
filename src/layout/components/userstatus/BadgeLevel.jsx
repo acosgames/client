@@ -1,5 +1,6 @@
-import { HStack, Icon, Text } from "@chakra-ui/react";
+import { HStack, Heading, Icon, Image, Text } from "@chakra-ui/react";
 import { GiCandlebright } from "@react-icons";
+import config from "../../../config/index.js";
 
 export default function BadgeLevel({ level }) {
   return (
@@ -7,22 +8,37 @@ export default function BadgeLevel({ level }) {
       borderRadius="6px"
       pl="0.4rem"
       pr="0.75rem"
-      bgColor="gray.800"
+      // bgColor="gray.300"
       justifyContent={"flex-start"}
       alignItems={"center"}
       spacing="0.3rem"
+      h="2.5rem"
     >
-      <Icon as={GiCandlebright} fontSize="1.2rem" color="brand.300" />
-      <Text
-        as="span"
+      <Image
+        display={"inline-block"}
+        src={`${config.https.cdn}icons/achievements/2-white-thumbnail.webp`}
+        loading="lazy"
+        title={"Level"}
+        height="2rem"
+        w="2rem"
+        minW="2rem"
+        position="relative"
+        filter="sepia(50%) hue-rotate(100deg)"
+        // filter="brightness(70%) hue-rotate(50deg)"
+        top="-0.1rem"
+        // left="-0.5rem"
+      />
+      {/* <Icon as={GiCandlebright} fontSize="1.2rem" color="brand.300" /> */}
+      <Heading
+        as="h6"
         fontSize="1.2rem"
-        color="gray.0"
+        color="gray.10"
         fontWeight="500"
         lineHeight="1.7rem"
-        letterSpacing={"1px"}
+        letterSpacing={"0px"}
       >
-        Lvl {level}
-      </Text>
+        Lvl. {level}
+      </Heading>
     </HStack>
   );
 }

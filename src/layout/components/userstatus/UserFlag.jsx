@@ -9,7 +9,7 @@ export default function UserFlag({ flag }) {
       // border="2px solid"
       borderColor="gray.100"
       borderRadius="0px"
-      height={["1.6rem"]}
+      height={["1.4rem"]}
     />
   );
 }

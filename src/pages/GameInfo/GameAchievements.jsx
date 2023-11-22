@@ -4,7 +4,7 @@ import AchievementPanel from "../../layout/components/achievement/AchievementPan
 
 export function GameActiveAchievements({}) {
   let achievements = [];
-  for (let i = 40; i <= 40; i++) {
+  for (let i = 35; i <= 36; i++) {
     achievements.push(
       <AchievementPanel
         key={"achievement" + i}
@@ -27,15 +27,15 @@ export function GameActiveAchievements({}) {
         w="100%"
         alignItems={"center"}
         pb="1rem"
-        _after={{
-          content: '""',
-          display: "block",
-          clipPath: "polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)",
-          width: "65px",
-          height: "5px",
-          margin: "0.5rem 0 0",
-          background: "brand.300",
-        }}
+        // _after={{
+        //   content: '""',
+        //   display: "block",
+        //   clipPath: "polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)",
+        //   width: "65px",
+        //   height: "5px",
+        //   margin: "0.5rem 0 0",
+        //   background: "brand.300",
+        // }}
       >
         <Text
           as="span"

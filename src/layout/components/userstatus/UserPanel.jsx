@@ -54,71 +54,94 @@ function UserLogin() {
 
 function UserFrame() {
   return (
-    <VStack w="100%" spacing="0" p="0">
-      <HStack w="100%" spacing="0.5rem" p="0" alignItems={"center"}>
-        <UserAvatar />
-        <VStack w="100%" pr="0.5rem" spacing="1rem">
-          <HStack
-            w="100%"
-            alignItems={"flex-start"}
-            spacing="1rem"
-            justifyContent={"flex-start"}
-            pt="0.5rem"
-          >
-            <VStack alignItems={"flex-start"} flex={["1", ""]} spacing="1rem">
-              <HStack alignItems={"center"} spacing="0.5rem" w="100%">
-                <UserFlag />
-                <UserName />
-              </HStack>
-
-              <HStack spacing="1rem">
-                <BadgeLevel level={3} />
-                <BadgePoints points={1000} />
-              </HStack>
-              {/* {loggedIn != "LURKER" && <NavForUser />}
-                {loggedIn == "LURKER" && <NavForGuest />} */}
-            </VStack>
-
-            <VStack
-              alignSelf={"center"}
-              display={["flex", "flex", "none"]}
-              spacing="0.5rem"
-              h="100%"
+    <VStack
+      w="100%"
+      spacing="0"
+      //  p="1rem"
+      px={["0", "0", "1rem"]}
+      pt={["0", "0", "0.5rem"]}
+    >
+      <VStack bgColor="gray.975" borderRadius={"8px"} w="100%">
+        <HStack
+          w="100%"
+          spacing="0.5rem"
+          p="0"
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <Box pl="1rem" pt="0.5rem">
+            <UserAvatar />
+          </Box>
+          <VStack w="100%" pr="0.5rem" spacing="1rem">
+            <HStack
+              w="100%"
+              alignItems={"flex-start"}
+              spacing="1rem"
+              justifyContent={"flex-start"}
             >
-              <ConnectionStatus />
-              <PlayersOnlineStatus />
-            </VStack>
-            <VStack spacing="0">
-              {/* <UserLevelIcon /> */}
-              <IconButton
-                icon={
-                  <Icon
-                    as={BsThreeDotsVertical}
-                    color={"gray.0"}
-                    fontSize={["xs", "xs", "md"]}
-                  />
-                }
-                color="gray.0"
-              />
-            </VStack>
-          </HStack>
-          <VStack
-            justifyContent={"center"}
-            h="100%"
-            w="100%"
-            px={["0", "0"]}
-            pt="0"
-          >
-            <ExperienceBar percent={25} />
+              <VStack
+                alignItems={"flex-start"}
+                flex={["1", ""]}
+                spacing="0.25rem"
+              >
+                <HStack alignItems={"center"} spacing="0.5rem" w="100%">
+                  <UserName />
+                  <UserFlag />
+                </HStack>
+
+                <HStack spacing="0.5rem">
+                  <BadgeLevel level={3} />
+                  <BadgePoints points={1000} />
+                </HStack>
+                {/* {loggedIn != "LURKER" && <NavForUser />}
+                {loggedIn == "LURKER" && <NavForGuest />} */}
+              </VStack>
+
+              <VStack
+                alignSelf={"center"}
+                display={["flex", "flex", "none"]}
+                spacing="0.5rem"
+                h="100%"
+              >
+                <ConnectionStatus />
+                <PlayersOnlineStatus />
+              </VStack>
+              <VStack spacing="0" alignItems={"flex-start"}>
+                {/* <UserLevelIcon /> */}
+                <IconButton
+                  icon={
+                    <Icon
+                      as={BsThreeDotsVertical}
+                      color={"gray.0"}
+                      fontSize={["xs", "xs", "md"]}
+                      position="relative"
+                      top="-0.5rem"
+                    />
+                  }
+                  color="gray.0"
+                />
+              </VStack>
+            </HStack>
           </VStack>
+        </HStack>
+        <VStack
+          justifyContent={"center"}
+          h="100%"
+          w="100%"
+          px={["1rem"]}
+          pt="0"
+          position="relative"
+          top="-0.5rem"
+        >
+          <ExperienceBar percent={25} />
         </VStack>
-      </HStack>
+      </VStack>
       <HStack
         display={["none", "none", "flex"]}
         justifyContent={"center"}
         spacing="2rem"
         w="100%"
-        mt="0.5rem"
+        my="1rem"
       >
         <ConnectionStatus />
         <PlayersOnlineStatus />

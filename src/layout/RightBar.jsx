@@ -23,13 +23,13 @@ function RightBar({}) {
         right="0"
         h={["5rem", "100vh"]}
         zIndex={1001}
-        bgColor="gray.900"
+        bgColor="gray.925"
         // borderLeft={["0", "1px solid var(--chakra-colors-gray-950)"]}
         // boxShadow={[
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
         // ]}
-        spacing="0.5rem"
+        spacing="0rem"
       >
         <Lobby />
       </VStack>
@@ -43,7 +43,7 @@ function Lobby() {
     <>
       {/* <Box w="100%" h="100%" overflow="hidden"> */}
       <UserPanel key="desktop-userpanel" />
-      <WaitingPanel />
+      {/* <WaitingPanel /> */}
       <ChatPanel />
       {/* </Box> */}
     </>

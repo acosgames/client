@@ -25,14 +25,14 @@ function Header({}) {
       top="0"
       left="0"
       w="100%"
-      height={["4rem", "4rem", "7rem"]}
+      height={["6.4rem", "6.4rem", "7rem"]}
       // width={["100%", "calc(100% - 27rem)", "calc(100% - 30rem)"]}
       zIndex={"999"}
       // background={[
       //   "transparent",
       //   "linear-gradient(153.32deg, rgba(255, 255, 255, 0.3) -65.62%, rgba(255, 255, 255, 0.1) 83.28%)",
       // ]}
-      bgColor={"gray.1000"}
+      bgColor={"gray.975"}
       boxShadow={[
         "initial",
         "0px 4px 24px -1px rgba(0,0,0,.2)",

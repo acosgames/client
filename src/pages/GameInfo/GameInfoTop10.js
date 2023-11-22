@@ -82,23 +82,24 @@ export default function GameInfoTop10({ }) {
         )
     }
     return (
-        <Box w="100%" maxW={["100%", "100%", "100%", "95%", "70%", "60%"]} pt="0" pb="9rem" px="3rem">
+        <Box w="100%" maxW={["100%", "100%", "100%", "95%", "70%", "60%"]} pt="0" pb="10rem" px={["1rem", "3rem"]}>
 
             <VStack w="100%" spacing="1rem" alignItems={'flex-start'}>
                 <VStack
                     w="100%"
                     alignItems={'center'}
-                    // pb="3rem"
-                    _after={{
-                        content: '""',
-                        display: 'block',
-                        clipPath: 'polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)',
-                        width: '65px',
-                        height: '5px',
-                        margin: '0.5rem 0 0',
-                        background: 'brand.300',
-                    }
-                    }>
+                // pb="3rem"
+                // _after={{
+                //     content: '""',
+                //     display: 'block',
+                //     clipPath: 'polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)',
+                //     width: '65px',
+                //     height: '5px',
+                //     margin: '0.5rem 0 0',
+                //     background: 'brand.300',
+                // }
+                // }
+                >
                     <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "4rem"]} fontWeight={'600'}>Rankings</Heading>
                 </VStack>
 

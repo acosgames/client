@@ -19,6 +19,7 @@ import ChatMessage from "./ChatMessage.jsx";
 import USAFlag from "../../../assets/images/flags/USA.svg";
 import { useEffect, useRef } from "react";
 import SimpleBar from "simplebar-react";
+import QueueMessage from "./QueueMessage.jsx";
 
 export default function ChatPanel({}) {
   let timeHandle = 0;
@@ -41,9 +42,14 @@ export default function ChatPanel({}) {
     }, scrollBarHideDelay);
   };
 
+  useEffect(() => {
+    if (scrollRef && scrollRef.current)
+      scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
+  });
   //setup scroll event
   useEffect(() => {
     scrollRef.current.addEventListener("scroll", onScroll);
+
     // return () => {
     //     if (scrollRef.current)
     //         scrollRef.current.removeEventListener('scroll', onScroll);
@@ -51,7 +57,7 @@ export default function ChatPanel({}) {
   }, []);
 
   const ChakraSimpleBar = chakra(SimpleBar);
-
+  let queue;
   return (
     <>
       {/* <Box position="relative" w="0" h="0"></Box> */}
@@ -63,8 +69,10 @@ export default function ChatPanel({}) {
         position="relative"
         overflow="hidden"
         flex="1"
-        mb="0.5rem"
-        pt="0.5rem"
+        // mb="0.5rem"
+        // pt="0.5rem"
+        px="1rem"
+        mb="1rem"
       >
         <Accordion
           allowToggle
@@ -79,7 +87,7 @@ export default function ChatPanel({}) {
             w="100%"
             borderTop="0"
             borderBottom="0"
-            borderRadius="0.5rem"
+            // borderRadius="1rem"
             display="flex"
             flexDirection={"column"}
             position="relative"
@@ -88,9 +96,9 @@ export default function ChatPanel({}) {
             <AccordionButton
               p="0"
               onClick={onToggle}
-              bgColor="gray.800"
+              // bgColor="gray.800"
+              // bgColor="gray.1000"
               m="0"
-              borderRadius="0.5rem"
               display={["block"]}
             >
               <HStack
@@ -98,8 +106,11 @@ export default function ChatPanel({}) {
                 w="100%"
                 //   mb="0.5rem"
                 pb="0.5rem"
-                borderRadius="0.5rem"
-                bgColor="gray.800"
+                // borderRadius="0.5rem"
+                transition="all 0.3s ease"
+                borderRadius={!isOpen ? "0" : "8px"}
+                borderTopRadius={"8px"}
+                bgColor="gray.975"
                 position="relative"
               >
                 <Heading
@@ -191,10 +202,10 @@ export default function ChatPanel({}) {
                     className="chat-message-panel"
                     height="100%"
                     // pl="2rem"
-
+                    bgColor="gray.1000"
                     px={["0.25rem", "0.5rem"]}
                     pt="0.25rem"
-                    spacing="0.5rem"
+                    spacing="0rem"
                     justifyContent={"flex-end"}
                   >
                     <ChatMessage
@@ -269,11 +280,15 @@ export default function ChatPanel({}) {
                       msgTime="12:31"
                       msg="Do you want to play a game?"
                     />
-
+                    <QueueMessage
+                      game_slug={"tictactoe"}
+                      name={"Tic Tac Toe"}
+                      userCount="5"
+                    />
                     <Box w="100" flex="1"></Box>
                   </VStack>
                 </ChakraSimpleBar>
-                <ChatSend />
+                <ChatSend isOpen={isOpen} />
               </VStack>
             </Box>
           </AccordionItem>

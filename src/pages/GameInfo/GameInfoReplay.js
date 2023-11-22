@@ -15,8 +15,8 @@ import config from '../../config'
 
 function GameInfoReplay({ game_slug }) {
     return (
-        <Box w="100%" h="100%" p="0" pt="4rem">
-            <Tabs variant="unstyled">
+        <Box w="100%" h="100%" p="0" pt="1rem">
+            <Tabs variant="unstyled" isLazy>
                 <TabList border="0" justifyContent={"center"}>
                     <Tab
                         as="span"
@@ -100,12 +100,16 @@ function GameInfoReplayContent({ game_slug }) {
     if (!replaySettings)
         return <></>
 
-    let h = window.innerHeight - 50;
+    let h = window.innerHeight - 100;
     let w = window.innerWidth
-    if (window.innerWidth < 800)
+    if (window.innerWidth < 500)
         w -= 50;
+    else if (window.innerWidth < 800)
+        w -= 150;
+    // else if (window.innerWidth < 900)
+    // w -= w * 0.6;
     else
-        w -= w * 0.5;
+        w -= w * 0.6;
     let { bgWidth, bgHeight } = calculateGameSize(w, h, replaySettings.resow, replaySettings.resoh, 1);
 
     let replayRating = 0;
@@ -115,24 +119,24 @@ function GameInfoReplayContent({ game_slug }) {
     }
 
     return (
-        <VStack pb="5rem" w="100%" spacing="0" filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))">
+        <VStack pb="10rem" w="100%" spacing="0" filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))">
 
             <VStack
-                ml="1rem"
+                // ml="1rem"
                 //  mb="2rem"
                 w="100%"
                 alignItems={"center"}
                 pb="2rem"
-                _after={{
-                    content: '""',
-                    display: "block",
-                    clipPath:
-                        "polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)",
-                    width: "65px",
-                    height: "5px",
-                    margin: "0.5rem 0 0",
-                    background: "brand.600",
-                }}
+            // _after={{
+            //     content: '""',
+            //     display: "block",
+            //     clipPath:
+            //         "polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)",
+            //     width: "65px",
+            //     height: "5px",
+            //     margin: "0.5rem 0 0",
+            //     background: "brand.600",
+            // }}
             >
                 <Heading
                     as="h2"
@@ -199,8 +203,8 @@ function GameInfoReplayContent({ game_slug }) {
 function ReplayInfoPanel({ room_slug }) {
     return (<Tabs w="100%" h="100%" variant="unstyled">
         <TabList justifyContent={'center'} bgColor="gray.1200" >
-            <Tab fontSize="1.4rem" color="gray.200" _selected={{ color: 'gray.0', bg: 'gray.1200', border: '1px solid', borderColor: 'gray.1200' }}>Players</Tab>
-            <Tab fontSize="1.4rem" color="gray.200" _selected={{ color: 'gray.0', bg: 'gray.1200', border: '1px solid', borderColor: 'gray.1200' }}> Logs</Tab>
+            <Tab fontSize="1.4rem" color="gray.200" _selected={{ color: 'gray.0', bg: 'gray.1200', border: '0px solid', borderColor: 'gray.1200' }}>Players</Tab>
+            <Tab fontSize="1.4rem" color="gray.200" _selected={{ color: 'gray.0', bg: 'gray.1200', border: '0px solid', borderColor: 'gray.1200' }}> Logs</Tab>
         </TabList>
         <TabPanels p="0" minH="12.5rem">
             <TabPanel p="0">
@@ -369,7 +373,9 @@ function ReplayControls({ room_slug }) {
                 }}><Icon
                         as={BiSkipPrevious}
                         height='3rem'
-                        width='3rem' /></Button>
+                        width='3rem' _hover={{
+                            color: 'gray.100'
+                        }} /></Button>
                 {/* <Button onClick={() => {
                     if (paused)
                         sendUnpauseMessage(props.room_slug);
@@ -387,7 +393,9 @@ function ReplayControls({ room_slug }) {
                 }}><Icon
                         as={BiSkipNext}
                         height='3rem'
-                        width='3rem' /></Button>
+                        width='3rem' _hover={{
+                            color: 'gray.100'
+                        }} /></Button>
                 <Box flex="1"></Box>
                 <Box>
                     <Button p="0" m="0" onClick={() => {
@@ -398,7 +406,9 @@ function ReplayControls({ room_slug }) {
                     }}><Icon
                             as={BiExpand}
                             height='2rem'
-                            width='2rem' /></Button>
+                            width='2rem' _hover={{
+                                color: 'gray.100'
+                            }} /></Button>
                 </Box>
             </HStack>
         </Box>

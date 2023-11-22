@@ -4,6 +4,7 @@
 import { extendTheme } from '@chakra-ui/react'
 import { mode } from '@chakra-ui/theme-tools';
 
+
 const styles = {
     global: {
         'html': {
@@ -157,6 +158,8 @@ const fontSizes = {
     '4xl': "3.2rem"
 }
 
+
+
 const components = {
     Tooltip: {
         baseStyle: {
@@ -189,6 +192,96 @@ const components = {
         },
         defaultProps: {
             variant: 'base'
+        }
+    },
+    Tabs: {
+        baseStyle: {
+            tab: {
+                transition: 'all 0.3s ease',
+                outline: 'none',
+                _selected: {
+                    outline: 'none',
+                    border: '0',
+                }
+            }
+        },
+        variants: {
+
+            brand: {
+                tabs: {
+                    // width: '100%',
+                    overflow: 'scroll',
+                },
+                tab: {
+                    color: 'gray.10',
+                    // border: '2px solid',
+                    // borderColor: 'transparent',
+                    // use colorScheme to change background color with dark and light mode options
+                    // bg: ,
+                    transition: 'all 0.3s ease',
+                    fontWeight: 'bold',
+                    fontSize: ['1.4rem', '1.4rem', '1.4rem', '1.4rem'],
+                    fontFamily: "'Barlow', sans-serif",
+                    borderTopRadius: 'lg',
+                    position: 'relative',
+                    borderBottom: '2px solid',
+                    borderBottomColor: 'transparent',
+                    whiteSpace: 'nowrap',
+                    // mb: '-2px',
+                    _selected: {
+                        // bg: mode('#fff', 'gray.800')(props),
+                        color: 'brand.300',
+                        borderColor: 'brand.300',
+                        borderBottom: '2px solid',
+                        zIndex: '2',
+                        // mb: '-2px',
+                        // _after: {
+                        //     content: "''",
+                        //     position: 'absolute',
+                        //     bottom: 0,
+                        //     left: 0,
+                        //     width: '100%',
+                        //     height: '2px',
+                        //     background: 'brand.300',
+                        //     zIndex: '2',
+                        // }
+                    },
+                },
+                tablist: {
+                    width: 'auto',
+                    overflow: 'scroll',
+                    // overflow: 'hidden',
+                    // paddingLeft: '2rem',
+
+                    // borderBottom: '2px solid',
+                    // borderColor: 'gray.850',
+                    position: 'relative',
+                    pt: "2rem",
+                    padding: 0,
+                    // _after: {
+                    //     content: "''",
+                    //     position: 'absolute',
+                    //     bottom: 0,
+                    //     left: '3rem',
+                    //     width: '100%',
+                    //     height: '2px',
+                    //     background: 'linear-gradient(to right, var(--chakra-colors-gray-700), rgba(0,0,0,0))',
+                    // }
+                },
+                tabpanels: {
+                    padding: '0',
+                },
+                tabpanel: {
+                    padding: '0',
+                    paddingTop: '0rem',
+                    transition: 'all 0.3s ease',
+                    minH: "20rem"
+                    // border: '2px solid',
+                    // borderColor: 'inherit',
+                    // borderBottomRadius: 'lg',
+                    // borderTopRightRadius: 'lg',
+                },
+            }
         }
     },
     Progress: {

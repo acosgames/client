@@ -36,6 +36,11 @@ export default function AchievementIcon({ index, percent }) {
         w="7rem"
         h="7rem"
         minW="7rem"
+        transition="all 0.3s ease"
+        transform="scale(1)"
+        _groupHover={{
+          transform: "scale(1.1)",
+        }}
         // animation="grow_shrink13 3s ease infinite 0.2s"
         src={`${config.https.cdn}icons/achievements/${
           index || 1

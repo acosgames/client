@@ -35,7 +35,7 @@ export function register(config) {
 
         window.addEventListener('load', () => {
             let version = versions?.client?.version || 1;
-            const swFileName = process.env.NODE_ENV !== 'production' ? 'custom-sw.js' : 'custom-sw.' + version + '.js'
+            const swFileName = process.env.NODE_ENV !== 'production' ? 'custom-sw.js' : 'custom-sw.js'
             const swUrl = `${CONFIG.https.api}/${swFileName}`;
 
             if (isLocalhost) {

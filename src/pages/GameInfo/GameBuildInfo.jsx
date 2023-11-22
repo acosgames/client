@@ -39,10 +39,10 @@ export default function GameBuildInfo({ game }) {
       alignItems={"flex-start"}
     >
       <Heading
-        textAlign={"left"}
-        as="h4"
         fontSize={["3.2rem", "2.4rem", "2.4rem", "3.2rem"]}
+        fontWeight="700"
         color="gray.0"
+        lineHeight={"3.2rem"}
       >
         BUILD INFORMATION
       </Heading>
@@ -59,7 +59,7 @@ export default function GameBuildInfo({ game }) {
         alignItems={"center"}
       >
         <HStack
-          spacing={["3rem", "4rem", "5rem", "6rem"]}
+          spacing={["1rem", "3rem", "5rem", "6rem"]}
           // borderBottom="2px dashed"
           // borderBottomColor="gray.925"
         >
@@ -70,7 +70,7 @@ export default function GameBuildInfo({ game }) {
           />
         </HStack>
         <HStack
-          spacing={["3rem", "4rem", "5rem", "6rem"]}
+          spacing={["1rem", "3rem", "5rem", "6rem"]}
           // borderBottom="2px dashed"
           //  borderBottomColor="gray.925"
         >
@@ -80,7 +80,7 @@ export default function GameBuildInfo({ game }) {
             value={"v" + game.latest_version}
           />
         </HStack>
-        <HStack spacing={["3rem", "4rem", "5rem", "6rem"]}>
+        <HStack spacing={["1rem", "3rem", "5rem", "6rem"]}>
           <BuildInfoLine title="Screen Type" value={screentype} />
           {game.screentype != 1 && (
             <BuildInfoLine title="Resolution" value={resolution} />

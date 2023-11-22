@@ -78,7 +78,7 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                     w="100%"
                     justifySelf="flex-start"
                     spacing={["2rem", "2rem", "2rem", "2rem"]}
-                    pt="3rem"
+                    // pt="3rem"
                     // pl={['0', '0', '3rem', '6rem', '12rem']}
                     alignItems={["center", "center", "center", "center"]}
                 >

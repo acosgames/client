@@ -10,8 +10,8 @@ export default function UserAvatar({ filename }) {
       display="inline-block"
       src={`${config.https.cdn}images/portraits/${filename}`}
       loading="lazy"
-      // borderRadius={"4px"}
-      width={["7rem"]}
+      borderRadius={"8px"}
+      width={["6rem"]}
     />
   );
 }

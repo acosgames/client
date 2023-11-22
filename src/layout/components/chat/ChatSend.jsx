@@ -1,8 +1,8 @@
 import { Box, HStack, IconButton, Input } from "@chakra-ui/react";
 import { IoSend } from "@react-icons";
 import { useState } from "react";
-
-export default function ChatSend({}) {
+import QuickChat from "./QuickChat.jsx";
+export default function ChatSend({ isOpen }) {
   let [message, setMessage] = useState("");
   //   let emojiRef = useRef();
   return (
@@ -19,7 +19,7 @@ export default function ChatSend({}) {
       width={"100%"}
       spacing="0"
       m="0"
-      bgColor="gray.900"
+      // bgColor="gray.950"
       // mt="0.25rem"
       // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
     >
@@ -27,13 +27,14 @@ export default function ChatSend({}) {
         name="name"
         id="name"
         title=""
-        borderRadius="4px"
+        borderBottomRadius="8px"
         maxLength="120"
-        lineHeight={"3rem"}
-        pr={"3rem"}
-        height={["3rem", "3rem", "3rem"]}
+        lineHeight={"3.5rem"}
+        pr={"4rem"}
+        pl="4rem"
+        height={["3.5rem", "3.5rem", "3.5rem"]}
         border="0"
-        bgColor="gray.900"
+        bgColor="gray.975"
         color="gray.10"
         fontSize="1.2rem"
         placeholder="Send a message"
@@ -46,7 +47,7 @@ export default function ChatSend({}) {
           //   borderTopColor: "gray.700",
           bgColor: "gray.800",
         }}
-        _placeholder={{ color: "gray.50", fontSize: "1rem" }}
+        _placeholder={{ color: "gray.40", fontSize: "1.2rem" }}
         value={message || ""}
         onChange={(e) => {
           setMessage(e.target.value);
@@ -57,13 +58,15 @@ export default function ChatSend({}) {
           }
         }}
       />
+
+      <QuickChat />
       <HStack
         alignItems={"center"}
         justifyContent="center"
         width="3rem"
         height={["3rem", "3rem", "3rem"]}
         position="absolute"
-        top="0"
+        top="0.25rem"
         right="0"
         spacing="0"
         zIndex={10}
@@ -75,6 +78,9 @@ export default function ChatSend({}) {
           width="2.8rem"
           isRound="true"
           color="brand.300"
+          _hover={{
+            color: "brand.500",
+          }}
         />
       </HStack>
     </Box>

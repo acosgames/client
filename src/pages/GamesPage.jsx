@@ -234,7 +234,7 @@ function SinglePlayerList() {
         />
         <Heading as="h1" color="gray.0">
           <Text as="span" color="brand.300">
-            Single Player
+            Solo
           </Text>{" "}
           Games
         </Heading>

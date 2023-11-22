@@ -21,15 +21,15 @@ export default function GameStats({}) {
         w="100%"
         alignItems={"center"}
         pb="1rem"
-        _after={{
-          content: '""',
-          display: "block",
-          clipPath: "polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)",
-          width: "65px",
-          height: "5px",
-          margin: "0.5rem 0 0",
-          background: "brand.300",
-        }}
+        // _after={{
+        //   content: '""',
+        //   display: "block",
+        //   clipPath: "polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)",
+        //   width: "65px",
+        //   height: "5px",
+        //   margin: "0.5rem 0 0",
+        //   background: "brand.300",
+        // }}
       >
         <Text
           as="span"

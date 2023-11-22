@@ -37,6 +37,7 @@ export default function AchievementPanel({
       minW="15rem"
       w="12rem"
       h="19rem"
+      role="group"
       bgColor="gray.875"
       borderRadius="12px"
       border="1px solid #27313f"
@@ -79,7 +80,7 @@ export default function AchievementPanel({
         as="h5"
         fontSize="1.4rem"
         fontWeight={"normal"}
-        color={"gray.0"}
+        color={"gray.30"}
         title={desc}
         textAlign={"center"}
         whiteSpace={"nowrap"}
@@ -92,15 +93,27 @@ export default function AchievementPanel({
       <AchievementIcon index={index} percent={percent} />
       <VStack w="100%" flex="1" justifyContent={"flex-end"}>
         <AchievementExperienceBar percent={percent} />
-        {maxValue && (
-          <Heading as="h6" fontSize="1.2rem" fontWeight="500" color={"gray.20"}>
-            <Text as="span" fontWeight="bold">
-              {value}
-            </Text>{" "}
-            of {maxValue}
-          </Heading>
-        )}
+        <AmountRemaining value={value} maxValue={maxValue} />
       </VStack>
     </VStack>
+  );
+}
+
+function AmountRemaining({ value, maxValue }) {
+  value = Math.min(value, maxValue);
+  if (value == maxValue) {
+    return (
+      <Heading as="h6" fontSize="1.2rem" fontWeight="500" color={"gray.20"}>
+        Completed
+      </Heading>
+    );
+  }
+  return (
+    <Heading as="h6" fontSize="1.2rem" fontWeight="500" color={"gray.20"}>
+      <Text as="span" fontWeight="bold">
+        {value}
+      </Text>{" "}
+      of {maxValue}
+    </Heading>
   );
 }
