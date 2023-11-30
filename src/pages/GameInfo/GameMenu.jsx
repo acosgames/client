@@ -30,10 +30,11 @@ import fs from "flatstore";
 import { Link } from "react-router-dom";
 
 export default function GameMenu({ game }) {
-  const [player_stats] = fs.useWatch("player_stats");
-  let gameStats = player_stats[game.game_slug];
+  let [player_stat] = fs.useWatch("player_stats/" + game.game_slug);
+  // let player_stat = player_stats[game.game_slug];
 
-  // const [report, setReport] = useState(gameStats.report);
+  player_stat = player_stat || { report: 0 };
+  // const [report, setReport] = useState(player_stat.report);
   const toast = useToast();
 
   const onShareClick = () => {
@@ -55,7 +56,7 @@ export default function GameMenu({ game }) {
   };
 
   const onReport = async (type) => {
-    if (type == gameStats.report) {
+    if (type == player_stat.report) {
       type = 0;
     }
     let result = await reportGame(game.game_slug, type);
@@ -82,9 +83,9 @@ export default function GameMenu({ game }) {
       });
     }
 
-    gameStats.report = type;
-    player_stats[game.game_slug] = gameStats;
-    fs.set("player_stats", player_stats);
+    player_stat.report = type;
+    // player_stats[game.game_slug] = player_stat;
+    fs.set("player_stats/" + game.game_slug, player_stat);
     // setReport(type);
   };
 
@@ -101,7 +102,7 @@ export default function GameMenu({ game }) {
       />
       <MenuList
         zIndex={3}
-        borderColor="gray.300"
+        borderColor="gray.600"
         bgColor="gray.700"
         bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
         fontSize="1.2rem"
@@ -110,17 +111,17 @@ export default function GameMenu({ game }) {
         <MenuOptionGroup
           color="gray.0"
           fontWeight={"800"}
-          fontFamily="'Barlow', sans-serif;"
-          fontSize="1.8rem"
-          letterSpacing={"1px"}
-          pb="0.5rem"
+          fontFamily="'Poppins', sans-serif;"
+          fontSize="1.6rem"
+          letterSpacing={"0px"}
+          pb="0rem"
           title="Get Involved"
           type="checkbox"
         >
           <MenuItem
             fontSize="1.4rem"
             icon={<Icon as={IoShareSocial} fontSize="2rem" color="brand.300" />}
-            color="gray.0"
+            color="gray.10"
             bgColor="transparent"
             _hover={{ bgColor: "gray.300" }}
             onClick={onShareClick}
@@ -130,7 +131,7 @@ export default function GameMenu({ game }) {
           <MenuItem
             fontSize="1.4rem"
             icon={<Icon as={FaGithub} fontSize="2rem" color="brand.300" />}
-            color="gray.0"
+            color="gray.10"
             bgColor="transparent"
             _hover={{ bgColor: "gray.300" }}
             as="a"
@@ -140,7 +141,7 @@ export default function GameMenu({ game }) {
             Discuss on Github
           </MenuItem>
         </MenuOptionGroup>
-        <MenuDivider mb="0" mt="1rem" />
+        <MenuDivider mb="0" mt="0" />
         <Menu placement="right">
           <MenuButton
             pl="0.25rem"
@@ -159,16 +160,21 @@ export default function GameMenu({ game }) {
             <HStack w="100%" justifyContent={"center"} alignItems={"center"}>
               <HStack w="100%" justifyContent={"center"} alignItems={"center"}>
                 <Icon as={IoWarningSharp} fontSize="1.4rem" color="gray.20" />
-                <Heading as="span" color="gray.20" fontSize="1.2rem">
+                <Heading
+                  as="span"
+                  fontWeight="500"
+                  color="gray.20"
+                  fontSize="1.2rem"
+                >
                   Report
                 </Heading>
               </HStack>
               <HStack flex="1" justifyContent={"flex-end"} pr="0.5rem">
-                <Icon as={FaChevronRight} color="gray.20" />
+                <Icon as={FaChevronRight} fontSize="1.2rem" color="gray.20" />
               </HStack>
             </HStack>
           </MenuButton>
-          <MenuList pt="0" mt="0" bgColor="gray.700">
+          <MenuList pt="0" pb="0" mt="0" bgColor="gray.700">
             <MenuOptionGroup
               height="3rem"
               color="brand.600"
@@ -177,11 +183,11 @@ export default function GameMenu({ game }) {
               fontWeight={"500"}
               title={""}
               type="radio"
-              value={"" + (gameStats.report || 0)}
+              value={"" + (player_stat.report || 0)}
             >
               <MenuItemOption
                 value="1"
-                color={gameStats.report == 1 ? "red.300" : "gray.10"}
+                color={player_stat.report == 1 ? "red.300" : "gray.10"}
                 bgColor="gray.700"
                 _hover={{ bgColor: "gray.800" }}
                 onClick={() => {
@@ -192,7 +198,7 @@ export default function GameMenu({ game }) {
               </MenuItemOption>
               <MenuItemOption
                 value="2"
-                color={gameStats.report == 2 ? "red.300" : "gray.10"}
+                color={player_stat.report == 2 ? "red.300" : "gray.10"}
                 bgColor="gray.700"
                 _hover={{ bgColor: "gray.800" }}
                 onClick={() => {
@@ -203,7 +209,7 @@ export default function GameMenu({ game }) {
               </MenuItemOption>
               <MenuItemOption
                 value="3"
-                color={gameStats.report == 3 ? "red.300" : "gray.10"}
+                color={player_stat.report == 3 ? "red.300" : "gray.10"}
                 bgColor="gray.700"
                 _hover={{ bgColor: "gray.800" }}
                 onClick={() => {

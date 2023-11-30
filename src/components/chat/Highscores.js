@@ -20,10 +20,10 @@ function GameInfoTop10Highscores(props) {
 
 
     let user = fs.get('user');
-    let player_stats = fs.get('player_stats');
     let game = fs.get('game');
+    let player_stat = fs.get('player_stats/' + game.game_slug);
 
-    let playerGameStats = player_stats[game.game_slug];
+    // let player_stat = player_stats[game.game_slug];
 
     const renderHighscores = (players) => {
 
@@ -34,7 +34,7 @@ function GameInfoTop10Highscores(props) {
 
         for (var player of leaderboard) {
             let isLocalPlayer = user?.displayname == player.value;
-            let isPast5Rank = player.rank == 10 && (playerGameStats && playerGameStats.ranking > 10);
+            let isPast5Rank = player.rank == 10 && (player_stat && playerGameStats.ranking > 10);
             elems.push(
                 <Tr key={tag + '-leaderboard-hs-' + player.value}>
                     <Td isNumeric p="0" border="0" px="1rem" w="3rem">

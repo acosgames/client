@@ -6,17 +6,17 @@ import ActionBarItem from "./ActionBarItem.jsx";
 
 export default function GameStats({}) {
   let [game] = fs.useWatch("game");
-  let [player_stats] = fs.useWatch("player_stats");
+  let [player_stat] = fs.useWatch("player_stats/" + game.game_slug);
 
-  if (!game || !player_stats) {
+  if (!game || !player_stat) {
     return <></>;
   }
-  let stats = player_stats[game.game_slug];
+  // let stats = player_stats[game.game_slug];
 
   let index = 2;
 
   return (
-    <VStack pt="2rem" pb="5rem" height="100%" alignItems={"flex-start"}>
+    <VStack pt="2rem" pb="5rem" height="100%" alignItems={"center"}>
       <VStack
         w="100%"
         alignItems={"center"}
@@ -65,7 +65,7 @@ export default function GameStats({}) {
         clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
       >
         <PlayerRankInfo />
-        <ActionBarItem title={"WINS"} value={stats.win || 0}>
+        <ActionBarItem title={"WINS"} value={player_stat.win || 0}>
           <Box
             // bgColor="gray.1200"
             //  border="3px solid"
@@ -91,7 +91,7 @@ export default function GameStats({}) {
           </Box>
         </ActionBarItem>
 
-        <ActionBarItem title={"BATTLES"} value={stats.played || 0}>
+        <ActionBarItem title={"BATTLES"} value={player_stat.played || 0}>
           <Box
             // bgColor="gray.1200"
             // border="3px solid"

@@ -394,10 +394,10 @@ export async function findGamePerson(game_slug) {
             throw 'E_GAMENOTFOUND';
         }
 
-        let player_stats = fs.get('player_stats') || {};
+        let player_stats = fs.get('player_stats/' + game_slug) || {};
         if (result.player) {
-            player_stats[game_slug] = result.player;
-            fs.set('player_stats', player_stats);
+            player_stats = result.player;
+            fs.set('player_stats/' + game_slug, player_stats);
         }
 
         //combine top10 + player leaderboard
@@ -437,8 +437,8 @@ export async function findGamePerson(game_slug) {
 
 export async function findAndRejoin(game_slug, room_slug) {
 
-    let player_stats = fs.get('player_stats');
-    let player_stat = player_stats[game_slug];
+    let player_stat = fs.get('player_stats/' + game_slug);
+    // let player_stat = player_stats[game_slug];
     let user = await getUser();
     if (user && user.shortid && !player_stat) {
 

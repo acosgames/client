@@ -41,12 +41,10 @@ export async function createTempUser(displayname) {
         let user = response.data;
 
         console.log('Created Temp User: ', user);
-        let exp = user.exp;
-        let now = Math.round((new Date()).getTime() / 1000);
-        let diff = exp - now;
-        console.log("User expires in " + diff + " seconds.");
-        setWithExpiry('user', user, diff)
-        setLoginMode(user);
+
+        logoutTimer(user);
+
+
         fs.set('user', user);
         fs.set('userid', user.id);
         fs.set('profile', user);
@@ -126,17 +124,20 @@ export async function getPlayer(displayname) {
 export async function loadUserGameData(game_slug) {
     try {
         fs.set('loadingGameInfo', true);
-        let player_stats = fs.get('player_stats');
-        let player_stat = player_stats[game_slug];
+        let player_stat = fs.get('player_stats/' + game_slug);
+        // let player_stat = player_stats[game_slug];
 
         let curgame = fs.get('game');
         let game = null;
         let user = await getUser();
+
+
+
         if (user && user.shortid && !player_stat) {
 
             await findGamePerson(game_slug);
         }
-        else if (!curgame || curgame.game_slug != game_slug) {
+        else if (!curgame || !curgame.name) {
             await findGame(game_slug)
         }
         else {
@@ -227,26 +228,26 @@ export async function getUserProfile() {
     try {
 
         // fs.set('userCheckedLogin', false);
-        // let user = getWithExpiry('user');
-        // if (!user) {
-        let response = await GET('/api/v1/person');
-        let user = response.data;
+        let user = getWithExpiry('user');
+        if (!user) {
+            let response = await GET('/api/v1/person');
+            user = response.data;
 
-        if (user.ecode) {
-            console.error('[ERROR] Login failed. Please login again.');
-            setLoginMode();
-            fs.set('user', null);
-            return null;
+            if (user.ecode) {
+                console.error('[ERROR] Login failed. Please login again.');
+                setLoginMode();
+                fs.set('user', null);
+                return null;
+            }
         }
-        // }
 
+
+        //create local user session with expiration
         console.log('getUserProfile', user);
-        let exp = user.exp;
-        let now = Math.round((new Date()).getTime() / 1000);
-        let diff = exp - now;
-        console.log("User expires in " + diff + " seconds.");
-        setWithExpiry('user', user, diff)
-        setLoginMode(user);
+
+
+        logoutTimer(user);
+
         fs.set('user', user);
         fs.set('userid', user.id);
         fs.set('profile', user);
@@ -289,6 +290,29 @@ export async function getUserProfile() {
         //return e.response.data;
     }
     return null;
+}
+
+function logoutTimer(user) {
+    let exp = user.exp;
+    let now = Math.round((new Date()).getTime() / 1000);
+    let diff = exp - now;
+    console.log("User expires in " + diff + " seconds.");
+    setWithExpiry('user', user, diff)
+    setLoginMode(user);
+
+    let fiveMinuteWarningDelay = ((diff - 300) * 1000);
+    let expireDelay = diff * 1000;
+
+    //max delay for setTimeout is 24.8 days
+    expireDelay = Math.min(2147483647, expireDelay);
+    setTimeout(() => {
+
+    }, fiveMinuteWarningDelay);
+
+    console.log("Expire delay: ", expireDelay);
+    setTimeout(() => {
+        logout();
+    }, expireDelay);
 }
 
 

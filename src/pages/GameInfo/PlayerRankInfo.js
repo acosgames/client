@@ -10,20 +10,20 @@ import ActionBarItem from './ActionBarItem.jsx';
 function PlayerRankInfo({ }) {
 
     let [game] = fs.useWatch('game');
-    let [player_stats] = fs.useWatch('player_stats');
+    let [player_stat] = fs.useWatch('player_stats/' + game.game_slug);
     let [playerHighScore] = fs.useWatch('localPlayerHighscore');
-    let stats = player_stats[game.game_slug];
-    if (!stats)
-        stats = { played: 0, rating: 100 }
-    console.log(stats);
-    let played = Number.parseInt(stats.played);
+    // let stats = player_stats[game.game_slug];
+    if (!player_stat)
+        player_stat = { played: 0, rating: 100 }
+    console.log(player_stat);
+    let played = Number.parseInt(player_stat.played);
     // played = 10;
     // stats.rating = 3000;
     // played = 0
-    let ratingTxt = ratingtext.ratingToRank(Number.parseInt(stats.rating));
+    let ratingTxt = ratingtext.ratingToRank(Number.parseInt(player_stat.rating));
     let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
     let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
-    let rankNumber = ratingtext.ratingToRankNumber(Number.parseInt(stats.rating));
+    let rankNumber = ratingtext.ratingToRankNumber(Number.parseInt(player_stat.rating));
 
     // ratingTextFormatted = 'King';
     // rankNumber = 24;
@@ -46,7 +46,7 @@ function PlayerRankInfo({ }) {
         )
     }
     return (
-        <ActionBarItem title={played >= 10 ? 'RATING' : 'UNRANKED'} value={(played < 10 ? `${played} / 10` : stats.rating)} spacing="0" ml="0rem" mr="0">
+        <ActionBarItem title={played >= 10 ? 'RATING' : 'UNRANKED'} value={(played < 10 ? `${played} / 10` : player_stat.rating)} spacing="0" ml="0rem" mr="0">
             <>
                 {/* <Image
                     display={played >= 10 ? 'inline-block' : 'none'}

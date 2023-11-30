@@ -35,12 +35,21 @@ import GameActionBar from "./GameActionBar.js";
 import GameHeader from "./GameHeader.js";
 import GameDescription from "./GameDescription.js";
 import GameLeaderboard from "./GameLeaderboard.js";
+import { GameActiveAchievements } from "./GameAchievements.jsx";
+import GameStats from "./GameStats.jsx";
 export default function GamePage({}) {
   // let [player_stats] = fs.useWatch("player_stats");
 
   let { game_slug, room_slug, mode } = useParams();
 
   mode = mode || "rank";
+
+  let game = fs.get("games>" + game_slug);
+  if (game && game.longdesc && (!game || !game.longdesc)) {
+    fs.set("game", game);
+  } else {
+    fs.set("game", { game_slug });
+  }
 
   useEffect(() => {
     // findGame();
@@ -111,13 +120,13 @@ function GameInfo({}) {
   };
 
   const executeScroll = () => {
-    targetRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    //targetRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
 
   return (
     <VStack w="100%" spacing="0" padding="0">
       <GameHeader />
-      <GameActionBar />
+      {/* <GameActionBar /> */}
       <Tabs
         isLazy
         bgColor="gray.925"
@@ -159,6 +168,7 @@ function GameInfo({}) {
             <Tab>Tournaments</Tab>
             {/* <Tab>Private Server</Tab> */}
             <Tab>Achievements</Tab>
+            <Tab>Career</Tab>
             <Tab>Items</Tab>
             <Tab mr={["1rem", "0"]}>Description</Tab>
           </HStack>
@@ -172,7 +182,12 @@ function GameInfo({}) {
             <GameLeaderboard />
           </TabPanel>
           <TabPanel w="100%"></TabPanel>
-          <TabPanel w="100%"></TabPanel>
+          <TabPanel w="100%">
+            <GameActiveAchievements />
+          </TabPanel>
+          <TabPanel>
+            <GameStats />
+          </TabPanel>
           <TabPanel w="100%"></TabPanel>
           {/* <TabPanel w="100%"></TabPanel> */}
           <TabPanel w="100%">

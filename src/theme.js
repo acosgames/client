@@ -256,7 +256,7 @@ const components = {
                     // borderBottom: '2px solid',
                     // borderColor: 'gray.850',
                     position: 'relative',
-                    pt: "2rem",
+                    pt: "4rem",
                     padding: 0,
                     // _after: {
                     //     content: "''",

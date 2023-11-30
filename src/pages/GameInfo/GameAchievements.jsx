@@ -20,6 +20,7 @@ export function GameActiveAchievements({}) {
   return (
     <VStack
       pt="2rem"
+      pb="10rem"
       h="100%"
       display={achievements.length > 0 ? "flex" : "none"}
     >
@@ -62,6 +63,7 @@ export function GameActiveAchievements({}) {
         alignItems={"center"}
         justifyContent={"center"}
         flex="1 0 100%"
+        spacing="1rem"
       >
         {achievements}
       </HStack>

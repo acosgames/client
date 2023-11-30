@@ -31,7 +31,7 @@ fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
 
     let [game] = fs.useWatch('game');
-    let [player_stats] = fs.useWatch('player_stats');
+    let [player_stat] = fs.useWatch('player_stats/' + game.game_slug);
     let [loadingGameInfo] = fs.useWatch('loadingGameInfo');
 
 
@@ -86,7 +86,7 @@ function GameInfo2(props) {
         )
 
 
-    let playerStats = player_stats[game_slug] || {};
+    // let player_stat = player_stats[game_slug] || {};
     if (!game || game.game_slug != game_slug) {
         //fs.set('game', null);
         return (
@@ -168,7 +168,7 @@ function GameInfo2(props) {
 
 
                             {/* <Box alignSelf={'flex-end'} bottom="0" display={['none', 'none', 'block']} w="100%">
-                            <GameInfoJoinButton {...game} {...playerStats} />
+                            <GameInfoJoinButton {...game} {...player_stat} />
                         </Box> */}
 
                         </Flex>
@@ -177,7 +177,7 @@ function GameInfo2(props) {
                         <VStack display={['none', 'none', 'none', 'flex']} width="30rem">
 
                             <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pb="1rem">
-                                <GameInfoJoinButton {...game} {...playerStats} />
+                                <GameInfoJoinButton {...game} {...player_stat} />
                             </Flex>
                             <PlayerRankInfo game_slug={game_slug} game={game} />
                         </VStack>
@@ -187,13 +187,13 @@ function GameInfo2(props) {
 
 
                         <Flex display={['flex', 'flex']} h="100%" flex="1" w="100%" pt="1rem" pb="1rem">
-                            <GameInfoJoinButton {...game} {...playerStats} />
+                            <GameInfoJoinButton {...game} {...player_stat} />
                         </Flex>
                         <PlayerRankInfo game_slug={game_slug} game={game} />
                     </VStack>
 
                     <Center pt="2rem">
-                        <GameInfoActions {...game} {...playerStats} />
+                        <GameInfoActions {...game} {...player_stat} />
                     </Center>
 
 

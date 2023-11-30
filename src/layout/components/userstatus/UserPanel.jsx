@@ -22,6 +22,7 @@ import UserAvatar from "./UserAvatar.jsx";
 import UserLevelIcon from "./UserLevelIcon.jsx";
 
 import { BsThreeDotsVertical } from "@react-icons";
+import UserMenu from "../user/UserMenu.jsx";
 
 function UserLogin() {
   return (
@@ -108,18 +109,7 @@ function UserFrame() {
               </VStack>
               <VStack spacing="0" alignItems={"flex-start"}>
                 {/* <UserLevelIcon /> */}
-                <IconButton
-                  icon={
-                    <Icon
-                      as={BsThreeDotsVertical}
-                      color={"gray.0"}
-                      fontSize={["xs", "xs", "md"]}
-                      position="relative"
-                      top="-0.5rem"
-                    />
-                  }
-                  color="gray.0"
-                />
+                <UserMenu />
               </VStack>
             </HStack>
           </VStack>

@@ -19,6 +19,11 @@ fs.set('isCreateDisplayName', false);
 
 function GameInfoJoinButton(props) {
 
+    let user = fs.get('user');
+    let game = fs.get('game');
+    // let player_stat = fs.get('player_stats/' + game.game_slug);
+
+    let [player_stat] = fs.useWatch('player_stats/' + game.game_slug)
     // const ref = useRef(null);
     // const [isVisible, currentElement] = useVisibility2();
     const handleJoin = async () => {
@@ -67,10 +72,8 @@ function GameInfoJoinButton(props) {
         // }
     })
 
-    let user = fs.get('user');
-    let player_stats = fs.get('player_stats');
-    let game = fs.get('game');
-    let playerGameStats = player_stats[game.game_slug];
+
+    // let playerGameStats = player_stats[game.game_slug];
 
     let isValidUser = user && user.shortid;
     let hasRankLeaderboard = game.maxplayers > 1;
@@ -186,4 +189,4 @@ function JoinButton({ handleJoin }) {
     )
 }
 
-export default fs.connect(['player_stats'])(GameInfoJoinButton);
+export default GameInfoJoinButton;

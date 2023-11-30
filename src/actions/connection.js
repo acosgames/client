@@ -1298,8 +1298,8 @@ async function wsIncomingMessage(message) {
             // getRoom(msg.room_slug);
             //UPDATE PLAYER STATS FOR THIS GAME
             if (room?.mode == 'rank' && msg?.payload?._played) {
-                let player_stats = fs.get('player_stats');
-                let player_stat = player_stats[room.game_slug]
+                let player_stat = fs.get('player_stats/' + room.game_slug);
+                // let player_stat = player_stats[room.game_slug]
                 if (player_stat) {
                     if (msg.payload._win)
                         player_stat.win = msg.payload._win;
@@ -1315,7 +1315,7 @@ async function wsIncomingMessage(message) {
                     //     player_stat.ratingTxt = player.ratingTxt;
 
                 }
-                fs.set('player_stats', player_stats);
+                fs.set('player_stats/' + room.game_slug, player_stat);
             }
 
             gamestate.players[user.shortid] = player;
@@ -1417,16 +1417,16 @@ async function postIncomingMessage(msg) {
             if (room.mode == 'rank') {
                 let player = msg.payload.players[user.shortid];
 
-                let player_stats = fs.get('player_stats');
-                let player_stat = player_stats[room.game_slug] || {};
+                let player_stat = fs.get('player_stats/' + room.game_slug);
+                // let player_stat = player_stats[room.game_slug] || {};
                 if (player_stat) {
                     if (player.rating)
                         player_stat.rating = player.rating;
                     //if (player.ratingTxt)
                     //    player_stat.ratingTxt = player.ratingTxt;
-                    player_stats[room.game_slug] = player_stat;
+                    // player_stats[room.game_slug] = player_stat;
                 }
-                fs.set('player_stats', player_stats);
+                fs.set('player_stats/' + room.game_slug, player_stat);
 
                 if (room?.maxplayers > 1)
                     findGameLeaderboard(room.game_slug);
