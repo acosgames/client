@@ -40,83 +40,83 @@ export default function QuickChat({ degreeOffset, isOpen }) {
   degreeOffset = degreeOffset || 0;
 
   return (
-    <Portal>
-      <HStack
-        width="3rem"
-        height={"3rem"}
-        position="absolute"
-        bottom="1.25rem"
-        right="25.5rem"
-        zIndex={1001}
-      >
-        <IconButton
-          // onClick={onSubmit}
-          onClick={(e) => {
-            setShow(!show);
-            if (show) setCategory(0);
-            e.stopPropagation();
-            return false;
-          }}
-          icon={<RiChatHeartFill size="2rem" />}
-          width="3.5rem"
-          height="3.5rem"
-          isRound="true"
-          color="brand.600"
-          _hover={{
-            color: "brand.900",
-          }}
-          _focus={{
-            color: "brand.300",
-          }}
+    // <Portal>
+    <HStack
+      width="3rem"
+      height={"3rem"}
+      position="absolute"
+      bottom="0.25rem"
+      right="25.5rem"
+      zIndex={1001}
+    >
+      <IconButton
+        // onClick={onSubmit}
+        onClick={(e) => {
+          setShow(!show);
+          if (show) setCategory(0);
+          e.stopPropagation();
+          return false;
+        }}
+        icon={<RiChatHeartFill size="2rem" />}
+        width="3.5rem"
+        height="3.5rem"
+        isRound="true"
+        color="blue.400"
+        _hover={{
+          color: "blue.300",
+        }}
+        _focus={{
+          color: "blue.300",
+        }}
+      />
+      {category && (
+        <ChatChoices
+          category={category}
+          onClickChatMessage={onClickChatMessage}
         />
-        {category && (
-          <ChatChoices
-            category={category}
-            onClickChatMessage={onClickChatMessage}
+      )}
+      {show && (
+        <Box w="auto" h="auto" position="absolute" top="0" left="0">
+          <OrbitButton
+            icon={
+              <FaAngry
+                filter="drop-shadow(1px 1px 1px var(--chakra-colors-brand.500))"
+                size="2rem"
+              />
+            }
+            onClickCategory={onClickCategory}
+            category={1}
+            degrees={-5 + degreeOffset}
+            radius={35}
           />
-        )}
-        {show && (
-          <Box w="auto" h="auto" position="absolute" top="0" left="0">
-            <OrbitButton
-              icon={
-                <FaAngry
-                  filter="drop-shadow(1px 1px 1px var(--chakra-colors-brand.500))"
-                  size="2rem"
-                />
-              }
-              onClickCategory={onClickCategory}
-              category={1}
-              degrees={-5 + degreeOffset}
-              radius={35}
-            />
-            <OrbitButton
-              icon={
-                <FaThumbsDown
-                  filter="drop-shadow(1px 1px 1px var(--chakra-colors-brand.500))"
-                  size="2rem"
-                />
-              }
-              onClickCategory={onClickCategory}
-              category={2}
-              degrees={45 + degreeOffset}
-              radius={35}
-            />
-            <OrbitButton
-              icon={
-                <FaThumbsUp
-                  filter="drop-shadow(1px 1px 1px var(--chakra-colors-brand.500))"
-                  size="2rem"
-                />
-              }
-              onClickCategory={onClickCategory}
-              category={3}
-              degrees={95 + degreeOffset}
-              radius={35}
-            />
-          </Box>
-        )}
-      </HStack>
-    </Portal>
+          <OrbitButton
+            icon={
+              <FaThumbsDown
+                filter="drop-shadow(1px 1px 1px var(--chakra-colors-brand.500))"
+                size="2rem"
+              />
+            }
+            onClickCategory={onClickCategory}
+            category={2}
+            degrees={45 + degreeOffset}
+            radius={35}
+          />
+          <OrbitButton
+            icon={
+              <FaThumbsUp
+                filter="drop-shadow(1px 1px 1px var(--chakra-colors-brand.500))"
+                size="2rem"
+              />
+            }
+            onClickCategory={onClickCategory}
+            category={3}
+            degrees={95 + degreeOffset}
+            radius={35}
+          />
+        </Box>
+      )}
+    </HStack>
+    // </Portal>
   );
 }
 
@@ -203,18 +203,20 @@ function OrbitButton({ icon, degrees, radius, category, onClickCategory }) {
       height={`${height}px`}
       isRound="true"
       color="gray.0"
-      bgColor="brand.600"
+      bgColor="gray.60"
+      bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
       border="2px solid"
-      borderColor="brand.900"
+      borderColor="gray.600"
       _hover={{
-        bgColor: "brand.500",
-        borderColor: "brand.400",
+        // bgColor: "brand.500",
+        color: "brand.200",
         zIndex: 11,
         transform: `translate(${x}px, ${y}px) scale(1.2)`,
       }}
       _focus={{
-        bgColor: "brand.500",
-        borderColor: "brand.400",
+        // bgColor: "brand.500",
+        bg: "linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))",
+        color: "brand.200",
         zIndex: 11,
         transform: `translate(${x}px, ${y}px) scale(1.2)`,
       }}

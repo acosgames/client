@@ -32,13 +32,14 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
       alignItems={"center"}
       //   bgColor="gray.950"
       p="0.5rem"
-      borderRadius={"1rem"}
+      borderRadius={"8px"}
     >
       <Image
         // borderRadius={"2rem"}
         // position="absolute"
         width="6.4rem"
         height="6.4rem"
+        borderRadius={"8px"}
         // height="100%"
         // objectFit={"fill"}
         src={`https://assets.acos.games/g/${game_slug}/preview/QGNPJ8.png`}
@@ -76,7 +77,7 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
             // lineHeight="2rem"
             display="inline-block"
             bgColor="gray.200"
-            borderRadius="0.8rem"
+            borderRadius={"8px"}
             textShadow={"1px 1px 3px var(--chakra-colors-gray-1200)"}
             color="gray.0"
             py="0rem"
@@ -91,7 +92,7 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
             height="3rem"
             borderColor="brand.300"
             color="gray.0"
-            borderRadius={"2rem"}
+            borderRadius={"8px"}
             fontSize="1rem"
             fontWeight="bold"
             transition={"all 0.2s ease"}

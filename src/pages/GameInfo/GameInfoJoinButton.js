@@ -1,4 +1,4 @@
-import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack, useDisclosure, Image, IconButton, Portal } from '@chakra-ui/react'
+import { Flex, Box, Text, Button, HStack, Icon, Menu, MenuButton, MenuList, MenuItem, Link, Tooltip, VStack, useDisclosure, Image, IconButton, Portal, Center } from '@chakra-ui/react'
 import { FaCaretDown, FaPlay, AiTwotoneExperiment, IoSunny } from '@react-icons';
 import "./GamePage.scss";
 import fs from 'flatstore';
@@ -21,6 +21,7 @@ function GameInfoJoinButton(props) {
 
     let user = fs.get('user');
     let game = fs.get('game');
+
     // let player_stat = fs.get('player_stats/' + game.game_slug);
 
     let [player_stat] = fs.useWatch('player_stats/' + game.game_slug)
@@ -117,9 +118,9 @@ function GameInfoJoinButton(props) {
     //     )
     // }
     return (
-        <Box>
+        <VStack w="100%" alignItems={['center', 'center', 'center', 'flex-start']}>
             <JoinButton handleJoin={handleJoin} />
-        </Box>
+        </VStack>
     )
 
     return (
@@ -141,40 +142,59 @@ function GameInfoJoinButton(props) {
 }
 
 function JoinButton({ handleJoin }) {
+
+
+    let game = fs.get('game');
+    let [queues] = fs.useWatch('queues');
+
+    let queue = {};
+    for (let i = 0; i < queues.length; i++) {
+        let q = queues[i];
+        if (q.game_slug == game.game_slug) {
+            queue = q
+            break;
+        }
+    }
+
     return (
         <Button
             role="group"
-            onClick={handleJoin}
+            onClick={() => { if (queue.game_slug) return; handleJoin(); }}
             // ref={ref}
             transform={['skewX(-15deg)']}
-            className="cta"
+            className={"cta " + (queue.game_slug ? 'queued' : '')}
             // h={["5rem", "5rem", "5rem", "6rem"]}
             zIndex={2}
-            bgColor="gray.800"
+            bgColor={queue.game_slug ? 'gray.900' : "gray.800"}
             mt="1rem"
             // borderBottom="2px solid"
             // borderRight="2px solid"
             // borderBottomColor={'gray.600'}
             // borderRightColor={'gray.600'}
             // filter="drop-shadow(0px 0px 20px var(--chakra-colors-brand-300)) "
-            boxShadow='3px 3px 0 var(--chakra-colors-brand-300)'
+            // boxShadow={queue.game_slug ? '10px 7px 0 var(--chakra-colors-brand-300)' : '10px 7px 0 var(--chakra-colors-brand-600)'}
             px="3rem"
             pr="2rem"
             py="3rem"
             _hover={{
                 filter: "none",
                 // bgColor: 'gray.875',
-                boxShadow: '7px 7px 0 var(--chakra-colors-brand-600)'
+                // boxShadow: queue.game_slug ? '10px 7px 0 var(--chakra-colors-brand-300)' : '7px 7px 0 var(--chakra-colors-brand-600)'
             }}
-            _focus={{
-                filter: '',
-                // bgColor: 'gray.950',
-                boxShadow: '10px 7px 0 var(--chakra-colors-brand-300)'
-            }}
+        // _focus={{
+        //     filter: '',
+        //     // bgColor: 'gray.950',
+        //     boxShadow: '10px 7px 0 var(--chakra-colors-brand-300)'
+        // }}
         >
             <VStack spacing="0" alignItems={'flex-start'}>
-                <Text as="span" textAlign={'left'} fontSize={["1.6rem", "1.6rem", "1.6rem", "2rem"]}>Play Now</Text>
-                <Text color="brand.300" _groupHover={{ color: 'brand.600' }} _groupFocus={{ color: 'brand.300' }} as="p" pl="0.5rem" textAlign={'left'} fontWeight={'bold'} fontSize="1.4rem">Ranked Match</Text>
+                <Text as="span" textAlign={'left'} fontSize={["1.6rem", "1.6rem", "1.6rem", "2rem"]}>{queue.game_slug ? 'Queued' : 'Play Now'}</Text>
+                <Text color="brand.600"
+                    // _groupFocus={{ color: 'brand.300' }}
+                    as="p" pl="0.5rem"
+                    textAlign={'left'}
+                    fontWeight={'bold'}
+                    fontSize="1.4rem">Ranked Match</Text>
             </VStack>
             <Text className="arrows" as="span" display="inline-block" >
                 <svg width="40px" height="25.6px" viewBox="0 0 66 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink">

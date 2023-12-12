@@ -84,7 +84,7 @@ export default function GameStats({}) {
               w="5rem"
               minW="5rem"
               position="relative"
-              filter="brightness(70%) hue-rotate(50deg)"
+              // filter="brightness(70%) hue-rotate(50deg)"
               top="0rem"
               left="-0.5rem"
             />
@@ -108,7 +108,7 @@ export default function GameStats({}) {
               title={"BATTLES"}
               height="5rem"
               w="5rem"
-              filter="brightness(70%) hue-rotate(50deg)"
+              // filter="brightness(70%) hue-rotate(50deg)"
               minW="5rem"
               position="relative"
               top="0.25rem"

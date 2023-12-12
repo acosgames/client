@@ -142,7 +142,7 @@ export default function GameInfoTop10({ }) {
 
                 <Box w="100%" display={playerRank != -1 ? 'none' : 'block'} pt="1rem" >
                     <Text fontSize="2rem" align='center' display={lbCount > 0 ? 'block' : 'none'} color="gray.10">
-                        No Ranking
+                        Play more games to be listed
 
                     </Text>
                 </Box>
@@ -182,8 +182,8 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
 
         >
             <Center
-                minW={["5rem", "5rem", "6rem", "6rem"]}
-                w={["5rem", "5rem", "6rem", "6rem"]}
+                minW={["4rem", "5rem", "6rem", "6rem"]}
+                w={["4rem", "5rem", "6rem", "6rem"]}
                 textAlign='center'
                 p="0"
                 pl="1.5rem"
@@ -260,18 +260,18 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
                 </HStack>
             </Box>
 
-            <HStack justifyContent={'center'} alignItems={'center'} h="100%" px="1rem" overflow={"hidden"}>
+            <HStack justifyContent={'center'} alignItems={'center'} h="100%" px={["0", "1rem"]} overflow={"hidden"}>
 
 
                 <Heading position="relative"
                     top="0.2rem"
                     as="h6"
-                    display={['none', 'inline-block']}
                     // display="inline-block"
                     color={(isLocalPlayer ? 'gray.0' : "gray.50")}//"gray.50"
                     fontWeight={'500'}
                     fontSize="xs"
                     pr="1rem">
+                    <Text as="span" display={['none', 'inline-block']}>CLASS&nbsp;</Text>
                     {ratingTextFormatted}
                 </Heading>
 

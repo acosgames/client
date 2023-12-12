@@ -1,33 +1,23 @@
-import React, { Component } from "react";
+import { useEffect } from "react";
 
-import {
-    Link,
-
-} from "react-router-dom";
 
 import fs from 'flatstore';
-import { wsConnect, attachToFrame, detachFromFrame } from "../../actions/connection";
+import { wsConnect, attachToFrame, detachFromFrame, reconnect } from "../../actions/connection";
 
-class Connection extends Component {
-    constructor(props) {
-        super(props);
-    }
+function Connection({ }) {
 
-    componentDidMount() {
+    useEffect(() => {
+        reconnect();
         attachToFrame();
-    }
-
-    componentWillUnmount() {
-        detachFromFrame();
-    }
-
-    render() {
+        return () => {
+            detachFromFrame();
+        }
+    }, [])
 
 
-        return (
-            <React.Fragment></React.Fragment>
-        )
-    }
+    return (
+        <></>
+    )
+
 }
-
 export default Connection;

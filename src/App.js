@@ -10,7 +10,9 @@ import {
   Routes,
   Route,
   Link,
-  useHistory
+  useHistory,
+  useNavigate,
+  useLocation
 } from "react-router-dom";
 
 // import MainMenuChakra from './components/MainMenuChakra'
@@ -46,6 +48,8 @@ import GamePage from "./pages/GameInfo/GamePage.jsx";
 import Connection from "./components/games/Connection";
 
 
+import CreateDisplayName from "./components/login/CreateDisplayName";
+
 fs.delimiter('>');
 fs.set("isMobile", false);
 fs.set('layoutMode', 'right');
@@ -57,7 +61,8 @@ fs.set('chatExpanded', true);
 
 function App(props) {
 
-  const disclosure = useDisclosure()
+
+
   const primaryCanvasRef = useRef();
 
   // let [layoutMode] = fs.useWatch('layoutMode');
@@ -89,7 +94,6 @@ function App(props) {
   useEffect(() => {
     // window.addEventListener('resize', onResize);
     // onResize();
-
     var hasTouchScreen = false;
 
     if ("maxTouchPoints" in navigator) {
@@ -131,15 +135,9 @@ function App(props) {
 
   return (
     <BrowserRouter>
-      <ActivateUserProfile />
-      <VersionControl />
-      <GameInfoCreateDisplayName {...disclosure} />
-      <Connection />
-      {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
-
-      <ToastMessage />
 
       <Routes>
+        {/* <Route path="/player/create" element={<CreateDisplayName />} /> */}
         <Route path="/" element={<GamesPage />} />
         <Route path="/games" element={<GamesPage />} />
         <Route path="/g/:game_slug" element={<GamePage />} />

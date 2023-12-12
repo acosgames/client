@@ -1,7 +1,7 @@
 import fs from "flatstore";
 import Layout from "../../layout/Layout.jsx";
 import "./GamePage.scss";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { findGame } from "../../actions/game.js";
 import {
   Box,
@@ -93,21 +93,43 @@ function GameInfo({}) {
   const targetRef = useRef();
   const tablistRef = useRef();
   const borderRef = useRef();
+  const scrollRef = useRef();
 
   let [loadingGameInfo] = fs.useWatch("loadingGameInfo");
   let { game_slug, room_slug, mode } = useParams();
+  const [tabIndex, setTabIndex] = useState(1);
 
   useEffect(() => {
     window.addEventListener("resize", onResize);
     if (tablistRef?.current) myObserver.observe(tablistRef.current);
     onResize();
+
+    if (scrollRef.current) {
+      scrollRef.current.addEventListener(
+        "wheel",
+        (event) => {
+          event.preventDefault();
+
+          // if (
+          //   (scrollRef.current.scrollLeft > 0 &&
+          //   scrollRef.current.clientWidth + scrollRef.current.scrollLeft <
+          //     scrollRef.current.scrollWidth
+          // )
+          scrollRef.current.scrollBy({
+            left: event.deltaY < 0 ? -30 : 30,
+          });
+        },
+        { passive: true }
+      );
+    }
+
     return () => {
       window.removeEventListener("resize", onResize);
     };
   }, []);
 
   if (loadingGameInfo) {
-    return <Box h="1000rem"></Box>;
+    // return <Box h="1000rem"></Box>;
   }
 
   const myObserver = new ResizeObserver((entries) => {
@@ -120,7 +142,14 @@ function GameInfo({}) {
   };
 
   const executeScroll = () => {
-    //targetRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    targetRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
+  const handleTabsChange = (index) => {
+    if (tabIndex == index) {
+      executeScroll();
+    }
+    setTabIndex(index);
   };
 
   return (
@@ -134,27 +163,33 @@ function GameInfo({}) {
         variant="brand"
         w="100%"
         display="flex"
+        spacing="0"
         justifyContent={"center"}
         alignItems={"center"}
         flexDir={"column"}
         p="0"
         defaultIndex={1}
         ref={targetRef}
+        value={tabIndex}
+        // onChange={handleTabsChange}
       >
         <TabList
-          onClick={executeScroll}
-          w="100%"
-          maxW={["100%", "100%", "100%", "95%", "70%", "60%"]}
+          // onClick={executeScroll}
+          ref={scrollRef}
+          // w="100%"
+          maxW={["100%", "100%", "100%", "95%", "70%", "70%"]}
           p="0"
           pt="1rem"
           px="3rem"
+          gap="0"
+          spacing="0"
         >
-          <HStack ref={tablistRef}>
-            <Box
+          <HStack ref={tablistRef} spacing="0">
+            {/* <Box
               ref={borderRef}
               // _before={{
               content="''"
-              width="70rem"
+              width="80rem"
               position="absolute"
               bottom="0"
               left="3rem"
@@ -162,15 +197,86 @@ function GameInfo({}) {
               height="2px"
               background="linear-gradient(to right, var(--chakra-colors-gray-300),  var(--chakra-colors-gray-925))"
               // }}
-            ></Box>
-            <Tab>Watch</Tab>
-            <Tab>Leaderboard</Tab>
-            <Tab>Tournaments</Tab>
+            ></Box> */}
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(0);
+              }}
+            >
+              Watch
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(1);
+              }}
+            >
+              Leaderboard
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(2);
+              }}
+            >
+              Tournaments
+            </Tab>
             {/* <Tab>Private Server</Tab> */}
-            <Tab>Achievements</Tab>
-            <Tab>Career</Tab>
-            <Tab>Items</Tab>
-            <Tab mr={["1rem", "0"]}>Description</Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(3);
+              }}
+            >
+              Achievements
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(4);
+              }}
+            >
+              Career
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(5);
+              }}
+            >
+              Items
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(6);
+              }}
+              mr={["1rem", "0"]}
+            >
+              Description
+            </Tab>
           </HStack>
         </TabList>
         <TabPanels w="100%">

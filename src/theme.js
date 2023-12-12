@@ -211,26 +211,34 @@ const components = {
                 tabs: {
                     // width: '100%',
                     overflow: 'scroll',
+
                 },
                 tab: {
                     color: 'gray.10',
+                    py: '1rem',
                     // border: '2px solid',
                     // borderColor: 'transparent',
                     // use colorScheme to change background color with dark and light mode options
                     // bg: ,
+                    px: '1rem',
                     transition: 'all 0.3s ease',
-                    fontWeight: 'bold',
-                    fontSize: ['1.4rem', '1.4rem', '1.4rem', '1.4rem'],
-                    fontFamily: "'Barlow', sans-serif",
+                    fontWeight: '500',
+                    fontSize: ['1.4rem', '1.6rem', '1.6rem', '1.8rem'],
+                    fontFamily: "'Poppins', sans-serif",
                     borderTopRadius: 'lg',
                     position: 'relative',
                     borderBottom: '2px solid',
                     borderBottomColor: 'transparent',
                     whiteSpace: 'nowrap',
                     // mb: '-2px',
+                    _hover: {
+                        color: 'gray.10',
+                        borderColor: 'gray.0',
+                        borderBottom: '2px solid',
+                    },
                     _selected: {
                         // bg: mode('#fff', 'gray.800')(props),
-                        color: 'brand.300',
+                        color: 'brand.300 !important',
                         borderColor: 'brand.300',
                         borderBottom: '2px solid',
                         zIndex: '2',
@@ -246,6 +254,7 @@ const components = {
                         //     zIndex: '2',
                         // }
                     },
+
                 },
                 tablist: {
                     width: 'auto',

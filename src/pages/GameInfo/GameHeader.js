@@ -1,6 +1,6 @@
 import fs from 'flatstore';
 import config from "../../config";
-import { Box, HStack, Heading, Icon, IconButton, Image, Text, VStack, Wrap, Link as ChLink } from '@chakra-ui/react';
+import { Box, HStack, Heading, Icon, IconButton, Image, Text, VStack, Wrap, Link as ChLink, Grid, GridItem } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { FaRegHeart, FaHeart } from "@react-icons";
@@ -62,36 +62,39 @@ export default function GameHeader({ }) {
     );
 }
 
-function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
+function GameHeaderDesktop({ game, imgUrl }) {
     let hasOpenSource = game.opensource == 1;
     let hasTeams = game.minteams > 0;
     let hasMultiplayerTopScore = game.lbscore == 1 && game.maxplayers > 1;
     return (
-        <HStack alignItems="center" spacing="2rem" w="100%" pb={["4rem", "4rem", '0']}>
+        <HStack alignItems="center" spacing="2rem" w="100%" pb={["4rem", "4rem", "4rem", '0']}>
             <HStack
                 spacing="1rem"
                 alignItems={"center"}
                 justifyContent={"center"}
-                w={["100%", "100%", "60%"]}
+                w={["100%", "100%", "100%", '100%']}
             >
-                <VStack
+                <Grid
                     w="100%"
                     justifySelf="flex-start"
                     spacing={["2rem", "2rem", "2rem", "2rem"]}
                     // pt="3rem"
                     // pl={['0', '0', '3rem', '6rem', '12rem']}
                     alignItems={["center", "center", "center", "center"]}
+                    templateColumns={['100%', '100%', '100%', '10% 60% 20%', '18% 50% 20%']}
                 >
-                    <HStack
-                        w={["100%", "100%", "40%"]}
-                        display={["flex", "flex", "none"]}
+                    <GridItem></GridItem>
+                    <GridItem
+                        w={["100%"]}
+                        display={["flex", "flex", "flex", "none"]}
                         justifyContent={"center"}
                         pt="3rem"
+                        pb="1rem"
                     >
                         <Box
                             position="relative"
-                            w={["12rem", "12rem", "24rem"]}
-                            h={["12rem", "12rem", "24rem"]}
+                            w={["12rem", "12rem", "12rem",]}
+                            h={["12rem", "12rem", "12rem",]}
                             className="gameinfo-image"
                         >
                             <Image
@@ -110,27 +113,37 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                                 <GameMenu />
                             </VStack> */}
                         </Box>
-                    </HStack>
+                    </GridItem>
 
-                    <VStack
-                        alignItems={["center", "center", "flex-start"]}
+                    <GridItem
+                        alignItems={["center", "center", "center", "flex-start"]}
                         spacing={["1rem", "1rem"]}
                         mb="1rem"
+                        className="game-info-header"
+                        w={['auto', 'auto', 'auto', '100%', '100%']}
                     >
-                        <VStack alignItems={["center", "center", "flex-start"]} spacing={["0rem", "0rem", "0rem", "1rem"]}>
+                        <VStack alignItems={["center", "center", "center", "flex-start"]} spacing={["0rem", "0rem", "0rem", "0rem"]}>
                             <Heading
                                 color="gray.0"
-                                fontSize={["3rem", "3rem", "3rem", "4rem", "5rem"]}
+                                fontSize={["3rem", "3rem", "3rem", "3.4rem", "4rem"]}
                                 lineHeight={["4rem", "3rem", "3rem", "4rem"]}
                                 textTransform={"uppercase"}
                                 letterSpacing={"1px"}
+                                whiteSpace={'nowrap'}
+                                overflow="hidden"
+                                position='relative'
+                                textOverflow={'ellipsis'}
+                                w="100%"
+                                pr="1rem"
+                                title={game.name}
+                                textAlign={['center', 'center', 'center', 'left']}
                             >
-                                {game.name}
+                                {game.name || 'Loading...'}
                             </Heading>
 
                             <Box>
                                 <Text
-                                    color="gray.0"
+                                    color="gray.20"
                                     as="span"
                                     fontSize={["1.2rem", "1.2rem", "1.2rem", "1.4rem"]}
                                     pt="0"
@@ -148,14 +161,16 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                                         pt="0"
                                         fontWeight={"700"}
                                     >
-                                        {game.displayname}
+                                        {game.displayname || 'Loading...'}
                                     </Text>
                                 </Link>
                             </Box>
                         </VStack>
                         <Wrap
+                            pt="1rem"
+                            w="100%"
                             flex="1"
-                            justify={"center"}
+                            justify={['center', 'center', 'center', "flex-start"]}
                             align={"center"}
                         >
                             {hasOpenSource && (
@@ -181,28 +196,27 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                         </Wrap>
 
                         <GameInfoJoinButton />
-                    </VStack>
-                </VStack>
-            </HStack>
-            <HStack
-                w={["100%", "100%", "40%"]}
-                display={["none", "none", "flex"]}
-                justifyContent={"center"}
-            >
-                <Box
-                    position="relative"
-                    w={["8rem", "12rem", "16rem", "24rem"]}
-                    h={["8rem", "12rem", "16rem", "24rem"]}
-                    className="gameinfo-image"
-                >
-                    <Image
-                        position="absolute"
-                        right="0"
-                        borderRadius={"12px"}
-                        objectFit={"cover"}
-                        src={imgUrl}
-                    />
-                    {/* <VStack
+                    </GridItem>
+                    <GridItem>
+                        <HStack
+                            w={["100%", "100%", "100%", "100%"]}
+                            display={["none", "none", "none", "flex"]}
+                            justifyContent={"center"}
+                        >
+                            <Box
+                                position="relative"
+                                w={["12rem", "12rem", "12rem", "20rem", "24rem"]}
+                                h={["12rem", "12rem", "12rem", "20rem", "24rem"]}
+                                className="gameinfo-image"
+                            >
+                                <Image
+                                    position="absolute"
+                                    right="0"
+                                    borderRadius={"12px"}
+                                    objectFit={"cover"}
+                                    src={imgUrl}
+                                />
+                                {/* <VStack
                         spacing="0"
                         position="absolute"
                         top={["0"]}
@@ -210,8 +224,12 @@ function GameHeaderDesktop({ game, imgUrl, bgImgUrl }) {
                     >
                         <GameMenu />
                     </VStack> */}
-                </Box>
+                            </Box>
+                        </HStack>
+                    </GridItem>
+                </Grid>
             </HStack>
+
         </HStack>
     );
 }

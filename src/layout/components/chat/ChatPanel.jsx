@@ -64,235 +64,140 @@ export default function ChatPanel({}) {
 
       <VStack
         w="100%"
-        h={["auto"]}
+        h={["100%"]}
         spacing="0"
         position="relative"
         overflow="hidden"
         flex="1"
         // mb="0.5rem"
         // pt="0.5rem"
-        px="1rem"
+        px="0.5rem"
         mb="1rem"
+        filter="drop-shadow(1px 1px 3px var(--chakra-colors-gray-1000)) "
       >
-        <Accordion
-          allowToggle
-          w="100%"
-          defaultIndex={0}
-          display="flex"
-          flexDirection={"column"}
+        <VStack
+          width="100%"
+          height={"100%"}
+          transition={"all 0.3s ease"}
+          boxSizing="border-box"
+          spacing="0rem"
           position="relative"
           overflow="hidden"
+          mb="0"
+          pb="0"
+          borderRadius={"8px"}
+          border="1px solid"
+          borderColor="gray.925"
         >
-          <AccordionItem
-            w="100%"
-            borderTop="0"
-            borderBottom="0"
-            // borderRadius="1rem"
-            display="flex"
-            flexDirection={"column"}
-            position="relative"
-            overflow="hidden"
+          <ChakraSimpleBar
+            boxSizing="border-box"
+            flex="1"
+            // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+            style={{
+              width: "100%",
+              height: "auto",
+              backgroundColor: "var(--chakra-colors-gray-1000)",
+              flex: "1",
+              overflow: "hidden scroll",
+              boxSizing: "border-box",
+            }}
+            scrollableNodeProps={{ ref: scrollRef }}
           >
-            <AccordionButton
-              p="0"
-              onClick={onToggle}
-              // bgColor="gray.800"
-              // bgColor="gray.1000"
-              m="0"
-              display={["block"]}
+            <VStack
+              className="chat-message-panel"
+              height="100%"
+              // pl="2rem"
+              bgColor="gray.900"
+              px={["0.25rem", "0.5rem"]}
+              pt="0.25rem"
+              spacing="0rem"
+              justifyContent={"flex-end"}
             >
-              <HStack
-                alignItems={"center"}
-                w="100%"
-                //   mb="0.5rem"
-                pb="0.5rem"
-                // borderRadius="0.5rem"
-                transition="all 0.3s ease"
-                borderRadius={!isOpen ? "0" : "8px"}
-                borderTopRadius={"8px"}
-                bgColor="gray.975"
-                position="relative"
-              >
-                <Heading
-                  as="h4"
-                  fontWeight={"500"}
-                  fontSize="1.6rem"
-                  color="gray.0"
-                  flex="1"
-                  textAlign={"left"}
-                  pl="1rem"
-                  pt="0.5rem"
-                >
-                  Logs
-                </Heading>
-                <VStack
-                  position="relative"
-                  top="0.3rem"
-                  //   top="-0.8rem"
-                  //   left="-0.8rem"
-                  bgColor="red.500"
-                  zIndex="2"
-                  borderRadius="50%"
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  width="2rem"
-                  height="2rem"
-                  //   border="2px solid var(--chakra-colors-gray-700)"
-                  // boxShadow={
-                  //   "inset 0.2em 0.2em 0.2em 0 rgba(255,255,255,0.2), inset -0.2em -0.2em 0.2em 0 rgba(0,0,0,0.2)"
-                  // }
-                >
-                  <Text
-                    as="span"
-                    color="gray.10"
-                    fontWeight="500"
-                    fontSize="1.4rem"
-                    display="inline-block"
-                    textAlign={"center"}
-                    lineHeight={"2rem"}
-                    p="0"
-                    m="0"
-                  >
-                    5
-                  </Text>
-                </VStack>
-                <AccordionIcon
-                  position="relative"
-                  top="0.3rem"
-                  color="gray.50"
-                />
-              </HStack>
-            </AccordionButton>
-            <Box
-              as={Collapse}
-              in={!isOpen}
-              startingHeight="0"
-              w="100%"
-              flex="1"
-              display="flex !important"
-              flexDirection={"column"}
-              position="relative"
-              overflow="hidden"
-            >
-              <VStack
-                width="100%"
-                height={!isOpen ? "100%" : "0%"}
-                transition={"all 0.3s ease"}
-                boxSizing="border-box"
-                spacing="0rem"
-                position="relative"
-                overflow="hidden"
-                mb="0"
-                pb="0"
-              >
-                <ChakraSimpleBar
-                  boxSizing="border-box"
-                  flex="1"
-                  // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    flex: "1",
-                    overflow: "hidden scroll",
-                    boxSizing: "border-box",
-                  }}
-                  scrollableNodeProps={{ ref: scrollRef }}
-                >
-                  <VStack
-                    className="chat-message-panel"
-                    height="100%"
-                    // pl="2rem"
-                    bgColor="gray.1000"
-                    px={["0.25rem", "0.5rem"]}
-                    pt="0.25rem"
-                    spacing="0rem"
-                    justifyContent={"flex-end"}
-                  >
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:30"
-                      msg="Hello from Texas!"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:31"
-                      msg="Do you want to play a game? this is a really long message"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:30"
-                      msg="Hello from Texas!"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:31"
-                      msg="Do you want to play a game?"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:30"
-                      msg="Hello from Texas!"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:31"
-                      msg="Do you want to play a game?"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:30"
-                      msg="Hello from Texas!"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:31"
-                      msg="Do you want to play a game?"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:30"
-                      msg="Hello from Texas!"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:31"
-                      msg="Do you want to play a game?"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:30"
-                      msg="Hello from Texas!"
-                    />
-                    <ChatMessage
-                      flagCode={USAFlag}
-                      username="JoeOfTexas"
-                      msgTime="12:31"
-                      msg="Do you want to play a game?"
-                    />
-                    <QueueMessage
-                      game_slug={"tictactoe"}
-                      name={"Tic Tac Toe"}
-                      userCount="5"
-                    />
-                    <Box w="100" flex="1"></Box>
-                  </VStack>
-                </ChakraSimpleBar>
-                <ChatSend isOpen={isOpen} />
-              </VStack>
-            </Box>
-          </AccordionItem>
-        </Accordion>
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:30"
+                msg="Hello from Texas!"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:31"
+                msg="Do you want to play a game? this is a really long message"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:30"
+                msg="Hello from Texas!"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:31"
+                msg="Do you want to play a game?"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:30"
+                msg="Hello from Texas!"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:31"
+                msg="Do you want to play a game?"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:30"
+                msg="Hello from Texas!"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:31"
+                msg="Do you want to play a game?"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:30"
+                msg="Hello from Texas!"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:31"
+                msg="Do you want to play a game?"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:30"
+                msg="Hello from Texas!"
+              />
+              <ChatMessage
+                flagCode={USAFlag}
+                username="JoeOfTexas"
+                msgTime="12:31"
+                msg="Do you want to play a game?"
+              />
+              <QueueMessage
+                game_slug={"tictactoe"}
+                name={"Tic Tac Toe"}
+                userCount="5"
+              />
+              <Box w="100" flex="1"></Box>
+            </VStack>
+          </ChakraSimpleBar>
+          <ChatSend />
+        </VStack>
+        {/* </Box> */}
+        {/* </AccordionItem>
+        </Accordion> */}
       </VStack>
     </>
   );

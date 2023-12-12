@@ -26,7 +26,7 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
     <VStack
       w="100%"
       spacing="0.5rem"
-      bgColor="gray.1000"
+      // bgColor="gray.1000"
       borderRadius={"4px"}
       mx={["0.125rem", "0.25rem"]}
       px={["0.25rem", "0.5rem"]}
@@ -60,9 +60,9 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
             <Text
               display="inline-block"
               as="span"
-              fontSize="1.2rem"
+              fontSize="1.1rem"
               fontWeight="500"
-              color="gray.20"
+              color="gray.50"
               pr="0.5rem"
               lineHeight="2rem"
               overflow="hidden"
@@ -76,9 +76,10 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
               display="inline-block"
               src={flagCode}
               verticalAlign={"middle"}
-              borderRadius="5px"
-              w="2rem"
-              h="1.5rem"
+              // borderRadius="5px"
+              w="1.8rem"
+              h="1.35rem"
+              opacity="0.75"
             />
             <Box flex="1" h="2rem" w="0.1rem"></Box>
             {/* </ChakraLink> */}
@@ -160,10 +161,11 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
           </HStack>
           <VStack
             w="100%"
-            mt="0.5rem"
-            p="1rem"
-            py="0.5rem"
-            bgColor="gray.800"
+            // mt="0.5rem"
+            // p="1rem"
+            // py="0.5rem"
+            p="0"
+            bgColor="gray.900"
             borderRadius={"8px"}
           >
             <Text
@@ -173,7 +175,7 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
               fontSize="1.1rem"
               fontWeight="medium"
               lineHeight="1.5rem"
-              color="gray.40"
+              color="gray.10"
               // width="100%"
             >
               {msg}

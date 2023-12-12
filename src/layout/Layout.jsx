@@ -8,7 +8,7 @@ import {
   Button,
   HStack,
   Heading,
-  Popover,
+  IconButton,
   PopoverArrow,
   PopoverBody,
   PopoverContent,
@@ -18,15 +18,27 @@ import {
   chakra,
   useBoolean,
   useBreakpointValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import RightBar from "./RightBar.jsx";
 import SimpleBar from "simplebar-react";
-import UserPanel from "./components/userstatus/UserPanel.jsx";
+import UserPanel from "./components/userpanel/UserPanel.jsx";
 import WaitingPanel from "./components/queue/WaitingPanel.jsx";
 import ChatPanel from "./components/chat/ChatPanel.jsx";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import ActivateUserProfile from "../components/widgets/ActivateUserProfile.js";
+import VersionControl from "../components/widgets/VersionControl.js";
+import GameInfoCreateDisplayName from "../components/login/GameInfoCreateDisplayName.js";
+import Connection from "../components/games/Connection.js";
+import ToastMessage from "../components/widgets/ToastMessage.js";
 
+import { BsLayoutSidebarInsetReverse } from "@react-icons";
 function Layout({ children }) {
+  const history = useNavigate();
+  const location = useLocation();
+
+  const disclosure = useDisclosure();
   let [isMobile] = fs.useChange("isMobile");
   const gameResizer = useRef();
 
@@ -52,6 +64,7 @@ function Layout({ children }) {
   };
 
   useEffect(() => {
+    fs.set("history", history);
     window.addEventListener("resize", onResize);
     if (gameResizer?.current) myObserver.observe(gameResizer.current);
 
@@ -66,10 +79,18 @@ function Layout({ children }) {
     <VStack
       id="root-container"
       w={["100%"]}
-      pr={["0", "0", "30rem", "30rem"]}
       h={["100%"]}
       position="relative"
+      spacing="0"
     >
+      <ActivateUserProfile />
+      <VersionControl />
+      <GameInfoCreateDisplayName {...disclosure} />
+      <Connection />
+      {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
+
+      <ToastMessage />
+
       <Box
         className="layout"
         w={"100%"}
@@ -110,30 +131,20 @@ function MobileLayout({ children, gameResizer }) {
         // pb={["1rem", "1rem"]}
         // mt={["7rem", "7rem", "0"]}
       >
-        <VStack
-          w={["100%"]}
-          // position="fixed"
-          top={["0"]}
-          right="0"
-          h={["7.5rem"]}
-          zIndex={1001}
-          bgColor={["gray.900", "gray.900"]}
-          pb="0rem"
-          // borderBottom={["1px solid var(--chakra-colors-gray-800)"]}
-        >
-          <UserPanel key="mobile-userpanel" />
-        </VStack>
+        <UserPanel key="mobile-userpanel" />
+
         <ChakraSimpleBar
           boxSizing="border-box"
           autoHide={true}
           forceVisible={false}
-          // pt={["6rem", "4rem", "7rem"]}
+          // pt={["7.5rem", "7.5rem", "0"]}
           style={{
             position: "absolute",
-            top: "7.5rem",
+            top: "8rem",
+            // top: "0",
             left: "0",
             width: "100%",
-            height: "calc(100vh - 7rem)",
+            height: "calc(100vh - 8rem)",
             flex: "1",
             overflow: "hidden scroll",
             boxSizing: "border-box",
@@ -163,23 +174,48 @@ function MobileLayout({ children, gameResizer }) {
 }
 function DesktopLayout({ children }) {
   const ChakraSimpleBar = chakra(SimpleBar);
+  // let [hideDrawer] = fs.useWatch("hideDrawer");
+
+  let scrollRef = useRef();
+  let layoutRef = useRef();
+
+  const scrollX = window.scrollX;
+  const scrollY = window.scrollY;
+
+  useLayoutEffect(() => {
+    let windowScrollPos = fs.get("windowScrollPos");
+    if (windowScrollPos)
+      setTimeout(() => {
+        // scrollRef.current.scrollTop = windowScrollPos;
+      }, 0);
+  });
 
   return (
     <Box w={"100%"} h={"100%"}>
-      <VStack w={["100%"]} overflow="hidden" height="100%">
+      <HStack
+        w={["100%"]}
+        overflow="hidden"
+        display="relative"
+        height="100%"
+        spacing="0"
+        pr={["0", "0", "30rem", "30rem"]}
+        transition="all 0.2s ease"
+        ref={layoutRef}
+      >
         <ChakraSimpleBar
+          key="layout-content"
           boxSizing="border-box"
           autoHide={true}
           forceVisible={false}
           // pt={["4rem", "4rem", "7rem"]}
           style={{
             width: "100%",
-            height: "auto",
+            height: "100%",
             flex: "1",
             overflow: "hidden scroll",
             boxSizing: "border-box",
           }}
-          //   scrollableNodeProps={{ ref: scrollRef }}
+          scrollableNodeProps={{ ref: scrollRef }}
         >
           <Header />
           <HStack
@@ -194,10 +230,11 @@ function DesktopLayout({ children }) {
             </Box>
             {/* <RightBar /> */}
           </HStack>
-          <RightBar />
+
           <Footer />
         </ChakraSimpleBar>
-      </VStack>
+        <RightBar layoutRef={layoutRef} />
+      </HStack>
     </Box>
   );
 }

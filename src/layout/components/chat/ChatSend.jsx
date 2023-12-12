@@ -2,7 +2,7 @@ import { Box, HStack, IconButton, Input } from "@chakra-ui/react";
 import { IoSend } from "@react-icons";
 import { useState } from "react";
 import QuickChat from "./QuickChat.jsx";
-export default function ChatSend({ isOpen }) {
+export default function ChatSend({}) {
   let [message, setMessage] = useState("");
   //   let emojiRef = useRef();
   return (
@@ -23,18 +23,21 @@ export default function ChatSend({ isOpen }) {
       // mt="0.25rem"
       // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
     >
+      <QuickChat />
+
       <Input
         name="name"
         id="name"
         title=""
         borderBottomRadius="8px"
+        borderTopRadius="0"
         maxLength="120"
         lineHeight={"3.5rem"}
         pr={"4rem"}
         pl="4rem"
         height={["3.5rem", "3.5rem", "3.5rem"]}
         border="0"
-        bgColor="gray.975"
+        bgColor="gray.800"
         color="gray.10"
         fontSize="1.2rem"
         placeholder="Send a message"
@@ -47,7 +50,7 @@ export default function ChatSend({ isOpen }) {
           //   borderTopColor: "gray.700",
           bgColor: "gray.800",
         }}
-        _placeholder={{ color: "gray.40", fontSize: "1.2rem" }}
+        _placeholder={{ color: "gray.100", fontSize: "1.2rem" }}
         value={message || ""}
         onChange={(e) => {
           setMessage(e.target.value);
@@ -59,7 +62,6 @@ export default function ChatSend({ isOpen }) {
         }}
       />
 
-      <QuickChat />
       <HStack
         alignItems={"center"}
         justifyContent="center"
@@ -77,7 +79,7 @@ export default function ChatSend({ isOpen }) {
           icon={<IoSend size="1.6rem" />}
           width="2.8rem"
           isRound="true"
-          color="brand.300"
+          color="gray.20"
           _hover={{
             color: "brand.500",
           }}

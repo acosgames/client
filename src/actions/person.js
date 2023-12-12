@@ -155,15 +155,15 @@ export async function loadUserGameData(game_slug) {
 
 export async function getUser() {
 
-    fs.set('loadingUser', true);
 
     let user = fs.get('user');
     if (!user) {
+        fs.set('loadingUser', true);
         user = await getUserProfile();
     }
 
 
-    reconnect(true, true);
+    // reconnect(true, true);
 
     fs.set('loadingUser', false);
 
@@ -232,15 +232,11 @@ export async function getUserProfile() {
         if (!user) {
             let response = await GET('/api/v1/person');
             user = response.data;
-
-            if (user.ecode) {
-                console.error('[ERROR] Login failed. Please login again.');
-                setLoginMode();
-                fs.set('user', null);
-                return null;
-            }
         }
-
+        if (user.ecode) {
+            console.error('[ERROR] Login failed. Please login again.', user.ecode);
+            return null;
+        }
 
         //create local user session with expiration
         console.log('getUserProfile', user);
@@ -264,12 +260,14 @@ export async function getUserProfile() {
 
         try {
             let roomList = getRoomList();// localStorage.getItem('rooms') || {};
-            if (roomList.length > 0) {
-                reconnect();
-            }
+            // if (roomList.length > 0) {
+            // reconnect();
+            // }
             wsRejoinQueues();
         }
         catch (e) {
+
+
             console.error(e);
         }
 
@@ -282,7 +280,13 @@ export async function getUserProfile() {
         fs.set('user', null);
         fs.set('userid', 0);
 
-        console.error('[Profile] Login failed. Please login again.');
+        // console.error('[Profile] Login failed. Please login again.');
+
+        if (e.response.data.ecode) {
+            console.error('[ERROR] Login failed. Please login again.', e.response.data.ecode);
+            return null;
+        }
+
         console.error(e);
 
 

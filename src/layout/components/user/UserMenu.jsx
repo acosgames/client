@@ -51,45 +51,35 @@ export default function UserMenu({ game }) {
       />
       <MenuList
         zIndex={3}
-        borderColor="gray.300"
+        borderColor="gray.600"
         bgColor="gray.700"
         bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
         fontSize="1.2rem"
         pb="0"
+        pt="0"
       >
-        <MenuOptionGroup
+        <MenuItem
+          fontSize="1.4rem"
+          icon={<Icon as={FiLogOut} fontSize="2rem" color="brand.300" />}
           color="gray.0"
-          fontWeight={"800"}
-          fontFamily="'Barlow', sans-serif;"
-          fontSize="1.8rem"
-          letterSpacing={"1px"}
-          pb="0.5rem"
-          title="Get Involved"
-          type="checkbox"
+          bgColor="transparent"
+          _hover={{ bgColor: "gray.300" }}
+          onClick={logout}
         >
-          <MenuItem
-            fontSize="1.4rem"
-            icon={<Icon as={FiLogOut} fontSize="2rem" color="brand.300" />}
-            color="gray.0"
-            bgColor="transparent"
-            _hover={{ bgColor: "gray.300" }}
-            onClick={logout}
-          >
-            Logout
-          </MenuItem>
-          <MenuItem
-            fontSize="1.4rem"
-            icon={<Icon as={FaGithub} fontSize="2rem" color="brand.300" />}
-            color="gray.0"
-            bgColor="transparent"
-            _hover={{ bgColor: "gray.300" }}
-            as="a"
-            href={`https://github.com/acosgames//issues`}
-            target="_blank"
-          >
-            Discuss on Github
-          </MenuItem>
-        </MenuOptionGroup>
+          Logout
+        </MenuItem>
+        {/* <MenuItem
+          fontSize="1.4rem"
+          icon={<Icon as={FaGithub} fontSize="2rem" color="brand.300" />}
+          color="gray.0"
+          bgColor="transparent"
+          _hover={{ bgColor: "gray.300" }}
+          as="a"
+          href={`https://github.com/acosgames//issues`}
+          target="_blank"
+        >
+          Discuss on Github
+        </MenuItem> */}
         {/* <MenuItem>Report...</MenuItem> */}
       </MenuList>
     </Menu>

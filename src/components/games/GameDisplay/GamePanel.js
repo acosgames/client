@@ -335,6 +335,10 @@ function GameIFrame(props) {
 
     let displayMode = props.displayMode;
 
+    let iframeURL = `${config.https.cdn}static/iframe.html`;
+    if (process.env.NODE_ENV)
+        iframeURL = '/iframe.html';
+
     return (
         <>
 
@@ -411,7 +415,7 @@ function GameIFrame(props) {
                                     updateGamePanel(gamepanel);
                                 }
                             }}
-                            src={`${config.https.cdn}static/iframe.html`}
+                            src={iframeURL}
                             // srcDoc={iframeSrc}
                             sandbox="allow-scripts allow-same-origin"
                         />

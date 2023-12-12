@@ -17,7 +17,7 @@ function PlayerRankInfo({ }) {
         player_stat = { played: 0, rating: 100 }
     console.log(player_stat);
     let played = Number.parseInt(player_stat.played);
-    // played = 10;
+    played = 10;
     // stats.rating = 3000;
     // played = 0
     let ratingTxt = ratingtext.ratingToRank(Number.parseInt(player_stat.rating));
@@ -46,7 +46,7 @@ function PlayerRankInfo({ }) {
         )
     }
     return (
-        <ActionBarItem title={played >= 10 ? 'RATING' : 'UNRANKED'} value={(played < 10 ? `${played} / 10` : player_stat.rating)} spacing="0" ml="0rem" mr="0">
+        <ActionBarItem title={played >= 10 ? 'CLASS' : 'UNRANKED'} value={(played < 10 ? `${played} / 10` : player_stat.rating)} spacing="0" ml="0rem" mr="0">
             <>
                 {/* <Image
                     display={played >= 10 ? 'inline-block' : 'none'}

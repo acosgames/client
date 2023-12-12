@@ -2,6 +2,7 @@ import { HStack, Heading, Icon, Image, Text } from "@chakra-ui/react";
 import { GiCandlebright } from "@react-icons";
 import config from "../../../config/index.js";
 
+import { SiLevelsdotfyi } from "react-icons/si";
 export default function BadgeLevel({ level }) {
   return (
     <HStack
@@ -14,7 +15,7 @@ export default function BadgeLevel({ level }) {
       spacing="0.3rem"
       h="2.5rem"
     >
-      <Image
+      {/* <Image
         display={"inline-block"}
         src={`${config.https.cdn}icons/achievements/2-white-thumbnail.webp`}
         loading="lazy"
@@ -23,21 +24,21 @@ export default function BadgeLevel({ level }) {
         w="2rem"
         minW="2rem"
         position="relative"
-        filter="sepia(50%) hue-rotate(100deg)"
+        // filter="sepia(50%) hue-rotate(100deg)"
         // filter="brightness(70%) hue-rotate(50deg)"
         top="-0.1rem"
         // left="-0.5rem"
-      />
-      {/* <Icon as={GiCandlebright} fontSize="1.2rem" color="brand.300" /> */}
+      /> */}
+      {/* <Icon as={SiLevelsdotfyi} fontSize="1.2rem" color="brand.100" /> */}
       <Heading
         as="h6"
-        fontSize="1.2rem"
+        fontSize="1.4rem"
         color="gray.10"
-        fontWeight="500"
+        fontWeight="700"
         lineHeight="1.7rem"
         letterSpacing={"0px"}
       >
-        Lvl. {level}
+        Level {level.toLocaleString()}
       </Heading>
     </HStack>
   );

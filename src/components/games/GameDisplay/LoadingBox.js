@@ -23,13 +23,18 @@ function LoadingBox(props) {
         }
     })
 
+    const [activeClass, setActiveClass] = useState('');
+    useEffect(() => {
+        setActiveClass('active');
+    }, [])
+
     // return <></>
     if (!showLoadingBox)
         return <></>
 
     return (
         <Box
-            className="loading-screen"
+            // className="loader"
             position={'absolute'}
             left="0"
             top="0"
@@ -37,21 +42,15 @@ function LoadingBox(props) {
             h="100%"
             zIndex={1000}
             bgColor={'gray.900'}
+            display="flex"
+            justifyContent={'center'}
+            alignItems={'center'}
         // transition={'filter 0.4s ease-in'}
         // filter={props.isDoneLoading ? 'opacity(0)' : 'opacity(1)'}
         >
-            <VStack w="100%" h="100%" justifyItems={'center'} justifyContent="center" alignContent="center" alignItems={'center'}>
-                {/* <Text>Loading...</Text> */}
-                <Image
-                    alt={'A cup of skill logo'}
-                    src={`${config.https.cdn}acos-logo-large.png`}
-                    w="300px" h="124.5px"
-                />
-                <div className="ldr-1"><div className="ball1"></div><div className="ball2"></div><div className="ball3"></div><div className="ball4"></div></div>
-                {/* <br /><br />
-                <Box className="factory-7"></Box> */}
-            </VStack>
-        </Box>
+            <div className={"loader" + ' ' + activeClass}></div>
+
+        </Box >
     )
 }
 

@@ -49,7 +49,7 @@ export default function GamesPage({}) {
   }, []);
   return (
     <Layout>
-      <Box w="100%" pt={["8rem", "8rem", "11rem"]}>
+      <Box w="100%" pt={["1rem", "8rem", "11rem"]}>
         <Box
           //   px={["1rem", "1.5rem", "3rem"]}
           w="100%"

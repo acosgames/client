@@ -52,7 +52,7 @@ function Header({}) {
           //pl={["24rem", "23rem"]}
           pr={["2rem", "1rem", "3rem"]}
         >
-          <Box>
+          <Box w={["3.1rem", "4.14rem", "6.21rem"]}>
             <Link to="/" className="" onClick={(e) => {}}>
               <Image
                 alt={"A cup of skill logo"}

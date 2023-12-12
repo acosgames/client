@@ -1,6 +1,7 @@
 import { HStack, Heading, Icon, Image, Text } from "@chakra-ui/react";
 import { FaCoins } from "@react-icons";
 import config from "../../../config/index.js";
+import { TbBrain } from "react-icons/tb";
 
 export default function BadgePoints({ points }) {
   return (
@@ -15,7 +16,7 @@ export default function BadgePoints({ points }) {
       spacing="0rem"
       h="2.5rem"
     >
-      <Image
+      {/* <Image
         display={"inline-block"}
         src={`${config.https.cdn}icons/achievements/31-white-thumbnail.webp`}
         loading="lazy"
@@ -24,21 +25,21 @@ export default function BadgePoints({ points }) {
         w="2rem"
         minW="2rem"
         position="relative"
-        filter="sepia(50%)"
+        // filter="sepia(50%)"
         // filter="brightness(70%) hue-rotate(50deg)"
         // top="0.2rem"
         // left="-0.25rem"
-      />
-      {/* <Icon as={FaCoins} fontSize="1rem" color="yellow.200" /> */}
+      /> */}
+      <Icon as={TbBrain} fontSize="1.6rem" color="yellow.200" />
       <Heading
         as="h6"
-        fontSize="1.2rem"
+        fontSize="1.4rem"
         color="gray.10"
         lineHeight="1.7rem"
-        fontWeight="500"
+        fontWeight="700"
         letterSpacing={"0px"}
       >
-        {points}
+        {points.toLocaleString()}
       </Heading>
     </HStack>
   );
