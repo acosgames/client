@@ -56,6 +56,7 @@ export default function Searching({}) {
       py="1rem"
       justifyContent="center"
       position="relative"
+      bgColor="gray.700"
       onClick={() => {}}
     >
       <IconButton
@@ -78,7 +79,7 @@ export default function Searching({}) {
         position="absolute"
         top="0.75rem"
         right="1.5rem"
-        filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) drop-shadow(1px 1px 4px var(--chakra-colors-gray-1200))"
+        filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) "
       />
       as={}
       <HStack className="queue-searching" justifyContent={"center"} spacing="0">

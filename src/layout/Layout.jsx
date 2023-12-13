@@ -57,9 +57,15 @@ function Layout({ children }) {
     fs.set("screenResized", true);
 
     if (width < 800) {
-      if (!currentIsMoble) fs.set("isMobile", true);
+      if (!currentIsMoble) {
+        fs.set("isMobile", true);
+        fs.set("hideDrawer", true);
+      }
     } else {
-      if (currentIsMoble) fs.set("isMobile", false);
+      if (currentIsMoble) {
+        fs.set("isMobile", false);
+        fs.set("hideDrawer", false);
+      }
     }
   };
 
@@ -107,9 +113,9 @@ function Layout({ children }) {
 }
 
 function LayoutChooser({ children, isMobile, gameResizer }) {
-  if (isMobile) {
-    return <MobileLayout gameResizer={gameResizer}>{children}</MobileLayout>;
-  }
+  // if (isMobile) {
+  // return <MobileLayout gameResizer={gameResizer}>{children}</MobileLayout>;
+  // }
 
   return <DesktopLayout gameResizer={gameResizer}>{children}</DesktopLayout>;
 }
@@ -214,6 +220,7 @@ function DesktopLayout({ children }) {
             flex: "1",
             overflow: "hidden scroll",
             boxSizing: "border-box",
+            zIndex: "99",
           }}
           scrollableNodeProps={{ ref: scrollRef }}
         >

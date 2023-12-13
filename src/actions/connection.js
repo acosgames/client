@@ -16,7 +16,7 @@ import config from '../config'
 import fs from 'flatstore';
 import delta from 'acos-json-delta';
 import { addRoom, addRooms, clearRoom, clearRooms, findGamePanelByIFrame, findGamePanelByRoom, getCurrentRoom, getGamePanels, getGameState, getIFrame, getRoom, reserveGamePanel, setCurrentRoom, setGamePanelActive, setGameState, setLastJoinType, setPrimaryGamePanel, setRoomActive, updateGamePanel, updateRoomStatus } from "./room";
-import { addGameQueue, clearGameQueues, getJoinQueues } from "./queue";
+import { addGameQueue, clearGameQueues, getJoinQueues, onQueueStats } from "./queue";
 import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
 import { addChatMessage } from "./chat";
 import { GET } from "./http";
@@ -1151,6 +1151,10 @@ async function wsIncomingMessage(message) {
         case 'chat':
             console.log("[ChatMessage]:", msg);
             addChatMessage(msg);
+            return;
+        case 'queueStats':
+            console.log("[queueStats]:", '[' + buffer.byteLength + ' bytes]', msg);
+            onQueueStats(msg);
             return;
         case 'pong':
             onPong(msg);

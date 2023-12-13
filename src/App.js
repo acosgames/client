@@ -58,7 +58,7 @@ fs.set('layoutRightMode', 'none');
 fs.set('scoreboardExpanded', true);
 fs.set('lobbyExpanded', false);
 fs.set('chatExpanded', true);
-
+fs.set('loggedIn', 'LURKER');
 function App(props) {
 
 

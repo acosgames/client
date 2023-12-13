@@ -32,7 +32,7 @@ export default function BadgeLevel({ level }) {
       {/* <Icon as={SiLevelsdotfyi} fontSize="1.2rem" color="brand.100" /> */}
       <Heading
         as="h6"
-        fontSize="1.4rem"
+        fontSize="1.2rem"
         color="gray.10"
         fontWeight="700"
         lineHeight="1.7rem"

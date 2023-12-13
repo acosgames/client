@@ -27,7 +27,7 @@ function Header({}) {
       w="100%"
       height={["6.4rem", "6.4rem", "7rem"]}
       // width={["100%", "calc(100% - 27rem)", "calc(100% - 30rem)"]}
-      zIndex={"999"}
+      zIndex={"99"}
       // background={[
       //   "transparent",
       //   "linear-gradient(153.32deg, rgba(255, 255, 255, 0.3) -65.62%, rgba(255, 255, 255, 0.1) 83.28%)",
@@ -44,20 +44,20 @@ function Header({}) {
     >
       <HStack
         // py="2.4rem"
-        px={["0", "0", "1.2rem"]}
+        px={["1.2rem"]}
         maxWidth={["100%", "90%", "90%", "90%", "90%", "1200px"]}
         width={["100%"]}
       >
         <HStack
           //pl={["24rem", "23rem"]}
-          pr={["2rem", "1rem", "3rem"]}
+          pr={["1rem", "1rem", "3rem"]}
         >
-          <Box w={["3.1rem", "4.14rem", "6.21rem"]}>
+          <Box w={["4.14rem", "4.14rem", "6.21rem"]}>
             <Link to="/" className="" onClick={(e) => {}}>
               <Image
                 alt={"A cup of skill logo"}
                 src={`${config.https.cdn}acos-logo-standalone-nov-2023.png`}
-                h={["1.5rem", "2rem", "3rem"]}
+                h={["2rem", "2rem", "3rem"]}
                 maxHeight={"90%"}
               />
             </Link>
@@ -66,7 +66,7 @@ function Header({}) {
         <HStack
           w="100%"
           justifyContent={"space-between"}
-          display={["none", "flex"]}
+          display={["flex", "flex"]}
         >
           <HStack spacing={["2rem", "2rem", "3rem"]}>
             <Link to="/games" className="">

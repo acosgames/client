@@ -19,8 +19,6 @@ import ChatMessage from "./ChatMessage.jsx";
 import USAFlag from "../../../assets/images/flags/USA.svg";
 import { useEffect, useRef } from "react";
 import SimpleBar from "simplebar-react";
-import QueueMessage from "./QueueMessage.jsx";
-
 export default function ChatPanel({}) {
   let timeHandle = 0;
   const scrollBarHideDelay = 2000;
@@ -73,7 +71,8 @@ export default function ChatPanel({}) {
         // pt="0.5rem"
         px="0.5rem"
         mb="1rem"
-        filter="drop-shadow(1px 1px 3px var(--chakra-colors-gray-1000)) "
+
+        // filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1000)) "
       >
         <VStack
           width="100%"
@@ -87,7 +86,10 @@ export default function ChatPanel({}) {
           pb="0"
           borderRadius={"8px"}
           border="1px solid"
+          zIndex="2"
           borderColor="gray.925"
+          bgColor="gray.900"
+          boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
         >
           <ChakraSimpleBar
             boxSizing="border-box"
@@ -96,7 +98,6 @@ export default function ChatPanel({}) {
             style={{
               width: "100%",
               height: "auto",
-              backgroundColor: "var(--chakra-colors-gray-1000)",
               flex: "1",
               overflow: "hidden scroll",
               boxSizing: "border-box",
@@ -107,7 +108,7 @@ export default function ChatPanel({}) {
               className="chat-message-panel"
               height="100%"
               // pl="2rem"
-              bgColor="gray.900"
+              // bgColor="gray.900"
               px={["0.25rem", "0.5rem"]}
               pt="0.25rem"
               spacing="0rem"
@@ -185,11 +186,7 @@ export default function ChatPanel({}) {
                 msgTime="12:31"
                 msg="Do you want to play a game?"
               />
-              <QueueMessage
-                game_slug={"tictactoe"}
-                name={"Tic Tac Toe"}
-                userCount="5"
-              />
+
               <Box w="100" flex="1"></Box>
             </VStack>
           </ChakraSimpleBar>

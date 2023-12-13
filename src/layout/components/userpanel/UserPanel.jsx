@@ -30,6 +30,23 @@ import fs from "flatstore";
 import { validateLogin } from "../../../actions/connection.js";
 import { useLocation, Link } from "react-router-dom";
 import Searching from "../queue/Searching.jsx";
+import { useEffect } from "react";
+
+export default function UserPanel() {
+  let [loggedIn] = fs.useWatch("loggedIn");
+  let [isMobile] = fs.useChange("isMobile");
+
+  useEffect(() => {}, []);
+  if (loggedIn == "LURKER") {
+    return <WebMenu />;
+  }
+  return (
+    <>
+      <UserFrame />
+      {!isMobile && <Searching />}
+    </>
+  );
+}
 
 function UserLogin() {
   return (
@@ -83,6 +100,7 @@ function UserFrame() {
       //  p="1rem"
       px={["0", "0", "0.5rem"]}
       pt={["0", "0", "0.5rem"]}
+      pb="0.5rem"
     >
       <VStack
         bgColor="gray.900"
@@ -231,20 +249,5 @@ function WebMenu({}) {
         </RLink>
       </Button>
     </HStack>
-  );
-}
-
-export default function UserPanel() {
-  let loggedIn = fs.useWatch("loggedIn");
-  let [isMobile] = fs.useChange("isMobile");
-
-  if (loggedIn == "LURKER") {
-    return <WebMenu />;
-  }
-  return (
-    <>
-      <UserFrame />
-      {!isMobile && <Searching />}
-    </>
   );
 }

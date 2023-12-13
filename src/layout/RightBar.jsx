@@ -13,13 +13,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
+import QueuePanel from "./components/queue/QueuePanel.jsx";
 import UserPanel from "./components/userpanel/UserPanel.jsx";
 import ChatPanel from "./components/chat/ChatPanel.jsx";
 import WaitingPanel from "./components/queue/WaitingPanel.jsx";
 import fs from "flatstore";
 import ChatSend from "./components/chat/ChatSend.jsx";
+import { GoDotFill } from "react-icons/go";
 
 import { BsLayoutSidebarInsetReverse } from "@react-icons";
+import { useEffect } from "react";
 function RightBar({ layoutRef }) {
   return (
     // <VStack
@@ -39,53 +42,50 @@ function RightBar({ layoutRef }) {
 
 function Lobby({ layoutRef }) {
   let [hideDrawer] = fs.useWatch("hideDrawer");
+  let [isMobile] = fs.useWatch("isMobile");
 
+  useEffect(() => {
+    if (layoutRef && layoutRef.current)
+      if (isMobile) {
+        layoutRef.current.style.paddingRight = "0";
+      } else {
+        layoutRef.current.style.paddingRight = hideDrawer ? "0" : "30rem";
+      }
+  });
+  const toggleRightbar = () => {
+    // let isMobile = fs.get("isMobile");
+    // fs.set("windowScrollPos", scrollRef.current.scrollTop);
+    if (layoutRef && layoutRef.current)
+      if (isMobile) {
+        layoutRef.current.style.paddingRight = "0";
+      } else {
+        layoutRef.current.style.paddingRight = hideDrawer ? "30rem" : "0";
+      }
+    fs.set("hideDrawer", !fs.get("hideDrawer"));
+  };
   return (
     <>
-      <IconButton
-        // onClick={onSubmit}
-        role="group"
-        position="absolute"
-        top="1.5rem"
-        right={hideDrawer ? "0" : ["0", "0", "30rem", "30rem"]}
-        transition="all 0.2s ease"
-        bgColor="rgba(0,0,0,0.3)"
-        py="1.5rem"
-        px="1rem"
-        borderRadius="0"
-        borderTopLeftRadius="8px"
-        borderBottomLeftRadius="8px"
-        zIndex="1"
-        // icon={
-        //   <BsLayoutSidebarInsetReverse
-        //     size="1.6rem"
-        //     color="transparent"
-        //     _groupHover={"white"}
-        //   />
-        // }
-        // width="2.8rem"
-        isRound="false"
-        color="gray.50"
-        _hover={{
-          color: "gray.0",
-          bgColor: "rgba(0,0,0,0.7)",
-        }}
-        onClick={() => {
-          // fs.set("windowScrollPos", scrollRef.current.scrollTop);
-          if (layoutRef && layoutRef.current)
-            layoutRef.current.style.paddingRight = hideDrawer ? "30rem" : "0";
-          fs.set("hideDrawer", !fs.get("hideDrawer"));
-        }}
-      />
-
+      <Portal>
+        <Box
+          w="100vw"
+          h="100vh"
+          position="fixed"
+          left="0"
+          top="0"
+          bgColor="rgba(0,0,0,0.7)"
+          zIndex="100"
+          display={!isMobile || hideDrawer ? "none" : "block"}
+          onClick={toggleRightbar}
+        ></Box>
+      </Portal>
       <VStack
-        w={["100%", "27rem", "30rem"]}
+        w={"30rem"}
         position="fixed"
-        top={["unset", "0"]}
-        bottom={["0", "unset"]}
-        right={!hideDrawer ? "0" : ["100%", "-27rem", "-30rem"]}
+        top={["0", "0"]}
+        // bottom={["0", "unset"]}
+        right={!hideDrawer ? "0" : "-30rem"}
         transition="all 0.2s ease"
-        h={["5rem", "100vh"]}
+        h={["100vh", "100vh"]}
         zIndex={1001}
         bgColor="gray.925"
         // borderLeft={["0", "1px solid var(--chakra-colors-gray-950)"]}
@@ -95,7 +95,31 @@ function Lobby({ layoutRef }) {
         // ]}
         spacing="0rem"
       >
-        <UserPanel key="desktop-userpanel" />
+        <IconButton
+          // onClick={onSubmit}
+          role="group"
+          position="absolute"
+          bottom="1.5rem"
+          right={"30rem"}
+          transition="all 0.2s ease"
+          bgColor="rgba(0,0,0,0.3)"
+          py="1.5rem"
+          px="0.5rem"
+          borderRadius="0"
+          borderTopLeftRadius="8px"
+          borderBottomLeftRadius="8px"
+          zIndex="1"
+          icon={<GoDotFill size="0.8rem" />}
+          // width="2.8rem"
+          isRound="false"
+          color={hideDrawer ? "gray.200" : "gray.0"}
+          _hover={{
+            color: "gray.0",
+            bgColor: "gray.925",
+          }}
+          onClick={toggleRightbar}
+        ></IconButton>
+        <UserPanel />
         <Tabs
           variant="brand"
           w="100%"
@@ -162,7 +186,9 @@ function Lobby({ layoutRef }) {
             >
               <ChatPanel />
             </TabPanel>
-            <TabPanel></TabPanel>
+            <TabPanel>
+              <QueuePanel />
+            </TabPanel>
             <TabPanel></TabPanel>
           </TabPanels>
         </Tabs>

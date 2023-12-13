@@ -12,7 +12,7 @@ import {
   Flex,
   Image,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import { FaGithub, FaTwitter, FaDiscord, FaChevronRight } from "@react-icons";
 
@@ -20,6 +20,20 @@ import FooterImage1 from "../assets/images/footer-image-1.png";
 import FooterImage2 from "../assets/images/footer-image-2.png";
 
 function Footer({}) {
+  let { game_slug, room_slug, mode } = useParams();
+  let [queues] = fs.useWatch("queues");
+
+  let queue = {};
+  for (let i = 0; i < queues.length; i++) {
+    let q = queues[i];
+    if (q.game_slug == game_slug) {
+      queue = q;
+      break;
+    }
+  }
+
+  let inQueue = queue.game_slug;
+
   return (
     <VStack
       w="100%"
@@ -48,7 +62,7 @@ function Footer({}) {
         top: "0",
         width: "50%",
         clipPath: "polygon(0 0, 100% 0, 0 100%)",
-        backgroundColor: "brand.300",
+        backgroundColor: !game_slug || inQueue ? "brand.300" : "brand.600",
         height: ["20px", "20px", "20px"],
       }}
       _after={{
@@ -59,7 +73,7 @@ function Footer({}) {
         position: "absolute",
         width: "50%",
         clipPath: "polygon(100% 0, 0 0, 100% 100%)",
-        backgroundColor: "brand.300",
+        backgroundColor: !game_slug || inQueue ? "brand.300" : "brand.600",
         height: ["20px", "20px", "20px"],
       }}
     >

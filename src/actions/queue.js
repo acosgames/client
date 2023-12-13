@@ -1,6 +1,12 @@
 
 import fs from 'flatstore';
 
+
+export async function onQueueStats(msg) {
+
+    fs.set('queueStats', msg);
+}
+
 export async function addGameQueue(newQueues) {
 
     let queues = fs.get('queues') || localStorage.getItem('queues') || [];

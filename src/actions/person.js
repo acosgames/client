@@ -9,7 +9,7 @@ import { clearRooms, getLastJoinType, getRoomList, getRooms, setLastJoinType } f
 import { findGame, findGamePerson } from './game';
 
 
-fs.set('loggedIn', 'LURKER');
+
 
 export async function createDisplayName(displayname) {
 
@@ -208,7 +208,7 @@ export async function loginComplete() {
     }
 }
 
-export async function setLoginMode(user) {
+export function setLoginMode(user) {
     let loginMode = 'LURKER';
 
     if (user) {
@@ -247,6 +247,10 @@ export async function getUserProfile() {
         fs.set('user', user);
         fs.set('userid', user.id);
         fs.set('profile', user);
+
+        setTimeout(() => {
+            setLoginMode(user);
+        }, 0)
 
         // if (user.isdev)
         //     await findDevGames(user.id)

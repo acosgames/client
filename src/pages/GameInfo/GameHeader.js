@@ -9,8 +9,9 @@ import GameMenu from './GameMenu.jsx';
 
 export default function GameHeader({ }) {
     let [game] = fs.useWatch("game");
-    let [isMobile] = fs.useWatch("isMobile");
+    // let [isMobile] = fs.useWatch("isMobile");
 
+    let [queues] = fs.useWatch('queues');
     if (!game) {
         return <></>;
     }
@@ -20,6 +21,17 @@ export default function GameHeader({ }) {
         imgUrl = `${config.https.cdn}g/${game.game_slug}/preview/${game.preview_images}`;
 
     let bgImgUrl = config.https.cdn + "images/bg/gamepage-bg1.jpg";
+
+
+    let queue = {};
+    for (let i = 0; i < queues.length; i++) {
+        let q = queues[i];
+        if (q.game_slug == game.game_slug) {
+            queue = q
+            break;
+        }
+    }
+
     return (
         <VStack
             position="relative"
@@ -40,7 +52,7 @@ export default function GameHeader({ }) {
                 bottom: "0",
                 width: "50%",
                 clipPath: "polygon(0 0, 100% 100%, 0 100%)",
-                backgroundColor: "brand.300",
+                backgroundColor: queue.game_slug ? "brand.300" : 'brand.600',
                 height: ["20px", "20px", "20px"],
             }}
             _after={{
@@ -51,7 +63,7 @@ export default function GameHeader({ }) {
                 position: "absolute",
                 width: "50%",
                 clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
-                backgroundColor: "brand.300",
+                backgroundColor: queue.game_slug ? "brand.300" : 'brand.600',
                 height: ["20px", "20px", "20px"],
             }}
         >
