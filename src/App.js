@@ -22,7 +22,7 @@ import {
 // import QueuePanel from "./components/games/QueuePanel";
 import fs from 'flatstore';
 import Sidebar from './components/widgets/Sidebar';
-import { Box, Flex, HStack, VStack, Divider, Text } from "@chakra-ui/layout";
+import { Box, Center, HStack, VStack, Divider, Text } from "@chakra-ui/layout";
 // import AcosFooter from "./components/AcosFooter";
 import VersionControl from "./components/widgets/VersionControl";
 import GameInfoCreateDisplayName from "./components/login/GameInfoCreateDisplayName";
@@ -49,6 +49,7 @@ import Connection from "./components/games/Connection";
 
 
 import CreateDisplayName from "./components/login/CreateDisplayName";
+import Layout from "./layout/Layout.jsx";
 
 fs.delimiter('>');
 fs.set("isMobile", false);
@@ -60,7 +61,6 @@ fs.set('lobbyExpanded', false);
 fs.set('chatExpanded', true);
 fs.set('loggedIn', 'LURKER');
 function App(props) {
-
 
 
   const primaryCanvasRef = useRef();
@@ -90,6 +90,10 @@ function App(props) {
     if (layoutMode != 'right' && !isMobileCheck)
       fs.set('layoutMode', 'right');
   }
+
+  useEffect(() => {
+    // fs.set("history", history);
+  })
 
   useEffect(() => {
     // window.addEventListener('resize', onResize);
@@ -136,88 +140,55 @@ function App(props) {
   return (
     <BrowserRouter>
 
-      <Routes>
-        {/* <Route path="/player/create" element={<CreateDisplayName />} /> */}
-        <Route path="/" element={<GamesPage />} />
-        <Route path="/games" element={<GamesPage />} />
-        <Route path="/g/:game_slug" element={<GamePage />} />
-        <Route path="/about" element={<IndexPage />} />
-      </Routes>
+      <Layout>
+        {/* <GamePlayNow {...game} {...player_stats} /> */}
+        <Center w="100%">
+          <Box
+            w="100%"
+            // w={["100%", "800px", "800px", "800px", "1200px"]}
+            className="gameeinfo-container"
+          // pt={["3rem", "3rem", "4rem"]}
+          >
+            <Box
+              //   px={["1rem", "1.5rem", "3rem"]}
+              w="100%"
+              m={"0 auto"}
+              // maxWidth={["100%", "100%", "100%", "100%", "100%", "1200px"]}
+              // py={["1rem", "1rem", "1rem"]}
+              position="relative"
+            >
+              {/* <EggDoodad /> */}
+              <VStack
+                spacing="1rem"
+                alignItems={"flex-start"}
+                position="relative"
+              >
+                <PageRoutes />
+
+              </VStack>
+            </Box>
+          </Box>
+        </Center>
+      </Layout>
     </BrowserRouter>
   )
 
-  // return (
-  //   <BrowserRouter>
-  //     <ActivateUserProfile />
-  //     <VersionControl />
-  //     <GameInfoCreateDisplayName {...disclosure} />
-
-  //     {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
-
-  //     <ToastMessage />
-
-  //     <HStack overflow="hidden" className="wrapper" spacing="0" width="100%" height="100%" m="0" p="0" justifyContent={'center'}>
-  //       <VStack bgColor={'gray.900'} height="100%" className="panel-navigation" spacing="0" alignContent={'flex-start'} >
-
-  //         <Box
-  //           w="100%"
-  //           h="100%"
-
-  //         >
-  //           <Routes>
-
-  //             <Route
-  //               path="/dev/*" element={<Sidebar />}>
-
-  //             </Route>
-  //             <Route path="*" element={<Text></Text>}></Route>
-  //           </Routes>
-  //         </Box>
-  //       </VStack>
-  //       <VStack className="panel-main" height="100%" width="100%" spacing="0" justifyContent={'center'} >
-
-  //         <MainMenuChakra />
-  //         <Box w="100%" h={["100%"]} position="relative" ref={primaryCanvasRef} height="auto" flex="1">
-  //           <GamePanelDraggables primaryCanvasRef={primaryCanvasRef} />
-
-  //           <ChakraSimpleBar
-  //             boxSizing='border-box'
-  //             className="main-scrollbars"
-  //             style={{
-  //               width: '100%',
-  //               position: 'absolute',
-  //               inset: '0px',
-  //               overflow: 'hidden scroll', boxSizing: 'border-box',
-  //             }} scrollableNodeProps={{}}>
-
-
-  //             <VStack px={['0.5rem', '1rem', '5rem']} pt={'2.5rem'} spacing="0" justifyContent={'center'} w="100%" height="100%" >
-  //               <AllContent />
-  //             </VStack>
-  //           </ChakraSimpleBar>
-  //         </Box>
-  //         {layoutMode == 'bottom' && (
-  //           <ActionPanelWrapper />
-  //         )}
-  //       </VStack>
-  //       {
-  //         layoutMode == 'right' && (
-  //           <ActionPanelWrapper />
-  //         )
-  //       }
-  //     </HStack >
-
-  //   </BrowserRouter >
-  // );
 }
 
-function ActionPanelWrapper() {
 
-  let [primaryGamePanelId] = fs.useWatch('primaryGamePanel');
-  if (typeof primaryGamePanelId === 'undefined' || primaryGamePanelId == null)
-    return <LobbyPanel></LobbyPanel>
+function PageRoutes() {
 
-  return (<RoomPanel></RoomPanel>)
+  const history = useNavigate();
+  useEffect(() => {
+    fs.set('history', history);
+  }, [])
+  return (<Routes>
+    {/* <Route path="/player/create" element={<CreateDisplayName />} /> */}
+    <Route path="/" element={<GamesPage />} />
+    <Route path="/games" element={<GamesPage />} />
+    <Route path="/g/:game_slug" element={<GamePage />} />
+    <Route path="/about" element={<IndexPage />} />
+  </Routes>)
 }
 
 export default App;

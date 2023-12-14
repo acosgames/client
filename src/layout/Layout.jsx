@@ -35,8 +35,8 @@ import ToastMessage from "../components/widgets/ToastMessage.js";
 
 import { BsLayoutSidebarInsetReverse } from "@react-icons";
 function Layout({ children }) {
-  const history = useNavigate();
-  const location = useLocation();
+  // const history = useNavigate();
+  // const location = useLocation();
 
   const disclosure = useDisclosure();
   let [isMobile] = fs.useChange("isMobile");
@@ -70,7 +70,7 @@ function Layout({ children }) {
   };
 
   useEffect(() => {
-    fs.set("history", history);
+    // fs.set("history", history);
     window.addEventListener("resize", onResize);
     if (gameResizer?.current) myObserver.observe(gameResizer.current);
 

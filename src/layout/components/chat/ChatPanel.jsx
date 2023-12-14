@@ -71,7 +71,6 @@ export default function ChatPanel({}) {
         // pt="0.5rem"
         px="0.5rem"
         mb="1rem"
-
         // filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1000)) "
       >
         <VStack
@@ -89,6 +88,7 @@ export default function ChatPanel({}) {
           zIndex="2"
           borderColor="gray.925"
           bgColor="gray.900"
+          pt="0.25rem"
           boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
         >
           <ChakraSimpleBar

@@ -20,11 +20,22 @@ import { Link } from "react-router-dom";
 
 const ChakraLink = chakra(Link);
 
-export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
-  let filename = "assorted-1-original.webp";
+export default function QueueMessage({
+  game_slug,
+  mode,
+  preview_image,
+  name,
+  count,
+  isJoined,
+  msgTime,
+}) {
+  // let filename = "assorted-1-original.webp";
 
   game_slug = game_slug || "tictactoe";
-
+  mode = mode || "rank";
+  preview_image = preview_image || "QGNPJ8.png";
+  count = count || 0;
+  name = name || "Undefined";
   return (
     <HStack
       width="100%"
@@ -33,6 +44,7 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
       //   bgColor="gray.950"
       p="0.5rem"
       borderRadius={"8px"}
+      spacing="1rem"
     >
       <Image
         // borderRadius={"2rem"}
@@ -42,7 +54,7 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
         borderRadius={"8px"}
         // height="100%"
         // objectFit={"fill"}
-        src={`https://assets.acos.games/g/${game_slug}/preview/QGNPJ8.png`}
+        src={`https://assets.acos.games/g/${game_slug}/preview/${preview_image}`}
         // fallbackSrc={config.https.cdn + 'placeholder.png'}
         // w="100%"
       />
@@ -56,7 +68,7 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
           as="span"
           fontSize="1.2rem"
           fontWeight={"bold"}
-          color="brand.300"
+          color="gray.20"
           wordBreak={"break-all"}
           height="1.4rem"
           display="inline-block"
@@ -64,9 +76,9 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
         >
           {name}
         </Text>
-        <Text as="span" fontSize="1rem" fontWeight={"medium"} color="gray.20">
+        <Text as="span" fontSize="1rem" fontWeight={"medium"} color="gray.50">
           <Text as="span" fontWeight="bold">
-            {userCount}
+            {count}
           </Text>{" "}
           player(s) waiting
         </Text>
@@ -84,13 +96,14 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
             px="1rem"
             // h="2rem"
           >
-            RANKED QUEUE
+            {mode.toUpperCase()}
           </Text>
           <Button
+            display={isJoined ? "none" : "block"}
             alignSelf={"flex-end"}
             border="3px solid"
             height="3rem"
-            borderColor="brand.300"
+            borderColor={isJoined ? "brand.600" : "brand.300"}
             color="gray.0"
             borderRadius={"8px"}
             fontSize="1rem"
@@ -102,7 +115,7 @@ export default function QueueMessage({ game_slug, name, userCount, msgTime }) {
               bgColor: "brand.300",
             }}
           >
-            JOIN
+            {isJoined ? "LEAVE" : "JOIN"}
           </Button>
           {/* <Button
               alignSelf={"flex-end"}

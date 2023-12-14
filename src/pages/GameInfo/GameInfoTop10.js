@@ -199,7 +199,7 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
 
                         minW={["4rem", "4rem", "6rem", "6rem"]} whiteSpace={'nowrap'} to={'/profile/' + displayname} display="block" position="relative" >
                         <Image
-                            src={`${config.https.cdn}images/portraits/${portrait.replace(".", "-thumbnail.")}`}
+                            src={`${config.https.cdn}images/portraits/assorted-${portrait}-thumbnail.webp`}
                             loading="lazy"
                             // w={["4.2rem", "4.2rem", "4.2rem"]}
                             w={["4rem", "4rem", "6rem", "6rem"]}

@@ -48,25 +48,23 @@ export default function GamesPage({}) {
     findGames();
   }, []);
   return (
-    <Layout>
-      <Box w="100%" pt={["1rem", "8rem", "11rem"]}>
-        <Box
-          //   px={["1rem", "1.5rem", "3rem"]}
-          w="100%"
-          m={"0 auto"}
-          maxWidth={["100%", "100%", "100%", "90%", "90%", "90%"]}
-          p={["1rem", "1rem", "1rem"]}
-          position="relative"
-        >
-          {/* <EggDoodad /> */}
-          <VStack spacing="1rem" alignItems={"flex-start"} position="relative">
-            <MultiplayerList />
+    <Box w="100%" pt={["1rem", "8rem", "11rem"]}>
+      <Box
+        //   px={["1rem", "1.5rem", "3rem"]}
+        w="100%"
+        m={"0 auto"}
+        maxWidth={["100%", "100%", "100%", "90%", "90%", "90%"]}
+        p={["1rem", "1rem", "1rem"]}
+        position="relative"
+      >
+        {/* <EggDoodad /> */}
+        <VStack spacing="1rem" alignItems={"flex-start"} position="relative">
+          <MultiplayerList />
 
-            <SinglePlayerList />
-          </VStack>
-        </Box>
+          <SinglePlayerList />
+        </VStack>
       </Box>
-    </Layout>
+    </Box>
   );
 }
 
@@ -138,7 +136,7 @@ function MultiplayerList() {
 }
 
 function GameList({ list }) {
-  list = list.concat(list).concat(list).concat(list);
+  // list = list.concat(list).concat(list).concat(list);
   return (
     <Grid
       w="100%"

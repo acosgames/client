@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import QueuePanel from "./components/queue/QueuePanel.jsx";
+import SocialPanel from "./components/social/SocialPanel.jsx";
 import UserPanel from "./components/userpanel/UserPanel.jsx";
 import ChatPanel from "./components/chat/ChatPanel.jsx";
 import WaitingPanel from "./components/queue/WaitingPanel.jsx";
@@ -22,7 +23,7 @@ import ChatSend from "./components/chat/ChatSend.jsx";
 import { GoDotFill } from "react-icons/go";
 
 import { BsLayoutSidebarInsetReverse } from "@react-icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 function RightBar({ layoutRef }) {
   return (
     // <VStack
@@ -43,6 +44,10 @@ function RightBar({ layoutRef }) {
 function Lobby({ layoutRef }) {
   let [hideDrawer] = fs.useWatch("hideDrawer");
   let [isMobile] = fs.useWatch("isMobile");
+
+  let [tabIndex, setTabIndex] = useState(
+    Number.parseInt(localStorage.getItem("rightbarTab")) || 0
+  );
 
   useEffect(() => {
     if (layoutRef && layoutRef.current)
@@ -123,10 +128,16 @@ function Lobby({ layoutRef }) {
         <Tabs
           variant="brand"
           w="100%"
-          // height="100%"
+          height="100%"
           overflow="hidden"
           position="relative"
           bg="transparent"
+          index={tabIndex}
+          onChange={(tabIndex) => {
+            // console.log(tabIndex);
+            localStorage.setItem("rightbarTab", tabIndex);
+            setTabIndex(tabIndex);
+          }}
         >
           <TabList
             pb="0"
@@ -186,10 +197,26 @@ function Lobby({ layoutRef }) {
             >
               <ChatPanel />
             </TabPanel>
-            <TabPanel>
+            <TabPanel
+              display="flex"
+              spacing="0"
+              p="0"
+              flexDir={"column"}
+              height="100%"
+              pb="3rem"
+            >
               <QueuePanel />
             </TabPanel>
-            <TabPanel></TabPanel>
+            <TabPanel
+              display="flex"
+              spacing="0"
+              p="0"
+              flexDir={"column"}
+              height="100%"
+              pb="3rem"
+            >
+              <SocialPanel />
+            </TabPanel>
           </TabPanels>
         </Tabs>
         {/* <Box w="100%" h="100%" overflow="hidden"> */}

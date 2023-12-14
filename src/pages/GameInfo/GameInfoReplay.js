@@ -263,7 +263,7 @@ function PlayersFFA({ gamepanelid }) {
     return (
         <>
             {playerList.map((player, index) => {
-                let avatar = player.avatar || 'assorted-3.webp';
+                let avatar = player.portrait || '3';
                 return (
                     <ReplayPlayer key={'replay-player-' + player.name} name={player.name} score={player.score} avatar={avatar} rating={player.rating} isLast={index == (playerList.length - 1)} />
                 )
@@ -288,7 +288,7 @@ function ReplayPlayer({ team, name, score, rating, avatar, isLast, flagCode }) {
             mb={isLast ? '0' : "0.5rem"} alignItems={'flex-start'} justifyContent={'flex-start'}>
             <HStack justifyContent={'flex-start'} spacing="0" w="100%" h={["6rem"]}>
                 <Image
-                    src={`${config.https.cdn}images/portraits/${avatar.replace(".", "-thumbnail.")}`}
+                    src={`${config.https.cdn}images/portraits/assorted-${avatar}-thumbnail.webp`}
                     loading="lazy"
 
                     w={["6rem"]}

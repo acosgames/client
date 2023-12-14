@@ -10,13 +10,14 @@ let intervalHandle = 0;
 let intervalCount = 0;
 let searchMessagees = [
   "Searching for Match",
-  "Notifying players on Discord",
-  "There are $ingame players in game.",
-  "There are $queue players in queue.",
+  "Notifying #acos-queue on Discord",
+  // "There are $ingame players in game.",
+  "There are $queue players in queue(s).",
 ];
 export default function Searching({}) {
   let [message, setMessage] = useState(searchMessagees[0]);
 
+  let [queueStats] = fs.useWatch("queueStats");
   let [queues] = fs.useWatch("queues");
 
   const intervalLoop = () => {
@@ -46,9 +47,21 @@ export default function Searching({}) {
 
   let playersIngame = 0;
   let playersQueued = 0;
+
+  for (let i = 0; i < queues.length; i++) {
+    let queue = queues[i];
+    let key = queue.mode + "/" + queue.game_slug;
+
+    if (queueStats && key in queueStats) {
+      let stats = queueStats[key];
+      if (stats.count > playersQueued) playersQueued = stats.count;
+    }
+  }
+
   message = message
     .replace("$ingame", playersIngame)
-    .replace("$queue", playersQueued);
+    .replace("$queue", playersQueued)
+    .replace("players", playersQueued == 1 ? "player" : "players");
 
   return (
     <VStack

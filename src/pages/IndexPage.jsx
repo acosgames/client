@@ -34,12 +34,12 @@ import Ellipse6Img from "../assets/images/abs-items/ellipse-6.png";
 
 function IndexPage({}) {
   return (
-    <Layout>
+    <>
       <TopSection />
       <Box width="100%">
         <Center>Hello</Center>
       </Box>
-    </Layout>
+    </>
   );
 }
 

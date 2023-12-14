@@ -56,37 +56,7 @@ export default function GamePage({}) {
     loadUserGameData(game_slug);
   }, []);
 
-  return (
-    <Layout>
-      {/* <GamePlayNow {...game} {...player_stats} /> */}
-      <Center w="100%">
-        <Box
-          w="100%"
-          // w={["100%", "800px", "800px", "800px", "1200px"]}
-          className="gameeinfo-container"
-          // pt={["3rem", "3rem", "4rem"]}
-        >
-          <Box
-            //   px={["1rem", "1.5rem", "3rem"]}
-            w="100%"
-            m={"0 auto"}
-            // maxWidth={["100%", "100%", "100%", "100%", "100%", "1200px"]}
-            // py={["1rem", "1rem", "1rem"]}
-            position="relative"
-          >
-            {/* <EggDoodad /> */}
-            <VStack
-              spacing="1rem"
-              alignItems={"flex-start"}
-              position="relative"
-            >
-              <GameInfo />
-            </VStack>
-          </Box>
-        </Box>
-      </Center>
-    </Layout>
-  );
+  return <GameInfo />;
 }
 
 function GameInfo({}) {

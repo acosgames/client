@@ -1,6 +1,8 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
+import fs from "flatstore";
 
 export default function UserName({}) {
+  let [user] = fs.useWatch("user");
   return (
     <Text
       as="span"
@@ -19,7 +21,7 @@ export default function UserName({}) {
       pl="0.5rem"
       float="left"
     >
-      JoeOfTexas
+      {user.displayname}
     </Text>
   );
 }
