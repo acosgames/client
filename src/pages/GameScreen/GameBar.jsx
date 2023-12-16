@@ -13,18 +13,20 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import QueuePanel from "./components/queue/QueuePanel.jsx";
-import SocialPanel from "./components/social/SocialPanel.jsx";
-import UserPanel from "./components/userpanel/UserPanel.jsx";
-import ChatPanel from "./components/chat/ChatPanel.jsx";
-import WaitingPanel from "./components/queue/WaitingPanel.jsx";
+import QueuePanel from "../../layout/components/queue/QueuePanel.jsx";
+import SocialPanel from "../../layout/components/social/SocialPanel.jsx";
+import UserPanel from "../../layout/components/userpanel/UserPanel.jsx";
+import ChatPanel from "../../layout/components/chat/ChatPanel.jsx";
+import WaitingPanel from "../../layout/components/queue/WaitingPanel.jsx";
 import fs from "flatstore";
-import ChatSend from "./components/chat/ChatSend.jsx";
+import ChatSend from "../../layout/components/chat/ChatSend.jsx";
 import { GoDotFill } from "react-icons/go";
 
 import { BsLayoutSidebarInsetReverse } from "@react-icons";
 import { useEffect, useState } from "react";
-function RightBar({ layoutRef }) {
+import GameActions from "./GameActions.jsx";
+
+function GameBar({ layoutRef }) {
   return (
     // <VStack
     //   w={["0", "25rem"]}
@@ -125,6 +127,7 @@ function Lobby({ layoutRef }) {
           onClick={toggleRightbar}
         ></IconButton>
         <UserPanel />
+        <GameActions />
         <Tabs
           variant="brand"
           w="100%"
@@ -229,4 +232,4 @@ function Lobby({ layoutRef }) {
   );
 }
 
-export default RightBar;
+export default GameBar;

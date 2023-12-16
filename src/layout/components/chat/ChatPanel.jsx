@@ -74,6 +74,7 @@ export default function ChatPanel({}) {
         // filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1000)) "
       >
         <VStack
+          className="chatpanel"
           width="100%"
           height={"100%"}
           transition={"all 0.3s ease"}
@@ -106,7 +107,8 @@ export default function ChatPanel({}) {
           >
             <VStack
               className="chat-message-panel"
-              height="100%"
+              // height="100%"
+              width="100%"
               // pl="2rem"
               // bgColor="gray.900"
               px={["0.25rem", "0.5rem"]}

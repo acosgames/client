@@ -1,9 +1,11 @@
 import { HStack, Heading, Icon, Image, Text } from "@chakra-ui/react";
 import { GiCandlebright } from "@react-icons";
 import config from "../../../config/index.js";
-
+import fs from "flatstore";
 import { SiLevelsdotfyi } from "react-icons/si";
-export default function BadgeLevel({ level }) {
+export default function BadgeLevel({}) {
+  let [user] = fs.useWatch("user");
+  let level = Math.floor(user.level || 1);
   return (
     <HStack
       borderRadius="6px"

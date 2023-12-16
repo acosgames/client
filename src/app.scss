@@ -179,6 +179,14 @@ a {
 }
 
 
+.chatpanel .simplebar-content {
+  display:flex;
+  width: 100%;
+  // height:100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -786,19 +794,19 @@ code {
 .form-row > button {
   /* // width: 10rem;
   // height: 3rem; */
-  border: 0;
+  // border: 0;
 }
 .form-row > button.submit {
-  background-color: #63ed56;
+  // background-color: #63ed56;
   
   font-weight: bold;
   /* // font-family: "Inter", "Oswald", sans-serif; */
 }
 .form-row > button.submit:hover {
-  background-color: #52c548;
+  // background-color: #52c548;
 }
 .form-row > button.submit:active {
-  background-color: #94ff97;
+  // background-color: #94ff97;
 }
 
 #game-info-longdesc .mde-preview-content {

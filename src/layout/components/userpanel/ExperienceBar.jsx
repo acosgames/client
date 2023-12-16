@@ -1,6 +1,10 @@
 import { Box, HStack, Progress } from "@chakra-ui/react";
+import fs from "flatstore";
+export default function ExperienceBar({}) {
+  let [user] = fs.useWatch("user");
+  let level = user.level || 1;
+  let percent = (level - Math.floor(level)) * 100;
 
-export default function ExperienceBar({ percent }) {
   return (
     <HStack
       position="relative"

@@ -2,25 +2,30 @@
 import {
     Navigate,
     Route,
+    useLocation,
     useNavigate
 } from "react-router-dom";
 import fs from 'flatstore';
 import { useToast } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 
 function LoginSuccess(props) {
 
     const history = useNavigate();
+    const location = useLocation();
+
+    let [refPath] = fs.useWatch('refPath');
+
+    useEffect(() => {
+        if (localStorage.getItem('refPath')) {
+            fs.set('refPath', localStorage.getItem('refPath'));
+            localStorage.removeItem('refPath');
+        }
+    })
 
     // let urlpath = history.location.pathname
 
-    let refPath = localStorage.getItem("refPath");
-    if (refPath) {
-        history(refPath);
-    }
-    else {
-        refPath = '/'
-    }
 
     fs.set('success', 'Logged in.  Enjoy the games!');
 

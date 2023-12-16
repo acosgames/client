@@ -44,6 +44,7 @@ function FSGTextInput(props) {
                 placeholder={props.placeholder}
                 fontWeight={props.fontWeight || 'light'}
                 fontSize={props.fontSize || 'sm'}
+                color={props.color}
                 pr={props.pr || 0}
                 maxLength={props.maxLength}
                 value={value || ''}
@@ -53,6 +54,7 @@ function FSGTextInput(props) {
                 height={props.height}
                 onKeyPress={props.onKeyPress}
                 onKeyUp={props.onKeyUp}
+                boxShadow={props.boxShadow}
                 borderRadius={props.borderRadius}
                 onKeyDown={props.onKeyDown}
                 onChange={(e) => {

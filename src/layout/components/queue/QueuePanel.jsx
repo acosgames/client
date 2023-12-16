@@ -156,7 +156,7 @@ export default function QueuePanel({}) {
                 fontWeight="600"
                 color="gray.0"
                 textAlign={"center"}
-                text
+
                 // textShadow={"1px 1px 3px var(--chakra-colors-gray-700)"}
                 // transform="skewX(15deg)"
               >

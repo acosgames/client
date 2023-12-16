@@ -62,7 +62,7 @@ function GamePanel(props) {
         // <Portal containerRef={gamepanel.draggableRef}> 
         <>
             <LoadingBox id={gamepanel.id} />
-            <GameIFrame gamepanel={gamepanel} />
+            <GameIFrame gamepanel={gamepanel} canvasRef={props.canvasRef} />
         </>
 
         // </Portal>
@@ -161,9 +161,13 @@ function GameIFrame(props) {
             || document.body.clientHeight;
 
 
-
         let windowWidth = w;//gamewrapperRef.current.offsetWidth;
         let windowHeight = h;//gamewrapperRef.current.offsetHeight;
+        if (props.canvasRef) {
+
+            windowWidth = props.canvasRef.current.offsetWidth;
+            windowHeight = props.canvasRef.current.offsetHeight;
+        }
 
         let roomPanelRef = document.querySelector('.actionpanel-wrapper');// fs.get('roomPanelRef');
         let layoutMode = fs.get('layoutMode');
@@ -190,11 +194,11 @@ function GameIFrame(props) {
             let scoreboardExpanded = fs.get('scoreboardExpanded');
             if (!scoreboardExpanded) {
                 if (windowHeight > h - 40) {
-                    windowHeight = h - 40;
+                    // windowHeight = h - 40;
                 }
             }
             else if (windowHeight > h * 0.6) {
-                windowHeight = (h * 0.6);
+                // windowHeight = (h * 0.6);
             }
             console.log("Rendering IFrame", "bottom");
             // }
@@ -204,9 +208,9 @@ function GameIFrame(props) {
         }
         else {
             if (h >= 992) {
-                windowWidth -= 400;
+                // windowWidth -= 400;
             } else {
-                windowWidth -= 300;
+                // windowWidth -= 300;
             }
             // windowWidth -= 240;
             console.log("Rendering IFrame", "right", windowWidth, windowHeight, resow, resoh, isLoaded);

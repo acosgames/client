@@ -35,9 +35,10 @@ import { useEffect } from "react";
 export default function UserPanel() {
   let [loggedIn] = fs.useWatch("loggedIn");
   let [isMobile] = fs.useChange("isMobile");
+  let [user] = fs.useWatch("user");
 
   useEffect(() => {}, []);
-  if (loggedIn == "LURKER") {
+  if (loggedIn == "LURKER" || loggedIn == "CHECKING" || !user.displayname) {
     return <WebMenu />;
   }
   return (

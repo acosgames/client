@@ -34,9 +34,15 @@ export default function UserMenu({ game }) {
   //   let [player_stat] = fs.useWatch("player_stats/" + game.game_slug);
   // let player_stat = player_stats[game.game_slug];
 
+  let [user] = fs.useWatch("user");
+
   //   player_stat = player_stat || { report: 0 };
   // const [report, setReport] = useState(player_stat.report);
   const toast = useToast();
+
+  const signIn = () => {
+    fs.set("isCreateDisplayName", true);
+  };
 
   return (
     <Menu placement="bottom">
@@ -58,6 +64,18 @@ export default function UserMenu({ game }) {
         pb="0"
         pt="0"
       >
+        <MenuItem
+          display={user && !user.email ? "block" : "none"}
+          fontSize="1.4rem"
+          icon={<Icon as={FiLogOut} fontSize="2rem" color="brand.300" />}
+          color="gray.0"
+          bgColor="transparent"
+          _hover={{ bgColor: "gray.300" }}
+          onClick={signIn}
+        >
+          Save Profile
+        </MenuItem>
+
         <MenuItem
           fontSize="1.4rem"
           icon={<Icon as={FiLogOut} fontSize="2rem" color="brand.300" />}

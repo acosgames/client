@@ -3,7 +3,8 @@ import { Box, Image } from "@chakra-ui/react";
 // import USAFlag from "../../../assets/images/flags/USA.svg";
 import config from "../../../config";
 import fs from "flatstore";
-export default function UserAvatar({ filename }) {
+export default function UserAvatar({}) {
+  let [user] = fs.useWatch("user");
   let [latency] = fs.useWatch("latency");
   let [wsConnected] = fs.useWatch("wsConnected");
   let [duplicatetabs] = fs.useWatch("duplicatetabs");
@@ -19,7 +20,7 @@ export default function UserAvatar({ filename }) {
     latencyColor = "red.500";
   }
 
-  filename = "assorted-1-original.webp";
+  let filename = "assorted-" + user.portraitid + "-original.webp";
   return (
     <>
       <Image

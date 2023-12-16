@@ -11,10 +11,10 @@ import { findGame, findGamePerson } from './game';
 
 
 
-export async function createDisplayName(displayname) {
+export async function createDisplayName({ displayname, portraitid, countrycode }) {
 
     try {
-        let response = await POST('/api/v1/person/create/displayname', { displayname });
+        let response = await POST('/api/v1/person/create/displayname', { displayname, portraitid, countrycode });
         let user = response.data;
 
         let existing = fs.get('user');
@@ -34,10 +34,36 @@ export async function createDisplayName(displayname) {
     }
 }
 
-export async function createTempUser(displayname) {
+export async function getCountry() {
+    try {
+
+        fs.set('loadingDefaultCountry', true);
+
+        let response = await GET('/api/v1/country/');
+        let data = response.data;
+
+        if (!data || !data.countrycode) {
+            fs.set('defaultCountry', 'US');
+            fs.set('loadingDefaultCountry', false);
+            return 'US';
+        }
+
+        fs.set('defaultCountry', data.countrycode);
+        return data.countrycode;
+    }
+    catch (e) {
+        fs.set('defaultCountry', 'US');
+    }
+    finally {
+        fs.set('loadingDefaultCountry', false);
+    }
+    return 'US';
+}
+
+export async function createTempUser({ displayname, portraitid, countrycode }) {
 
     try {
-        let response = await POST('/login/temp', { displayname });
+        let response = await POST('/login/temp', { displayname, portraitid, countrycode });
         let user = response.data;
 
         console.log('Created Temp User: ', user);
@@ -74,7 +100,9 @@ export async function logout() {
         fs.set('user', null);
         fs.set('userid', 0);
         fs.set('player_stats', {});
-        fs.set('isCreateDisplayName', null);
+        fs.set('displayname', '');
+        localStorage.removeItem('displayname');
+        fs.set('isCreateDisplayName', false);
         removeWithExpiry('user');
 
         clearRooms();
@@ -93,7 +121,7 @@ export async function logout() {
 
 export function isUserLoggedIn() {
     let loggedIn = fs.get('loggedIn');
-    return !(!loggedIn || loggedIn == 'LURKER');
+    return !(!loggedIn || loggedIn == 'LURKER' || loggedIn == 'CHECKING');
 }
 
 export async function getPlayer(displayname) {
@@ -191,6 +219,7 @@ export async function login() {
 
     fs.set('loginFrom', 'game');
     fs.set('isCreateDisplayName', true);
+    fs.set('portraitid', Math.floor(Math.random() * (2104 - 1 + 1) + 1));
 
 }
 
@@ -228,18 +257,21 @@ export async function getUserProfile() {
     try {
 
         // fs.set('userCheckedLogin', false);
-        let user = getWithExpiry('user');
-        if (!user) {
+        let user = fs.get('user');//getWithExpiry('user');
+        if (!user || !user.displayname) {
             let response = await GET('/api/v1/person');
             user = response.data;
         }
         if (user.ecode) {
             console.error('[ERROR] Login failed. Please login again.', user.ecode);
+            removeWithExpiry('user');
             return null;
         }
 
         //create local user session with expiration
         console.log('getUserProfile', user);
+
+        let previousLoggedIn = fs.get('loggedIn')
 
 
         logoutTimer(user);
@@ -249,18 +281,24 @@ export async function getUserProfile() {
         fs.set('profile', user);
 
         setTimeout(() => {
-            setLoginMode(user);
+            let newLoggedIn = setLoginMode(user);
+
+            if (previousLoggedIn != newLoggedIn) {
+                // disconnect();
+                // reconnect();
+            }
+
         }, 0)
 
         // if (user.isdev)
         //     await findDevGames(user.id)
 
 
-        if (!user.displayname || user.displayname.length == 0) {
-            let history = fs.get('history');
-            history('/player/create');
-            return user;
-        }
+        // if (!user.displayname || user.displayname.length == 0) {
+        //     let history = fs.get('history');
+        //     history('/player/create');
+        //     return user;
+        // }
 
         try {
             let roomList = getRoomList();// localStorage.getItem('rooms') || {};

@@ -263,9 +263,9 @@ function PlayersFFA({ gamepanelid }) {
     return (
         <>
             {playerList.map((player, index) => {
-                let avatar = player.portrait || '3';
+                let portraitid = player.portraitid || '3';
                 return (
-                    <ReplayPlayer key={'replay-player-' + player.name} name={player.name} score={player.score} avatar={avatar} rating={player.rating} isLast={index == (playerList.length - 1)} />
+                    <ReplayPlayer key={'replay-player-' + player.name} name={player.name} score={player.score} countrycode={player.countrycode} portraitid={portraitid} rating={player.rating} isLast={index == (playerList.length - 1)} />
                 )
             })}
         </>
@@ -277,7 +277,7 @@ function PlayersTeams({ }) {
 
 }
 
-function ReplayPlayer({ team, name, score, rating, avatar, isLast, flagCode }) {
+function ReplayPlayer({ team, name, score, rating, countrycode, portraitid, isLast, flagCode }) {
     return (
         <VStack spacing="0.5rem"
             w="100%"
@@ -288,7 +288,7 @@ function ReplayPlayer({ team, name, score, rating, avatar, isLast, flagCode }) {
             mb={isLast ? '0' : "0.5rem"} alignItems={'flex-start'} justifyContent={'flex-start'}>
             <HStack justifyContent={'flex-start'} spacing="0" w="100%" h={["6rem"]}>
                 <Image
-                    src={`${config.https.cdn}images/portraits/assorted-${avatar}-thumbnail.webp`}
+                    src={`${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`}
                     loading="lazy"
 
                     w={["6rem"]}

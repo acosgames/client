@@ -93,7 +93,7 @@ export async function findGame(game_slug) {
         fs.set('game', result.game || {});
         fs.set('leaderboard', result.top10 || []);
         // fs.set('leaderboard', []);
-        fs.set('leaderboardCount', result.lbCount || []);
+        fs.set('leaderboardCount', result.lbCount || 0);
         fs.set('gameFound', true);
 
         return result;
@@ -367,7 +367,7 @@ export async function findGameLeaderboard(game_slug) {
         }
 
         fs.set('leaderboard', fixed || []);
-        fs.set('leaderboardCount', result.lbCount || []);
+        fs.set('leaderboardCount', result.lbCount || 0);
         fs.set('gameFound', true);
     }
     catch (e) {
@@ -426,7 +426,7 @@ export async function findGamePerson(game_slug) {
         fs.set('game', result.game || {});
         // fs.set('top10', result.top10 || []);
         fs.set('leaderboard', fixed || []);
-        fs.set('leaderboardCount', result.lbCount || []);
+        fs.set('leaderboardCount', result.lbCount || 0);
         fs.set('gameFound', true);
     }
     catch (e) {

@@ -30,8 +30,15 @@ export async function addJoinQueues(game_slug, mode) {
     if (!joinqueues.queues)
         joinqueues.queues = [];
 
+    let game = fs.get('game');
+    let games = fs.get('games');
+
+    if (!game || !game.longdesc) {
+        game = games[game_slug];
+    }
+
     if (!joinqueues.queues.find(q => q.game_slug == game_slug && q.mode == mode)) {
-        joinqueues.queues.push({ game_slug, mode });
+        joinqueues.queues.push({ game_slug, mode, preview_image: game.preview_images, name: game.name });
         joinqueues.owner = null;
         fs.set('joinqueues', joinqueues);
         localStorage.setItem('joinqueues', JSON.stringify(joinqueues));
@@ -41,7 +48,7 @@ export async function addJoinQueues(game_slug, mode) {
 export function getJoinQueues() {
     let joinqueues = fs.get('joinqueues') || [];
     try {
-        if (!joinqueues) {
+        if (!joinqueues || joinqueues.length == 0) {
             joinqueues = localStorage.getItem('joinqueues');
             if (joinqueues)
                 joinqueues = JSON.parse(joinqueues);

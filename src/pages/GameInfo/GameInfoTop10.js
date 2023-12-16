@@ -25,6 +25,9 @@ export default function GameInfoTop10({ }) {
     let player_stats = fs.get('player_stats');
     let game = fs.get('game');
 
+    if (!game)
+        return <Text as="span">Loading...</Text>
+
     let playerGameStats = player_stats[game.game_slug];
 
     const renderRankings = (players) => {
@@ -57,7 +60,7 @@ export default function GameInfoTop10({ }) {
                 rating={player.rating}
                 displayname={displayname}
                 isLocalPlayer={isLocalPlayer}
-                portrait={player.portrait}
+                portraitid={player.portraitid}
                 ratingTextFormatted={ratingTextFormatted}
                 rankNumber={rankNumber} />)
         }
@@ -153,7 +156,7 @@ export default function GameInfoTop10({ }) {
     )
 }
 
-function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, ratingTextFormatted, rankNumber, rating }) {
+function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portraitid, ratingTextFormatted, rankNumber, rating }) {
     return (
         <HStack
             position="relative"
@@ -199,7 +202,7 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portrait, r
 
                         minW={["4rem", "4rem", "6rem", "6rem"]} whiteSpace={'nowrap'} to={'/profile/' + displayname} display="block" position="relative" >
                         <Image
-                            src={`${config.https.cdn}images/portraits/assorted-${portrait}-thumbnail.webp`}
+                            src={`${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`}
                             loading="lazy"
                             // w={["4.2rem", "4.2rem", "4.2rem"]}
                             w={["4rem", "4rem", "6rem", "6rem"]}

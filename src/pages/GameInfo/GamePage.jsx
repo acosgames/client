@@ -44,17 +44,17 @@ export default function GamePage({}) {
 
   mode = mode || "rank";
 
-  let game = fs.get("games>" + game_slug);
-  if (game && game.longdesc && (!game || !game.longdesc)) {
-    fs.set("game", game);
-  } else {
-    fs.set("game", { game_slug });
-  }
-
   useEffect(() => {
     // findGame();
+    let game = fs.get("games>" + game_slug);
+    if (game && game.longdesc && (!game || !game.longdesc)) {
+      fs.set("game", game);
+    } else {
+      fs.set("game", { game_slug });
+    }
+
     loadUserGameData(game_slug);
-  }, []);
+  }, [game_slug]);
 
   return <GameInfo />;
 }

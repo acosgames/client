@@ -31,9 +31,14 @@ function FSGSubmit(props) {
                 px={props.px}
                 py={props.py}
                 borderRadius={props.borderRadius || '0'}
+                border={props.border}
+                borderColor={props.borderColor}
                 className="submit"
                 color={props.color}
                 bgColor={props.bgColor}
+                _hover={props._hover}
+                _focus={props._focus}
+                _active={props._active}
                 onClick={async (e) => {
                     setLoading(true);
                     try {

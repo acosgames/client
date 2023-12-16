@@ -29,11 +29,16 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ActivateUserProfile from "../components/widgets/ActivateUserProfile.js";
 import VersionControl from "../components/widgets/VersionControl.js";
-import GameInfoCreateDisplayName from "../components/login/GameInfoCreateDisplayName.js";
+
+import ChoosePortrait from "./components/user/ChoosePortrait.js";
+import GameInfoCreateDisplayName from "./components/user/GameInfoCreateDisplayName.js";
 import Connection from "../components/games/Connection.js";
 import ToastMessage from "../components/widgets/ToastMessage.js";
 
 import { BsLayoutSidebarInsetReverse } from "@react-icons";
+import GameScreen from "../pages/GameScreen/GameScreen.jsx";
+import { getGamePanel } from "../actions/room.js";
+import GameBar from "../pages/GameScreen/GameBar.jsx";
 function Layout({ children }) {
   // const history = useNavigate();
   // const location = useLocation();
@@ -91,6 +96,7 @@ function Layout({ children }) {
     >
       <ActivateUserProfile />
       <VersionControl />
+      <ChoosePortrait />
       <GameInfoCreateDisplayName {...disclosure} />
       <Connection />
       {/* <GamePanelSpawner primaryCanvasRef={primaryCanvasRef} /> */}
@@ -224,7 +230,9 @@ function DesktopLayout({ children }) {
           }}
           scrollableNodeProps={{ ref: scrollRef }}
         >
+          <GameScreen layoutRef={layoutRef} />
           <Header />
+
           <HStack
             spacing="0"
             w="100%"
@@ -240,10 +248,19 @@ function DesktopLayout({ children }) {
 
           <Footer />
         </ChakraSimpleBar>
-        <RightBar layoutRef={layoutRef} />
+        <BarChooser layoutRef={layoutRef} />
       </HStack>
     </Box>
   );
+}
+
+function BarChooser({ layoutRef }) {
+  let primaryId = fs.useWatch("primaryGamePanel");
+  let primary = getGamePanel(primaryId);
+  if (primary) {
+    return <GameBar layoutRef={layoutRef} />;
+  }
+  return <RightBar layoutRef={layoutRef} />;
 }
 
 // Layout.propTypes = {

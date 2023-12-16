@@ -6,14 +6,20 @@ import { wsConnect, attachToFrame, detachFromFrame, reconnect } from "../../acti
 
 function Connection({ }) {
 
+    let [loggedIn] = fs.useWatch('loggedIn');
+
     useEffect(() => {
-        reconnect();
+        if (loggedIn != 'CHECKING')
+            reconnect();
+
+    }, [loggedIn])
+
+    useEffect(() => {
         attachToFrame();
         return () => {
             detachFromFrame();
         }
     }, [])
-
 
     return (
         <></>

@@ -2,8 +2,10 @@ import { HStack, Heading, Icon, Image, Text } from "@chakra-ui/react";
 import { FaCoins } from "@react-icons";
 import config from "../../../config/index.js";
 import { TbBrain } from "react-icons/tb";
-
-export default function BadgePoints({ points }) {
+import fs from "flatstore";
+export default function BadgePoints({}) {
+  let [user] = fs.useWatch("user");
+  let points = user.points || 0;
   return (
     <HStack
       borderRadius="6px"
@@ -30,7 +32,7 @@ export default function BadgePoints({ points }) {
         // top="0.2rem"
         // left="-0.25rem"
       /> */}
-      <Icon as={TbBrain} fontSize="1.6rem" color="yellow.200" />
+      <Icon as={TbBrain} fontSize="1.8rem" color="brand.600" />
       <Heading
         as="h6"
         fontSize="1.2rem"
@@ -38,6 +40,7 @@ export default function BadgePoints({ points }) {
         lineHeight="1.7rem"
         fontWeight="700"
         letterSpacing={"0px"}
+        pl="0.25rem"
       >
         {points.toLocaleString()}
       </Heading>
