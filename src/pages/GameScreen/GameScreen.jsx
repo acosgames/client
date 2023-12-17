@@ -1,9 +1,10 @@
 import { Box, VStack } from "@chakra-ui/react";
-import GamePanel from "../../components/games/GameDisplay/GamePanel";
+import GamePanel from "./GamePanel";
 import { getGamePanel } from "../../actions/room";
 import fs from "flatstore";
 import { useRef } from "react";
 import { calculateGameSize } from "../../util/helper";
+// import OverlayEvents from "./OverlayEvents.jsx";
 
 export default function GameScreen({ layoutRef }) {
   let [primaryId] = fs.useWatch("primaryGamePanel");

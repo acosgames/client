@@ -13,7 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import QueuePanel from "../../layout/components/queue/QueuePanel.jsx";
+import Scoreboard from "./Scoreboard.jsx";
 import SocialPanel from "../../layout/components/social/SocialPanel.jsx";
 import UserPanel from "../../layout/components/userpanel/UserPanel.jsx";
 import ChatPanel from "../../layout/components/chat/ChatPanel.jsx";
@@ -168,7 +168,7 @@ function Lobby({ layoutRef }) {
               _selected={{ color: "brand.300", borderBottom: "none" }}
               textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
             >
-              Queue
+              Scoreboard
             </Tab>
             <Tab
               fontSize="1.2rem"
@@ -208,7 +208,7 @@ function Lobby({ layoutRef }) {
               height="100%"
               pb="3rem"
             >
-              <QueuePanel />
+              <Scoreboard />
             </TabPanel>
             <TabPanel
               display="flex"

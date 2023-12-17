@@ -2,22 +2,22 @@ import { Box, Center, Fade, Flex, Heading, IconButton, Image, Portal, ScaleFade,
 
 import { useEffect, useRef, useState } from 'react';
 import fs from 'flatstore';
-import { replaySendGameStart, sendLoadMessage } from '../../../actions/connection';
-import config from '../../../config'
+import { replaySendGameStart, sendLoadMessage } from '../../actions/connection';
+import config from '../../config'
 import { BsArrowsFullscreen, CgMinimizeAlt } from '@react-icons';
 
-import { findGamePanelByRoom, getGame, getRoom, getRoomStatus, setIFrame, setPrimaryGamePanel, updateGamePanel } from '../../../actions/room';
+import { findGamePanelByRoom, getGame, getRoom, getRoomStatus, setIFrame, setPrimaryGamePanel, updateGamePanel } from "../../actions/room";
 
 import LoadingBox from './LoadingBox';
 
-import GameMessageOverlay from './GameMessageOverlay';
+import OverlayEvents from './OverlayEvents.jsx';
 
-import { calculateGameSize } from '../../../util/helper';
+import { calculateGameSize } from '../../util/helper';
 
 fs.set('iframes', {});
 fs.set('iframesLoaded', {});
 
-import useBackButton from '../../widgets/useBackButton';
+// import useBackButton from '../../widgets/useBackButton';
 
 
 function GamePanel(props) {
@@ -26,11 +26,11 @@ function GamePanel(props) {
     let [gamepanel] = fs.useWatch(key);//, fs.get(key));
     let [loaded] = fs.useWatch('showLoadingBox/' + props.id);
 
-    const isBack = useBackButton(() => {
-        if (gamepanel.isPrimary && gamepanel.room.isReplay) {
-            setPrimaryGamePanel();
-        }
-    });
+    // const isBack = useBackButton(() => {
+    //     if (gamepanel.isPrimary && gamepanel.room.isReplay) {
+    //         setPrimaryGamePanel();
+    //     }
+    // });
     // const gamepanel = props.gamepanel;
 
 
@@ -423,6 +423,7 @@ function GameIFrame(props) {
                             // srcDoc={iframeSrc}
                             sandbox="allow-scripts allow-same-origin"
                         />
+                        <OverlayEvents gamepanelid={gamepanel.id} />
                         {/* <GameMessageOverlay gamepanel={gamepanel} /> */}
 
                     </Box>

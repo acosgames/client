@@ -119,88 +119,14 @@ function Layout({ children }) {
 }
 
 function LayoutChooser({ children, isMobile, gameResizer }) {
-  // if (isMobile) {
-  // return <MobileLayout gameResizer={gameResizer}>{children}</MobileLayout>;
-  // }
-
   return <DesktopLayout gameResizer={gameResizer}>{children}</DesktopLayout>;
 }
 
-function MobileLayout({ children, gameResizer }) {
-  const ChakraSimpleBar = chakra(SimpleBar);
-
-  const [isQueue, setIsQueue] = useBoolean();
-  const [isChat, setIsChat] = useBoolean();
-
-  return (
-    <>
-      {/* <Header /> */}
-      <VStack
-        className="layout-content"
-        w={["100%"]}
-        overflow="hidden"
-        height="100%"
-        // pb={["1rem", "1rem"]}
-        // mt={["7rem", "7rem", "0"]}
-      >
-        <UserPanel key="mobile-userpanel" />
-
-        <ChakraSimpleBar
-          boxSizing="border-box"
-          autoHide={true}
-          forceVisible={false}
-          // pt={["7.5rem", "7.5rem", "0"]}
-          style={{
-            position: "absolute",
-            top: "8rem",
-            // top: "0",
-            left: "0",
-            width: "100%",
-            height: "calc(100vh - 8rem)",
-            flex: "1",
-            overflow: "hidden scroll",
-            boxSizing: "border-box",
-            // marginTop: "7.5rem",
-          }}
-          //   scrollableNodeProps={{ ref: scrollRef }}
-        >
-          <HStack
-            spacing="0"
-            w="100%"
-            h="100%"
-            position={"relative"}
-            alignItems={"flex-start"}
-            scrollSnapType="y mandatory"
-          >
-            <Box key="content" w="100%">
-              {children}
-            </Box>
-            {/* <RightBar /> */}
-          </HStack>
-
-          <Footer />
-        </ChakraSimpleBar>
-      </VStack>
-    </>
-  );
-}
 function DesktopLayout({ children }) {
   const ChakraSimpleBar = chakra(SimpleBar);
-  // let [hideDrawer] = fs.useWatch("hideDrawer");
 
   let scrollRef = useRef();
   let layoutRef = useRef();
-
-  const scrollX = window.scrollX;
-  const scrollY = window.scrollY;
-
-  useLayoutEffect(() => {
-    let windowScrollPos = fs.get("windowScrollPos");
-    if (windowScrollPos)
-      setTimeout(() => {
-        // scrollRef.current.scrollTop = windowScrollPos;
-      }, 0);
-  });
 
   return (
     <Box w={"100%"} h={"100%"}>
@@ -210,44 +136,54 @@ function DesktopLayout({ children }) {
         display="relative"
         height="100%"
         spacing="0"
-        pr={["0", "0", "30rem", "30rem"]}
+        // pr={["0", "0", "30rem", "30rem"]}
         transition="all 0.2s ease"
-        ref={layoutRef}
       >
-        <ChakraSimpleBar
-          key="layout-content"
-          boxSizing="border-box"
-          autoHide={true}
-          forceVisible={false}
-          // pt={["4rem", "4rem", "7rem"]}
-          style={{
-            width: "100%",
-            height: "100%",
-            flex: "1",
-            overflow: "hidden scroll",
-            boxSizing: "border-box",
-            zIndex: "99",
-          }}
-          scrollableNodeProps={{ ref: scrollRef }}
+        <Box
+          w={["100%"]}
+          overflow="hidden"
+          display="relative"
+          height="100%"
+          spacing="0"
+          // pr={["0", "0", "30rem", "30rem"]}
+          transition="all 0.2s ease"
+          ref={layoutRef}
         >
           <GameScreen layoutRef={layoutRef} />
-          <Header />
-
-          <HStack
-            spacing="0"
-            w="100%"
-            h="100%"
-            position={"relative"}
-            alignItems={"flex-start"}
+          <ChakraSimpleBar
+            key="layout-content"
+            boxSizing="border-box"
+            autoHide={true}
+            forceVisible={false}
+            // pt={["4rem", "4rem", "7rem"]}
+            style={{
+              width: "100%",
+              height: "100%",
+              flex: "1",
+              overflow: "hidden scroll",
+              boxSizing: "border-box",
+              zIndex: "99",
+            }}
+            scrollableNodeProps={{ ref: scrollRef }}
           >
-            <Box key="content" w="100%">
-              {children}
-            </Box>
-            {/* <RightBar /> */}
-          </HStack>
+            <Header />
 
-          <Footer />
-        </ChakraSimpleBar>
+            <HStack
+              spacing="0"
+              w="100%"
+              h="100%"
+              position={"relative"}
+              alignItems={"flex-start"}
+            >
+              <Box key="content" w="100%">
+                {children}
+              </Box>
+              {/* <RightBar /> */}
+            </HStack>
+
+            <Footer />
+          </ChakraSimpleBar>
+        </Box>
         <BarChooser layoutRef={layoutRef} />
       </HStack>
     </Box>
@@ -262,9 +198,5 @@ function BarChooser({ layoutRef }) {
   }
   return <RightBar layoutRef={layoutRef} />;
 }
-
-// Layout.propTypes = {
-//   children: PropTypes.element | PropTypes.array,
-// };
 
 export default Layout;

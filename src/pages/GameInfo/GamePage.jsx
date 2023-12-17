@@ -88,8 +88,8 @@ function GameInfo({}) {
           scrollRef.current.scrollBy({
             left: event.deltaY < 0 ? -30 : 30,
           });
-        },
-        { passive: true }
+        }
+        // { passive: true }
       );
     }
 

@@ -19,14 +19,24 @@ fs.set('isCreateDisplayName', false);
 
 function GameInfoJoinButton(props) {
 
-    let user = fs.get('user');
-    let game = fs.get('game');
+    let ref = useRef();
 
-    // let player_stat = fs.get('player_stats/' + game.game_slug);
+    useEffect(() => {
+        const observer = new window.IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                console.log('ENTER')
+                fs.set('joinButtonVisible', true);
+                return
+            }
+            console.log('LEAVE')
+            fs.set('joinButtonVisible', false);
+        }, {
+            root: null,
+            threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
+        })
 
-    let [player_stat] = fs.useWatch('player_stats/' + game.game_slug)
-    // const ref = useRef(null);
-    // const [isVisible, currentElement] = useVisibility2();
+        observer.observe(ref.current);
+    }, [])
     const handleJoin = async () => {
         setLastJoinType('rank');
 
@@ -41,111 +51,16 @@ function GameInfoJoinButton(props) {
         joinGame(game);
     }
 
-    const handleJoinBeta = async () => {
-
-        setLastJoinType('experimental');
-
-        if (!(await validateLogin()))
-            return;
-        //let game_slug = props.match.params.game_slug;
-        let game = fs.get('game');
-        if (!game)
-            return
-
-        joinGame(game, true);
-    }
-
-    useEffect(() => {
-        // if (!props.justCreatedName)
-        //     return;
-
-        // let lastJoin = getLastJoinType();
-        // switch (lastJoin) {
-        //     case 'rank':
-        //         handleJoin();
-        //         break;
-        //     case 'experimental':
-        //         handleJoinBeta();
-        //         break;
-        //     // default:
-        //     //     handleJoin();
-        //     //     break;
-        // }
-    })
-
-
-    // let playerGameStats = player_stats[game.game_slug];
-
-    let isValidUser = user && user.shortid;
-    let hasRankLeaderboard = game.maxplayers > 1;
-
-    let version = props.version || 0;
-    let latest_version = props.latest_version || 0;
-    let hasExtra = version < latest_version;
-
-    let myrating = props.rating;
-    // myrating = 1200;
-    let myplayed = props.played;
-    // myplayed = 12;
-
-    let rating = myplayed >= 10 ? '' + myrating + '' : ' ';
-    let ratingTxt = myplayed >= 10 ? RatingText.ratingToRank(rating) : 'UNRANKED';
-    ratingTxt = ratingTxt.toUpperCase();
-
-    // if (myplayed >= 10 && playerGameStats.ranking == 1)
-    //     ratingTxt = 'YOU ARE KING';
-
-    hasExtra = true;
-
-    // if (!isVisible) {
-    //     return (
-    //         <>
-    //             <Portal >
-    //                 <Box w={["100%", "calc(100% - 27rem)", "calc(100% - 30rem)"]} h='100%' position="relative">
-    //                     <Box
-    //                         position="fixed"
-    //                         zIndex={1000}
-    //                         bottom="1rem"
-    //                         left={['50%']}
-    //                         transform='translate(-50%, 0)'
-    //                     >
-    //                         <JoinButton />
-    //                     </Box>
-    //                 </Box>
-    //             </Portal>
-    //             <Box h="6rem" ref={currentElement}></Box>
-    //         </>
-    //     )
-    // }
     return (
-        <VStack w="100%" alignItems={['center', 'center', 'center', 'flex-start']}>
+        <VStack ref={ref} w="100%" alignItems={['center', 'center', 'center', 'flex-start']}>
             <JoinButton handleJoin={handleJoin} />
         </VStack>
-    )
-
-    return (
-        <VStack
-            w="full"
-            spacing="1rem"
-        //pt={hasRankLeaderboard ? '0' : '1rem'}
-        //p="1rem"
-        //borderRadius="2rem"
-        //bgColor="gray.900"
-        //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
-        >
-            <Text pt={'0.5rem'} as="span" fontWeight={'light'} fontSize="xs" display={game.queueCount > 0 ? 'inline-block' : 'none'} color={'yellow.100'}>
-                <strong>{game.queueCount}</strong> player(s) waiting
-            </Text>
-        </VStack >
-
     )
 }
 
 function JoinButton({ handleJoin }) {
-
-
-    let game = fs.get('game');
     let [queues] = fs.useWatch('queues');
+    let game = fs.get('game');
 
     let queue = {};
     for (let i = 0; i < queues.length; i++) {
@@ -160,37 +75,21 @@ function JoinButton({ handleJoin }) {
         <Button
             role="group"
             onClick={() => { if (queue.game_slug) return; handleJoin(); }}
-            // ref={ref}
             transform={['skewX(-15deg)']}
             className={"cta " + (queue.game_slug ? 'queued' : '')}
-            // h={["5rem", "5rem", "5rem", "6rem"]}
             zIndex={2}
             bgColor={queue.game_slug ? 'gray.900' : "gray.800"}
             mt="1rem"
-            // borderBottom="2px solid"
-            // borderRight="2px solid"
-            // borderBottomColor={'gray.600'}
-            // borderRightColor={'gray.600'}
-            // filter="drop-shadow(0px 0px 20px var(--chakra-colors-brand-300)) "
-            // boxShadow={queue.game_slug ? '10px 7px 0 var(--chakra-colors-brand-300)' : '10px 7px 0 var(--chakra-colors-brand-600)'}
             px="3rem"
             pr="2rem"
             py="3rem"
             _hover={{
                 filter: "none",
-                // bgColor: 'gray.875',
-                // boxShadow: queue.game_slug ? '10px 7px 0 var(--chakra-colors-brand-300)' : '7px 7px 0 var(--chakra-colors-brand-600)'
             }}
-        // _focus={{
-        //     filter: '',
-        //     // bgColor: 'gray.950',
-        //     boxShadow: '10px 7px 0 var(--chakra-colors-brand-300)'
-        // }}
         >
             <VStack spacing="0" alignItems={'flex-start'}>
                 <Text as="span" textAlign={'left'} fontSize={["1.6rem", "1.6rem", "1.6rem", "2rem"]}>{queue.game_slug ? 'Queued' : 'Play Now'}</Text>
                 <Text color="brand.600"
-                    // _groupFocus={{ color: 'brand.300' }}
                     as="p" pl="0.5rem"
                     textAlign={'left'}
                     fontWeight={'bold'}

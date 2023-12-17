@@ -31,6 +31,7 @@ import { validateLogin } from "../../../actions/connection.js";
 import { useLocation, Link } from "react-router-dom";
 import Searching from "../queue/Searching.jsx";
 import { useEffect } from "react";
+import PlayNowButton from "./PlayNowButton.jsx";
 
 export default function UserPanel() {
   let [loggedIn] = fs.useWatch("loggedIn");
@@ -45,6 +46,7 @@ export default function UserPanel() {
     <>
       <UserFrame />
       {!isMobile && <Searching />}
+      <PlayNowButton />
     </>
   );
 }

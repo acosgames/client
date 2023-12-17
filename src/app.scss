@@ -1383,3 +1383,17 @@ code {
 
 
 }
+
+
+
+@keyframes fromLeft {
+  100% {
+    transform: translate(0, 0)
+  }
+}
+
+@keyframes fromRight {
+  100% {
+    transform: translate(0, 0)
+  }
+}
