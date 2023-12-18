@@ -1,7 +1,9 @@
-const { useEffect } = require("react");
-const { getUser } = require("../../actions/person");
+import { useEffect } from "react"
+import { getUser } from "../../actions/person"
 
+import fs from 'flatstore';
 
+fs.set('checkingUserLogin', true);
 function ActivateUserProfile(props) {
 
     useEffect(() => {

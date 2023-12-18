@@ -15,7 +15,7 @@ import RatingText from 'shared/util/ratingtext';
 import { useOnScreen, useVisibility2 } from '../../layout/Hooks';
 
 
-fs.set('isCreateDisplayName', false);
+
 
 function GameInfoJoinButton(props) {
 

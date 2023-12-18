@@ -123,13 +123,34 @@ function LayoutChooser({ children, isMobile, gameResizer }) {
 }
 
 function DesktopLayout({ children }) {
+  let [checkingUserLogin] = fs.useWatch("checkingUserLogin");
+
   const ChakraSimpleBar = chakra(SimpleBar);
 
   let scrollRef = useRef();
   let layoutRef = useRef();
 
+  const myObserver = new ResizeObserver((entries) => {
+    onResize();
+  });
+
+  const onResize = (e) => {
+    if (layoutRef.current)
+      fs.set("screenRect", [
+        layoutRef.current.clientWidth,
+        layoutRef.current.clientHeight,
+      ]);
+    fs.set("screenResized", true);
+  };
+
+  useEffect(() => {
+    if (layoutRef?.current) myObserver.observe(layoutRef.current);
+    onResize();
+  }, []);
+
+  if (checkingUserLogin) return <></>;
   return (
-    <Box w={"100%"} h={"100%"}>
+    <Box w={"100%"} h={"100%"} transition={"all 0.3s ease"}>
       <HStack
         w={["100%"]}
         overflow="hidden"
@@ -137,16 +158,17 @@ function DesktopLayout({ children }) {
         height="100%"
         spacing="0"
         // pr={["0", "0", "30rem", "30rem"]}
-        transition="all 0.2s ease"
+        transition="all 0.3s ease"
       >
         <Box
           w={["100%"]}
           overflow="hidden"
-          display="relative"
+          position="relative"
           height="100%"
+          display="inline-block"
           spacing="0"
           // pr={["0", "0", "30rem", "30rem"]}
-          transition="all 0.2s ease"
+          transition="all 0.3s ease"
           ref={layoutRef}
         >
           <GameScreen layoutRef={layoutRef} />
@@ -168,18 +190,18 @@ function DesktopLayout({ children }) {
           >
             <Header />
 
-            <HStack
+            {/* <HStack
               spacing="0"
               w="100%"
               h="100%"
               position={"relative"}
               alignItems={"flex-start"}
-            >
-              <Box key="content" w="100%">
-                {children}
-              </Box>
-              {/* <RightBar /> */}
-            </HStack>
+            > */}
+            <Box key="content" w="100%" h="100%" possition="relative">
+              {children}
+            </Box>
+            {/* <RightBar /> */}
+            {/* </HStack> */}
 
             <Footer />
           </ChakraSimpleBar>

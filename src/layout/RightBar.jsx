@@ -52,9 +52,11 @@ function Lobby({ layoutRef }) {
   useEffect(() => {
     if (layoutRef && layoutRef.current)
       if (isMobile) {
-        layoutRef.current.style.paddingRight = "0";
+        layoutRef.current.style.width = "100%";
       } else {
-        layoutRef.current.style.paddingRight = hideDrawer ? "0" : "30rem";
+        layoutRef.current.style.width = hideDrawer
+          ? "100%"
+          : "calc(100% - 30rem)";
       }
   });
   const toggleRightbar = () => {
@@ -62,9 +64,11 @@ function Lobby({ layoutRef }) {
     // fs.set("windowScrollPos", scrollRef.current.scrollTop);
     if (layoutRef && layoutRef.current)
       if (isMobile) {
-        layoutRef.current.style.paddingRight = "0";
+        layoutRef.current.style.width = "100%";
       } else {
-        layoutRef.current.style.paddingRight = hideDrawer ? "30rem" : "0";
+        layoutRef.current.style.width = hideDrawer
+          ? "calc(100% - 30rem)"
+          : "100%";
       }
     fs.set("hideDrawer", !fs.get("hideDrawer"));
   };
@@ -89,7 +93,7 @@ function Lobby({ layoutRef }) {
         top={["0", "0"]}
         // bottom={["0", "unset"]}
         right={!hideDrawer ? "0" : "-30rem"}
-        transition="all 0.2s ease"
+        transition="all 0.3s ease"
         h={["100vh", "100vh"]}
         zIndex={1001}
         bgColor="gray.925"
@@ -106,7 +110,7 @@ function Lobby({ layoutRef }) {
           position="absolute"
           bottom="1.5rem"
           right={"30rem"}
-          transition="all 0.2s ease"
+          transition="all 0.3s ease"
           bgColor="rgba(0,0,0,0.3)"
           py="1.5rem"
           px="0.5rem"

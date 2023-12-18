@@ -33,6 +33,8 @@ fs.set('lobbyExpanded', false);
 fs.set('chatExpanded', true);
 fs.set('loggedIn', 'CHECKING');
 
+fs.set('isCreateDisplayName', false);
+fs.set('joinButtonVisible', true);
 
 
 function PageRoutes() {

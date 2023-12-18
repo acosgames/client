@@ -28,7 +28,7 @@ function LoadingBox(props) {
         setActiveClass('active');
     }, [])
 
-    // return <></>
+    return <></>
     if (!showLoadingBox)
         return <></>
 

@@ -22,6 +22,9 @@ import {
 import ChooseCountry from "./ChooseCountry";
 import { removeWithExpiry } from "../../../actions/cache";
 
+let defaultPlayerName = localStorage.getItem('displayname') || ("Player" + Math.round(Math.random() * 10000));
+fs.set('displayname', defaultPlayerName);
+
 export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
 
     let [user] = fs.useWatch('user');
@@ -33,11 +36,11 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
     // const isOpen = isOpen;
     // const onOpen = onOpen;
 
-    let defaultPlayerName = localStorage.getItem('displayname') || ("Player" + Math.round(Math.random() * 10000));
+
 
     let [displayname] = fs.useWatch('displayname');
     if (!displayname) {
-        displayname = defaultPlayerName;
+        // displayname = defaultPlayerName;
     }
     // const [displayname, setDisplayName] = useState(defaultPlayerName);
     const [error, setError] = useState(null);
@@ -126,7 +129,8 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
         console.log(e.target.value);
         let name = e.target.value;
         name = name.replace(/[^A-Za-z0-9\_]/ig, '');
-        setDisplayName(name);
+        // setDisplayName(name);
+        fs.set('displayname', name);
         localStorage.setItem('displayname', name);
     }
 

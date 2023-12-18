@@ -259,8 +259,10 @@ export async function getUserProfile() {
         // fs.set('userCheckedLogin', false);
         let user = fs.get('user');//getWithExpiry('user');
         if (!user || !user.displayname) {
+            fs.set('checkingUserLogin', true);
             let response = await GET('/api/v1/person');
             user = response.data;
+            console.log('getUserProfile from api', user);
         }
         if (user.ecode) {
             console.error('[ERROR] Login failed. Please login again.', user.ecode);
@@ -269,7 +271,6 @@ export async function getUserProfile() {
         }
 
         //create local user session with expiration
-        console.log('getUserProfile', user);
 
         let previousLoggedIn = fs.get('loggedIn')
 
@@ -312,6 +313,8 @@ export async function getUserProfile() {
 
             console.error(e);
         }
+
+        fs.set('checkingUserLogin', false);
 
         // fs.set('userCheckedLogin', true);
         return user;

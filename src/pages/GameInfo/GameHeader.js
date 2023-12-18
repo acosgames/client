@@ -1,6 +1,6 @@
 import fs from 'flatstore';
 import config from "../../config";
-import { Box, HStack, Heading, Icon, IconButton, Image, Text, VStack, Wrap, Link as ChLink, Grid, GridItem } from '@chakra-ui/react';
+import { Box, HStack, Heading, Icon, IconButton, Image, Text, VStack, Wrap, Link as ChLink, Grid, GridItem, Spinner } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 import { FaRegHeart, FaHeart } from "@react-icons";
@@ -13,7 +13,7 @@ export default function GameHeader({ }) {
 
     let [queues] = fs.useWatch('queues');
     if (!game) {
-        return <></>;
+        return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;
     }
 
     let imgUrl = config.https.cdn + "placeholder.png";
@@ -146,11 +146,12 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 position='relative'
                                 textOverflow={'ellipsis'}
                                 w="100%"
+                                h={["4rem", "3rem", "3rem", "4rem"]}
                                 pr="1rem"
                                 title={game.name}
                                 textAlign={['center', 'center', 'center', 'left']}
                             >
-                                {game.name || 'Loading...'}
+                                {game.name || '    '}
                             </Heading>
 
                             <Box>

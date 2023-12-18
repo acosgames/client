@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 export default function PlayNowButton({}) {
   let location = useLocation();
 
+  let [checkingUserLogin] = fs.useWatch("checkingUserLogin");
   let [game] = fs.useWatch("game");
   let [queues] = fs.useWatch("queues");
   let [joinButtonVisible] = fs.useWatch("joinButtonVisible");
@@ -35,7 +36,13 @@ export default function PlayNowButton({}) {
     joinGame(game);
   };
 
-  if (joinButtonVisible || queue != null || !game || !game.game_slug) {
+  if (
+    checkingUserLogin ||
+    joinButtonVisible ||
+    queue != null ||
+    !game ||
+    !game.game_slug
+  ) {
     return <></>;
   }
 
