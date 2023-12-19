@@ -170,7 +170,7 @@ function GameQueue() {
       alignItems={"center"}
       bgColor="gray.1100"
       p="0.5rem"
-      borderRadius={"1rem"}
+      borderRadius={"8px"}
     >
       <Image
         // borderRadius={"2rem"}
@@ -228,7 +228,7 @@ function GameQueue() {
             height="3rem"
             borderColor="brand.400"
             color="brand.300"
-            borderRadius={"2rem"}
+            borderRadius={"8px"}
             fontSize="1rem"
             fontWeight="bold"
             transition={"all 0.2s ease"}

@@ -98,7 +98,8 @@ function Lobby({ layoutRef }) {
         transition="all 0.3s ease"
         h={["100vh", "100vh"]}
         zIndex={1001}
-        bgColor="gray.925"
+        bgColor="black"
+        pb="0.5rem"
         // borderLeft={["0", "1px solid var(--chakra-colors-gray-950)"]}
         // boxShadow={[
         //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
@@ -161,7 +162,7 @@ function Lobby({ layoutRef }) {
               _selected={{ color: "brand.300", borderBottom: "none" }}
               textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
             >
-              Logs
+              Scoreboard
             </Tab>
             <Tab
               fontSize="1.2rem"
@@ -172,7 +173,7 @@ function Lobby({ layoutRef }) {
               _selected={{ color: "brand.300", borderBottom: "none" }}
               textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
             >
-              Scoreboard
+              Logs
             </Tab>
             <Tab
               fontSize="1.2rem"
@@ -202,7 +203,7 @@ function Lobby({ layoutRef }) {
               height="100%"
               pb="3rem"
             >
-              <ChatPanel />
+              <Scoreboard />
             </TabPanel>
             <TabPanel
               display="flex"
@@ -212,7 +213,7 @@ function Lobby({ layoutRef }) {
               height="100%"
               pb="3rem"
             >
-              <Scoreboard />
+              <ChatPanel />
             </TabPanel>
             <TabPanel
               display="flex"

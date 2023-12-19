@@ -114,7 +114,7 @@ function GameInfoReplayContent({ game_slug }) {
 
     let replayRating = 0;
     let history = replaySettings.history;
-    if (history && history[0]) {
+    if (history && history[0] && history[0]?.payload?.action) {
         replayRating = history[0].payload.action[0].user.rating
     }
 
@@ -159,7 +159,7 @@ function GameInfoReplayContent({ game_slug }) {
                         overflow="hidden"
                         // border="3px solid"
                         // borderColor="gray.1200" 
-                        borderRadius="4px"
+                        borderRadius="8px"
                         scrollSnapStop={'start'}>
 
                         <EmbeddedGamePanel key="replay-panel" room_slug={room_slug} />

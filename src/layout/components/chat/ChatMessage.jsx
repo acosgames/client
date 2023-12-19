@@ -16,11 +16,28 @@ import {
 import { BsThreeDotsVertical } from "@react-icons";
 import config from "../../../config";
 import { Link } from "react-router-dom";
+import timeAgo from "cc-time-ago";
+import { useState } from "react";
 
 const ChakraLink = chakra(Link);
 
-export default function ChatMessage({ flagCode, username, msgTime, msg }) {
-  let filename = "assorted-1-original.webp";
+export default function ChatMessage({
+  portraitid,
+  countrycode,
+  displayname,
+  timestamp,
+  message,
+}) {
+  let [showTime, setShowTime] = useState(false);
+
+  let filename = `assorted-${portraitid || 1}-original.webp`;
+
+  const onClick = () => {
+    setShowTime(true);
+    setTimeout(() => {
+      setShowTime(false);
+    }, 3000);
+  };
 
   return (
     <VStack
@@ -33,6 +50,7 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
       py="0.6rem"
       justifyContent={"flex-start"}
       alignItems={"flex-start"}
+      onClick={onClick}
     >
       <HStack w="100%" justifyContent={"flex-start"} alignItems={"flex-start"}>
         <VStack>
@@ -69,23 +87,26 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
               textOverflow={"ellipsis"}
               whiteSpace={"nowrap"}
             >
-              {username}
+              {displayname}
             </Text>
+
             <Image
+              src={`${config.https.cdn}images/country/${countrycode}.svg`}
+              // mt="0.5rem"
               ml="0.25rem"
               display="inline-block"
-              src={flagCode}
               verticalAlign={"middle"}
-              // borderRadius="5px"
+              borderColor="gray.100"
+              borderRadius="0px"
               w="1.8rem"
               h="1.35rem"
-              opacity="0.75"
+              filter="opacity(0.8)"
             />
             <Box flex="1" h="2rem" w="0.1rem"></Box>
             {/* </ChakraLink> */}
             <Text
               as="span"
-              display="block"
+              display={showTime ? "block" : "none"}
               alignSelf="flex-start"
               fontSize="1rem"
               color="gray.200"
@@ -94,7 +115,7 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
               position="relative"
               // top="-1.25rem"
             >
-              12:00
+              {timeAgo(timestamp)}
             </Text>
 
             <Menu placement="bottom" isLazy>
@@ -178,7 +199,7 @@ export default function ChatMessage({ flagCode, username, msgTime, msg }) {
               color="gray.10"
               // width="100%"
             >
-              {msg}
+              {message}
             </Text>
           </VStack>
         </VStack>

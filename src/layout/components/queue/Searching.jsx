@@ -17,6 +17,7 @@ let searchMessagees = [
 export default function Searching({}) {
   let [message, setMessage] = useState(searchMessagees[0]);
 
+  let [primaryId] = fs.useWatch("primaryGamePanel");
   let [queueStats] = fs.useWatch("queueStats");
   let [queues] = fs.useWatch("queues");
 

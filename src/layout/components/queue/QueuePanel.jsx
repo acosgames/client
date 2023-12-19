@@ -74,96 +74,9 @@ export default function QueuePanel({}) {
                 Join a queue to see it listed here.
               </Text>
             </Box>
-            <Box
-              // bgColor="gray.825"
-              // borderRadius="8px"
-              position="relative"
-              // zIndex={1}
-              px="1rem"
-              py="0.5rem"
-              mb="0.5rem"
-              _after={{
-                display: queues.length > 0 ? "block" : "none",
-                content: "''",
-                position: "absolute",
-                w: "100%",
-                h: "100%",
-                top: "0",
-                left: "0",
-                zIndex: -1,
-                bgColor: "gray.825",
-                borderRadius: "8px",
-                transform: "skew(-15deg)",
-                boxShadow: "1px 1px 3px var(--chakra-colors-gray-1000)",
-              }}
-            >
-              <Text
-                display={queues.length > 0 ? "block" : "none"}
-                as="span"
-                fontSize="1.1rem"
-                fontWeight="600"
-                color="gray.0"
-                textAlign={"center"}
-                // textShadow={"1px 1px 3px var(--chakra-colors-gray-700)"}
-                // transform="skewX(15deg)"
-              >
-                MY QUEUES
-              </Text>
-            </Box>
+
             <VStack px="1rem" w="100%">
               <RenderJoined queues={queues} queueStats={queueStats} />
-            </VStack>
-            <Box
-              w="90%"
-              h="1px"
-              pt="0"
-              mt="0.5rem"
-              mb="1rem"
-              display={available.length > 0 ? "block" : "none"}
-              borderBottom="1px solid"
-              borderBottomColor="gray.800"
-            ></Box>
-            <Box
-              display={available.length > 0 ? "block" : "none"}
-              // bgColor="gray.1000"
-              px="1rem"
-              py="0.5rem"
-              mb="0.5rem"
-              position="relative"
-              // zIndex={1}
-
-              _after={{
-                content: "''",
-                display: available.length > 0 ? "block" : "none",
-                position: "absolute",
-                w: "100%",
-                h: "100%",
-                top: "0",
-                left: "0",
-                zIndex: -1,
-                bgColor: "gray.825",
-                borderRadius: "8px",
-                transform: "skew(-15deg)",
-                boxShadow: "1px 1px 3px var(--chakra-colors-gray-1000)",
-                // boxShadow: "2px 2px 0px var(--chakra-colors-brand-900)",
-              }}
-            >
-              <Text
-                display={available.length > 0 ? "block" : "none"}
-                // display={queues.length > 0 ? "block" : "none"}
-                as="span"
-                fontSize="1.1rem"
-                fontWeight="600"
-                color="gray.0"
-                textAlign={"center"}
-
-                // textShadow={"1px 1px 3px var(--chakra-colors-gray-700)"}
-                // transform="skewX(15deg)"
-              >
-                JOIN A QUEUE
-              </Text>
-            </Box>
-            <VStack px="1rem" w="100%">
               {available}
             </VStack>
           </VStack>
@@ -192,7 +105,7 @@ function RenderJoined({ queues, queueStats }) {
         preview_image={queue.preview_image}
         name={queue.name}
         count={queueStat.count}
-        isJoined={true}
+        queued={true}
       />
     );
   }
@@ -225,6 +138,7 @@ function RenderAvailable({ queues, queueStats }) {
         preview_image={queue.preview_image}
         name={queue.name}
         count={queue.count}
+        queued={false}
       />
     );
   }

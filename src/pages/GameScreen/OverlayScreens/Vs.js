@@ -1,7 +1,43 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 
+export function TopHalf() {
+    return (
+        <Box
+            position="absolute"
+            w="300%"
+            h="300%"
+            top="-250%"
+            // transform="skewY(-30deg)"
+            overflow="hidden"
+            bgColor="gray.900"
+            transform={"translate(-300vw, 0) skewY(-30deg)"}
+            animation={"fromLeft 0.6s forwards 0s"}
+        >
+            {/* <LineSpawner direction={"left"} bgColor="gray.1000" /> */}
+        </Box>
+    );
+}
 
-export default function Vs({ }) {
+export function BottomHalf() {
+    return (
+        <Box
+            position="absolute"
+            w="300%"
+            h="300%"
+            top="50%"
+            right="0"
+            // transform="skewY(-30deg)"
+            transform={"translate(300vw, 0) skewY(-30deg)"}
+            animation={"fromRight 0.6s forwards 0s"}
+            bgColor="gray.1000"
+        >
+            {" "}
+            {/* <LineSpawner direction={"right"} bgColor="gray.900" /> */}
+        </Box>
+    );
+}
+
+export function Vs({ }) {
     return (
         <Heading
             filter="opacity(0)"
@@ -18,7 +54,7 @@ export default function Vs({ }) {
             transform="translate(-50%,-50%)"
             // textShadow={"2px 2px 0px var(--chakra-colors-gray-0)"}
             // background="linear-gradient(to top, #eee, #333)"
-            fontSize={"5rem"}
+            fontSize={["3rem", "4rem", "5rem"]}
             //   bgColor="gray.900"
             borderRadius={"8px"}
             h="15rem"

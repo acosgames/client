@@ -32,6 +32,7 @@ export default function RightPlayer({ player }) {
             zIndex="1"
         >
             <VStack alignItems={"flex-end"} w="100%">
+
                 <Text
                     as="span"
                     // px="1rem"
@@ -55,22 +56,34 @@ export default function RightPlayer({ player }) {
                     alignSelf={"flex-end"}
                     pr="1rem"
                     justifyContent={"flex-start"}
-                    w="20rem"
+                // w="20rem"
                 >
                     <Icon
+                        alignSelf={'center'}
                         display={player.ready ? "block" : "none"}
                         as={FaCheck}
                         fontSize="3rem"
                         color={"brand.300"}
-                        ml="2rem"
+                        mr="2rem"
                         filter={
-                            "drop-shadow(0 0 3px var(--chakra-colors-brand-100)) drop-shadow(0 0 8px var(--chakra-colors-brand-100))"
+                            "drop-shadow(0 0 1px var(--chakra-colors-brand-100)) drop-shadow(0 0 4px var(--chakra-colors-brand-100))"
                         }
                     />
-                    <VStack alignItems={"flex-end"} w="8rem">
+                    <VStack>
+                        <Image
+                            src={`${config.https.cdn}images/country/${player.countrycode}.svg`}
+                            // mt="0.5rem"
+                            borderColor="gray.100"
+                            borderRadius="0px"
+                            width="4rem"
+                            filter="opacity(0.8)"
+                        />
+
+                    </VStack>
+                    <VStack alignSelf={'flex-start'} alignItems={"flex-start"} justifyContent={'flex-start'}>
                         <Text
                             as="span"
-                            color="gray.20"
+                            color="gray.100"
                             fontWeight="600"
                             fontSize="1.6rem"
                             lineHeight={"1.3rem"}
@@ -80,7 +93,7 @@ export default function RightPlayer({ player }) {
                         </Text>
                         <Text
                             as="span"
-                            color="gray.20"
+                            color="gray.100"
                             fontWeight="500"
                             fontSize="1.2rem"
                             lineHeight={"1.3rem"}
@@ -89,15 +102,9 @@ export default function RightPlayer({ player }) {
                             {player.rating}
                         </Text>
                     </VStack>
-                    <Image
-                        src={`${config.https.cdn}images/country/${player.countrycode}.svg`}
-                        // mt="0.5rem"
-                        borderColor="gray.100"
-                        borderRadius="0px"
-                        width="4rem"
-                        filter="opacity(0.8)"
-                    />
+
                 </HStack>
+
             </VStack>
 
             <Image

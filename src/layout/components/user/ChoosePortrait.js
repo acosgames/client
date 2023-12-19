@@ -43,26 +43,32 @@ function ChoosePortrait(props) {
     let scrollRef = useRef();
     let bottomBoundaryRef = useRef();
 
-    const scrollObserver = useCallback(
-        node => {
-            fs.set('portraitObserver', true);
-            new IntersectionObserver(entries => {
-                entries.forEach(en => {
-                    if (en.intersectionRatio >= 0) {
-                        let portraitRange = fs.get('portraitRange') || [1, 100];
-                        let min = 1;
-                        let max = Math.min(2104, portraitRange[1] + 100);
-                        fs.set('portraitRange', [min, max])
-                    }
-                });
-            }, { threshold: 0.1 }).observe(node);
-        },
-        []
-    );
-    useEffect(() => {
-        if (!fs.get('portraitObserver') && bottomBoundaryRef.current)
-            scrollObserver(bottomBoundaryRef.current);
+    const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+            console.log('ENTER')
+            let portraitRange = fs.get('portraitRange') || [1, 100];
+            let min = 1;
+            let max = Math.min(2104, portraitRange[1] + 100);
+            fs.set('portraitRange', [min, max])
+            return
+        }
+        console.log('LEAVE')
+    }, {
+        root: null,
+        threshold: 0.1, // set offset 0.1 means trigger if atleast 10% of element in viewport
+    })
 
+
+    useEffect(() => {
+        // if (!fs.get('portraitObserver') && bottomBoundaryRef.current)
+        //     scrollObserver(bottomBoundaryRef.current);
+
+        fs.set('portraitObserver', true);
+
+        setTimeout(() => {
+            if (bottomBoundaryRef.current)
+                observer.observe(bottomBoundaryRef.current);
+        })
     },);
 
     const onSubmit = async () => {
@@ -71,7 +77,9 @@ function ChoosePortrait(props) {
     }
 
     const onClose = (e) => {
-
+        portraits.sort(() => 0.5 - Math.random());
+        fs.set('portraitSort', portraits);
+        fs.set('portraitRange', [1, 100]);
     }
 
     const onSelect = (portraitid) => {
@@ -89,13 +97,13 @@ function ChoosePortrait(props) {
     let ChakraSimpleBar = chakra(SimpleBar);
     return (
         <Box>
-            <Modal borderRadius="2rem" size={'2xl'} isOpen={isChoosePortrait} onClose={(e) => {
+            <Modal borderRadius="8px" size={'2xl'} isOpen={isChoosePortrait} onClose={(e) => {
                 fs.set('isChoosePortrait', false);
                 fs.set('isCreateDisplayName', true);
                 onClose(e);
             }}>
                 <ModalOverlay />
-                <ModalContent bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))" borderRadius="2rem" bgColor="gray.800">
+                <ModalContent bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))" borderRadius="8px" bgColor="gray.800">
                     <ModalHeader color="gray.10" fontWeight={'600'} textAlign={"center"} fontSize="1.6rem" pb="0" py="1rem">Choose your Champion</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody overflow="hidden"
@@ -147,6 +155,7 @@ function ChoosePortrait(props) {
                                             position="relative"
                                             // mt="2rem"
                                             px="1rem"
+                                            pb="2rem"
                                             spacing={'0'}//["2rem", "1.5rem"]}
                                             // flexDir={["column", "column", "row"]}
                                             // justify={["flex-start", "flex-start"]}
@@ -158,11 +167,7 @@ function ChoosePortrait(props) {
                                             ]}
                                             gap="0.5rem">
                                             <RenderPortraits onSelect={onSelect} />
-                                            <Box height="1rem" width="1rem" id='page-bottom-boundary' ref={r => {
-                                                bottomBoundaryRef.current = r;
-                                                if (!fs.get('portraitBottomRef'))
-                                                    fs.set('portraitBottomRef', true);
-                                            }}></Box>
+                                            <Box height="1rem" width="1rem" bgColor="gray.900" id='page-bottom-boundary' ref={bottomBoundaryRef}></Box>
                                         </Grid>
                                     </VStack>
                                 </ChakraSimpleBar>
@@ -201,13 +206,21 @@ function RenderPortraits({ min, max, onSelect }) {
 
 function RenderPortrait({ portraitid, onSelect }) {
 
-    let filename = "assorted-" + portraitid + "-original.webp";
+    let [screenResized] = fs.useWatch('screenResized');
+
+    let filenameMany = `${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`;
+    let filenameFew = `${config.https.cdn}images/portraits/assorted-${portraitid}-medium.webp`;
+
+    let filename = filenameMany;
+    if (window.innerWidth < 992) {
+        filename = filenameFew;
+    }
     return (
         <GridItem p='0'>
             <Button height="100%" onClick={() => { onSelect(portraitid) }} p="0">
                 <Image
                     display="inline-block"
-                    src={`${config.https.cdn}images/portraits/${filename}`}
+                    src={filename}
                     loading="lazy"
                     borderRadius={"8px"}
                     width={["10rem"]}

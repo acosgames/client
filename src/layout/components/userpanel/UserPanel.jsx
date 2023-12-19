@@ -69,7 +69,7 @@ function UserLogin() {
           // clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
           bgColor="gray.800"
           bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
-          borderRadius={"4px"}
+          borderRadius={"8px"}
           transition={"all 0.2s ease"}
           fontWeight={"500"}
           fontSize="1.6rem"

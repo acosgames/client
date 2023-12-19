@@ -17,7 +17,8 @@ import {
 import { BsThreeDotsVertical } from "@react-icons";
 import config from "../../../config";
 import { Link } from "react-router-dom";
-
+import { joinGame } from "../../../actions/game";
+import fs from "flatstore";
 const ChakraLink = chakra(Link);
 
 export default function QueueMessage({
@@ -26,7 +27,7 @@ export default function QueueMessage({
   preview_image,
   name,
   count,
-  isJoined,
+  queued,
   msgTime,
 }) {
   // let filename = "assorted-1-original.webp";
@@ -36,6 +37,26 @@ export default function QueueMessage({
   preview_image = preview_image || "QGNPJ8.png";
   count = count || 0;
   name = name || "Undefined";
+
+  const handleJoin = async () => {
+    // let iframe = gamepanel.iframe;// fs.get('iframe');
+    //let game_slug = props.match.params.game_slug;
+    // let game = fs.get('game');
+    // if (!game)
+    //     return
+
+    // if (room.maxplayers == 1) fs.set("showLoadingBox/" + gamepanel.id, true);
+
+    fs.set("displayMode", "none");
+    // clearRoom(room_slug);
+    // clearPrimaryGamePanel();
+    let isExperimental = mode == "experimental"; // (window.location.href.indexOf('/experimental/') != -1);
+    // await wsLeaveGame(game_slug, room_slug);
+
+    //0=experimental, 1=rank
+    joinGame({ game_slug: game_slug }, isExperimental);
+  };
+
   return (
     <HStack
       width="100%"
@@ -98,24 +119,29 @@ export default function QueueMessage({
           >
             {mode.toUpperCase()}
           </Text>
+
           <Button
-            display={isJoined ? "none" : "block"}
-            alignSelf={"flex-end"}
-            border="3px solid"
-            height="3rem"
-            borderColor={isJoined ? "brand.600" : "brand.300"}
-            color="gray.0"
-            borderRadius={"8px"}
-            fontSize="1rem"
-            fontWeight="bold"
-            transition={"all 0.2s ease"}
+            // height="1.6rem"
+            display={"block"}
+            fontSize={"xxs"}
+            bgColor={"gray.800"}
+            transform="skew(-15deg)"
+            cursor={queued ? "default" : "pointer"}
+            boxShadow={
+              queued
+                ? "3px 3px 0 var(--chakra-colors-brand-300)"
+                : "3px 3px 0 var(--chakra-colors-brand-600)"
+            }
             _hover={{
-              borderColor: "brand.300",
-              color: "gray.1200",
-              bgColor: "brand.300",
+              boxShadow: queued
+                ? "3px 3px 0 var(--chakra-colors-brand-300)"
+                : "5px 3px 0 var(--chakra-colors-brand-300)",
             }}
+            onClick={queued ? () => {} : handleJoin}
           >
-            {isJoined ? "LEAVE" : "JOIN"}
+            <Text as="span" transform="skew(15deg)">
+              {queued ? "QUEUED" : "JOIN"}
+            </Text>
           </Button>
           {/* <Button
               alignSelf={"flex-end"}

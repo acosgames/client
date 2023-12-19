@@ -162,12 +162,12 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
 
     return (
         <Box>
-            <Modal borderRadius="2rem" size={'2xl'} isOpen={isOpen || isCreateDisplayName} onClose={(e) => {
+            <Modal borderRadius="8px" size={'2xl'} isOpen={isOpen || isCreateDisplayName} onClose={(e) => {
                 fs.set('isCreateDisplayName', false);
                 onClose(e);
             }}>
                 <ModalOverlay />
-                <ModalContent bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))" borderRadius="2rem" bgColor="gray.800">
+                <ModalContent bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))" borderRadius="8px" bgColor="gray.800">
                     <ModalHeader color="gray.10" fontWeight={'600'} textAlign={"center"} fontSize="1.6rem" pb="0" py="1rem">
                         {user && !user.email ? 'Save your profile' : 'Create Champion'}
                     </ModalHeader>
@@ -263,14 +263,16 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                 }
                                 {/* </FSGGroup> */}
                                 <FSGSubmit _hover={{
-                                    border: "4px solid",
-                                    borderColor: "brand.300",
-                                    bgColor: 'brand.300',
+                                    // border: "4px solid",
+                                    // borderColor: "brand.300",
+                                    boxShadow: "7px 3px 0 var(--chakra-colors-brand-300)",
+                                    // bgColor: 'brand.300',
                                 }}
                                     _focus={{
-                                        border: "4px solid",
-                                        borderColor: "brand.300",
-                                        bgColor: 'brand.300',
+                                        // border: "4px solid",
+                                        // borderColor: "brand.300",
+                                        boxShadow: "7px 3px 0 var(--chakra-colors-brand-300)",
+                                        // bgColor: 'brand.300',
                                     }}
                                     // _active={{
                                     //     border: "4px solid",
@@ -279,14 +281,16 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                     // }}
                                     px={'2rem'}
                                     pb="1rem"
-                                    border="4px solid"
-                                    borderColor="brand.300"
+                                    transform="skew(-15deg)"
+                                    boxShadow="3px 3px 0 var(--chakra-colors-brand-600)"
+                                    // border="4px solid"
+                                    // borderColor="brand.300"
                                     bgColor={'gray.800'}
                                     py="2rem"
                                     color="white"
                                     fontSize="md"
                                     fontWeight="bold"
-                                    borderRadius="8px"
+                                    borderRadius="4px"
                                     onClick={onSubmit}
                                     title={joinButtonTitle}
                                     loadingText="Joining" />

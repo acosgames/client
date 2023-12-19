@@ -38,7 +38,7 @@ export default function AchievementPanel({
       w="30rem"
       role="group"
       bgColor="gray.875"
-      borderRadius="12px"
+      borderRadius="8px"
       border="1px solid #27313f"
       position="relative"
       spacing="0.5rem"

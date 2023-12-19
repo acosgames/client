@@ -7,6 +7,7 @@ export default function PregameTimer({ gamepanel, status }) {
     let timeleft = fs.get("timeleft/" + gamepanel.id) || 0;
     timeleft = Math.ceil(timeleft / 1000);
 
+    let gamestatus = gamepanel?.gamestate?.room?.status;
     return (
         <Box
             position="absolute"
@@ -20,7 +21,7 @@ export default function PregameTimer({ gamepanel, status }) {
             borderRadius={"8px"}
             textAlign={"center"}
         >
-            <Text fontSize="1.4rem">Starting in</Text>
+            <Text fontSize="1.4rem">{gamestatus == 'pregame' ? 'Waiting for players' : 'Starting in'}</Text>
             <Text
                 color="gray.0"
                 lineHeight={"2rem"}

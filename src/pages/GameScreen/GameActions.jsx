@@ -1,4 +1,4 @@
-import { Box, Button, HStack } from "@chakra-ui/react";
+import { Box, Button, HStack, Text } from "@chakra-ui/react";
 import { wsLeaveGame } from "../../actions/connection";
 import {
   getPrimaryGamePanel,
@@ -72,16 +72,33 @@ export default function GameActions() {
   };
 
   return (
-    <HStack h="4rem" color="#fff">
+    <HStack
+      h="4rem"
+      pt="1rem"
+      pb="1.25rem"
+      w="100%"
+      // bg="linear-gradient(to right, var(--chakra-colors-gray-1200), var(--chakra-colors-gray-900))"
+      bgColor="black"
+      justifyContent={"center"}
+      alignItems={"center"}
+    >
       <Box>
         <Button
           // height="1.6rem"
+          borderRadius="4px"
           display={!isGameover ? "block" : "none"}
           fontSize={"xxs"}
-          bgColor={"red.800"}
+          bgColor={"gray.800"}
+          transform="skew(-15deg)"
+          boxShadow="3px 3px 0 var(--chakra-colors-red-600)"
+          _hover={{
+            boxShadow: "5px 3px 0 var(--chakra-colors-red-600)",
+          }}
           onClick={onForfeit}
         >
-          {"Forfeit"}
+          <Text as="span" transform="skew(15deg)">
+            Forfeit
+          </Text>
         </Button>
       </Box>
 
@@ -90,10 +107,17 @@ export default function GameActions() {
           // height="1.6rem"
           display={isGameover ? "block" : "none"}
           fontSize={"xxs"}
-          bgColor={"red.800"}
+          bgColor={"gray.800"}
+          transform="skew(-15deg)"
+          boxShadow="3px 3px 0 var(--chakra-colors-red-600)"
+          _hover={{
+            boxShadow: "5px 3px 0 var(--chakra-colors-red-600)",
+          }}
           onClick={onForfeit}
         >
-          {"Leave"}
+          <Text as="span" transform="skew(15deg)">
+            Leave
+          </Text>
         </Button>
       </Box>
 
@@ -101,12 +125,21 @@ export default function GameActions() {
         <Button
           // height="1.6rem"
           fontSize={"xxs"}
-          bgColor="brand.500"
-          _hover={{ bg: "brand.600" }}
-          _active={{ bg: "brand.900" }}
+          // bgColor="brand.500"
+          // _hover={{ bg: "brand.600" }}
+          // _active={{ bg: "brand.900" }}
+
+          bgColor={"gray.800"}
+          transform="skew(-15deg)"
+          boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
+          _hover={{
+            boxShadow: "5px 3px 0 var(--chakra-colors-brand-300)",
+          }}
           onClick={handleJoin}
         >
-          Play Again
+          <Text as="span" transform="skew(15deg)">
+            Play Again
+          </Text>
         </Button>
       </Box>
     </HStack>

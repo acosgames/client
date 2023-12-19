@@ -1989,6 +1989,11 @@
   "resolved" "https://registry.npmjs.org/@fontsource/roboto/-/roboto-4.5.1.tgz"
   "version" "4.5.1"
 
+"@formkit/auto-animate@^0.8.1":
+  "integrity" "sha512-0/Z2cuNXWVVIG/l0SpcHAWFhGdvLJ8DRvEfRWvmojtmRWfEy+LWNwgDazbZqY0qQYtkHcoEK3jBLkhiZaB/4Ig=="
+  "resolved" "https://registry.npmjs.org/@formkit/auto-animate/-/auto-animate-0.8.1.tgz"
+  "version" "0.8.1"
+
 "@hapi/hoek@^9.0.0":
   "integrity" "sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ=="
   "resolved" "https://registry.npmjs.org/@hapi/hoek/-/hoek-9.3.0.tgz"
@@ -3272,6 +3277,11 @@
   "integrity" "sha512-ENcIpYBmwAAOm/V2cXgM7rZUrKKaqisZl4ZAI520FIkqGXUxJjmaIssbRW5HVVR5tyV6ygTLIm15aU8LUmQSaQ=="
   "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001514.tgz"
   "version" "1.0.30001514"
+
+"cc-time-ago@^2.0.3":
+  "integrity" "sha512-HOObd3jkKhGizQ6I6yASwyDFxRQjEm0MG2i5h2P/OPPKanjhaMHF4ASmN68vhjDrpgxrKTNgUV7HKjJdTF9zLA=="
+  "resolved" "https://registry.npmjs.org/cc-time-ago/-/cc-time-ago-2.0.3.tgz"
+  "version" "2.0.3"
 
 "ccount@^2.0.0":
   "integrity" "sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg=="
@@ -6581,6 +6591,7 @@
     "date-fns" "^2.16.1"
     "flake-idgen" "^1.4.0"
     "flakeid" "^1.0.0"
+    "geoip-country" "^4.2.50"
     "join-images" "^1.1.5"
     "jsbi" "^4.1.0"
     "jsonwebtoken" "^9.0.1"

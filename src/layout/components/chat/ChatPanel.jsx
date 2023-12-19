@@ -19,6 +19,9 @@ import ChatMessage from "./ChatMessage.jsx";
 import USAFlag from "../../../assets/images/flags/USA.svg";
 import { useEffect, useRef } from "react";
 import SimpleBar from "simplebar-react";
+import { getChatMessages } from "../../../actions/chat.js";
+import fs from "flatstore";
+
 export default function ChatPanel({}) {
   let timeHandle = 0;
   const scrollBarHideDelay = 2000;
@@ -116,78 +119,7 @@ export default function ChatPanel({}) {
               spacing="0rem"
               justifyContent={"flex-end"}
             >
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:30"
-                msg="Hello from Texas!"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:31"
-                msg="Do you want to play a game? this is a really long message"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:30"
-                msg="Hello from Texas!"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:31"
-                msg="Do you want to play a game?"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:30"
-                msg="Hello from Texas!"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:31"
-                msg="Do you want to play a game?"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:30"
-                msg="Hello from Texas!"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:31"
-                msg="Do you want to play a game?"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:30"
-                msg="Hello from Texas!"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:31"
-                msg="Do you want to play a game?"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:30"
-                msg="Hello from Texas!"
-              />
-              <ChatMessage
-                flagCode={USAFlag}
-                username="JoeOfTexas"
-                msgTime="12:31"
-                msg="Do you want to play a game?"
-              />
+              <ChatMessages />
 
               <Box w="100" flex="1"></Box>
             </VStack>
@@ -200,4 +132,19 @@ export default function ChatPanel({}) {
       </VStack>
     </>
   );
+}
+
+function ChatMessages({}) {
+  let [chat] = fs.useWatch("chat");
+  let messages = getChatMessages("chat");
+  if (!messages) return <></>;
+  return messages.map((msg) => (
+    <ChatMessage
+      portraitid={msg.portraitid}
+      countrycode={msg.countrycode}
+      displayname={msg.displayname}
+      timestamp={msg.timestamp}
+      message={msg.message}
+    />
+  ));
 }

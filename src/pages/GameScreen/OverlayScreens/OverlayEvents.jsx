@@ -12,14 +12,14 @@ import {
 import fs from "flatstore";
 import config from "../../../config";
 import { getPrimaryGamePanel, getRoomStatus } from "../../../actions/room";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ratingtext from "shared/util/ratingtext";
 import { FaCheck } from "@react-icons";
 
 import LeftPlayer from "./LeftPlayer";
 import RightPlayer from "./RightPlayer";
 import PregameTimer from "./PregameTimer";
-import Vs from "./Vs";
+import { BottomHalf, TopHalf, Vs } from "./Vs";
 
 export default function OverlayEvents({ gamepanelid, layoutRef }) {
   let [gamepanel] = fs.useWatch("gamepanel/" + gamepanelid);
@@ -99,7 +99,8 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
 /**
  * Overlay Pregame Scenarios
  * - 1 vs 1 (with / without team setup)
- * - N vs N (team setup)
+ * - N vs N (team setup, up to 6 on each team)
+ * - N vs N (team setup, no player limit)
  * - N vs ALL (team setup)
  * - N vs N vs N vs ... (team setup)
  * - Free For All
@@ -143,28 +144,9 @@ function PregameVs2({ gamepanel, players, teams, status }) {
       filter="opacity(0)"
       animation="fadeIn 0.3s forwards"
     >
-      <Box
-        position="absolute"
-        w="300%"
-        h="300%"
-        top="-250%"
-        // transform="skewY(-30deg)"
-        bgColor="gray.900"
-        transform={"translate(-300vw, 0) skewY(-30deg)"}
-        animation={"fromLeft 0.6s forwards 0s"}
-      ></Box>
+      <TopHalf />
+      <BottomHalf />
 
-      <Box
-        position="absolute"
-        w="300%"
-        h="300%"
-        top="50%"
-        right="0"
-        // transform="skewY(-30deg)"
-        transform={"translate(300vw, 0) skewY(-30deg)"}
-        animation={"fromRight 0.6s forwards 0s"}
-        bgColor="gray.1000"
-      ></Box>
       <PregameTimer gamepanel={gamepanel} status={status} />
 
       <VStack
@@ -173,6 +155,7 @@ function PregameVs2({ gamepanel, players, teams, status }) {
         left="0"
         w={["100%", "100%", "100%", "60%"]}
         h="50%"
+        zIndex="5"
         justifyContent={["center", "center", "center", "center"]}
         alignItems={["flex-start", "flex-start", "flex-start", "center"]}
         // pl={["1rem", "1rem", "4rem", "4rem"]}
@@ -188,13 +171,15 @@ function PregameVs2({ gamepanel, players, teams, status }) {
         right="0"
         w={["100%", "100%", "100%", "60%"]}
         h="50%"
+        zIndex="5"
         justifyContent={["center", "center", "center", "center"]}
         alignItems={["flex-end", "flex-end", "flex-end", "center"]}
         pr={["1rem", "10%", "2rem", "0"]}
+        pl={[0, 0, 0, "4rem"]}
         // pr={["1rem", "1rem", "4rem", "4rem"]}
         // pt={["4rem", "4rem", "4rem", "4rem"]}
       >
-        <RightPlayer player={players[rightPlayer]} />
+        <LeftPlayer player={players[rightPlayer]} />
       </VStack>
     </Box>
   );

@@ -104,15 +104,15 @@ export function getChatMessages(channel) {
     //     channel = 'chat/' + chatMode;
     // }
     let chatMessages = fs.get(channel);
-    if (!chatMessages) {
-        chatMessages = JSON.parse(localStorage.getItem(channel));
-        if (!chatMessages)
-            chatMessages = [];
-    }
+    // if (!chatMessages) {
+    //     chatMessages = JSON.parse(localStorage.getItem(channel));
+    //     if (!chatMessages)
+    //         chatMessages = [];
+    // }
 
     // chatMessages = filterChatMessages(chatMessages, chatMode);
 
-    return chatMessages;
+    return chatMessages || [];
 }
 
 export async function sendChatMessage() {

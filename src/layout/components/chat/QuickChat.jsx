@@ -29,8 +29,11 @@ export default function QuickChat({ degreeOffset, isOpen }) {
     else setCategory(catid);
   };
 
-  const onClickChatMessage = (e, msg) => {
+  const onClickChatMessage = async (e, msg) => {
     console.log("Sending message: ", msg);
+    fs.set("chatMessage", value);
+    await sendChatMessage();
+    fs.set("chatMessage", "");
   };
 
   useEffect(() => {

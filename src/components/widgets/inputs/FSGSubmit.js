@@ -33,9 +33,11 @@ function FSGSubmit(props) {
                 borderRadius={props.borderRadius || '0'}
                 border={props.border}
                 borderColor={props.borderColor}
+                boxShadow={props.boxShadow}
                 className="submit"
                 color={props.color}
                 bgColor={props.bgColor}
+                transform={props.transform}
                 _hover={props._hover}
                 _focus={props._focus}
                 _active={props._active}

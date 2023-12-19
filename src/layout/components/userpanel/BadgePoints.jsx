@@ -8,7 +8,7 @@ export default function BadgePoints({}) {
   let points = user.points || 0;
   return (
     <HStack
-      borderRadius="6px"
+      borderRadius="8px"
       pl="0rem"
       pr="0.75rem"
       // pt="0.2rem"

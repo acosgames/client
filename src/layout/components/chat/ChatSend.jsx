@@ -2,8 +2,27 @@ import { Box, HStack, IconButton, Input } from "@chakra-ui/react";
 import { IoSend } from "@react-icons";
 import { useState } from "react";
 import QuickChat from "./QuickChat.jsx";
+import { sendChatMessage } from "../../../actions/chat.js";
+import fs from "flatstore";
+
 export default function ChatSend({}) {
   let [message, setMessage] = useState("");
+
+  let [chatMessage] = fs.useWatch("chatMessage");
+
+  const inputChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    fs.set("chatMessage", value);
+  };
+
+  const onSubmit = async (e) => {
+    //console.log(e);
+    await sendChatMessage();
+    fs.set("chatMessage", "");
+  };
+
   //   let emojiRef = useRef();
   return (
     // <Box w="100%" ref={emojiRef}>
@@ -51,13 +70,11 @@ export default function ChatSend({}) {
           bgColor: "gray.800",
         }}
         _placeholder={{ color: "gray.100", fontSize: "1.2rem" }}
-        value={message || ""}
-        onChange={(e) => {
-          setMessage(e.target.value);
-        }}
+        value={chatMessage || ""}
+        onChange={inputChange}
         onKeyUp={(e) => {
           if (e.key === "Enter") {
-            // onSubmit(e)
+            onSubmit(e);
           }
         }}
       />
@@ -74,8 +91,7 @@ export default function ChatSend({}) {
         zIndex={10}
       >
         <IconButton
-          // onClick={onSubmit}
-
+          onClick={onSubmit}
           icon={<IoSend size="1.6rem" />}
           width="2.8rem"
           isRound="true"

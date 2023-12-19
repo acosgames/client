@@ -123,7 +123,7 @@ function LayoutChooser({ children, isMobile, gameResizer }) {
 }
 
 function DesktopLayout({ children }) {
-  let [checkingUserLogin] = fs.useWatch("checkingUserLogin");
+  // let [checkingUserLogin] = fs.useWatch("checkingUserLogin");
 
   const ChakraSimpleBar = chakra(SimpleBar);
 
@@ -148,7 +148,7 @@ function DesktopLayout({ children }) {
     onResize();
   }, []);
 
-  if (checkingUserLogin) return <></>;
+  // if (checkingUserLogin) return <></>;
   return (
     <Box w={"100%"} h={"100%"} transition={"all 0.3s ease"}>
       <HStack

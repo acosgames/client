@@ -112,7 +112,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                             <Image
                                 position="absolute"
                                 right="0"
-                                borderRadius={"12px"}
+                                borderRadius={"8px"}
                                 objectFit={"cover"}
                                 src={imgUrl}
                             />
@@ -225,7 +225,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 <Image
                                     position="absolute"
                                     right="0"
-                                    borderRadius={"12px"}
+                                    borderRadius={"8px"}
                                     objectFit={"cover"}
                                     src={imgUrl}
                                 />
@@ -258,7 +258,7 @@ function GameInfoTag(props) {
                         // borderRadius='3px'
                         // py=".3rem"
                         px="0.5rem"
-                        borderRadius="4px"
+                        borderRadius="8px"
                         background="gray.200"
                         borderLeft="0.5rem solid"
                         borderLeftColor="gray.100"
@@ -286,7 +286,7 @@ function GameInfoTag(props) {
                 // borderRadius='3px'
                 // py=".3rem"
                 px="0.5rem"
-                borderRadius="4px"
+                borderRadius="8px"
                 background="gray.200"
 
                 textShadow="1px 1px 3px var(--chakra-colors-gray-1200)"

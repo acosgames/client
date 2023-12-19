@@ -32,7 +32,7 @@ export default function LeftPlayer({ player }) {
                 loading="lazy"
                 borderRadius={"8px"}
                 maxHeight="100%"
-                height={["10rem", "10rem", "10rem", "16rem", "20rem"]}
+                height={["10rem", "10rem", "10rem", "12rem", "12rem", "15rem"]}
                 // mb="1rem"
                 position="relative"
                 zIndex="2"
@@ -47,7 +47,7 @@ export default function LeftPlayer({ player }) {
                     color="gray.0"
                     fontWeight="600"
                     fontSize={["1.6rem", "1.8rem", "1.8rem", "1.8rem"]}
-                    maxW={["20rem", "22rem", "20rem", "25rem"]}
+                    maxW={["20rem", "22rem", "25rem", "30rem"]}
                     overflow="hidden"
                     whiteSpace={"nowrap"}
                     textOverflow={"ellipsis"}
@@ -62,7 +62,7 @@ export default function LeftPlayer({ player }) {
                     alignSelf={"flex-start"}
                     pl="1rem"
                     justifyContent={"flex-start"}
-                    w="20rem"
+                // w="20rem"
                 >
                     <Image
                         src={`${config.https.cdn}images/country/${player.countrycode}.svg`}
@@ -75,7 +75,7 @@ export default function LeftPlayer({ player }) {
                     <VStack alignItems={"flex-start"} w="8rem">
                         <Text
                             as="span"
-                            color="gray.20"
+                            color="gray.100"
                             fontWeight="600"
                             fontSize="1.6rem"
                             lineHeight={"1.3rem"}
@@ -85,7 +85,7 @@ export default function LeftPlayer({ player }) {
                         </Text>
                         <Text
                             as="span"
-                            color="gray.20"
+                            color="gray.100"
                             fontWeight="500"
                             fontSize="1.2rem"
                             lineHeight={"1.3rem"}
@@ -95,16 +95,19 @@ export default function LeftPlayer({ player }) {
                         </Text>
                     </VStack>
                     <Icon
+                        alignSelf={'center'}
                         display={player.ready ? "block" : "none"}
                         as={FaCheck}
                         fontSize="3rem"
                         color={"brand.300"}
-                        mr="2rem"
+                        mr="1rem"
+                        // mr="2rem"
                         filter={
-                            "drop-shadow(0 0 3px var(--chakra-colors-brand-100)) drop-shadow(0 0 8px var(--chakra-colors-brand-100))"
+                            "drop-shadow(0 0 4px var(--chakra-colors-brand-100)) drop-shadow(0 0 1px var(--chakra-colors-brand-100))"
                         }
                     />
                 </HStack>
+
             </VStack>
         </HStack>
     );

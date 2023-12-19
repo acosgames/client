@@ -157,7 +157,9 @@ export async function loadUserGameData(game_slug) {
 
         let curgame = fs.get('game');
         let game = null;
-        let user = await getUser();
+        let user = fs.get('user');
+
+        // let user = await getUser();
 
 
 
@@ -265,6 +267,7 @@ export async function getUserProfile() {
             console.log('getUserProfile from api', user);
         }
         if (user.ecode) {
+            // fs.set('checkingUserLogin', false);
             console.error('[ERROR] Login failed. Please login again.', user.ecode);
             removeWithExpiry('user');
             return null;
@@ -326,7 +329,7 @@ export async function getUserProfile() {
         fs.set('userid', 0);
 
         // console.error('[Profile] Login failed. Please login again.');
-
+        fs.set('checkingUserLogin', false);
         if (e.response.data.ecode) {
             console.error('[ERROR] Login failed. Please login again.', e.response.data.ecode);
             return null;

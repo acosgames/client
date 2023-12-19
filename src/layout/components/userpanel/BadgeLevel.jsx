@@ -8,7 +8,7 @@ export default function BadgeLevel({}) {
   let level = Math.floor(user.level || 1);
   return (
     <HStack
-      borderRadius="6px"
+      borderRadius="8px"
       pl="0.4rem"
       pr="0.75rem"
       // bgColor="gray.300"
