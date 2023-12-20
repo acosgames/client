@@ -1278,6 +1278,8 @@ async function wsIncomingMessage(message) {
             break;
         case 'error':
             console.log("[Incoming] ERROR::", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
+            clearGameQueues();
+            setLastJoinType('');
             break;
         case 'duplicatetabs':
             console.log("[Incoming] ERROR :: Duplicate Tabs:: ", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
@@ -1293,6 +1295,8 @@ async function wsIncomingMessage(message) {
         let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug);
         let room = gamepanel?.room;
         let gamestate = gamepanel?.gamestate;//JSON.parse(JSON.stringify(gamepanel?.gamestate));
+        if (!gamestate)
+            return;
 
         // console.log("[Previous State]: ", gamestate);
         if (msg.type == 'private') {

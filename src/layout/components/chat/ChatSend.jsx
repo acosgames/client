@@ -20,7 +20,6 @@ export default function ChatSend({}) {
   const onSubmit = async (e) => {
     //console.log(e);
     await sendChatMessage();
-    fs.set("chatMessage", "");
   };
 
   //   let emojiRef = useRef();

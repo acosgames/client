@@ -13,6 +13,7 @@ import {
   FaAngry,
 } from "@react-icons";
 import { useEffect, useState } from "react";
+import { sendChatMessage } from "../../../actions/chat";
 
 export default function QuickChat({ degreeOffset, isOpen }) {
   let [show, setShow] = useState(false);
@@ -33,7 +34,7 @@ export default function QuickChat({ degreeOffset, isOpen }) {
     console.log("Sending message: ", msg);
     fs.set("chatMessage", value);
     await sendChatMessage();
-    fs.set("chatMessage", "");
+    // fs.set("chatMessage", "");
   };
 
   useEffect(() => {

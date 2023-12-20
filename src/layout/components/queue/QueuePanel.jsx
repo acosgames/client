@@ -4,17 +4,14 @@ import QueueMessage from "./QueueMessage.jsx";
 
 import SimpleBar from "simplebar-react";
 import { useRef } from "react";
+import { AnimatePresence } from "framer-motion";
 
 export default function QueuePanel({}) {
-  let [queueStats] = fs.useWatch("queueStats");
-  let [queues] = fs.useWatch("queues");
-
   const scrollRef = useRef();
   const ChakraSimpleBar = chakra(SimpleBar);
 
-  let queueStatsKeys = Object.keys(queueStats || {});
+  // let available = RenderAvailable({ queues, queueStats });
 
-  let available = RenderAvailable({ queues, queueStats });
   return (
     <VStack
       w="100%"
@@ -62,23 +59,8 @@ export default function QueuePanel({}) {
           scrollableNodeProps={{ ref: scrollRef }}
         >
           <VStack w="100%" pb="1rem" pt="1rem">
-            <Box
-              pt="1rem"
-              textAlign={"center"}
-              display={
-                queues.length > 0 || available.length > 0 ? "none" : "block"
-              }
-            >
-              <Text as="span">No active queues</Text>
-              <Text as="p" fontSize="1.2rem">
-                Join a queue to see it listed here.
-              </Text>
-            </Box>
-
-            <VStack px="1rem" w="100%">
-              <RenderJoined queues={queues} queueStats={queueStats} />
-              {available}
-            </VStack>
+            <NoActiveQueues />
+            <RenderQueues />
           </VStack>
         </ChakraSimpleBar>
       </VStack>
@@ -86,7 +68,41 @@ export default function QueuePanel({}) {
   );
 }
 
-function RenderJoined({ queues, queueStats }) {
+function NoActiveQueues() {
+  let [queueStats] = fs.useWatch("queueStats");
+  let [queues] = fs.useWatch("queues");
+
+  let queueStatsKeys = Object.keys(queueStats || {});
+  return (
+    <Box
+      pt="1rem"
+      textAlign={"center"}
+      display={
+        queues.length > 0 || queueStatsKeys.length > 1 ? "none" : "block"
+      }
+    >
+      <Text as="span">No active queues</Text>
+      <Text as="p" fontSize="1.2rem">
+        Join a queue to see it listed here.
+      </Text>
+    </Box>
+  );
+}
+
+function RenderQueues({}) {
+  return (
+    <VStack px="1rem" w="100%">
+      <AnimatePresence>
+        <RenderJoined key={"render-joined"} />
+        <RenderAvailable key={"render-available"} />
+      </AnimatePresence>
+    </VStack>
+  );
+}
+
+function RenderJoined({}) {
+  let [queueStats] = fs.useWatch("queueStats");
+  let [queues] = fs.useWatch("queues");
   let queueElems = [];
   queueStats = queueStats || {};
 
@@ -113,7 +129,9 @@ function RenderJoined({ queues, queueStats }) {
   return queueElems;
 }
 
-function RenderAvailable({ queues, queueStats }) {
+function RenderAvailable({}) {
+  let [queueStats] = fs.useWatch("queueStats");
+  let [queues] = fs.useWatch("queues");
   queueStats = queueStats || {};
   let queueElems = [];
 
@@ -132,7 +150,7 @@ function RenderAvailable({ queues, queueStats }) {
 
     queueElems.push(
       <QueueMessage
-        key={"joined-queued-" + queue.game_slug + queue.mode}
+        key={"available-queued-" + queue.game_slug + queue.mode}
         game_slug={queue.game_slug}
         mode={queue.mode}
         preview_image={queue.preview_image}

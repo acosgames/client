@@ -121,6 +121,12 @@ export async function sendChatMessage() {
     if (!message)
         return false;
 
+    let lastChatSent = fs.get('lastChatSent');
+    if (lastChatSent && Date.now() - lastChatSent < 3000) {
+        return false;
+    }
+
+
     let game = fs.get('game');
     let game_slug = game?.game_slug;
 
@@ -130,4 +136,7 @@ export async function sendChatMessage() {
     let payload = { message, game_slug, room_slug }
 
     await wsSend({ type: 'chat', payload })
+
+    fs.set('lastChatSent', Date.now());
+    fs.set("chatMessage", "");
 }

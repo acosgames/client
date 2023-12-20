@@ -22,6 +22,7 @@ import SimpleBar from "simplebar-react";
 import { getChatMessages } from "../../../actions/chat.js";
 import fs from "flatstore";
 
+import { AnimatePresence, motion } from "framer-motion";
 export default function ChatPanel({}) {
   let timeHandle = 0;
   const scrollBarHideDelay = 2000;
@@ -108,21 +109,7 @@ export default function ChatPanel({}) {
             }}
             scrollableNodeProps={{ ref: scrollRef }}
           >
-            <VStack
-              className="chat-message-panel"
-              // height="100%"
-              width="100%"
-              // pl="2rem"
-              // bgColor="gray.900"
-              px={["0.25rem", "0.5rem"]}
-              pt="0.25rem"
-              spacing="0rem"
-              justifyContent={"flex-end"}
-            >
-              <ChatMessages />
-
-              <Box w="100" flex="1"></Box>
-            </VStack>
+            <ChatMessages scrollRef={scrollRef} />
           </ChakraSimpleBar>
           <ChatSend />
         </VStack>
@@ -134,17 +121,41 @@ export default function ChatPanel({}) {
   );
 }
 
-function ChatMessages({}) {
+function ChatMessages({ scrollRef }) {
   let [chat] = fs.useWatch("chat");
   let messages = getChatMessages("chat");
+
+  useEffect(() => {
+    if (scrollRef.current)
+      scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
+  });
+
   if (!messages) return <></>;
-  return messages.map((msg) => (
-    <ChatMessage
-      portraitid={msg.portraitid}
-      countrycode={msg.countrycode}
-      displayname={msg.displayname}
-      timestamp={msg.timestamp}
-      message={msg.message}
-    />
-  ));
+  return (
+    <VStack
+      className="chat-message-panel"
+      // height="100%"
+      width="100%"
+      // pl="2rem"
+      // bgColor="gray.900"
+      px={["0.25rem", "0.5rem"]}
+      pt="0.25rem"
+      spacing="0rem"
+      justifyContent={"flex-end"}
+    >
+      <AnimatePresence>
+        {messages.map((msg) => (
+          <ChatMessage
+            key={msg.displayname + "-msg-" + msg.timestamp}
+            portraitid={msg.portraitid}
+            countrycode={msg.countrycode}
+            displayname={msg.displayname}
+            timestamp={msg.timestamp}
+            message={msg.message}
+          />
+        ))}
+      </AnimatePresence>
+      <Box w="100" flex="1"></Box>
+    </VStack>
+  );
 }
