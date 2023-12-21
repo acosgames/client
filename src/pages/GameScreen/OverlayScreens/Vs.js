@@ -10,6 +10,7 @@ export function TopHalf() {
             // transform="skewY(-30deg)"
             overflow="hidden"
             bgColor="gray.900"
+            bg="linear-gradient(to bottom, var(--chakra-colors-gray-850) 90%, var(--chakra-colors-gray-900))"
             transform={"translate(-300vw, 0) skewY(-30deg)"}
             animation={"fromLeft 0.6s forwards 0s"}
         >
@@ -30,6 +31,8 @@ export function BottomHalf() {
             transform={"translate(300vw, 0) skewY(-30deg)"}
             animation={"fromRight 0.6s forwards 0s"}
             bgColor="gray.1000"
+
+            bg="linear-gradient(to top, var(--chakra-colors-gray-1000) 90%, var(--chakra-colors-gray-950))"
         >
             {" "}
             {/* <LineSpawner direction={"right"} bgColor="gray.900" /> */}
@@ -37,7 +40,7 @@ export function BottomHalf() {
     );
 }
 
-export function Vs({ }) {
+export function Vs({ status }) {
     return (
         <Heading
             filter="opacity(0)"
@@ -69,7 +72,7 @@ export function Vs({ }) {
                 h="2px"
                 transform="translate(-50%,-50%) rotate(-30deg)"
                 bgColor="gray.30"
-                boxShadow="0 0 20px white, 0 0 2px white, 0 0 1px white"
+                boxShadow={status != 'starting' ? "0 0 20px var(--chakra-colors-brand-900), 0 0 2px var(--chakra-colors-brand-900), 0 0 1px var(--chakra-colors-brand-900)" : "0 0 20px var(--chakra-colors-brand-100), 0 0 2px var(--chakra-colors-brand-100), 0 0 1px var(--chakra-colors-brand-100)"}
             ></Box>
             <Box
                 animation="scaleVs 1s forwards 0s"
@@ -87,7 +90,7 @@ export function Vs({ }) {
                     // textFillColor="transparent"
                     className="versusText"
                 // color="brand.600"
-                // textShadow="0px 0px 3px var(--chakra-colors-brand-600), 0px 0px 50px var(--chakra-colors-brand-600)"
+                // textShadow="0px 0px 0px var(--chakra-colors-brand-600)"
                 >
                     V
                 </Text>

@@ -1,20 +1,25 @@
 import fs from 'flatstore';
 import config from "../../config";
 import { Box, HStack, Heading, Icon, IconButton, Image, Text, VStack, Wrap, Link as ChLink, Grid, GridItem, Spinner } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { FaRegHeart, FaHeart } from "@react-icons";
 import GameInfoJoinButton from './GameInfoJoinButton';
 import GameMenu from './GameMenu.jsx';
+import { AnimatePresence, motion } from 'framer-motion';
+import { memo } from 'react';
 
 export default function GameHeader({ }) {
     let [game] = fs.useWatch("game");
     // let [isMobile] = fs.useWatch("isMobile");
 
+    let { game_slug } = useParams();
     let [queues] = fs.useWatch('queues');
     if (!game) {
         return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;
     }
+
+    if (game_slug != game.game_slug) return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;
 
     let imgUrl = config.https.cdn + "placeholder.png";
     if (game.preview_images && game.preview_images.length > 0)
@@ -67,8 +72,9 @@ export default function GameHeader({ }) {
                 height: ["20px", "20px", "20px"],
             }}
         >
-
-            <GameHeaderDesktop imgUrl={imgUrl} game={game} />
+            <AnimatePresence>
+                <GameHeaderDesktop imgUrl={imgUrl} game={game} />
+            </AnimatePresence>
             {/* {isMobile && <GameHeaderMobile imgUrl={imgUrl} game={game} />} */}
         </VStack>
     );
@@ -78,7 +84,11 @@ function GameHeaderDesktop({ game, imgUrl }) {
     let hasOpenSource = game.opensource == 1;
     let hasTeams = game.minteams > 0;
     let hasMultiplayerTopScore = game.lbscore == 1 && game.maxplayers > 1;
+
+    const MotionHeading = motion(Heading);
+    const MotionBox = motion(Box);
     return (
+
         <HStack alignItems="center" spacing="2rem" w="100%" pb={["4rem", "4rem", "4rem", '0']}>
             <HStack
                 spacing="1rem"
@@ -108,14 +118,9 @@ function GameHeaderDesktop({ game, imgUrl }) {
                             w={["12rem", "12rem", "12rem",]}
                             h={["12rem", "12rem", "12rem",]}
                             className="gameinfo-image"
+
                         >
-                            <Image
-                                position="absolute"
-                                right="0"
-                                borderRadius={"8px"}
-                                objectFit={"cover"}
-                                src={imgUrl}
-                            />
+                            <MemoImage imgUrl={imgUrl} />
                             {/* <VStack
                                 spacing="0"
                                 position="absolute"
@@ -129,12 +134,14 @@ function GameHeaderDesktop({ game, imgUrl }) {
 
                     <GridItem
                         alignItems={["center", "center", "center", "flex-start"]}
+                        justifyContent={'flex-start'}
                         spacing={["1rem", "1rem"]}
                         mb="1rem"
                         className="game-info-header"
                         w={['auto', 'auto', 'auto', '100%', '100%']}
                     >
-                        <VStack alignItems={["center", "center", "center", "flex-start"]} spacing={["0rem", "0rem", "0rem", "0rem"]}>
+                        <VStack alignItems={["center", "center", "center", "flex-start"]}
+                            spacing={["0rem", "0rem", "0rem", "0rem"]}>
                             <Heading
                                 color="gray.0"
                                 fontSize={["3rem", "3rem", "3rem", "3.4rem", "4rem"]}
@@ -150,6 +157,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 pr="1rem"
                                 title={game.name}
                                 textAlign={['center', 'center', 'center', 'left']}
+                                transformOrigin='center'
                             >
                                 {game.name || '    '}
                             </Heading>
@@ -222,13 +230,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 h={["12rem", "12rem", "12rem", "20rem", "24rem"]}
                                 className="gameinfo-image"
                             >
-                                <Image
-                                    position="absolute"
-                                    right="0"
-                                    borderRadius={"8px"}
-                                    objectFit={"cover"}
-                                    src={imgUrl}
-                                />
+                                <MemoImage imgUrl={imgUrl} />
                                 {/* <VStack
                         spacing="0"
                         position="absolute"
@@ -247,7 +249,31 @@ function GameHeaderDesktop({ game, imgUrl }) {
     );
 }
 
+const MemoImage = memo(({ imgUrl }) => {
 
+    const MotionImage = motion(Image);
+    return <MotionImage
+        position="absolute"
+        right="0"
+        borderRadius={"8px"}
+        objectFit={"cover"}
+        src={imgUrl}
+
+        // initial={{ opacity: 0, scale: 0.5 }}
+        // animate={{ opacity: 1, scale: 1 }}
+        // exit={{ opacity: 0, scale: 0 }}
+        transition={{
+            duration: 0.2,
+            ease: [0, 0.71, 0.2, 1.01],
+            scale: {
+                type: "spring",
+                damping: 10,
+                stiffness: 90,
+                restDelta: 0.01
+            }
+        }}
+    />
+}, (next, prev) => next.imgUrl == prev.imgUrl)
 function GameInfoTag(props) {
     if (props.to) {
         return (

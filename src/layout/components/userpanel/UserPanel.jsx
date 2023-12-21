@@ -28,7 +28,7 @@ import UserMenu from "../user/UserMenu.jsx";
 
 import fs from "flatstore";
 import { validateLogin } from "../../../actions/connection.js";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, Routes, Route } from "react-router-dom";
 import Searching from "../queue/Searching.jsx";
 import { useEffect } from "react";
 import PlayNowButton from "./PlayNowButton.jsx";
@@ -46,7 +46,9 @@ export default function UserPanel() {
     <>
       <UserFrame />
       {!isMobile && <Searching />}
-      <PlayNowButton />
+      <Routes>
+        <Route path="/g/:game_slug" element={<PlayNowButton />} />
+      </Routes>
     </>
   );
 }

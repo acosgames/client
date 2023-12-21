@@ -69,6 +69,10 @@ function ChoosePortrait(props) {
             if (bottomBoundaryRef.current)
                 observer.observe(bottomBoundaryRef.current);
         })
+
+        return () => {
+            observer.disconnect();
+        }
     },);
 
     const onSubmit = async () => {

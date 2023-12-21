@@ -14,8 +14,9 @@ export default function PregameTimer({ gamepanel, status }) {
             right="1rem"
             top="1rem"
             //   transform="translate(-150%,-50%)"
-            p="1rem"
+            pb="0.5rem"
             px="3rem"
+            pt="0"
             zIndex={"5"}
             bgColor="rgba(0,0,0,0.9)"
             borderRadius={"8px"}

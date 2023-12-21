@@ -167,15 +167,15 @@ export async function loadUserGameData(game_slug) {
 
             await findGamePerson(game_slug);
         }
-        else if (!curgame || !curgame.name) {
+        else //if (!curgame || !curgame.name) {
             await findGame(game_slug)
-        }
-        else {
-            game = fs.get('games>' + game_slug);
-            if (game && game.longdesc && (!curgame || !curgame.longdesc)) {
-                fs.set('game', game);
-            }
-        }
+        // }
+        // else {
+        //     game = fs.get('games>' + game_slug);
+        //     if (game && game.longdesc && (!curgame || !curgame.longdesc)) {
+        //         fs.set('game', game);
+        //     }
+        // }
         fs.set('loadingGameInfo', false);
     }
     catch (e) {

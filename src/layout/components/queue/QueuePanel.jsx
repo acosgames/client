@@ -140,7 +140,7 @@ function RenderAvailable({}) {
 
   for (let key in queueStats) {
     if (key == "type") continue;
-    // if (key in queueMap) continue;
+    if (key in queueMap) continue;
     let parts = key.split("/");
     let mode = parts[0];
     let game_slug = parts[1];

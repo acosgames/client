@@ -1,6 +1,7 @@
 import {
   Flex,
   HStack,
+  Heading,
   Icon,
   Image,
   Text,
@@ -10,15 +11,14 @@ import {
 import { useEffect, useRef, useState, memo } from "react";
 import fs from "flatstore";
 import SimpleBar from "simplebar-react";
-import { getPrimaryGamePanel } from "../../actions/room";
+import { getPrimaryGamePanel } from "../../../actions/room";
 
 import ratingtext from "shared/util/ratingtext";
-import config from "../../config";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
+import config from "../../../config";
 
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function Scoreboard({}) {
+export default function Scoreboard({ }) {
   const scrollRef = useRef();
   const ChakraSimpleBar = chakra(SimpleBar);
 
@@ -73,7 +73,7 @@ export default function Scoreboard({}) {
   );
 }
 
-function RenderPlayers({}) {
+function RenderPlayers({ }) {
   // const [parent, enableAnimations] = useAutoAnimate();
   let [primaryId] = fs.useWatch("primaryGamePanel");
   let [primaryPlayers] = fs.useWatch("primary/players");
@@ -94,6 +94,9 @@ function RenderPlayers({}) {
   if (teams) {
     return (
       <VStack w="100%" p="0.25rem" spacing="0.5rem">
+        <Heading as="h5" fontSize="1.6rem" py="0.5rem">
+          {primary?.room?.name || "Unknown game"}
+        </Heading>
         <AnimatePresence>
           <RenderTeams players={players} teams={teams} />
         </AnimatePresence>
@@ -136,6 +139,9 @@ function RenderPlayers({}) {
         setSorted(!sort);
       }}
     >
+      <Heading as="h5" fontSize="1.6rem" py="0.5rem">
+        {primary?.room?.name || "Unknown game"}
+      </Heading>
       <AnimatePresence>
         {/* <LayoutGroup> */}
         {playerElems.map((player) => (
@@ -192,8 +198,10 @@ function RenderTeam({ players, team }) {
   }
 
   return (
-    <VStack w="100%" py="1rem">
-      <Text as="span">{team.name}</Text>
+    <VStack w="100%" py="0.5rem" pt="0" alignItems={"flex-start"}>
+      <Text pl="0.5rem" as="span">
+        {team.name}
+      </Text>
       {playerElems}
     </VStack>
   );
@@ -216,12 +224,17 @@ const RenderPlayer = ({ name, portraitid, rating, countrycode, score }) => {
       style={{ width: "100%" }}
     >
       <HStack
-        w="100%"
+        w="99%"
+        mx="0.5rem"
+        mr="1rem"
         spacing="1rem"
         // justifyContent={"flex-start"}
         // alignItems={"flex-start"}
-        bgColor="gray.800"
-        clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
+        bgColor="gray.1050"
+        borderRadius="8px"
+        overflow="hidden"
+        transform="skew(-15deg)"
+      // clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
       >
         <Image
           display="inline-block"
@@ -233,8 +246,9 @@ const RenderPlayer = ({ name, portraitid, rating, countrycode, score }) => {
           // mb="1rem"
           position="relative"
           zIndex="2"
-          // border="1px solid"
-          // borderColor={player.ready ? "brand.100" : "brand.900"}
+          transform="skew(15deg)"
+        // border="1px solid"
+        // borderColor={player.ready ? "brand.100" : "brand.900"}
         />
         <VStack
           w="100%"
@@ -243,6 +257,7 @@ const RenderPlayer = ({ name, portraitid, rating, countrycode, score }) => {
           spacing="0"
           pr="0.5rem"
           flex="1"
+          transform="skew(15deg)"
         >
           <HStack w="100%">
             <Text
@@ -272,7 +287,7 @@ const RenderPlayer = ({ name, portraitid, rating, countrycode, score }) => {
             alignSelf={"flex-start"}
             justifyContent={"flex-start"}
             w="100%"
-            // w="20rem"
+          // w="20rem"
           >
             <VStack alignItems={"flex-start"} w="8rem">
               <Text
@@ -281,7 +296,7 @@ const RenderPlayer = ({ name, portraitid, rating, countrycode, score }) => {
                 fontWeight="500"
                 fontSize="1.2rem"
                 lineHeight={"1.0rem"}
-                //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
+              //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
               >
                 Class {ratingClass}
               </Text>

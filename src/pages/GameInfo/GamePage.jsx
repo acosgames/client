@@ -41,31 +41,40 @@ export default function GamePage({}) {
   // let [player_stats] = fs.useWatch("player_stats");
 
   let { game_slug, room_slug, mode } = useParams();
+  let [loadingGameInfo] = fs.useWatch("loadingGameInfo");
 
   mode = mode || "rank";
 
   useEffect(() => {
     // findGame();
-    let game = fs.get("games>" + game_slug);
-    if (game && game.longdesc && (!game || !game.longdesc)) {
-      fs.set("game", game);
-    } else {
-      fs.set("game", { game_slug });
-    }
+    let game = fs.get("game");
+
+    if (game && game.game_slug == game_slug) return;
+
+    // if (game && game.longdesc && (!game || !game.longdesc)) {
+    //   fs.set("game", game);
+    // } else {
+    //   fs.set("game", { game_slug });
+    // }
 
     loadUserGameData(game_slug);
   }, [game_slug]);
 
-  return <GameInfo />;
+  return (
+    <VStack w="100%" spacing="0" padding="0">
+      <GameHeader />
+      <GameTabs />
+      {/* <GameActionBar /> */}
+    </VStack>
+  );
 }
 
-function GameInfo({}) {
+function GameTabs({}) {
   const targetRef = useRef();
   const tablistRef = useRef();
   const borderRef = useRef();
   const scrollRef = useRef();
 
-  let [loadingGameInfo] = fs.useWatch("loadingGameInfo");
   let { game_slug, room_slug, mode } = useParams();
   const [tabIndex, setTabIndex] = useState(1);
 
@@ -98,10 +107,6 @@ function GameInfo({}) {
     };
   }, []);
 
-  if (loadingGameInfo) {
-    // return <Box h="1000rem"></Box>;
-  }
-
   const myObserver = new ResizeObserver((entries) => {
     onResize();
   });
@@ -123,154 +128,150 @@ function GameInfo({}) {
   };
 
   return (
-    <VStack w="100%" spacing="0" padding="0">
-      <GameHeader />
-      {/* <GameActionBar /> */}
-      <Tabs
-        isLazy
-        bgColor="gray.925"
-        colorScheme="brand"
-        variant="brand"
-        w="100%"
-        display="flex"
-        spacing="0"
-        justifyContent={"center"}
-        alignItems={"center"}
-        flexDir={"column"}
+    <Tabs
+      isLazy
+      bgColor="gray.925"
+      colorScheme="brand"
+      variant="brand"
+      w="100%"
+      display="flex"
+      spacing="0"
+      justifyContent={"center"}
+      alignItems={"center"}
+      flexDir={"column"}
+      p="0"
+      defaultIndex={1}
+      ref={targetRef}
+      value={tabIndex}
+      // onChange={handleTabsChange}
+    >
+      <TabList
+        // onClick={executeScroll}
+        ref={scrollRef}
+        // w="100%"
+        maxW={["100%", "100%", "100%", "95%", "70%", "70%"]}
         p="0"
-        defaultIndex={1}
-        ref={targetRef}
-        value={tabIndex}
-        // onChange={handleTabsChange}
+        pt="1rem"
+        px="3rem"
+        gap="0"
+        spacing="0"
       >
-        <TabList
-          // onClick={executeScroll}
-          ref={scrollRef}
-          // w="100%"
-          maxW={["100%", "100%", "100%", "95%", "70%", "70%"]}
-          p="0"
-          pt="1rem"
-          px="3rem"
-          gap="0"
-          spacing="0"
-        >
-          <HStack ref={tablistRef} spacing="0">
-            {/* <Box
-              ref={borderRef}
-              // _before={{
-              content="''"
-              width="80rem"
-              position="absolute"
-              bottom="0"
-              left="3rem"
-              // width: "100%"
-              height="2px"
-              background="linear-gradient(to right, var(--chakra-colors-gray-300),  var(--chakra-colors-gray-925))"
-              // }}
-            ></Box> */}
-            <Tab
-              onClick={(e) => {
-                e.target.scrollIntoView({
-                  behavior: "smooth",
-                  block: "nearest",
-                });
-                handleTabsChange(0);
-              }}
-            >
-              Watch
-            </Tab>
-            <Tab
-              onClick={(e) => {
-                e.target.scrollIntoView({
-                  behavior: "smooth",
-                  block: "nearest",
-                });
-                handleTabsChange(1);
-              }}
-            >
-              Leaderboard
-            </Tab>
-            <Tab
-              onClick={(e) => {
-                e.target.scrollIntoView({
-                  behavior: "smooth",
-                  block: "nearest",
-                });
-                handleTabsChange(2);
-              }}
-            >
-              Tournaments
-            </Tab>
-            {/* <Tab>Private Server</Tab> */}
-            <Tab
-              onClick={(e) => {
-                e.target.scrollIntoView({
-                  behavior: "smooth",
-                  block: "nearest",
-                });
-                handleTabsChange(3);
-              }}
-            >
-              Achievements
-            </Tab>
-            <Tab
-              onClick={(e) => {
-                e.target.scrollIntoView({
-                  behavior: "smooth",
-                  block: "nearest",
-                });
-                handleTabsChange(4);
-              }}
-            >
-              Career
-            </Tab>
-            <Tab
-              onClick={(e) => {
-                e.target.scrollIntoView({
-                  behavior: "smooth",
-                  block: "nearest",
-                });
-                handleTabsChange(5);
-              }}
-            >
-              Items
-            </Tab>
-            <Tab
-              onClick={(e) => {
-                e.target.scrollIntoView({
-                  behavior: "smooth",
-                  block: "nearest",
-                });
-                handleTabsChange(6);
-              }}
-              mr={["1rem", "0"]}
-            >
-              Description
-            </Tab>
-          </HStack>
-        </TabList>
-        <TabPanels w="100%">
-          <TabPanel w="100%">
-            <GameInfoReplay game_slug={game_slug} />
-          </TabPanel>
+        <HStack ref={tablistRef} spacing="0">
+          {/* <Box
+          ref={borderRef}
+          // _before={{
+          content="''"
+          width="80rem"
+          position="absolute"
+          bottom="0"
+          left="3rem"
+          // width: "100%"
+          height="2px"
+          background="linear-gradient(to right, var(--chakra-colors-gray-300),  var(--chakra-colors-gray-925))"
+          // }}
+        ></Box> */}
+          <Tab
+            onClick={(e) => {
+              e.target.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+              handleTabsChange(0);
+            }}
+          >
+            Watch
+          </Tab>
+          <Tab
+            onClick={(e) => {
+              e.target.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+              handleTabsChange(1);
+            }}
+          >
+            Leaderboard
+          </Tab>
+          <Tab
+            onClick={(e) => {
+              e.target.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+              handleTabsChange(2);
+            }}
+          >
+            Tournaments
+          </Tab>
+          {/* <Tab>Private Server</Tab> */}
+          <Tab
+            onClick={(e) => {
+              e.target.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+              handleTabsChange(3);
+            }}
+          >
+            Achievements
+          </Tab>
+          <Tab
+            onClick={(e) => {
+              e.target.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+              handleTabsChange(4);
+            }}
+          >
+            Career
+          </Tab>
+          <Tab
+            onClick={(e) => {
+              e.target.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+              handleTabsChange(5);
+            }}
+          >
+            Items
+          </Tab>
+          <Tab
+            onClick={(e) => {
+              e.target.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+              });
+              handleTabsChange(6);
+            }}
+            mr={["1rem", "0"]}
+          >
+            Description
+          </Tab>
+        </HStack>
+      </TabList>
+      <TabPanels w="100%">
+        <TabPanel w="100%">
+          <GameInfoReplay game_slug={game_slug} />
+        </TabPanel>
 
-          <TabPanel w="100%">
-            <GameLeaderboard />
-          </TabPanel>
-          <TabPanel w="100%"></TabPanel>
-          <TabPanel w="100%">
-            <GameActiveAchievements />
-          </TabPanel>
-          <TabPanel>
-            <GameStats />
-          </TabPanel>
-          <TabPanel w="100%"></TabPanel>
-          {/* <TabPanel w="100%"></TabPanel> */}
-          <TabPanel w="100%">
-            <GameDescription />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </VStack>
+        <TabPanel w="100%">
+          <GameLeaderboard />
+        </TabPanel>
+        <TabPanel w="100%"></TabPanel>
+        <TabPanel w="100%">
+          <GameActiveAchievements />
+        </TabPanel>
+        <TabPanel>
+          <GameStats />
+        </TabPanel>
+        <TabPanel w="100%"></TabPanel>
+        {/* <TabPanel w="100%"></TabPanel> */}
+        <TabPanel w="100%">
+          <GameDescription />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 }

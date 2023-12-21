@@ -121,10 +121,10 @@ export async function sendChatMessage() {
     if (!message)
         return false;
 
-    let lastChatSent = fs.get('lastChatSent');
-    if (lastChatSent && Date.now() - lastChatSent < 3000) {
-        return false;
-    }
+    // let lastChatSent = fs.get('lastChatSent');
+    // if (lastChatSent && Date.now() - lastChatSent < 3000) {
+    //     return false;
+    // }
 
 
     let game = fs.get('game');

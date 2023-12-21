@@ -9,11 +9,12 @@ import { useEffect, useState } from "react";
 export default function PlayNowButton({}) {
   let location = useLocation();
 
+  let { game_slug } = useParams();
   let [checkingUserLogin] = fs.useWatch("checkingUserLogin");
   let [game] = fs.useWatch("game");
   let [queues] = fs.useWatch("queues");
   let [joinButtonVisible] = fs.useWatch("joinButtonVisible");
-  let [inQueue, setInQueue] = useState(null);
+  let [show, setShow] = useState(false);
 
   let [primaryId] = fs.useWatch("primaryGamePanel");
   let gamepanel = getPrimaryGamePanel();
@@ -36,15 +37,22 @@ export default function PlayNowButton({}) {
     joinGame(game);
   };
 
-  if (
-    checkingUserLogin ||
-    joinButtonVisible ||
-    queue != null ||
-    !game ||
-    !game.game_slug
-  ) {
-    return <></>;
-  }
+  useEffect(() => {
+    if (
+      !game_slug ||
+      joinButtonVisible ||
+      queue != null ||
+      !game ||
+      !game.game_slug ||
+      game.game_slug != game_slug
+    ) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+  });
+
+  if (!show) return <></>;
 
   return (
     <VStack

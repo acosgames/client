@@ -3,6 +3,7 @@ import {
   HStack,
   Heading,
   IconButton,
+  Image,
   Portal,
   Tab,
   TabList,
@@ -13,7 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import Scoreboard from "./Scoreboard.jsx";
+import Scoreboard from "./Scoreboard/Scoreboard";
 import SocialPanel from "../../layout/components/social/SocialPanel.jsx";
 import UserPanel from "../../layout/components/userpanel/UserPanel.jsx";
 import ChatPanel from "../../layout/components/chat/ChatPanel.jsx";
@@ -21,7 +22,7 @@ import WaitingPanel from "../../layout/components/queue/WaitingPanel.jsx";
 import fs from "flatstore";
 import ChatSend from "../../layout/components/chat/ChatSend.jsx";
 import { GoDotFill } from "react-icons/go";
-
+import config from "../../config";
 import { BsLayoutSidebarInsetReverse } from "@react-icons";
 import { useEffect, useState } from "react";
 import GameActions from "./GameActions.jsx";
@@ -107,21 +108,38 @@ function Lobby({ layoutRef }) {
         // ]}
         spacing="0rem"
       >
+        {/* <Box
+          display={!hideDrawer ? "none" : "block"}
+          position="absolute"
+          bottom="0rem"
+          right={"30rem"}
+          w={["3rem", "5rem", "5rem"]}
+          height={["2rem", "4rem", "4rem"]}
+        >
+          <Image
+            alt={"A cup of skill logo"}
+            src={`${config.https.cdn}acos-logo-standalone-nov-2023.png`}
+            // maxHeight={"90%"}
+            objectFit={"cover"}
+            onClick={toggleRightbar}
+          />
+        </Box> */}
         <IconButton
+          // display={hideDrawer ? "none" : "block"}
           // onClick={onSubmit}
           role="group"
           position="absolute"
           bottom="1.5rem"
           right={"30rem"}
-          transition="all 0.3s ease"
+          transition="all 0.2s ease"
           bgColor="rgba(0,0,0,0.3)"
           py="1.5rem"
           px="0.5rem"
           borderRadius="0"
           borderTopLeftRadius="8px"
           borderBottomLeftRadius="8px"
-          zIndex="1"
-          icon={<GoDotFill size="0.8rem" />}
+          zIndex="9999"
+          icon={<GoDotFill size={hideDrawer ? "1.2rem" : "0.8rem"} />}
           // width="2.8rem"
           isRound="false"
           color={hideDrawer ? "gray.200" : "gray.0"}

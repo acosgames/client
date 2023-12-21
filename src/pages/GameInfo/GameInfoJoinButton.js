@@ -13,6 +13,7 @@ import config from '../../config'
 import RatingText from 'shared/util/ratingtext';
 
 import { useOnScreen, useVisibility2 } from '../../layout/Hooks';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -20,9 +21,11 @@ import { useOnScreen, useVisibility2 } from '../../layout/Hooks';
 function GameInfoJoinButton(props) {
 
     let ref = useRef();
-
+    let { game_slug } = useParams();
     useEffect(() => {
+        fs.set('joinButtonVisible', true);
         const observer = new window.IntersectionObserver(([entry]) => {
+            if (!game_slug) return;
             if (entry.isIntersecting) {
                 console.log('ENTER')
                 fs.set('joinButtonVisible', true);
@@ -36,6 +39,11 @@ function GameInfoJoinButton(props) {
         })
 
         observer.observe(ref.current);
+
+        return () => {
+            observer.disconnect();
+            // fs.set('joinButtonVisible', true);
+        }
     }, [])
     const handleJoin = async () => {
         setLastJoinType('rank');

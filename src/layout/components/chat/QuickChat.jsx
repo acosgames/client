@@ -14,6 +14,7 @@ import {
 } from "@react-icons";
 import { useEffect, useState } from "react";
 import { sendChatMessage } from "../../../actions/chat";
+import fs from "flatstore";
 
 export default function QuickChat({ degreeOffset, isOpen }) {
   let [show, setShow] = useState(false);
@@ -32,7 +33,7 @@ export default function QuickChat({ degreeOffset, isOpen }) {
 
   const onClickChatMessage = async (e, msg) => {
     console.log("Sending message: ", msg);
-    fs.set("chatMessage", value);
+    fs.set("chatMessage", msg);
     await sendChatMessage();
     // fs.set("chatMessage", "");
   };
