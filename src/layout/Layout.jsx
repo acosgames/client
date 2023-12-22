@@ -106,7 +106,7 @@ function Layout({ children }) {
       <Box
         className="layout"
         w={"100%"}
-        h={["auto", "100%"]}
+        h={["100%", "100%"]}
         overflow={["visible", "hidden"]}
         ref={gameResizer}
       >

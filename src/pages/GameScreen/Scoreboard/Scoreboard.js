@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   HStack,
   Heading,
@@ -17,7 +18,7 @@ import ratingtext from "shared/util/ratingtext";
 import config from "../../../config";
 
 import { motion, AnimatePresence } from "framer-motion";
-
+import RenderPlayer from './RenderPlayer';
 export default function Scoreboard({ }) {
   const scrollRef = useRef();
   const ChakraSimpleBar = chakra(SimpleBar);
@@ -93,10 +94,14 @@ function RenderPlayers({ }) {
 
   if (teams) {
     return (
-      <VStack w="100%" p="0.25rem" spacing="0.5rem">
-        <Heading as="h5" fontSize="1.6rem" py="0.5rem">
+      <VStack w="100%" p="0.25rem" spacing="0rem">
+        <Heading as="h5" fontSize="1.6rem" pt="0.5rem">
           {primary?.room?.name || "Unknown game"}
         </Heading>
+        <HStack w="100%">
+          <Box h="1px" flex="1"></Box>
+          <Text as="span" color="gray.300" fontSize="1.2rem" pr="1rem">Score</Text>
+        </HStack>
         <AnimatePresence>
           <RenderTeams players={players} teams={teams} />
         </AnimatePresence>
@@ -193,140 +198,22 @@ function RenderTeam({ players, team }) {
         key={"renderteam-player-" + shortid}
         shortid={shortid}
         {...player}
+        team={team}
       />
     );
   }
 
   return (
-    <VStack w="100%" py="0.5rem" pt="0" alignItems={"flex-start"}>
-      <Text pl="0.5rem" as="span">
+    <VStack w="100%" spacing="0" pb="0.5rem" alignItems={"flex-start"} >
+      <Text w="100%" bgColor="gray.1200" pl="0.5rem" as="span" fontWeight="300" py="0.5rem"
+        borderRight={team ? "2px solid" : ''}
+        borderRightColor={team ? team.color : ''}
+        color={team.color}
+      // textShadow={team.color ? '0 0 3px ' + team.color : ''}
+      >
         {team.name}
       </Text>
       {playerElems}
     </VStack>
   );
 }
-
-const RenderPlayer = ({ name, portraitid, rating, countrycode, score }) => {
-  let filename = `assorted-${portraitid || 1}-thumbnail.webp`;
-  let ratingClass = ratingtext.ratingToRank(rating);
-
-  let [primaryId] = fs.useWatch("primary/players");
-
-  const HStackMotion = motion(HStack);
-  return (
-    <motion.div
-      key={"motion-" + name}
-      // initial={{ opacity: 0, scale: 0 }}
-      // animate={{ opacity: 1, scale: 1 }}
-      // exit={{ opacity: 0, scale: 0 }}
-      layout
-      style={{ width: "100%" }}
-    >
-      <HStack
-        w="99%"
-        mx="0.5rem"
-        mr="1rem"
-        spacing="1rem"
-        // justifyContent={"flex-start"}
-        // alignItems={"flex-start"}
-        bgColor="gray.1050"
-        borderRadius="8px"
-        overflow="hidden"
-        transform="skew(-15deg)"
-      // clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
-      >
-        <Image
-          display="inline-block"
-          src={`${config.https.cdn}images/portraits/${filename}`}
-          loading="lazy"
-          borderRadius={"8px"}
-          maxHeight="100%"
-          w="5.5rem"
-          // mb="1rem"
-          position="relative"
-          zIndex="2"
-          transform="skew(15deg)"
-        // border="1px solid"
-        // borderColor={player.ready ? "brand.100" : "brand.900"}
-        />
-        <VStack
-          w="100%"
-          alignItems={"flex-start"}
-          justifyContent={"flex-start"}
-          spacing="0"
-          pr="0.5rem"
-          flex="1"
-          transform="skew(15deg)"
-        >
-          <HStack w="100%">
-            <Text
-              as="span"
-              textAlign={"center"}
-              color="gray.0"
-              fontWeight="600"
-              fontSize={["1.4rem"]}
-              maxW={["19rem"]}
-              overflow="hidden"
-              whiteSpace={"nowrap"}
-              textOverflow={"ellipsis"}
-            >
-              {name}
-            </Text>
-            <Image
-              src={`${config.https.cdn}images/country/${countrycode}.svg`}
-              // mt="0.5rem"
-              borderColor="gray.100"
-              borderRadius="0px"
-              width="2rem"
-              filter="opacity(0.8)"
-            />
-          </HStack>
-          <HStack
-            spacing="1rem"
-            alignSelf={"flex-start"}
-            justifyContent={"flex-start"}
-            w="100%"
-          // w="20rem"
-          >
-            <VStack alignItems={"flex-start"} w="8rem">
-              <Text
-                as="span"
-                color="gray.100"
-                fontWeight="500"
-                fontSize="1.2rem"
-                lineHeight={"1.0rem"}
-              //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
-              >
-                Class {ratingClass}
-              </Text>
-              {/* <Text
-              as="span"
-              color="gray.100"
-              fontWeight="500"
-              fontSize="1.2rem"
-              lineHeight={"1.3rem"}
-              //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
-            >
-              {player.rating}
-            </Text> */}
-            </VStack>
-          </HStack>
-          <HStack
-            position="relative"
-            top="-1rem"
-            h="100%"
-            w="100%"
-            justifyContent={"flex-end"}
-            alignItems={"center"}
-            pr="1rem"
-          >
-            <Text as="span" fontSize="1.6rem">
-              {score}
-            </Text>
-          </HStack>
-        </VStack>
-      </HStack>
-    </motion.div>
-  );
-};

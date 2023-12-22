@@ -25,13 +25,9 @@ import {
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { loadUserGameData } from "../../actions/person.js";
-import GameTag from "../../layout/components/game/GameTag.jsx";
 
 import GameInfoReplay from "./GameInfoReplay.js";
 
-import PlayNowBG from "../../assets/images/dark-green-2790337_640.png";
-import GameInfoTop10 from "./GameInfoTop10.js";
-import GameActionBar from "./GameActionBar.js";
 import GameHeader from "./GameHeader.js";
 import GameDescription from "./GameDescription.js";
 import GameLeaderboard from "./GameLeaderboard.js";

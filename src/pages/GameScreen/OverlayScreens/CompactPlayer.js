@@ -6,11 +6,12 @@ import ratingtext from "shared/util/ratingtext";
 import { FaCheck } from '@react-icons';
 import { motion } from 'framer-motion';
 
-export default function CompactPlayer({ player, index }) {
+export default function CompactPlayer({ player, index, delay }) {
     let [screenRect] = fs.useWatch("screenRect");
     let filename = `assorted-${player.portraitid || 1}-thumbnail.webp`;
 
     let ratingClass = ratingtext.ratingToRank(player.rating);
+    delay = delay || 0;
 
     let HStackMotion = motion(HStack);
     return (
@@ -19,7 +20,7 @@ export default function CompactPlayer({ player, index }) {
             initial={{ x: -100, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{
-                delay: index * 0.1
+                delay: delay + (index * 0.1)
             }}
         >
             <HStack

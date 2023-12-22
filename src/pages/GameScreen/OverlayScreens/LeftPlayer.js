@@ -9,12 +9,14 @@ export default function LeftPlayer({ player, isLeft }) {
     let [screenRect] = fs.useWatch("screenRect");
     let filename = `assorted-${player.portraitid || 1}-original.webp`;
 
+    let user = fs.get('user');
+
     let ratingClass = ratingtext.ratingToRank(player.rating);
     return (
         <HStack
             // width="100%"
             //   maxHeight="15rem"
-            pt="1rem"
+            // pt="1rem"
             position="relative"
             transition="1s"
             //   py="2rem"
@@ -22,9 +24,10 @@ export default function LeftPlayer({ player, isLeft }) {
             spacing="0"
             transform={isLeft ? "translate(-100vw, 0)" : "translate(100vw, 0)"}
             animation={isLeft ? "fromLeftNoSkew 0.6s forwards 0.2s" : "fromRightNoSkew 0.6s forwards 0.2s"}
-            borderRadius="12px"
+            // borderRadius="12px"
             overflow="hidden"
             zIndex="1"
+            boxShadow={user.displayname == player.name ? isLeft ? '0 0 10px var(--chakra-colors-gray-100)' : '0 0 10px var(--chakra-colors-gray-500)' : "gray.1200"}
         >
             <Image
                 display="inline-block"
@@ -40,7 +43,7 @@ export default function LeftPlayer({ player, isLeft }) {
             // borderColor={player.ready ? "brand.100" : "brand.900"}
             />
             <VStack alignItems={"flex-start"} spacing="0" minWidth={["20rem", "22rem", "25rem", "30rem"]}>
-                <HStack flex="1" w="100%" h="4rem" minHeight="4rem" p="1rem" spacing='0' bgColor="gray.1200">
+                <HStack flex="1" w="100%" h="5rem" minHeight="5rem" p="1rem" spacing='0' bgColor="gray.1200">
 
                     <Text
                         as="span"
@@ -63,7 +66,7 @@ export default function LeftPlayer({ player, isLeft }) {
                     </Text>
                     <HStack
                         spacing="1rem"
-                        alignSelf={"flex-start"}
+                        // alignSelf={"flex-start"}
                         // pl="0.5rem"
                         justifyContent={"flex-start"}
                         // w="20rem"

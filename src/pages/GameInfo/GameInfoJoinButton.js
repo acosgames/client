@@ -42,7 +42,6 @@ function GameInfoJoinButton(props) {
 
         return () => {
             observer.disconnect();
-            // fs.set('joinButtonVisible', true);
         }
     }, [])
     const handleJoin = async () => {
