@@ -78,7 +78,7 @@ export default function GameActions() {
       pb="1.25rem"
       w="100%"
       // bg="linear-gradient(to right, var(--chakra-colors-gray-1200), var(--chakra-colors-gray-900))"
-      bgColor="black"
+      bgColor="gray.925"
       justifyContent={"center"}
       alignItems={"center"}
     >

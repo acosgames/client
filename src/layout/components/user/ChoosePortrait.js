@@ -109,7 +109,7 @@ function ChoosePortrait(props) {
                 <ModalOverlay />
                 <ModalContent bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))" borderRadius="8px" bgColor="gray.800">
                     <ModalHeader color="gray.10" fontWeight={'600'} textAlign={"center"} fontSize="1.6rem" pb="0" py="1rem">Choose your Champion</ModalHeader>
-                    <ModalCloseButton />
+                    <ModalCloseButton top="1rem" right="1rem" />
                     <ModalBody overflow="hidden"
                         position="relative" w="100%" h="100%" >
                         <VStack

@@ -28,16 +28,16 @@ export default function RenderPlayer({ name, portraitid, rating, countrycode, sc
                 w="100%"
                 // mx="0.5rem"
                 // mr="1rem"
-                spacing="1rem"
+                spacing="0rem"
                 // justifyContent={"flex-start"}
                 // alignItems={"flex-start"}
-                bgColor="gray.1050"
+                bgColor="gray.1200"
                 // borderRadius="8px"
                 borderRightRadius={'0'}
                 overflow="hidden"
 
-                borderRight={team ? "2px solid" : ''}
-                borderRightColor={team ? team.color : ''}
+            // borderRight={team ? "2px solid" : ''}
+            // borderRightColor={team ? team.color : ''}
 
             // transform="skew(-15deg)"
             // clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
@@ -66,13 +66,15 @@ export default function RenderPlayer({ name, portraitid, rating, countrycode, sc
                     flex="1"
                 // transform="skew(15deg)"
                 >
-                    <HStack w="100%">
+                    <HStack w="100%"
+                        pl="1rem">
                         <Text
                             as="span"
                             textAlign={"center"}
                             color="gray.0"
                             fontWeight="600"
                             fontSize={["1.4rem"]}
+                            lineHeight={'1.4rem'}
                             maxW={["19rem"]}
                             overflow="hidden"
                             whiteSpace={"nowrap"}
@@ -95,6 +97,8 @@ export default function RenderPlayer({ name, portraitid, rating, countrycode, sc
                         alignSelf={"flex-start"}
                         justifyContent={"flex-start"}
                         w="100%"
+                        pb="0.5rem"
+                        pl="1rem"
                     // w="20rem"
                     >
                         <VStack alignItems={"flex-start"} w="8rem">
@@ -128,6 +132,9 @@ export default function RenderPlayer({ name, portraitid, rating, countrycode, sc
                         justifyContent={"flex-end"}
                         alignItems={"center"}
                         pr="1rem"
+                        bgColor="gray.1050"
+                    // borderTop="1px solid"
+                    // borderTopColor="gray.100"
                     >
                         <Text as="span" fontSize="1.6rem">
                             {score}

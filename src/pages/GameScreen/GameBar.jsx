@@ -99,7 +99,7 @@ function Lobby({ layoutRef }) {
         transition="all 0.3s ease"
         h={["100vh", "100vh"]}
         zIndex={1001}
-        bgColor="black"
+        bgColor="gray.925"
         pb="0.5rem"
         // borderLeft={["0", "1px solid var(--chakra-colors-gray-950)"]}
         // boxShadow={[
@@ -157,7 +157,7 @@ function Lobby({ layoutRef }) {
           height="100%"
           overflow="hidden"
           position="relative"
-          bg="transparent"
+          bg="gray.925"
           index={tabIndex}
           onChange={(tabIndex) => {
             // console.log(tabIndex);

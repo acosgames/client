@@ -171,7 +171,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                     <ModalHeader color="gray.10" fontWeight={'600'} textAlign={"center"} fontSize="1.6rem" pb="0" py="1rem">
                         {user && !user.email ? 'Save your profile' : 'Create Champion'}
                     </ModalHeader>
-                    <ModalCloseButton fontSize="1rem" />
+                    <ModalCloseButton top="1rem" right="1rem" />
                     <ModalBody >
                         <VStack spacing="1rem" w="100%">
                             {/* <FSGGroup bgColor="gray.1100"> */}

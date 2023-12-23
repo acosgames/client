@@ -16,7 +16,7 @@ export function TopHalf() {
             bg={`url("${config.https.cdn}acos-logo-background-repeat6.png") bottom 10px left, linear-gradient(to bottom, var(--chakra-colors-gray-750) 90%, var(--chakra-colors-gray-900))`}
             transform={"translate(-300vw, 0) skewY(-30deg)"}
 
-            opacity="0.5"
+            // opacity="0.5"
             animation={"fromLeft 0.6s forwards 0s"}
         >
             {/* <LineSpawner direction={"left"} bgColor="gray.1000" /> */}
@@ -36,9 +36,9 @@ export function BottomHalf() {
             transform={"translate(300vw, 0) skewY(-30deg)"}
             animation={"fromRight 0.6s forwards 0s"}
             bgColor="gray.1000"
-            opacity="0.5"
+            // opacity="0.5"
 
-            bg={`url("${config.https.cdn}acos-logo-background-repeat7.png") top 10px left`}
+            bg={`url("${config.https.cdn}acos-logo-background-repeat7.png") top 10px left, var(--chakra-colors-gray-1000)`}
         >
             {" "}
             {/* <LineSpawner direction={"right"} bgColor="gray.900" /> */}

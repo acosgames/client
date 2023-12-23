@@ -162,6 +162,9 @@ function RenderTeams({ players, teams }) {
   let teamList = Object.keys(teams);
   let teamElems = [];
 
+  if (teams)
+    teams[teamList[0]].score = 10;
+
   teamList.sort((a, b) => {
     let teamA = teams[a];
     let teamB = teams[b];
@@ -190,6 +193,22 @@ function RenderTeams({ players, teams }) {
 
 function RenderTeam({ players, team }) {
   let playerElems = [];
+
+
+  team.players.sort((a, b) => {
+    let playerA = players[a];
+    let playerB = players[b];
+    if (playerA.score == playerB.score) {
+      if (sort) return playerB.name.localeCompare(playerA.name);
+      return playerA.name.localeCompare(playerB.name);
+    }
+
+    if (sort) return playerA.score - playerB.score;
+
+    return playerB.score - playerA.score;
+  });
+
+
   for (let i = 0; i < team.players.length; i++) {
     let shortid = team.players[i];
     let player = players[shortid];
@@ -203,17 +222,26 @@ function RenderTeam({ players, team }) {
     );
   }
 
+
+
   return (
-    <VStack w="100%" spacing="0" pb="0.5rem" alignItems={"flex-start"} >
-      <Text w="100%" bgColor="gray.1200" pl="0.5rem" as="span" fontWeight="300" py="0.5rem"
-        borderRight={team ? "2px solid" : ''}
-        borderRightColor={team ? team.color : ''}
+    <VStack w="100%" spacing="0" mb="0.5rem" alignItems={"flex-start"}
+    >
+      <Text w="100%"
+        // bgColor="gray.1200" 
+        pl="0.5rem" as="span" fontWeight="300" py="0.5rem"
         color={team.color}
+        opacity="0.7"
       // textShadow={team.color ? '0 0 3px ' + team.color : ''}
       >
         {team.name}
       </Text>
-      {playerElems}
+      <Box
+        w="100%"
+        borderRight={team ? "2px solid" : ''}
+        borderRightColor={team ? team.color : ''}>
+        {playerElems}
+      </Box>
     </VStack>
   );
 }

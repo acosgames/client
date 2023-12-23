@@ -362,7 +362,7 @@ function GameIFrame(props) {
                 // filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
 
                 className={'gameResizer'}
-                bgColor={'black'}
+                bgColor={'gray.925'}
             >
                 {/* <LoadingBox isDoneLoading={gamepanel.loaded} /> */}
                 <VStack

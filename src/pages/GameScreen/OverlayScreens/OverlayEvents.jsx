@@ -26,6 +26,7 @@ import PregameTimer from "./PregameTimer";
 import { BottomHalf, TopHalf, Vs } from "./Vs";
 import CompactPlayer from "./CompactPlayer";
 import { AnimatePresence, motion } from "framer-motion";
+import ModalGameOver from "./ModalGameOver";
 
 export default function OverlayEvents({ gamepanelid, layoutRef }) {
   let [gamepanel] = fs.useWatch("gamepanel/" + gamepanelid);
@@ -64,60 +65,92 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
   let isPrimary = gamepanel.isPrimary;
   let roomStatus = getRoomStatus(room_slug);
 
-  if (isGameover)
+  if (isGameover || gamepanel.forfeit)
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          // backgroundColor: "rgba(0,0,0,1)",
-          width: "100%",
-          height: "60%",
-          position: "absolute",
-          zIndex: 101,
-        }}
-      >
-        <OverlayGameOver
-          gamepanel={gamepanel}
-          players={players}
-          teams={teams}
-          status={status}
-        />
-      </motion.div>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            // backgroundColor: "rgba(0,0,0,1)",
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            zIndex: 101,
+          }}
+        >
+          <OverlayGameOver
+            gamepanel={gamepanel}
+            players={players}
+            teams={teams}
+            status={status}
+          />
+        </motion.div>
+        <motion.div
+          // initial={{ opacity: 0 }}
+          // animate={{ opacity: 1 }}
+          // transition={{ duration: 0.3 }}
+          style={{
+            backgroundColor: "gray.925",
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            zIndex: 100,
+          }}
+        >
+          <Box w="100%" h="100%" bgColor="gray.925"></Box>
+        </motion.div>
+      </AnimatePresence>
     );
   if (isGamestart) return <></>;
   const onClickMessage = () => {};
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-      style={{
-        backgroundColor: "rgba(0,0,0,1)",
-        width: "100%",
-        height: "100%",
-        position: "absolute",
-        zIndex: 101,
-      }}
-    >
-      <Box
-        display={"block"}
-        width={"100%"}
-        height="100%"
-        position="relative"
-        color="gray.100"
-        zIndex={1002}
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        style={{
+          backgroundColor: "gray.925",
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          zIndex: 101,
+        }}
       >
-        <OverlayPregame
-          gamepanel={gamepanel}
-          players={players}
-          teams={teams}
-          status={status}
-        />
-      </Box>
-    </motion.div>
+        <Box
+          display={"block"}
+          width={"100%"}
+          height="100%"
+          position="relative"
+          color="gray.100"
+          zIndex={1002}
+        >
+          <OverlayPregame
+            gamepanel={gamepanel}
+            players={players}
+            teams={teams}
+            status={status}
+          />
+        </Box>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2 }}
+        style={{
+          backgroundColor: "gray.925",
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          zIndex: 100,
+        }}
+      >
+        <Box w="100%" h="100%" bgColor="gray.925"></Box>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -130,6 +163,14 @@ const MotionBox = motion(Box);
 // );
 const MotionVStack = motion(VStack);
 function OverlayGameOver({ gamepanel, players, teams, status }) {
+  return (
+    <ModalGameOver
+      gamepanel={gamepanel}
+      players={players}
+      teams={teams}
+      status={status}
+    />
+  );
   return (
     <MotionVStack
       position="relative"

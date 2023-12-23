@@ -4,8 +4,11 @@ import fs from 'flatstore';
 import config from '../../../config';
 import ratingtext from "shared/util/ratingtext";
 import { FaCheck } from '@react-icons';
+import { motion } from 'framer-motion';
 
-export default function LeftPlayer({ player, isLeft }) {
+const MotionHStack = motion(HStack);
+
+export default function LeftPlayer({ player, isLeft, ignoreLocal, initial, animate, transition }) {
     let [screenRect] = fs.useWatch("screenRect");
     let filename = `assorted-${player.portraitid || 1}-original.webp`;
 
@@ -13,21 +16,25 @@ export default function LeftPlayer({ player, isLeft }) {
 
     let ratingClass = ratingtext.ratingToRank(player.rating);
     return (
-        <HStack
+        <MotionHStack
             // width="100%"
             //   maxHeight="15rem"
             // pt="1rem"
             position="relative"
-            transition="1s"
+            // transition="1s"
             //   py="2rem"
             justifyContent={"center"}
             spacing="0"
-            transform={isLeft ? "translate(-100vw, 0)" : "translate(100vw, 0)"}
-            animation={isLeft ? "fromLeftNoSkew 0.6s forwards 0.2s" : "fromRightNoSkew 0.6s forwards 0.2s"}
+            // transform={isLeft ? "translate(-100vw, 0)" : "translate(100vw, 0)"}
+            // animation={isLeft ? "fromLeftNoSkew 0.6s forwards 0.2s" : "fromRightNoSkew 0.6s forwards 0.2s"}
+
+            initial={initial || { x: isLeft ? '-100vw' : '100vw' }}
+            animate={animate || { x: 0 }}
+            transition={transition || { delay: 0.2 }}
             // borderRadius="12px"
             overflow="hidden"
             zIndex="1"
-            boxShadow={user.displayname == player.name ? isLeft ? '0 0 10px var(--chakra-colors-gray-100)' : '0 0 10px var(--chakra-colors-gray-500)' : "gray.1200"}
+            boxShadow={user.displayname == player.name && !ignoreLocal ? isLeft ? '0 0 10px var(--chakra-colors-gray-100)' : '0 0 10px var(--chakra-colors-gray-500)' : "gray.1200"}
         >
             <Image
                 display="inline-block"
@@ -162,6 +169,6 @@ export default function LeftPlayer({ player, isLeft }) {
                 </HStack>
 
             </VStack>
-        </HStack>
+        </MotionHStack>
     );
 }

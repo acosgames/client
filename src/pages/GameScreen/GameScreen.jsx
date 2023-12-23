@@ -14,6 +14,7 @@ export default function GameScreen({ layoutRef }) {
   let [hideDrawer] = fs.useWatch("hideDrawer");
   let [isMobile] = fs.useWatch("isMobile");
   let [screenResized] = fs.useWatch("screenResized");
+
   let primary = getGamePanel(primaryId);
   // let ref = useRef();
 
@@ -32,9 +33,61 @@ export default function GameScreen({ layoutRef }) {
   // w -= w * 0.6;
   //   else w -= w * 0.6;
 
-  let ref = useRef();
-
   if (!primary) return <></>;
+
+  return (
+    <>
+      <OverlayEvents gamepanelid={primaryId} layoutRef={layoutRef} />
+
+      <Box
+        position="fixed"
+        top="0"
+        left="0"
+        zIndex="100"
+        width={
+          hideDrawer || (!hideDrawer && isMobile)
+            ? "100%"
+            : "calc(100% - 30rem)"
+        }
+        h={[`100%`]}
+        scrollSnapStop={"start"}
+        display="flex"
+        flexDir="row"
+        justifyContent={"center"}
+        transition="all 0.3s ease"
+      >
+        <motion.div
+          className="test"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 1 }}
+          style={{ backgroundColor: "gray.925" }}
+        >
+          <DisplayGamePanel
+            layoutRef={layoutRef}
+            hideDrawer={hideDrawer}
+            isMobile={isMobile}
+            primary={primary}
+            primaryId={primaryId}
+          />
+        </motion.div>
+      </Box>
+    </>
+  );
+}
+
+function DisplayGamePanel({
+  layoutRef,
+  hideDrawer,
+  isMobile,
+  primary,
+  // primaryId,
+}) {
+  let [primaryId] = fs.useWatch("primaryGamePanel");
+  let [gamestatus] = fs.useWatch("gamestatus/" + primaryId);
+
+  let ref = useRef();
 
   let elementHeight = layoutRef.current.clientHeight; // height with padding
   let elementWidth = layoutRef.current.clientWidth; // width with padding
@@ -51,89 +104,21 @@ export default function GameScreen({ layoutRef }) {
     primary.room.resoh,
     1
   );
-
   return (
-    <>
-      <OverlayEvents gamepanelid={primaryId} layoutRef={layoutRef} />
-
-      <Box
-        position="fixed"
-        top="0"
-        left="0"
-        //   width="100%"
-        //   height="100%"
-        zIndex="100"
-        width={
-          hideDrawer || (!hideDrawer && isMobile)
-            ? "100%"
-            : "calc(100% - 30rem)"
-        }
-        // pr={hideDrawer || (!hideDrawer && isMobile) ? "0" : "30rem"}
-        h={[`100vh`]}
-        // bgColor="black"
-        scrollSnapStop={"start"}
-        display="flex"
-        flexDir="row"
-        justifyContent={"center"}
-        transition="all 0.3s ease"
-        // initial={{ opacity: 0 }}
-        // animate={{ opacity: 1 }}
-        // exit={{ opacity: 0 }}
-        // transition={{ duration: 0.1 }}
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ delay: 2 }}
-          style={{ backgroundColor: "black" }}
-        >
-          <Box
-            width={[`${bgWidth}px`]}
-            h={[`${bgHeight}px`]}
-            // borderRadius={'12px'}
-            overflow="hidden"
-            // border="3px solid"
-            // borderColor="gray.1200"
-            borderRadius="4px"
-            ref={ref}
-            className={"canvasRef"}
-            scrollSnapStop={"start"}
-          >
-            <GamePanel id={primaryId} canvasRef={ref} hideDrawer={hideDrawer} />
-          </Box>
-          {/* <svg xmlns="http://www.w3.org/2000/svg" style={{
-        position: 'absolute', left: '10px', bottom: '-15px', fill: 'var(--chakra-colors-gray-1200)'
-      }}
-      width="30"
-      height="15"
-      viewBox="0 0 65 1">
-      <path d="M968,5630h65l-4,5H972Z" transform="translate(-968 -5630)"></path>
-    </svg> */}
-        </motion.div>
-      </Box>
-    </>
-
-    // <AnimatePresence>
-    // <MotionMemo
-    //   hideDrawer={hideDrawer}
-    //   isMobile={isMobile}
-    //   primaryId={primaryId}
-    //   layoutRef={layoutRef}
-    //   primary={primary}
-    // />
-    // </AnimatePresence>
+    <Box
+      // w="100%"
+      // h="100%"
+      width={[`${bgWidth}px`]}
+      h={[`${bgHeight}px`]}
+      overflow="hidden"
+      borderRadius="4px"
+      ref={ref}
+      className={"canvasRef"}
+      scrollSnapStop={"start"}
+      filter={primary.forfeit || !primary.active ? "blur(3px)" : ""}
+      // transition="filter 0.3s ease-out"
+    >
+      <GamePanel id={primaryId} canvasRef={ref} hideDrawer={hideDrawer} />
+    </Box>
   );
 }
-
-// const MotionMemo = memo(
-//   ({ hideDrawer, isMobile, primaryId, layoutRef, primary }) => {
-
-//     );
-//   },
-//   (prev, next) =>
-//     prev.layoutRef == next.layoutRef &&
-//     prev.primary.gamestate.room.updated ==
-//       next.primary.gamestate.room.updated &&
-//     prev.primaryId == next.primaryId
-// );

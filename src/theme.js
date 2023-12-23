@@ -17,7 +17,7 @@ const styles = {
         },
         'html, body': {
             //color: mode('gray.800', 'whiteAlpha.900')(props),
-            bg: 'gray.900',
+            bg: 'gray.925',
             color: 'gray.30',
             fontWeight: 500
         },
