@@ -39,6 +39,7 @@ import { BsLayoutSidebarInsetReverse } from "@react-icons";
 import GameScreen from "../pages/GameScreen/GameScreen.jsx";
 import { getGamePanel } from "../actions/room.js";
 import GameBar from "../pages/GameScreen/GameBar.jsx";
+import { AnimatePresence } from "framer-motion";
 function Layout({ children }) {
   // const history = useNavigate();
   // const location = useLocation();
@@ -206,7 +207,7 @@ function DesktopLayout({ children }) {
             <Footer />
           </ChakraSimpleBar>
         </Box>
-        <BarChooser layoutRef={layoutRef} />
+        <RightBar layoutRef={layoutRef} />
       </HStack>
     </Box>
   );

@@ -12,16 +12,18 @@ import {
 import { useEffect, useRef, useState, memo } from "react";
 import fs from "flatstore";
 import SimpleBar from "simplebar-react";
-import { getPrimaryGamePanel } from "../../../actions/room";
+import { findGamePanelByRoom, getPrimaryGamePanel } from "../../../actions/room";
 
 import ratingtext from "shared/util/ratingtext";
 import config from "../../../config";
 
 import { motion, AnimatePresence } from "framer-motion";
 import RenderPlayer from './RenderPlayer';
+const ChakraSimpleBar = chakra(SimpleBar);
+const MotionVStack = motion(VStack);
+
 export default function Scoreboard({ }) {
   const scrollRef = useRef();
-  const ChakraSimpleBar = chakra(SimpleBar);
 
   return (
     <VStack
@@ -29,7 +31,7 @@ export default function Scoreboard({ }) {
       h={["100%"]}
       spacing="0"
       position="relative"
-      overflow="hidden"
+      // overflow="hidden"
       flex="1"
       // mb="0.5rem"
       // pt="0.5rem"
@@ -43,7 +45,7 @@ export default function Scoreboard({ }) {
         boxSizing="border-box"
         spacing="0rem"
         position="relative"
-        overflow="hidden"
+        // overflow="hidden"
         flex="1"
         mb="0"
         pb="0"
@@ -62,7 +64,7 @@ export default function Scoreboard({ }) {
             width: "100%",
             height: "auto",
             flex: "1",
-            overflow: "hidden scroll",
+            overflow: "visible scroll",
             boxSizing: "border-box",
           }}
           scrollableNodeProps={{ ref: scrollRef }}
@@ -74,11 +76,16 @@ export default function Scoreboard({ }) {
   );
 }
 
-function RenderPlayers({ }) {
+export function RenderPlayers({ room_slug }) {
   // const [parent, enableAnimations] = useAutoAnimate();
-  let [primaryId] = fs.useWatch("primaryGamePanel");
-  let [primaryPlayers] = fs.useWatch("primary/players");
   let primary = getPrimaryGamePanel();
+  let id = primary?.id;
+  if (room_slug) {
+    primary = findGamePanelByRoom(room_slug);
+    id = primary.id
+  }
+  let [primaryId] = fs.useWatch("gamepanel/" + id);
+  // let [primaryPlayers] = fs.useWatch("gamestatusUpdated");
 
   let [sort, setSorted] = useState(false);
 
@@ -86,7 +93,7 @@ function RenderPlayers({ }) {
   //   enableAnimations(true);
   // }, []);
 
-  if (!primary) return;
+  if (!primary) return <></>;
 
   let gamestate = primary.gamestate;
   let players = gamestate.players;
@@ -94,23 +101,25 @@ function RenderPlayers({ }) {
 
   if (teams) {
     return (
-      <VStack w="100%" p="0.25rem" spacing="0rem">
-        <Heading as="h5" fontSize="1.6rem" pt="0.5rem">
+      <VStack w="100%" p="0.25rem" spacing="0.25rem">
+        <Heading display={primary.room.isReplay ? 'none' : 'block'} as="h5" fontSize="1.5rem" color="gray.20" fontWeight="600"
+          pt="0.5rem"
+        >
           {primary?.room?.name || "Unknown game"}
         </Heading>
-        <HStack w="100%">
+        <HStack w="100%" lineHeight="1rem">
           <Box h="1px" flex="1"></Box>
-          <Text as="span" color="gray.300" fontSize="1.2rem" pr="1rem">Score</Text>
+          <Text as="span" color="gray.300" fontWeight="300" fontSize="1.1rem" pr="1rem">Score</Text>
         </HStack>
         <AnimatePresence>
-          <RenderTeams players={players} teams={teams} />
+          <RenderTeams gamepanelid={id} players={players} teams={teams} />
         </AnimatePresence>
       </VStack>
-    );
+    )
   }
 
   let playerElems = [];
-  let playerList = Object.keys(players);
+  let playerList = Object.keys(players || {});
 
   //sort from highest to lowest
   playerList.sort((a, b) => {
@@ -144,13 +153,15 @@ function RenderPlayers({ }) {
         setSorted(!sort);
       }}
     >
-      <Heading as="h5" fontSize="1.6rem" py="0.5rem">
+      <Heading display={primary.room.isReplay ? 'none' : 'block'} as="h5" fontSize="1.5rem" color="gray.20" fontWeight="600"
+        pt="0.5rem"
+      >
         {primary?.room?.name || "Unknown game"}
       </Heading>
       <AnimatePresence>
         {/* <LayoutGroup> */}
         {playerElems.map((player) => (
-          <RenderPlayer key={player.name} {...player} />
+          <RenderPlayer gamepanelid={id} key={player.name} {...player} />
         ))}
         {/* </LayoutGroup> */}
       </AnimatePresence>
@@ -158,7 +169,7 @@ function RenderPlayers({ }) {
   );
 }
 
-function RenderTeams({ players, teams }) {
+function RenderTeams({ gamepanelid, players, teams }) {
   let teamList = Object.keys(teams);
   let teamElems = [];
 
@@ -181,6 +192,7 @@ function RenderTeams({ players, teams }) {
 
     teamElems.push(
       <RenderTeam
+        gamepanelid={gamepanelid}
         key={"renderteams-" + team_slug}
         team={team}
         players={players}
@@ -191,7 +203,7 @@ function RenderTeams({ players, teams }) {
   return teamElems;
 }
 
-function RenderTeam({ players, team }) {
+function RenderTeam({ gamepanelid, players, team }) {
   let playerElems = [];
 
 
@@ -214,6 +226,7 @@ function RenderTeam({ players, team }) {
     let player = players[shortid];
     playerElems.push(
       <RenderPlayer
+        gamepanelid={gamepanelid}
         key={"renderteam-player-" + shortid}
         shortid={shortid}
         {...player}
@@ -225,23 +238,29 @@ function RenderTeam({ players, team }) {
 
 
   return (
-    <VStack w="100%" spacing="0" mb="0.5rem" alignItems={"flex-start"}
+    <MotionVStack layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} w="100%" spacing="0" mb="1rem" alignItems={"flex-start"}
     >
       <Text w="100%"
         // bgColor="gray.1200" 
-        pl="0.5rem" as="span" fontWeight="300" py="0.5rem"
-        color={team.color}
-        opacity="0.7"
+        pl="0.5rem" as="span"
+        fontWeight="300"
+        lineHeight={'1.4rem'}
+        pb="0.5rem"
+        color="gray.10"
+        fontSize="1.2rem"
+      // color={team.color}
+      // opacity="0.7"
       // textShadow={team.color ? '0 0 3px ' + team.color : ''}
       >
         {team.name}
       </Text>
       <Box
         w="100%"
-        borderRight={team ? "2px solid" : ''}
-        borderRightColor={team ? team.color : ''}>
+      // borderRight={team ? "2px solid" : ''}
+      // borderRightColor={team ? team.color : ''}>
+      >
         {playerElems}
       </Box>
-    </VStack>
+    </MotionVStack>
   );
 }

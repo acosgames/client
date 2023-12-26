@@ -9,6 +9,9 @@ import {
 } from "../../actions/room";
 import fs from "flatstore";
 import { joinGame } from "../../actions/game";
+import { AnimatePresence, motion } from "framer-motion";
+
+const MotionHStack = motion(HStack);
 
 export default function GameActions() {
   let [primaryId] = fs.useWatch("primaryGamePanel");
@@ -16,7 +19,7 @@ export default function GameActions() {
 
   let gamepanel = getPrimaryGamePanel();
 
-  if (!gamepanel) return <></>;
+  if (!gamepanel) return <AnimatePresence></AnimatePresence>;
 
   //   let primary = getGamePanel(primaryId);
   const room = gamepanel.room;
@@ -46,6 +49,7 @@ export default function GameActions() {
       // wsLeaveGame(game_slug, room_slug);
       clearRoom(room_slug);
       clearPrimaryGamePanel();
+      fs.set("showGameover", null);
     } else {
       setRoomForfeited(room_slug);
       wsLeaveGame(game_slug, room_slug);
@@ -61,6 +65,7 @@ export default function GameActions() {
 
     if (room.maxplayers == 1) fs.set("showLoadingBox/" + gamepanel.id, true);
 
+    fs.set("showGameover", null);
     fs.set("displayMode", "none");
     clearRoom(room_slug);
     // clearPrimaryGamePanel();
@@ -72,76 +77,79 @@ export default function GameActions() {
   };
 
   return (
-    <HStack
-      h="4rem"
-      pt="1rem"
-      pb="1.25rem"
-      w="100%"
-      // bg="linear-gradient(to right, var(--chakra-colors-gray-1200), var(--chakra-colors-gray-900))"
-      bgColor="gray.925"
-      justifyContent={"center"}
-      alignItems={"center"}
-    >
-      <Box>
-        <Button
-          // height="1.6rem"
-          borderRadius="4px"
-          display={!isGameover ? "block" : "none"}
-          fontSize={"xxs"}
-          bgColor={"gray.800"}
-          transform="skew(-15deg)"
-          boxShadow="3px 3px 0 var(--chakra-colors-red-600)"
-          _hover={{
-            boxShadow: "5px 3px 0 var(--chakra-colors-red-600)",
-          }}
-          onClick={onForfeit}
-        >
-          <Text as="span" transform="skew(15deg)">
-            Forfeit
-          </Text>
-        </Button>
-      </Box>
+    <AnimatePresence>
+      <MotionHStack
+        key={"game-actions-motion"}
+        layout
+        initial={{ x: 300 }}
+        animate={{ x: 0 }}
+        exit={{ x: 300 }}
+        transition={{ duration: 0.3 }}
+        position="relative"
+        h="4rem"
+        pt="1rem"
+        pb="1.25rem"
+        w="100%"
+        // bg="linear-gradient(to right, var(--chakra-colors-gray-1200), var(--chakra-colors-gray-900))"
+        bgColor="gray.925"
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Box>
+          <Button
+            // height="1.6rem"
+            borderRadius="4px"
+            display={!isGameover ? "block" : "none"}
+            fontSize={"xxs"}
+            bgColor={"gray.800"}
+            transform="skew(-15deg)"
+            boxShadow="3px 3px 0 var(--chakra-colors-red-600)"
+            _hover={{
+              boxShadow: "5px 3px 0 var(--chakra-colors-red-600)",
+            }}
+            onClick={onForfeit}
+          >
+            <Text as="span">Forfeit</Text>
+          </Button>
+        </Box>
 
-      <Box>
-        <Button
-          // height="1.6rem"
-          display={isGameover ? "block" : "none"}
-          fontSize={"xxs"}
-          bgColor={"gray.800"}
-          transform="skew(-15deg)"
-          boxShadow="3px 3px 0 var(--chakra-colors-red-600)"
-          _hover={{
-            boxShadow: "5px 3px 0 var(--chakra-colors-red-600)",
-          }}
-          onClick={onForfeit}
-        >
-          <Text as="span" transform="skew(15deg)">
-            Leave
-          </Text>
-        </Button>
-      </Box>
+        <Box>
+          <Button
+            // height="1.6rem"
+            display={isGameover ? "block" : "none"}
+            fontSize={"xxs"}
+            bgColor={"gray.800"}
+            transform="skew(-15deg)"
+            boxShadow="3px 3px 0 var(--chakra-colors-red-600)"
+            _hover={{
+              boxShadow: "5px 3px 0 var(--chakra-colors-red-600)",
+            }}
+            onClick={onForfeit}
+          >
+            <Text as="span">Leave</Text>
+          </Button>
+        </Box>
 
-      <Box display={isGameover ? "block" : "none"} ml="1rem">
-        <Button
-          // height="1.6rem"
-          fontSize={"xxs"}
-          // bgColor="brand.500"
-          // _hover={{ bg: "brand.600" }}
-          // _active={{ bg: "brand.900" }}
+        <Box display={isGameover ? "block" : "none"} ml="1rem">
+          <Button
+            // height="1.6rem"
+            fontSize={"xxs"}
+            // bgColor="brand.500"
+            // _hover={{ bg: "brand.600" }}
+            // _active={{ bg: "brand.900" }}
 
-          bgColor={"gray.800"}
-          transform="skew(-15deg)"
-          boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
-          _hover={{
-            boxShadow: "5px 3px 0 var(--chakra-colors-brand-300)",
-          }}
-          onClick={handleJoin}
-        >
-          <Text as="span" transform="skew(15deg)">
-            Play Again
-          </Text>
-        </Button>
-      </Box>
-    </HStack>
+            bgColor={"gray.800"}
+            transform="skew(-15deg)"
+            boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
+            _hover={{
+              boxShadow: "5px 3px 0 var(--chakra-colors-brand-300)",
+            }}
+            onClick={handleJoin}
+          >
+            <Text as="span">Play Again</Text>
+          </Button>
+        </Box>
+      </MotionHStack>
+    </AnimatePresence>
   );
 }

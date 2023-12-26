@@ -9,7 +9,7 @@ export function TopHalf() {
             position="absolute"
             w="300%"
             h="300%"
-            top="-251%"
+            top="-250%"
             // transform="skewY(-30deg)"
             overflow="hidden"
             bgColor="gray.900"

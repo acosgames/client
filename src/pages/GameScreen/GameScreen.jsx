@@ -6,14 +6,18 @@ import { memo, useRef } from "react";
 import { calculateGameSize } from "../../util/helper";
 import OverlayEvents from "./OverlayScreens/OverlayEvents.jsx";
 import { AnimatePresence, motion } from "framer-motion";
+import ModalGameOver from "./OverlayScreens/ModalGameOver";
 
 const MotionBox = motion(Box);
 
 export default function GameScreen({ layoutRef }) {
   let [primaryId] = fs.useWatch("primaryGamePanel");
+  // let [gamepanel] = fs.useWatch("gamepanel/" + primaryId);
   let [hideDrawer] = fs.useWatch("hideDrawer");
   let [isMobile] = fs.useWatch("isMobile");
   let [screenResized] = fs.useWatch("screenResized");
+
+  console.log("GameScreen primaryId:", primaryId);
 
   let primary = getGamePanel(primaryId);
   // let ref = useRef();
@@ -33,46 +37,73 @@ export default function GameScreen({ layoutRef }) {
   // w -= w * 0.6;
   //   else w -= w * 0.6;
 
-  if (!primary) return <></>;
+  // let elems = [];
+
+  if (typeof primaryId === "undefined" || !primary)
+    return <AnimatePresence></AnimatePresence>;
+
+  // elems.push(
+
+  // );
 
   return (
     <>
-      <OverlayEvents gamepanelid={primaryId} layoutRef={layoutRef} />
-
-      <Box
-        position="fixed"
-        top="0"
-        left="0"
-        zIndex="100"
-        width={
-          hideDrawer || (!hideDrawer && isMobile)
-            ? "100%"
-            : "calc(100% - 30rem)"
-        }
-        h={[`100%`]}
-        scrollSnapStop={"start"}
-        display="flex"
-        flexDir="row"
-        justifyContent={"center"}
-        transition="all 0.3s ease"
-      >
+      <OverlayEvents
+        key="overlayevents-wrapper"
+        gamepanelid={primaryId}
+        layoutRef={layoutRef}
+      />
+      <ModalGameOver key="modalgameover" />
+      <AnimatePresence>
         <motion.div
+          key={"game-screen-anim"}
           className="test"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ delay: 1 }}
-          style={{ backgroundColor: "gray.925" }}
+          transition={{ duration: 0.7 }}
+          style={{
+            backgroundColor: "var(--chakra-colors-gray-925)",
+            width:
+              hideDrawer || (!hideDrawer && isMobile)
+                ? "100%"
+                : "calc(100% - 30rem)",
+            height: "100%",
+            display: "flex",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            zIndex: 110,
+            // opacity: 1,
+            // alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          <DisplayGamePanel
-            layoutRef={layoutRef}
-            hideDrawer={hideDrawer}
-            isMobile={isMobile}
-            primary={primary}
-            primaryId={primaryId}
-          />
+          <Box
+            // position="fixed"
+            key={"game-screen-wrapper"}
+            // top="0"
+            // left="0"
+            // zIndex="110"
+            width={"100%"}
+            h={[`100%`]}
+            scrollSnapStop={"start"}
+            display="flex"
+            flexDir="row"
+            justifyContent={"center"}
+            transition="all 0.6s ease"
+            // bgColor="pink"
+          >
+            <DisplayGamePanel
+              layoutRef={layoutRef}
+              hideDrawer={hideDrawer}
+              isMobile={isMobile}
+              primary={primary}
+              primaryId={primaryId}
+            />
+          </Box>
         </motion.div>
-      </Box>
+      </AnimatePresence>
     </>
   );
 }
@@ -84,9 +115,9 @@ function DisplayGamePanel({
   primary,
   // primaryId,
 }) {
-  let [primaryId] = fs.useWatch("primaryGamePanel");
-  let [gamestatus] = fs.useWatch("gamestatus/" + primaryId);
-
+  // let [primaryId] = fs.useWatch("primaryGamePanel");
+  // let [gamestatus] = fs.useWatch("gamestatus/" + primaryId);
+  let [showGameover] = fs.useWatch("showGameover");
   let ref = useRef();
 
   let elementHeight = layoutRef.current.clientHeight; // height with padding
@@ -114,11 +145,12 @@ function DisplayGamePanel({
       borderRadius="4px"
       ref={ref}
       className={"canvasRef"}
-      scrollSnapStop={"start"}
-      filter={primary.forfeit || !primary.active ? "blur(3px)" : ""}
+      // scrollSnapStop={"start"}
+      transition="filter 0.3s linear"
+      filter={showGameover != null ? "blur(3px)" : "blur(0)"}
       // transition="filter 0.3s ease-out"
     >
-      <GamePanel id={primaryId} canvasRef={ref} hideDrawer={hideDrawer} />
+      <GamePanel id={primary.id} canvasRef={ref} hideDrawer={hideDrawer} />
     </Box>
   );
 }

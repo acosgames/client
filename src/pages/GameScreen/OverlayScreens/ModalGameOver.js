@@ -1,96 +1,121 @@
 
-import { Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, VStack, chakra } from '@chakra-ui/react';
+import { Box, Button, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, VStack, chakra } from '@chakra-ui/react';
 import fs from 'flatstore';
 import config from '../../../config';
 import SimpleBar from 'simplebar-react';
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import LeftPlayer from './LeftPlayer';
+import { getGamePanel } from '../../../actions/room';
+
+import { AnimatePresence } from 'framer-motion';
 
 const MotionVStack = motion(VStack);
+let ChakraSimpleBar = chakra(SimpleBar);
 
-export default function ModalGameOver({ gamepanel, players, team, status }) {
+export default function ModalGameOver({ }) {
 
-    let [show, setShow] = useState(true);
+    let [showGameover] = fs.useWatch('showGameover');
     let scrollRef = useRef();
 
+    if (showGameover == null)
+        return <></>
+
+    let gamepanel = getGamePanel(showGameover);
+    if (!gamepanel)
+        return <></>
+
+    let gamestate = gamepanel.gamestate;
+    let players = gamestate.players;
+
+    // let [show, setShow] = useState(true);
+
     const onClose = (e) => {
-        setShow(false);
+        fs.set('showGameover', null);
     }
 
-    let user = fs.get('user');
 
-    let localPlayer = user;
-    let shortid = user.shortid;
+    let localPlayer = fs.get('user');
+    let shortid = localPlayer.shortid;
     if (shortid in players) {
         localPlayer = players[shortid];
     }
 
-    let ChakraSimpleBar = chakra(SimpleBar);
+    if (!localPlayer)
+        return <></>
+
     return (
-
-        <MotionVStack
-            // overflow="hidden"
-            w="50%"
-            h="50%"
-            position="absolute"
-            top="50%"
-            left="50%"
-            border="0"
-            zIndex={101}
-
-            // borderTop="1px solid"
-            // borderBottom="1px solid"
-            // borderColor="gray.1200"
-            initial={{ scale: 0.1, x: '-50%', y: '-50%' }}
-            animate={{ scale: 1, x: '-50%', y: '-50%' }}
-            transition={{
-                duraton: 1,
-            }}
-
-            // filter="drop-shadow(0 0 20px var(--chakra-colors-red-300)) drop-shadow(0 0 40px black) drop-shadow(0 0 60px black)"
-            // opacity="0.95"
-            // bgColor="gray.100"
-            // boxShadow="6px 5px 30px rgba(0,0,0,0.7)"
-            bg="linear-gradient(to top, var(--chakra-colors-gray-1200), var(--chakra-colors-gray-900))"
-        >
-            <VStack
-                width="100%"
-                height={"100%"}
-                transition={"all 0.3s ease"}
-                spacing="0rem"
-                position="relative"
-                overflow="hidden"
-                flex="1"
-                mb="0"
-                pb="0"
-                borderRadius={"8px"}
-                zIndex="2"
+        <AnimatePresence>
+            <motion.div
+                key={"overlay-gameover"}
+                className="overlay-gameover"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{
+                    // backgroundColor: "rgba(0,0,0,1)",
+                    width: "100%",
+                    height: "100%",
+                    position: "absolute",
+                    zIndex: 112,
+                }}
             >
-                <ChakraSimpleBar
-                    boxSizing="border-box"
-                    flex="1"
-                    // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
-                    style={{
-                        width: "100%",
-                        height: "auto",
-                        flex: "1",
-                        overflow: "hidden scroll",
-                        boxSizing: "border-box",
+                <MotionVStack
+                    // overflow="hidden"
+                    w={["90%", "80%", "80%", "50%"]}
+                    // h="50%"
+                    position="absolute"
+                    top="50%"
+                    left="50%"
+                    border="0"
+                    zIndex={101}
+                    borderRadius="8px"
+                    overflow="hidden"
+                    // borderTop="1px solid"
+                    // borderBottom="1px solid"
+                    // borderColor="gray.1200"
+                    initial={{ scale: 0.1, x: '-50%', y: '-50%' }}
+                    animate={{ scale: 1, x: '-50%', y: '-50%' }}
+                    transition={{
+                        duraton: 1,
                     }}
-                    scrollableNodeProps={{ ref: scrollRef }}
+
+                    // filter="drop-shadow(0 0 20px var(--chakra-colors-red-300)) drop-shadow(0 0 40px black) drop-shadow(0 0 60px black)"
+                    // opacity="0.95"
+                    // bgColor="gray.100"
+                    // boxShadow="6px 5px 30px rgba(0,0,0,0.7)"
+                    bg="linear-gradient(to bottom, var(--chakra-colors-gray-900), var(--chakra-colors-gray-1200))"
                 >
-                    <VStack w="100%" pb="1rem" pt="0.5rem">
-                        <Heading
-                            as="h5"
-                            fontSize={["2.4rem", "3rem", "3rem", "3rem"]}
-                            color="gray.10"
-                            textShadow="0 0 4px #ccc, 0 0 4px #ccc"
+                    <VStack
+                        width="100%"
+                        height={"100%"}
+                        transition={"all 0.3s ease"}
+                        spacing="0rem"
+                        position="relative"
+                        overflow="hidden"
+                        flex="1"
+                        mb="0"
+                        pb="0"
+                        borderRadius={"8px"}
+                        zIndex="2"
+                    >
+                        <ChakraSimpleBar
+                            boxSizing="border-box"
+                            flex="1"
+                            // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+                            style={{
+                                width: "100%",
+                                height: "auto",
+                                flex: "1",
+                                overflow: "hidden scroll",
+                                boxSizing: "border-box",
+                            }}
+                            scrollableNodeProps={{ ref: scrollRef }}
                         >
-                            GAME CANCELLED
-                        </Heading>
-                        {/* <LeftPlayer player={localPlayer} isLeft={true} ignoreLocal={true} initial={{ opacity: 0 }} animate={{ opacity: 1 }} /> */}
-                        {/* 
+                            <Screen1 />
+                            {/* <LeftPlayer player={localPlayer} isLeft={true} ignoreLocal={true} initial={{ opacity: 0 }} animate={{ opacity: 1 }} /> */}
+                            {/* 
                         Screen 1:
                             - Win / Lose / Forfeit / Crash
                             - Rank Up / Down 
@@ -103,9 +128,174 @@ export default function ModalGameOver({ gamepanel, players, team, status }) {
                         Screen 3 - Achievements
                         Screen 4 - Extras (bounties/etc)
                         */}
+                        </ChakraSimpleBar>
                     </VStack>
-                </ChakraSimpleBar>
+                </MotionVStack>
+            </motion.div>
+        </AnimatePresence>
+    )
+}
+
+function Screen1({ }) {
+
+    let [primaryId] = fs.useWatch('primaryGamePanel');
+    let [gamestatus] = fs.useWatch('gamestatus/' + primaryId);
+    let [roomstate] = fs.useWatch('primary/roomstate');
+
+
+    if (gamestatus == 'GAMEOVER') {
+        return <GameFinish />
+    }
+    return <GameCancelled />
+}
+
+
+function findPlayerRanks(players) {
+    let rankOne = [];
+    let rankOther = [];
+    let lowestRank = 99999;
+    for (var id in players) {
+        let player = players[id];
+        if (player.rank < lowestRank)
+            lowestRank = player.rank;
+    }
+    for (var id in players) {
+        let player = players[id];
+
+        if (player.rank == lowestRank) {
+            rankOne.push(id);
+        }
+        else {
+            rankOther.push(id);
+        }
+    }
+    return { rankOne, rankOther }
+}
+
+function findTeamRanks(teams) {
+    let rankOne = [];
+    let rankOther = [];
+    let lowestRank = 99999;
+    for (var id in teams) {
+        let team = teams[id];
+        if (team.rank < lowestRank)
+            lowestRank = team.rank;
+    }
+    for (var id in teams) {
+        let team = teams[id];
+
+        if (team.rank == lowestRank) {
+            rankOne.push(id);
+        }
+        else {
+            rankOther.push(id);
+        }
+    }
+
+    return { rankOne, rankOther }
+}
+
+function GameFinish({ }) {
+
+
+    let [players] = fs.useWatch('primary/players');
+    let [teams] = fs.useWatch('primary/teams');
+
+
+    let user = fs.get('user') || { shortid: 'none' };
+
+    let localPlayer = players[user.shortid] || { rank: 0, team_slug: 'none' };
+    // let localTeam = teams[localPlayer.team_slug] || { rank: 0 };
+
+
+    let title = 'Victory';
+
+    let playerRanks = findPlayerRanks(players || {});
+    let teamRanks = findTeamRanks(teams || {});
+
+    if ((teams && teamRanks.rankOther.length == 0) || (!teams && playerRanks.rankOther.length == 0)) {
+        title = 'Tied'
+    }
+    else {
+        if ((teams && teamRanks.rankOne.find(r => r == localPlayer.teamid)) || (!teams && playerRanks.rankOne.find(r => r == localPlayer.shortid)))
+            title = 'Victory'
+        else
+            title = 'Defeat'
+    }
+
+    return (
+        <VStack w="100%" h="100%" pb="1rem" pt="0.5rem">
+            <Heading
+                as="h5"
+                fontWeight="300"
+                fontSize={["2.4rem", "3rem", "3rem", "3rem"]}
+                color="gray.0"
+            // textShadow="0 0 4px var, 0 0 4px #ccc"
+            >
+                {title}
+            </Heading>
+            <VStack pt="2rem">
+                <Text as="span">No XP</Text>
             </VStack>
-        </MotionVStack>
+
+            <VStack flex="1" minH="5rem" justifyContent={'flex-end'}>
+                <Button
+                    // height="1.6rem"
+                    borderRadius="4px"
+                    display={"block"}
+                    fontSize={"xxs"}
+                    bgColor={"gray.800"}
+                    transform="skew(-15deg)"
+                    boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
+                    _hover={{
+                        boxShadow: "5px 3px 0 var(--chakra-colors-brand-300)",
+                    }}
+                    onClick={() => { fs.set('showGameover', null); }}
+                >
+                    <Text as="span" color="gray.0" transform="skew(15deg)">
+                        Close
+                    </Text>
+                </Button>
+            </VStack>
+        </VStack>
+    )
+}
+
+function GameCancelled({ }) {
+    return (
+        <VStack w="100%" h="100%" pb="1rem" pt="0.5rem">
+            <Heading
+                as="h5"
+                fontWeight="300"
+                fontSize={["2.4rem", "3rem", "3rem", "3rem"]}
+                color="gray.0"
+            // textShadow="0 0 4px var, 0 0 4px #ccc"
+            >
+                GAME CANCELLED
+            </Heading>
+            <VStack pt="2rem">
+                <Text as="span">No XP</Text>
+            </VStack>
+
+            <VStack flex="1" minH="5rem" justifyContent={'flex-end'}>
+                <Button
+                    // height="1.6rem"
+                    borderRadius="4px"
+                    display={"block"}
+                    fontSize={"xxs"}
+                    bgColor={"gray.800"}
+                    transform="skew(-15deg)"
+                    boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
+                    _hover={{
+                        boxShadow: "5px 3px 0 var(--chakra-colors-brand-300)",
+                    }}
+                    onClick={() => { fs.set('showGameover', null); }}
+                >
+                    <Text as="span" color="gray.0" transform="skew(15deg)">
+                        Close
+                    </Text>
+                </Button>
+            </VStack>
+        </VStack>
     )
 }

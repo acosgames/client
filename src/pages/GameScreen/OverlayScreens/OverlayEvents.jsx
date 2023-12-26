@@ -13,6 +13,7 @@ import fs from "flatstore";
 import config from "../../../config";
 import {
   getGamePanel,
+  getGamePanels,
   getPrimaryGamePanel,
   getRoomStatus,
 } from "../../../actions/room";
@@ -28,96 +29,100 @@ import CompactPlayer from "./CompactPlayer";
 import { AnimatePresence, motion } from "framer-motion";
 import ModalGameOver from "./ModalGameOver";
 
+fs.set("showPregameOverlay", null);
+/**
+ * Displays on:
+ * - Game Joined (status == pregame or starting)
+ * Hides on:
+ * - Game Start
+ * - Forfeit
+ * @param {*} param0
+ * @returns
+ */
+
 export default function OverlayEvents({ gamepanelid, layoutRef }) {
-  let [gamepanel] = fs.useWatch("gamepanel/" + gamepanelid);
-  // let gamepanel = getGamePanel(gamepanelid);
-  const [hide, setHide] = useState(false);
+  // let [primaryId] = fs.useWatch("primaryGamePanel");
+  // let [gamepanel] = fs.useWatch("gamepanel/" + gamepanelid);
 
-  if (!gamepanel) return <></>;
+  let [showPregameOverlay] = fs.useWatch("showPregameOverlay");
 
-  const room = gamepanel.room;
-  const room_slug = room.room_slug;
-  const game_slug = room.game_slug;
-  const mode = room.mode;
+  // let [gamestatus] = fs.useWatch("gamestatus/" + showPregameOverlay);
+  let gamepanel = getGamePanel(showPregameOverlay);
+
+  if (showPregameOverlay == null || !gamepanel)
+    return <AnimatePresence></AnimatePresence>;
+  // if (!gamepanel) return [];
+
+  // const room = gamepanel.room;
+  // const room_slug = room.room_slug;
+  // const game_slug = room.game_slug;
+  // const mode = room.mode;
 
   let timeleft = fs.get("timeleft/" + gamepanel.id) || 0;
   timeleft = Math.ceil(timeleft / 1000);
 
   // let game = fs.get('games>' + game_slug) || {};
   let gamestate = gamepanel.gamestate; // fs.get('gamestate') || {};
-  let gameroom = gamestate.room;
-  let state = gamestate?.state;
   let events = gamestate?.events;
-
   let players = gamestate.players;
   let teams = gamestate.teams;
 
   if (!players) {
-    return <></>;
+    return <AnimatePresence></AnimatePresence>;
   }
 
   let status = gamestate.room.status;
-
-  let isPregame = status == "pregame";
-  let isStarting = status == "starting";
   let isGamestart = status == "gamestart";
   let isGameover = status == "gameover" || events?.gameover;
-  let isPrimary = gamepanel.isPrimary;
-  let roomStatus = getRoomStatus(room_slug);
+  // let elems = [];
 
-  if (isGameover || gamepanel.forfeit)
-    return (
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          style={{
-            // backgroundColor: "rgba(0,0,0,1)",
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            zIndex: 101,
-          }}
-        >
-          <OverlayGameOver
-            gamepanel={gamepanel}
-            players={players}
-            teams={teams}
-            status={status}
-          />
-        </motion.div>
-        <motion.div
-          // initial={{ opacity: 0 }}
-          // animate={{ opacity: 1 }}
-          // transition={{ duration: 0.3 }}
-          style={{
-            backgroundColor: "gray.925",
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            zIndex: 100,
-          }}
-        >
-          <Box w="100%" h="100%" bgColor="gray.925"></Box>
-        </motion.div>
-      </AnimatePresence>
-    );
-  if (isGamestart) return <></>;
+  // if (isGameover || gamepanel.forfeit) {
+  // elems.push(
+
+  // );
+  // elems.push(
+  //   <motion.div
+  //     key={"overlay-gameover-mask"}
+  //     initial={{ opacity: 0 }}
+  //     animate={{ opacity: 1 }}
+  //     exit={{ opacity: 0 }}
+  //     transition={{ duration: 0.3 }}
+  //     style={{
+  //       backgroundColor: "gray.925",
+  //       width: "100%",
+  //       height: "100%",
+  //       position: "absolute",
+  //       zIndex: 111,
+  //     }}
+  //   >
+  //   </motion.div>
+  // );
+  // } else if (isGamestart) {
+  // } else {
+  // elems.push(
+
+  // );
+  // elems.push(
+
+  // );
+  // }
   const onClickMessage = () => {};
 
+  // return <>{elems}</>;
   return (
     <AnimatePresence>
       <motion.div
+        key={"overlay-gamestart"}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
         style={{
-          backgroundColor: "gray.925",
+          backgroundColor: "var(--chakra-colors-gray-925)",
           width: "100%",
           height: "100%",
           position: "absolute",
-          zIndex: 101,
+          zIndex: 112,
         }}
       >
         <Box
@@ -126,7 +131,6 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
           height="100%"
           position="relative"
           color="gray.100"
-          zIndex={1002}
         >
           <OverlayPregame
             gamepanel={gamepanel}
@@ -137,18 +141,20 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
         </Box>
       </motion.div>
       <motion.div
+        key={"overlay-gamestart-mask"}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.2 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
         style={{
-          backgroundColor: "gray.925",
+          backgroundColor: "var(--chakra-colors-gray-925)",
           width: "100%",
           height: "100%",
           position: "absolute",
-          zIndex: 100,
+          zIndex: 111,
         }}
       >
-        <Box w="100%" h="100%" bgColor="gray.925"></Box>
+        {/* <Box w="100%" h="100%" bgColor="gray.925"></Box> */}
       </motion.div>
     </AnimatePresence>
   );
@@ -341,7 +347,11 @@ function PregameVs2({ gamepanel, players, teams, status }) {
         // pb={["4rem", "4rem", "4rem", "4rem"]}
         pl={["1rem", "10%", "2rem", "0"]}
       >
-        <LeftPlayer player={players[leftPlayer]} isLeft={true} />
+        <LeftPlayer
+          shortid={leftPlayer}
+          isLeft={true}
+          gamepanelid={gamepanel.id}
+        />
       </VStack>
       <Vs status={status} />
       <VStack
@@ -358,7 +368,7 @@ function PregameVs2({ gamepanel, players, teams, status }) {
         // pr={["1rem", "1rem", "4rem", "4rem"]}
         // pt={["4rem", "4rem", "4rem", "4rem"]}
       >
-        <LeftPlayer player={players[rightPlayer]} />
+        <LeftPlayer shortid={rightPlayer} gamepanelid={gamepanel.id} />
       </VStack>
       {/* <GameName name={gamepanel?.room?.name || "a game"} /> */}
     </Box>

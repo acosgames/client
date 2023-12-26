@@ -8,11 +8,16 @@ import { motion } from 'framer-motion';
 
 const MotionHStack = motion(HStack);
 
-export default function LeftPlayer({ player, isLeft, ignoreLocal, initial, animate, transition }) {
+export default function LeftPlayer({ shortid, gamepanelid, isLeft, ignoreLocal, initial, animate, transition }) {
+
+    let [player] = fs.useChange('gamepanel/' + gamepanelid + '/players/' + shortid);
     let [screenRect] = fs.useWatch("screenRect");
     let filename = `assorted-${player.portraitid || 1}-original.webp`;
 
     let user = fs.get('user');
+
+    if (!player)
+        return <></>
 
     let ratingClass = ratingtext.ratingToRank(player.rating);
     return (
@@ -28,9 +33,9 @@ export default function LeftPlayer({ player, isLeft, ignoreLocal, initial, anima
             // transform={isLeft ? "translate(-100vw, 0)" : "translate(100vw, 0)"}
             // animation={isLeft ? "fromLeftNoSkew 0.6s forwards 0.2s" : "fromRightNoSkew 0.6s forwards 0.2s"}
 
-            initial={initial || { x: isLeft ? '-100vw' : '100vw' }}
+            initial={initial || { x: isLeft ? '-50vw' : '50vw' }}
             animate={animate || { x: 0 }}
-            transition={transition || { delay: 0.2 }}
+            transition={transition || { duration: 0.3, delay: 0.4 }}
             // borderRadius="12px"
             overflow="hidden"
             zIndex="1"
@@ -56,7 +61,7 @@ export default function LeftPlayer({ player, isLeft, ignoreLocal, initial, anima
                         as="span"
                         pr="1rem"
                         textAlign={"center"}
-                        color="gray.0"
+                        color={user.displayname == player.name ? 'brand.900' : "gray.0"}
                         fontWeight="400"
                         fontSize={["1.4rem", "1.8rem", "1.8rem", "2rem"]}
                         letterSpacing={'-1px'}

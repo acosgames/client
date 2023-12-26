@@ -32,13 +32,13 @@ export default function BadgePoints({}) {
         // top="0.2rem"
         // left="-0.25rem"
       /> */}
-      <Icon as={TbBrain} fontSize="1.8rem" color="brand.600" />
+      <Icon as={TbBrain} fontSize="1.8rem" color="brand.900" />
       <Heading
         as="h6"
         fontSize="1.2rem"
         color="gray.10"
         lineHeight="1.7rem"
-        fontWeight="700"
+        fontWeight="500"
         letterSpacing={"0px"}
         pl="0.25rem"
       >

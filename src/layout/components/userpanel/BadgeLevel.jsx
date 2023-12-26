@@ -36,7 +36,7 @@ export default function BadgeLevel({}) {
         as="h6"
         fontSize="1.2rem"
         color="gray.10"
-        fontWeight="700"
+        fontWeight="500"
         lineHeight="1.7rem"
         letterSpacing={"0px"}
       >

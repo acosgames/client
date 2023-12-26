@@ -18,7 +18,14 @@ export default function PlayNowButton({}) {
 
   let [primaryId] = fs.useWatch("primaryGamePanel");
   let gamepanel = getPrimaryGamePanel();
-  if (gamepanel || primaryId) return <></>;
+
+  const handleJoin = async () => {
+    setLastJoinType("rank");
+
+    if (!(await validateLogin())) return;
+
+    joinGame(game);
+  };
 
   let queue = null;
   for (let i = 0; i < queues.length; i++) {
@@ -28,14 +35,6 @@ export default function PlayNowButton({}) {
       break;
     }
   }
-
-  const handleJoin = async () => {
-    setLastJoinType("rank");
-
-    if (!(await validateLogin())) return;
-
-    joinGame(game);
-  };
 
   useEffect(() => {
     if (
@@ -51,6 +50,8 @@ export default function PlayNowButton({}) {
       setShow(true);
     }
   });
+
+  if (!game || gamepanel || primaryId) return <></>;
 
   if (!show) return <></>;
 

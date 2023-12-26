@@ -8,11 +8,12 @@ export default function UserName({}) {
       as="span"
       color="gray.0"
       fontWeight={"500"}
-      fontSize="1.3rem"
+      fontSize="1.6rem"
       // width={["13rem", "17rem"]}
       maxW="20rem"
-      height={"1.6rem"}
-      lineHeight="1.7rem"
+      // height={"1.6rem"}
+      // lineHeight="1.3rem"
+      letterSpacing={"-1px"}
       minWidth="0"
       whiteSpace={"nowrap"}
       overflow={"hidden"}

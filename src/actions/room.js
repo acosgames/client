@@ -63,24 +63,66 @@ export function updateGamePanel(gamepanel) {
     // console.log("Updating gamepanel/" + gamepanel.id);
     fs.set('gamepanel/' + gamepanel.id, gamepanel);
 
-    if (gamepanel.isPrimary) {
 
 
-        if (gamepanel.gamestate) {
-            let gamestate = gamepanel.gamestate;
 
-            fs.set('primary/state', gamestate.state);
-            fs.set('primary/players', gamestate.players);
-            fs.set('primary/teams', gamestate.teams);
-            fs.set('primary/next', gamestate.next);
-            fs.set('primary/roomstate', gamestate.room);
-            fs.set('primary/events', gamestate.events);
-            fs.set('primary/timer', gamestate.timer);
-            fs.set('primary/action', gamestate.action);
+    if (!gamepanel.gamestate) {
+        return;
+    }
 
-            fs.set('primary/room', gamepanel.room);
+
+    let gamestate = gamepanel.gamestate;
+
+    let status = gamestate?.room?.status;
+    if (gamepanel.forfeit || !gamepanel.active) {
+        fs.set('showGameover', gamepanel.id);
+        fs.set('showPregameOverlay', null);
+    }
+    else if (status == 'pregame' || status == 'starting') {
+        fs.set('showPregameOverlay', gamepanel.id);
+        fs.set('showGameover', null);
+    } else {
+        fs.set('showPregameOverlay', null);
+
+        if (status == 'gameover') {
+            fs.set('showGameover', gamepanel.id);
         }
     }
+
+
+
+    let prefix = 'gamepanel/' + gamepanel.id;
+    if (gamepanel.isPrimary) {
+        fs.set(`primary/state`, gamestate.state);
+        fs.set(`primary/players`, gamestate.players);
+        fs.set(`primary/teams`, gamestate.teams);
+        fs.set(`primary/next`, gamestate.next);
+        fs.set(`primary/roomstate`, gamestate.room);
+        fs.set(`primary/events`, gamestate.events);
+        fs.set(`primary/timer`, gamestate.timer);
+        fs.set(`primary/action`, gamestate.action);
+
+        fs.set(`primary/room`, gamepanel.room);
+    }
+
+    fs.set(`${prefix}/state`, gamestate.state);
+    fs.set(`${prefix}/players`, gamestate.players);
+
+    for (let shortid in gamestate.players) {
+        fs.set(`${prefix}/players/${shortid}`, gamestate.players[shortid]);
+    }
+    fs.set(`${prefix}/teams`, gamestate.teams);
+    for (let team_slug in gamestate.teams) {
+        fs.set(`${prefix}/teams/${team_slug}`, gamestate.teams[team_slug]);
+    }
+    fs.set(`${prefix}/next`, gamestate.next);
+    fs.set(`${prefix}/roomstate`, gamestate.room);
+    fs.set(`${prefix}/events`, gamestate.events);
+    fs.set(`${prefix}/timer`, gamestate.timer);
+    fs.set(`${prefix}/action`, gamestate.action);
+
+    fs.set(`${prefix}/room`, gamepanel.room);
+
 }
 
 export function getPrimaryGamePanel() {
@@ -120,6 +162,8 @@ export function setPrimaryGamePanel(gamepanel) {
         //gamepanel.canvasRef = null;
         gamepanel.isPrimary = true;
 
+
+
         let game_slug = gamepanel?.room?.game_slug;
         if (game_slug) {
             let game = fs.get('games>' + game_slug);
@@ -146,8 +190,10 @@ export function setRoomForfeited(room_slug) {
     gamepanel.active = false;
     gamepanel.forfeit = true;
 
+
     updateRoomStatus(room_slug);
     updateGamePanel(gamepanel);
+
 }
 
 export function setRoomActive(room_slug, active) {
@@ -342,7 +388,7 @@ export function addRoom(msg) {
     gamepanel = reserveGamePanel();
     gamepanel.room = msg.room;
     if (msg.room.isReplay) {
-        gamepanel.gamestate = msg.payload[0];
+        gamepanel.gamestate = msg.payload[0].payload;
         gamepanel.room.history = msg.payload;
     } else {
         gamepanel.gamestate = msg.payload;
@@ -423,6 +469,8 @@ export function clearRoom(room_slug) {
 // }
 export function getRoomStatus(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
+    if (!gamepanel)
+        return 'NOTEXIST'
 
     return fs.get('gamestatus/' + gamepanel.id) || 'NOTEXIST';
     // return gamepanel?.status || 'NOTEXIST';
@@ -550,20 +598,20 @@ export function isNextTeam(gamepanel, userid) {
     return false;
 }
 
-export function isUserNext(gamepanel, userid) {
+export function isUserNext(gamestate, userid) {
 
-    let gamestate = gamepanel?.gamestate;
-    let user = fs.get('user');
+    // let gamestate = gamepanel?.gamestate;
+    // let user = fs.get('user');
 
-    if (!gamestate || !user) return;
+    if (!gamestate) return false;
 
-    userid = userid || user.shortid;
+    // userid = userid || user.shortid;
     let next = gamestate?.next;
     let nextid = next?.id;
     let room = gamestate.room;
 
     if (room?.status == 'pregame')
-        return true;
+        return false;
 
     if (!next || !nextid)
         return false;

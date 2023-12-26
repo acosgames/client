@@ -42,8 +42,17 @@ export default function PregameTimer({ gamepanel, status }) {
             bgColor="rgba(0,0,0,0.8)"
             border="0"
             // borderTop="1px solid"
-            borderBottom="1px solid"
-            borderColor="gray.500"
+            // borderBottom="1px solid"
+            // borderColor="gray.500"
+            _before={{
+                content: "''",
+                position: 'absolute',
+                width: '100%',
+                height: '1px',
+                bottom: 0,
+                left: 0,
+                bg: "linear-gradient(to right, var(--chakra-colors-gray-1200),  var(--chakra-colors-gray-10), var(--chakra-colors-gray-1200))"
+            }}
             // borderRadius={"8px"}
             // textAlign={"center"}
             initial={{ y: -100 }}

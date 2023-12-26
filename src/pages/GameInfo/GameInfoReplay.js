@@ -11,6 +11,7 @@ import { calculateGameSize } from "../../util/helper";
 
 import USAFlag from "../../assets/images/flags/USA.svg";
 import config from '../../config'
+import { RenderPlayers } from "../GameScreen/Scoreboard/Scoreboard";
 
 
 function GameInfoReplay({ game_slug }) {
@@ -203,13 +204,14 @@ function GameInfoReplayContent({ game_slug }) {
 function ReplayInfoPanel({ room_slug }) {
     return (<Tabs w="100%" h="100%" variant="unstyled">
         <TabList justifyContent={'center'} bgColor="gray.1200" >
-            <Tab fontSize="1.4rem" color="gray.200" _selected={{ color: 'gray.0', bg: 'gray.1200', border: '0px solid', borderColor: 'gray.1200' }}>Players</Tab>
-            <Tab fontSize="1.4rem" color="gray.200" _selected={{ color: 'gray.0', bg: 'gray.1200', border: '0px solid', borderColor: 'gray.1200' }}> Logs</Tab>
+            <Tab fontSize="1.2rem" color="gray.200" _selected={{ color: 'brand.600', bg: 'gray.1200', border: '0px solid', borderColor: 'gray.1200' }}>Players</Tab>
+            <Tab fontSize="1.2rem" color="gray.200" _selected={{ color: 'brand.600', bg: 'gray.1200', border: '0px solid', borderColor: 'gray.1200' }}>Logs</Tab>
         </TabList>
         <TabPanels p="0" minH="12.5rem">
             <TabPanel p="0">
                 <Box w="100%" h="100%" flex="1">
-                    <PlayersList room_slug={room_slug} />
+                    <RenderPlayers room_slug={room_slug} />
+                    {/* <PlayersList room_slug={room_slug} /> */}
                 </Box>
             </TabPanel>
             <TabPanel >
@@ -277,68 +279,68 @@ function PlayersTeams({ }) {
 
 }
 
-function ReplayPlayer({ team, name, score, rating, countrycode, portraitid, isLast, flagCode }) {
-    return (
-        <VStack spacing="0.5rem"
-            w="100%"
-            bgColor="gray.875"
-            h="100%"
-            // borderRadius="4px" 
+// function ReplayPlayer({ team, name, score, rating, countrycode, portraitid, isLast, flagCode }) {
+//     return (
+//         <VStack spacing="0.5rem"
+//             w="100%"
+//             bgColor="gray.875"
+//             h="100%"
+//             // borderRadius="4px" 
 
-            mb={isLast ? '0' : "0.5rem"} alignItems={'flex-start'} justifyContent={'flex-start'}>
-            <HStack justifyContent={'flex-start'} spacing="0" w="100%" h={["6rem"]}>
-                <Image
-                    src={`${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`}
-                    loading="lazy"
+//             mb={isLast ? '0' : "0.5rem"} alignItems={'flex-start'} justifyContent={'flex-start'}>
+//             <HStack justifyContent={'flex-start'} spacing="0" w="100%" h={["6rem"]}>
+//                 <Image
+//                     src={`${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`}
+//                     loading="lazy"
 
-                    w={["6rem"]}
-                    minW={["6rem"]}
-                />
-                <VStack alignItems={'flex-start'} spacing="0rem" flex="1" h="100%">
+//                     w={["6rem"]}
+//                     minW={["6rem"]}
+//                 />
+//                 <VStack alignItems={'flex-start'} spacing="0rem" flex="1" h="100%">
 
 
-                    <HStack justifyContent={'flex-end'} pt="0.5rem" h="2.5rem" pl="0.5rem">
-                        <Text as="span" minWidth="0"
-                            whiteSpace={'nowrap'}
-                            overflow={'hidden'}
-                            textOverflow={'ellipsis'}
-                            color="gray.0"
-                            fontSize={["1.4rem", "1.4rem", "1.2rem", "1.4rem"]}
-                        >
-                            {name}
-                        </Text>
-                        <Image
-                            display="inline-block"
-                            src={flagCode || USAFlag}
-                            verticalAlign={"middle"}
-                            // borderRadius="5px"
-                            w="1.6rem"
-                        />
+//                     <HStack justifyContent={'flex-end'} pt="0.5rem" h="2.5rem" pl="0.5rem">
+//                         <Text as="span" minWidth="0"
+//                             whiteSpace={'nowrap'}
+//                             overflow={'hidden'}
+//                             textOverflow={'ellipsis'}
+//                             color="gray.0"
+//                             fontSize={["1.4rem", "1.4rem", "1.2rem", "1.4rem"]}
+//                         >
+//                             {name}
+//                         </Text>
+//                         <Image
+//                             display="inline-block"
+//                             src={flagCode || USAFlag}
+//                             verticalAlign={"middle"}
+//                             // borderRadius="5px"
+//                             w="1.6rem"
+//                         />
 
-                    </HStack>
-                    <HStack flex="1" spacing="0" justifyContent={'flex-end'} h="100%" alignItems={'center'} >
-                        <HStack h="100%" spacing="0.5rem" px="0.5rem">
-                            <Text as="span" color="gray.100" fontWeight={'light'} fontSize="1rem" >rating</Text>
-                            <Text as="span" fontWeight={'normal'} color="gray.10" fontSize="1rem">{rating}</Text>
-                        </HStack>
+//                     </HStack>
+//                     <HStack flex="1" spacing="0" justifyContent={'flex-end'} h="100%" alignItems={'center'} >
+//                         <HStack h="100%" spacing="0.5rem" px="0.5rem">
+//                             <Text as="span" color="gray.100" fontWeight={'light'} fontSize="1rem" >rating</Text>
+//                             <Text as="span" fontWeight={'normal'} color="gray.10" fontSize="1rem">{rating}</Text>
+//                         </HStack>
 
-                    </HStack>
-                    <HStack spacing="0" w="100%" h="2rem" bgColor="gray.875" pl="0.5rem" justifyContent={'flex-end'}>
+//                     </HStack>
+//                     <HStack spacing="0" w="100%" h="2rem" bgColor="gray.875" pl="0.5rem" justifyContent={'flex-end'}>
 
-                        <HStack spacing="0" justifyContent={'flex-end'} h="100%" alignItems={'center'} >
-                            <HStack h="100%" spacing="0.5rem" px="0.5rem">
-                                {/* <Text as="span" color="gray.50" fontWeight={'bold'} fontSize="1.2rem">SCORE</Text> */}
-                                <Text as="span" fontWeight={'bold'} color="gray.10" fontSize={["1.6rem", "1.6rem", "1.4rem", "1.6rem"]}>{score}</Text>
-                            </HStack>
-                        </HStack>
+//                         <HStack spacing="0" justifyContent={'flex-end'} h="100%" alignItems={'center'} >
+//                             <HStack h="100%" spacing="0.5rem" px="0.5rem">
+//                                 {/* <Text as="span" color="gray.50" fontWeight={'bold'} fontSize="1.2rem">SCORE</Text> */}
+//                                 <Text as="span" fontWeight={'bold'} color="gray.10" fontSize={["1.6rem", "1.6rem", "1.4rem", "1.6rem"]}>{score}</Text>
+//                             </HStack>
+//                         </HStack>
 
-                    </HStack>
-                </VStack>
+//                     </HStack>
+//                 </VStack>
 
-            </HStack >
-        </VStack >
-    )
-}
+//             </HStack >
+//         </VStack >
+//     )
+// }
 function ReplayControls({ room_slug }) {
 
 

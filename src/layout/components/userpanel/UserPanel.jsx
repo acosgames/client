@@ -32,6 +32,7 @@ import { useLocation, Link, Routes, Route } from "react-router-dom";
 import Searching from "../queue/Searching.jsx";
 import { useEffect } from "react";
 import PlayNowButton from "./PlayNowButton.jsx";
+import { getGamePanel, isUserNext } from "../../../actions/room.js";
 
 export default function UserPanel() {
   let [loggedIn] = fs.useWatch("loggedIn");
@@ -98,6 +99,8 @@ function UserLogin() {
 }
 
 function UserFrame() {
+  let [primaryId] = fs.useWatch("primaryGamePanel");
+
   return (
     <VStack
       w="100%"
@@ -106,7 +109,9 @@ function UserFrame() {
       px={["0", "0", "0.5rem"]}
       pt={["0", "0", "0.5rem"]}
       pb="0.5rem"
+      position="relative"
     >
+      <IsNextIndicator gamepanelid={primaryId} />
       <VStack
         bgColor="gray.900"
         borderRadius={"8px"}
@@ -135,7 +140,12 @@ function UserFrame() {
                 flex={["1", ""]}
                 spacing="0.25rem"
               >
-                <HStack alignItems={"center"} spacing="0.5rem" w="100%">
+                <HStack
+                  alignItems={"center"}
+                  spacing="0.5rem"
+                  w="100%"
+                  // justifyContent={"center"}
+                >
                   <UserName />
                   <UserFlag />
                 </HStack>
@@ -187,6 +197,32 @@ function UserFrame() {
         <PlayersOnlineStatus />
       </HStack> */}
     </VStack>
+  );
+}
+
+function IsNextIndicator({ gamepanelid }) {
+  let [gamepanel] = fs.useWatch("gamepanel/" + gamepanelid);
+  let primary = getGamePanel(gamepanelid);
+
+  let user = fs.get("user");
+  if (!primary || !user) return;
+  // let [next] = fs.useWatch('primary/next');
+  let isNext = isUserNext(primary.gamestate, user.shortid);
+  return (
+    <Box
+      display={isNext ? "block" : "none"}
+      borderRadius="50%"
+      position="absolute"
+      left="3rem"
+      bottom="0.5rem"
+      transform="translate(0,0)"
+      zIndex={99}
+      color="brand.100"
+    >
+      <Text as="span" fontSize="1.2rem" color="red.500">
+        Go!
+      </Text>
+    </Box>
   );
 }
 
