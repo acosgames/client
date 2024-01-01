@@ -10,7 +10,7 @@ import { getLastJoinType, setLastJoinType } from '../../actions/room';
 import { validateLogin } from '../../actions/connection';
 
 import config from '../../config'
-import RatingText from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 
 import { useOnScreen, useVisibility2 } from '../../layout/Hooks';
 import { useParams } from 'react-router-dom';

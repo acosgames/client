@@ -5,25 +5,33 @@ import { Link } from 'react-router-dom';
 import { GiLaurelsTrophy, } from '@react-icons';
 
 import config from '../../config'
-import ratingtext from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 import USAFlag from "../../assets/images/flags/USA.svg";
+import { findGameRankGlobal } from '../../actions/game';
+import { useEffect } from 'react';
 
 const ChakraLink = chakra(Link);
 
-export default function GameInfoTop10({ }) {
+export default function GameRankGlobal({ }) {
 
-    let [leaderboard] = fs.useWatch('leaderboard');
-    let [leaderboardCount] = fs.useWatch('leaderboardCount');
-
-    if (!leaderboard) {
-        return <Box>
-            <Text as="h4">No rankings found.</Text>
-        </Box>
-    }
+    let [rankings] = fs.useWatch('rankings/global');
+    let [rankingsCount] = fs.useWatch('rankings/global/count');
 
     let user = fs.get('user');
     let player_stats = fs.get('player_stats');
     let game = fs.get('game');
+
+    useEffect(() => {
+        let g = fs.get('game');
+        if (g)
+            findGameRankGlobal(g.game_slug);
+    }, [game?.game_slug])
+
+    if (!rankings) {
+        return <Box>
+            <Text as="h4">No rankings found.</Text>
+        </Box>
+    }
 
     if (!game)
         return <Text as="span">Loading...</Text>
@@ -31,44 +39,34 @@ export default function GameInfoTop10({ }) {
     let playerGameStats = player_stats[game.game_slug];
 
     const renderRankings = (players) => {
-
-        leaderboard = leaderboard || [];
+        rankings = rankings || [];
         let elems = [];
-
-        // tag = tag || 'default'
-
         let rank = 0;
-        for (var player of leaderboard) {
+        for (let player of rankings) {
             rank++;
             let isLocalPlayer = user?.displayname == player.displayname;
             let isPast5Rank = rank == 10 && (playerGameStats && playerGameStats.ranking > 10);
-
             let displayname = player.displayname || player.value;
-            if (displayname.length > 16) {
-                displayname = displayname.substr(0, 16) + '...';
-            }
-
-            let ratingTxt = ratingtext.ratingToRank(Number.parseInt(player.rating));
-            let ratingTextFormatted = ratingTxt.toUpperCase();
-            let ratingImageFile = ratingTxt.replace(/ /ig, '');
-            let rankNumber = ratingtext.ratingToRankNumber(Number.parseInt(player.rating));
+            let ratingTxt = ratingconfig.ratingToRank(Number.parseInt(player.rating));
+            let ratingFormatted = ratingTxt.toUpperCase();
             let flagCode = null;
             elems.push(<PlayerRanking
-                key={'leaderboard-' + displayname}
-                rank={rank}
+                key={'rankings-global-' + displayname}
+                rank={player.rank}
                 flagCode={flagCode}
                 rating={player.rating}
                 displayname={displayname}
                 isLocalPlayer={isLocalPlayer}
                 portraitid={player.portraitid}
-                ratingTextFormatted={ratingTextFormatted}
-                rankNumber={rankNumber} />)
+                ratingFormatted={ratingFormatted}
+                countrycode={player.countrycode}
+            />)
         }
         return elems;
     }
 
     let playerRank = -1;
-    for (var player of leaderboard) {
+    for (var player of rankings) {
         let isLocalPlayer = user?.displayname == player.displayname;
         if (isLocalPlayer) {
             playerRank = player.rank;
@@ -76,7 +74,7 @@ export default function GameInfoTop10({ }) {
         }
     }
 
-    let lbCount = leaderboardCount || 0;
+    let lbCount = rankingsCount || 0;
     if (lbCount == 0) {
         return (
             <Box>
@@ -86,48 +84,19 @@ export default function GameInfoTop10({ }) {
     }
     return (
         <Box w="100%" maxW={["100%", "100%", "100%", "95%", "70%", "60%"]} pt="0" pb="10rem" px={["1rem", "3rem"]}>
-
             <VStack w="100%" spacing="1rem" alignItems={'flex-start'}>
                 <VStack
                     w="100%"
                     alignItems={'center'}
-                // pb="3rem"
-                // _after={{
-                //     content: '""',
-                //     display: 'block',
-                //     clipPath: 'polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)',
-                //     width: '65px',
-                //     height: '5px',
-                //     margin: '0.5rem 0 0',
-                //     background: 'brand.300',
-                // }
-                // }
                 >
-                    <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "4rem"]} fontWeight={'600'}>Rankings</Heading>
+                    <Heading as="h2" color="gray.0" fontSize={['2.4rem', '2.4rem', "3rem"]} fontWeight={'600'}>Global Rankings</Heading>
                 </VStack>
-
-
-                {/* <Table tableLayout="fixed" variant='none' mb={playerRank == -1 ? '1rem' : '0'} width="100%"
-                    style={{ borderCollapse: "separate", borderSpacing: "0 1rem", borderColor: 'gray.900', tableLayout: 'fixed' }}
-                > */}
-                {/* <Thead >
-                        <Tr
-                            //borderBottomColor="gray.600"
-                            p="0"
-                            color="gray.100"
-                            fontSize=""
-                        > */}
                 <HStack w="100%" spacing="1rem">
                     <Text w={["5rem", "5rem", "6rem", "6rem"]} as="span" p="0" color={'gray.100'} fontSize="xs" textAlign={'right'}>Rank</Text>
                     <Text as="span" minW="0" flex="1" p="0" color={'gray.100'} fontSize="xs" w={["70%", "70%", "60%", "60%"]} pl={["5rem", "5rem", "7rem", "7rem"]}>Player</Text>
                     <Text justifySelf="flex-end" as="span" p="0" color={'gray.100'} fontSize="xs" textAlign='right' pr={["1rem", "1rem", "2.5rem"]}>Rating</Text>
                 </HStack>
-                {/* </Tr>
-                    </Thead> */}
-                {/* <Tbody  > */}
                 {renderRankings()}
-                {/* </Tbody> */}
-                {/* </Table> */}
                 <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} pt="1rem" >
                     <Text fontSize="2rem" align='center' display={lbCount > 0 ? 'block' : 'none'} color="gray.10">
                         Rank{" "}
@@ -138,51 +107,41 @@ export default function GameInfoTop10({ }) {
                         <Text as="span" fontWeight='500' >
                             {lbCount}
                         </Text>
-                        {/* in
-                        <Text as="span" > Rankings</Text> */}
                     </Text>
                 </Box>
-
                 <Box w="100%" display={playerRank != -1 ? 'none' : 'block'} pt="1rem" >
                     <Text fontSize="2rem" align='center' display={lbCount > 0 ? 'block' : 'none'} color="gray.10">
                         Play more games to be listed
-
                     </Text>
                 </Box>
 
             </VStack>
         </Box >
-
     )
 }
 
-function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portraitid, ratingTextFormatted, rankNumber, rating }) {
+function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portraitid, countrycode, ratingFormatted, rating }) {
     return (
         <HStack
             position="relative"
-
             width="100%"
             minW="100%"
             spacing="1rem"
             bgColor="transparent"
-            // zIndex='1'
             _before={{
                 position: "absolute",
                 content: "''",
                 width: '100%',
                 height: '100%',
-                // zIndex: '0',
                 top: '0',
                 left: '0',
                 _hover: {
                     bgColor: 'gray.950'
                 },
-                // clipPath="polygon(2% 0, 100% 0, 98% 100%, 0 100%)"
                 bgColor: (isLocalPlayer ? 'brand.500' : "gray.875"),
                 borderRadius: "12px",
                 transform: 'skew(-20deg)'
             }}
-
         >
             <Center
                 minW={["4rem", "5rem", "6rem", "6rem"]}
@@ -192,7 +151,6 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portraitid,
                 pl="1.5rem"
             >
                 <Heading as="h6" textAlign={'center'} color="gray.0" fontWeight={'500'} fontSize={['1.4rem', '1.4rem', "1.6rem", "1.6rem", "1.8rem"]} position="relative">
-                    {/* <Text as="span" position="absolute" top='-0rem' left="-1.1rem" fontSize="1.2rem" fontWeight='light' color="gray.100">#</Text> */}
                     {rank}
                 </Heading>
             </Center>
@@ -204,19 +162,13 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portraitid,
                         <Image
                             src={`${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`}
                             loading="lazy"
-                            // w={["4.2rem", "4.2rem", "4.2rem"]}
                             w={["4rem", "4rem", "6rem", "6rem"]}
                             minW={["4rem", "4rem", "6rem", "6rem"]}
-                            // pr="0.5rem"
-                            borderRadius={'5px'}
-                        // filter={['', '', "drop-shadow(0 0 1px var(--chakra-colors-brand-600))"]}
-
+                        // borderRadius={'5px'}
                         />
                     </ChakraLink>
-
                     <ChakraLink
                         zIndex={'1'}
-                        // flex="1"
                         minWidth="0"
                         whiteSpace={'nowrap'}
                         overflow={'hidden'}
@@ -231,61 +183,38 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portraitid,
                         textShadow={'1px 1px 6px var(--chakra-colors-gray-100)'}
                     >
                         {displayname}
-                        {/* <Text
-                            minWidth="0"
-                            whiteSpace={'nowrap'} overflow={'hidden'} textOverflow={'ellipsis'}
-                            display="block"
-                            as="span"
-                            fontSize={["1.4rem", "1.4rem", "1.6rem"]}
-                            lineHeight={["3.2rem", "3.2rem", "3.2rem"]}
-                            fontWeight={'500'}
-                            color={isLocalPlayer ? "yellow.100" : 'gray.10'}>
-                            {displayname}asdfasdfasdfasdfasdfasdfsd
-                        </Text> */}
                     </ChakraLink>
                     <ChakraLink
                         zIndex={'1'}
                         w="2.5rem"
                         minW="2.5rem"
-                        // whiteSpace={'nowrap'}
                         to={'/profile/' + displayname}
                         display="block"
                         position="relative" >
                         <Image
+                            src={`${config.https.cdn}images/country/${countrycode}.svg`}
+                            // mt="0.5rem"
                             display="inline-block"
-                            src={flagCode || USAFlag}
                             verticalAlign={"middle"}
-                            borderRadius="5px"
+                            // borderRadius="5px"
                             w="2rem"
                             minW="2rem"
                         />
+
                     </ChakraLink>
                 </HStack>
             </Box>
-
             <HStack justifyContent={'center'} alignItems={'center'} h="100%" px={["0", "1rem"]} overflow={"hidden"}>
-
-
                 <Heading position="relative"
                     top="0.2rem"
                     as="h6"
-                    // display="inline-block"
-                    color={(isLocalPlayer ? 'gray.0' : "gray.50")}//"gray.50"
+                    color={(isLocalPlayer ? 'gray.0' : "gray.50")}
                     fontWeight={'500'}
                     fontSize="xs"
                     pr="1rem">
                     <Text as="span" display={['none', 'inline-block']}>CLASS&nbsp;</Text>
-                    {ratingTextFormatted}
+                    {ratingFormatted}
                 </Heading>
-
-                {/* <Image
-                        src={`${config.https.cdn}icons/ranks/platform/${rankNumber}.webp`}
-                        loading="lazy"
-                        title={ratingTextFormatted}
-                        height={["5rem"]}
-                        minW='5rem'
-                        position="relative"
-                    /> */}
                 <Heading
                     zIndex={'1'}
                     as="h6"
@@ -294,14 +223,10 @@ function PlayerRanking({ displayname, rank, flagCode, isLocalPlayer, portraitid,
                     fontSize={['1.6rem', '1.6rem', "2rem"]}
                     fontWeight={'500'}
                     color={(isLocalPlayer ? 'gray.0' : "gray.0")}
-                // color={'gray.50'}
                 >
                     {rating}
-
                 </Heading>
             </HStack>
         </HStack >
     )
 }
-
-// export default fs.connect(['leaderboard', 'leaderboardCount'])(GameInfoTop10);

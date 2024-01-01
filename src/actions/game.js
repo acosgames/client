@@ -16,6 +16,7 @@ ACOSEncoder.createDefaultDict(ACOSDictionary)
 
 const decode = ACOSEncoder.decode;
 import delta from 'acos-json-delta';
+import { getWithExpiry, setWithExpiry } from './cache';
 
 fs.set('rankList', []);
 fs.set('experimentalList', []);
@@ -77,26 +78,26 @@ export async function findGame(game_slug) {
     try {
 
         let response = await GET('/api/v1/game/' + game_slug);
-        let result = response.data;
+        let game = response.data;
         // fs.set('loadingGameInfo', false);
-        if (result.ecode) {
-            throw result.ecode;
+        if (game.ecode) {
+            throw game.ecode;
         }
         // fs.set('games>' + game_slug, game);
         // fs.set('game', game || null);
 
-        if (result.game.lbscore) {
-            findGameLeaderboardHighscore(game_slug);
-        }
+        // if (result.game.lbscore) {
+        //     findGameLeaderboardHighscore(game_slug);
+        // }
 
-        fs.set('games>' + game_slug, result.game);
-        fs.set('game', result.game || {});
-        fs.set('leaderboard', result.top10 || []);
+        fs.set('games>' + game_slug, game);
+        fs.set('game', game || {});
+        // fs.set('leaderboard', result.top10 || []);
         // fs.set('leaderboard', []);
-        fs.set('leaderboardCount', result.lbCount || 0);
+        // fs.set('leaderboardCount', result.lbCount || 0);
         fs.set('gameFound', true);
 
-        return result;
+        return game;
     }
     catch (e) {
         console.error(e);
@@ -300,19 +301,23 @@ export async function findGameLeaderboardHighscore(game_slug) {
     }
 }
 
-export async function findGameLeaderboard(game_slug) {
+export async function findGameRankNational(game_slug) {
     try {
-        // fs.set('loadingGameInfo', true);
-        let response = await GET('/api/v1/game/lb/' + game_slug);
-        let result = response.data;
-        // fs.set('loadingGameInfo', false);
-        if (result.ecode) {
-            if (result.ecode == 'E_NOTAUTHORIZED') {
-                return await findGame(game_slug);
-            }
-            throw result.ecode;
-        }
+        let user = fs.get('user');
+        let countrycode = user?.countrycode || 'US';
+        let rankingKey = 'rankings/national/' + countrycode;
+        let cached = getWithExpiry(rankingKey);
+        if (cached)
+            return true;
 
+        let response = await GET('/api/v1/game/rankings/' + game_slug + '/' + countrycode);
+        let result = response.data;
+        if (result.ecode || result.lb.ecode) {
+            if (result.ecode == 'E_NOTAUTHORIZED') {
+                // return await findGame(game_slug);
+            }
+            throw (result.ecode || result.lb.ecode);
+        }
 
         //combine top10 + player leaderboard
         let top10 = result.top10 || [];
@@ -325,7 +330,7 @@ export async function findGameLeaderboard(game_slug) {
         }
 
         let fixed = [];
-        for (var key in rankmap) {
+        for (let key in rankmap) {
             fixed.push(rankmap[key]);
         }
 
@@ -334,40 +339,80 @@ export async function findGameLeaderboard(game_slug) {
         let oldLeaderboard = fs.get('leaderboard');
         if (oldLeaderboard && local) {
 
-            let prevLocalLb = null;
-            let nextLocalLb = null;
-
+            let oldMap = {};
             for (var i = 0; i < oldLeaderboard.length; i++) {
-                let oldPlayerLb = oldLeaderboard[i];
-                if (oldPlayerLb.value == local.displayname) {
-                    prevLocalLb = oldPlayerLb;
-                    break;
-                }
+                let player = oldLeaderboard[i];
+                oldMap[player.displayname] = player;
             }
 
             for (var i = 0; i < fixed.length; i++) {
-                let playerLb = fixed[i];
-                if (playerLb.value == local.displayname) {
-                    nextLocalLb = playerLb;
-                    break;
-                }
+                let player = fixed[i];
+                player.oldrank = oldMap[player.displayname].rank;
             }
-
-            let diffLocalLb = null;
-            if (prevLocalLb && nextLocalLb) {
-                diffLocalLb = {};
-                diffLocalLb.score = nextLocalLb.score - prevLocalLb.score;
-                diffLocalLb.rank = nextLocalLb.rank - prevLocalLb.rank;
-                fs.set('leaderboardChange', diffLocalLb);
-            }
-            else {
-                fs.set('leaderboardChange', null);
-            }
-
         }
 
-        fs.set('leaderboard', fixed || []);
-        fs.set('leaderboardCount', result.lbCount || 0);
+        fs.set(rankingKey, fixed || []);
+        fs.set(rankingKey + '/count', result.lbCount || 0);
+        setWithExpiry(rankingKey, fixed || [], 10);
+        fs.set('gameFound', true);
+    }
+    catch (e) {
+        console.error(e);
+        fs.set(game_slug, {});
+    }
+}
+
+export async function findGameRankGlobal(game_slug) {
+    try {
+        let rankingKey = 'rankings/global';
+        let cached = getWithExpiry(rankingKey);
+        if (cached)
+            return true;
+
+        let response = await GET('/api/v1/game/rankings/' + game_slug);
+        let result = response.data;
+        if (result.ecode) {
+            if (result.ecode == 'E_NOTAUTHORIZED') {
+                return await findGame(game_slug);
+            }
+            throw result.ecode;
+        }
+
+        //combine top10 + player leaderboard
+        let top10 = result.top10 || [];
+        let leaderboard = result.lb || [];
+        let combined = top10.concat(leaderboard);
+        let rankmap = {};
+        for (var i = 0; i < combined.length; i++) {
+            let ranking = combined[i];
+            rankmap[ranking.rank] = ranking;
+        }
+
+        let fixed = [];
+        for (let key in rankmap) {
+            fixed.push(rankmap[key]);
+        }
+
+        fixed.sort((a, b) => a.rank - b.rank);
+        let local = fs.get('user');
+        let oldLeaderboard = fs.get('leaderboard');
+        if (oldLeaderboard && local) {
+
+            let oldMap = {};
+            for (var i = 0; i < oldLeaderboard.length; i++) {
+                let player = oldLeaderboard[i];
+                oldMap[player.displayname] = player;
+            }
+
+            for (var i = 0; i < fixed.length; i++) {
+                let player = fixed[i];
+                player.oldrank = oldMap[player.displayname].rank;
+            }
+        }
+
+        fs.set(rankingKey, fixed || []);
+        fs.set(rankingKey + '/count', result.lbCount || 0);
+        setWithExpiry(rankingKey, fixed || [], 10);
         fs.set('gameFound', true);
     }
     catch (e) {

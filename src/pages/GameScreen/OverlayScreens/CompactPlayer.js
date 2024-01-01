@@ -2,7 +2,7 @@ import { HStack, Image, Text, VStack, Icon, Box, Spinner } from '@chakra-ui/reac
 import fs from 'flatstore';
 
 import config from '../../../config';
-import ratingtext from "shared/util/ratingtext";
+import ratingconfig from "shared/util/ratingconfig";
 import { FaCheck } from '@react-icons';
 import { motion } from 'framer-motion';
 
@@ -10,7 +10,7 @@ export default function CompactPlayer({ player, index, delay }) {
     let [screenRect] = fs.useWatch("screenRect");
     let filename = `assorted-${player.portraitid || 1}-thumbnail.webp`;
 
-    let ratingClass = ratingtext.ratingToRank(player.rating);
+    let ratingClass = ratingconfig.ratingToRank(player.rating);
     delay = delay || 0;
 
     let HStackMotion = motion(HStack);

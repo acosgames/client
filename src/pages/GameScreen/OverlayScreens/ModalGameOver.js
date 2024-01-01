@@ -35,6 +35,8 @@ export default function ModalGameOver({ }) {
     }
 
 
+    let [bgWidth, bgHeight] = fs.get('gameScreenSize') || [0, 0]
+
     let localPlayer = fs.get('user');
     let shortid = localPlayer.shortid;
     if (shortid in players) {
@@ -66,7 +68,7 @@ export default function ModalGameOver({ }) {
                     w={["90%", "80%", "80%", "50%"]}
                     // h="50%"
                     position="absolute"
-                    top="50%"
+                    top={bgHeight / 2}
                     left="50%"
                     border="0"
                     zIndex={101}

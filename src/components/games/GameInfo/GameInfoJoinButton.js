@@ -10,7 +10,7 @@ import { getLastJoinType, setLastJoinType } from '../../../actions/room';
 import { validateLogin } from '../../../actions/connection';
 
 import config from '../../../config'
-import RatingText from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 
 fs.set('isCreateDisplayName', false);
 
@@ -85,7 +85,7 @@ function GameInfoJoinButton(props) {
     // myplayed = 12;
 
     let rating = myplayed >= 10 ? '' + myrating + '' : ' ';
-    let ratingTxt = myplayed >= 10 ? RatingText.ratingToRank(rating) : 'UNRANKED';
+    let ratingTxt = myplayed >= 10 ? ratingconfig.ratingToRank(rating) : 'UNRANKED';
     ratingTxt = ratingTxt.toUpperCase();
 
     // if (myplayed >= 10 && playerGameStats.ranking == 1)

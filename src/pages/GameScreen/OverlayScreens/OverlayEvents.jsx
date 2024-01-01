@@ -18,7 +18,7 @@ import {
   getRoomStatus,
 } from "../../../actions/room";
 import { memo, useEffect, useState } from "react";
-import ratingtext from "shared/util/ratingtext";
+import ratingconfig from "shared/util/ratingconfig";
 import { FaCheck } from "@react-icons";
 
 import LeftPlayer from "./LeftPlayer";

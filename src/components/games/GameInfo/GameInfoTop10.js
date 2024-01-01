@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { GiLaurelsTrophy, } from '@react-icons';
 
 import config from '../../../config'
-import ratingtext from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 
 function GameInfoTop10(props) {
 
@@ -39,8 +39,8 @@ function GameInfoTop10(props) {
                 displayname = displayname.substr(0, 16) + '...';
             }
 
-            let ratingTxt = ratingtext.ratingToRank(Number.parseInt(player.score));
-            let ratingTextFormatted = ratingTxt.toUpperCase();
+            let ratingTxt = ratingconfig.ratingToRank(Number.parseInt(player.score));
+            let ratingFormatted = ratingTxt.toUpperCase();
             let ratingImageFile = ratingTxt.replace(/ /ig, '');
 
             elems.push(

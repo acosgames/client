@@ -2,7 +2,7 @@ import { HStack, VStack, Text, Image, Icon, Wrap, WrapItem, Box } from "@chakra-
 import config from '../../config/index.js'
 
 import fs from 'flatstore';
-import ratingtext from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 
 import { AiOutlineCloseCircle } from '@react-icons'
 import ActionBarItem from './ActionBarItem.jsx';
@@ -14,18 +14,18 @@ function PlayerRankInfo({ }) {
     let [playerHighScore] = fs.useWatch('localPlayerHighscore');
     // let stats = player_stats[game.game_slug];
     if (!player_stat)
-        player_stat = { played: 0, rating: 100 }
+        player_stat = { played: 0, rating: 2500 }
     console.log(player_stat);
     let played = Number.parseInt(player_stat.played);
     played = 10;
     // stats.rating = 3000;
     // played = 0
-    let ratingTxt = ratingtext.ratingToRank(Number.parseInt(player_stat.rating));
-    let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
+    let ratingTxt = ratingconfig.ratingToRank(Number.parseInt(player_stat.rating));
+    let ratingFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
     let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
-    let rankNumber = ratingtext.ratingToRankNumber(Number.parseInt(player_stat.rating));
+    let rankNumber = ratingconfig.ratingToRankNumber(Number.parseInt(player_stat.rating));
 
-    // ratingTextFormatted = 'King';
+    // ratingFormatted = 'King';
     // rankNumber = 24;
 
     if (game.maxplayers <= 1) {
@@ -52,7 +52,7 @@ function PlayerRankInfo({ }) {
                     display={played >= 10 ? 'inline-block' : 'none'}
                     src={`${config.https.cdn}icons/ranks/platform/${rankNumber}.webp`}
                     loading="lazy"
-                    title={ratingTextFormatted}
+                    title={ratingFormatted}
                     height="7rem"
                     position="relative"
                     top="1rem"
@@ -90,7 +90,7 @@ function PlayerRankInfo({ }) {
                         borderRadius='20px'
 
                     >
-                        {ratingTextFormatted.replace('CLASS ', '')}
+                        {ratingFormatted.replace('CLASS ', '')}
                     </Text>
                 </Box>
 
@@ -113,7 +113,7 @@ function PlayerRankInfo({ }) {
         //             fontSize={['xxs', 'xxs', 'xxs',]}
         //             fontWeight={'bolder'}
         //             lineHeight="1.2rem"
-        //             align="center">{ratingTextFormatted}</Text>
+        //             align="center">{ratingFormatted}</Text>
         //         <HStack alignItems='center' justifyContent={'center'}>
 
         //             <Text

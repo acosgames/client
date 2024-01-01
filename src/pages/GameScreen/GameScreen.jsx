@@ -2,7 +2,7 @@ import { Box, VStack } from "@chakra-ui/react";
 import GamePanel from "./GamePanel";
 import { getGamePanel } from "../../actions/room";
 import fs from "flatstore";
-import { memo, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { calculateGameSize } from "../../util/helper";
 import OverlayEvents from "./OverlayScreens/OverlayEvents.jsx";
 import { AnimatePresence, motion } from "framer-motion";
@@ -135,6 +135,10 @@ function DisplayGamePanel({
     primary.room.resoh,
     1
   );
+
+  useEffect(() => {
+    fs.set("gameScreenSize", [bgWidth, bgHeight]);
+  });
   return (
     <Box
       // w="100%"

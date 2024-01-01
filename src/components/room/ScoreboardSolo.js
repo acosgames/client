@@ -2,7 +2,7 @@
 import { HStack, Text, VStack } from '@chakra-ui/react';
 import fs from 'flatstore';
 
-import ratingtext from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 import { getPrimaryGamePanel, isUserNext } from '../../actions/room';
 import config from '../../config'
 

@@ -17,7 +17,7 @@ import fs from 'flatstore';
 import delta from 'acos-json-delta';
 import { addRoom, addRooms, clearRoom, clearRooms, findGamePanelByIFrame, findGamePanelByRoom, getCurrentRoom, getGamePanels, getGameState, getIFrame, getRoom, reserveGamePanel, setCurrentRoom, setGamePanelActive, setGameState, setLastJoinType, setPrimaryGamePanel, setRoomActive, updateGamePanel, updateRoomStatus } from "./room";
 import { addGameQueue, clearGameQueues, getJoinQueues, onQueueStats } from "./queue";
-import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
+// import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
 import { addChatMessage } from "./chat";
 import { GET } from "./http";
 
@@ -1436,12 +1436,12 @@ async function postIncomingMessage(msg) {
                 }
                 fs.set('player_stats/' + room.game_slug, player_stat);
 
-                if (room?.maxplayers > 1)
-                    findGameLeaderboard(room.game_slug);
+                // if (room?.maxplayers > 1)
+                //     findGameLeaderboard(room.game_slug);
 
-                if (room?.lbscore || room?.maxplayers == 1) {
-                    findGameLeaderboardHighscore(room.game_slug);
-                }
+                // if (room?.lbscore || room?.maxplayers == 1) {
+                //     findGameLeaderboardHighscore(room.game_slug);
+                // }
             }
             // fs.set('gamestate', {});
             break;

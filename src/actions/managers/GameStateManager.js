@@ -296,12 +296,12 @@ async function postIncomingMessage(msg) {
                 }
                 fs.set('player_stats/' + room.game_slug, player_stat);
 
-                if (room?.maxplayers > 1)
-                    findGameLeaderboard(room.game_slug);
+                // if (room?.maxplayers > 1)
+                //     findGameLeaderboard(room.game_slug);
 
-                if (room?.lbscore || room?.maxplayers == 1) {
-                    findGameLeaderboardHighscore(room.game_slug);
-                }
+                // if (room?.lbscore || room?.maxplayers == 1) {
+                //     findGameLeaderboardHighscore(room.game_slug);
+                // }
             }
             // fs.set('gamestate', {});
             break;

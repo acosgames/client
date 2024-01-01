@@ -28,7 +28,7 @@ import GameInfoJoinButton from './GameInfoJoinButton'
 import { findQueue } from "../../../actions/queue";
 import GameInfoLeaderboard from "./GameInfoLeaderboard";
 import GameInfoReplay from "./GameInfoReplay";
-import ratingtext from "shared/util/ratingtext";
+import ratingconfig from "shared/util/ratingconfig";
 
 fs.set('loadingGameInfo', true);
 function GameInfo2(props) {
@@ -145,8 +145,8 @@ function GameInfo2(props) {
 
     let played = playerStats.played;
     played = 0;
-    let ratingTxt = ratingtext.ratingToRank(playerStats.rating);
-    let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
+    let ratingTxt = ratingconfig.ratingToRank(playerStats.rating);
+    let ratingFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
     let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
 
     return (

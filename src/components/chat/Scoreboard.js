@@ -6,7 +6,7 @@ import Timeleft from '../room/Timeleft';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
-import ratingtext from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 import config from '../../config'
 import Highscores from './Highscores';
 
@@ -128,7 +128,7 @@ function ScoreboardPlayerStatsMulti(props) {
     // }
 
     let user = fs.get('user');
-    let ratingTxt = ratingtext.ratingToRank(Number.parseInt(player.rating));
+    let ratingTxt = ratingconfig.ratingToRank(Number.parseInt(player.rating));
     let ratingImageFile = ratingTxt.replace(/ /ig, '');
 
     return (

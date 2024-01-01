@@ -2,7 +2,7 @@ import { Box, HStack, Image, Table, Tbody, Td, Text, Th, Thead, Tr } from '@chak
 import fs from 'flatstore';
 import { getPrimaryGamePanel, isNextTeam, isUserNext } from '../../actions/room';
 
-import ratingtext from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 import config from '../../config'
 
 export default function ScoreboardMulti(props) {
@@ -174,7 +174,7 @@ function ScoreboardPlayersMulti(props) {
 
     let layoutMode = fs.get('layoutMode');
     let user = fs.get('user');
-    let ratingTxt = typeof player.rating !== 'undefined' ? ratingtext.ratingToRank(Number.parseInt(player.rating)) : 'Unranked';
+    let ratingTxt = typeof player.rating !== 'undefined' ? ratingconfig.ratingToRank(Number.parseInt(player.rating)) : 'Unranked';
     let ratingImageFile = ratingTxt.replace(/ /ig, '');
 
     let displayname = player.name;

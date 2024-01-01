@@ -14,7 +14,7 @@ import fs from "flatstore";
 import SimpleBar from "simplebar-react";
 import { findGamePanelByRoom, getPrimaryGamePanel } from "../../../actions/room";
 
-import ratingtext from "shared/util/ratingtext";
+import ratingconfig from "shared/util/ratingconfig";
 import config from "../../../config";
 
 import { motion, AnimatePresence } from "framer-motion";

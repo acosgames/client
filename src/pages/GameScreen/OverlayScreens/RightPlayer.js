@@ -2,13 +2,13 @@ import { HStack, Image, Text, VStack, Icon } from '@chakra-ui/react';
 import fs from 'flatstore';
 
 import config from '../../../config';
-import ratingtext from "shared/util/ratingtext";
+import ratingconfig from "shared/util/ratingconfig";
 import { FaCheck } from '@react-icons';
 
 export default function RightPlayer({ player }) {
     let filename = `assorted-${player.portraitid || 1}-original.webp`;
 
-    let ratingClass = ratingtext.ratingToRank(player.rating);
+    let ratingClass = ratingconfig.ratingToRank(player.rating);
     return (
         <HStack
             // w="100%"

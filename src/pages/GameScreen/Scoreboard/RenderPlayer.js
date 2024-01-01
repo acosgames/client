@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import fs from 'flatstore'
 import config from '../../../config';
-import ratingtext from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 import { Box, HStack, Image, Text, VStack } from '@chakra-ui/react';
 import { getGamePanel, getPrimaryGamePanel, isUserNext } from '../../../actions/room';
 
@@ -22,7 +22,7 @@ function IsNextIndicator({ gamepanelid, shortid }) {
 }
 export default function RenderPlayer({ gamepanelid, shortid, name, portraitid, rating, countrycode, score, team }) {
     let filename = `assorted-${portraitid || 1}-medium.webp`;
-    let ratingClass = ratingtext.ratingToRank(rating);
+    let ratingClass = ratingconfig.ratingToRank(rating);
 
     // let [players] = fs.useWatch("primary/players");
 

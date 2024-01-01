@@ -2,7 +2,7 @@ const { HStack, VStack, Text, Image } = require("@chakra-ui/react");
 import config from '../../../config'
 
 import fs from 'flatstore';
-import ratingtext from 'shared/util/ratingtext';
+import ratingconfig from 'shared/util/ratingconfig';
 
 function PlayerRankInfo(props) {
 
@@ -10,13 +10,13 @@ function PlayerRankInfo(props) {
     let [playerHighScore] = fs.useWatch('localPlayerHighscore');
     let stats = player_stats[props.game_slug];
     if (!stats)
-        stats = { played: 0, rating: 100 }
+        stats = { played: 0, rating: 2500 }
     console.log(stats);
     let played = Number.parseInt(stats.played);
     // played = 10;
     // stats.rating = 3000;
-    let ratingTxt = ratingtext.ratingToRank(Number.parseInt(stats.rating));
-    let ratingTextFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
+    let ratingTxt = ratingconfig.ratingToRank(Number.parseInt(stats.rating));
+    let ratingFormatted = played >= 10 ? ratingTxt.toUpperCase() : 'UNRANKED';
     let ratingImageFile = played >= 10 ? ratingTxt.replace(/ /ig, '') : 'Unranked';
 
     if (props?.game?.maxplayers <= 1) {
@@ -45,7 +45,7 @@ function PlayerRankInfo(props) {
                     fontSize={['xs', 'xs', 'md',]}
                     fontWeight={'bolder'}
                     lineHeight="1.6rem"
-                    align="center">{ratingTextFormatted}</Text>
+                    align="center">{ratingFormatted}</Text>
                 <HStack>
                     <Text
                         display={played >= 10 ? 'block' : 'none'}

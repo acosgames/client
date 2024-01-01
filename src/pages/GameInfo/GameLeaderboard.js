@@ -1,7 +1,13 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs, VStack } from "@chakra-ui/react";
-import GameInfoTop10 from "./GameInfoTop10";
+import GameRankGlobal from "./GameRankGlobal";
+import GameRankDivision from "./GameRankDivision";
+import GameRankNational from "./GameRankNational";
+import fs from 'flatstore';
 
 export default function GameLeaderboard({ game_slug }) {
+
+  let user = fs.get('user');
+
   return (
     <Box w="100%" h="100%" p="0" pt="1rem"
       bgColor="gray.925">
@@ -63,7 +69,7 @@ export default function GameLeaderboard({ game_slug }) {
               maxW="100%"
               alignItems={"center"}
             >
-              <GameInfoTop10 />
+              <GameRankDivision />
             </VStack>
           </TabPanel>
           <TabPanel p="0">
@@ -74,6 +80,8 @@ export default function GameLeaderboard({ game_slug }) {
               maxW="100%"
               alignItems={"center"}
             >
+
+              <GameRankNational countrycode={user?.countrycode || 'US'} />
             </VStack>
 
           </TabPanel>
@@ -85,6 +93,8 @@ export default function GameLeaderboard({ game_slug }) {
               maxW="100%"
               alignItems={"center"}
             >
+
+              <GameRankGlobal />
             </VStack>
           </TabPanel>
         </TabPanels>
