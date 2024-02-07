@@ -51,6 +51,10 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
 
   if (showPregameOverlay == null || !gamepanel)
     return <AnimatePresence></AnimatePresence>;
+
+  if (gamepanel.room.maxplayers == 1) {
+    return <AnimatePresence></AnimatePresence>;
+  }
   // if (!gamepanel) return [];
 
   // const room = gamepanel.room;

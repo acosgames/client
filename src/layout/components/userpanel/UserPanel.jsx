@@ -254,11 +254,7 @@ function WebMenu({}) {
       left="0"
       justifyContent="center"
     >
-      <Button
-        color={isActive("/games") || isActive("/g/") ? "brand.100" : "gray.0"}
-        role="group"
-        _hover={{ color: "brand.300" }}
-      >
+      <Button color={"gray.0"} role="group" _hover={{ color: "brand.300" }}>
         <RLink
           to={"/games"}
           display="flex"
@@ -267,11 +263,11 @@ function WebMenu({}) {
         >
           <Icon as={GiGamepad} fontSize="3rem" />
           <Text as="span" fontSize={"1.2rem"} _groupHover={{ color: "gray.0" }}>
-            Games
+            Sign In
           </Text>
         </RLink>
       </Button>
-
+      {/* 
       <Button
         color={isActive("/profile") ? "brand.100" : "gray.0"}
         role="group"
@@ -288,7 +284,7 @@ function WebMenu({}) {
             Profile
           </Text>
         </RLink>
-      </Button>
+      </Button> */}
     </HStack>
   );
 }

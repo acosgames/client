@@ -85,7 +85,7 @@ function JoinButton({ handleJoin }) {
             transform={['skewX(-15deg)']}
             className={"cta " + (queue.game_slug ? 'queued' : '')}
             zIndex={2}
-            bgColor={queue.game_slug ? 'gray.900' : "gray.800"}
+            bgColor={queue.game_slug ? 'brand.400' : "brand.400"}
             mt="1rem"
             px="3rem"
             pr="2rem"
@@ -96,7 +96,7 @@ function JoinButton({ handleJoin }) {
         >
             <VStack spacing="0" alignItems={'flex-start'}>
                 <Text as="span" textAlign={'left'} fontSize={["1.6rem", "1.6rem", "1.6rem", "2rem"]}>{queue.game_slug ? 'Queued' : 'Play Now'}</Text>
-                <Text color="brand.600"
+                <Text color="gray.20"
                     as="p" pl="0.5rem"
                     textAlign={'left'}
                     fontWeight={'bold'}

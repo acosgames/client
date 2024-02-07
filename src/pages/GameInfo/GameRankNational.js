@@ -160,12 +160,13 @@ function PlayerRanking({ displayname, rank, countrycode, isLocalPlayer, portrait
             <Box p="0" flex="1" minW="0">
                 <HStack >
                     <ChakraLink w={["4rem", "4rem", "6rem", "6rem"]}
-
+                        h={["4rem", "4rem", "6rem", "6rem"]}
                         minW={["4rem", "4rem", "6rem", "6rem"]} whiteSpace={'nowrap'} to={'/profile/' + displayname} display="block" position="relative" >
                         <Image
                             src={`${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`}
                             loading="lazy"
                             w={["4rem", "4rem", "6rem", "6rem"]}
+                            h={["4rem", "4rem", "6rem", "6rem"]}
                             minW={["4rem", "4rem", "6rem", "6rem"]}
                         // borderRadius={'5px'}
                         />

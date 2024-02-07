@@ -10,6 +10,8 @@ import { getGamePanel, getPrimaryGamePanel, isUserNext } from '../../../actions/
 import { IoMdArrowDropright } from "react-icons/io";
 
 
+const HStackMotion = motion(HStack);
+
 function IsNextIndicator({ gamepanelid, shortid }) {
 
     let [gamepanel] = fs.useWatch('gamepanel/' + gamepanelid)
@@ -31,8 +33,6 @@ export default function RenderPlayer({ gamepanelid, shortid, name, portraitid, r
     let gamepanel = getGamePanel(gamepanelid);
 
     let isNext = isUserNext(gamepanel.gamestate, shortid)
-
-    const HStackMotion = motion(HStack);
     return (
         <HStackMotion
             key={"motion-" + name}
@@ -103,7 +103,7 @@ export default function RenderPlayer({ gamepanelid, shortid, name, portraitid, r
                         <Text
                             as="span"
                             textAlign={"center"}
-                            color={localPlayer.displayname == name ? 'brand.1000' : "gray.0"}
+                            color={localPlayer?.displayname == name || localPlayer?.name == name ? 'brand.1000' : "gray.0"}
                             fontWeight="500"
                             fontSize={gamepanel.room.isReplay ? '1.2rem' : ["1.4rem"]}
                             lineHeight={'1.4rem'}

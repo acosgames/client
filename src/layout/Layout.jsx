@@ -123,6 +123,18 @@ function LayoutChooser({ children, isMobile, gameResizer }) {
   return <DesktopLayout gameResizer={gameResizer}>{children}</DesktopLayout>;
 }
 
+function ScrollToTop({ scrollRef }) {
+  let location = useLocation();
+
+  useEffect(() => {
+    if (scrollRef?.current) {
+      scrollRef.current.scrollTo(0, 0);
+    }
+  });
+
+  return <></>;
+}
+
 function DesktopLayout({ children }) {
   // let [checkingUserLogin] = fs.useWatch("checkingUserLogin");
 
@@ -189,6 +201,7 @@ function DesktopLayout({ children }) {
             }}
             scrollableNodeProps={{ ref: scrollRef }}
           >
+            <ScrollToTop scrollRef={scrollRef} />
             <Header />
 
             {/* <HStack
