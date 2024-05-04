@@ -14,34 +14,28 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { BsThreeDotsVertical } from "@react-icons";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
-import {
-  FaThumbsUp,
-  FaChevronRight,
-  FaGithub,
-  FiLogOut,
-  IoShareSocial,
-} from "@react-icons";
+import { FiLogOut } from "react-icons/fi";
 import config from "../../../config";
 import { useState } from "react";
 import { reportGame } from "../../../actions/game";
-import fs from "flatstore";
 import { Link } from "react-router-dom";
 import { logout } from "../../../actions/person";
+import { btIsCreateDisplayName, btUser } from "../../../actions/buckets";
+import { useBucket } from "../../../actions/bucket";
 
 export default function UserMenu({ game }) {
-  //   let [player_stat] = fs.useWatch("player_stats/" + game.game_slug);
   // let player_stat = player_stats[game.game_slug];
 
-  let [user] = fs.useWatch("user");
+  let user = useBucket(btUser);
 
   //   player_stat = player_stat || { report: 0 };
   // const [report, setReport] = useState(player_stat.report);
   const toast = useToast();
 
   const signIn = () => {
-    fs.set("isCreateDisplayName", true);
+    btIsCreateDisplayName.set(true);
   };
 
   return (

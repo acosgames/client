@@ -1,15 +1,14 @@
 
-import fs from 'flatstore';
+import { btGame, btGames, btJoinQueues, btQueueStats, btQueues } from './buckets';
 
 
 export async function onQueueStats(msg) {
-
-    fs.set('queueStats', msg);
+    btQueueStats.set(msg);
 }
 
 export async function addGameQueue(newQueues) {
 
-    let queues = fs.get('queues') || localStorage.getItem('queues') || [];
+    let queues = btQueues.get() || localStorage.getItem('queues') || [];
 
     let queueMap = {};
     queues.forEach(q => queueMap[q.game_slug + q.mode] = true);
@@ -19,8 +18,7 @@ export async function addGameQueue(newQueues) {
             queues.push(q);
     })
 
-
-    fs.set('queues', queues);
+    btQueues.set(queues);
 
 }
 
@@ -30,8 +28,8 @@ export async function addJoinQueues(game_slug, mode) {
     if (!joinqueues.queues)
         joinqueues.queues = [];
 
-    let game = fs.get('game');
-    let games = fs.get('games');
+    let game = btGame.get();
+    let games = btGames.get();
 
     if (!game || !game.longdesc) {
         game = games[game_slug];
@@ -40,13 +38,13 @@ export async function addJoinQueues(game_slug, mode) {
     if (!joinqueues.queues.find(q => q.game_slug == game_slug && q.mode == mode)) {
         joinqueues.queues.push({ game_slug, mode, preview_image: game.preview_images, name: game.name });
         joinqueues.owner = null;
-        fs.set('joinqueues', joinqueues);
+        btJoinQueues.set(joinqueues);
         localStorage.setItem('joinqueues', JSON.stringify(joinqueues));
     }
 }
 
 export function getJoinQueues() {
-    let joinqueues = fs.get('joinqueues') || [];
+    let joinqueues = btJoinQueues.get() || [];
     try {
         if (!joinqueues || joinqueues.length == 0) {
             joinqueues = localStorage.getItem('joinqueues');
@@ -65,7 +63,7 @@ export function getJoinQueues() {
 }
 
 export function findQueue(game_slug) {
-    let queues = fs.get('queues') || localStorage.getItem('queues') || [];
+    let queues = btQueues.get() || localStorage.getItem('queues') || [];
     if (queues.find(q => (q.game_slug == game_slug))) {
         return true;
     }
@@ -73,13 +71,13 @@ export function findQueue(game_slug) {
 }
 
 export async function clearGameQueues() {
-    fs.set('queues', []);
+    btQueues.set([]);
+    btJoinQueues.set(null);
     localStorage.setItem('queues', []);
-    fs.set('joinqueues', null);
     localStorage.removeItem('joinqueues');
 }
 
 
 export async function getQueues() {
-    return fs.get('queues') || [];
+    return btQueues.get() || [];
 }

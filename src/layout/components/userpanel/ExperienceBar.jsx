@@ -1,7 +1,8 @@
 import { Box, HStack, Progress } from "@chakra-ui/react";
-import fs from "flatstore";
+import { useBucket } from "../../../actions/bucket";
+import { btUser } from "../../../actions/buckets";
 export default function ExperienceBar({}) {
-  let [user] = fs.useWatch("user");
+  let user = useBucket(btUser);
   let level = user.level || 1;
   let percent = (level - Math.floor(level)) * 100;
 

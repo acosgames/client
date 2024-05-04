@@ -7,15 +7,22 @@ import {
   clearPrimaryGamePanel,
   setRoomForfeited,
 } from "../../actions/room";
-import fs from "flatstore";
 import { joinGame } from "../../actions/game";
 import { AnimatePresence, motion } from "framer-motion";
+import { useBucket } from "../../actions/bucket";
+import {
+  btDisplayMode,
+  btGameStatusUpdated,
+  btPrimaryGamePanel,
+  btShowGameover,
+  btShowLoadingBox,
+} from "../../actions/buckets";
 
 const MotionHStack = motion(HStack);
 
 export default function GameActions() {
-  let [primaryId] = fs.useWatch("primaryGamePanel");
-  let [gamestatusUpdated] = fs.useWatch("gamestatusUpdated");
+  let primaryId = useBucket(btPrimaryGamePanel);
+  let gamestatusUpdated = useBucket(btGameStatusUpdated);
 
   let gamepanel = getPrimaryGamePanel();
 
@@ -27,7 +34,7 @@ export default function GameActions() {
   const game_slug = room.game_slug;
   const mode = room.mode;
 
-  let gamestate = gamepanel.gamestate; // fs.get('gamestate') || {};//-events-gameover');
+  let gamestate = gamepanel.gamestate;
   let events = gamestate?.events || {};
   let roomStatus = getRoomStatus(room_slug);
   let isGameover =
@@ -37,7 +44,7 @@ export default function GameActions() {
     !gamepanel.active;
 
   const onForfeit = (elem) => {
-    fs.set("displayMode", "none");
+    btDisplayMode.set("none");
     roomStatus = getRoomStatus(room_slug);
     isGameover =
       roomStatus == "GAMEOVER" ||
@@ -49,24 +56,18 @@ export default function GameActions() {
       // wsLeaveGame(game_slug, room_slug);
       clearRoom(room_slug);
       clearPrimaryGamePanel();
-      fs.set("showGameover", null);
+      btShowGameover.set(null);
     } else {
       setRoomForfeited(room_slug);
-      wsLeaveGame(game_slug, room_slug);
+      wsLeaveGame(room_slug);
     }
   };
 
   const handleJoin = async () => {
-    // let iframe = gamepanel.iframe;// fs.get('iframe');
-    //let game_slug = props.match.params.game_slug;
-    // let game = fs.get('game');
-    // if (!game)
-    //     return
+    if (room.maxplayers == 1) btShowLoadingBox.assign({ [gamepanel.id]: true });
 
-    if (room.maxplayers == 1) fs.set("showLoadingBox/" + gamepanel.id, true);
-
-    fs.set("showGameover", null);
-    fs.set("displayMode", "none");
+    btShowGameover.set(null);
+    btDisplayMode.set("none");
     clearRoom(room_slug);
     // clearPrimaryGamePanel();
     let isExperimental = mode == "experimental"; // (window.location.href.indexOf('/experimental/') != -1);

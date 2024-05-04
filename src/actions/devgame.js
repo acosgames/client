@@ -3,24 +3,24 @@ import { POST, GET, POSTFORM } from './http';
 import { validateSimple, validateField } from 'shared/util/validation.mjs';
 // import { genShortId } from 'shared/util/idgen.js';
 import { getWithExpiry, setWithExpiry } from './cache';
-import fs from 'flatstore';
+
 
 import config from '../config'
+import { btDevClientBundles, btDevClientImagesById, btDevClients, btDevClientsEnv, btDevClientsError, btDevGame, btDevGameError, btDevGameImages, btDevGameTeams, btFormFields, btGameTemplates, btLoadedDevGame, btLoadingGames } from './buckets';
 
 
-import { toast, useToast } from '@chakra-ui/react';
-fs.set('devgameimages', []);
-fs.set('devgame', {});
-fs.set('devgames', []);
-fs.set('devgameerror', []);
+// fs.set('devgameimages', []);
+// fs.set('devgame', {});
+// fs.set('devgames', []);
+// btDevGameError.set([]);
 
-fs.set('devClientsImages', []);
-fs.set('devClients', []);
-fs.set('devClientsError', []);
+// fs.set('devClientsImages', []);
+// fs.set('devClients', []);
+// fs.set('devClientsError', []);
 
-fs.set('devServerImages', []);
-fs.set('devServers', []);
-fs.set('devServerError', []);
+// fs.set('devServerImages', []);
+// fs.set('devServers', []);
+// fs.set('devServerError', []);
 
 function imagesToMap(images) {
     let obj = {};
@@ -39,8 +39,8 @@ function sleep(ms) {
 
 export async function addImages(imgstore, nextImages, uploadFunc) {
 
-    let game = fs.get('devgame');
-    let curImages = fs.get('devgameimages');
+    let game = btDevGame.get();
+    let curImages = btDevGameImages.get();
     if (!curImages)
         return;
 
@@ -71,8 +71,7 @@ export async function addImages(imgstore, nextImages, uploadFunc) {
         }
     }
 
-
-    fs.set('devgameimages', nextImages);
+    btDevGameImages.set(nextImages);
 }
 
 export async function findClients(gameid) {
@@ -89,13 +88,15 @@ export async function findClients(gameid) {
                     let url = config.https.cdn + client.gameid + '/clients/preview/' + list[i];
                     images.push({ data_url: url, file: {} });
                 }
-                fs.set('devclientimages_' + client.id, images);
+                let clientImages = btDevClientImagesById.get();
+                clientImages[client.id] = images;
+                btDevGameImages.set(clientImages)
             }
         }
 
-        fs.set('devclientserror', []);
+        btDevClientsError.set([]);
+        btDevClients.set(clients);
         console.log(clients);
-        fs.set('devclients', clients);
         return clients;
     }
     catch (e) {
@@ -104,7 +105,7 @@ export async function findClients(gameid) {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            fs.set('devclientserror', [data]);
+            btDevClientsError.set([data]);
         }
     }
     return null;
@@ -121,7 +122,7 @@ function rowsToMap(list) {
 
 export async function findDevGames(userid) {
     try {
-        fs.set('loadingGames', true);
+        btLoadingGames.set(true);
         let games = getWithExpiry('devgames');
         if (!games) {
             let response = await GET('/api/v1/dev/games/' + userid);
@@ -130,8 +131,8 @@ export async function findDevGames(userid) {
             setWithExpiry('devgames', games, 60);
         }
 
-        fs.set('loadingGames', false);
-        fs.set('devgames', games);
+        btLoadingGames.set(false);
+        btDevGames.set(games);
 
         return games;
     }
@@ -141,7 +142,7 @@ export async function findDevGames(userid) {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
     }
     return null;
@@ -158,7 +159,7 @@ export async function findGameTemplates() {
             setWithExpiry('gametemplates', games, 60);
         }
 
-        fs.set('gametemplates', games);
+        btGameTemplates.set(games);
 
         return games;
     }
@@ -168,7 +169,7 @@ export async function findGameTemplates() {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
     }
     return null;
@@ -187,26 +188,18 @@ export async function findGame(gameid) {
                 let url = config.https.cdn + 'g/' + game.game_slug + '/preview/' + list[i];
                 images.push({ data_url: url, file: {} });
             }
-            fs.set('devgameimages', images);
+            btDevGameImages.set(images);
         }
 
-        fs.set('devgameerror', []);
+        btDevGameError.set([]);
         console.log(game);
-        fs.set('devgame', game);
+        btDevGame.set(game);
 
-        fs.set('loaded/devgame', Date.now())
+        btLoadedDevGame.set(Date.now())
         if (game.teams) {
-            fs.set('devgameteams', game.teams);
+            btDevGameTeams.set(game.teams);
         }
 
-        // fs.set('devClientsCnt', game.clients.length);
-        // for (var i = 0; i < game.clients.length; i++) {
-        //     updateClient(game.clients[i]);
-        // }
-
-
-        // fs.set('devServersCnt', game.servers.length);
-        // fs.set('devServers', rowsToMap(game.servers));
 
         return game;
     }
@@ -216,19 +209,19 @@ export async function findGame(gameid) {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
     }
     return null;
 }
 
 function updateClient(client) {
-    let game = fs.get('devgame');
+    let game = btDevGame.get();
     let clients = game.clients;
     if (!clients)
         return;
 
-    fs.set('devClients-' + client.env, client);
+    btDevClientsEnv.assign({ [client.env]: client });
 
     var storageURL = config.https.cdn;
     var storagePath = client.gameid + '/client/' + client.id + '/'
@@ -239,10 +232,12 @@ function updateClient(client) {
             let url = storageURL + storagePath + list[j];
             images.push({ data_url: url, file: {} });
         }
-        fs.set('devclientimages_' + client.id, images);
+        let clientImages = btDevClientImagesById.get();
+        clientImages[client.id] = images;
+        btDevClientImagesById.set(clientImages);
 
         let bundleURL = storageURL + storagePath + client.build_client;
-        fs.set('devClientBundle_' + client.id, bundleURL);
+        btDevClientBundles.assign({ [client.id]: bundleURL });
     }
 }
 
@@ -273,7 +268,7 @@ export async function uploadClientBundle(client, file) {
 
 
 export async function uploadClientImages(images, nextImages) {
-    var client = fs.get('devclient');
+    var client = btDevClient.get();
     var preview_images = null;
     for (var i = 0; i < images.length; i++) {
         let image = images[i];
@@ -321,7 +316,7 @@ export async function uploadClientImage(client, image) {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
         throw e;
     }
@@ -329,7 +324,7 @@ export async function uploadClientImage(client, image) {
 }
 
 export async function uploadGameImages(images, nextImages) {
-    var game = fs.get('devgame');
+    var game = btDevGame.get();
     var preview_images = null;
     for (var i = 0; i < images.length; i++) {
         let image = images[i];
@@ -376,7 +371,7 @@ export async function uploadGameImage(game_slug, image) {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
         throw e;
     }
@@ -385,7 +380,7 @@ export async function uploadGameImage(game_slug, image) {
 
 export async function deleteGame() {
 
-    let deleteGame = fs.get('devgame');
+    let deleteGame = btDevGame.get();
 
     let response = await POST('/api/v1/dev/delete/game', deleteGame);
     let result = response.data;
@@ -394,8 +389,8 @@ export async function deleteGame() {
     //let gameWithImages = response.data;
 
     //console.log(gameWithImages);
-    fs.set('devgame', {});
-    fs.set('devgameerror', []);
+    btDevGameError.set([]);
+    btDevGame.set({});
     console.log(result);
     return deleteGame;
 }
@@ -403,12 +398,12 @@ export async function deleteGame() {
 export async function updateGameAPIKey() {
 
     try {
-        let newGame = fs.get('devgame');
+        let newGame = btDevGame.get();
         let response = await POST('/api/v1/dev/update/gameapikey', { gameid: newGame.gameid });
         let game = response.data;
 
         newGame.apikey = game.apikey;
-        fs.set('devgame', newGame);
+        btDevGame.set(newGame);
 
     }
     catch (e) {
@@ -417,7 +412,7 @@ export async function updateGameAPIKey() {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
     }
     return null;
@@ -425,7 +420,7 @@ export async function updateGameAPIKey() {
 
 export async function updateGame() {
     try {
-        let newGame = fs.get('devgame');
+        let newGame = btDevGame.get();
 
         //validated seperately
         let teams = newGame.teams;
@@ -435,7 +430,7 @@ export async function updateGame() {
 
         let errors = validateSimple('update-game_info', newGame);
         if (errors.length > 0) {
-            fs.set('devgameerror', errors);
+            btDevGameError.set(errors);
             return null;
         }
 
@@ -457,7 +452,7 @@ export async function updateGame() {
             for (let team of teams) {
                 let errors2 = validateSimple('update-game_team', team);
                 if (errors2.length > 0) {
-                    fs.set('devgameerror', errors2);
+                    btDevGameError.set(errors2);
                     return null;
                 }
             }
@@ -467,20 +462,6 @@ export async function updateGame() {
         }
 
 
-        // var formData = new FormData();
-        // for (var key in newGame) {
-        //     let value = newGame[key];
-        //     if (value == null || key.indexOf("ts") == 0)
-        //         continue;
-        //     formData.append(key, newGame[key]);
-        // }
-        // let images = fs.get('devgameimages');
-        // images.forEach(image => {
-        //     formData.append("images", image.file, image.file.filename);
-        // })
-
-        // let response = await uploadImage(image, image.file.index, filename);
-        // console.log(response.data);
 
 
         let response = await POST('/api/v1/dev/update/game', newGame);
@@ -493,7 +474,7 @@ export async function updateGame() {
 
         //console.log(gameWithImages);
 
-        fs.set('devgameerror', []);
+        btDevGameError.set([]);
         console.log(game);
         return game;
     }
@@ -503,14 +484,24 @@ export async function updateGame() {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
     }
     return null;
 }
 
+const fieldSelector = (key) => (form) => {
+    let parts = key.split('>');
+    let current = form;
+    for (let i = 0; i < parts.length; i++) {
+        current = current[parts[i]];
+        if (!current) return false;
+    }
+    return current;
+}
+
 export async function updateGameField(name, value, group, key, errorkey) {
-    let prevValue = fs.get(key);
+    let prevValue = btFormFields.get(fieldSelector(key));
     // if (typeof prevValue === 'undefined')
     //     return null;
 
@@ -522,15 +513,17 @@ export async function updateGameField(name, value, group, key, errorkey) {
 
     let parts = key.split('>');
     if (parts.length > 1) {
-        let fieldkey = key.replace('>' + parts[parts.length - 1], '');
-        fields = fs.get(fieldkey);
+        // let fieldkey = key.replace('>' + parts[parts.length - 1], '');
+        fields = btFormFields.get(fieldSelector(fieldKey));
     }
 
 
     let errors = validateField(group, name, value, fields);
     if (errors.length > 0) {
-        fs.set(errorkey, errors);
+        btDevGameError.set(errors);
+        // fs.set(errorkey, errors);
         // game[name] = prev;
+        btFormFields.assign({ [parts[0]]: })
         fs.set(key, value);
         //return value;
     }
@@ -540,7 +533,7 @@ export async function updateGameField(name, value, group, key, errorkey) {
     // console.log(game);
 }
 // export async function updateGameField(name, value, group, key, errorkey) {
-//     let game = fs.get('devgame');
+//     let game = btDevGame.get();
 
 //     let prev = game[name];
 //     game[name] = value;
@@ -595,7 +588,7 @@ export async function updateServerField(name, value) {
 export async function createClient(progressCB) {
 
     try {
-        let game = fs.get('devgame');
+        let game = btDevGame.get();
         let newClient = fs.get('devclient');
 
         let errors = validateSimple('game_client', newClient);
@@ -633,7 +626,7 @@ export async function createClient(progressCB) {
 export async function createServer(progressCB) {
 
     try {
-        let game = fs.get('devgame');
+        let game = btDevGame.get();
         let newServer = fs.get('devserver');
 
         let errors = validateSimple('game_server', newServer);
@@ -669,7 +662,7 @@ export async function createServer(progressCB) {
 
 export function clearGameFields() {
     fs.set('devgame', {});
-    fs.set('devgameerror', []);
+    btDevGameError.set([]);
     fs.set('devgameteams', []);
 }
 
@@ -685,7 +678,7 @@ export async function sendGithubInvite() {
 export async function createGame(progressCB) {
 
     try {
-        let newGame = fs.get('devgame');
+        let newGame = btDevGame.get();
 
         let errors = validateSimple('create-game_info', newGame);
         if (errors.length > 0) {
@@ -696,7 +689,7 @@ export async function createGame(progressCB) {
         let response = await POST('/api/v1/dev/create/game', newGame);
         let game = response.data;
 
-        fs.set('devgameerror', []);
+        btDevGameError.set([]);
         console.log(game);
         return game;
     }
@@ -710,7 +703,7 @@ export async function createGame(progressCB) {
             //const { request, ...errorObject } = response; // take everything but 'request'
             //console.log(errorObject);
 
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
 
 
@@ -734,7 +727,7 @@ export async function deployToProduction(game) {
             return;
         }
 
-        let dgame = fs.get('devgame');
+        let dgame = btDevGame.get();
         game.version = gameResult.version;
         fs.set('devgame', game);
 
@@ -752,7 +745,7 @@ export async function deployToProduction(game) {
 
 
 
-        fs.set('devgameerror', []);
+        btDevGameError.set([]);
         console.log(gameResult);
         return gameResult;
     }
@@ -766,7 +759,7 @@ export async function deployToProduction(game) {
             //const { request, ...errorObject } = response; // take everything but 'request'
             //console.log(errorObject);
 
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
 
 
@@ -797,7 +790,7 @@ export async function deployVersionToProduction(game, version) {
             return;
         }
 
-        let dgame = fs.get('devgame');
+        let dgame = btDevGame.get();
         game.version = gameResult.version;
         fs.set('devgame', game);
 
@@ -815,7 +808,7 @@ export async function deployVersionToProduction(game, version) {
 
 
 
-        fs.set('devgameerror', []);
+        btDevGameError.set([]);
         console.log(gameResult);
         return gameResult;
     }
@@ -829,7 +822,7 @@ export async function deployVersionToProduction(game, version) {
             //const { request, ...errorObject } = response; // take everything but 'request'
             //console.log(errorObject);
 
-            fs.set('devgameerror', [data]);
+            btDevGameError.set([data]);
         }
 
 

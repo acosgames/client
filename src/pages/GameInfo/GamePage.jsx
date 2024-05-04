@@ -1,66 +1,52 @@
-import fs from "flatstore";
-import Layout from "../../layout/Layout.jsx";
 import "./GamePage.scss";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { findGame } from "../../actions/game.js";
+import { useEffect, useRef, useState } from "react";
+
 import {
-  Box,
   VStack,
   HStack,
-  Heading,
-  Text,
-  Wrap,
-  Tooltip,
-  Button,
-  Image,
-  Center,
-  Icon,
-  IconButton,
   Tabs,
   TabList,
   Tab,
   TabPanels,
   TabPanel,
-  TabIndicator,
+  chakra,
 } from "@chakra-ui/react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { loadUserGameData } from "../../actions/person.js";
 
-import GameInfoReplay from "./GameInfoReplay.js";
+import GameInfoReplay from "./GameInfoReplay.jsx";
 
-import GameHeader from "./GameHeader.js";
-import GameDescription from "./GameDescription.js";
-import GameLeaderboard from "./GameLeaderboard.js";
+import GameHeader from "./GameHeader.jsx";
+import GameDescription from "./GameDescription.jsx";
+import GameLeaderboard from "./leaderboard/GameLeaderboard.jsx";
 import { GameActiveAchievements } from "./GameAchievements.jsx";
 import GameStats from "./GameStats.jsx";
-export default function GamePage({}) {
-  // let [player_stats] = fs.useWatch("player_stats");
+import { btGame, btLoadingGameInfo, btUser } from "../../actions/buckets.js";
+import { useBucket } from "../../actions/bucket.js";
 
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
+
+const ChakraSimpleBar = chakra(SimpleBar);
+
+export default function GamePage({}) {
+  let user = useBucket(btUser);
   let { game_slug, room_slug, mode } = useParams();
-  let [loadingGameInfo] = fs.useWatch("loadingGameInfo");
+  let loadingGameInfo = useBucket(btLoadingGameInfo);
 
   mode = mode || "rank";
 
   useEffect(() => {
-    // findGame();
-    let game = fs.get("game");
-
+    let game = btGame.get();
     if (game && game.game_slug == game_slug) return;
 
-    // if (game && game.longdesc && (!game || !game.longdesc)) {
-    //   fs.set("game", game);
-    // } else {
-    //   fs.set("game", { game_slug });
-    // }
-
     loadUserGameData(game_slug);
-  }, [game_slug]);
+  }, [user, game_slug]);
 
   return (
     <VStack w="100%" spacing="0" padding="0">
       <GameHeader />
       <GameTabs />
-      {/* <GameActionBar /> */}
     </VStack>
   );
 }
@@ -76,20 +62,22 @@ function GameTabs({}) {
 
   useEffect(() => {
     window.addEventListener("resize", onResize);
-    if (tablistRef?.current) myObserver.observe(tablistRef.current);
+    // if (tablistRef?.current) myObserver.observe(tablistRef.current);
     onResize();
 
     if (scrollRef.current) {
       scrollRef.current.addEventListener(
         "wheel",
         (event) => {
-          event.preventDefault();
+          // event.preventDefault();
 
           // if (
-          //   (scrollRef.current.scrollLeft > 0 &&
-          //   scrollRef.current.clientWidth + scrollRef.current.scrollLeft <
-          //     scrollRef.current.scrollWidth
+          //   (scrollRef.current.scrollLeft >= 0 && event.deltaY > 0) ||
+          //   (scrollRef.current.clientWidth + scrollRef.current.scrollLeft <
+          //     scrollRef.current.scrollWidth &&
+          //     event.deltaY < 0)
           // )
+          event.preventDefault();
           scrollRef.current.scrollBy({
             left: event.deltaY < 0 ? -30 : 30,
           });
@@ -103,17 +91,21 @@ function GameTabs({}) {
     };
   }, []);
 
-  const myObserver = new ResizeObserver((entries) => {
-    onResize();
-  });
+  // const myObserver = new ResizeObserver((entries) => {
+  // onResize();
+  // });
 
   const onResize = (e) => {
-    if (borderRef.current && tablistRef.current)
-      borderRef.current.style.width = tablistRef.current.offsetWidth + "px";
+    // if (borderRef.current && tablistRef.current)
+    //   borderRef.current.style.width = tablistRef.current.offsetWidth + "px";
   };
 
   const executeScroll = () => {
-    targetRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    // targetRef.current.scrollIntoView({
+    //   behavior: "smooth",
+    //   block: "nearest",
+    //   inline: "center",
+    // });
   };
 
   const handleTabsChange = (index) => {
@@ -126,7 +118,7 @@ function GameTabs({}) {
   return (
     <Tabs
       isLazy
-      bgColor="gray.925"
+      bgColor="gray.1200"
       colorScheme="brand"
       variant="brand"
       w="100%"
@@ -136,116 +128,131 @@ function GameTabs({}) {
       alignItems={"center"}
       flexDir={"column"}
       p="0"
-      defaultIndex={1}
+      // defaultIndex={1}
       ref={targetRef}
       value={tabIndex}
-      // onChange={handleTabsChange}
+      onChange={handleTabsChange}
     >
       <TabList
-        // onClick={executeScroll}
-        ref={scrollRef}
+        onClick={executeScroll}
         // w="100%"
-        maxW={["100%", "100%", "100%", "95%", "70%", "70%"]}
+        className="gamepage-tablist"
+        w={["100%", "100%", "100%", "100%", "900px"]}
         p="0"
-        pt="1rem"
-        px="3rem"
         gap="0"
         spacing="0"
+
+        // mb="-1.6rem"
       >
-        <HStack ref={tablistRef} spacing="0">
-          {/* <Box
-          ref={borderRef}
-          // _before={{
-          content="''"
-          width="80rem"
-          position="absolute"
-          bottom="0"
-          left="3rem"
-          // width: "100%"
-          height="2px"
-          background="linear-gradient(to right, var(--chakra-colors-gray-300),  var(--chakra-colors-gray-925))"
-          // }}
-        ></Box> */}
-          <Tab
-            onClick={(e) => {
-              e.target.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-              });
-              handleTabsChange(0);
-            }}
+        <ChakraSimpleBar
+          boxSizing="border-box"
+          style={{
+            width: "100%",
+            height: "6.4rem",
+            // height: '100%',
+            // flex: '1',
+            display: "flex",
+            justifyContent: "center",
+            overflowX: "scroll",
+            overflowY: "hidden",
+            boxSizing: "border-box",
+          }}
+          scrollableNodeProps={{ ref: scrollRef }}
+        >
+          <HStack
+            // ref={tablistRef}
+            ref={scrollRef}
+            spacing="0"
+            width="max-content"
+            // width={["auto", "auto", "auto", "auto", "100%"]}
+            justifyContent={"center"}
+            alignItems={"center"}
+            px="4rem"
+            height="6.4rem"
+            position={"relative"}
+            zIndex={2}
           >
-            Watch
-          </Tab>
-          <Tab
-            onClick={(e) => {
-              e.target.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-              });
-              handleTabsChange(1);
-            }}
-          >
-            Leaderboard
-          </Tab>
-          <Tab
-            onClick={(e) => {
-              e.target.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-              });
-              handleTabsChange(2);
-            }}
-          >
-            Tournaments
-          </Tab>
-          {/* <Tab>Private Server</Tab> */}
-          <Tab
-            onClick={(e) => {
-              e.target.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-              });
-              handleTabsChange(3);
-            }}
-          >
-            Achievements
-          </Tab>
-          <Tab
-            onClick={(e) => {
-              e.target.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-              });
-              handleTabsChange(4);
-            }}
-          >
-            Career
-          </Tab>
-          <Tab
-            onClick={(e) => {
-              e.target.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-              });
-              handleTabsChange(5);
-            }}
-          >
-            Items
-          </Tab>
-          <Tab
-            onClick={(e) => {
-              e.target.scrollIntoView({
-                behavior: "smooth",
-                block: "nearest",
-              });
-              handleTabsChange(6);
-            }}
-            mr={["1rem", "0"]}
-          >
-            Description
-          </Tab>
-        </HStack>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(0);
+              }}
+            >
+              Watch
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(1);
+              }}
+            >
+              Leaderboard
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(2);
+              }}
+            >
+              Tournaments
+            </Tab>
+            {/* <Tab>Private Server</Tab> */}
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(3);
+              }}
+            >
+              Achievements
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(4);
+              }}
+            >
+              Career
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(5);
+              }}
+            >
+              Store
+            </Tab>
+            <Tab
+              onClick={(e) => {
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "nearest",
+                });
+                handleTabsChange(6);
+              }}
+              mr={["1rem", "0"]}
+            >
+              Description
+            </Tab>
+          </HStack>
+        </ChakraSimpleBar>
       </TabList>
       <TabPanels w="100%">
         <TabPanel w="100%">
@@ -253,7 +260,7 @@ function GameTabs({}) {
         </TabPanel>
 
         <TabPanel w="100%">
-          <GameLeaderboard />
+          <GameLeaderboard game_slug={game_slug} />
         </TabPanel>
         <TabPanel w="100%"></TabPanel>
         <TabPanel w="100%">

@@ -1,12 +1,5 @@
-import fs from 'flatstore';
-
 function LeftBar({}) {
-    
-
-    return <></>
+  return <></>;
 }
-
-
-
 
 export default LeftBar;

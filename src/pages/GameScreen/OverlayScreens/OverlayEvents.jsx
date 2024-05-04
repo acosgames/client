@@ -9,7 +9,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import fs from "flatstore";
 import config from "../../../config";
 import {
   getGamePanel,
@@ -17,9 +16,6 @@ import {
   getPrimaryGamePanel,
   getRoomStatus,
 } from "../../../actions/room";
-import { memo, useEffect, useState } from "react";
-import ratingconfig from "shared/util/ratingconfig";
-import { FaCheck } from "@react-icons";
 
 import LeftPlayer from "./LeftPlayer";
 import RightPlayer from "./RightPlayer";
@@ -28,8 +24,9 @@ import { BottomHalf, TopHalf, Vs } from "./Vs";
 import CompactPlayer from "./CompactPlayer";
 import { AnimatePresence, motion } from "framer-motion";
 import ModalGameOver from "./ModalGameOver";
+import { useBucket } from "../../../actions/bucket";
+import { btShowPregameOverlay, btTimeleft } from "../../../actions/buckets";
 
-fs.set("showPregameOverlay", null);
 /**
  * Displays on:
  * - Game Joined (status == pregame or starting)
@@ -41,12 +38,8 @@ fs.set("showPregameOverlay", null);
  */
 
 export default function OverlayEvents({ gamepanelid, layoutRef }) {
-  // let [primaryId] = fs.useWatch("primaryGamePanel");
-  // let [gamepanel] = fs.useWatch("gamepanel/" + gamepanelid);
+  let showPregameOverlay = useBucket(btShowPregameOverlay);
 
-  let [showPregameOverlay] = fs.useWatch("showPregameOverlay");
-
-  // let [gamestatus] = fs.useWatch("gamestatus/" + showPregameOverlay);
   let gamepanel = getGamePanel(showPregameOverlay);
 
   if (showPregameOverlay == null || !gamepanel)
@@ -62,11 +55,10 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
   // const game_slug = room.game_slug;
   // const mode = room.mode;
 
-  let timeleft = fs.get("timeleft/" + gamepanel.id) || 0;
+  let timeleft = btTimeleft.get((bucket) => bucket[gamepanel.id]) || 0;
   timeleft = Math.ceil(timeleft / 1000);
 
-  // let game = fs.get('games>' + game_slug) || {};
-  let gamestate = gamepanel.gamestate; // fs.get('gamestate') || {};
+  let gamestate = gamepanel.gamestate;
   let events = gamestate?.events;
   let players = gamestate.players;
   let teams = gamestate.teams;

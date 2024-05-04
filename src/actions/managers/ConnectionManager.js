@@ -1,3 +1,5 @@
+import { btUser } from "../buckets";
+
 const websocketClient = null;
 
 
@@ -142,7 +144,6 @@ export async function validateLogin() {
         // console.log("CONNECT #3")
         return false;
         // await sleep(1000);
-        // user = fs.get('user');
     }
     return true;
 }
@@ -151,7 +152,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
     return new Promise(async (rs, rj) => {
 
         let ws = fs.get('ws');
-        let user = fs.get('user') || { token: 'LURKER' };
+        let user = btUser.get() || { token: 'LURKER' };
         fs.set('wsConnected', false);
 
         console.log("CONNECT #1", ws, user)

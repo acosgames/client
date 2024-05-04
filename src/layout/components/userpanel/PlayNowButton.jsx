@@ -3,20 +3,28 @@ import { getPrimaryGamePanel, setLastJoinType } from "../../../actions/room";
 import { validateLogin } from "../../../actions/connection";
 import { joinGame } from "../../../actions/game";
 import { useLocation, useParams } from "react-router-dom";
-import fs from "flatstore";
 import { useEffect, useState } from "react";
+import { useBucket } from "../../../actions/bucket";
+import {
+  btCheckingUserLogin,
+  btGame,
+  btJoinButtonVisible,
+  btPrimaryGamePanel,
+  btQueues,
+} from "../../../actions/buckets";
 
 export default function PlayNowButton({}) {
   let location = useLocation();
 
   let { game_slug } = useParams();
-  let [checkingUserLogin] = fs.useWatch("checkingUserLogin");
-  let [game] = fs.useWatch("game");
-  let [queues] = fs.useWatch("queues");
-  let [joinButtonVisible] = fs.useWatch("joinButtonVisible");
-  let [show, setShow] = useState(false);
+  let checkingUserLogin = useBucket(btCheckingUserLogin);
+  let game = useBucket(btGame); // useBucket("game");
+  let queues = useBucket(btQueues);
+  let joinButtonVisible = useBucket(btJoinButtonVisible);
+  let [show, setShow] = useState(true);
 
-  let [primaryId] = fs.useWatch("primaryGamePanel");
+  let primaryId = useBucket(btPrimaryGamePanel);
+
   let gamepanel = getPrimaryGamePanel();
 
   const handleJoin = async () => {
@@ -39,7 +47,7 @@ export default function PlayNowButton({}) {
   useEffect(() => {
     if (
       !game_slug ||
-      joinButtonVisible ||
+      // joinButtonVisible ||
       queue != null ||
       !game ||
       !game.game_slug ||

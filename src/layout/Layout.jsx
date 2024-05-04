@@ -1,51 +1,33 @@
-import fs from "flatstore";
-
-import PropTypes from "prop-types";
 import Header from "./Header.jsx";
 import Footer from "./Footer.jsx";
-import {
-  Box,
-  Button,
-  HStack,
-  Heading,
-  IconButton,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
-  VStack,
-  chakra,
-  useBoolean,
-  useBreakpointValue,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, HStack, VStack, chakra, useDisclosure } from "@chakra-ui/react";
 import RightBar from "./RightBar.jsx";
 import SimpleBar from "simplebar-react";
-import UserPanel from "./components/userpanel/UserPanel.jsx";
-import WaitingPanel from "./components/queue/WaitingPanel.jsx";
-import ChatPanel from "./components/chat/ChatPanel.jsx";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ActivateUserProfile from "../components/widgets/ActivateUserProfile.js";
-import VersionControl from "../components/widgets/VersionControl.js";
+import ActivateUserProfile from "../components/widgets/ActivateUserProfile.jsx";
+import VersionControl from "../components/widgets/VersionControl.jsx";
 
-import ChoosePortrait from "./components/user/ChoosePortrait.js";
-import GameInfoCreateDisplayName from "./components/user/GameInfoCreateDisplayName.js";
-import Connection from "../components/games/Connection.js";
-import ToastMessage from "../components/widgets/ToastMessage.js";
+import ChoosePortrait from "./components/user/ChoosePortrait.jsx";
+import GameInfoCreateDisplayName from "./components/user/GameInfoCreateDisplayName.jsx";
+import Connection from "../components/games/Connection.jsx";
+import ToastMessage from "../components/widgets/ToastMessage.jsx";
 
-import { BsLayoutSidebarInsetReverse } from "@react-icons";
 import GameScreen from "../pages/GameScreen/GameScreen.jsx";
 import { getGamePanel } from "../actions/room.js";
 import GameBar from "../pages/GameScreen/GameBar.jsx";
-import { AnimatePresence } from "framer-motion";
-function Layout({ children }) {
-  // const history = useNavigate();
-  // const location = useLocation();
+import { useBucket } from "../actions/bucket.js";
+import {
+  btHideDrawer,
+  btIsMobile,
+  btPrimaryGamePanel,
+  btScreenRect,
+  btScreenResized,
+} from "../actions/buckets.js";
 
+function Layout({ children }) {
   const disclosure = useDisclosure();
-  let [isMobile] = fs.useChange("isMobile");
+  let isMobile = useBucket(btIsMobile);
   const gameResizer = useRef();
 
   const myObserver = new ResizeObserver((entries) => {
@@ -58,25 +40,24 @@ function Layout({ children }) {
       document.documentElement.clientWidth ||
       document.body.clientWidth;
 
-    const currentIsMoble = fs.get("isMobile");
+    const currentIsMoble = btIsMobile.get();
 
-    fs.set("screenResized", true);
+    btScreenResized.set(true);
 
     if (width < 800) {
       if (!currentIsMoble) {
-        fs.set("isMobile", true);
-        fs.set("hideDrawer", true);
+        btIsMobile.set(true);
+        btHideDrawer.set(true);
       }
     } else {
       if (currentIsMoble) {
-        fs.set("isMobile", false);
-        fs.set("hideDrawer", false);
+        btIsMobile.set(false);
+        btHideDrawer.set(false);
       }
     }
   };
 
   useEffect(() => {
-    // fs.set("history", history);
     window.addEventListener("resize", onResize);
     if (gameResizer?.current) myObserver.observe(gameResizer.current);
 
@@ -136,8 +117,6 @@ function ScrollToTop({ scrollRef }) {
 }
 
 function DesktopLayout({ children }) {
-  // let [checkingUserLogin] = fs.useWatch("checkingUserLogin");
-
   const ChakraSimpleBar = chakra(SimpleBar);
 
   let scrollRef = useRef();
@@ -149,11 +128,11 @@ function DesktopLayout({ children }) {
 
   const onResize = (e) => {
     if (layoutRef.current)
-      fs.set("screenRect", [
+      btScreenRect.set([
         layoutRef.current.clientWidth,
         layoutRef.current.clientHeight,
       ]);
-    fs.set("screenResized", true);
+    btScreenResized.set(true);
   };
 
   useEffect(() => {
@@ -227,7 +206,7 @@ function DesktopLayout({ children }) {
 }
 
 function BarChooser({ layoutRef }) {
-  let primaryId = fs.useWatch("primaryGamePanel");
+  let primaryId = useBucket(btPrimaryGamePanel);
   let primary = getGamePanel(primaryId);
   if (primary) {
     return <GameBar layoutRef={layoutRef} />;

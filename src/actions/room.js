@@ -1,42 +1,42 @@
-import fs from 'flatstore';
+
 import { getWithExpiry, removeWithExpiry, setWithExpiry } from './cache';
 import { clearChatMessages } from './chat';
 import { timerLoop, updateBrowserTitle } from './connection';
+import { btChatMode, btChatUpdated, btDisplayMode, btGamePanels, btGameRoom, btGameState, btGameStates, btGameStatus, btGameStatusUpdated, btGames, btIframes, btLastJoin, btPrimaryGamePanel, btPrimaryRoom, btPrimaryState, btRoomSlug, btRooms, btShowGameover, btShowLoadingBox, btShowPregameOverlay, btUser } from './buckets';
 
 
-fs.set('gamepanels', []);
 
 
 export function setCurrentRoom(room_slug) {
-    fs.set('room_slug', room_slug);
+    btRoomSlug.set(room_slug);
 }
 
 export function getCurrentRoom() {
-    return fs.get('room_slug') || null;
+    return btRoomSlug.get() || null;
 }
 
 export function setLastJoinType(type) {
-    fs.set('lastJoin', type);
+    btLastJoin.set(type);
 }
 
 export function getLastJoinType() {
-    return fs.get('lastJoin');
+    return btLastJoin.get()
 }
 
 export function setGameState(state) {
-    fs.set('gamestate', state || {});
+    btGameState.set(state || {});
 }
 
 export function getGameState() {
-    return fs.get('gamestate') || {};
+    return btGameState.get() || {};
 }
 
 export function getGamePanel(id) {
-    return fs.get('gamepanel/' + id);
+    return btGamePanels.get(bucket => bucket[id])
 }
 
 export function getGamePanels() {
-    return fs.get('gamepanels') || [];
+    return btGamePanels.get() || [];
 }
 
 export function findGamePanelByRoom(room_slug) {
@@ -61,8 +61,10 @@ export function findGamePanelByIFrame(iframeRef) {
 
 export function updateGamePanel(gamepanel) {
     // console.log("Updating gamepanel/" + gamepanel.id);
-    fs.set('gamepanel/' + gamepanel.id, gamepanel);
+    let gamepanels = btGamePanels.get();
+    gamepanels[gamepanel.id] = gamepanel;
 
+    btGamePanels.set(gamepanels);
 
 
 
@@ -75,17 +77,17 @@ export function updateGamePanel(gamepanel) {
 
     let status = gamestate?.room?.status;
     if (gamepanel.forfeit || !gamepanel.active) {
-        fs.set('showGameover', gamepanel.id);
-        fs.set('showPregameOverlay', null);
+        btShowGameover.set(gamepanel.id);
+        btShowPregameOverlay.set(null);
     }
     else if (status == 'pregame' || status == 'starting') {
-        fs.set('showPregameOverlay', gamepanel.id);
-        fs.set('showGameover', null);
+        btShowGameover.set(null);
+        btShowPregameOverlay.set(gamepanel.id);
     } else {
-        fs.set('showPregameOverlay', null);
+        btShowPregameOverlay.set(null);
 
         if (status == 'gameover') {
-            fs.set('showGameover', gamepanel.id);
+            btShowGameover.set(gamepanel.id);
         }
     }
 
@@ -93,51 +95,28 @@ export function updateGamePanel(gamepanel) {
 
     let prefix = 'gamepanel/' + gamepanel.id;
     if (gamepanel.isPrimary) {
-        fs.set(`primary/state`, gamestate.state);
-        fs.set(`primary/players`, gamestate.players);
-        fs.set(`primary/teams`, gamestate.teams);
-        fs.set(`primary/next`, gamestate.next);
-        fs.set(`primary/roomstate`, gamestate.room);
-        fs.set(`primary/events`, gamestate.events);
-        fs.set(`primary/timer`, gamestate.timer);
-        fs.set(`primary/action`, gamestate.action);
-
-        fs.set(`primary/room`, gamepanel.room);
+        btPrimaryState.set(gamestate);
+        btPrimaryRoom.set(gamepanel.room);
     }
 
-    fs.set(`${prefix}/state`, gamestate.state);
-    fs.set(`${prefix}/players`, gamestate.players);
-
-    for (let shortid in gamestate.players) {
-        fs.set(`${prefix}/players/${shortid}`, gamestate.players[shortid]);
-    }
-    fs.set(`${prefix}/teams`, gamestate.teams);
-    for (let team_slug in gamestate.teams) {
-        fs.set(`${prefix}/teams/${team_slug}`, gamestate.teams[team_slug]);
-    }
-    fs.set(`${prefix}/next`, gamestate.next);
-    fs.set(`${prefix}/roomstate`, gamestate.room);
-    fs.set(`${prefix}/events`, gamestate.events);
-    fs.set(`${prefix}/timer`, gamestate.timer);
-    fs.set(`${prefix}/action`, gamestate.action);
-
-    fs.set(`${prefix}/room`, gamepanel.room);
+    btGameStates.assign({ [gamepanel.id]: gamestate });
+    btGameRoom.set(gamepanel.room);
 
 }
 
 export function getPrimaryGamePanel() {
-    let id = fs.get('primaryGamePanel');
+    let id = btPrimaryGamePanel.get()
     if (id == null)
         return null;
 
-    let gamepanel = fs.get('gamepanel/' + id);
+    let gamepanel = btGamePanels.get(bucket => bucket[id])
     if (!gamepanel)
         return null;
 
     return gamepanel;
 }
 export function setPrimaryGamePanel(gamepanel) {
-    let primaryId = fs.get('primaryGamePanel');
+    let primaryId = btPrimaryGamePanel.get()
     let primary = getGamePanel(primaryId);
 
     if (primary) {
@@ -146,27 +125,22 @@ export function setPrimaryGamePanel(gamepanel) {
     }
 
     if (!gamepanel) {
-        fs.set('primaryGamePanel', null);
-        fs.set('chatMode', 'all');
+        btPrimaryGamePanel.set(null);
+        btChatMode.set('all');
     }
     else {
 
 
+        btPrimaryGamePanel.set(gamepanel.id);
+        btChatMode.set(gamepanel.room.room_slug);
+        btChatUpdated.set(Date.now());
 
-        fs.set('primaryGamePanel', gamepanel.id);
-
-        fs.set('chatMode', gamepanel.room.room_slug);
-
-        fs.set('chatUpdated', Date.now());
-        //let primaryCanvasRef = fs.get('primaryCanvasRef');
-        //gamepanel.canvasRef = null;
         gamepanel.isPrimary = true;
-
 
 
         let game_slug = gamepanel?.room?.game_slug;
         if (game_slug) {
-            let game = fs.get('games>' + game_slug);
+            let game = btGames.get(bucket => bucket[game_slug]);
             if (game) {
                 updateBrowserTitle(game.name);
             }
@@ -211,7 +185,7 @@ export function cleanupGamePanels() {
         if (gp.gamestate?.room?.status == 'gameover') {
             gp.available = true;
             updateGamePanel(gp);
-            fs.set('gamepanels', gamepanels);
+            btGamePanels.set(gamepanels);
             return gp;
         }
     }
@@ -249,7 +223,7 @@ export function reserveGamePanel() {
             gp.active = true;
 
             updateGamePanel(gp);
-            fs.set('gamepanels', gamepanels);
+            btGamePanels.set(gamepanels);
             return gp;
         }
     }
@@ -258,49 +232,47 @@ export function reserveGamePanel() {
     gp.id = gamepanels.length;
     gamepanels.push(gp);
     console.log("reserverGamePanel updating gamepanel/" + gp.id);
-    fs.set('gamepanel/' + gp.id, gp);
-    fs.set('gamepanels', gamepanels);
+    btGamePanels.set(gamepanels);
     return gp;
 }
 
 export function setIFrameLoaded(room_slug, loaded) {
-    let iframes = fs.get('iframes');
+    let iframes = btIframes.get()
     if (!(room_slug in iframes)) {
         return false;
     }
     iframes[room_slug].loaded = loaded;
-    fs.set('iframes>' + room_slug, { element: iframeRef, loaded: false });
+    btIframes.assign({ [room_slug]: { element: iframeRef, loaded: false } })
     return true;
 }
 
 export function setIFrame(room_slug, iframeRef) {
-    let iframes = fs.get('iframes');
-    // iframes[room_slug] = ;
-    fs.set('iframes>' + room_slug, { element: iframeRef, loaded: false });
+    let iframes = btIframes.get()
+    btIframes.assign({ [room_slug]: { element: iframeRef, loaded: false } })
 }
 
 export function getIFrame(room_slug) {
-    let iframes = fs.get('iframes');
+    let iframes = btIframes.get()
     let iframe = iframes[room_slug];
     return iframe;
 }
 
 export function getGames() {
-    let games = fs.get('games') || getWithExpiry('games') || {};
+    let games = btGames.get() || getWithExpiry('games') || {};
     return games;
 }
 export function getGame(game_slug) {
-    let games = fs.get('games') || getWithExpiry('games') || {};
+    let games = btGames.get() || getWithExpiry('games') || {};
     return games[game_slug];
 }
 
 export function getRoom(room_slug) {
-    let rooms = fs.get('rooms') || getWithExpiry('rooms') || {};
+    let rooms = btRooms.get() || getWithExpiry('rooms') || {};
     return rooms[room_slug];
 }
 
 export function getRooms() {
-    let rooms = fs.get('rooms') || getWithExpiry('rooms') || {};
+    let rooms = btRooms.get() || getWithExpiry('rooms') || {};
     return rooms;
 }
 export function getRoomList() {
@@ -318,23 +290,23 @@ export function addRooms(roomList) {
         return;
 
     let rooms = getRooms();
-    let user = fs.get('user');
+    let user = btUser.get();
 
     let foundFirst = false;
-    for (var r of roomList) {
-        rooms[r.room_slug] = r;
+    for (var roomInfo of roomList) {
 
-        let gamestate = r.gamestate;
+        let { gamestate, room } = roomInfo;
+
+        rooms[room.room_slug] = roomInfo;
         //remove from the rooms object, so we can keep it separate
         // if (r.gamestate)
         //     delete r.gamestate;
-        let gamepanel = findGamePanelByRoom(r.room_slug || r.room.room_slug)
+        let gamepanel = findGamePanelByRoom(room.room_slug || gamestate.room.room_slug)
         if (!gamepanel) {
             gamepanel = reserveGamePanel();
-            fs.set('showLoadingBox/' + gamepanel.id, true);
+            btShowLoadingBox.assign({ [gamepanel.id]: true });
         }
 
-        gamepanel.room = r;
 
 
 
@@ -351,11 +323,11 @@ export function addRooms(roomList) {
             gamestate.local = { name: user.displayname, id: user.shortid };
         }
 
+        gamepanel.room = room;
         gamepanel.gamestate = gamestate;
-        updateRoomStatus(r.room_slug);
 
+        updateRoomStatus(room.room_slug);
         updateGamePanel(gamepanel);
-
 
         if (!foundFirst) {
             foundFirst = true;
@@ -363,7 +335,7 @@ export function addRooms(roomList) {
         }
     }
 
-    fs.set('rooms', rooms);
+    btRooms.set(rooms);
     setWithExpiry('rooms', JSON.stringify(rooms), 120);
 }
 
@@ -394,7 +366,7 @@ export function addRoom(msg) {
         gamepanel.gamestate = msg.payload;
     }
 
-    fs.set('showLoadingBox/' + gamepanel.id, true);
+    btShowLoadingBox.assign({ [gamepanel.id]: true });
     updateGamePanel(gamepanel);
 
     if (!msg.room.isReplay) {
@@ -404,8 +376,8 @@ export function addRoom(msg) {
     }
 
 
-    rooms[msg.room.room_slug] = msg.room;
-    fs.set('rooms', rooms);
+    rooms[msg.room.room_slug] = { room: msg.room, gamestate: msg.payload };
+    btRooms.set(rooms);
     setWithExpiry('rooms', JSON.stringify(rooms), 120);
 
 
@@ -424,7 +396,7 @@ export async function minimizeGamePanel() {
     if (primaryGamePanel) {
 
         if (primaryGamePanel.status == 'GAMEOVER') {
-            fs.set('displayMode', 'none');
+            btDisplayMode.set('none');
             clearRoom(primaryGamePanel.room.room_slug);
             // clearPrimaryGamePanel();
         }
@@ -440,7 +412,7 @@ export function clearPrimaryGamePanel() {
 }
 
 export function clearRooms() {
-    fs.set('rooms', {});
+    btRooms.set({});
     removeWithExpiry('rooms');
 }
 
@@ -453,27 +425,23 @@ export function clearRoom(room_slug) {
         setPrimaryGamePanel();
     }
 
-    let rooms = fs.get('rooms');
+    let rooms = btRooms.get();
     if (!rooms[room_slug])
         return;
     delete rooms[room_slug];
-    fs.set('rooms', rooms);
+    btRooms.set(rooms);
     setWithExpiry('rooms', JSON.stringify(rooms), 120);
 
     clearChatMessages(room_slug);
 }
 
 
-// export function setRoomStatus(status) {
-//     fs.set('roomStatus', status);
-// }
 export function getRoomStatus(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
     if (!gamepanel)
         return 'NOTEXIST'
 
-    return fs.get('gamestatus/' + gamepanel.id) || 'NOTEXIST';
-    // return gamepanel?.status || 'NOTEXIST';
+    return btGameStatus.get(bucket => bucket[gamepanel.id] || 'NOTEXIST')
 }
 
 export function updateRoomStatus(room_slug) {
@@ -481,23 +449,19 @@ export function updateRoomStatus(room_slug) {
     let status = processsRoomStatus(gamepanel);
     gamepanel.status = status;
 
-    fs.set('gamestatus/' + gamepanel.id, status);
-    fs.set('gamestatusUpdated', (new Date()).getTime());
+    btGameStatus.assign({ [gamepanel.id]: status });
+    btGameStatusUpdated.set(Date.now());
     // updateGamePanel(gamepanel);
 
     //console.log("ROOM STATUS = ", status);
-    // fs.set('roomStatus', status);
     return status;
 }
 
 export function processsRoomStatus(gamepanel) {
 
-    // let rooms = fs.get('rooms');
-    // let room = gamepanel.room;// rooms[room_slug];
 
 
-
-    let gamestate = gamepanel.gamestate;// fs.get('gamestate');
+    let gamestate = gamepanel.gamestate;
 
     if (!gamestate || !gamestate.state | !gamestate.players) {
         return "NOTEXIST";
@@ -517,12 +481,9 @@ export function processsRoomStatus(gamepanel) {
     if (gamepanel.forfeit) {
         return "FORFEIT";
     }
-    // let iframeLoaded = fs.get('iframeLoaded');
-    // if (!iframeLoaded) {
-    //     return "LOADING";
-    // }
 
-    let gameLoaded = gamepanel.loaded;// fs.get('gameLoaded');
+
+    let gameLoaded = gamepanel.loaded;
     if (!gameLoaded)
         return "LOADING";
 
@@ -600,8 +561,6 @@ export function isNextTeam(gamepanel, userid) {
 
 export function isUserNext(gamestate, userid) {
 
-    // let gamestate = gamepanel?.gamestate;
-    // let user = fs.get('user');
 
     if (!gamestate) return false;
 

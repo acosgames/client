@@ -55,7 +55,7 @@ function ActionMenu(props) {
         }
         else {
             setRoomForfeited(room_slug);
-            wsLeaveGame(game_slug, room_slug);
+            wsLeaveGame(room_slug);
         }
 
     }

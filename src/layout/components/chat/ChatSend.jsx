@@ -1,20 +1,21 @@
 import { Box, HStack, IconButton, Input } from "@chakra-ui/react";
-import { IoSend } from "@react-icons";
+import { IoSend } from "react-icons/io5";
 import { useState } from "react";
 import QuickChat from "./QuickChat.jsx";
 import { sendChatMessage } from "../../../actions/chat.js";
-import fs from "flatstore";
+import { useBucket } from "../../../actions/bucket.js";
+import { btChatMessage } from "../../../actions/buckets.js";
 
 export default function ChatSend({}) {
   let [message, setMessage] = useState("");
 
-  let [chatMessage] = fs.useWatch("chatMessage");
+  let chatMessage = useBucket(btChatMessage);
 
   const inputChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
 
-    fs.set("chatMessage", value);
+    btChatMessage.set(value);
   };
 
   const onSubmit = async (e) => {

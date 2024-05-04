@@ -17,16 +17,19 @@ import QueuePanel from "./components/queue/QueuePanel.jsx";
 import SocialPanel from "./components/social/SocialPanel.jsx";
 import UserPanel from "./components/userpanel/UserPanel.jsx";
 import ChatPanel from "./components/chat/ChatPanel.jsx";
-import WaitingPanel from "./components/queue/WaitingPanel.jsx";
-import fs from "flatstore";
-import ChatSend from "./components/chat/ChatSend.jsx";
+
 import { GoDotFill } from "react-icons/go";
 
-import { BsLayoutSidebarInsetReverse } from "@react-icons";
 import { useEffect, useState } from "react";
 import GameActions from "../pages/GameScreen/GameActions.jsx";
 import { getGamePanel } from "../actions/room.js";
 import GameBar from "../pages/GameScreen/GameBar.jsx";
+import { useBucket } from "../actions/bucket.js";
+import {
+  btHideDrawer,
+  btIsMobile,
+  btPrimaryGamePanel,
+} from "../actions/buckets.js";
 function RightBar({ layoutRef }) {
   return (
     // <VStack
@@ -45,8 +48,8 @@ function RightBar({ layoutRef }) {
 }
 
 function Lobby({ layoutRef }) {
-  let [hideDrawer] = fs.useWatch("hideDrawer");
-  let [isMobile] = fs.useWatch("isMobile");
+  let hideDrawer = useBucket(btHideDrawer);
+  let isMobile = useBucket(btIsMobile);
 
   useEffect(() => {
     if (layoutRef && layoutRef.current)
@@ -59,8 +62,6 @@ function Lobby({ layoutRef }) {
       }
   });
   const toggleRightbar = () => {
-    // let isMobile = fs.get("isMobile");
-    // fs.set("windowScrollPos", scrollRef.current.scrollTop);
     if (layoutRef && layoutRef.current)
       if (isMobile) {
         layoutRef.current.style.width = "100%";
@@ -69,7 +70,7 @@ function Lobby({ layoutRef }) {
           ? "calc(100% - 30rem)"
           : "100%";
       }
-    fs.set("hideDrawer", !fs.get("hideDrawer"));
+    btHideDrawer.set(!btHideDrawer.get());
   };
   return (
     <>
@@ -142,7 +143,7 @@ function Lobby({ layoutRef }) {
 }
 
 function BarChooser({ layoutRef }) {
-  let primaryId = fs.useWatch("primaryGamePanel");
+  let primaryId = useBucket(btPrimaryGamePanel);
   let primary = getGamePanel(primaryId);
   if (primary) {
     return <GameBar layoutRef={layoutRef} />;

@@ -1,10 +1,11 @@
 import { HStack, Heading, Icon, Image, Text } from "@chakra-ui/react";
-import { FaCoins } from "@react-icons";
+
 import config from "../../../config/index.js";
 import { TbBrain } from "react-icons/tb";
-import fs from "flatstore";
+import { btUser } from "../../../actions/buckets.js";
+import { useBucket } from "../../../actions/bucket.js";
 export default function BadgePoints({}) {
-  let [user] = fs.useWatch("user");
+  let user = useBucket(btUser);
   let points = user.points || 0;
   return (
     <HStack

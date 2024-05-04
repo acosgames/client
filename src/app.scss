@@ -112,6 +112,7 @@ a {
 
 .simplebar-wrapper {
   height:100%;
+  width:100%;
 }
 
 .simplebar-scrollbar:before {
@@ -128,6 +129,7 @@ a {
 /* width */
 ::-webkit-scrollbar {
   width: 0;
+  height: 0;
   overflow:visible;
   
 }
@@ -136,6 +138,7 @@ a {
 ::-webkit-scrollbar-track {
   background: transparent;
   width:0;
+  height:0;
 }
 
 /* Handle */
@@ -167,7 +170,7 @@ a {
   /* opacity:1 !important */
 }
 .simplebar-scrollbar.simplebar-visible:before {
-  opacity:1 !important
+  opacity:1 
 
 }
 
@@ -176,6 +179,17 @@ a {
   width:2px;
   right:0;
   margin-left:0.7rem;
+}
+
+.simplebar-track.simplebar-horizontal .simplebar-scrollbar:before {
+  background-color: var(--chakra-colors-gray-100);
+  height:2px;
+  
+  position: 'relative';
+  bottom:0;
+  margin-bottom:-0.2rem;
+  opacity: 0.2;
+  z-index: -1;
 }
 
 

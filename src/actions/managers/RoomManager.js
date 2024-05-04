@@ -1,3 +1,4 @@
+import { btGames } from "../buckets";
 
 export function setRoomForfeited(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug)
@@ -18,11 +19,11 @@ export function setRoomActive(room_slug, active) {
 
 
 export function getGames() {
-    let games = fs.get('games') || getWithExpiry('games') || {};
+    let games = btGames.get() || getWithExpiry('games') || {};
     return games;
 }
 export function getGame(game_slug) {
-    let games = fs.get('games') || getWithExpiry('games') || {};
+    let games = btGames.get() || getWithExpiry('games') || {};
     return games[game_slug];
 }
 

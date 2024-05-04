@@ -1,5 +1,3 @@
-import fs from "flatstore";
-import Layout from "../layout/Layout.jsx";
 import "./GamesPage.scss";
 import {
   Image,
@@ -29,7 +27,7 @@ import {
   useParams,
 } from "react-router-dom";
 
-import { FaPlay, GiBattleAxe, FaUsers } from "@react-icons";
+import { FaPlay } from "react-icons/fa";
 // import MultiplayerBG from "../assets/images/all-games-bg.png";
 import { useEffect } from "react";
 import { findGames, joinGame } from "../actions/game.js";
@@ -40,6 +38,8 @@ import { validateLogin } from "../actions/connection.js";
 
 import MultiplayerBG1 from "../assets/images/abs-items/object-1.png";
 import MultiplayerBG2 from "../assets/images/abs-items/star.png";
+import { btGameLists } from "../actions/buckets.js";
+import { useBucket } from "../actions/bucket.js";
 
 const ChakraLink = chakra(Link);
 
@@ -85,7 +85,7 @@ function EggDoodad() {
 }
 
 function MultiplayerList() {
-  let [gameLists] = fs.useWatch("gameLists");
+  let gameLists = useBucket(btGameLists);
 
   let rankList = gameLists?.rankList || [];
   //   let experimentalList = gameLists?.experimentalList || [];
@@ -180,7 +180,7 @@ function GameList({ list }) {
 }
 
 function SinglePlayerList() {
-  let [gameLists] = fs.useWatch("gameLists");
+  let gameLists = useBucket(btGameLists);
 
   let soloList = gameLists?.soloList || [];
 
@@ -290,7 +290,7 @@ function GameListItem({ game }) {
   const handleJoin = async () => {
     setLastJoinType("rank");
 
-    fs.set("game", game);
+    btGame.set(game);
 
     addJoinQueues(game.game_slug, "rank");
 

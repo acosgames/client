@@ -1,5 +1,3 @@
-import fs from "flatstore";
-import Layout from "../layout/Layout.jsx";
 import "./IndexPage.scss";
 import {
   Image,
@@ -14,12 +12,7 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 
-import {
-  Link,
-  useLocation,
-  //Link,
-  useParams,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import PlanetImg from "../assets/images/abs-items/planet.png";
 import Console1Img from "../assets/images/abs-items/console-1.png";

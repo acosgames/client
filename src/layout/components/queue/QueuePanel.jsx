@@ -1,10 +1,11 @@
 import { Box, Heading, Text, VStack, chakra } from "@chakra-ui/react";
-import fs from "flatstore";
 import QueueMessage from "./QueueMessage.jsx";
 
 import SimpleBar from "simplebar-react";
 import { useRef } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useBucket } from "../../../actions/bucket.js";
+import { btQueueStats, btQueues } from "../../../actions/buckets.js";
 
 export default function QueuePanel({}) {
   const scrollRef = useRef();
@@ -69,8 +70,8 @@ export default function QueuePanel({}) {
 }
 
 function NoActiveQueues() {
-  let [queueStats] = fs.useWatch("queueStats");
-  let [queues] = fs.useWatch("queues");
+  let queueStats = useBucket(btQueueStats);
+  let queues = useBucket(btQueues);
 
   let queueStatsKeys = Object.keys(queueStats || {});
   return (
@@ -101,8 +102,8 @@ function RenderQueues({}) {
 }
 
 function RenderJoined({}) {
-  let [queueStats] = fs.useWatch("queueStats");
-  let [queues] = fs.useWatch("queues");
+  let queueStats = useBucket(btQueueStats);
+  let queues = useBucket(btQueues);
   let queueElems = [];
   queueStats = queueStats || {};
 
@@ -130,8 +131,8 @@ function RenderJoined({}) {
 }
 
 function RenderAvailable({}) {
-  let [queueStats] = fs.useWatch("queueStats");
-  let [queues] = fs.useWatch("queues");
+  let queueStats = useBucket(btQueueStats);
+  let queues = useBucket(btQueues);
   queueStats = queueStats || {};
   let queueElems = [];
 

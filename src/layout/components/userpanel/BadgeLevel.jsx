@@ -1,10 +1,9 @@
 import { HStack, Heading, Icon, Image, Text } from "@chakra-ui/react";
-import { GiCandlebright } from "@react-icons";
-import config from "../../../config/index.js";
-import fs from "flatstore";
-import { SiLevelsdotfyi } from "react-icons/si";
+
+import { btUser } from "../../../actions/buckets.js";
+import { useBucket } from "../../../actions/bucket.js";
 export default function BadgeLevel({}) {
-  let [user] = fs.useWatch("user");
+  let user = useBucket(btUser);
   let level = Math.floor(user.level || 1);
   return (
     <HStack

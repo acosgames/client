@@ -207,35 +207,62 @@ const components = {
             }
         },
         variants: {
-
+            subtabs: {
+                tabpanel: {
+                    padding: '0',
+                },
+                tab: {
+                    color: "gray.200",
+                    cursor: "pointer",
+                    _selected: {
+                        cursor: "auto",
+                        color: "brand.300",
+                    },
+                    as: "span",
+                    letterSpacing: "0px",
+                    fontWeight: "bold",
+                    textTransform: 'uppercase',
+                    fontSize: ["1.2rem", "1.2rem", "1.4rem"],
+                }
+            },
             brand: {
                 tabs: {
                     // width: '100%',
-                    overflow: 'scroll',
+                    // overflow: 'auto',
+
+                    // mx: '2rem',
 
                 },
                 tab: {
-                    color: 'gray.10',
-                    py: '1rem',
+
+
+
+
+                    color: 'gray.40',
+                    // py: '1rem',
                     // border: '2px solid',
                     // borderColor: 'transparent',
                     // use colorScheme to change background color with dark and light mode options
                     // bg: ,
-                    px: '1rem',
+
+                    px: '1.5rem',
+
+                    py: '2rem',
+                    height: "6.4rem",
                     transition: 'all 0.3s ease',
                     fontWeight: '500',
-                    fontSize: ['1.4rem', '1.6rem', '1.6rem', '1.8rem'],
+                    fontSize: ['1.4rem', '1.4rem', '1.4rem', '1.6rem'],
                     fontFamily: "'Poppins', sans-serif",
                     borderTopRadius: 'lg',
                     position: 'relative',
                     borderBottom: '2px solid',
-                    borderBottomColor: 'transparent',
+                    borderBottomColor: 'gray.1200',
                     whiteSpace: 'nowrap',
                     // mb: '-2px',
                     _hover: {
                         color: 'gray.10',
-                        borderColor: 'gray.0',
                         borderBottom: '2px solid',
+                        borderBottomColor: 'brand.300',
                     },
                     _selected: {
                         // bg: mode('#fff', 'gray.800')(props),
@@ -258,16 +285,22 @@ const components = {
 
                 },
                 tablist: {
-                    width: 'auto',
-                    overflow: 'scroll',
+                    // width: 'max-content',
+                    // overflow: 'scroll',
+                    // justifyContent: 'center',
+                    // alignItems: 'center',
                     // overflow: 'hidden',
-                    // paddingLeft: '2rem',
-
+                    // marginBottom: '-1.6rem',
+                    paddingBottom: 0,
+                    marginBottom: 0,
+                    bgColor: 'gray.1200',
                     // borderBottom: '2px solid',
                     // borderColor: 'gray.850',
-                    position: 'relative',
-                    pt: "4rem",
+                    // position: 'relative',
+                    // pt: "4rem",
+                    height: '6.4rem',
                     padding: 0,
+
                     // _after: {
                     //     content: "''",
                     //     position: 'absolute',
@@ -285,7 +318,8 @@ const components = {
                     padding: '0',
                     paddingTop: '0rem',
                     transition: 'all 0.3s ease',
-                    minH: "20rem"
+                    minH: "20rem",
+                    bgColor: "gray.925"
                     // border: '2px solid',
                     // borderColor: 'inherit',
                     // borderBottomRadius: 'lg',

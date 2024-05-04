@@ -1,12 +1,17 @@
 import { Box, HStack, Heading, Text, VStack, Image } from "@chakra-ui/react";
 import config from "../../config/index.js";
-import PlayerRankInfo from "./PlayerRankInfo.js";
-import fs from "flatstore";
+import PlayerRankInfo from "./PlayerRankInfo.jsx";
+
 import ActionBarItem from "./ActionBarItem.jsx";
+import { useBucket, useBucketSelector } from "../../actions/bucket.js";
+import { btGame, btPlayerStats } from "../../actions/buckets.js";
 
 export default function GameStats({}) {
-  let [game] = fs.useWatch("game");
-  let [player_stat] = fs.useWatch("player_stats/" + game.game_slug);
+  let game = useBucket(btGame);
+  let player_stat = useBucketSelector(
+    btPlayerStats,
+    (bucket) => bucket[game.game_slug]
+  );
 
   if (!game || !player_stat) {
     return <></>;

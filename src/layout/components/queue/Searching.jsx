@@ -1,10 +1,16 @@
 import { HStack, VStack, Box, Text } from "@chakra-ui/react";
-import fs from "flatstore";
+
 import { wsLeaveQueue } from "../../../actions/connection";
 import { useEffect, useState } from "react";
 import { IconButton } from "@chakra-ui/react";
 
-import { MdCancel } from "@react-icons";
+import { MdCancel } from "react-icons/md";
+import { useBucket } from "../../../actions/bucket";
+import {
+  btPrimaryGamePanel,
+  btQueueStats,
+  btQueues,
+} from "../../../actions/buckets";
 
 let intervalHandle = 0;
 let intervalCount = 0;
@@ -17,9 +23,9 @@ let searchMessagees = [
 export default function Searching({}) {
   let [message, setMessage] = useState(searchMessagees[0]);
 
-  let [primaryId] = fs.useWatch("primaryGamePanel");
-  let [queueStats] = fs.useWatch("queueStats");
-  let [queues] = fs.useWatch("queues");
+  let primaryId = useBucket(btPrimaryGamePanel);
+  let queueStats = useBucket(btQueueStats);
+  let queues = useBucket(btQueues);
 
   const intervalLoop = () => {
     intervalCount++;

@@ -1,8 +1,8 @@
 import axios from 'axios';
-import fs from 'flatstore';
 
 
 import versions from 'shared/model/versions.json';
+import { btHistory, btVersion } from './buckets';
 
 
 const instance = axios.create({
@@ -15,12 +15,12 @@ export async function GET(url, extras) {
 
     //Check for new client version from server
     if (response?.headers?.v) {
-        let savedVersion = fs.get('version');
+        let savedVersion = btVersion.get();
         let clientVersion = Number(versions.client.version);
         let serverVersion = Number(response.headers.v);
         if (clientVersion < serverVersion) {
             if (serverVersion != savedVersion)
-                fs.set('version', serverVersion);
+                btVersion.set(serverVersion);
         }
     }
 
@@ -28,7 +28,7 @@ export async function GET(url, extras) {
     if (response.data && response.data.ecode) {
         let ecode = response.data.ecode;
         if (ecode == 'E_NOTAUTHORIZED' && url != '/api/v1/person' && url.indexOf('/api/v1/game/lbhs/') == -1) {
-            let history = fs.get('history');
+            let history = btHistory.get();
             history('/login');
         }
     }
@@ -42,7 +42,7 @@ export async function POSTFORM(url, data, extras) {
     if (response.data && response.data.ecode) {
         let ecode = response.data.ecode;
         if (ecode == 'E_NOTAUTHORIZED') {
-            let history = fs.get('history');
+            let history = btHistory.get();
             history('/login');
         }
     }
@@ -54,12 +54,12 @@ export async function POST(url, data, extras) {
 
     //Check for new client version from server
     if (response?.headers?.v) {
-        let savedVersion = fs.get('version');
+        let savedVersion = btVersion.get();
         let clientVersion = Number(versions.client.version);
         let serverVersion = Number(response.headers.v);
         if (clientVersion < serverVersion) {
             if (serverVersion != savedVersion)
-                fs.set('version', serverVersion);
+                btVersion.set(serverVersion);
         }
     }
 
@@ -67,7 +67,7 @@ export async function POST(url, data, extras) {
     if (response.data && response.data.ecode) {
         let ecode = response.data.ecode;
         if (ecode == 'E_NOTAUTHORIZED') {
-            let history = fs.get('history');
+            let history = btHistory.get();
             history('/login');
         }
     }

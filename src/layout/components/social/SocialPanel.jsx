@@ -10,7 +10,6 @@ import {
   VStack,
   chakra,
 } from "@chakra-ui/react";
-import fs from "flatstore";
 
 import SimpleBar from "simplebar-react";
 import { useRef } from "react";

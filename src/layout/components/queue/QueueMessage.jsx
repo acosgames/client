@@ -14,14 +14,14 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import { BsThreeDotsVertical } from "@react-icons";
 import config from "../../../config";
 import { Link } from "react-router-dom";
 import { joinGame } from "../../../actions/game";
-import fs from "flatstore";
+
 const ChakraLink = chakra(Link);
 import { motion } from "framer-motion";
 import { memo } from "react";
+import { btDisplayMode } from "../../../actions/buckets";
 
 export default function QueueMessage({
   game_slug,
@@ -41,15 +41,7 @@ export default function QueueMessage({
   name = name || "Undefined";
 
   const handleJoin = async () => {
-    // let iframe = gamepanel.iframe;// fs.get('iframe');
-    //let game_slug = props.match.params.game_slug;
-    // let game = fs.get('game');
-    // if (!game)
-    //     return
-
-    // if (room.maxplayers == 1) fs.set("showLoadingBox/" + gamepanel.id, true);
-
-    fs.set("displayMode", "none");
+    btDisplayMode.set("none");
     // clearRoom(room_slug);
     // clearPrimaryGamePanel();
     let isExperimental = mode == "experimental"; // (window.location.href.indexOf('/experimental/') != -1);

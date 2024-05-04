@@ -3,8 +3,8 @@
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 // import { encode, decode, defaultDict } from 'acos-json-encoder';
 // const { encode, decode, defaultDict } = require('acos-json-encoder');
-const ACOSEncoder = require('acos-json-encoder');// '../util/encoder';
-let ACOSDictionary = require('shared/model/acos-dictionary.json');
+import ACOSEncoder from 'acos-json-encoder';// '../util/encoder';
+import ACOSDictionary from 'shared/model/acos-dictionary.json';
 ACOSEncoder.createDefaultDict(ACOSDictionary)
 
 // const encode = ACOSEncoder.encode;
@@ -13,28 +13,15 @@ import { getUser, isUserLoggedIn, login } from './person';
 
 import config from '../config'
 
-import fs from 'flatstore';
 import delta from 'acos-json-delta';
-import { addRoom, addRooms, clearRoom, clearRooms, findGamePanelByIFrame, findGamePanelByRoom, getCurrentRoom, getGamePanels, getGameState, getIFrame, getRoom, reserveGamePanel, setCurrentRoom, setGamePanelActive, setGameState, setLastJoinType, setPrimaryGamePanel, setRoomActive, updateGamePanel, updateRoomStatus } from "./room";
+import { addRoom, addRooms, clearRoom, findGamePanelByIFrame, findGamePanelByRoom, getGamePanels, setLastJoinType, setRoomActive, setRoomForfeited, updateGamePanel, updateRoomStatus } from "./room";
 import { addGameQueue, clearGameQueues, getJoinQueues, onQueueStats } from "./queue";
 // import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
 import { addChatMessage } from "./chat";
 import { GET } from "./http";
+import { btChatToggle, btDuplicateTabs, btHistory, btJoinQueues, btLatency, btOffsetTime, btPlayerCount, btPlayerStats, btServerOffset, btShowLoadingBox, btTimeleft, btTimeleftUpdated, btUser, btWebsocket, btWebsocketConnected } from "./buckets";
 
-// import { useHistory } from 'react-router-dom';
-// import history from "./history";
-// fs.set('iframe', null);
-fs.set('ws', null);
-fs.set('game', null);
-// fs.set('gamestate', {});
-fs.set('room_slug', null);
-fs.set('games', {});
 
-fs.set('queues', []);
-fs.set('rooms', {});
-
-// fs.set('offsetTime', 0);
-fs.set('latency', 0);
 
 var messageQueue = {};
 var onResize = null;
@@ -98,9 +85,7 @@ export function timerLoop(cb) {
             elapsed = 0;
         }
 
-        // fs.set('gameTimeleft', elapsed);
-
-        fs.set('timeleft/' + gamepanel.id, elapsed);
+        btTimeleft.assign({ [gamepanel.id]: elapsed })
         timeleftUpdated = (new Date()).getTime();
         // gamepanel.timeleft = elapsed;
         // updateGamePanel(gamepanel);
@@ -118,7 +103,7 @@ export function timerLoop(cb) {
     }
 
     if (timeleftUpdated > 0)
-        fs.set('timeleftUpdated', timeleftUpdated);
+        btTimeleftUpdated.set(timeleftUpdated);
 
 }
 
@@ -144,7 +129,7 @@ export function fastForwardMessages(room_slug) {
     if (!iframe)
         return false;
 
-    let gamestate = gamepanel.gamestate;// fs.get('gamestate') || {};
+    let gamestate = gamepanel.gamestate;
     if (!(gamestate?.state)) {
         //    iframe.resize();
         return false;
@@ -173,46 +158,28 @@ export function fastForwardMessages(room_slug) {
 export function sendFrameMessage(msg) {
 
     let room_slug = msg?.room?.room_slug;
-    // let room = fs.get('rooms>' + room_slug);
 
     let gamepanel = findGamePanelByRoom(room_slug);
     if (!gamepanel)
         return;
 
-    let iframe = gamepanel.iframe;// getIFrame(room_slug);
-    // if (iframe)
+    let iframe = gamepanel.iframe;
 
-    // let iframes = fs.get('iframes') || {}
-    // let iframe = iframes[room_slug];
-
-    // let iframeLoaded = fs.get('iframesLoaded>' + room_slug);
     if (!iframe?.current) {
         if (!messageQueue[room_slug])
             messageQueue[room_slug] = [];
 
         messageQueue[room_slug].push(msg);
-        // setTimeout(() => {
-        //     sendFrameMessage(msg);
-        // }, 20)
         return;
     }
     else {
-
-
-        //next frame
-        // setTimeout(() => {
-        //console.log("SendFrameMessage: ", msg);
         try {
             iframe.current.contentWindow.postMessage(msg, '*');
         }
         catch (e) {
             console.log('Error iframe not working: ', e, gamepanel);
         }
-
-        // }, 1000)
-
     }
-
 }
 
 
@@ -247,9 +214,9 @@ export async function refreshGameState(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
 
 
-    let gamestate = gamepanel.gamestate;// fs.get('gamestate') || {};
+    let gamestate = gamepanel.gamestate;
     let user = await getUser();
-    let iframe = gamepanel.iframe;// fs.get('iframes>' + room_slug);
+    let iframe = gamepanel.iframe;
     // if (iframe) {
     let local = {};
     if (gamestate?.players) {
@@ -310,7 +277,7 @@ export function replayNextIndex(room_slug) {
     if (!iframe)
         return false;
 
-    let history = gamepanel.room.history;// fs.get('gamestate') || {};
+    let history = gamepanel.room.history;
     if (!(history || history.length == 0)) {
         //    iframe.resize();
         return false;
@@ -375,7 +342,7 @@ export function replayJumpToIndex(room_slug, startIndex) {
     if (!iframe || !iframe.current || !iframe.current.contentWindow)
         return false;
 
-    let history = gamepanel.room.history;// fs.get('gamestate') || {};
+    let history = gamepanel.room.history;
     if (!(history || history.length == 0)) {
         //    iframe.resize();
         return false;
@@ -457,7 +424,7 @@ export function replaySendGameStart(room_slug) {
     if (!iframe)
         return false;
 
-    let history = gamepanel.room.history;// fs.get('gamestate') || {};
+    let history = gamepanel.room.history;
     if (!(history || history.length == 0)) {
         //    iframe.resize();
         return false;
@@ -494,19 +461,13 @@ export async function recvFrameMessage(evt) {
     if (!gamepanel) return;
     // console.log('[iframe]: ', action);
 
-    let room_slug = gamepanel.room.room_slug;//getCurrentRoom();
-    let gamestate = gamepanel.gamestate;//getGameState();
-    // let iframesLoaded = gamepanel.loaded;// fs.get('iframesLoaded') || {};
+    let room_slug = gamepanel.room.room_slug;
+    let gamestate = gamepanel.gamestate;
 
     if (!gamepanel || !gamepanel.active)
         return;
 
     if (action.type == 'ready') {
-        // iframesLoaded[room_slug] = true;
-        // fs.set('iframesLoaded', iframesLoaded);
-
-        // gamepanel.loaded = true;
-        // updateGamePanel(gamepanel);
 
         if (gamepanel.room.isReplay && !gamepanel.room.replayStarted) {
             // replaySendGameStart(room_slug);
@@ -534,14 +495,12 @@ export async function recvFrameMessage(evt) {
             updateRoomStatus(room_slug);
             updateGamePanel(gamepanel);
 
-            fs.set('showLoadingBox/' + gamepanel.id, false);
+            btShowLoadingBox.assign({ [gamepanel.id]: false });
             if (gamepanel.room.isReplay) {
                 // setTimeout(() => {
                 replaySendGameStart(room_slug);
                 // }, 1000)
             }
-            // fs.set('loaded/' + gamepanel.id, true);
-            // fs.set('gameLoaded', true);
         }, 300)
         return;
     }
@@ -554,7 +513,6 @@ export async function recvFrameMessage(evt) {
     //     this.send('connected', 'Welcome to 5SG!');
     // }
 
-    // let ws = fs.get('ws');
 
     // if (ws) {
     // console.time('ActionLoop');
@@ -585,7 +543,7 @@ export async function wsSendFAKE(action) {
 
 
 export async function wsSend(action) {
-    let ws = fs.get('ws');
+    let ws = btWebsocket.get();
     if (!ws || !action)
         return false;
 
@@ -619,29 +577,28 @@ var reconnectTimeout = 0;
 
 
 export async function disconnect() {
-    let ws = fs.get('ws');
+    let ws = btWebsocket.get()
     if (!ws)
         return;
 
     ws.close();
 
-    fs.set('ws', null);
+    btWebsocket.set(null);
     console.log("Disconnected from server.");
 }
 export async function reconnect(skipQueues) {
-    let ws = fs.get('ws');
+    let ws = btWebsocket.get()
     if (ws && ws.isReady) {
         return ws;
     }
 
 
-    let duplicatetabs = fs.get('duplicatetabs');
+    let duplicatetabs = btDuplicateTabs.get()
     if (duplicatetabs) {
-        fs.set('chatToggle', false);
+        btChatToggle.set(false);
         return null;
     }
-    // let queues = fs.get('queues') || localStorage.getItem('queues') || [];
-    // let rooms = fs.get('rooms');
+
     // if (queues.length == 0 && !isNew && (!rooms || Object.keys(rooms).length == 0))
     //     return disconnect();
 
@@ -664,34 +621,21 @@ export async function reconnect(skipQueues) {
     return ws;
 }
 
-export async function wsLeaveGame(game_slug, room_slug) {
+export async function wsLeaveGame(room_slug) {
 
-    let ws = fs.get('ws');
+    let ws = btWebsocket.get()
     if (!ws || !ws.isReady) {
-        // let history = fs.get('history');
-        // setGameState({});
-        // setCurrentRoom(null);
-        // history.goBack();
         setRoomActive(room_slug, false);
-        //clearRoom(room_slug);
         return;
     }
 
     let action = { type: 'leave', room_slug }
-
     let byteLen = await wsSend(action);
     console.log("[Outgoing] Leaving:", '[' + byteLen + ' bytes]', action);
 
     setRoomActive(room_slug, false);
     revertBrowserTitle();
-
     sendPauseMessage(room_slug);
-    // clearRoom(room_slug);
-    // setGameState({});
-    // setCurrentRoom(null);
-
-    // let history = fs.get('history');
-    // history.goBack();
 }
 
 export async function wsLeaveQueue() {
@@ -699,12 +643,7 @@ export async function wsLeaveQueue() {
     setLastJoinType('');
     await clearGameQueues();
 
-    // let ws = await reconnect();
-    // if (!ws || !ws.isReady) {
-    //     return;
-    // }
-
-    fs.set('joinqueues', null);
+    btJoinQueues.set(null);
     localStorage.removeItem('joinqueues');
     let action = { type: 'leavequeue' }
     let byteLen = await wsSend(action);
@@ -720,7 +659,7 @@ export async function wsRejoinQueues() {
         return;
 
     let joinqueues = getJoinQueues() || {};
-    let user = fs.get('user');
+    let user = btUser.get();
 
     let jqs = joinqueues.queues || [];
     if (jqs.length > 0 && user)
@@ -732,7 +671,7 @@ export async function wsJoinQueues(queues, owner, attempt) {
     attempt = attempt || 1;
 
     let joinQueues = { queues, owner };
-    fs.set('joinqueues', joinQueues);
+    btJoinQueues.set(joinQueues);
     localStorage.setItem('joinqueues', JSON.stringify(joinQueues));
 
     if (attempt > 10)
@@ -746,7 +685,7 @@ export async function wsJoinQueues(queues, owner, attempt) {
         return false;
     }
 
-    let currentQueues = fs.get('queues') || [];
+    let currentQueues = btQueues.get() || []
     if (currentQueues.length > 0) {
         console.warn("Already in queue", currentQueues);
         // return false;
@@ -774,14 +713,8 @@ export async function wsJoinQueues(queues, owner, attempt) {
 
     console.log("[Outgoing] Queing:", '[' + byteLen + ' bytes]', action);
 
-    fs.set('queues', queues);
+    btQueues.set(queues);
 
-    // if (owner)
-    //     fs.set('successMessage', { description: `You joined ${owner}'s ${queues.length} queues.` })
-    // else
-    //     fs.set('successMessage', { description: `You joined ${queues.length} queues.` })
-
-    // console.timeEnd('ActionLoop');
     return true;
 }
 
@@ -813,38 +746,9 @@ export async function wsJoinGame(mode, game_slug) {
 
     console.log("[Outgoing] Joining " + mode + ":", '[' + byteLen + ' bytes]', action);
 
-    // let games = fs.get('games');
-    // let game = games[game_slug];
-    // let gameName = game?.name || game?.game_slug || '';
-
 
     sendPing(ws);
-    // if (game.maxplayers > 1)
-    //     fs.set('successMessage', { description: `You joined the "${gameName}" ${mode} mode.` })
-    // console.timeEnd('ActionLoop');
 }
-
-// export async function wsJoinRoom(game_slug, room_slug, private_key) {
-//     let ws = await reconnect(true);
-//     if (!ws || !ws.isReady) {
-//         console.log("RETRYING wSJoinRoom");
-//         setTimeout(() => { wsJoinRoom(game_slug, room_slug, private_key); }, 1000);
-//         return;
-//     }
-
-//     if (!room_slug) {
-//         console.error("Room [" + room_slug + "] is invalid.  Something went wrong.");
-//         return;
-//     }
-
-//     gtag('event', 'joinroom', { game_slug: game_slug });
-
-//     let action = { type: 'joinroom', payload: { game_slug, room_slug, private_key } }
-//     wsSend(action);
-
-//     console.log("[Outgoing] Joining room [" + room_slug + "]: ", game_slug, action);
-//     // console.timeEnd('ActionLoop');
-// }
 
 export async function wsSpectateGame(game_slug) {
     let ws = await reconnect(true);
@@ -879,27 +783,7 @@ export async function wsJoinPublicGame(game) {
     wsJoinGame('public', game.game_slug);
 }
 
-// export async function wsJoin(game_slug, room_slug) {
-//     wsJoinRoom(game_slug, room_slug);
-// }
 
-// export async function wsJoinPrivate(game_slug, room_slug, private_key) {
-//     wsJoinRoom(game_slug, room_slug, private_key);
-// }
-
-// export async function wsRejoinRoom(game_slug, room_slug, private_key) {
-//     gtag('event', 'joinroom', { mode: 'rank' });
-//     await wsJoinRoom(game_slug, room_slug, private_key);
-// }
-
-// export async function wsRejoinRooms() {
-//     let rooms = fs.get('rooms') || localStorage.getItem('rooms') || {};
-//     let roomList = Object.keys(rooms);
-//     for (var rs of roomList) {
-//         let room = rooms[rs];
-//         await wsRejoinRoom(room.game_slug, room.room_slug);
-//     }
-// }
 
 
 function sleep(ms) {
@@ -914,13 +798,7 @@ export async function validateLogin() {
 
         login();
 
-
-        // let history = fs.get('history');
-        // history.push('/login');
-        // console.log("CONNECT #3")
         return false;
-        // await sleep(1000);
-        // user = fs.get('user');
     }
     return true;
 }
@@ -928,9 +806,9 @@ export async function validateLogin() {
 export function wsConnect(url, onMessage, onOpen, onError) {
     return new Promise(async (rs, rj) => {
 
-        let ws = fs.get('ws');
-        let user = fs.get('user') || { token: 'LURKER' };
-        fs.set('wsConnected', false);
+        let ws = btWebsocket.get()
+        let user = btUser.get() || { token: 'LURKER' };
+        btWebsocketConnected.set(false);
 
         console.log("CONNECT #1", ws, user)
         // if (!user) {
@@ -968,8 +846,8 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             }
 
 
-            fs.set('duplicatetabs', false);
-            fs.set('wsConnected', true);
+            btDuplicateTabs.set(false);
+            btWebsocketConnected.set(true);
             // wsRejoinRooms();
 
             var currentdate = new Date();
@@ -987,8 +865,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             console.log("CONNECT #5")
             console.log(evt);
             client.isReady = false;
-            // fs.set('gamestate', {});
-            fs.set('wsConnected', false);
+            btWebsocketConnected.set(false);
             var currentdate = new Date();
             var datetime = "WS Closed: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth() + 1) + "/"
@@ -1009,7 +886,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
             if (rj)
                 rj(error);
 
-            fs.set('wsConnected', false);
+            btWebsocketConnected.set(false);
             var currentdate = new Date();
             var datetime = "WS Errored: " + currentdate.getDate() + "/"
                 + (currentdate.getMonth() + 1) + "/"
@@ -1023,7 +900,7 @@ export function wsConnect(url, onMessage, onOpen, onError) {
 
         client.onmessage = onMessage || wsIncomingMessage;
 
-        fs.set('ws', client);
+        btWebsocket.set(client);
     });
 }
 
@@ -1053,10 +930,11 @@ function onPong(message) {
     console.log('Server Time: ', serverTime);
     console.log('Client Time: ', currentTime);
     // console.log('Real Time: ', realTime);
-    fs.set('latency', latency);
-    fs.set('serverOffset', serverOffset);
-    fs.set('offsetTime', offsetTime);
-    fs.set('playerCount', message.playerCount || 0);
+
+    btLatency.set(latency);
+    btServerOffset.set(serverOffset);
+    btOffsetTime.set(offsetTime);
+    btPlayerCount.set(message.playerCount || 0);
 }
 
 async function wsIncomingMessageFAKE(message) {
@@ -1135,8 +1013,8 @@ export function revertBrowserTitle() {
 }
 
 async function wsIncomingMessage(message) {
-    let user = fs.get('user');
-    let history = fs.get('history');
+    let user = btUser.get();
+    let history = btHistory.get();
     // let gamestate = getGameState();
 
     let buffer = await message.data;
@@ -1162,13 +1040,11 @@ async function wsIncomingMessage(message) {
         case 'addedQueue':
             console.log("[Incoming] queue:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             addGameQueue(msg.payload.queues);
-            // fs.set('playerCount', msg.playerCount || 0);
 
             return;
         case 'removedQueue':
             console.log("[Incoming] queue:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             await wsLeaveQueue();
-            // fs.set('playerCount', msg.playerCount || 0);
 
             return;
         case 'ready':
@@ -1195,41 +1071,33 @@ async function wsIncomingMessage(message) {
             console.log("[Incoming] InRooms:", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
             if (msg.payload && Array.isArray(msg.payload) && msg.payload.length > 0) {
 
-                fs.set('playerCount', msg.playerCount || 0);
-
                 if (!msg.payload || msg.payload.length == 0) {
                     console.log("No rooms found.");
                     return;
                 }
 
+                let multiplayerRoom = msg.payload.find((roomInfo) => roomInfo.room.maxplayers > 1)
 
-                addRooms(msg.payload);
-                // for (const room of msg.payload) {
-                //     await addRoom(room.gamestate);
-                // }
-                msg.payload = msg.payload[0].gamestate;
-                msg.room_slug = msg.payload?.room?.room_slug;
 
-                // fs.set('gameLoaded', false);
+                if (multiplayerRoom) {
+                    addRooms([multiplayerRoom]);
+                    msg.payload.forEach(roomInfo => {
+                        if (roomInfo == multiplayerRoom)
+                            return;
+                        setRoomForfeited(roomInfo.room.room_slug);
+                        wsLeaveGame(roomInfo.room.room_slug);
+                    })
+
+                    msg.payload = multiplayerRoom.gamestate;
+                    msg.room_slug = multiplayerRoom.room?.room_slug;
+                    clearGameQueues();
+                } else {
+                    addRooms(msg.payload);
+                }
+
                 setLastJoinType('');
-                await clearGameQueues();
-
                 timerLoop();
 
-                //lets move into the first room on the list
-                // let room = msg.payload[0];
-
-                //update the gamestate
-                // if (window.location.href.indexOf(room.room_slug) > -1) {
-                //     if (room.payload)
-                //         setGameState(room.payload);
-                // }
-
-                //redirect to the room url
-                // let experimental = room.mode == 'experimental' ? '/experimental' : '';
-                // let urlPath = '/g/' + room.game_slug + experimental + '/' + room.room_slug;
-                // if (window.location.href.indexOf(urlPath) == -1)
-                //     history.push(urlPath);
                 return;
             }
             break;
@@ -1243,8 +1111,8 @@ async function wsIncomingMessage(message) {
 
             addRoom(msg);
 
-            clearGameQueues();
-            // fs.set('gameLoaded', false);
+            if (msg.room.maxplayers > 1)
+                clearGameQueues();
 
             setLastJoinType('');
 
@@ -1283,7 +1151,7 @@ async function wsIncomingMessage(message) {
             break;
         case 'duplicatetabs':
             console.log("[Incoming] ERROR :: Duplicate Tabs:: ", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
-            fs.set('duplicatetabs', true);
+            btDuplicateTabs.set(true);
             return;
         default:
             console.log("[Incoming] Unknown type: ", '[' + buffer.byteLength + ' bytes]', JSON.parse(JSON.stringify(msg, null, 2)));
@@ -1306,7 +1174,7 @@ async function wsIncomingMessage(message) {
             // getRoom(msg.room_slug);
             //UPDATE PLAYER STATS FOR THIS GAME
             if (room?.mode == 'rank' && msg?.payload?._played) {
-                let player_stat = fs.get('player_stats/' + room.game_slug);
+                let player_stat = btPlayerStats.get(bucket => bucket[room.game_slug]);
                 // let player_stat = player_stats[room.game_slug]
                 if (player_stat) {
                     if (msg.payload._win)
@@ -1323,7 +1191,7 @@ async function wsIncomingMessage(message) {
                     //     player_stat.ratingTxt = player.ratingTxt;
 
                 }
-                fs.set('player_stats/' + room.game_slug, player_stat);
+                btPlayerStats.assign({ [room.game_slug]: player_stat });
             }
 
             gamestate.players[user.shortid] = player;
@@ -1335,27 +1203,12 @@ async function wsIncomingMessage(message) {
         else {
 
             if (msg.payload?.timer?.end) {
-                let latency = fs.get('latency') || 0;
-                let offsetTime = fs.get('offsetTime') || 0;
+                let latency = btLatency.get() || 0;
+                let offsetTime = btOffsetTime.get() || 0;
                 let extra = 30; //for time between WS and gameserver
                 msg.payload.timer.end += (-offsetTime) - (latency / 2) - (extra);
             }
 
-            // let room = getRoom(msg.room_slug);
-            // if (msg.payload && msg.payload.players) {
-            //     let player = msg?.payload?.players[user.shortid]
-            //     if (player) {
-            //         let player_stats = fs.get('player_stats');
-            //         let player_stat = player_stats[room.game_slug]
-            //         if (player.rating)
-            //             player_stat.rating = player.rating;
-
-            //         if (player.ratingTxt)
-            //             player_stat.ratingTxt = player.ratingTxt;
-
-            //         fs.set('player_stats', player_stats);
-            //     }
-            // }
 
 
             gamestate.action = {};
@@ -1405,7 +1258,6 @@ async function wsIncomingMessage(message) {
 }
 
 async function postIncomingMessage(msg) {
-    // let rooms = fs.get('rooms');
 
     let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug);
     let room = gamepanel.room;
@@ -1414,18 +1266,11 @@ async function postIncomingMessage(msg) {
     switch (msg.type) {
         case 'gameover':
 
-
-            // let room = rooms[msg.room_slug];
-            // let gamestate = fs.get('gamestate');
-            let user = fs.get('user');
-            // let games = fs.get('games');
-            // let game = games[room.game_slug];
-
-
+            let user = btUser.get();
             if (room.mode == 'rank') {
                 let player = msg.payload.players[user.shortid];
 
-                let player_stat = fs.get('player_stats/' + room.game_slug);
+                let player_stat = btPlayerStats.get(bucket => bucket[room.game_slug])
                 // let player_stat = player_stats[room.game_slug] || {};
                 if (player_stat) {
                     if (player.rating)
@@ -1434,7 +1279,7 @@ async function postIncomingMessage(msg) {
                     //    player_stat.ratingTxt = player.ratingTxt;
                     // player_stats[room.game_slug] = player_stat;
                 }
-                fs.set('player_stats/' + room.game_slug, player_stat);
+                btPlayerStats.assign({ [room.game_slug]: player_stat });
 
                 // if (room?.maxplayers > 1)
                 //     findGameLeaderboard(room.game_slug);
@@ -1443,7 +1288,6 @@ async function postIncomingMessage(msg) {
                 //     findGameLeaderboardHighscore(room.game_slug);
                 // }
             }
-            // fs.set('gamestate', {});
             break;
         case 'noshow':
             break;
@@ -1463,7 +1307,6 @@ async function postIncomingMessage(msg) {
     revertBrowserTitle();
     // clearRoom(msg.room_slug);
     // delete rooms[msg.room_slug];
-    // fs.set('rooms', rooms);
     // disconnect()
 }
 

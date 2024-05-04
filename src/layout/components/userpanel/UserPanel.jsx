@@ -19,25 +19,33 @@ import ConnectionStatus from "./ConnectionStatus.jsx";
 import UserName from "./UserName.jsx";
 import PlayersOnlineStatus from "./PlayersOnlineStatus.jsx";
 import UserFlag from "./UserFlag.jsx";
-import { BiLogIn } from "@react-icons";
+// import { BiLogIn } from "@react-icons";
 import UserAvatar from "./UserAvatar.jsx";
 import UserLevelIcon from "./UserLevelIcon.jsx";
 
-import { BsThreeDotsVertical, GiGamepad } from "@react-icons";
+import { GiGamepad } from "react-icons/gi";
 import UserMenu from "../user/UserMenu.jsx";
 
-import fs from "flatstore";
 import { validateLogin } from "../../../actions/connection.js";
 import { useLocation, Link, Routes, Route } from "react-router-dom";
 import Searching from "../queue/Searching.jsx";
 import { useEffect } from "react";
 import PlayNowButton from "./PlayNowButton.jsx";
 import { getGamePanel, isUserNext } from "../../../actions/room.js";
+import { useBucket } from "../../../actions/bucket.js";
+import {
+  btGamePanels,
+  btIsMobile,
+  btLoggedIn,
+  btPrimaryGamePanel,
+  btUser,
+} from "../../../actions/buckets.js";
 
 export default function UserPanel() {
-  let [loggedIn] = fs.useWatch("loggedIn");
-  let [isMobile] = fs.useChange("isMobile");
-  let [user] = fs.useWatch("user");
+  let loggedIn = useBucket(btLoggedIn);
+  let isMobile = useBucket(btIsMobile);
+
+  let user = useBucket(btUser) || {};
 
   useEffect(() => {}, []);
   if (loggedIn == "LURKER" || loggedIn == "CHECKING" || !user.displayname) {
@@ -99,7 +107,7 @@ function UserLogin() {
 }
 
 function UserFrame() {
-  let [primaryId] = fs.useWatch("primaryGamePanel");
+  let primaryId = useBucket(btPrimaryGamePanel);
 
   return (
     <VStack
@@ -201,12 +209,11 @@ function UserFrame() {
 }
 
 function IsNextIndicator({ gamepanelid }) {
-  let [gamepanel] = fs.useWatch("gamepanel/" + gamepanelid);
+  let gamepanel = useBucket(btGamePanels, (bucket) => bucket[gamepanelid]);
   let primary = getGamePanel(gamepanelid);
 
-  let user = fs.get("user");
+  let user = btUser.get();
   if (!primary || !user) return;
-  // let [next] = fs.useWatch('primary/next');
   let isNext = isUserNext(primary.gamestate, user.shortid);
   return (
     <Box

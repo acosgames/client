@@ -1,21 +1,28 @@
 import { Box, VStack } from "@chakra-ui/react";
 import GamePanel from "./GamePanel";
 import { getGamePanel } from "../../actions/room";
-import fs from "flatstore";
 import { memo, useEffect, useRef } from "react";
 import { calculateGameSize } from "../../util/helper";
 import OverlayEvents from "./OverlayScreens/OverlayEvents.jsx";
 import { AnimatePresence, motion } from "framer-motion";
 import ModalGameOver from "./OverlayScreens/ModalGameOver";
+import { useBucket } from "../../actions/bucket";
+import {
+  btGameScreenSize,
+  btHideDrawer,
+  btIsMobile,
+  btPrimaryGamePanel,
+  btScreenResized,
+  btShowGameover,
+} from "../../actions/buckets";
 
 const MotionBox = motion(Box);
 
 export default function GameScreen({ layoutRef }) {
-  let [primaryId] = fs.useWatch("primaryGamePanel");
-  // let [gamepanel] = fs.useWatch("gamepanel/" + primaryId);
-  let [hideDrawer] = fs.useWatch("hideDrawer");
-  let [isMobile] = fs.useWatch("isMobile");
-  let [screenResized] = fs.useWatch("screenResized");
+  let primaryId = useBucket(btPrimaryGamePanel);
+  let hideDrawer = useBucket(btHideDrawer);
+  let isMobile = useBucket(btIsMobile);
+  let screenResized = useBucket(btScreenResized);
 
   console.log("GameScreen primaryId:", primaryId);
 
@@ -95,6 +102,7 @@ export default function GameScreen({ layoutRef }) {
             // bgColor="pink"
           >
             <DisplayGamePanel
+              key={"primary-gamepanel-" + primaryId}
               layoutRef={layoutRef}
               hideDrawer={hideDrawer}
               isMobile={isMobile}
@@ -115,9 +123,7 @@ function DisplayGamePanel({
   primary,
   // primaryId,
 }) {
-  // let [primaryId] = fs.useWatch("primaryGamePanel");
-  // let [gamestatus] = fs.useWatch("gamestatus/" + primaryId);
-  let [showGameover] = fs.useWatch("showGameover");
+  let showGameover = useBucket(btShowGameover);
   let ref = useRef();
 
   let elementHeight = layoutRef.current.clientHeight; // height with padding
@@ -137,7 +143,7 @@ function DisplayGamePanel({
   );
 
   useEffect(() => {
-    fs.set("gameScreenSize", [bgWidth, bgHeight]);
+    btGameScreenSize.set([bgWidth, bgHeight]);
   });
   return (
     <Box

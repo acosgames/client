@@ -1,5 +1,5 @@
 import { Box, HStack, Heading, Image, Text } from "@chakra-ui/react";
-import fs from "flatstore";
+
 import config from "../config";
 import {
   Link,

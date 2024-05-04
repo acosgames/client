@@ -1,11 +1,11 @@
 import { Image } from "@chakra-ui/react";
 
-import USAFlag from "../../../assets/images/flags/USA.svg";
-import fs from "flatstore";
 import config from "../../../config";
+import { btUser } from "../../../actions/buckets";
+import { useBucket } from "../../../actions/bucket";
 
 export default function UserFlag({ flag }) {
-  let [user] = fs.useWatch("user");
+  let user = useBucket(btUser);
   return (
     <Image
       src={`${config.https.cdn}images/country/${user.countrycode}.svg`}

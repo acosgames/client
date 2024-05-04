@@ -1,8 +1,10 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
-import fs from "flatstore";
+
+import { btUser } from "../../../actions/buckets";
+import { useBucket } from "../../../actions/bucket";
 
 export default function UserName({}) {
-  let [user] = fs.useWatch("user");
+  let user = useBucket(btUser);
   return (
     <Text
       as="span"

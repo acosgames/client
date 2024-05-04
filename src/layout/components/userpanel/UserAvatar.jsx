@@ -2,12 +2,18 @@ import { Box, Image } from "@chakra-ui/react";
 
 // import USAFlag from "../../../assets/images/flags/USA.svg";
 import config from "../../../config";
-import fs from "flatstore";
+import { useBucket } from "../../../actions/bucket";
+import {
+  btDuplicateTabs,
+  btLatency,
+  btUser,
+  btWebsocketConnected,
+} from "../../../actions/buckets";
 export default function UserAvatar({}) {
-  let [user] = fs.useWatch("user");
-  let [latency] = fs.useWatch("latency");
-  let [wsConnected] = fs.useWatch("wsConnected");
-  let [duplicatetabs] = fs.useWatch("duplicatetabs");
+  let user = useBucket(btUser);
+  let latency = useBucket(btLatency);
+  let wsConnected = useBucket(btWebsocketConnected);
+  let duplicatetabs = useBucket(btDuplicateTabs);
 
   let latencyColor = "brand.300";
   if (latency > 400) {

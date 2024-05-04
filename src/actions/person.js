@@ -1,12 +1,12 @@
 import { GET, POST } from './http';
-import fs from 'flatstore';
-import { findDevGames } from './devgame';
+// import { findDevGames } from './devgame';
 // import history from "./history";
 import { getWithExpiry, setWithExpiry, removeWithExpiry } from './cache';
-import { wsRejoinRoom, reconnect, disconnect, wsRejoinQueues, wsJoinQueues } from './connection';
+import { disconnect, wsRejoinQueues, wsJoinQueues } from './connection';
 import { addGameQueue, addJoinQueues, clearGameQueues, getJoinQueues } from './queue';
 import { clearRooms, getLastJoinType, getRoomList, getRooms, setLastJoinType } from './room';
 import { findGame, findGamePerson } from './game';
+import { btCheckingUserLogin, btDefaultCountry, btDisplayName, btGame, btIsCreateDisplayName, btJustCreatedName, btLoadingDefaultCountry, btLoadingGameInfo, btLoadingProfile, btLoadingUser, btLoggedIn, btLoginFrom, btPlayerStats, btPortraitId, btProfile, btUser, btUserId } from './buckets';
 
 
 
@@ -17,11 +17,12 @@ export async function createDisplayName({ displayname, portraitid, countrycode }
         let response = await POST('/api/v1/person/create/displayname', { displayname, portraitid, countrycode });
         let user = response.data;
 
-        let existing = fs.get('user');
+        let existing = btUser.get();
         Object.assign(existing, user);
 
-        fs.set('user', existing);
-        fs.set('userid', existing.id);
+        btUser.set(existing);
+
+        btUserId.set(existing.id);
 
         disconnect();
 
@@ -37,25 +38,25 @@ export async function createDisplayName({ displayname, portraitid, countrycode }
 export async function getCountry() {
     try {
 
-        fs.set('loadingDefaultCountry', true);
+        btLoadingDefaultCountry.set(true);
 
         let response = await GET('/api/v1/country/');
         let data = response.data;
 
         if (!data || !data.countrycode) {
-            fs.set('defaultCountry', 'US');
-            fs.set('loadingDefaultCountry', false);
+            btDefaultCountry.set('US');
+            btLoadingDefaultCountry.set(false);
             return 'US';
         }
 
-        fs.set('defaultCountry', data.countrycode);
+        btDefaultCountry.set(data.countrycode);
         return data.countrycode;
     }
     catch (e) {
-        fs.set('defaultCountry', 'US');
+        btDefaultCountry.set('US');
     }
     finally {
-        fs.set('loadingDefaultCountry', false);
+        btLoadingDefaultCountry.set(false);
     }
     return 'US';
 }
@@ -70,10 +71,9 @@ export async function createTempUser({ displayname, portraitid, countrycode }) {
 
         logoutTimer(user);
 
-
-        fs.set('user', user);
-        fs.set('userid', user.id);
-        fs.set('profile', user);
+        btUser.set(user);
+        btUserId.set(user.id);
+        btProfile.set(user);
 
         disconnect();
 
@@ -97,12 +97,13 @@ export async function logout() {
         }
 
         setLoginMode();
-        fs.set('user', null);
-        fs.set('userid', 0);
-        fs.set('player_stats', {});
-        fs.set('displayname', '');
+        btUser.set(null);
+
+        btUserId.set(0);
+        btPlayerStats.set({});
+        btDisplayName.set('');
+        btIsCreateDisplayName.set(false);
         localStorage.removeItem('displayname');
-        fs.set('isCreateDisplayName', false);
         removeWithExpiry('user');
 
         clearRooms();
@@ -120,44 +121,43 @@ export async function logout() {
 }
 
 export function isUserLoggedIn() {
-    let loggedIn = fs.get('loggedIn');
+    let loggedIn = btLoggedIn.get();
     return !(!loggedIn || loggedIn == 'LURKER' || loggedIn == 'CHECKING');
 }
 
 export async function getPlayer(displayname) {
     try {
 
-        fs.set('loadingProfile', true);
+        btLoadingProfile.set(true);
 
         let response = await GET('/api/v1/person/' + displayname);
         let player = response.data;
 
         if (player.ecode) {
             console.error('Player not found: ', displayname);
-            fs.set('profile', null);
-            fs.set('loadingProfile', false);
+            btProfile.set(null);
+            btLoadingProfile.set(false);
             return null;
         }
-
-        fs.set('profile', player);
+        btProfile.set(player);
     }
     catch (e) {
-        fs.set('profile', null);
+        btProfile.set(null);
     }
     finally {
-        fs.set('loadingProfile', false);
+        btLoadingProfile.set(false);
     }
 }
 
 export async function loadUserGameData(game_slug) {
     try {
-        fs.set('loadingGameInfo', true);
-        let player_stat = fs.get('player_stats/' + game_slug);
+        btLoadingGameInfo.set(true);
+        let player_stat = btPlayerStats.get(bucket => bucket[game_slug]);
         // let player_stat = player_stats[game_slug];
 
-        let curgame = fs.get('game');
+        let curgame = btGame.get();
         let game = null;
-        let user = fs.get('user');
+        let user = btUser.get()
 
         // let user = await getUser();
 
@@ -169,33 +169,27 @@ export async function loadUserGameData(game_slug) {
         }
         else //if (!curgame || !curgame.name) {
             await findGame(game_slug)
-        // }
-        // else {
-        //     game = fs.get('games>' + game_slug);
-        //     if (game && game.longdesc && (!curgame || !curgame.longdesc)) {
-        //         fs.set('game', game);
-        //     }
-        // }
-        fs.set('loadingGameInfo', false);
+
+        btLoadingGameInfo.set(false);
     }
     catch (e) {
-        fs.set('loadingGameInfo', false);
+        btLoadingGameInfo.set(false);
     }
 }
 
 export async function getUser() {
 
 
-    let user = fs.get('user');
+    let user = btUser.get();
     if (!user) {
-        fs.set('loadingUser', true);
+        btLoadingUser.set(true);
         user = await getUserProfile();
     }
 
 
     // reconnect(true, true);
 
-    fs.set('loadingUser', false);
+    btLoadingUser.set(false);
 
     if (!user) {
         return false;
@@ -209,25 +203,25 @@ export async function getUser() {
 
 export async function login() {
 
-    let isLoginShowing = fs.get('isCreateDisplayName');
+    let isLoginShowing = btIsCreateDisplayName.get();
     if (isLoginShowing)
         return;
 
-    let game = fs.get('game');
+    let game = btGame.get();
     if (game && window.location.pathname.indexOf("/g/") > -1) {
         let mode = getLastJoinType();
         addJoinQueues(game.game_slug, mode);
     }
 
-    fs.set('loginFrom', 'game');
-    fs.set('isCreateDisplayName', true);
-    fs.set('portraitid', Math.floor(Math.random() * (2104 - 1 + 1) + 1));
+    btLoginFrom.set('game');
+    btIsCreateDisplayName.set(true);
+    btPortraitId.set(Math.floor(Math.random() * (2104 - 1 + 1) + 1))
 
 }
 
 export async function loginComplete() {
-    fs.set('isCreateDisplayName', false);
-    fs.set('justCreatedName', true);
+    btIsCreateDisplayName.set(false);
+    btJustCreatedName.set(true);
 
     let joinqueues = getJoinQueues();
 
@@ -250,7 +244,7 @@ export function setLoginMode(user) {
             loginMode = 'TEMP';
     }
 
-    fs.set('loggedIn', loginMode);
+    btLoggedIn.set(loginMode);
     return loginMode;
 
 }
@@ -258,16 +252,14 @@ export function setLoginMode(user) {
 export async function getUserProfile() {
     try {
 
-        // fs.set('userCheckedLogin', false);
-        let user = fs.get('user');//getWithExpiry('user');
+        let user = btUser.get();
         if (!user || !user.displayname) {
-            fs.set('checkingUserLogin', true);
+            btCheckingUserLogin.set(true);
             let response = await GET('/api/v1/person');
             user = response.data;
             console.log('getUserProfile from api', user);
         }
         if (user.ecode) {
-            // fs.set('checkingUserLogin', false);
             console.error('[ERROR] Login failed. Please login again.', user.ecode);
             removeWithExpiry('user');
             return null;
@@ -275,14 +267,14 @@ export async function getUserProfile() {
 
         //create local user session with expiration
 
-        let previousLoggedIn = fs.get('loggedIn')
+        let previousLoggedIn = btLoggedIn.get()
 
 
         logoutTimer(user);
 
-        fs.set('user', user);
-        fs.set('userid', user.id);
-        fs.set('profile', user);
+        btUser.set(user);
+        btUserId.set(user.id);
+        btProfile.set(user);
 
         setTimeout(() => {
             let newLoggedIn = setLoginMode(user);
@@ -299,7 +291,7 @@ export async function getUserProfile() {
 
 
         // if (!user.displayname || user.displayname.length == 0) {
-        //     let history = fs.get('history');
+        //     let history = btHistory.get()
         //     history('/player/create');
         //     return user;
         // }
@@ -317,19 +309,16 @@ export async function getUserProfile() {
             console.error(e);
         }
 
-        fs.set('checkingUserLogin', false);
-
-        // fs.set('userCheckedLogin', true);
+        btCheckingUserLogin.set(false);
         return user;
     }
     catch (e) {
-        // fs.set('userCheckedLogin', true);
         setLoginMode();
-        fs.set('user', null);
-        fs.set('userid', 0);
+        btUser.set(null);
+        btUserId.set(0);
 
         // console.error('[Profile] Login failed. Please login again.');
-        fs.set('checkingUserLogin', false);
+        btCheckingUserLogin.set(false);
         if (e.response.data.ecode) {
             console.error('[ERROR] Login failed. Please login again.', e.response.data.ecode);
             return null;

@@ -1,5 +1,3 @@
-import fs from "flatstore";
-
 import {
   Box,
   Wrap,
@@ -14,26 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
-import { FaGithub, FaTwitter, FaDiscord, FaChevronRight } from "@react-icons";
-
-import FooterImage1 from "../assets/images/footer-image-1.png";
-import FooterImage2 from "../assets/images/footer-image-2.png";
+import { FaGithub, FaTwitter, FaDiscord, FaChevronRight } from "react-icons/fa";
 
 function Footer({}) {
-  let { game_slug, room_slug, mode } = useParams();
-  let [queues] = fs.useWatch("queues");
-
-  let queue = {};
-  for (let i = 0; i < queues.length; i++) {
-    let q = queues[i];
-    if (q.game_slug == game_slug) {
-      queue = q;
-      break;
-    }
-  }
-
-  let inQueue = queue.game_slug;
-
   return (
     <VStack
       w="100%"
@@ -41,40 +22,28 @@ function Footer({}) {
       pt={["7rem"]}
       position="relative"
       bgColor="gray.900"
+      borderTop="2rem solid var(--chakra-colors-gray-1200)"
       mt="0rem"
       _before={{
-        // content: '""',
-        // width: "300rem",
-        // height: "100%",
-        // position: "absolute",
-        // top: "0",
-        // left: "-100rem",
-        // transform: "rotate(-2deg)",
-        // bgColor: "gray.800",
-        // pb: "-10rem",
-        // zIndex: -1,
-        // borderTop: "1rem solid var(--chakra-colors-gray-300)",
-        // borderBottom: "1rem solid var(--chakra-colors-gray-300)",
-
         content: '""',
         position: "absolute",
         left: "0",
-        top: "0",
+        top: "-1px",
         width: "50%",
         clipPath: "polygon(0 0, 100% 0, 0 100%)",
-        backgroundColor: !game_slug || inQueue ? "brand.300" : "brand.600",
-        height: ["20px", "20px", "20px"],
+        backgroundColor: "gray.1200",
+        height: ["16px", "16px", "16px"],
       }}
       _after={{
         content: '""',
         left: "auto",
-        top: "0",
+        top: "-1px",
         right: "0",
         position: "absolute",
         width: "50%",
         clipPath: "polygon(100% 0, 0 0, 100% 100%)",
-        backgroundColor: !game_slug || inQueue ? "brand.300" : "brand.600",
-        height: ["20px", "20px", "20px"],
+        backgroundColor: "gray.1200",
+        height: ["16px", "16px", "16px"],
       }}
     >
       {/* <Image
@@ -396,7 +365,7 @@ function Footer({}) {
       </VStack>
       <VStack
         w="100%"
-        bgColor="gray.1000"
+        bgColor="gray.900"
         py="3rem"
         // borderTop="2px solid"
         // borderTopColor="gray.900"

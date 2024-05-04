@@ -6,15 +6,11 @@ import {
   Portal,
   VStack,
 } from "@chakra-ui/react";
-import {
-  RiChatHeartFill,
-  FaThumbsUp,
-  FaThumbsDown,
-  FaAngry,
-} from "@react-icons";
+import { FaThumbsUp, FaThumbsDown, FaAngry } from "react-icons/fa";
+import { RiChatHeartFill } from "react-icons/ri";
 import { useEffect, useState } from "react";
 import { sendChatMessage } from "../../../actions/chat";
-import fs from "flatstore";
+import { btChatMessage } from "../../../actions/buckets";
 
 export default function QuickChat({ degreeOffset, isOpen }) {
   let [show, setShow] = useState(false);
@@ -33,9 +29,8 @@ export default function QuickChat({ degreeOffset, isOpen }) {
 
   const onClickChatMessage = async (e, msg) => {
     console.log("Sending message: ", msg);
-    fs.set("chatMessage", msg);
+    btChatMessage.set(msg);
     await sendChatMessage();
-    // fs.set("chatMessage", "");
   };
 
   useEffect(() => {
@@ -51,7 +46,7 @@ export default function QuickChat({ degreeOffset, isOpen }) {
       height={"3rem"}
       position="absolute"
       bottom="0.25rem"
-      right="25.5rem"
+      left="0.5rem"
       zIndex={1001}
     >
       <IconButton

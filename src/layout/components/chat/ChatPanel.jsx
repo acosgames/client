@@ -20,9 +20,10 @@ import USAFlag from "../../../assets/images/flags/USA.svg";
 import { useEffect, useRef } from "react";
 import SimpleBar from "simplebar-react";
 import { getChatMessages } from "../../../actions/chat.js";
-import fs from "flatstore";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useBucket } from "../../../actions/bucket.js";
+import { btChat } from "../../../actions/buckets.js";
 export default function ChatPanel({}) {
   let timeHandle = 0;
   const scrollBarHideDelay = 2000;
@@ -73,7 +74,7 @@ export default function ChatPanel({}) {
         flex="1"
         // mb="0.5rem"
         // pt="0.5rem"
-        px="0.5rem"
+        // px="0.5rem"
         mb="1rem"
         // filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1000)) "
       >
@@ -87,25 +88,26 @@ export default function ChatPanel({}) {
           position="relative"
           overflow="hidden"
           mb="0"
-          pb="0"
-          borderRadius={"8px"}
+          pb="2.4rem"
+          // borderRadius={"8px"}
           border="1px solid"
           zIndex="2"
           borderColor="gray.925"
           bgColor="gray.900"
           pt="0.25rem"
-          boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
+          // boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
         >
           <ChakraSimpleBar
             boxSizing="border-box"
-            flex="1"
+            // flex="1"
             // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
             style={{
               width: "100%",
               height: "auto",
               flex: "1",
+              // height: "100%",
               overflow: "hidden scroll",
-              boxSizing: "border-box",
+              // boxSizing: "border-box",
             }}
             scrollableNodeProps={{ ref: scrollRef }}
           >
@@ -122,7 +124,7 @@ export default function ChatPanel({}) {
 }
 
 function ChatMessages({ scrollRef }) {
-  let [chat] = fs.useWatch("chat");
+  let chat = useBucket(btChat);
   let messages = getChatMessages("chat");
 
   useEffect(() => {

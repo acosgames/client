@@ -16,21 +16,20 @@ import {
 
 import Scoreboard from "./Scoreboard/Scoreboard";
 import SocialPanel from "../../layout/components/social/SocialPanel.jsx";
-import UserPanel from "../../layout/components/userpanel/UserPanel.jsx";
 import ChatPanel from "../../layout/components/chat/ChatPanel.jsx";
-import WaitingPanel from "../../layout/components/queue/WaitingPanel.jsx";
-import fs from "flatstore";
-import ChatSend from "../../layout/components/chat/ChatSend.jsx";
-import { GoDotFill } from "react-icons/go";
-import config from "../../config";
-import { BsLayoutSidebarInsetReverse } from "@react-icons";
-import { useEffect, useState } from "react";
-import GameActions from "./GameActions.jsx";
+
+import { useState } from "react";
+
+import QueuePanel from "../../layout/components/queue/QueuePanel.jsx";
+import { getPrimaryGamePanel } from "../../actions/room";
 
 export default function GameBar({ layoutRef }) {
   let [tabIndex, setTabIndex] = useState(
     Number.parseInt(localStorage.getItem("rightbarTab")) || 0
   );
+
+  let primary = getPrimaryGamePanel();
+  let room = primary.room;
 
   return (
     <Tabs
@@ -73,7 +72,7 @@ export default function GameBar({ layoutRef }) {
           _selected={{ color: "brand.300", borderBottom: "none" }}
           textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
         >
-          Logs
+          {room.maxplayers == 1 ? "Queue" : "Logs"}
         </Tab>
         <Tab
           fontSize="1.2rem"
@@ -113,7 +112,7 @@ export default function GameBar({ layoutRef }) {
           height="100%"
           pb="3rem"
         >
-          <ChatPanel />
+          {room.maxplayers == 1 ? <QueuePanel /> : <ChatPanel />}
         </TabPanel>
         <TabPanel
           display="flex"

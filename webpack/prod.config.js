@@ -44,7 +44,7 @@ const uploadFilename = 'bundle.' + clientVersion + '.js';
 
 
 async function uploadToStorage() {
-
+    return;
     try {
         let baseFilepath = uploadPath + '/' + uploadFilename;
         let filepath = baseFilepath + '.gz';

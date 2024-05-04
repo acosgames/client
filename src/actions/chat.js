@@ -1,7 +1,7 @@
 import { wsSend } from "./connection";
 
-import fs from 'flatstore';
 import { getPrimaryGamePanel } from "./room";
+import { btChannel, btChatMessage, btChatUpdated, btGame, btLastChatSent } from "./buckets";
 
 
 
@@ -32,7 +32,7 @@ export function addChatMessage(msg) {
         }
 
         if (msg.payload.length > 0)
-            fs.set('chatUpdated', Date.now());
+            btChatUpdated.set(Date.now());
 
     } else {
         if (msg.payload.room_slug) {
@@ -53,14 +53,15 @@ export function addChatMessage(msg) {
 export function clearChatMessages(channel) {
     channel = channel || 'chat';
     localStorage.removeItem(channel);
-    fs.set(channel, []);
+
+    btChannel.assign({ [channel]: [] });
 }
 
 export function filterChatMessages(chatMessages, chatMode) {
     chatMode = chatMode || 'all';
 
     if (chatMode == 'game') {
-        let game = fs.get('game');
+        let game = btGame.get();
         if (game) {
             let filtered = [];
             for (var msg of chatMessages) {
@@ -93,9 +94,9 @@ export function saveChatMessages(channel, chatMessages) {
         chatMessages = chatMessages.slice(count - 100, count);
     }
 
-    fs.set(channel, chatMessages);
+    btChannel.assign({ [channel]: chatMessages });
+    btChatUpdated.set(Date.now());
     localStorage.setItem(channel, JSON.stringify(chatMessages));
-    fs.set('chatUpdated', Date.now());
 }
 export function getChatMessages(channel) {
 
@@ -103,7 +104,7 @@ export function getChatMessages(channel) {
     // if (chatMode != 'all') {
     //     channel = 'chat/' + chatMode;
     // }
-    let chatMessages = fs.get(channel);
+    let chatMessages = btChannel.get(bucket => bucket[channel]);
     // if (!chatMessages) {
     //     chatMessages = JSON.parse(localStorage.getItem(channel));
     //     if (!chatMessages)
@@ -117,17 +118,13 @@ export function getChatMessages(channel) {
 
 export async function sendChatMessage() {
 
-    let message = fs.get('chatMessage');
+    let message = btChatMessage.get();
     if (!message)
         return false;
 
-    // let lastChatSent = fs.get('lastChatSent');
-    // if (lastChatSent && Date.now() - lastChatSent < 3000) {
-    //     return false;
-    // }
 
 
-    let game = fs.get('game');
+    let game = btGame.get();
     let game_slug = game?.game_slug;
 
     let gamepanel = getPrimaryGamePanel();
@@ -137,6 +134,6 @@ export async function sendChatMessage() {
 
     await wsSend({ type: 'chat', payload })
 
-    fs.set('lastChatSent', Date.now());
-    fs.set("chatMessage", "");
+    btLastChatSent.set(Date.now());
+    btChatMessage.set('');
 }

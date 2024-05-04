@@ -14,7 +14,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-import { BsThreeDotsVertical } from "@react-icons";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import config from "../../../config";
 import { Link } from "react-router-dom";
 import timeAgo from "cc-time-ago";

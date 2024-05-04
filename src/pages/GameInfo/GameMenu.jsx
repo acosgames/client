@@ -14,23 +14,24 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { BsThreeDotsVertical } from "@react-icons";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
-import {
-  FaThumbsUp,
-  FaChevronRight,
-  FaGithub,
-  IoWarningSharp,
-  IoShareSocial,
-} from "@react-icons";
+import { FaChevronRight, FaGithub } from "react-icons/fa";
+
+import { IoWarningSharp, IoShareSocial } from "react-icons/io5";
+
 import config from "../../config";
 import { useState } from "react";
 import { reportGame } from "../../actions/game";
-import fs from "flatstore";
 import { Link } from "react-router-dom";
+import { useBucketSelector } from "../../actions/bucket";
+import { btPlayerStats } from "../../actions/buckets";
 
 export default function GameMenu({ game }) {
-  let [player_stat] = fs.useWatch("player_stats/" + game.game_slug);
+  let player_stat = useBucketSelector(
+    btPlayerStats,
+    (bucket) => bucket[game.game_slug]
+  );
   // let player_stat = player_stats[game.game_slug];
 
   player_stat = player_stat || { report: 0 };
@@ -85,7 +86,7 @@ export default function GameMenu({ game }) {
 
     player_stat.report = type;
     // player_stats[game.game_slug] = player_stat;
-    fs.set("player_stats/" + game.game_slug, player_stat);
+    btPlayerStats.assign({ [game.game_slug]: player_stat });
     // setReport(type);
   };
 
@@ -108,39 +109,28 @@ export default function GameMenu({ game }) {
         fontSize="1.2rem"
         pb="0"
       >
-        <MenuOptionGroup
-          color="gray.0"
-          fontWeight={"800"}
-          fontFamily="'Poppins', sans-serif;"
-          fontSize="1.6rem"
-          letterSpacing={"0px"}
-          pb="0rem"
-          title="Get Involved"
-          type="checkbox"
+        <MenuItem
+          fontSize="1.4rem"
+          icon={<Icon as={IoShareSocial} fontSize="2rem" color="brand.300" />}
+          color="gray.10"
+          bgColor="transparent"
+          _hover={{ bgColor: "gray.300" }}
+          onClick={onShareClick}
         >
-          <MenuItem
-            fontSize="1.4rem"
-            icon={<Icon as={IoShareSocial} fontSize="2rem" color="brand.300" />}
-            color="gray.10"
-            bgColor="transparent"
-            _hover={{ bgColor: "gray.300" }}
-            onClick={onShareClick}
-          >
-            Invite Friends
-          </MenuItem>
-          <MenuItem
-            fontSize="1.4rem"
-            icon={<Icon as={FaGithub} fontSize="2rem" color="brand.300" />}
-            color="gray.10"
-            bgColor="transparent"
-            _hover={{ bgColor: "gray.300" }}
-            as="a"
-            href={`https://github.com/acosgames/${game.game_slug}/issues`}
-            target="_blank"
-          >
-            Discuss on Github
-          </MenuItem>
-        </MenuOptionGroup>
+          Invite Friends
+        </MenuItem>
+        <MenuItem
+          fontSize="1.4rem"
+          icon={<Icon as={FaGithub} fontSize="2rem" color="brand.300" />}
+          color="gray.10"
+          bgColor="transparent"
+          _hover={{ bgColor: "gray.300" }}
+          as="a"
+          href={`https://github.com/acosgames/${game.game_slug}/issues`}
+          target="_blank"
+        >
+          Discuss on Github
+        </MenuItem>
         <MenuDivider mb="0" mt="0" />
         <Menu placement="right">
           <MenuButton
