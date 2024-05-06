@@ -22,8 +22,12 @@ import {
 
 import { motion, AnimatePresence } from "framer-motion";
 import RenderPlayer from "./RenderPlayer";
-import { useBucket, useBucketSelector } from "../../../actions/bucket";
-import { btGamePanels } from "../../../actions/buckets";
+import {
+  compareStringified,
+  useBucket,
+  useBucketSelector,
+} from "../../../actions/bucket";
+import { btGamePanels, btPrimaryGamePanel } from "../../../actions/buckets";
 const ChakraSimpleBar = chakra(SimpleBar);
 const MotionVStack = motion(VStack);
 
@@ -93,7 +97,7 @@ export function RenderPlayers({ room_slug }) {
     id = primary?.id;
   }
 
-  let primaryId = useBucketSelector(btGamePanels, (bucket) => bucket[id]);
+  // let primaryId = useBucketSelector(btGamePanels, (bucket) => bucket[id]);
 
   let [sort, setSorted] = useState(false);
 
@@ -128,9 +132,10 @@ export function RenderPlayers({ room_slug }) {
           <Box h="1px" flex="1"></Box>
           <Text
             as="span"
-            color="gray.300"
+            color="gray.100"
             fontWeight="300"
-            fontSize="1.1rem"
+            fontSize="0.8rem"
+            letterSpacing={"1px"}
             pr="1rem"
           >
             Score
@@ -199,11 +204,18 @@ export function RenderPlayers({ room_slug }) {
   );
 }
 
-function RenderTeams({ gamepanelid, players, teams }) {
-  let teamList = Object.keys(teams);
+function RenderTeams({ gamepanelid, players }) {
+  // let teamList = Object.keys(teams);
   let teamElems = [];
 
-  if (teams) teams[teamList[0]].score = 10;
+  let teams = useBucketSelector(
+    btGamePanels,
+    (panels) => panels[gamepanelid]?.gamestate?.teams,
+    compareStringified
+  );
+
+  let teamList = Object.keys(teams || []);
+  if (!teamList) return <></>;
 
   teamList.sort((a, b) => {
     let teamA = teams[a];
@@ -214,6 +226,17 @@ function RenderTeams({ gamepanelid, players, teams }) {
 
     return teamB.score - teamA.score;
   });
+  // if (teams) teams[teamList[0]].score = 10;
+
+  // teamList.sort((a, b) => {
+  //   let teamA = teams[a];
+  //   let teamB = teams[b];
+  //   if (teamA.score == teamB.score) {
+  //     return teamA.name.localeCompare(teamB.name);
+  //   }
+
+  //   return teamB.score - teamA.score;
+  // });
 
   for (let i = 0; i < teamList.length; i++) {
     let team_slug = teamList[i];

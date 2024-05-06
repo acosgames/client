@@ -22,7 +22,7 @@ export const bucket = (initialState) => {
     }
     newBucket.subscribe = (subscriber) => {
         subscribers.add(subscriber);
-        return () => subscribers.delete(subscriber);
+        return () => { subscribers.delete(subscriber) };
     }
     newBucket.emit = () => {
         subscribers.forEach(subscriber => subscriber(newBucket._get()));
@@ -31,38 +31,37 @@ export const bucket = (initialState) => {
     return newBucket;
 };
 
-export function useBucket(bucket, stateComparator) {
+export function useBucket(bucket, comparator) {
     let currentStore = useRef(bucket._get());
     const getSnapshot = () => bucket._get();
     let newState = useSyncExternalStore(
         useCallback(cb =>
             bucket.subscribe((store) => {
                 const nextStore = store;
-                if (stateComparator && stateComparator(currentStore.current.state, nextStore.state)) return;
-                if (!stateComparator && currentStore.current === nextStore) return;
+                if (comparator && comparator(currentStore.current.state, nextStore.state)) return;
+                if (!comparator && currentStore.current === nextStore) return;
                 currentStore.current = nextStore;
                 cb();
             }), []),
         getSnapshot,
-        getSnapshot,
+        () => undefined,
     );
     return newState.state;
 }
 
-export function useBucketSelector(bucket, selector, stateComparator) {
-    let currentStore = useRef(bucket.get(selector));
-    const getSnapshot = () => bucket.get(selector);
+export function useBucketSelector(bucket, selector, comparator) {
+    let currentStore = useRef(selector(bucket._get().state));
+    const getSnapshot = () => selector(bucket._get().state);
     let newState = useSyncExternalStore(
         useCallback(cb =>
             bucket.subscribe((store) => {
-                const nextState = selector(store.state || {});
-                if (stateComparator && stateComparator(currentStore.current, nextState)) return;
-                if (!stateComparator && currentStore.current === nextState) return;
+                const nextState = selector(store.state);//selector(store.state || {});
+                if (comparator && comparator(currentStore.current, nextState)) return;
+                if (!comparator && currentStore.current === nextState) return;
                 currentStore.current = nextState;
                 cb();
             }), []),
-        getSnapshot,
-        getSnapshot,
+        getSnapshot
     );
     return newState;
 }

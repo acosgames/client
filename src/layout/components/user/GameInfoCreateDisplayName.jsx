@@ -240,7 +240,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
             pb="0"
             py="1rem"
           >
-            {user && !user.email ? "Save your profile" : "Create Champion"}
+            {user && !user.email ? "Save your profile" : "Create Account"}
           </ModalHeader>
           <ModalCloseButton top="1rem" right="1rem" />
           <ModalBody>
@@ -435,7 +435,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
 
 function updateRefPath(pathname) {
   localStorage.setItem("refPath", pathname);
-  btRefPath.set(pathname);
+  // btRefPath.set(pathname);
   removeWithExpiry("user");
 
   localStorage.setItem("portraitid", btPortraitId.get());
@@ -453,14 +453,17 @@ function SocialLoginButtons() {
   return (
     <>
       <Divider pt={"0"} pb="1rem" />
-      <Heading pt="0" mt="0" color="white" fontWeight="light" fontSize="xs">
-        Sign In and access more features for free.
+      <Heading pt="0" mt="0" color="gray.10" fontWeight="400" fontSize="1.4rem">
+        <Text as="span" fontWeight="600" color="gray.10">
+          Login
+        </Text>{" "}
+        and access more features for free.
       </Heading>
       <Heading
         pt="0"
         mt="0"
-        color="gray.100"
-        fontSize="2xs"
+        color="gray.20"
+        fontSize="1.2rem"
         pb="1rem"
         fontWeight={"light"}
       >

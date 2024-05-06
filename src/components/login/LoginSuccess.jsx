@@ -5,21 +5,28 @@ import { btRefPath, btSuccess } from "../../actions/buckets";
 import { useBucket } from "../../actions/bucket";
 
 function LoginSuccess(props) {
-  const history = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate();
+  // const location = useLocation();
 
-  let refPath = useBucket(btRefPath);
+  // let refPath = useBucket(btRefPath);
 
   useEffect(() => {
-    if (localStorage.getItem("refPath")) {
-      btRefPath.set(localStorage.getItem("refPath"));
-      localStorage.removeItem("refPath");
+    // if (localStorage.getItem("refPath")) {
+    //   // btRefPath.set(localStorage.getItem("refPath"));
+    //   localStorage.removeItem("refPath");
+    // }
+    let refPath = localStorage.getItem("refPath");
+    console.log("RefPath: ", refPath);
+    if (refPath) {
+      // localStorage.removeItem("refPath");
+      btSuccess.set("Logged in.  Enjoy the games!");
+      navigate(refPath);
+      // return <Navigate to={refPath} />;
+      // btRefPath.set(localStorage.getItem("refPath"));
     }
   });
 
-  btSuccess.set("Logged in.  Enjoy the games!");
-
-  return <Navigate to={refPath} />;
+  return <></>;
 }
 
 export default LoginSuccess;

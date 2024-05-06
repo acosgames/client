@@ -30,7 +30,7 @@ import "simplebar-react/dist/simplebar.min.css";
 const ChakraSimpleBar = chakra(SimpleBar);
 
 export default function GamePage({}) {
-  let user = useBucket(btUser);
+  let user = btUser.get();
   let { game_slug, room_slug, mode } = useParams();
   let loadingGameInfo = useBucket(btLoadingGameInfo);
 

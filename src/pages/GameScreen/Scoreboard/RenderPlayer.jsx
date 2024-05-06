@@ -25,15 +25,20 @@ function IsNextIndicator({ gamepanelid, shortid }) {
   return (
     <Box
       display={isNext ? "block" : "none"}
-      borderRadius="50%"
+      // borderRadius="50%"
+      borderTopRightRadius={"8px"}
       position="absolute"
-      left="-1.2rem"
-      top="50%"
-      transform="translate(0,-50%)"
+      // left="-1.2rem"
+      // top="50%"
+      bottom="0"
+      left="0"
+      width="0.8rem"
+      h="0.8rem"
+      // transform="translate(0,-50%)"
       zIndex={99}
-      color="brand.100"
+      bgColor="brand.100"
     >
-      <IoMdArrowDropright fontSize="3rem" w="2rem" h="2rem" />
+      {/* <IoMdArrowDropright fontSize="3rem" w="2rem" h="2rem" /> */}
     </Box>
   );
 }
@@ -51,6 +56,8 @@ export default function RenderPlayer({
   let ratingClass = ratingConfig.ratingToRank(rating);
 
   let localPlayer = btUser.get();
+  let isLocalPlayer =
+    localPlayer?.displayname == name || localPlayer?.name == name;
   // let primary = getPrimaryGamePanel();
   let gamepanel = getGamePanel(gamepanelid);
 
@@ -60,6 +67,7 @@ export default function RenderPlayer({
       key={"motion-" + name}
       position="relative"
       // px="0.5rem"
+      bgColor={isLocalPlayer ? "gray.800" : "gray.900"}
       w="100%"
       // initial={{ opacity: 0, scale: 0 }}
       // animate={{ opacity: 1, scale: 1 }}
@@ -71,7 +79,7 @@ export default function RenderPlayer({
           ? {
               content: "''",
               position: "absolute",
-              width: "calc(100% - 1rem)",
+              width: "calc(100%)",
               height: "calc(100% - 1px)",
               backgroundColor: team ? team.color : "gray.1050",
               zIndex: "10",
@@ -109,8 +117,8 @@ export default function RenderPlayer({
           loading="lazy"
           // borderRadius={"8px"}
           maxHeight="100%"
-          w={gamepanel.room.isReplay ? "4rem" : "6.5rem"}
-          h={gamepanel.room.isReplay ? "4rem" : "6.5rem"}
+          w={gamepanel.room.isReplay ? "6rem" : "6.5rem"}
+          h={gamepanel.room.isReplay ? "6rem" : "6.5rem"}
           // mb="1rem"
           position="relative"
           zIndex="2"
@@ -129,7 +137,7 @@ export default function RenderPlayer({
         >
           <HStack
             w="100%"
-            bgColor={gamepanel.room.isReplay ? "gray.1050" : "gray.1200"}
+            // bgColor={gamepanel.room.isReplay ? "gray.1050" : "gray.1200"}
             pl="1rem"
           >
             <Text
@@ -137,7 +145,7 @@ export default function RenderPlayer({
               textAlign={"center"}
               color={
                 localPlayer?.displayname == name || localPlayer?.name == name
-                  ? "brand.1000"
+                  ? "brand.50"
                   : "gray.0"
               }
               fontWeight="500"
@@ -162,8 +170,8 @@ export default function RenderPlayer({
           </HStack>
           <HStack
             // bgColor={gamepanel.room.isReplay ? 'gray.1050' : "gray.1200"}
-
-            display={gamepanel.room.isReplay ? "none" : "block"}
+            // bgColor="gray.1050"
+            display={gamepanel.room.isReplay ? "block" : "block"}
             spacing="1rem"
             alignSelf={"flex-start"}
             justifyContent={"flex-start"}
@@ -202,8 +210,8 @@ export default function RenderPlayer({
             w="100%"
             justifyContent={"flex-end"}
             alignItems={"center"}
-            pr="1rem"
-            bgColor={gamepanel.room.isReplay ? "gray.1050" : "gray.1200"}
+            pr="2rem"
+            // bgColor={gamepanel.room.isReplay ? "gray.1050" : "gray.1200"}
 
             // borderTop="1px solid"
             // borderTopColor="gray.100"

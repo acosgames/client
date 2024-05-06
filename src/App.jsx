@@ -20,7 +20,7 @@ import GamePage from "./pages/GameInfo/GamePage.jsx";
 import Layout from "./layout/Layout.jsx";
 import LoginSuccess from "./components/login/LoginSuccess.jsx";
 import GameScreen from "./pages/GameScreen/GameScreen.jsx";
-import { getGamePanel } from "./actions/room.js";
+// import { getGamePanel } from "./actions/room.js";
 import { useBucket } from "./actions/bucket.js";
 import {
   btHistory,
@@ -30,6 +30,9 @@ import {
   btPrimaryCanvasRef,
   btUser,
 } from "./actions/buckets.js";
+import DevLogin from "./pages/Developer/DevLogin.jsx";
+import DevManager from "./pages/Developer/index.jsx";
+import DevGamePage from "./pages/Developer/DevGamePage.jsx";
 
 function PageRoutes() {
   const history = useNavigate();
@@ -50,6 +53,9 @@ function PageRoutes() {
       <Route path="/g/:game_slug/:mode/:room_slug" element={<GameScreen />} />
       <Route path="/g/:game_slug" element={<GamePage />} />
       <Route path="/about" element={<IndexPage />} />
+      <Route exact path="/dev/login" element={<DevLogin />} />
+      <Route exact path="/dev" element={<DevManager />} />
+      <Route exact path="/dev/game/:game_slug" element={<DevGamePage />} />
     </Routes>
   );
 }

@@ -27,6 +27,7 @@ import {
 import {
   clearRoom,
   findGamePanelByRoom,
+  getPrimaryGamePanel,
   setPrimaryGamePanel,
 } from "../../actions/room";
 import { BiSkipPrevious, BiSkipNext, BiExpand } from "react-icons/bi";
@@ -95,13 +96,13 @@ function GameInfoReplay({ game_slug }) {
 }
 
 function GameInfoReplayContent({ game_slug }) {
-  let game = useBucket(btGame);
+  // let game = useBucket(btGame);
 
   let room_slug = useBucketSelector(btReplay, (bucket) => bucket[game_slug]);
   let replay = useBucketSelector(btReplays, (bucket) => bucket[game_slug]);
-  let primaryGamePanelId = useBucket(btPrimaryGamePanel);
+  let primaryGamePanel = getPrimaryGamePanel(); // useBucket(btPrimaryGamePanel);
   let screenResized = useBucket(btScreenResized);
-  let isMobile = useBucket(btIsMobile);
+  let isMobile = btIsMobile.get(); // useBucket(btIsMobile);
 
   // const location = useLocation();
   const { filename } = useParams();
@@ -117,7 +118,7 @@ function GameInfoReplayContent({ game_slug }) {
     return <></>;
   }
 
-  if (typeof primaryGamePanelId !== "undefined" && primaryGamePanelId != null)
+  if (typeof primaryGamePanel !== "undefined" && primaryGamePanel != null)
     return <></>;
   // let randomReplay = props.replays[Math.floor(Math.random() * props.replays.length)];
 

@@ -17,7 +17,7 @@ function EmbeddedGamePanel(props) {
     if (props.room_slug) {
       let gamepanel = findGamePanelByRoom(props.room_slug);
       gamepanel.canvasRef = embeddedRef;
-      updateGamePanel(gamepanel);
+      // updateGamePanel(gamepanel);
       setLoaded(true);
     }
   });

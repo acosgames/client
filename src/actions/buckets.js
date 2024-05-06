@@ -80,7 +80,7 @@ export const btExperimentalList = bucket([]);
 export const btGameLists = bucket({});
 
 export const btGameFound = bucket(false);
-export const btReplay = bucket(null);
+export const btReplay = bucket({});
 export const btLoadingHightscores = bucket(null);
 export const btLocalPlayerHighscores = bucket(null);
 export const btLeaderboardHighscoreChange = bucket(null);
@@ -153,7 +153,7 @@ export const btGameStatusUpdated = bucket(Date.now());
 export const btFullScreenElem = bucket(null);
 export const btPrimaryRoom = bucket(null);
 export const btGameRoom = bucket(null);
-export const btReplays = bucket([]);
+export const btReplays = bucket({});
 
 export const btPortraitBottomRef = bucket(null);
 

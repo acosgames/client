@@ -6,6 +6,8 @@ import {
 } from "@chakra-ui/form-control";
 // import { updateGameField } from '../../../actions/devgame';
 import { useEffect, useRef } from "react";
+import { useBucket, useBucketSelector } from "../../../actions/bucket";
+import { btFormFields } from "../../../actions/buckets";
 
 function FSGTextInput(props) {
   // const inputChange = (e) => {
@@ -25,20 +27,26 @@ function FSGTextInput(props) {
     }
   }, []);
 
-  let value = (props.group && props[props.group]) || props.value;
+  let value = useBucketSelector(btFormFields, (form) =>
+    form[props.group] && form[props.group][props.name]
+      ? form[props.group][props.name]
+      : null
+  );
+  value = value || "";
+
   return (
     <FormControl as="fieldset" mb="0">
-      <FormLabel
-        as="legend"
-        fontSize="xs"
-        color="gray.100"
-        fontWeight="bold"
-        display={props.title ? "block" : "none"}
-      >
+      <FormLabel as="legend" display={props.title ? "block" : "none"}>
         <HStack>
-          <Text color={props.titleColor || "white"}>{props.title}</Text>
+          <Text
+            color={props.titleColor || "gray.10"}
+            fontSize="1.4rem"
+            fontWeight="500"
+          >
+            {props.title}
+          </Text>
           {props.required && (
-            <Text display="inline-block" color="red.800">
+            <Text display="inline-block" color="red.500">
               *
             </Text>
           )}
@@ -50,9 +58,10 @@ function FSGTextInput(props) {
         ref={props.ref || inputRef}
         placeholder={props.placeholder}
         fontWeight={props.fontWeight || "light"}
-        fontSize={props.fontSize || "sm"}
+        fontSize={props.fontSize || "1.4rem"}
         color={props.color}
-        pr={props.pr || 0}
+        // pr={props.pr || 0}
+        p={props.p || "1.5rem"}
         maxLength={props.maxLength}
         value={value || ""}
         size={props.size}
@@ -62,7 +71,7 @@ function FSGTextInput(props) {
         onKeyPress={props.onKeyPress}
         onKeyUp={props.onKeyUp}
         boxShadow={props.boxShadow}
-        borderRadius={props.borderRadius}
+        borderRadius={props.borderRadius || "8px"}
         onKeyDown={props.onKeyDown}
         onChange={(e) => {
           if (props.rules && props.group) {
@@ -76,7 +85,7 @@ function FSGTextInput(props) {
         _focus={{ ...props._focus }}
         _focusVisible={{ ...props._focusVisible }}
         _placeholder={{ ...props._placeholder }}
-        bgColor={props.bgColor || "gray.800"}
+        bgColor={props.bgColor || "gray.1000"}
       />
 
       <FormHelperText display={props.helpText ? "block" : "none"}>

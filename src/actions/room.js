@@ -185,7 +185,7 @@ export function cleanupGamePanels() {
         if (gp.gamestate?.room?.status == 'gameover') {
             gp.available = true;
             updateGamePanel(gp);
-            btGamePanels.set(gamepanels);
+            // btGamePanels.set(gamepanels);
             return gp;
         }
     }
@@ -222,8 +222,8 @@ export function reserveGamePanel() {
             gp.room = null;
             gp.active = true;
 
-            updateGamePanel(gp);
-            btGamePanels.set(gamepanels);
+            // updateGamePanel(gp);
+            // btGamePanels.set(gamepanels);
             return gp;
         }
     }
@@ -232,7 +232,7 @@ export function reserveGamePanel() {
     gp.id = gamepanels.length;
     gamepanels.push(gp);
     console.log("reserverGamePanel updating gamepanel/" + gp.id);
-    btGamePanels.set(gamepanels);
+    // btGamePanels.set(gamepanels);
     return gp;
 }
 

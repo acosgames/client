@@ -284,10 +284,10 @@ function Footer({}) {
             justifyContent={"center"}
             borderRadius="50%"
             _hover={{
-              border: "3px solid var(--chakra-colors-brand-300)",
+              // border: "3px solid var(--chakra-colors-brand-300)",
 
-              color: "brand.300",
-              bgColor: "gray.1000",
+              // color: "brand.300",
+              // bgColor: "gray.1000",
               _before: { bgColor: "white" },
             }}
           >
@@ -329,11 +329,13 @@ function Footer({}) {
             alignItems={"center"}
             justifyContent={"center"}
             borderRadius="50%"
-            _hover={{
-              border: "3px solid var(--chakra-colors-brand-300)",
-              bgColor: "gray.1000",
-              //   _before: { bgColor: "white" },
-            }}
+            _hover={
+              {
+                // border: "3px solid var(--chakra-colors-brand-300)",
+                // bgColor: "gray.1000",
+                //   _before: { bgColor: "white" },
+              }
+            }
           >
             <Icon
               fontSize="4rem"
@@ -344,11 +346,11 @@ function Footer({}) {
             />
             <Box
               position="absolute"
-              top="2.7rem"
-              left="4.5rem"
+              top="3.4rem"
+              left="5rem"
               bgColor="gray.0"
-              width="2.75rem"
-              height="2.5rem"
+              width="2rem"
+              height="1.7rem"
               zIndex="1"
             ></Box>
             <Text

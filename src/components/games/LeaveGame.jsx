@@ -3,8 +3,7 @@ import React, { Component, useEffect, useState } from "react";
 
 import fs from 'flatstore';
 import { wsLeaveGame, wsJoinRankedGame, wsJoinBetaGame } from "../../actions/connection";
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+
 import { IconButton } from "@chakra-ui/react";
 import { IoExitOutline } from '@react-icons';
 
