@@ -1,11 +1,16 @@
-import { HStack, Input, Select, Switch, Text } from '@chakra-ui/react'
-import { FormControl, FormLabel, FormHelperText } from "@chakra-ui/form-control";
-import { updateGameField } from '../../../actions/devgame';
-import { useEffect, useRef } from 'react';
-import fs from 'flatstore';
+import { HStack, Input, Select, Switch, Text } from "@chakra-ui/react";
+import {
+    FormControl,
+    FormLabel,
+    FormHelperText,
+} from "@chakra-ui/form-control";
+import { updateGameField } from "../../../actions/devgame";
+import { useEffect, useRef } from "react";
+// import fs from "flatstore";
+import { useBucketSelector } from "../../../actions/bucket";
+import { btFormFields } from "../../../actions/buckets";
 
 function FSGSelect(props) {
-
     // const inputChange = (e) => {
     //     let name = e.target.name;
     //     let value = e.target.value;
@@ -16,23 +21,36 @@ function FSGSelect(props) {
     const inputRef = useRef();
 
     useEffect(() => {
-
         if (props.focus) {
             setTimeout(() => {
                 inputRef?.current?.focus();
-            }, props.focusDelay || 300)
+            }, props.focusDelay || 300);
         }
+    }, []);
 
-    }, [])
+    // let value = (props.group && props[props.group]) || props.value;
 
-    let value = (props.group && props[props.group]) || props.value;
+    let value = useBucketSelector(btFormFields, (form) =>
+        form[props.group] && form[props.group][props.name]
+            ? form[props.group][props.name]
+            : null
+    );
+    value = value || "";
+
     return (
-        <FormControl as='fieldset' mb="0">
-            <FormLabel as='legend' fontSize="xs" color="gray.100" fontWeight="bold">
+        <FormControl as="fieldset" mb="0">
+            <FormLabel
+                as="legend"
+                fontSize="xs"
+                color="gray.100"
+                fontWeight="bold"
+            >
                 <HStack>
                     <Text>{props.title}</Text>
                     {props.required && (
-                        <Text display="inline-block" color="red.800">*</Text>
+                        <Text display="inline-block" color="red.800">
+                            *
+                        </Text>
                     )}
                 </HStack>
             </FormLabel>
@@ -43,13 +61,21 @@ function FSGSelect(props) {
                 ref={props.ref || inputRef}
                 value={value}
                 onChange={(e) => {
-                    if (props.rules && props.group) {
-                        updateGameField(props.name, e.target.value, props.rules, props.group, props.error);
-                    }
+                    // if (props.rules && props.group) {
+                    //     updateGameField(
+                    //         props.name,
+                    //         e.target.value,
+                    //         props.rules
+                    //     );
+                    // }
                     props.onChange(e);
                 }}
                 placeholder={props.placeholder}
                 w={props.w || props.width}
+                h={props.h || props.width || "3rem"}
+                bgColor={props.bgColor || "gray.950"}
+                fontSize={props.fontSize || "1.4rem"}
+                borderRadius={props.borderRadius || "8px"}
                 // defaultValue={props.defaultValue}
                 disabled={props.disabled}
                 onFocus={props.onFocus}
@@ -73,24 +99,19 @@ function FSGSelect(props) {
                 bgColor="gray.800"
             /> */}
 
-            <FormHelperText>{props.helpText}</FormHelperText>
-
-
+            {/* <FormHelperText>{props.helpText}</FormHelperText> */}
         </FormControl>
-    )
-
+    );
 }
 
+// let onCustomWatched = (ownProps) => {
+//     if (ownProps.group) return [ownProps.group];
+//     return [];
+// };
+// let onCustomProps = (key, value, store, ownProps) => {
+//     // if (key == (ownProps.group + '>' + ownProps.name))
+//     //     return { [key]: value }
+//     return { [ownProps.id]: value };
+// };
 
-let onCustomWatched = ownProps => {
-    if (ownProps.group)
-        return [ownProps.group];
-    return [];
-};
-let onCustomProps = (key, value, store, ownProps) => {
-    // if (key == (ownProps.group + '>' + ownProps.name))
-    //     return { [key]: value }
-    return { [ownProps.id]: value };
-};
-
-export default fs.connect([], onCustomWatched, onCustomProps)(FSGSelect);
+export default FSGSelect;

@@ -59,7 +59,7 @@ export default function DevGameListItem({
               display="flex"
               flexDir={"column"}
               alignItems={"center"}
-              bgColor="gray.800"
+              bgColor="gray.1000"
               p="0.75rem"
               borderRadius="2rem"
             >

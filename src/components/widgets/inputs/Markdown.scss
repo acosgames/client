@@ -28,7 +28,7 @@
 
 .chakra-ui-dark {
   .mde-header .mde-tabs button.selected {
-    background-color: #555;
+    background-color: var(--chakra-colors-gray-950);
   }
 }
 
