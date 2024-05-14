@@ -443,7 +443,8 @@ export async function updateGameAPIKey() {
 
 export async function updateGame() {
     try {
-        let newGame = btDevGame.get();
+        let form = btFormFields.get((form) => form["update-game_info"]);
+        let newGame = form; //btDevGame.get();
 
         //validated seperately
         let teams = newGame.teams;
