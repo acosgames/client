@@ -432,6 +432,13 @@ export function replayJumpToIndex(room_slug, startIndex) {
         merged.local = players[gamepanel.room.replayFollow];
     }
 
+    for (let shortid in players) {
+        let player = players[shortid];
+        player.portrait = `${config.https.cdn}images/portraits/assorted-${
+            player.portraitid || 1
+        }-medium.webp`;
+    }
+
     gamepanel.room.replayIndex = startIndex;
     gamepanel.gamestate = merged;
     updateGamePanel(gamepanel);
