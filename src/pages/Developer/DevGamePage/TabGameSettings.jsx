@@ -20,14 +20,14 @@ export default function TabGameSettings({}) {
     return (
         <Grid gap="24px">
             <Grid
-                templateColumns={{ sm: "1fr", md: "1fr", lg: "1.5fr 3fr " }}
+                templateColumns={{ sm: "1fr", md: "1fr", lg: "1fr 3fr " }}
                 // templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
-                gap="24px"
+                gap="2rem"
                 // mb={{ lg: "26px" }}
             >
                 <LeaderboardSettings />
-                <VStack spacing="2.4rem" w="100%">
-                    <Card>
+                <VStack spacing="0" w="100%">
+                    <Card w="100%" mb="0">
                         <CardBody>
                             <Text
                                 fontWeight="400"
@@ -108,13 +108,14 @@ function GameSettings({}) {
     let showScreenSize = devgame?.screentype == 3;
     let screenheight = (devgame?.resoh / devgame?.resow) * devgame?.screenwidth;
     return (
-        <Card>
+        <Card w="100%" mb="0">
             <CardHeader>
                 <Heading as="h3" fontSize="1.8rem">
-                    Game Settings
+                    Screen Settings
                 </Heading>
             </CardHeader>
             <CardBody>
+                <Box borderTop="1px dotted var(--chakra-colors-gray-700)"></Box>
                 <SettingRow title={"Screen Type"} value={screenTypeName} />
                 {showResolution && (
                     <>

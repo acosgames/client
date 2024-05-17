@@ -1,4 +1,5 @@
 import {
+    Box,
     Card,
     CardBody,
     CardHeader,
@@ -28,13 +29,14 @@ export default function TeamSettings({}) {
     };
 
     return (
-        <Card>
+        <Card w="100%" mb="0">
             <CardHeader>
                 <Heading as="h3" fontSize="1.8rem">
                     Team Settings
                 </Heading>
             </CardHeader>
             <CardBody>
+                <Box borderTop="1px dotted var(--chakra-colors-gray-700)"></Box>
                 <SettingRow title={"Min Teams"} value={devgame?.minteams} />
                 <SettingRow title={"Max Teams"} value={devgame?.maxteams} />
             </CardBody>

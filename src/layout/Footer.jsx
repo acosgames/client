@@ -1,52 +1,52 @@
 import {
-  Box,
-  Wrap,
-  WrapItem,
-  HStack,
-  Text,
-  VStack,
-  Link as ChLink,
-  Icon,
-  Flex,
-  Image,
+    Box,
+    Wrap,
+    WrapItem,
+    HStack,
+    Text,
+    VStack,
+    Link as ChLink,
+    Icon,
+    Flex,
+    Image,
 } from "@chakra-ui/react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 import { FaGithub, FaTwitter, FaDiscord, FaChevronRight } from "react-icons/fa";
 
 function Footer({}) {
-  return (
-    <VStack
-      w="100%"
-      alignItems={"center"}
-      pt={["7rem"]}
-      position="relative"
-      bgColor="gray.900"
-      borderTop="2rem solid var(--chakra-colors-gray-1200)"
-      mt="0rem"
-      _before={{
-        content: '""',
-        position: "absolute",
-        left: "0",
-        top: "-1px",
-        width: "50%",
-        clipPath: "polygon(0 0, 100% 0, 0 100%)",
-        backgroundColor: "gray.1200",
-        height: ["16px", "16px", "16px"],
-      }}
-      _after={{
-        content: '""',
-        left: "auto",
-        top: "-1px",
-        right: "0",
-        position: "absolute",
-        width: "50%",
-        clipPath: "polygon(100% 0, 0 0, 100% 100%)",
-        backgroundColor: "gray.1200",
-        height: ["16px", "16px", "16px"],
-      }}
-    >
-      {/* <Image
+    return (
+        <VStack
+            w="100%"
+            alignItems={"center"}
+            pt={["7rem"]}
+            position="relative"
+            bgColor="gray.900"
+            borderTop="2rem solid var(--chakra-colors-gray-1000)"
+            mt="0rem"
+            _before={{
+                content: '""',
+                position: "absolute",
+                left: "0",
+                top: "-1px",
+                width: "50%",
+                clipPath: "polygon(0 0, 100% 0, 0 100%)",
+                backgroundColor: "gray.1000",
+                height: ["16px", "16px", "16px"],
+            }}
+            _after={{
+                content: '""',
+                left: "auto",
+                top: "-1px",
+                right: "0",
+                position: "absolute",
+                width: "50%",
+                clipPath: "polygon(100% 0, 0 0, 100% 100%)",
+                backgroundColor: "gray.1000",
+                height: ["16px", "16px", "16px"],
+            }}
+        >
+            {/* <Image
         src={FooterImage1}
         position="absolute"
         content='""'
@@ -56,7 +56,7 @@ function Footer({}) {
         height="auto"
       /> */}
 
-      {/* <Image
+            {/* <Image
         src={FooterImage2}
         position="absolute"
         content='""'
@@ -66,329 +66,329 @@ function Footer({}) {
         height="auto"
       /> */}
 
-      <VStack
-        alignItems={"flex-start"}
-        spacing="1rem"
-        color="gray.0"
-        pb="2rem"
-        zIndex="2"
-      >
-        <Text
-          as="span"
-          role="group"
-          transition={"all 0.5s ease"}
-          _hover={{
-            color: "brand.300",
-          }}
-        >
-          <Link
-            to="/games"
-            style={{
-              padding: "0 2rem",
-              height: "3rem",
-              display: "inline-block",
-            }}
-          >
-            <Icon
-              as={FaChevronRight}
-              color="brand.50"
-              fontSize="1.2rem"
-              mr="1rem"
-              transition={"all 0.5s ease"}
-              _groupHover={{
-                transform: "translateX(0.5rem)",
-                color: "brand.300",
-              }}
-            />
-            Play Games
-          </Link>
-        </Text>
-
-        <Text
-          as="span"
-          role="group"
-          transition={"all 0.5s ease"}
-          _hover={{
-            color: "brand.300",
-          }}
-        >
-          <Link
-            to="/dev"
-            style={{
-              padding: "0 2rem",
-              height: "3rem",
-              display: "inline-block",
-            }}
-          >
-            <Icon
-              as={FaChevronRight}
-              color="brand.50"
-              fontSize="1.2rem"
-              mr="1rem"
-              transition={"all 0.5s ease"}
-              _groupHover={{
-                transform: "translateX(0.5rem)",
-                color: "brand.300",
-              }}
-            />
-            Developer Zone
-          </Link>
-        </Text>
-
-        <Text
-          as="span"
-          role="group"
-          transition={"all 0.5s ease"}
-          _hover={{
-            color: "brand.300",
-          }}
-        >
-          <Link
-            to="/about"
-            style={{
-              padding: "0 2rem",
-              height: "3rem",
-              display: "inline-block",
-            }}
-          >
-            <Icon
-              as={FaChevronRight}
-              color="brand.50"
-              fontSize="1.2rem"
-              mr="1rem"
-              transition={"all 0.5s ease"}
-              _groupHover={{
-                transform: "translateX(0.5rem)",
-                color: "brand.300",
-              }}
-            />
-            About ACOS
-          </Link>
-        </Text>
-
-        <Text
-          as="span"
-          role="group"
-          transition={"all 0.5s ease"}
-          _hover={{
-            color: "brand.300",
-          }}
-        >
-          <Link
-            to="https://sdk.acos.games"
-            style={{
-              padding: "0 2rem",
-              height: "3rem",
-              display: "inline-block",
-            }}
-          >
-            <Icon
-              as={FaChevronRight}
-              color="brand.50"
-              fontSize="1.2rem"
-              mr="1rem"
-              transition={"all 0.5s ease"}
-              _groupHover={{
-                transform: "translateX(0.5rem)",
-                color: "brand.300",
-              }}
-            />
-            Documentation
-          </Link>
-        </Text>
-
-        <Text
-          as="span"
-          role="group"
-          transition={"all 0.5s ease"}
-          _hover={{
-            color: "brand.300",
-          }}
-        >
-          <Link
-            to="/privacy"
-            style={{
-              padding: "0 2rem",
-              height: "3rem",
-              display: "inline-block",
-            }}
-          >
-            <Icon
-              as={FaChevronRight}
-              color="brand.50"
-              fontSize="1.2rem"
-              mr="1rem"
-              transition={"all 0.5s ease"}
-              _groupHover={{
-                transform: "translateX(0.5rem)",
-                color: "brand.300",
-              }}
-            />
-            Privacy Policy
-          </Link>
-        </Text>
-
-        <Text
-          as="span"
-          role="group"
-          transition={"all 0.5s ease"}
-          _hover={{
-            color: "brand.300",
-          }}
-        >
-          <Link
-            to="/terms"
-            style={{
-              padding: "0 2rem",
-              height: "3rem",
-              display: "inline-block",
-            }}
-          >
-            <Icon
-              as={FaChevronRight}
-              color="brand.50"
-              fontSize="1.2rem"
-              mr="1rem"
-              transition={"all 0.5s ease"}
-              _groupHover={{
-                transform: "translateX(0.5rem)",
-                color: "brand.300",
-              }}
-            />
-            Terms &amp; Conditions
-          </Link>
-        </Text>
-      </VStack>
-
-      <VStack
-        display={["flex", "flex"]}
-        spacing="5rem"
-        mb="2rem"
-        color="gray.0"
-      >
-        <HStack
-          w="100%"
-          spacing="1.4rem"
-          color="gray.100"
-          alignItems={"center"}
-          justifyContent="center"
-        >
-          <ChLink
-            isExternal
-            href="https://github.com/acosgames"
-            w="12rem"
-            h="12rem"
-            display="flex"
-            flexDirection={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            borderRadius="50%"
-            _hover={{
-              // border: "3px solid var(--chakra-colors-brand-300)",
-
-              // color: "brand.300",
-              // bgColor: "gray.1000",
-              _before: { bgColor: "white" },
-            }}
-          >
-            <Icon
-              fontSize="4rem"
-              color="gray.0"
-              as={FaGithub}
-              position="relative"
-              _before={{
-                position: "absolute",
-                top: "2rem",
-                left: "3rem",
-                content: '""',
-                bgColor: "gray.0",
-                width: "3rem",
-                height: "2.5rem",
-                zIndex: 1,
-              }}
-            />
-            <Text
-              as="span"
-              color="gray.0"
-              fontSize="1.4rem"
-              fontWeight="medium"
-              pt="1rem"
+            <VStack
+                alignItems={"flex-start"}
+                spacing="1rem"
+                color="gray.0"
+                pb="2rem"
+                zIndex="2"
             >
-              GitHub
-            </Text>
-          </ChLink>
-          {/* <ChLink isExternal href="https://twitter.com/acosgames"><Icon as={FaTwitter} /></ChLink> */}
-          <ChLink
-            isExternal
-            href="https://discord.gg/ydHkCcNgHD"
-            position="relative"
-            w="12rem"
-            h="12rem"
-            display="flex"
-            flexDirection={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            borderRadius="50%"
-            _hover={
-              {
-                // border: "3px solid var(--chakra-colors-brand-300)",
-                // bgColor: "gray.1000",
-                //   _before: { bgColor: "white" },
-              }
-            }
-          >
-            <Icon
-              fontSize="4rem"
-              color="#6F86D4"
-              as={FaDiscord}
-              position="relative"
-              zIndex="2"
-            />
-            <Box
-              position="absolute"
-              top="3.4rem"
-              left="5rem"
-              bgColor="gray.0"
-              width="2rem"
-              height="1.7rem"
-              zIndex="1"
-            ></Box>
-            <Text
-              as="span"
-              fontSize="1.4rem"
-              fontWeight="medium"
-              color="gray.0"
-              pt="1rem"
+                <Text
+                    as="span"
+                    role="group"
+                    transition={"all 0.5s ease"}
+                    _hover={{
+                        color: "brand.300",
+                    }}
+                >
+                    <Link
+                        to="/games"
+                        style={{
+                            padding: "0 2rem",
+                            height: "3rem",
+                            display: "inline-block",
+                        }}
+                    >
+                        <Icon
+                            as={FaChevronRight}
+                            color="brand.50"
+                            fontSize="1.2rem"
+                            mr="1rem"
+                            transition={"all 0.5s ease"}
+                            _groupHover={{
+                                transform: "translateX(0.5rem)",
+                                color: "brand.300",
+                            }}
+                        />
+                        Play Games
+                    </Link>
+                </Text>
+
+                <Text
+                    as="span"
+                    role="group"
+                    transition={"all 0.5s ease"}
+                    _hover={{
+                        color: "brand.300",
+                    }}
+                >
+                    <Link
+                        to="/dev"
+                        style={{
+                            padding: "0 2rem",
+                            height: "3rem",
+                            display: "inline-block",
+                        }}
+                    >
+                        <Icon
+                            as={FaChevronRight}
+                            color="brand.50"
+                            fontSize="1.2rem"
+                            mr="1rem"
+                            transition={"all 0.5s ease"}
+                            _groupHover={{
+                                transform: "translateX(0.5rem)",
+                                color: "brand.300",
+                            }}
+                        />
+                        Developer Zone
+                    </Link>
+                </Text>
+
+                <Text
+                    as="span"
+                    role="group"
+                    transition={"all 0.5s ease"}
+                    _hover={{
+                        color: "brand.300",
+                    }}
+                >
+                    <Link
+                        to="/about"
+                        style={{
+                            padding: "0 2rem",
+                            height: "3rem",
+                            display: "inline-block",
+                        }}
+                    >
+                        <Icon
+                            as={FaChevronRight}
+                            color="brand.50"
+                            fontSize="1.2rem"
+                            mr="1rem"
+                            transition={"all 0.5s ease"}
+                            _groupHover={{
+                                transform: "translateX(0.5rem)",
+                                color: "brand.300",
+                            }}
+                        />
+                        About ACOS
+                    </Link>
+                </Text>
+
+                <Text
+                    as="span"
+                    role="group"
+                    transition={"all 0.5s ease"}
+                    _hover={{
+                        color: "brand.300",
+                    }}
+                >
+                    <Link
+                        to="https://sdk.acos.games"
+                        style={{
+                            padding: "0 2rem",
+                            height: "3rem",
+                            display: "inline-block",
+                        }}
+                    >
+                        <Icon
+                            as={FaChevronRight}
+                            color="brand.50"
+                            fontSize="1.2rem"
+                            mr="1rem"
+                            transition={"all 0.5s ease"}
+                            _groupHover={{
+                                transform: "translateX(0.5rem)",
+                                color: "brand.300",
+                            }}
+                        />
+                        Documentation
+                    </Link>
+                </Text>
+
+                <Text
+                    as="span"
+                    role="group"
+                    transition={"all 0.5s ease"}
+                    _hover={{
+                        color: "brand.300",
+                    }}
+                >
+                    <Link
+                        to="/privacy"
+                        style={{
+                            padding: "0 2rem",
+                            height: "3rem",
+                            display: "inline-block",
+                        }}
+                    >
+                        <Icon
+                            as={FaChevronRight}
+                            color="brand.50"
+                            fontSize="1.2rem"
+                            mr="1rem"
+                            transition={"all 0.5s ease"}
+                            _groupHover={{
+                                transform: "translateX(0.5rem)",
+                                color: "brand.300",
+                            }}
+                        />
+                        Privacy Policy
+                    </Link>
+                </Text>
+
+                <Text
+                    as="span"
+                    role="group"
+                    transition={"all 0.5s ease"}
+                    _hover={{
+                        color: "brand.300",
+                    }}
+                >
+                    <Link
+                        to="/terms"
+                        style={{
+                            padding: "0 2rem",
+                            height: "3rem",
+                            display: "inline-block",
+                        }}
+                    >
+                        <Icon
+                            as={FaChevronRight}
+                            color="brand.50"
+                            fontSize="1.2rem"
+                            mr="1rem"
+                            transition={"all 0.5s ease"}
+                            _groupHover={{
+                                transform: "translateX(0.5rem)",
+                                color: "brand.300",
+                            }}
+                        />
+                        Terms &amp; Conditions
+                    </Link>
+                </Text>
+            </VStack>
+
+            <VStack
+                display={["flex", "flex"]}
+                spacing="5rem"
+                mb="2rem"
+                color="gray.0"
             >
-              Discord
-            </Text>
-          </ChLink>
-        </HStack>
-      </VStack>
-      <VStack
-        w="100%"
-        bgColor="gray.900"
-        py="3rem"
-        // borderTop="2px solid"
-        // borderTopColor="gray.900"
-      >
-        <Text
-          color="gray.50"
-          as="span"
-          textAlign={"center"}
-          fontWeight="medium"
-          fontSize="xs"
-        >
-          COPYRIGHT © 2024
-          <br />
-          ALL RIGHTS RESERVED BY{" "}
-          <Text as="span" color="brand.300">
-            ACOS
-          </Text>
-        </Text>
-      </VStack>
-    </VStack>
-  );
+                <HStack
+                    w="100%"
+                    spacing="1.4rem"
+                    color="gray.100"
+                    alignItems={"center"}
+                    justifyContent="center"
+                >
+                    <ChLink
+                        isExternal
+                        href="https://github.com/acosgames"
+                        w="12rem"
+                        h="12rem"
+                        display="flex"
+                        flexDirection={"column"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        borderRadius="50%"
+                        _hover={{
+                            // border: "3px solid var(--chakra-colors-brand-300)",
+
+                            // color: "brand.300",
+                            // bgColor: "gray.1000",
+                            _before: { bgColor: "white" },
+                        }}
+                    >
+                        <Icon
+                            fontSize="4rem"
+                            color="gray.0"
+                            as={FaGithub}
+                            position="relative"
+                            _before={{
+                                position: "absolute",
+                                top: "2rem",
+                                left: "3rem",
+                                content: '""',
+                                bgColor: "gray.0",
+                                width: "3rem",
+                                height: "2.5rem",
+                                zIndex: 1,
+                            }}
+                        />
+                        <Text
+                            as="span"
+                            color="gray.0"
+                            fontSize="1.4rem"
+                            fontWeight="medium"
+                            pt="1rem"
+                        >
+                            GitHub
+                        </Text>
+                    </ChLink>
+                    {/* <ChLink isExternal href="https://twitter.com/acosgames"><Icon as={FaTwitter} /></ChLink> */}
+                    <ChLink
+                        isExternal
+                        href="https://discord.gg/ydHkCcNgHD"
+                        position="relative"
+                        w="12rem"
+                        h="12rem"
+                        display="flex"
+                        flexDirection={"column"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        borderRadius="50%"
+                        _hover={
+                            {
+                                // border: "3px solid var(--chakra-colors-brand-300)",
+                                // bgColor: "gray.1000",
+                                //   _before: { bgColor: "white" },
+                            }
+                        }
+                    >
+                        <Icon
+                            fontSize="4rem"
+                            color="#6F86D4"
+                            as={FaDiscord}
+                            position="relative"
+                            zIndex="2"
+                        />
+                        <Box
+                            position="absolute"
+                            top="3.4rem"
+                            left="5rem"
+                            bgColor="gray.0"
+                            width="2rem"
+                            height="1.7rem"
+                            zIndex="1"
+                        ></Box>
+                        <Text
+                            as="span"
+                            fontSize="1.4rem"
+                            fontWeight="medium"
+                            color="gray.0"
+                            pt="1rem"
+                        >
+                            Discord
+                        </Text>
+                    </ChLink>
+                </HStack>
+            </VStack>
+            <VStack
+                w="100%"
+                bgColor="gray.900"
+                py="3rem"
+                // borderTop="2px solid"
+                // borderTopColor="gray.900"
+            >
+                <Text
+                    color="gray.50"
+                    as="span"
+                    textAlign={"center"}
+                    fontWeight="medium"
+                    fontSize="xs"
+                >
+                    COPYRIGHT © 2024
+                    <br />
+                    ALL RIGHTS RESERVED BY{" "}
+                    <Text as="span" color="brand.300">
+                        ACOS
+                    </Text>
+                </Text>
+            </VStack>
+        </VStack>
+    );
 }
 
 export default Footer;

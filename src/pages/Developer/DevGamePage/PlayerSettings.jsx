@@ -22,13 +22,14 @@ export default function PlayerSettings({}) {
     let devgame = useBucket(btDevGame);
 
     return (
-        <Card>
+        <Card w="100%" mb="0">
             <CardHeader>
                 <Heading as="h3" fontSize="1.8rem">
                     Player Settings
                 </Heading>
             </CardHeader>
             <CardBody>
+                <Box borderTop="1px dotted var(--chakra-colors-gray-700)"></Box>
                 <SettingRow title={"Min Players"} value={devgame?.minplayers} />
                 <SettingRow title={"Max Players"} value={devgame?.maxplayers} />
             </CardBody>

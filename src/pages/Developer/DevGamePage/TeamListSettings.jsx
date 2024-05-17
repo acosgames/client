@@ -51,7 +51,7 @@ export default function TeamListSettings({}) {
 
     return (
         <AnimatePresence>
-            <Card clipPath={"none"}>
+            <Card w="100%" clipPath={"none"}>
                 <CardHeader>
                     <Heading as="h3" fontSize="1.8rem">
                         Team Definitions

@@ -35,14 +35,14 @@ import DevManager from "./pages/Developer/index.jsx";
 import DevGamePage from "./pages/Developer/DevGamePage";
 
 function PageRoutes() {
-    const history = useNavigate();
-    const location = useLocation();
+    // const history = useNavigate();
+    // const location = useLocation();
     const user = useBucket(btUser);
 
     useEffect(() => {
         btHistory.set(history);
-        btLocationPath.set(location.pathname);
-        localStorage.setItem("location/pathname", location.pathname);
+        // btLocationPath.set(location.pathname);
+        // localStorage.setItem("location/pathname", location.pathname);
     }, []);
 
     return (
@@ -57,12 +57,8 @@ function PageRoutes() {
             <Route path="/g/:game_slug" element={<GamePage />} />
             <Route path="/about" element={<IndexPage />} />
             <Route exact path="/dev/login" element={<DevLogin />} />
-            <Route exact path="/dev" element={<DevManager />} />
-            <Route
-                exact
-                path="/dev/game/:game_slug"
-                element={<DevGamePage />}
-            />
+            <Route path="/dev/game/:game_slug/*" element={<DevGamePage />} />
+            <Route path="/dev" element={<DevManager />} />
         </Routes>
     );
 }

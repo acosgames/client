@@ -1,4 +1,5 @@
 import {
+    Box,
     Card,
     CardBody,
     CardHeader,
@@ -12,7 +13,10 @@ import DevImageUpload from "./ImageUpload";
 import { updateGameField, uploadGameImages } from "../../../actions/devgame";
 import FSGGroup from "../../../components/widgets/inputs/FSGGroup";
 import FSGTextInput from "../../../components/widgets/inputs/FSGTextInput";
-import Markdown from "../../../components/widgets/inputs/Markdown";
+import {
+    Markdown,
+    MarkdownPreview,
+} from "../../../components/widgets/inputs/Markdown";
 import schema from "shared/model/schema.json";
 import { useBucket, useBucketSelector } from "../../../actions/bucket";
 import { btDevGame, btFormFields } from "../../../actions/buckets";
@@ -22,12 +26,39 @@ export default function DevTabPageInfo({}) {
         <Grid
             templateColumns={{ sm: "1fr", md: "1fr", lg: "1.2fr 3fr " }}
             // templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
-            gap="24px"
+            gap="2rem"
             mb={{ lg: "26px" }}
         >
             <FeaturedImage />
-            <EditGameInfo />
+            <Box>
+                <EditGameInfo />
+                <DescriptionPreview />
+            </Box>
         </Grid>
+    );
+}
+
+function DescriptionPreview({}) {
+    const group = "update-game_info";
+
+    const rules = schema[group];
+    let form = useBucket(btFormFields, () => true);
+    let formGroup = form[group] || {};
+
+    return (
+        <Card w="auto">
+            <CardHeader>
+                <Heading as="h3" fontSize="1.8rem">
+                    Long Description Preview
+                </Heading>
+            </CardHeader>
+            <CardBody pt="0">
+                <MarkdownPreview
+                    value={formGroup.longdesc}
+                    title={"Description"}
+                />
+            </CardBody>
+        </Card>
     );
 }
 
@@ -51,7 +82,7 @@ function EditGameInfo({}) {
     };
 
     return (
-        <Card>
+        <Card w="auto">
             <CardHeader>
                 <Heading as="h3" fontSize="1.8rem">
                     Game Information
@@ -108,7 +139,7 @@ function EditGameInfo({}) {
 
 function FeaturedImage({}) {
     return (
-        <Card>
+        <Card w="auto">
             <CardHeader>
                 <Heading as="h3" fontSize="1.8rem">
                     Featured Image

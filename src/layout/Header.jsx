@@ -43,22 +43,28 @@ function Header({}) {
             alignItems={"center"}
         >
             <HStack
-                // py="2.4rem"
-                px={["1.2rem"]}
-                maxWidth={["100%", "90%", "90%", "90%", "90%", "1200px"]}
+                px={["1rem", "1rem", "1rem", "3rem"]}
+                w={["100%", "100%", "100%", "100%", "1000px"]}
                 width={["100%"]}
             >
                 <HStack
                     //pl={["24rem", "23rem"]}
-                    pr={["1rem", "1rem", "3rem"]}
+                    pr={["2rem", "2rem", "2rem"]}
+                    pl="0"
                 >
-                    <Box w={["4.14rem", "4.14rem", "6.21rem"]}>
+                    <Box
+                        w={["2rem", "2rem", "3rem"]}
+                        h={["2rem", "2rem", "3rem"]}
+                        transition="transform 0.4s ease"
+                        transformOrigin={"center"}
+                        _hover={{ transform: "rotate(8deg)" }}
+                    >
                         <Link to="/" className="" onClick={(e) => {}}>
                             <Image
                                 alt={"A cup of skill logo"}
-                                src={`${config.https.cdn}acos-logo-standalone-nov-2023.png`}
+                                src={`${config.https.cdn}ACOS-logo-generated-3.png`}
                                 h={["2rem", "2rem", "3rem"]}
-                                maxHeight={"90%"}
+                                maxHeight={"100%"}
                             />
                         </Link>
                     </Box>

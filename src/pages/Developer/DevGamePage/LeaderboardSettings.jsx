@@ -18,7 +18,7 @@ export default function LeaderboardSettings({}) {
     let devgame = useBucket(btDevGame);
 
     return (
-        <Card>
+        <Card w="auto">
             <CardHeader>
                 <Heading as="h3" fontSize="1.8rem">
                     Leaderboard

@@ -1,11 +1,24 @@
-
-import { getWithExpiry, removeWithExpiry, setWithExpiry } from './cache';
-import { clearChatMessages } from './chat';
-import { timerLoop, updateBrowserTitle } from './connection';
-import { btChatMode, btChatUpdated, btDisplayMode, btGamePanels, btGameRoom, btGameState, btGameStates, btGameStatus, btGameStatusUpdated, btGames, btIframes, btLastJoin, btPrimaryGamePanel, btPrimaryRoom, btPrimaryState, btRoomSlug, btRooms, btShowGameover, btShowLoadingBox, btShowPregameOverlay, btUser } from './buckets';
-
-
-
+import { getWithExpiry, removeWithExpiry, setWithExpiry } from "./cache";
+import { clearChatMessages } from "./chat";
+import { timerLoop, updateBrowserTitle } from "./connection";
+import {
+    btChatMode,
+    btChatUpdated,
+    btDisplayMode,
+    btGamePanels,
+    btGameStatus,
+    btGameStatusUpdated,
+    btGames,
+    btIframes,
+    btLastJoin,
+    btPrimaryGamePanel,
+    btPrimaryRoom,
+    btPrimaryState,
+    btRoomSlug,
+    btRooms,
+    btShowLoadingBox,
+    btUser,
+} from "./buckets";
 
 export function setCurrentRoom(room_slug) {
     btRoomSlug.set(room_slug);
@@ -20,19 +33,11 @@ export function setLastJoinType(type) {
 }
 
 export function getLastJoinType() {
-    return btLastJoin.get()
-}
-
-export function setGameState(state) {
-    btGameState.set(state || {});
-}
-
-export function getGameState() {
-    return btGameState.get() || {};
+    return btLastJoin.get();
 }
 
 export function getGamePanel(id) {
-    return btGamePanels.get(bucket => bucket[id])
+    return btGamePanels.get((bucket) => bucket[id]);
 }
 
 export function getGamePanels() {
@@ -43,8 +48,7 @@ export function findGamePanelByRoom(room_slug) {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
         let gp = gamepanels[i];
-        if (gp.room.room_slug == room_slug)
-            return gp;
+        if (gp.room.room_slug == room_slug) return gp;
     }
     return null;
 }
@@ -53,8 +57,7 @@ export function findGamePanelByIFrame(iframeRef) {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
         let gp = gamepanels[i];
-        if (gp?.iframe?.current == iframeRef)
-            return gp;
+        if (gp?.iframe?.current == iframeRef) return gp;
     }
     return null;
 }
@@ -62,61 +65,51 @@ export function findGamePanelByIFrame(iframeRef) {
 export function updateGamePanel(gamepanel) {
     // console.log("Updating gamepanel/" + gamepanel.id);
     let gamepanels = btGamePanels.get();
-    gamepanels[gamepanel.id] = gamepanel;
-
-    btGamePanels.set(gamepanels);
-
-
 
     if (!gamepanel.gamestate) {
         return;
     }
 
-
     let gamestate = gamepanel.gamestate;
 
-    let status = gamestate?.room?.status;
-    if (gamepanel.forfeit || !gamepanel.active) {
-        btShowGameover.set(gamepanel.id);
-        btShowPregameOverlay.set(null);
-    }
-    else if (status == 'pregame' || status == 'starting') {
-        btShowGameover.set(null);
-        btShowPregameOverlay.set(gamepanel.id);
-    } else {
-        btShowPregameOverlay.set(null);
+    if (gamepanel.isPrimary && !gamepanel.closeOverlay) {
+        let status = gamestate?.room?.status;
+        if (gamepanel.forfeit || !gamepanel.active) {
+            gamepanel.showGameover = true;
+            gamepanel.showPregame = false;
+        } else if (status == "pregame" || status == "starting") {
+            gamepanel.showGameover = false;
+            gamepanel.showPregame = true;
+        } else {
+            gamepanel.showPregame = false;
 
-        if (status == 'gameover') {
-            btShowGameover.set(gamepanel.id);
+            if (status == "gameover") {
+                gamepanel.showGameover = true;
+            }
         }
     }
 
-
-
-    let prefix = 'gamepanel/' + gamepanel.id;
+    let prefix = "gamepanel/" + gamepanel.id;
     if (gamepanel.isPrimary) {
         btPrimaryState.set(gamestate);
         btPrimaryRoom.set(gamepanel.room);
     }
 
-    btGameStates.assign({ [gamepanel.id]: gamestate });
-    btGameRoom.set(gamepanel.room);
-
+    gamepanels[gamepanel.id] = gamepanel;
+    btGamePanels.set(gamepanels);
 }
 
 export function getPrimaryGamePanel() {
-    let id = btPrimaryGamePanel.get()
-    if (id == null)
-        return null;
+    let id = btPrimaryGamePanel.get();
+    if (id == null) return null;
 
-    let gamepanel = btGamePanels.get(bucket => bucket[id])
-    if (!gamepanel)
-        return null;
+    let gamepanel = btGamePanels.get((bucket) => bucket[id]);
+    if (!gamepanel) return null;
 
     return gamepanel;
 }
 export function setPrimaryGamePanel(gamepanel) {
-    let primaryId = btPrimaryGamePanel.get()
+    let primaryId = btPrimaryGamePanel.get();
     let primary = getGamePanel(primaryId);
 
     if (primary) {
@@ -126,21 +119,17 @@ export function setPrimaryGamePanel(gamepanel) {
 
     if (!gamepanel) {
         btPrimaryGamePanel.set(null);
-        btChatMode.set('all');
-    }
-    else {
-
-
+        btChatMode.set("all");
+    } else {
         btPrimaryGamePanel.set(gamepanel.id);
         btChatMode.set(gamepanel.room.room_slug);
         btChatUpdated.set(Date.now());
 
         gamepanel.isPrimary = true;
 
-
         let game_slug = gamepanel?.room?.game_slug;
         if (game_slug) {
-            let game = btGames.get(bucket => bucket[game_slug]);
+            let game = btGames.get((bucket) => bucket[game_slug]);
             if (game) {
                 updateBrowserTitle(game.name);
             }
@@ -149,29 +138,27 @@ export function setPrimaryGamePanel(gamepanel) {
 
         timerLoop();
     }
-
-
 }
 
 export function cleanupGamePanel(gamepanel) {
     gamepanel.available = true;
+    gamepanel.showGameover = false;
+    gamepanel.showPregame = false;
+    gamepanel.closeOverlay = false;
     updateGamePanel(gamepanel);
 }
 
-
 export function setRoomForfeited(room_slug) {
-    let gamepanel = findGamePanelByRoom(room_slug)
+    let gamepanel = findGamePanelByRoom(room_slug);
     gamepanel.active = false;
     gamepanel.forfeit = true;
 
-
     updateRoomStatus(room_slug);
     updateGamePanel(gamepanel);
-
 }
 
 export function setRoomActive(room_slug, active) {
-    let gamepanel = findGamePanelByRoom(room_slug)
+    let gamepanel = findGamePanelByRoom(room_slug);
     gamepanel.active = active;
 
     updateRoomStatus(room_slug);
@@ -182,7 +169,7 @@ export function cleanupGamePanels() {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
         let gp = gamepanels[i];
-        if (gp.gamestate?.room?.status == 'gameover') {
+        if (gp.gamestate?.room?.status == "gameover") {
             gp.available = true;
             updateGamePanel(gp);
             // btGamePanels.set(gamepanels);
@@ -204,6 +191,9 @@ export function createGamePanel() {
     gp.iframe = null;
     gp.room = null;
     gp.active = true;
+    gp.showGameover = false;
+    gp.showPregame = false;
+    gp.closeOverlay = false;
     return gp;
 }
 
@@ -221,7 +211,9 @@ export function reserveGamePanel() {
             gp.gameover = false;
             gp.room = null;
             gp.active = true;
-
+            gp.showGameover = false;
+            gp.showPregame = false;
+            gp.closeOverlay = false;
             // updateGamePanel(gp);
             // btGamePanels.set(gamepanels);
             return gp;
@@ -237,42 +229,42 @@ export function reserveGamePanel() {
 }
 
 export function setIFrameLoaded(room_slug, loaded) {
-    let iframes = btIframes.get()
+    let iframes = btIframes.get();
     if (!(room_slug in iframes)) {
         return false;
     }
     iframes[room_slug].loaded = loaded;
-    btIframes.assign({ [room_slug]: { element: iframeRef, loaded: false } })
+    btIframes.assign({ [room_slug]: { element: iframeRef, loaded: false } });
     return true;
 }
 
 export function setIFrame(room_slug, iframeRef) {
-    let iframes = btIframes.get()
-    btIframes.assign({ [room_slug]: { element: iframeRef, loaded: false } })
+    let iframes = btIframes.get();
+    btIframes.assign({ [room_slug]: { element: iframeRef, loaded: false } });
 }
 
 export function getIFrame(room_slug) {
-    let iframes = btIframes.get()
+    let iframes = btIframes.get();
     let iframe = iframes[room_slug];
     return iframe;
 }
 
 export function getGames() {
-    let games = btGames.get() || getWithExpiry('games') || {};
+    let games = btGames.get() || getWithExpiry("games") || {};
     return games;
 }
 export function getGame(game_slug) {
-    let games = btGames.get() || getWithExpiry('games') || {};
+    let games = btGames.get() || getWithExpiry("games") || {};
     return games[game_slug];
 }
 
 export function getRoom(room_slug) {
-    let rooms = btRooms.get() || getWithExpiry('rooms') || {};
+    let rooms = btRooms.get() || getWithExpiry("rooms") || {};
     return rooms[room_slug];
 }
 
 export function getRooms() {
-    let rooms = btRooms.get() || getWithExpiry('rooms') || {};
+    let rooms = btRooms.get() || getWithExpiry("rooms") || {};
     return rooms;
 }
 export function getRoomList() {
@@ -285,40 +277,34 @@ export function getRoomList() {
 }
 
 export function addRooms(roomList) {
-
-    if (!Array.isArray(roomList))
-        return;
+    if (!Array.isArray(roomList)) return;
 
     let rooms = getRooms();
     let user = btUser.get();
 
     let foundFirst = false;
     for (var roomInfo of roomList) {
-
         let { gamestate, room } = roomInfo;
 
         rooms[room.room_slug] = roomInfo;
         //remove from the rooms object, so we can keep it separate
         // if (r.gamestate)
         //     delete r.gamestate;
-        let gamepanel = findGamePanelByRoom(room.room_slug || gamestate.room.room_slug)
+        let gamepanel = findGamePanelByRoom(
+            room.room_slug || gamestate.room.room_slug
+        );
         if (!gamepanel) {
             gamepanel = reserveGamePanel();
             btShowLoadingBox.assign({ [gamepanel.id]: true });
         }
 
-
-
-
         if (gamestate && gamestate.players) {
             gamestate.local = gamestate.players[user.shortid];
-            if (gamestate.local)
-                gamestate.local.id = user.shortid;
+            if (gamestate.local) gamestate.local.id = user.shortid;
 
             for (const id in gamestate.players) {
                 gamestate.players[id].id = id;
             }
-
         } else {
             gamestate.local = { name: user.displayname, id: user.shortid };
         }
@@ -336,13 +322,11 @@ export function addRooms(roomList) {
     }
 
     btRooms.set(rooms);
-    setWithExpiry('rooms', JSON.stringify(rooms), 120);
+    setWithExpiry("rooms", JSON.stringify(rooms), 120);
 }
 
-
 export function addRoom(msg) {
-
-    let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug)
+    let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug);
 
     if (gamepanel) {
         return gamepanel;
@@ -353,8 +337,6 @@ export function addRoom(msg) {
     //merge with any existing
     // let existing = rooms[msg.room.room_slug] || {};
     // room = Object.assign({}, existing, room);
-
-
 
     //reserve and update gamepanel
     gamepanel = reserveGamePanel();
@@ -372,21 +354,17 @@ export function addRoom(msg) {
     if (!msg.room.isReplay) {
         //should we make it primary immediately? might need to change this
         setPrimaryGamePanel(gamepanel);
-
     }
-
 
     rooms[msg.room.room_slug] = { room: msg.room, gamestate: msg.payload };
     btRooms.set(rooms);
-    setWithExpiry('rooms', JSON.stringify(rooms), 120);
-
+    setWithExpiry("rooms", JSON.stringify(rooms), 120);
 
     return gamepanel;
 }
 
 export async function maximizeGamePanel(gamepanel) {
-    if (gamepanel.isPrimary)
-        return;
+    if (gamepanel.isPrimary) return;
     setPrimaryGamePanel(gamepanel);
     updateGamePanel(gamepanel);
 }
@@ -394,9 +372,8 @@ export async function maximizeGamePanel(gamepanel) {
 export async function minimizeGamePanel() {
     let primaryGamePanel = getPrimaryGamePanel();
     if (primaryGamePanel) {
-
-        if (primaryGamePanel.status == 'GAMEOVER') {
-            btDisplayMode.set('none');
+        if (primaryGamePanel.status == "GAMEOVER") {
+            btDisplayMode.set("none");
             clearRoom(primaryGamePanel.room.room_slug);
             // clearPrimaryGamePanel();
         }
@@ -413,11 +390,10 @@ export function clearPrimaryGamePanel() {
 
 export function clearRooms() {
     btRooms.set({});
-    removeWithExpiry('rooms');
+    removeWithExpiry("rooms");
 }
 
 export function clearRoom(room_slug) {
-
     let gamepanel = findGamePanelByRoom(room_slug);
     cleanupGamePanel(gamepanel);
 
@@ -426,22 +402,19 @@ export function clearRoom(room_slug) {
     }
 
     let rooms = btRooms.get();
-    if (!rooms[room_slug])
-        return;
+    if (!rooms[room_slug]) return;
     delete rooms[room_slug];
     btRooms.set(rooms);
-    setWithExpiry('rooms', JSON.stringify(rooms), 120);
+    setWithExpiry("rooms", JSON.stringify(rooms), 120);
 
     clearChatMessages(room_slug);
 }
 
-
 export function getRoomStatus(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
-    if (!gamepanel)
-        return 'NOTEXIST'
+    if (!gamepanel) return "NOTEXIST";
 
-    return btGameStatus.get(bucket => bucket[gamepanel.id] || 'NOTEXIST')
+    return btGameStatus.get((bucket) => bucket[gamepanel.id] || "NOTEXIST");
 }
 
 export function updateRoomStatus(room_slug) {
@@ -458,9 +431,6 @@ export function updateRoomStatus(room_slug) {
 }
 
 export function processsRoomStatus(gamepanel) {
-
-
-
     let gamestate = gamepanel.gamestate;
 
     if (!gamestate || !gamestate.state | !gamestate.players) {
@@ -482,15 +452,10 @@ export function processsRoomStatus(gamepanel) {
         return "FORFEIT";
     }
 
-
     let gameLoaded = gamepanel.loaded;
-    if (!gameLoaded)
-        return "LOADING";
-
-
+    if (!gameLoaded) return "LOADING";
 
     return "GAME";
-
 }
 
 export function isNextTeam(gamepanel, userid) {
@@ -504,46 +469,40 @@ export function isNextTeam(gamepanel, userid) {
     let nextid = next?.id;
     let room = gamestate.room;
 
-    if (room?.status == 'pregame')
-        return true;
+    if (room?.status == "pregame") return true;
 
-    if (!next || !nextid)
-        return false;
+    if (!next || !nextid) return false;
 
-    if (!gamestate.state)
-        return false;
+    if (!gamestate.state) return false;
 
     //check if we ven have teams
     let teams = gamestate?.teams;
 
-
-    if (typeof nextid === 'string') {
+    if (typeof nextid === "string") {
         //anyone can send actions
-        if (nextid == '*')
-            return true;
+        if (nextid == "*") return true;
 
         //only specific user can send actions
         // if (nextid == userid)
         //     return false;
 
         //validate team has players
-        if (!teams || !teams[nextid] || !teams[nextid].players)
-            return false;
+        if (!teams || !teams[nextid] || !teams[nextid].players) return false;
 
         //allow players on specified team to send actions
-        if (Array.isArray(teams[nextid].players) && teams[nextid].players.includes(userid)) {
+        if (
+            Array.isArray(teams[nextid].players) &&
+            teams[nextid].players.includes(userid)
+        ) {
             return true;
         }
-    }
-    else if (Array.isArray(nextid)) {
-
+    } else if (Array.isArray(nextid)) {
         //multiple users can send actions if in the array
         // if (nextid.includes(userid))
         //     return false;
 
         //validate teams exist
-        if (!teams)
-            return false;
+        if (!teams) return false;
 
         //multiple teams can send actions if in the array
         for (var i = 0; i < nextid.length; i++) {
@@ -560,8 +519,6 @@ export function isNextTeam(gamepanel, userid) {
 }
 
 export function isUserNext(gamestate, userid) {
-
-
     if (!gamestate) return false;
 
     // userid = userid || user.shortid;
@@ -569,46 +526,38 @@ export function isUserNext(gamestate, userid) {
     let nextid = next?.id;
     let room = gamestate.room;
 
-    if (room?.status == 'pregame')
-        return false;
+    if (room?.status == "pregame") return false;
 
-    if (!next || !nextid)
-        return false;
+    if (!next || !nextid) return false;
 
-    if (!gamestate.state)
-        return false;
+    if (!gamestate.state) return false;
 
     //check if we ven have teams
     let teams = gamestate?.teams;
 
-
-    if (typeof nextid === 'string') {
+    if (typeof nextid === "string") {
         //anyone can send actions
-        if (nextid == '*')
-            return true;
+        if (nextid == "*") return true;
 
         //only specific user can send actions
-        if (nextid == userid)
-            return true;
+        if (nextid == userid) return true;
 
         //validate team has players
-        if (!teams || !teams[nextid] || !teams[nextid].players)
-            return false;
+        if (!teams || !teams[nextid] || !teams[nextid].players) return false;
 
         //allow players on specified team to send actions
-        if (Array.isArray(teams[nextid].players) && teams[nextid].players.includes(userid)) {
+        if (
+            Array.isArray(teams[nextid].players) &&
+            teams[nextid].players.includes(userid)
+        ) {
             return true;
         }
-    }
-    else if (Array.isArray(nextid)) {
-
+    } else if (Array.isArray(nextid)) {
         //multiple users can send actions if in the array
-        if (nextid.includes(userid))
-            return true;
+        if (nextid.includes(userid)) return true;
 
         //validate teams exist
-        if (!teams)
-            return false;
+        if (!teams) return false;
 
         //multiple teams can send actions if in the array
         for (var i = 0; i < nextid.length; i++) {

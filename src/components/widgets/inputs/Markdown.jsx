@@ -18,7 +18,14 @@ import { Box, Heading, Text } from "@chakra-ui/react";
 import { useBucketSelector } from "../../../actions/bucket";
 import { btFormFields } from "../../../actions/buckets";
 
-function Markdown(props) {
+export function MarkdownPreview({ title, value }) {
+    return (
+        <Box mt="2rem" id="game-info-longdesc">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{value}</ReactMarkdown>
+        </Box>
+    );
+}
+export function Markdown(props) {
     const onChange = (value) => {
         // updateGameField(props.name, value);
     };
@@ -77,21 +84,6 @@ function Markdown(props) {
                         fontSize: "1.4rem",
                     }}
                 />
-                <Box mt="2rem">
-                    <Heading
-                        as="h3"
-                        fontSize="1.4rem !important"
-                        fontWeight="500 !important"
-                        mb="2rem"
-                        pb="1rem"
-                        borderBottom="2px dashed var(--chakra-colors-gray-100)"
-                    >
-                        {props.title} (Preview)
-                    </Heading>
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {value}
-                    </ReactMarkdown>
-                </Box>
             </Box>
             {/* <MDEditor.Markdown source={value} style={{ fontWeight: 'light', whiteSpace: 'pre-wrap' }} /> */}
 
@@ -145,4 +137,4 @@ function Markdown(props) {
 // };
 
 // export default fs.connect([], onCustomWatched, onCustomProps)(Markdown);
-export default Markdown;
+// export Markdown;

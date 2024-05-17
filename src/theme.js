@@ -68,8 +68,9 @@ const colors = {
         500: "#00c755",
         600: "#ffbe18",
         700: "#ffc827",
-        900: "#ffd639",
+        900: "#f1ed62",
         1000: "#ffe449",
+        1100: "#ffd639",
     },
     blues: {
         50: "#e9ebfd",
@@ -101,8 +102,10 @@ const colors = {
         400: "#4c545a",
         500: "#434a51",
         600: "#394147",
+        650: "#333740",
         700: "#31383e",
         750: "#282f35",
+        775: "#222529",
         800: "#201f2a",
         825: "#1b242e",
         850: "#181e24",
@@ -157,6 +160,80 @@ const fontSizes = {
 };
 
 const components = {
+    Alert: {
+        baseStyle: {
+            container: {
+                padding: "2rem",
+                bgColor: "transparent",
+                color: "gray.0",
+                borderRadius: "8px",
+                filter: " drop-shadow(0 .375rem .375rem rgba(0,0,0,.35))",
+                position: "relative",
+                overflow: "visible",
+                zIndex: 2,
+                _before: {
+                    content: "''",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+
+                    clipPath:
+                        "polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)",
+                    bgColor: "gray.775",
+                    borderRadius: "8px",
+                    zIndex: -1,
+                },
+            },
+            title: {
+                pt: "0.25rem",
+                fontSize: "1.6rem",
+                fontWeight: "500",
+                color: "gray.0",
+            },
+            description: {
+                pt: "1rem",
+                color: "gray.0",
+            },
+            icon: {
+                color: "gray.0",
+                width: "2rem",
+                height: "2rem",
+                mr: "1.5rem",
+            },
+            spinner: {},
+        },
+        variants: {
+            success: {
+                container: {
+                    padding: "2rem",
+                },
+                title: {},
+                description: {},
+                icon: {},
+                spinner: {},
+            },
+            error: {
+                container: {
+                    padding: "2rem",
+                },
+                title: {},
+                description: {},
+                icon: {},
+                spinner: {},
+            },
+            warning: {
+                container: {
+                    padding: "2rem",
+                },
+                title: {},
+                description: {},
+                icon: {},
+                spinner: {},
+            },
+        },
+    },
     Breadcrumb: {
         baseStyle: {
             item: {
@@ -171,16 +248,56 @@ const components = {
             },
         },
     },
+    // Card: {
+    //     baseStyle: {
+    //         container: {
+    //             clipPath:
+    //                 "polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)",
+    //             bgColor: "gray.900",
+    //             borderRadius: "8px",
+    //             w: "100%",
+    //             // border: "1px solid",
+    //             // borderColor: "var(--chakra-colors-gray-800)",
+    //         },
+    //     },
+    // },
     Card: {
         baseStyle: {
             container: {
-                clipPath:
-                    "polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)",
-                bgColor: "gray.900",
-                borderRadius: "8px",
-                w: "100%",
+                my: "2rem",
+                w: ["100%", "100%", "100%", "100%", "1000px"],
+                // w: "calc(100% - 2rem)",
                 // border: "1px solid",
                 // borderColor: "var(--chakra-colors-gray-800)",
+                filter: " drop-shadow(0 .375rem .375rem rgba(0,0,0,.45))",
+                bgColor: "transparent",
+                position: "relative",
+                overflow: "visible",
+                zIndex: 2,
+                _before: {
+                    content: "''",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+
+                    clipPath:
+                        "polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)",
+                    bgColor: "gray.775",
+                    borderRadius: "8px",
+                    zIndex: -1,
+                },
+            },
+            body: {
+                p: "2rem",
+            },
+        },
+        variants: {
+            brand: {
+                body: {
+                    p: 0,
+                },
             },
         },
     },
@@ -263,6 +380,7 @@ const components = {
 
                 tablist: {
                     width: "100%",
+                    bgColor: "gray.1000",
                 },
                 tab: {
                     color: "gray.40",
@@ -294,14 +412,20 @@ const components = {
                     width: "100%",
                 },
                 tabpanel: {
-                    mt: "2rem",
+                    mt: "0rem",
                     mb: "8rem",
                     px: "1rem",
+
+                    padding: 0,
                 },
             },
             subtabs: {
+                root: {
+                    w: "100%",
+                },
                 tabpanel: {
                     padding: "0",
+                    px: ["1rem", "1rem", "1rem", "2rem"],
                 },
                 tab: {
                     color: "gray.200",
@@ -316,15 +440,22 @@ const components = {
                     textTransform: "uppercase",
                     fontSize: ["1.2rem", "1.2rem", "1.4rem"],
                 },
+                tablist: {
+                    pt: "2rem",
+                },
             },
             brand: {
+                root: {
+                    // bgColor: "gray.650",
+                },
                 tabs: {
                     // width: '100%',
                     // overflow: 'auto',
                     // mx: '2rem',
+                    // bgColor: "gray.650",
                 },
                 tab: {
-                    color: "gray.40",
+                    color: "gray.50",
                     // py: '1rem',
                     // border: '2px solid',
                     // borderColor: 'transparent',
@@ -342,19 +473,19 @@ const components = {
                     borderTopRadius: "lg",
                     position: "relative",
                     borderBottom: "2px solid",
-                    borderBottomColor: "gray.1200",
+                    borderBottomColor: "transparent",
                     whiteSpace: "nowrap",
                     // mb: '-2px',
                     _hover: {
                         color: "gray.10",
                         borderBottom: "2px solid",
-                        borderBottomColor: "brand.300",
+                        borderBottomColor: "gray.10",
                     },
                     _selected: {
                         // bg: mode('#fff', 'gray.800')(props),
-                        color: "brand.300 !important",
-                        borderColor: "brand.300",
+                        color: "gray.0 !important",
                         borderBottom: "2px solid",
+                        borderColor: "brand.300 !important",
                         zIndex: "2",
                         // mb: '-2px',
                         // _after: {
@@ -378,7 +509,7 @@ const components = {
                     // marginBottom: '-1.6rem',
                     paddingBottom: 0,
                     marginBottom: 0,
-                    bgColor: "gray.1200",
+                    bgColor: "gray.1000",
                     // borderBottom: '2px solid',
                     // borderColor: 'gray.850',
                     // position: 'relative',
@@ -400,6 +531,12 @@ const components = {
                     padding: "0",
                 },
                 tabpanel: {
+                    display: "flex",
+                    w: "100%",
+                    spacing: "0",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                    px: "1rem",
                     padding: "0",
                     paddingTop: "0rem",
                     transition: "all 0.3s ease",

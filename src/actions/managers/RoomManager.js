@@ -1,7 +1,7 @@
 import { btGames } from "../buckets";
 
 export function setRoomForfeited(room_slug) {
-    let gamepanel = findGamePanelByRoom(room_slug)
+    let gamepanel = findGamePanelByRoom(room_slug);
     gamepanel.active = false;
     gamepanel.forfeit = true;
 
@@ -10,30 +10,29 @@ export function setRoomForfeited(room_slug) {
 }
 
 export function setRoomActive(room_slug, active) {
-    let gamepanel = findGamePanelByRoom(room_slug)
+    let gamepanel = findGamePanelByRoom(room_slug);
     gamepanel.active = active;
 
     updateRoomStatus(room_slug);
     updateGamePanel(gamepanel);
 }
 
-
 export function getGames() {
-    let games = btGames.get() || getWithExpiry('games') || {};
+    let games = btGames.get() || getWithExpiry("games") || {};
     return games;
 }
 export function getGame(game_slug) {
-    let games = btGames.get() || getWithExpiry('games') || {};
+    let games = btGames.get() || getWithExpiry("games") || {};
     return games[game_slug];
 }
 
 export function getRoom(room_slug) {
-    let rooms = fs.get('rooms') || getWithExpiry('rooms') || {};
+    let rooms = fs.get("rooms") || getWithExpiry("rooms") || {};
     return rooms[room_slug];
 }
 
 export function getRooms() {
-    let rooms = fs.get('rooms') || getWithExpiry('rooms') || {};
+    let rooms = fs.get("rooms") || getWithExpiry("rooms") || {};
     return rooms;
 }
 export function getRoomList() {
@@ -46,12 +45,10 @@ export function getRoomList() {
 }
 
 export function addRooms(roomList) {
-
-    if (!Array.isArray(roomList))
-        return;
+    if (!Array.isArray(roomList)) return;
 
     let rooms = getRooms();
-    let user = fs.get('user');
+    let user = fs.get("user");
 
     let foundFirst = false;
     for (var r of roomList) {
@@ -61,25 +58,21 @@ export function addRooms(roomList) {
         //remove from the rooms object, so we can keep it separate
         // if (r.gamestate)
         //     delete r.gamestate;
-        let gamepanel = findGamePanelByRoom(r.room_slug || r.room.room_slug)
+        let gamepanel = findGamePanelByRoom(r.room_slug || r.room.room_slug);
         if (!gamepanel) {
             gamepanel = reserveGamePanel();
-            fs.set('showLoadingBox/' + gamepanel.id, true);
+            fs.set("showLoadingBox/" + gamepanel.id, true);
         }
 
         gamepanel.room = r;
 
-
-
         if (gamestate && gamestate.players) {
             gamestate.local = gamestate.players[user.shortid];
-            if (gamestate.local)
-                gamestate.local.id = user.shortid;
+            if (gamestate.local) gamestate.local.id = user.shortid;
 
             for (const id in gamestate.players) {
                 gamestate.players[id].id = id;
             }
-
         } else {
             gamestate.local = { name: user.displayname, id: user.shortid };
         }
@@ -89,21 +82,18 @@ export function addRooms(roomList) {
 
         updateGamePanel(gamepanel);
 
-
         if (!foundFirst) {
             foundFirst = true;
             setPrimaryGamePanel(gamepanel);
         }
     }
 
-    fs.set('rooms', rooms);
-    setWithExpiry('rooms', JSON.stringify(rooms), 120);
+    fs.set("rooms", rooms);
+    setWithExpiry("rooms", JSON.stringify(rooms), 120);
 }
 
-
 export function addRoom(msg) {
-
-    let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug)
+    let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug);
 
     if (gamepanel) {
         return gamepanel;
@@ -115,8 +105,6 @@ export function addRoom(msg) {
     // let existing = rooms[msg.room.room_slug] || {};
     // room = Object.assign({}, existing, room);
 
-
-
     //reserve and update gamepanel
     gamepanel = reserveGamePanel();
     gamepanel.room = msg.room;
@@ -127,32 +115,27 @@ export function addRoom(msg) {
         gamepanel.gamestate = msg.payload;
     }
 
-    fs.set('showLoadingBox/' + gamepanel.id, true);
+    fs.set("showLoadingBox/" + gamepanel.id, true);
     updateGamePanel(gamepanel);
 
     if (!msg.room.isReplay) {
         //should we make it primary immediately? might need to change this
         setPrimaryGamePanel(gamepanel);
-
     }
 
-
     rooms[msg.room.room_slug] = msg.room;
-    fs.set('rooms', rooms);
-    setWithExpiry('rooms', JSON.stringify(rooms), 120);
-
+    fs.set("rooms", rooms);
+    setWithExpiry("rooms", JSON.stringify(rooms), 120);
 
     return gamepanel;
 }
 
-
 export function clearRooms() {
-    fs.set('rooms', {});
-    removeWithExpiry('rooms');
+    fs.set("rooms", {});
+    removeWithExpiry("rooms");
 }
 
 export function clearRoom(room_slug) {
-
     let gamepanel = findGamePanelByRoom(room_slug);
     cleanupGamePanel(gamepanel);
 
@@ -161,16 +144,14 @@ export function clearRoom(room_slug) {
     //     setPrimaryGamePanel(null);
     // }
 
-    let rooms = fs.get('rooms');
-    if (!rooms[room_slug])
-        return;
+    let rooms = fs.get("rooms");
+    if (!rooms[room_slug]) return;
     delete rooms[room_slug];
-    fs.set('rooms', rooms);
-    setWithExpiry('rooms', JSON.stringify(rooms), 120);
+    fs.set("rooms", rooms);
+    setWithExpiry("rooms", JSON.stringify(rooms), 120);
 
     clearChatMessages(room_slug);
 }
-
 
 // export function setRoomStatus(status) {
 //     fs.set('roomStatus', status);
@@ -178,7 +159,7 @@ export function clearRoom(room_slug) {
 export function getRoomStatus(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
 
-    return fs.get('gamestatus/' + gamepanel.id) || 'NOTEXIST';
+    return fs.get("gamestatus/" + gamepanel.id) || "NOTEXIST";
     // return gamepanel?.status || 'NOTEXIST';
 }
 
@@ -187,8 +168,8 @@ export function updateRoomStatus(room_slug) {
     let status = processsRoomStatus(gamepanel);
     gamepanel.status = status;
 
-    fs.set('gamestatus/' + gamepanel.id, status);
-    fs.set('gamestatusUpdated', (new Date()).getTime());
+    fs.set("gamestatus/" + gamepanel.id, status);
+    fs.set("gamestatusUpdated", new Date().getTime());
     // updateGamePanel(gamepanel);
 
     //console.log("ROOM STATUS = ", status);
@@ -196,15 +177,9 @@ export function updateRoomStatus(room_slug) {
     return status;
 }
 
-
-
-
 export async function wsLeaveGame(game_slug, room_slug) {
-
-    let ws = fs.get('ws');
+    let ws = fs.get("ws");
     if (!ws || !ws.isReady) {
-        // let history = fs.get('history');
-        // setGameState({});
         // setCurrentRoom(null);
         // history.goBack();
         setRoomActive(room_slug, false);
@@ -212,17 +187,16 @@ export async function wsLeaveGame(game_slug, room_slug) {
         return;
     }
 
-    let action = { type: 'leave', room_slug }
+    let action = { type: "leave", room_slug };
 
     let byteLen = await wsSend(action);
-    console.log("[Outgoing] Leaving:", '[' + byteLen + ' bytes]', action);
+    console.log("[Outgoing] Leaving:", "[" + byteLen + " bytes]", action);
 
     setRoomActive(room_slug, false);
     revertBrowserTitle();
 
     sendPauseMessage(room_slug);
     // clearRoom(room_slug);
-    // setGameState({});
     // setCurrentRoom(null);
 
     // let history = fs.get('history');
@@ -230,8 +204,7 @@ export async function wsLeaveGame(game_slug, room_slug) {
 }
 
 export async function wsLeaveQueue() {
-
-    setLastJoinType('');
+    setLastJoinType("");
     await clearGameQueues();
 
     // let ws = await reconnect();
@@ -239,23 +212,21 @@ export async function wsLeaveQueue() {
     //     return;
     // }
 
-    fs.set('joinqueues', null);
-    localStorage.removeItem('joinqueues');
-    let action = { type: 'leavequeue' }
+    fs.set("joinqueues", null);
+    localStorage.removeItem("joinqueues");
+    let action = { type: "leavequeue" };
     let byteLen = await wsSend(action);
 
     // await disconnect();
 
-    console.log("[Outgoing] Leave Queue:", '[' + byteLen + ' bytes]');
+    console.log("[Outgoing] Leave Queue:", "[" + byteLen + " bytes]");
 }
 
 export async function wsRejoinQueues() {
-
-    if (!(await validateLogin()))
-        return;
+    if (!(await validateLogin())) return;
 
     let joinqueues = getJoinQueues() || {};
-    let user = fs.get('user');
+    let user = fs.get("user");
 
     let jqs = joinqueues.queues || [];
     if (jqs.length > 0 && user)
@@ -263,53 +234,46 @@ export async function wsRejoinQueues() {
 }
 
 export async function wsJoinQueues(queues, owner, attempt) {
-
     attempt = attempt || 1;
 
     let joinQueues = { queues, owner };
-    fs.set('joinqueues', joinQueues);
-    localStorage.setItem('joinqueues', JSON.stringify(joinQueues));
+    fs.set("joinqueues", joinQueues);
+    localStorage.setItem("joinqueues", JSON.stringify(joinQueues));
 
-    if (attempt > 10)
-        return false;
+    if (attempt > 10) return false;
 
-    if (!(await validateLogin()))
-        return false;
+    if (!(await validateLogin())) return false;
 
     if (!queues || queues.length == 0 || !queues[0].game_slug) {
         console.error("Queues is invalid.", queues);
         return false;
     }
 
-    let currentQueues = fs.get('queues') || [];
+    let currentQueues = fs.get("queues") || [];
     if (currentQueues.length > 0) {
         console.warn("Already in queue", currentQueues);
         // return false;
     }
 
-
-
-
     let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
         setTimeout(() => {
             wsJoinQueues(queues, owner, attempt + 1);
-        }, 500)
+        }, 500);
         return false;
     }
 
-
-    gtag('event', 'joinqueues', { queues, owner });
+    gtag("event", "joinqueues", { queues, owner });
 
     let user = await getUser();
-    let players = [{ shortid: user.shortid, displayname: user.displayname }]
+    let players = [{ shortid: user.shortid, displayname: user.displayname }];
     let payload = { queues, owner, players, captain: user.shortid };
-    let action = { type: 'joinqueues', payload }
+    let action = { type: "joinqueues", payload };
     let byteLen = await wsSend(action);
 
-    console.log("[Outgoing] Queing:", '[' + byteLen + ' bytes]', action);
+    console.log("[Outgoing] Queing:", "[" + byteLen + " bytes]", action);
 
-    fs.set('queues', queues);
+    fs.set("queues", queues);
 
     // if (owner)
     //     fs.set('successMessage', { description: `You joined ${owner}'s ${queues.length} queues.` })
@@ -320,11 +284,8 @@ export async function wsJoinQueues(queues, owner, attempt) {
     return true;
 }
 
-
 export async function wsJoinGame(mode, game_slug) {
-
-    if (!(await validateLogin()))
-        return false;
+    if (!(await validateLogin())) return false;
 
     let ws = await reconnect(true);
     if (!ws || !ws.isReady) {
@@ -332,26 +293,31 @@ export async function wsJoinGame(mode, game_slug) {
     }
 
     if (!game_slug) {
-        console.error("Game [" + game_slug + "] is invalid.  Something went wrong.");
+        console.error(
+            "Game [" + game_slug + "] is invalid.  Something went wrong."
+        );
         return;
     }
 
     let user = await getUser();
 
     let queues = [{ mode, game_slug }];
-    let players = [{ shortid: user.shortid, displayname: user.displayname }]
-    let action = { type: 'joingame', payload: { captain: user.shortid, queues, players } }
+    let players = [{ shortid: user.shortid, displayname: user.displayname }];
+    let action = {
+        type: "joingame",
+        payload: { captain: user.shortid, queues, players },
+    };
     let byteLen = await wsSend(action);
 
-
-
-
-    console.log("[Outgoing] Joining " + mode + ":", '[' + byteLen + ' bytes]', action);
+    console.log(
+        "[Outgoing] Joining " + mode + ":",
+        "[" + byteLen + " bytes]",
+        action
+    );
 
     // let games = fs.get('games');
     // let game = games[game_slug];
     // let gameName = game?.name || game?.game_slug || '';
-
 
     sendPing(ws);
     // if (game.maxplayers > 1)
@@ -388,30 +354,35 @@ export async function wsSpectateGame(game_slug) {
     }
 
     if (!game_slug) {
-        console.error("Game [" + game_slug + "] is invalid.  Something went wrong.");
+        console.error(
+            "Game [" + game_slug + "] is invalid.  Something went wrong."
+        );
         return;
     }
 
-    let action = { type: 'spectate', payload: { game_slug } }
+    let action = { type: "spectate", payload: { game_slug } };
     let byteLen = await wsSend(action);
 
-    console.log("[Outgoing] Spectating [" + game_slug + "]:", '[' + byteLen + ' bytes]', action);
+    console.log(
+        "[Outgoing] Spectating [" + game_slug + "]:",
+        "[" + byteLen + " bytes]",
+        action
+    );
     // console.timeEnd('ActionLoop');
 }
 
 export async function wsJoinBetaGame(game) {
-    gtag('event', 'join', { mode: 'experimental', game_slug: game.game_slug });
-    wsJoinGame('experimental', game.game_slug);
+    gtag("event", "join", { mode: "experimental", game_slug: game.game_slug });
+    wsJoinGame("experimental", game.game_slug);
 }
 
-
 export async function wsJoinRankedGame(game) {
-    gtag('event', 'join', { mode: 'rank', game_slug: game.game_slug });
-    wsJoinGame('rank', game.game_slug);
+    gtag("event", "join", { mode: "rank", game_slug: game.game_slug });
+    wsJoinGame("rank", game.game_slug);
 }
 
 export async function wsJoinPublicGame(game) {
-    wsJoinGame('public', game.game_slug);
+    wsJoinGame("public", game.game_slug);
 }
 
 // export async function wsJoin(game_slug, room_slug) {
@@ -436,9 +407,6 @@ export async function wsJoinPublicGame(game) {
 //     }
 // }
 
-
 function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-

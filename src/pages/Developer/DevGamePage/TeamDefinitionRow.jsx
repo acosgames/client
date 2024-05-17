@@ -61,11 +61,13 @@ export default function TeamDefinitionRow({ index, team_slug, isOdd }) {
                     fontSize="1.4rem"
                     title={"Min Players"}
                     value={team?.minplayers}
+                    hideBorder={true}
                 />
                 <SettingRow
                     fontSize="1.4rem"
                     title={"Max Players"}
                     value={team?.maxplayers}
+                    hideBorder={true}
                 />
             </VStack>
         </HStack>

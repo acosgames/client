@@ -52,7 +52,7 @@ export default function Publishing({}) {
         }
 
     return (
-        <Card>
+        <Card w="auto">
             <CardHeader>
                 <Heading as="h3" fontSize="1.8rem">
                     Publish

@@ -13,14 +13,14 @@ import Publishing from "./Publishing.jsx";
 export default function TabDeployment({}) {
     return (
         <Grid
-            templateColumns={{ sm: "1fr", md: "1fr", lg: "1.5fr 3fr " }}
+            templateColumns={{ sm: "1fr", md: "1fr", lg: "0.2fr 0.8fr " }}
             templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
-            gap="24px"
+            gap="2rem"
             mb={{ lg: "26px" }}
         >
             <Publishing />
 
-            <Card pb="2rem">
+            <Card w="auto" pb="2rem">
                 <CardHeader>
                     <Heading as="h3" fontSize="1.8rem">
                         Clone and Deploy

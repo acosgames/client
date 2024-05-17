@@ -6,14 +6,14 @@ import { calculateGameSize } from "../../util/helper";
 import OverlayEvents from "./OverlayScreens/OverlayEvents.jsx";
 import { AnimatePresence, motion } from "framer-motion";
 import ModalGameOver from "./OverlayScreens/ModalGameOver";
-import { useBucket } from "../../actions/bucket";
+import { useBucket, useBucketSelector } from "../../actions/bucket";
 import {
+    btGamePanels,
     btGameScreenSize,
     btHideDrawer,
     btIsMobile,
     btPrimaryGamePanel,
     btScreenResized,
-    btShowGameover,
 } from "../../actions/buckets";
 
 const MotionBox = motion(Box);
@@ -60,7 +60,7 @@ export default function GameScreen({ layoutRef }) {
                 gamepanelid={primaryId}
                 layoutRef={layoutRef}
             />
-            <ModalGameOver key="modalgameover" />
+            <ModalGameOver key="modalgameover" gamepanelid={primaryId} />
             <AnimatePresence>
                 <motion.div
                     key={"game-screen-anim"}
@@ -121,9 +121,12 @@ function DisplayGamePanel({
     hideDrawer,
     isMobile,
     primary,
-    // primaryId,
+    primaryId,
 }) {
-    let showGameover = useBucket(btShowGameover);
+    let showGameover = useBucketSelector(
+        btGamePanels,
+        (gamepanels) => gamepanels[primaryId]?.showGameover
+    );
     let ref = useRef();
 
     let elementHeight = layoutRef.current.clientHeight; // height with padding
@@ -157,7 +160,7 @@ function DisplayGamePanel({
             className={"canvasRef"}
             // scrollSnapStop={"start"}
             transition="filter 0.3s linear"
-            filter={showGameover != null ? "blur(3px)" : "blur(0)"}
+            filter={showGameover ? "blur(3px)" : "blur(0)"}
             // transition="filter 0.3s ease-out"
         >
             <GamePanel

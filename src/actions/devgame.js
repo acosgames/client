@@ -202,6 +202,9 @@ export async function findGame(game_slug) {
             btDevGameImages.set(images);
         }
 
+        game.deployCommand = `npm run deploy -- ${game?.game_slug}.${
+            game?.apikey
+        }${process.env.NODE_ENV === "development" ? " --local" : ""}`;
         btDevGameError.set([]);
         console.log(game);
         btDevGame.set(game);
@@ -428,6 +431,9 @@ export async function updateGameAPIKey() {
         let game = response.data;
 
         newGame.apikey = game.apikey;
+        newGame.deployCommand = `npm run deploy -- ${newGame?.game_slug}.${
+            newGame?.apikey
+        }${process.env.NODE_ENV === "development" ? " --local" : ""}`;
         btDevGame.set(newGame);
     } catch (e) {
         console.error(e);

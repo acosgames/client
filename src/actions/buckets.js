@@ -12,29 +12,28 @@ export const btDivision = bucket({});
 
 export const btLoading = bucket({});
 
-
 export const btIsMobile = bucket(false);
-export const btLayoutMode = bucket('right');
-export const btLayoutBottomMode = bucket('none');
-export const btLayoutRightMode = bucket('none');
+export const btLayoutMode = bucket("right");
+export const btLayoutBottomMode = bucket("none");
+export const btLayoutRightMode = bucket("none");
 
 export const btScoreboardExpanded = bucket(true);
 export const btLobbyExpanded = bucket(false);
 export const btChatExpanded = bucket(false);
 
-export const btLoggedIn = bucket('CHECKING');
+export const btLoggedIn = bucket("CHECKING");
 export const btIsCreateDisplayName = bucket(false);
 export const btJoinButtonVisible = bucket(false);
 
 export const btHistory = bucket(null);
-export const btLocationPath = bucket('');
+export const btLocationPath = bucket("");
 
 export const btPrimaryCanvasRef = bucket(null);
 export const btChatUpdated = bucket(Date.now());
 export const btChannel = bucket([]);
 export const btLastChatSent = bucket(Date.now());
 
-export const btChatMessage = bucket('');
+export const btChatMessage = bucket("");
 export const btWebsocket = bucket(null);
 
 export const btRoomSlug = bucket(null);
@@ -60,8 +59,8 @@ export const btDevGameImages = bucket([]);
 export const btDevGame = bucket({});
 export const btDevGames = bucket([]);
 export const btDevClientImages = bucket([]);
-export const btDevClients = bucket([])
-export const btDevServerImages = bucket([])
+export const btDevClients = bucket([]);
+export const btDevServerImages = bucket([]);
 export const btDevServers = bucket([]);
 export const btDevServerError = bucket([]);
 export const btDevClientsError = bucket([]);
@@ -94,14 +93,16 @@ export const btVersion = bucket(0);
 export const btUserId = bucket(0);
 
 export const btLoadingDefaultCountry = bucket(false);
-export const btDefaultCountry = bucket('US');
+export const btDefaultCountry = bucket("US");
 export const btProfile = bucket(null);
 export const btDisplayName = bucket(null);
 
 export const btLoadingProfile = bucket(false);
 export const btLoadingUser = bucket(false);
-export const btLoginFrom = bucket('game');
-export const btPortraitId = bucket(Math.floor(Math.random() * (2104 - 1 + 1) + 1))
+export const btLoginFrom = bucket("game");
+export const btPortraitId = bucket(
+    Math.floor(Math.random() * (2104 - 1 + 1) + 1)
+);
 
 export const btJustCreatedName = bucket(false);
 export const btCheckingUserLogin = bucket(true);
@@ -109,18 +110,14 @@ export const btQueueStats = bucket(null);
 export const btGamePanels = bucket([]);
 export const btLastJoin = bucket(null);
 
-export const btGameState = bucket({});
 export const btGamePanelById = bucket({});
-export const btShowGameover = bucket(false);
-export const btShowPregameOverlay = bucket(null);
 export const btPrimaryState = bucket({});
-export const btGameStates = bucket({});
 
 export const btPrimaryGamePanel = bucket(null);
-export const btChatMode = bucket('all');
+export const btChatMode = bucket("all");
 
 export const btIframes = bucket({});
-export const btDisplayMode = bucket('none');
+export const btDisplayMode = bucket("none");
 export const btGameStatus = bucket({});
 export const btPlayerCount = bucket(0);
 export const btGameTimeLeft = bucket(0);
@@ -135,7 +132,12 @@ export const btChat = bucket([]);
 export const btChatRoom = bucket([]);
 export const btError = bucket(null);
 export const btRefPath = bucket(null);
-export const btSuccess = bucket(null);
+export const btNotif = bucket({
+    title: "",
+    description: "",
+    status: "",
+    isClosable: true,
+});
 
 export const btDevClient = bucket({});
 export const btShowCreateClient = bucket(false);
@@ -152,10 +154,8 @@ export const btGameScreenSize = bucket(null);
 export const btGameStatusUpdated = bucket(Date.now());
 export const btFullScreenElem = bucket(null);
 export const btPrimaryRoom = bucket(null);
-export const btGameRoom = bucket(null);
 export const btReplays = bucket({});
 
 export const btPortraitBottomRef = bucket(null);
-
 
 export const btFormFields = bucket({});

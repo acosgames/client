@@ -913,7 +913,12 @@ code {
     }
     a {
       text-decoration: underline;
-      color:#f1f9ff;
+      color:var(--chakra-colors-brand-50);
+      text-decoration: none;
+      
+    }
+    a:hover {
+      text-decoration: underline;
     }
     code {
       /* //background-color:#08225a; */

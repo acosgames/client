@@ -226,6 +226,7 @@ export function sendLoadMessage(room_slug) {
             {
                 type: "load",
                 payload: {
+                    css: gamepanel.room.css,
                     game_slug: gamepanel.room.game_slug,
                     version: gamepanel.room.version,
                 },
@@ -1027,7 +1028,6 @@ export function revertBrowserTitle() {
 async function wsIncomingMessage(message) {
     let user = btUser.get();
     let history = btHistory.get();
-    // let gamestate = getGameState();
 
     let buffer = await message.data;
     let msg = ACOSEncoder.decode(buffer);
@@ -1154,7 +1154,6 @@ async function wsIncomingMessage(message) {
             setLastJoinType("");
 
             // gamestate = msg.payload || {};
-            // setGameState(gamestate);
 
             timerLoop();
 
@@ -1268,7 +1267,6 @@ async function wsIncomingMessage(message) {
             gamestate.players[user.shortid] = player;
             // gamestate.deltaPrivate = msg.payload;
             updateGamePanel(gamepanel);
-            // setGameState(gamestate);
             return;
         } else {
             if (msg.payload?.timer?.end) {
@@ -1305,7 +1303,6 @@ async function wsIncomingMessage(message) {
             updateGamePanel(gamepanel);
 
             msg.payload = mergedState;
-            // setGameState(msg.payload);
         }
     }
 
