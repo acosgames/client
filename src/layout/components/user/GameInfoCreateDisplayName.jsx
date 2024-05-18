@@ -185,11 +185,11 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
 
   const onChange = (e) => {
     console.log(e.target.value);
-    let name = e.target.value;
-    name = name.replace(/[^A-Za-z0-9\_]/gi, "");
+    let displayname = e.target.value;
+    displayname = displayname.replace(/[^A-Za-z0-9\_]/gi, "");
     // setDisplayName(name);
-    btDisplayName.set(name);
-    localStorage.setItem("displayname", name);
+    btDisplayName.set(displayname);
+    localStorage.setItem("displayname", displayname);
   };
 
   const onKeyDown = (e) => {

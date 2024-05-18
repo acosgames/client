@@ -359,8 +359,8 @@ function PlayersFFA({ gamepanelid }) {
                 let portraitid = player.portraitid || "3";
                 return (
                     <ReplayPlayer
-                        key={"replay-player-" + player.name}
-                        name={player.name}
+                        key={"replay-player-" + player.displayname}
+                        displayname={player.displayname}
                         score={player.score}
                         countrycode={player.countrycode}
                         portraitid={portraitid}
@@ -375,7 +375,7 @@ function PlayersFFA({ gamepanelid }) {
 
 function PlayersTeams({}) {}
 
-// function ReplayPlayer({ team, name, score, rating, countrycode, portraitid, isLast, flagCode }) {
+// function ReplayPlayer({ team, displayname, score, rating, countrycode, portraitid, isLast, flagCode }) {
 //     return (
 //         <VStack spacing="0.5rem"
 //             w="100%"
@@ -402,7 +402,7 @@ function PlayersTeams({}) {}
 //                             color="gray.0"
 //                             fontSize={["1.4rem", "1.4rem", "1.2rem", "1.4rem"]}
 //                         >
-//                             {name}
+//                             {displayname}
 //                         </Text>
 //                         <Image
 //                             display="inline-block"

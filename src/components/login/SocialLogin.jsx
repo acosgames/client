@@ -1,15 +1,29 @@
 import React, { Component, Fragment, useEffect, useState } from "react";
-import fs from 'flatstore';
+import fs from "flatstore";
 
-import {
-    Link,
-    Redirect,
-    useHistory,
-    useNavigate
-} from "react-router-dom";
+import { Link, Redirect, useHistory, useNavigate } from "react-router-dom";
 import Logout from "./Logout";
-import { Heading, VStack, Button, Center, Text, chakra, Link as ChLink, useToast, Modal, Box, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Divider, HStack, ModalFooter } from "@chakra-ui/react";
-import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from '@react-icons';
+import {
+    Heading,
+    VStack,
+    Button,
+    Center,
+    Text,
+    chakra,
+    Link as ChLink,
+    useToast,
+    Modal,
+    Box,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    Divider,
+    HStack,
+    ModalFooter,
+} from "@chakra-ui/react";
+import { FaFacebook, FaGithub, FaMicrosoft, FaGoogle } from "@react-icons";
 import { removeWithExpiry } from "../../actions/cache";
 import { createTempUser, loginComplete } from "../../actions/person";
 import FSGGroup from "../widgets/inputs/FSGGroup";
@@ -21,70 +35,93 @@ import {
     GoogleLoginButton,
     GithubLoginButton,
     MicrosoftLoginButton,
-    YahooLoginButton
+    YahooLoginButton,
 } from "react-social-login-buttons";
 
 function SocialLoginSimple(props) {
-
-    let refPath = fs.get('refPath');
+    let refPath = fs.get("refPath");
     if (refPath) {
-        refPath = '?ref=' + refPath;
-    }
-    else {
-        refPath = '';
+        refPath = "?ref=" + refPath;
+    } else {
+        refPath = "";
     }
 
-    let user = fs.get('user');
+    let user = fs.get("user");
 
     return (
         <VStack>
-
             {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Or, login to save your temporary account</Heading> */}
 
-            <Heading pt="0" mt="0" color="white" fontWeight="bold" fontSize="md">Sign in to remember and continue your battle</Heading>
-            <Heading pt="0" mt="0" color="yellow.100" fontWeight="bold" fontSize="md">{user.displayname}</Heading>
-            <Heading pt="0" mt="0" color="gray.100" fontSize="xs" pb="1rem" fontWeight={'light'}>By signing in, you agree to our <Link to="/privacy">Privacy Policy</Link></Heading>
+            <Heading
+                pt="0"
+                mt="0"
+                color="white"
+                fontWeight="bold"
+                fontSize="md"
+            >
+                Sign in to remember and continue your battle
+            </Heading>
+            <Heading
+                pt="0"
+                mt="0"
+                color="yellow.100"
+                fontWeight="bold"
+                fontSize="md"
+            >
+                {user.displayname}
+            </Heading>
+            <Heading
+                pt="0"
+                mt="0"
+                color="gray.100"
+                fontSize="xs"
+                pb="1rem"
+                fontWeight={"light"}
+            >
+                By signing in, you agree to our{" "}
+                <Link to="/privacy">Privacy Policy</Link>
+            </Heading>
             {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
 
             <VStack w="100%" maxWidth="22rem">
                 <FacebookLoginButton
                     size="2.4rem"
                     iconSize="1.4rem"
-
-                    style={{ fontSize: '1.2rem' }}
+                    style={{ fontSize: "1.2rem" }}
                     onClick={() => {
-                        window.location.href = ('/login/facebook' + refPath);
-                    }} />
+                        window.location.href = "/login/facebook" + refPath;
+                    }}
+                />
                 <GoogleLoginButton
                     size="2.4rem"
                     iconSize="1.4rem"
-                    style={{ fontSize: '1.2rem' }}
+                    style={{ fontSize: "1.2rem" }}
                     onClick={() => {
-                        window.location.href = ('/login/google' + refPath);
-                    }} />
+                        window.location.href = "/login/google" + refPath;
+                    }}
+                />
                 <GithubLoginButton
                     size="2.4rem"
                     iconSize="1.4rem"
-                    style={{ fontSize: '1.2rem' }}
+                    style={{ fontSize: "1.2rem" }}
                     onClick={() => {
-                        window.location.href = '/login/github' + refPath;
-                    }} />
+                        window.location.href = "/login/github" + refPath;
+                    }}
+                />
                 <MicrosoftLoginButton
                     size="2.4rem"
                     iconSize="1.4rem"
-                    style={{ fontSize: '1.2rem' }}
+                    style={{ fontSize: "1.2rem" }}
                     onClick={() => {
-                        window.location.href = ('/login/microsoft' + refPath);
-                    }} />
+                        window.location.href = "/login/microsoft" + refPath;
+                    }}
+                />
             </VStack>
         </VStack>
-    )
-
+    );
 }
 
-
 function SocialLogin(props) {
-
     const onClose = props.onClose;
     const isOpen = props.isOpen;
     const onOpen = props.onOpen;
@@ -96,22 +133,20 @@ function SocialLogin(props) {
     const toast = useToast();
     const history = useNavigate();
     useEffect(() => {
-        removeWithExpiry('user');
-        gtag('event', 'sociallogin');
+        removeWithExpiry("user");
+        gtag("event", "sociallogin");
 
-        let error = fs.get('error');
+        let error = fs.get("error");
         if (error) {
             toast({
-                title: 'ERROR',
-                status: 'error',
+                title: "ERROR",
+                status: "error",
                 description: error,
-            })
+            });
         }
-    })
+    });
 
     const onSubmit = async () => {
-
-
         if (!displayName || displayName.length < 3) {
             setError({ message: `The name '${displayName}' is too short.` });
             return;
@@ -125,89 +160,89 @@ function SocialLogin(props) {
         }
 
         if (user.ecode) {
-
             switch (user.ecode) {
-                case 'E_PERSON_EXISTSNAME':
+                case "E_PERSON_EXISTSNAME":
                     setError({ message: `You already have a display name.` });
 
                     break;
-                case 'E_EXISTS_DISPLAYNAME':
-                    setError({ message: `The name '${displayName}' already exists.` });
+                case "E_EXISTS_DISPLAYNAME":
+                    setError({
+                        message: `The name '${displayName}' already exists.`,
+                    });
                     break;
-                case 'E_PERSON_DUPENAME':
-                    setError({ message: `The name '${displayName}' already exists.` });
+                case "E_PERSON_DUPENAME":
+                    setError({
+                        message: `The name '${displayName}' already exists.`,
+                    });
                     break;
-                case 'E_MISSING_DISPLAYNAME':
+                case "E_MISSING_DISPLAYNAME":
                     setError({ message: `Please enter a display name.` });
                     break;
-                case 'E_DISPLAYNAME_TOOSHORT':
-                    setError({ message: `The name '${displayName}' is too short.` });
+                case "E_DISPLAYNAME_TOOSHORT":
+                    setError({
+                        message: `The name '${displayName}' is too short.`,
+                    });
                     break;
                 default:
-                    setError({ message: `[${user.ecode}] Server not working. Please try again.` });
+                    setError({
+                        message: `[${user.ecode}] Server not working. Please try again.`,
+                    });
                     break;
             }
-        }
-        else {
-
+        } else {
             // fs.set('user')
             // setTimeout(redirect, 1000);
             loginComplete();
 
-            history('/login/success');
+            history("/login/success");
         }
-
-    }
+    };
 
     const onChange = (e) => {
         console.log(e.target.value);
-        let name = e.target.value;
-        name = name.replace(/[^A-Za-z0-9\_]/ig, '');
-        setDisplayName(name);
-        localStorage.setItem('displayname', name);
-    }
+        let displayname = e.target.value;
+        displayname = displayname.replace(/[^A-Za-z0-9\_]/gi, "");
+        setDisplayName(displayname);
+        localStorage.setItem("displayname", displayname);
+    };
 
     const onKeyDown = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
             onSubmit();
         }
-    }
+    };
 
-    let hasError = (error);
+    let hasError = error;
 
-    let refPath = fs.get('refPath');
+    let refPath = fs.get("refPath");
     if (refPath) {
-        refPath = '?ref=' + refPath;
-    }
-    else {
-        refPath = '';
+        refPath = "?ref=" + refPath;
+    } else {
+        refPath = "";
     }
 
-    const user = fs.get('user');
+    const user = fs.get("user");
     if (user && user.id) {
-        return <SocialLoginSimple />
+        return <SocialLoginSimple />;
     }
 
-
-    let loginFrom = fs.get('loginFrom');
+    let loginFrom = fs.get("loginFrom");
     let joinButtonTitle = "Play now!";
-    let game = fs.get('game');
-    if (loginFrom == 'game') {
+    let game = fs.get("game");
+    if (loginFrom == "game") {
         if (game?.maxplayers == 1) {
-            joinButtonTitle = 'Join Game';
+            joinButtonTitle = "Join Game";
         } else {
-            joinButtonTitle = 'Join Queue';
+            joinButtonTitle = "Join Queue";
         }
     }
 
-
     return (
-        <VStack w="100%" justifyContent={'center'}>
-
-
-
+        <VStack w="100%" justifyContent={"center"}>
             <VStack width={["100%", "80%", "80%", "60%"]}>
-                <Heading align={'left'} color="white" size="lg">Enter Player Name</Heading>
+                <Heading align={"left"} color="white" size="lg">
+                    Enter Player Name
+                </Heading>
 
                 <VStack spacing="1rem">
                     <VStack spacing="1rem">
@@ -227,62 +262,89 @@ function SocialLogin(props) {
                             onKeyDown={onKeyDown}
                         />
 
-                        {
-                            hasError && (
-                                <Text color="red.600">
-                                    {error.message}
-                                </Text>
-                            )
-                        }
+                        {hasError && (
+                            <Text color="red.600">{error.message}</Text>
+                        )}
                         {/* </FSGGroup> */}
-                        <FSGSubmit px={'2rem'} pb="1rem" py="2rem" color="white" fontSize="md" fontWeight="bold" borderRadius="2rem" onClick={onSubmit} title={joinButtonTitle} loadingText="Joining" />
+                        <FSGSubmit
+                            px={"2rem"}
+                            pb="1rem"
+                            py="2rem"
+                            color="white"
+                            fontSize="md"
+                            fontWeight="bold"
+                            borderRadius="2rem"
+                            onClick={onSubmit}
+                            title={joinButtonTitle}
+                            loadingText="Joining"
+                        />
                     </VStack>
                     <br />
                     {/* <Divider pt={'0'} pb="1rem" /> */}
-                    <Heading pt="0" mt="0" color="white" fontWeight="bold" fontSize="xs">Or, sign in to remember and continue your battle</Heading>
-                    <Heading pt="0" mt="0" color="gray.100" fontSize="2xs" pb="1rem" fontWeight={'light'}>By signing in, you agree to our <Link to="/privacy">Privacy Policy</Link></Heading>
+                    <Heading
+                        pt="0"
+                        mt="0"
+                        color="white"
+                        fontWeight="bold"
+                        fontSize="xs"
+                    >
+                        Or, sign in to remember and continue your battle
+                    </Heading>
+                    <Heading
+                        pt="0"
+                        mt="0"
+                        color="gray.100"
+                        fontSize="2xs"
+                        pb="1rem"
+                        fontWeight={"light"}
+                    >
+                        By signing in, you agree to our{" "}
+                        <Link to="/privacy">Privacy Policy</Link>
+                    </Heading>
                     {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
 
                     <VStack w="100%" maxWidth="22rem">
                         <FacebookLoginButton
                             size="2.4rem"
                             iconSize="1.4rem"
-
-                            style={{ fontSize: '1.2rem' }}
+                            style={{ fontSize: "1.2rem" }}
                             onClick={() => {
-                                window.location.href = ('/login/facebook' + refPath);
-                            }} />
+                                window.location.href =
+                                    "/login/facebook" + refPath;
+                            }}
+                        />
                         <GoogleLoginButton
                             size="2.4rem"
                             iconSize="1.4rem"
-                            style={{ fontSize: '1.2rem' }}
+                            style={{ fontSize: "1.2rem" }}
                             onClick={() => {
-                                window.location.href = ('/login/google' + refPath);
-                            }} />
+                                window.location.href =
+                                    "/login/google" + refPath;
+                            }}
+                        />
                         <GithubLoginButton
                             size="2.4rem"
                             iconSize="1.4rem"
-                            style={{ fontSize: '1.2rem' }}
+                            style={{ fontSize: "1.2rem" }}
                             onClick={() => {
-                                window.location.href = '/login/github' + refPath;
-                            }} />
+                                window.location.href =
+                                    "/login/github" + refPath;
+                            }}
+                        />
                         <MicrosoftLoginButton
                             size="2.4rem"
                             iconSize="1.4rem"
-                            style={{ fontSize: '1.2rem' }}
+                            style={{ fontSize: "1.2rem" }}
                             onClick={() => {
-                                window.location.href = ('/login/microsoft' + refPath);
-                            }} />
+                                window.location.href =
+                                    "/login/microsoft" + refPath;
+                            }}
+                        />
                     </VStack>
-
-
                 </VStack>
             </VStack>
-
-
         </VStack>
-    )
+    );
 }
 
-
-export default (fs.connect(['userCheckedLogin', 'user'])(SocialLogin));
+export default fs.connect(["userCheckedLogin", "user"])(SocialLogin);

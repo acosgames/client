@@ -230,9 +230,9 @@ export async function refreshGameState(room_slug) {
     let local = {};
     if (gamestate?.players) {
         local = gamestate.players[user.shortid];
-        if (local) local.id = user.shortid;
+        if (local) local.shortid = user.shortid;
     } else {
-        local = { name: user.displayname, id: user.shortid };
+        local = { displayname: user.displayname, shortid: user.shortid };
     }
 
     let out = { local, ...gamestate };

@@ -300,13 +300,16 @@ export function addRooms(roomList) {
 
         if (gamestate && gamestate.players) {
             gamestate.local = gamestate.players[user.shortid];
-            if (gamestate.local) gamestate.local.id = user.shortid;
+            if (gamestate.local) gamestate.local.shortid = user.shortid;
 
-            for (const id in gamestate.players) {
-                gamestate.players[id].id = id;
+            for (const shortid in gamestate.players) {
+                gamestate.players[shortid].shortid = shortid;
             }
         } else {
-            gamestate.local = { name: user.displayname, id: user.shortid };
+            gamestate.local = {
+                displayname: user.displayname,
+                shortid: user.shortid,
+            };
         }
 
         gamepanel.room = room;

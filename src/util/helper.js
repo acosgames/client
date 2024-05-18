@@ -1,14 +1,10 @@
-
-
-const ModeFromID = [
-    'experimental', 'rank', 'public', 'private'
-]
+const ModeFromID = ["experimental", "rank", "public", "private"];
 const ModeFromName = {
-    'experimental': 0,
-    'rank': 1,
-    'public': 2,
-    'private': 3
-}
+    experimental: 0,
+    rank: 1,
+    public: 2,
+    private: 3,
+};
 
 export function getGameModeID(name) {
     return ModeFromName[name];
@@ -18,8 +14,13 @@ export function getGameModeName(id) {
     return ModeFromID[id];
 }
 
-
-export function calculateGameSize(windowWidth, windowHeight, resow, resoh, offsetRatio) {
+export function calculateGameSize(
+    windowWidth,
+    windowHeight,
+    resow,
+    resoh,
+    offsetRatio
+) {
     offsetRatio = offsetRatio || 1;
 
     windowWidth *= offsetRatio;
@@ -28,19 +29,18 @@ export function calculateGameSize(windowWidth, windowHeight, resow, resoh, offse
     let bgWidth = 0;
     let bgHeight = 0;
     let scale = 1;
-    let wsteps = (windowWidth / resow);
-    let hsteps = (windowHeight / resoh);
+    let wsteps = windowWidth / resow;
+    let hsteps = windowHeight / resoh;
     let steps = 0;
 
     if (wsteps < hsteps) {
-        steps = wsteps
-    }
-    else {
-        steps = hsteps
+        steps = wsteps;
+    } else {
+        steps = hsteps;
     }
 
-    bgWidth = (steps * resow);
-    bgHeight = (steps * resoh);
+    bgWidth = steps * resow;
+    bgHeight = steps * resoh;
 
-    return { bgWidth, bgHeight }
+    return { bgWidth, bgHeight };
 }

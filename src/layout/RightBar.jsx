@@ -123,7 +123,7 @@ function Lobby({ layoutRef }) {
                     zIndex="1"
                     // icon={<GoDotFill size="0.8rem" />}
                     // width="2.8rem"
-                    isRound="false"
+                    // isRound="false"
                     color={hideDrawer ? "brand.50" : "brand.50"}
                     opacity={"0.5"}
                     _hover={{

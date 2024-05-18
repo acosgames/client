@@ -249,9 +249,9 @@ export async function refreshGameState(room_slug) {
     let local = {};
     if (gamestate?.players) {
         local = gamestate.players[user.shortid];
-        if (local) local.id = user.shortid;
+        if (local) local.shortid = user.shortid;
     } else {
-        local = { name: user.displayname, id: user.shortid };
+        local = { displayname: user.displayname, shortid: user.shortid };
     }
 
     let out = { local, ...gamestate };
@@ -1308,9 +1308,9 @@ async function wsIncomingMessage(message) {
 
     if (msg.payload && msg.payload.players) {
         msg.local = msg.payload.players[user.shortid];
-        if (msg.local) msg.local.id = user.shortid;
+        if (msg.local) msg.local.shortid = user.shortid;
     } else {
-        msg.local = { name: user.displayname, id: user.shortid };
+        msg.local = { displayname: user.displayname, shortid: user.shortid };
     }
 
     let out = { local: msg.local, ...msg.payload };

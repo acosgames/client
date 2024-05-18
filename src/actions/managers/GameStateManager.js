@@ -267,8 +267,8 @@ async function wsIncomingMessage(message) {
             console.log("[FULL GAMESTATE]", mergedState);
 
             if (gamepanel.gamestate.players) {
-                for (const id in gamepanel.gamestate.players) {
-                    gamepanel.gamestate.players[id].id = id;
+                for (const shortid in gamepanel.gamestate.players) {
+                    gamepanel.gamestate.players[shortid].shortid = shortid;
                 }
             }
 
@@ -280,9 +280,9 @@ async function wsIncomingMessage(message) {
 
     if (msg.payload && msg.payload.players) {
         msg.local = msg.payload.players[user.shortid];
-        if (msg.local) msg.local.id = user.shortid;
+        if (msg.local) msg.local.shortid = user.shortid;
     } else {
-        msg.local = { name: user.displayname, id: user.shortid };
+        msg.local = { displayname: user.displayname, shortid: user.shortid };
     }
 
     let out = { local: msg.local, ...msg.payload };
