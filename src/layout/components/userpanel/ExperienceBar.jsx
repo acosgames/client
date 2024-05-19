@@ -1,11 +1,11 @@
 import { Box, HStack, Progress } from "@chakra-ui/react";
-import { useBucket } from "../../../actions/bucket";
+import { useBucket, useBucketSelector } from "../../../actions/bucket";
 import { btUser } from "../../../actions/buckets";
 export default function ExperienceBar({}) {
-    let user = useBucket(btUser);
-    let level = user.level || 1;
-    let percent = (level - Math.floor(level)) * 100;
-    percent = 50;
+    let userLevel = useBucketSelector(btUser, (user) => user.level);
+    let level = userLevel || 1;
+    let percent = (level - Math.trunc(level)) * 100;
+
     return (
         <HStack
             position="relative"

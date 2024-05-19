@@ -250,7 +250,9 @@ function GameIFrame(props) {
             if (
                 roomStatus == "GAME" ||
                 roomStatus == "LOADING" ||
-                roomStatus == "GAMEOVER"
+                roomStatus == "GAMEOVER" ||
+                roomStatus == "GAMECANCELLED" ||
+                roomStatus == "GAMEERROR"
             ) {
                 offsetRatio = 1;
             }

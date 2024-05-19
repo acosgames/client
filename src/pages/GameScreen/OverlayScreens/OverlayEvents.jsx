@@ -71,8 +71,8 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
     }
 
     let status = gamestate.room.status;
-    let isGamestart = status == "gamestart";
-    let isGameover = status == "gameover" || events?.gameover;
+    // let isGamestart = status == "gamestart";
+    // let isGameover = status == "gameover" || events?.gameover;
     // let elems = [];
 
     // if (isGameover || gamepanel.forfeit) {

@@ -1,10 +1,8 @@
-
 export function findGamePanelByRoom(room_slug) {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
         let gp = gamepanels[i];
-        if (gp.room.room_slug == room_slug)
-            return gp;
+        if (gp.room.room_slug == room_slug) return gp;
     }
     return null;
 }
@@ -13,49 +11,44 @@ export function findGamePanelByIFrame(iframeRef) {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
         let gp = gamepanels[i];
-        if (gp?.iframe?.current == iframeRef)
-            return gp;
+        if (gp?.iframe?.current == iframeRef) return gp;
     }
     return null;
 }
 
 export function updateGamePanel(gamepanel) {
     // console.log("Updating gamepanel/" + gamepanel.id);
-    fs.set('gamepanel/' + gamepanel.id, gamepanel);
+    fs.set("gamepanel/" + gamepanel.id, gamepanel);
 
     if (gamepanel.isPrimary) {
-
-
         if (gamepanel.gamestate) {
             let gamestate = gamepanel.gamestate;
 
-            fs.set('primary/state', gamestate.state);
-            fs.set('primary/players', gamestate.players);
-            fs.set('primary/teams', gamestate.teams);
-            fs.set('primary/next', gamestate.next);
-            fs.set('primary/roomstate', gamestate.room);
-            fs.set('primary/events', gamestate.events);
-            fs.set('primary/timer', gamestate.timer);
-            fs.set('primary/action', gamestate.action);
+            fs.set("primary/state", gamestate.state);
+            fs.set("primary/players", gamestate.players);
+            fs.set("primary/teams", gamestate.teams);
+            fs.set("primary/next", gamestate.next);
+            fs.set("primary/roomstate", gamestate.room);
+            fs.set("primary/events", gamestate.events);
+            fs.set("primary/timer", gamestate.timer);
+            fs.set("primary/action", gamestate.action);
 
-            fs.set('primary/room', gamepanel.room);
+            fs.set("primary/room", gamepanel.room);
         }
     }
 }
 
 export function getPrimaryGamePanel() {
-    let id = fs.get('primaryGamePanel');
-    if (id == null)
-        return null;
+    let id = fs.get("primaryGamePanel");
+    if (id == null) return null;
 
-    let gamepanel = fs.get('gamepanel/' + id);
-    if (!gamepanel)
-        return null;
+    let gamepanel = fs.get("gamepanel/" + id);
+    if (!gamepanel) return null;
 
     return gamepanel;
 }
 export function setPrimaryGamePanel(gamepanel) {
-    let primaryId = fs.get('primaryGamePanel');
+    let primaryId = fs.get("primaryGamePanel");
     let primary = getGamePanel(primaryId);
 
     if (primary) {
@@ -64,25 +57,21 @@ export function setPrimaryGamePanel(gamepanel) {
     }
 
     if (!gamepanel) {
-        fs.set('primaryGamePanel', null);
-        fs.set('chatMode', 'all');
-    }
-    else {
+        fs.set("primaryGamePanel", null);
+        fs.set("chatMode", "all");
+    } else {
+        fs.set("primaryGamePanel", gamepanel.id);
 
+        fs.set("chatMode", gamepanel.room.room_slug);
 
-
-        fs.set('primaryGamePanel', gamepanel.id);
-
-        fs.set('chatMode', gamepanel.room.room_slug);
-
-        fs.set('chatUpdated', Date.now());
+        fs.set("chatUpdated", Date.now());
         //let primaryCanvasRef = fs.get('primaryCanvasRef');
         //gamepanel.canvasRef = null;
         gamepanel.isPrimary = true;
 
         let game_slug = gamepanel?.room?.game_slug;
         if (game_slug) {
-            let game = fs.get('games>' + game_slug);
+            let game = fs.get("games>" + game_slug);
             if (game) {
                 updateBrowserTitle(game.name);
             }
@@ -91,8 +80,6 @@ export function setPrimaryGamePanel(gamepanel) {
 
         timerLoop();
     }
-
-
 }
 
 export function cleanupGamePanel(gamepanel) {
@@ -100,15 +87,18 @@ export function cleanupGamePanel(gamepanel) {
     updateGamePanel(gamepanel);
 }
 
-
 export function cleanupGamePanels() {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
         let gp = gamepanels[i];
-        if (gp.gamestate?.room?.status == 'gameover') {
+        if (
+            gp.gamestate?.room?.status == "gameover" ||
+            gp.gamestate?.room?.status == "gamecancelled" ||
+            gp.gamestate?.room?.status == "gameerror"
+        ) {
             gp.available = true;
             updateGamePanel(gp);
-            fs.set('gamepanels', gamepanels);
+            fs.set("gamepanels", gamepanels);
             return gp;
         }
     }
@@ -146,7 +136,7 @@ export function reserveGamePanel() {
             gp.active = true;
 
             updateGamePanel(gp);
-            fs.set('gamepanels', gamepanels);
+            fs.set("gamepanels", gamepanels);
             return gp;
         }
     }
@@ -155,15 +145,13 @@ export function reserveGamePanel() {
     gp.id = gamepanels.length;
     gamepanels.push(gp);
     console.log("reserverGamePanel updating gamepanel/" + gp.id);
-    fs.set('gamepanel/' + gp.id, gp);
-    fs.set('gamepanels', gamepanels);
+    fs.set("gamepanel/" + gp.id, gp);
+    fs.set("gamepanels", gamepanels);
     return gp;
 }
 
-
 export async function maximizeGamePanel(gamepanel) {
-    if (gamepanel.isPrimary)
-        return;
+    if (gamepanel.isPrimary) return;
     setPrimaryGamePanel(gamepanel);
     updateGamePanel(gamepanel);
 }
@@ -171,9 +159,12 @@ export async function maximizeGamePanel(gamepanel) {
 export async function minimizeGamePanel() {
     let primaryGamePanel = getPrimaryGamePanel();
     if (primaryGamePanel) {
-
-        if (primaryGamePanel.status == 'GAMEOVER') {
-            fs.set('displayMode', 'none');
+        if (
+            primaryGamePanel.status == "GAMEOVER" ||
+            primaryGamePanel.status == "GAMECANCELLED" ||
+            primaryGamePanel.status == "GAMEERROR"
+        ) {
+            fs.set("displayMode", "none");
             clearRoom(primaryGamePanel.room.room_slug);
             // clearPrimaryGamePanel();
         }

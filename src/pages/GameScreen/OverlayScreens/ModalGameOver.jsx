@@ -154,51 +154,14 @@ function Screen1({ gamepanelid }) {
         (bucket) => bucket.roomstate
     );
 
-    if (gamestatus == "GAMEOVER") {
+    if (
+        gamestatus == "GAMEOVER" ||
+        gamestatus == "GAMECANCELLED" ||
+        gamestatus == "GAMEERROR"
+    ) {
         return <GameFinish gamepanelid={gamepanelid} />;
     }
     return <GameCancelled gamepanelid={gamepanelid} />;
-}
-
-function findPlayerRanks(players) {
-    let rankOne = [];
-    let rankOther = [];
-    let lowestRank = 99999;
-    for (var id in players) {
-        let player = players[id];
-        if (player.rank < lowestRank) lowestRank = player.rank;
-    }
-    for (var id in players) {
-        let player = players[id];
-
-        if (player.rank == lowestRank) {
-            rankOne.push(id);
-        } else {
-            rankOther.push(id);
-        }
-    }
-    return { rankOne, rankOther };
-}
-
-function findTeamRanks(teams) {
-    let rankOne = [];
-    let rankOther = [];
-    let lowestRank = 99999;
-    for (var id in teams) {
-        let team = teams[id];
-        if (team.rank < lowestRank) lowestRank = team.rank;
-    }
-    for (var id in teams) {
-        let team = teams[id];
-
-        if (team.rank == lowestRank) {
-            rankOne.push(id);
-        } else {
-            rankOther.push(id);
-        }
-    }
-
-    return { rankOne, rankOther };
 }
 
 function GameFinish({ gamepanelid }) {
@@ -331,4 +294,45 @@ function GameCancelled({ gamepanelid }) {
             </VStack>
         </VStack>
     );
+}
+
+function findPlayerRanks(players) {
+    let rankOne = [];
+    let rankOther = [];
+    let lowestRank = 99999;
+    for (var id in players) {
+        let player = players[id];
+        if (player.rank < lowestRank) lowestRank = player.rank;
+    }
+    for (var id in players) {
+        let player = players[id];
+
+        if (player.rank == lowestRank) {
+            rankOne.push(id);
+        } else {
+            rankOther.push(id);
+        }
+    }
+    return { rankOne, rankOther };
+}
+
+function findTeamRanks(teams) {
+    let rankOne = [];
+    let rankOther = [];
+    let lowestRank = 99999;
+    for (var id in teams) {
+        let team = teams[id];
+        if (team.rank < lowestRank) lowestRank = team.rank;
+    }
+    for (var id in teams) {
+        let team = teams[id];
+
+        if (team.rank == lowestRank) {
+            rankOne.push(id);
+        } else {
+            rankOther.push(id);
+        }
+    }
+
+    return { rankOne, rankOther };
 }

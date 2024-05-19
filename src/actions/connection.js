@@ -37,6 +37,7 @@ import { GET } from "./http";
 import {
     btChatToggle,
     btDuplicateTabs,
+    btExperience,
     btHistory,
     btJoinQueues,
     btLatency,
@@ -106,7 +107,12 @@ export function timerLoop(cb) {
         let deadline = timer.end;
         if (!deadline) continue;
 
-        if (gamestate?.events?.gameover) continue;
+        if (
+            gamestate?.events?.gameover ||
+            gamestate?.events?.gamecancelled ||
+            gamestate?.events?.gameerror
+        )
+            continue;
 
         let now = new Date().getTime();
         let elapsed = deadline - now;
@@ -117,18 +123,6 @@ export function timerLoop(cb) {
 
         btTimeleft.assign({ [gamepanel.id]: elapsed });
         timeleftUpdated = new Date().getTime();
-        // gamepanel.timeleft = elapsed;
-        // updateGamePanel(gamepanel);
-
-        let state = gamestate.state;
-        let events = gamestate.events;
-        let gameroom = gamestate.room;
-
-        if (events?.gameover || gameroom?.status == "gamestart") {
-            // clearTimeout(timerHandle);
-            // timerHandle = 0;
-            // return;
-        }
     }
 
     if (timeleftUpdated > 0) btTimeleftUpdated.set(timeleftUpdated);
@@ -1043,6 +1037,12 @@ async function wsIncomingMessage(message) {
             console.log("[ChatMessage]:", msg);
             addChatMessage(msg);
             return;
+        case "xp":
+            console.log("[XP]:", msg);
+            btExperience.set(msg.payload);
+            let level = msg.payload.level + msg.payload.points / 1000;
+            btUser.assign({ level });
+            return;
         case "queueStats":
             console.log(
                 "[queueStats]:",
@@ -1179,6 +1179,20 @@ async function wsIncomingMessage(message) {
         case "gameover":
             console.log(
                 "[Incoming] Game Over!",
+                "[" + buffer.byteLength + " bytes]",
+                JSON.parse(JSON.stringify(msg, null, 2))
+            );
+            break;
+        case "gamecancelled":
+            console.log(
+                "[Incoming] Game Cancelled!",
+                "[" + buffer.byteLength + " bytes]",
+                JSON.parse(JSON.stringify(msg, null, 2))
+            );
+            break;
+        case "gameerror":
+            console.log(
+                "[Incoming] Game Error!",
                 "[" + buffer.byteLength + " bytes]",
                 JSON.parse(JSON.stringify(msg, null, 2))
             );
@@ -1353,6 +1367,10 @@ async function postIncomingMessage(msg) {
                 //     findGameLeaderboardHighscore(room.game_slug);
                 // }
             }
+            break;
+        case "gamecancelled":
+            break;
+        case "gameerror":
             break;
         case "noshow":
             break;

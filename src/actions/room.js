@@ -74,7 +74,13 @@ export function updateGamePanel(gamepanel) {
 
     if (gamepanel.isPrimary && !gamepanel.closeOverlay) {
         let status = gamestate?.room?.status;
-        if (gamepanel.forfeit || !gamepanel.active) {
+
+        if (
+            !gamepanel.active ||
+            status == "gameover" ||
+            status == "gamecancelled" ||
+            status == "gameerror"
+        ) {
             gamepanel.showGameover = true;
             gamepanel.showPregame = false;
         } else if (status == "pregame" || status == "starting") {
@@ -82,11 +88,21 @@ export function updateGamePanel(gamepanel) {
             gamepanel.showPregame = true;
         } else {
             gamepanel.showPregame = false;
-
-            if (status == "gameover") {
-                gamepanel.showGameover = true;
-            }
         }
+
+        // if (gamepanel.forfeit || !gamepanel.active) {
+        //     gamepanel.showGameover = true;
+        //     gamepanel.showPregame = false;
+        // } else if (status == "pregame" || status == "starting") {
+        //     gamepanel.showGameover = false;
+        //     gamepanel.showPregame = true;
+        // } else {
+        //     gamepanel.showPregame = false;
+
+        //     if (status == "gameover") {
+        //         gamepanel.showGameover = true;
+        //     }
+        // }
     }
 
     let prefix = "gamepanel/" + gamepanel.id;
@@ -169,7 +185,11 @@ export function cleanupGamePanels() {
     let gamepanels = getGamePanels();
     for (let i = 0; i < gamepanels.length; i++) {
         let gp = gamepanels[i];
-        if (gp.gamestate?.room?.status == "gameover") {
+        if (
+            gp.gamestate?.room?.status == "gameover" ||
+            gp.gamestate?.room?.status == "gamecancelled" ||
+            gp.gamestate?.room?.status == "gameerror"
+        ) {
             gp.available = true;
             updateGamePanel(gp);
             // btGamePanels.set(gamepanels);
@@ -442,6 +462,12 @@ export function processsRoomStatus(gamepanel) {
 
     if (gamestate?.events?.gameover) {
         return "GAMEOVER";
+    }
+    if (gamestate?.events?.gamecancelled) {
+        return "GAMECANCELLED";
+    }
+    if (gamestate?.events?.gameerror) {
+        return "GAMEERROR";
     }
     if (gamestate?.events?.error) {
         return "ERROR";

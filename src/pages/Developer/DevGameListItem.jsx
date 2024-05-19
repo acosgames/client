@@ -92,9 +92,9 @@ export default function DevGameListItem({
                             flexDirection: "column",
                             alignItems: "center",
                         }}
-                        display="flex"
-                        flexDir={"column"}
-                        alignItems={"center"}
+                        // display="flex"
+                        // flexDir={"column"}
+                        // alignItems={"center"}
                     >
                         <Icon w="1.5rem" h="1.5rem" as={FiExternalLink} />
                         <Text as="span" fontSize="1rem" color="gray.100">

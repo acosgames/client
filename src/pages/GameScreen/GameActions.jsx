@@ -38,6 +38,8 @@ export default function GameActions() {
     let roomStatus = getRoomStatus(room_slug);
     let isGameover =
         roomStatus == "GAMEOVER" ||
+        roomStatus == "GAMECANCELLED" ||
+        roomStatus == "GAMEERROR" ||
         roomStatus == "NOSHOW" ||
         roomStatus == "ERROR" ||
         !gamepanel.active;
@@ -47,18 +49,22 @@ export default function GameActions() {
         roomStatus = getRoomStatus(room_slug);
         isGameover =
             roomStatus == "GAMEOVER" ||
+            roomStatus == "GAMECANCELLED" ||
+            roomStatus == "GAMEERROR" ||
             roomStatus == "NOSHOW" ||
             roomStatus == "ERROR" ||
             !gamepanel.active;
 
-        if (isGameover) {
-            // wsLeaveGame(game_slug, room_slug);
-            clearRoom(room_slug);
-            clearPrimaryGamePanel();
-        } else {
-            setRoomForfeited(room_slug);
-            wsLeaveGame(room_slug);
-        }
+        // if (isGameover) {
+        // wsLeaveGame(game_slug, room_slug);
+
+        // } else {
+        setRoomForfeited(room_slug);
+        wsLeaveGame(room_slug);
+        // }
+
+        clearRoom(room_slug);
+        clearPrimaryGamePanel();
     };
 
     const handleJoin = async () => {
