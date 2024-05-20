@@ -555,7 +555,7 @@ export function isUserNext(gamestate, userid) {
     let nextid = next?.id;
     let room = gamestate.room;
 
-    if (room?.status == "pregame") return false;
+    if (room?.status != "gamestart") return false;
 
     if (!next || !nextid) return false;
 

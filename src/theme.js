@@ -559,7 +559,7 @@ const components = {
         variants: {
             green: {
                 filledTrack: {
-                    bg: "brand.500",
+                    bg: "brand.50",
                 },
             },
             yellow: {
