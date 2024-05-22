@@ -72,7 +72,11 @@ export function updateGamePanel(gamepanel) {
 
     let gamestate = gamepanel.gamestate;
 
-    if (gamepanel.isPrimary && !gamepanel.closeOverlay) {
+    if (
+        gamepanel.isPrimary &&
+        !gamepanel.closeOverlay &&
+        !gamepanel?.room?.isReplay
+    ) {
         let status = gamestate?.room?.status;
 
         if (
@@ -89,20 +93,6 @@ export function updateGamePanel(gamepanel) {
         } else {
             gamepanel.showPregame = false;
         }
-
-        // if (gamepanel.forfeit || !gamepanel.active) {
-        //     gamepanel.showGameover = true;
-        //     gamepanel.showPregame = false;
-        // } else if (status == "pregame" || status == "starting") {
-        //     gamepanel.showGameover = false;
-        //     gamepanel.showPregame = true;
-        // } else {
-        //     gamepanel.showPregame = false;
-
-        //     if (status == "gameover") {
-        //         gamepanel.showGameover = true;
-        //     }
-        // }
     }
 
     let prefix = "gamepanel/" + gamepanel.id;

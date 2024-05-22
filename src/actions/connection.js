@@ -45,6 +45,7 @@ import {
     btPlayerCount,
     btPlayerStats,
     btQueues,
+    btRankingUpdate,
     btServerOffset,
     btShowLoadingBox,
     btTimeleft,
@@ -1043,6 +1044,9 @@ async function wsIncomingMessage(message) {
             let level = msg.payload.level + msg.payload.points / 1000;
             btUser.assign({ level });
             return;
+        case "rankings":
+            console.log("[rankings]:", msg);
+            btRankingUpdate.set(msg.payload);
         case "queueStats":
             console.log(
                 "[queueStats]:",

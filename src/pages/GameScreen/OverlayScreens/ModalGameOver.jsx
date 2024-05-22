@@ -3,6 +3,7 @@ import {
     Button,
     HStack,
     Heading,
+    Icon,
     Image,
     Progress,
     Text,
@@ -30,6 +31,7 @@ import {
     btGameStatus,
     btPrimaryGamePanel,
     btPrimaryState,
+    btRankingUpdate,
     btUser,
 } from "../../../actions/buckets";
 
@@ -38,6 +40,8 @@ import config from "../../../config";
 import ratingConfig from "../../../actions/ratingconfig";
 import { bucket, useBucket, useBucketSelector } from "../../../actions/bucket";
 import RenderPlayer from "../Scoreboard/RenderPlayer";
+import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const MotionVStack = motion(VStack);
 const MotionHStack = motion(HStack);
@@ -101,25 +105,202 @@ function ScreenChooser({ gamepanelid }) {
                 return <Screen2 gamepanelid={gamepanelid} />;
             case 2:
                 return <Screen3 gamepanelid={gamepanelid} />;
+            case 3:
+                return <Screen4 gamepanelid={gamepanelid} />;
         }
     }
 
     return <></>;
 }
 
-function Screen3({ gamepanelid }) {
+function Screen4({ gamepanelid }) {
+    let gamestate = useBucketSelector(
+        btGamePanels,
+        (gamepanels) => gamepanels[gamepanelid]?.gamestate
+    );
+
+    let gamepanel = btGamePanels.get((gps) => gps[gamepanelid]);
+    let players = gamestate?.players || {};
+    let user = btUser.get();
+    let player = players[user.shortid];
+    if (!player) {
+        return <></>;
+    }
+
     return (
         <OverlayFrame
             gamepanelid={gamepanelid}
-            title={"Rank"}
+            title={"Stats"}
             onActionClick={() => {
                 gamepanel.showGameover = false;
                 gamepanel.closeOverlay = true;
                 updateGamePanel(gamepanel);
+                // btGameoverScreen.set(2);
             }}
             actionTitle={"Close"}
         >
             <VStack my="4rem" mx="2rem"></VStack>
+        </OverlayFrame>
+    );
+}
+
+let screen3Timeout = 0;
+function Screen3({ gamepanelid }) {
+    let newRanking = useBucket(btRankingUpdate);
+    let ranking = useBucket(btRankingUpdate);
+
+    let gamestate = useBucketSelector(
+        btGamePanels,
+        (gamepanels) => gamepanels[gamepanelid]?.gamestate
+    );
+
+    useEffect(() => {
+        // screen3Timeout = setTimeout(() => {
+        //     btGameoverScreen.set(3);
+        // }, 6000);
+        // return () => {
+        //     if (screen3Timeout) clearTimeout(screen3Timeout);
+        //     screen3Timeout = 0;
+        // };
+    }, []);
+
+    let players = gamestate?.players || {};
+    let user = btUser.get();
+    let player = players[user.shortid];
+    if (!player) {
+        return <></>;
+    }
+
+    let prevRanking = { ...player };
+    prevRanking.rating = 3400;
+
+    let ratingDiff = ranking.rating - prevRanking.rating;
+    let rankDiff = ranking.rank - prevRanking.rank;
+
+    let prevClassString = ratingConfig.ratingToRank(prevRanking.rating);
+    let classString = ratingConfig.ratingToRank(ranking.rating);
+
+    let classChangeStatus = "";
+    if (prevClassString != classString) {
+        classChangeStatus = ratingDiff > 0 ? "Promoted" : "Demoted";
+    }
+    // let player = players[newRanking?.shortid];
+
+    let ratingArrow = <></>;
+    if (ratingDiff > 0) {
+        ratingArrow = <Icon as={BiSolidUpArrow} color="brand.50" />;
+    } else {
+        ratingArrow = <Icon as={BiSolidDownArrow} color="red.300" />;
+    }
+    return (
+        <OverlayFrame
+            gamepanelid={gamepanelid}
+            title={"Rating"}
+            onActionClick={() => {
+                btGameoverScreen.set(3);
+            }}
+            actionTitle={"Next"}
+            // duration={6}
+        >
+            <VStack w="100%" mt="2rem" pt="1rem" pb="2rem" px="2rem">
+                <HStack justifyContent={"center"} alignItems={"center"}>
+                    {/* <Text as="span">Rank</Text> */}
+
+                    <MotionText
+                        initial={{
+                            opacity: 0,
+                            x: prevClassString != classString ? 20 : 0, //prevClassString != classString ? 1 : 0,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            x: prevClassString != classString ? [20, 20, 0] : 0, //prevClassString != classString ? 0 : 1,
+                        }}
+                        transitionEnd={{ display: "none" }}
+                        transition={{ duration: 2 }}
+                        on
+                        as="span"
+                        fontSize="3rem"
+                        filter="drop-shadow(0 0 12px rgba(255,255,255,0.5)) drop-shadow(0 0 4px rgba(255,255,255,0.8))"
+                        onAnimationComplete={(definition) => {}}
+                    >
+                        {prevClassString}
+                    </MotionText>
+                    {prevClassString != classString && (
+                        <>
+                            <MotionText
+                                initial={{
+                                    opacity:
+                                        prevClassString != classString ? 0 : 1,
+                                }}
+                                animate={{
+                                    opacity:
+                                        prevClassString != classString ? 1 : 0,
+                                }}
+                                transition={{ delay: 1, duration: 2 }}
+                                as="span"
+                                fontSize="1.6rem"
+                                position="relative"
+                                // filter="drop-shadow(0 0 12px rgba(255,255,255,0.5)) drop-shadow(0 0 4px rgba(255,255,255,0.8))"
+                            >
+                                <Icon
+                                    position="relative"
+                                    top="0.25rem"
+                                    as={FaArrowRight}
+                                    color={
+                                        ratingDiff > 0 ? "brand.50" : "red.300"
+                                    }
+                                />
+                            </MotionText>
+                            <MotionText
+                                initial={{
+                                    opacity:
+                                        prevClassString != classString ? 0 : 1,
+                                }}
+                                animate={{
+                                    opacity:
+                                        prevClassString != classString ? 1 : 0,
+                                }}
+                                transition={{ delay: 1, duration: 2 }}
+                                as="span"
+                                fontSize="3rem"
+                                filter="drop-shadow(0 0 12px rgba(255,255,255,0.5)) drop-shadow(0 0 4px rgba(255,255,255,0.8))"
+                            >
+                                {classString}
+                            </MotionText>
+                        </>
+                    )}
+                </HStack>
+
+                <HStack>
+                    <NumberIncrease
+                        key={"ranking-rating-change-" + ranking.rating}
+                        start={prevRanking.rating}
+                        fontSize="1.6rem"
+                        end={ranking.rating}
+                        // color={ratingDiff > 0 ? "brand.50" : "red.300"}
+                        duration={2}
+                    />
+                    {prevClassString == classString && ratingArrow}
+                </HStack>
+
+                <Box h="4rem">
+                    {classChangeStatus && (
+                        <MotionText
+                            position="relative"
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: [1.0, 1.5, 1.0] }}
+                            transition={{ delay: 1, duration: 2 }}
+                            textTransform="uppercase"
+                            as="span"
+                            display="block"
+                            fontSize="1.8rem"
+                            color={ratingDiff > 0 ? "brand.300" : "red.500"}
+                        >
+                            {classChangeStatus}
+                        </MotionText>
+                    )}
+                </Box>
+            </VStack>
         </OverlayFrame>
     );
 }
@@ -131,13 +312,12 @@ function Screen2({ gamepanelid }) {
     let xp = btExperience.get();
 
     useEffect(() => {
-        screen2Timeout = setTimeout(() => {
-            btGameoverScreen.set(2);
-        }, 6000);
-
-        return () => {
-            if (screen2Timeout) clearTimeout(screen2Timeout);
-        };
+        // screen2Timeout = setTimeout(() => {
+        //     btGameoverScreen.set(2);
+        // }, 6000);
+        // return () => {
+        //     if (screen2Timeout) clearTimeout(screen2Timeout);
+        // };
     }, []);
 
     // xp.previousPoints = 900;
@@ -155,7 +335,7 @@ function Screen2({ gamepanelid }) {
                 btGameoverScreen.set(2);
             }}
             actionTitle={"Next"}
-            duration={6}
+            // duration={6}
         >
             <VStack my="4rem" mx="2rem">
                 <XPProgress {...xp} />
@@ -345,7 +525,15 @@ function XPProgress({
     );
 }
 
-function NumberIncrease({ start, end, duration, ease, fontSize }) {
+function NumberIncrease({
+    start,
+    end,
+    duration,
+    ease,
+    fontSize,
+    lineHeight,
+    color,
+}) {
     const ref = useRef(null);
 
     const isInView = useInView(ref, {
@@ -373,8 +561,8 @@ function NumberIncrease({ start, end, duration, ease, fontSize }) {
         <LazyMotion features={domAnimation}>
             <MotionText
                 as="span"
-                color="gray.20"
-                lineHeight="1.4rem"
+                color={color || "gray.20"}
+                lineHeight={lineHeight || "1.4rem"}
                 fontSize={fontSize || "1.2rem"}
                 ref={ref}
             >
@@ -703,6 +891,7 @@ function OverlayFrame({
                             transform="translateX(-50%) skew(-15deg)"
                             top="-2rem"
                             textTransform={"uppercase"}
+                            whiteSpace={"nowrap"}
                             as="h5"
                             fontWeight="600"
                             fontSize={["3rem"]}
