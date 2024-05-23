@@ -1,19 +1,38 @@
-import { POST, GET, POSTFORM } from './http';
+import { POST, GET, POSTFORM } from "./http";
 
-import config from '../config'
-import { getUser } from './person';
-import { wsJoinRankedGame, wsJoinBetaGame } from './connection';
-import { addRoom } from './room';
-import ACOSEncoder from 'acos-json-encoder/encoder';
-import ACOSDictionary from 'shared/model/acos-dictionary.json';
-ACOSEncoder.createDefaultDict(ACOSDictionary)
+import config from "../config";
+import { getUser } from "./person";
+import { wsJoinRankedGame, wsJoinBetaGame } from "./connection";
+import { addRoom } from "./room";
+import ACOSEncoder from "acos-json-encoder/encoder";
+import ACOSDictionary from "shared/model/acos-dictionary.json";
+ACOSEncoder.createDefaultDict(ACOSDictionary);
 
-import delta from 'acos-json-delta';
-import { getWithExpiry, setWithExpiry } from './cache';
-import { btDivision, btGame, btGameFound, btGameLists, btGameSlug, btGames, btJSGame, btLeaderboardHighscore, btLeaderboardHighscoreChange, btLeaderboardHighscoreCount, btLoading, btLoadingHightscores, btLocalPlayerHighscores, btNationalRankings, btPlayerStats, btRankings, btReplay, btReplays, btUser, } from './buckets';
+import delta from "acos-json-delta";
+import { getWithExpiry, setWithExpiry } from "./cache";
+import {
+    btDivision,
+    btGame,
+    btGameFound,
+    btGameLists,
+    btGameSlug,
+    btGames,
+    btJSGame,
+    btLeaderboardHighscore,
+    btLeaderboardHighscoreChange,
+    btLeaderboardHighscoreCount,
+    btLoading,
+    btLoadingHightscores,
+    btLocalPlayerHighscores,
+    btNationalRankings,
+    btPlayerStats,
+    btRankings,
+    btReplay,
+    btReplays,
+    btUser,
+} from "./buckets";
 
 export async function sortGames(games) {
-
     let rankList = [];
     let experimentalList = [];
     let soloList = [];
@@ -21,23 +40,20 @@ export async function sortGames(games) {
     for (var game_slug in games) {
         let game = games[game_slug];
         if (game.version > 0) {
-            if (game.maxplayers == 1)
-                soloList.push(game);
-            else
-                rankList.push(game);
+            if (game.maxplayers == 1) soloList.push(game);
+            else rankList.push(game);
         }
         if (!game.version) {
             experimentalList.push(game);
         }
     }
 
-    btGameLists.set({ rankList, experimentalList, soloList })
+    btGameLists.set({ rankList, experimentalList, soloList });
 }
-
 
 export async function findGames() {
     try {
-        let response = await GET('/api/v1/games');
+        let response = await GET("/api/v1/games");
         let result = response.data;
         if (result.ecode) {
             throw result.ecode;
@@ -51,40 +67,37 @@ export async function findGames() {
         sortGames(games);
 
         btGames.set(games);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
-        btGames.set({})
+        btGames.set({});
     }
 }
 
 export async function findGame(game_slug) {
     try {
-        let response = await GET('/api/v1/game/' + game_slug);
+        let response = await GET("/api/v1/game/" + game_slug);
         let game = response.data;
         if (game.ecode) {
             throw game.ecode;
         }
 
-        btGames.assign({ [game_slug]: game })
-        btGame.set(game)
+        btGames.assign({ [game_slug]: game });
+        btGame.set(game);
         btGameFound.set(true);
 
         return game;
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
         btGame.set(null);
-        throw 'E_GAMENOTFOUND'
+        throw "E_GAMENOTFOUND";
     }
 }
 
 export async function findGameReplays(game_slug) {
     try {
-        let response = await GET('/api/v1/game/replays/' + game_slug);
+        let response = await GET("/api/v1/game/replays/" + game_slug);
         let replays = response.data;
-        if (!replays || replays.length == 0)
-            return;
+        if (!replays || replays.length == 0) return;
 
         for (const replay of replays) {
             replay.game_slug = game_slug;
@@ -95,21 +108,29 @@ export async function findGameReplays(game_slug) {
         if (replays && replays.length > 0) {
             await downloadGameReplay(replays[0]);
         }
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 }
 
 function base64ToBytesArr(str) {
-    const abc = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"]; // base64 alphabet
+    const abc = [
+        ..."ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+    ]; // base64 alphabet
     let result = [];
 
     for (let i = 0; i < str.length / 4; i++) {
-        let chunk = [...str.slice(4 * i, 4 * i + 4)]
-        let bin = chunk.map(x => abc.indexOf(x).toString(2).padStart(6, 0)).join('');
-        let bytes = bin.match(/.{1,8}/g).map(x => +('0b' + x));
-        result.push(...bytes.slice(0, 3 - (str[4 * i + 2] == "=") - (str[4 * i + 3] == "=")));
+        let chunk = [...str.slice(4 * i, 4 * i + 4)];
+        let bin = chunk
+            .map((x) => abc.indexOf(x).toString(2).padStart(6, 0))
+            .join("");
+        let bytes = bin.match(/.{1,8}/g).map((x) => +("0b" + x));
+        result.push(
+            ...bytes.slice(
+                0,
+                3 - (str[4 * i + 2] == "=") - (str[4 * i + 3] == "=")
+            )
+        );
     }
     return result;
 }
@@ -117,7 +138,7 @@ function base64ToBytesArr(str) {
 export function decodeReplay(data) {
     // let buffer = base64ToBytesArr(data);
 
-    console.log('[REPLAY] data size = ', data.length);
+    console.log("[REPLAY] data size = ", data.length);
     // console.log('[REPLAY] buffer size = ', buffer.length);
     // let msg = decode(buffer);
     let msg = data;
@@ -127,21 +148,17 @@ export function decodeReplay(data) {
         msg[0].payload = delta.merge({}, msg[0].payload);
     }
 
-    console.log("[REPLAY] json size", JSON.stringify(msg).length)
+    console.log("[REPLAY] json size", JSON.stringify(msg).length);
     return msg;
 }
 
-
 export async function downloadGameReplay(replay) {
-
-    if (!replay || !replay.filename || !replay.version || !replay.mode)
-        return null;
+    if (!replay || !replay.version || !replay.mode) return null;
 
     //add json ext if missing
-    if (replay.filename.indexOf('.json') == -1)
-        replay.filename += '.json';
+    // if (replay.filename.indexOf(".json") == -1) replay.filename += ".json";
 
-    let url = `${config.https.cdn}g/${replay.game_slug}/replays/${replay.mode}.${replay.version}.${replay.filename}`
+    let url = `${config.https.cdn}g/${replay.game_slug}/replays/${replay.room_slug}.json`;
 
     let response = await GET(url);
 
@@ -156,8 +173,8 @@ export async function downloadGameReplay(replay) {
         history.shift();
     }
 
-    replay.replayId = `${replay.mode}.${replay.version}.${replay.filename}`;
-    replay.room_slug = 'REPLAY/' + replay.game_slug;
+    replay.replayId = `${replay.room_slug}`;
+    replay.room_slug = "REPLAY/" + replay.game_slug;
     replay.isReplay = true;
     replay.timerSequence = 0;
 
@@ -165,14 +182,13 @@ export async function downloadGameReplay(replay) {
 
     console.log(history);
 
-
     let msg = {
         room: replay,
-        payload: history
-    }
+        payload: history,
+    };
 
     let gamepanel = addRoom(msg);
-    console.log('[downloadGameReplay] ', gamepanel);
+    console.log("[downloadGameReplay] ", gamepanel);
 
     btReplay.assign({ [replay.game_slug]: replay.room_slug });
 
@@ -182,16 +198,15 @@ export async function downloadGameReplay(replay) {
 export async function findGameLeaderboardHighscore(game_slug) {
     try {
         btLoadingHightscores.set(true);
-        let response = await GET('/api/v1/game/lbhs/' + game_slug);
+        let response = await GET("/api/v1/game/lbhs/" + game_slug);
         let result = response.data;
         btLoadingHightscores.set(false);
         if (result.ecode) {
-            if (result.ecode == 'E_NOTAUTHORIZED') {
+            if (result.ecode == "E_NOTAUTHORIZED") {
                 return;
             }
             throw result.ecode;
         }
-
 
         //combine top10 + player leaderboard
         let top10 = result.top10hs || [];
@@ -221,13 +236,10 @@ export async function findGameLeaderboardHighscore(game_slug) {
             }
         }
 
+        if (localPlayer) btLocalPlayerHighscores.set(localPlayer);
 
-        if (localPlayer)
-            btLocalPlayerHighscores.set(localPlayer);
-
-        let oldLeaderboard = btLeaderboardHighscore.get()
+        let oldLeaderboard = btLeaderboardHighscore.get();
         if (oldLeaderboard && local) {
-
             let prevLocalLb = null;
             let nextLocalLb = null;
 
@@ -253,18 +265,14 @@ export async function findGameLeaderboardHighscore(game_slug) {
                 diffLocalLb.score = nextLocalLb.score - prevLocalLb.score;
                 diffLocalLb.rank = nextLocalLb.rank - prevLocalLb.rank;
                 btLeaderboardHighscoreChange.set(diffLocalLb);
-            }
-            else {
+            } else {
                 btLeaderboardHighscoreChange.set(null);
             }
-
         }
 
         btLeaderboardHighscore.set(fixed || []);
         btLeaderboardHighscoreCount.set(result.lbhsCount || []);
-
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 }
@@ -280,8 +288,7 @@ export function combineLeaderboards(a, b) {
     }
 
     let leaderboard = [];
-    for (let key in rankmap)
-        leaderboard.push(rankmap[key]);
+    for (let key in rankmap) leaderboard.push(rankmap[key]);
     leaderboard.sort((a, b) => a.rank - b.rank);
 
     return leaderboard;
@@ -289,117 +296,143 @@ export function combineLeaderboards(a, b) {
 
 export async function findGameRankNational(game_slug, countrycode) {
     try {
-        countrycode = countrycode || 'US';
-        let rankingKey = game_slug + '/rankings/national/' + countrycode;
+        countrycode = countrycode || "US";
+        let rankingKey = game_slug + "/rankings/national/" + countrycode;
         let cachedRanking = getWithExpiry(rankingKey);
         if (cachedRanking) {
-
-            updateNationalRanking(game_slug, countrycode, cachedRanking.leaderboard, cachedRanking.total)
+            updateNationalRanking(
+                game_slug,
+                countrycode,
+                cachedRanking.leaderboard,
+                cachedRanking.total
+            );
             return true;
         }
-        btLoading.assign({ GameRankNationalView: true })
+        btLoading.assign({ GameRankNationalView: true });
 
-        let response = await GET('/api/v1/game/rankings/' + game_slug + '/' + countrycode);
+        let response = await GET(
+            "/api/v1/game/rankings/" + game_slug + "/" + countrycode
+        );
         let result = response.data;
         if (result.ecode || result.localboard.ecode) {
-            if (result.ecode == 'E_NOTAUTHORIZED') {
+            if (result.ecode == "E_NOTAUTHORIZED") {
                 // return await findGame(game_slug);
             }
-            btLoading.assign({ GameRankNationalView: false })
-            throw (result.ecode || result.localboard.ecode);
+            btLoading.assign({ GameRankNationalView: false });
+            throw result.ecode || result.localboard.ecode;
         }
 
-        let leaderboard = combineLeaderboards(result.leaderboard, result.localboard);
-        updateNationalRanking(game_slug, countrycode, leaderboard, result.total)
-        btLoading.assign({ GameRankNationalView: false })
+        let leaderboard = combineLeaderboards(
+            result.leaderboard,
+            result.localboard
+        );
+        updateNationalRanking(
+            game_slug,
+            countrycode,
+            leaderboard,
+            result.total
+        );
+        btLoading.assign({ GameRankNationalView: false });
 
         btGameFound.set(true);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 }
-
-
 
 export async function findGameRankGlobal(game_slug) {
     try {
-        let rankingKey = game_slug + '/rankings/global';
+        let rankingKey = game_slug + "/rankings/global";
         let cached = getWithExpiry(rankingKey);
         if (cached) {
-            updateGlobalRanking(game_slug, cached.leaderboard, cached.total)
+            updateGlobalRanking(game_slug, cached.leaderboard, cached.total);
             return true;
         }
-        btLoading.assign({ GameRankGlobal: true })
-        let response = await GET('/api/v1/game/rankings/' + game_slug);
+        btLoading.assign({ GameRankGlobal: true });
+        let response = await GET("/api/v1/game/rankings/" + game_slug);
         let result = response.data;
         if (result.ecode) {
-            if (result.ecode == 'E_NOTAUTHORIZED') {
+            if (result.ecode == "E_NOTAUTHORIZED") {
                 let game = await findGame(game_slug);
-                btLoading.assign({ GameRankGlobal: false })
+                btLoading.assign({ GameRankGlobal: false });
                 return game;
             }
-            btLoading.assign({ GameRankGlobal: false })
+            btLoading.assign({ GameRankGlobal: false });
             throw result.ecode;
         }
 
-        let leaderboard = combineLeaderboards(result.leaderboard, result.localboard);
+        let leaderboard = combineLeaderboards(
+            result.leaderboard,
+            result.localboard
+        );
 
         updateGlobalRanking(game_slug, leaderboard, result.total);
-        btLoading.assign({ GameRankGlobal: false })
+        btLoading.assign({ GameRankGlobal: false });
 
         btGameFound.set(true);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 }
 
-
-
 export async function findGameRankDivision(game_slug, division_id) {
     try {
-        let rankingKey = game_slug + '/rankings/division/' + division_id;
+        let rankingKey = game_slug + "/rankings/division/" + division_id;
         let cached = getWithExpiry(rankingKey);
         if (cached) {
-            updateDivisionRanking(game_slug, division_id, cached.leaderboard, cached.total)
+            updateDivisionRanking(
+                game_slug,
+                division_id,
+                cached.leaderboard,
+                cached.total
+            );
             return true;
         }
-        btLoading.assign({ GameRankDivision: true })
-        let response = await GET('/api/v1/game/rankings/division/' + game_slug + '/' + division_id);
+        btLoading.assign({ GameRankDivision: true });
+        let response = await GET(
+            "/api/v1/game/rankings/division/" + game_slug + "/" + division_id
+        );
         let result = response.data;
         if (result.ecode) {
-            if (result.ecode == 'E_NOTAUTHORIZED') {
+            if (result.ecode == "E_NOTAUTHORIZED") {
                 let game = await findGame(game_slug);
-                btLoading.assign({ GameRankDivision: false })
+                btLoading.assign({ GameRankDivision: false });
                 return game;
             }
-            btLoading.assign({ GameRankDivision: false })
+            btLoading.assign({ GameRankDivision: false });
             throw result.ecode;
         }
 
         //combine top10 + player leaderboard
         let leaderboard = result.leaderboard || [];
 
-        updateDivisionRanking(game_slug, division_id, leaderboard, leaderboard.length);
-        btLoading.assign({ GameRankDivision: false })
+        updateDivisionRanking(
+            game_slug,
+            division_id,
+            leaderboard,
+            leaderboard.length
+        );
+        btLoading.assign({ GameRankDivision: false });
         btGameFound.set(true);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 }
 
-export function updateNationalRanking(game_slug, countrycode, leaderboard, total) {
+export function updateNationalRanking(
+    game_slug,
+    countrycode,
+    leaderboard,
+    total
+) {
     let rankings = btNationalRankings.get();
-    if (!(game_slug in rankings))
-        rankings[game_slug] = {};
+    if (!(game_slug in rankings)) rankings[game_slug] = {};
     rankings[game_slug][countrycode] = {
         leaderboard,
-        total
-    }
+        total,
+    };
     btNationalRankings.set(rankings);
-    let rankingKey = game_slug + '/rankings/national/' + countrycode;
+    let rankingKey = game_slug + "/rankings/national/" + countrycode;
     setWithExpiry(rankingKey, rankings[game_slug][countrycode], 10);
 }
 
@@ -408,42 +441,47 @@ export function updateGlobalRanking(game_slug, leaderboard, total) {
     if (!(game_slug in rankings))
         rankings[game_slug] = {
             leaderboard,
-            total
-        }
+            total,
+        };
     btRankings.set(rankings);
-    let rankingKey = game_slug + '/rankings/global';
+    let rankingKey = game_slug + "/rankings/global";
     setWithExpiry(rankingKey, rankings[game_slug], 1);
 }
 
-export function updateDivisionRanking(game_slug, division_id, leaderboard, total) {
+export function updateDivisionRanking(
+    game_slug,
+    division_id,
+    leaderboard,
+    total
+) {
     let rankings = btDivision.get();
     if (!(game_slug in rankings))
         rankings[game_slug] = {
             leaderboard,
-            total
-        }
+            total,
+        };
     btDivision.set(rankings);
-    let rankingKey = game_slug + '/rankings/division/' + division_id;
+    let rankingKey = game_slug + "/rankings/division/" + division_id;
     setWithExpiry(rankingKey, rankings[game_slug], 1);
 }
 
 export async function findGamePerson(game_slug) {
     try {
-        let response = await GET('/api/v1/game/person/' + game_slug);
+        let response = await GET("/api/v1/game/person/" + game_slug);
         let result = response.data;
         if (result.ecode) {
-
-            if (result.ecode == 'E_NOTAUTHORIZED') {
+            if (result.ecode == "E_NOTAUTHORIZED") {
                 return await findGame(game_slug);
             }
             throw result.ecode;
         }
 
         if (!result.game) {
-            throw 'E_GAMENOTFOUND';
+            throw "E_GAMENOTFOUND";
         }
 
-        let player_stats = btPlayerStats.get(bucket => bucket[game_slug]) || {};
+        let player_stats =
+            btPlayerStats.get((bucket) => bucket[game_slug]) || {};
         if (result.player) {
             player_stats = result.player;
             btPlayerStats.assign({ [game_slug]: player_stats });
@@ -453,35 +491,27 @@ export async function findGamePerson(game_slug) {
         btGames.assign({ [game_slug]: result.game });
 
         btGameFound.set(true);
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 }
 
 export async function findAndRejoin(game_slug, room_slug) {
-
-    let player_stat = btPlayerStats.get(bucket => bucket[game_slug])
+    let player_stat = btPlayerStats.get((bucket) => bucket[game_slug]);
     // let player_stat = player_stats[game_slug];
     let user = await getUser();
     if (user && user.shortid && !player_stat) {
-
         await findGamePerson(game_slug);
-
-    }
-    else {
+    } else {
         await findGame(game_slug);
     }
-
 
     wsRejoinRoom(game_slug, room_slug);
 }
 
 let hJoining = 0;
 
-
 export async function joinGame(game, istest) {
-
     let game_slug = game.game_slug;
     // let version = game.version;
     // if (istest) {
@@ -494,19 +524,15 @@ export async function joinGame(game, istest) {
     try {
         if (istest) {
             wsJoinBetaGame(game);
-        }
-        else {
+        } else {
             wsJoinRankedGame(game);
         }
-
-    }
-    catch (e) {
+    } catch (e) {
         console.error(e);
     }
 
     // hJoining = setTimeout(() => { joinGame(game_slug) }, 3000);
 }
-
 
 export async function downloadGame(gameid, version) {
     // let url = `${config.https.cdn}${gameid}/client/client.bundle.${version}.js`
@@ -518,32 +544,25 @@ export async function downloadGame(gameid, version) {
             //let file = window.URL.createObjectURL(blob);
             btJSGame.set(true);
             rs(true);
-        }
-        catch (e) {
+        } catch (e) {
             console.error(e);
             rj(e);
         }
-    })
-
+    });
 }
 
-
-
 export async function reportGame(game_slug, reportType) {
-
-    let request = await POST('/api/v1/game/report', {
+    let request = await POST("/api/v1/game/report", {
         game_slug,
-        reportType
+        reportType,
     });
     let response = request.data;
-
 
     return response;
 }
 
 export async function rateGame(game_slug, vote, previousVote) {
-
-    let request = await POST('/api/v1/game/rate', {
+    let request = await POST("/api/v1/game/rate", {
         game_slug,
         vote,
         previousVote,

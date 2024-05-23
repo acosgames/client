@@ -215,9 +215,7 @@ function Screen3({ gamepanelid }) {
                             opacity: 1,
                             x: prevClassString != classString ? [20, 20, 0] : 0, //prevClassString != classString ? 0 : 1,
                         }}
-                        transitionEnd={{ display: "none" }}
                         transition={{ duration: 2 }}
-                        on
                         as="span"
                         fontSize="3rem"
                         filter="drop-shadow(0 0 12px rgba(255,255,255,0.5)) drop-shadow(0 0 4px rgba(255,255,255,0.8))"

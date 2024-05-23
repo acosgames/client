@@ -79,6 +79,10 @@ export default function DevGamePage({}) {
         pullGame();
     }, []);
 
+    const onRefresh = async (e) => {
+        pullGame();
+    };
+
     const onSubmit = async (e) => {
         //console.log(e);
         try {
@@ -185,6 +189,17 @@ export default function DevGamePage({}) {
                             justifyContent="flex-end"
                             spacing="2rem"
                         >
+                            <Button
+                                variant="secondary"
+                                border="1px solid var(--chakra-colors-blue-800)"
+                                fontSize="1.4rem"
+                                fontWeight="300"
+                                onClick={onRefresh}
+                                mr="2rem"
+                            >
+                                Refresh
+                            </Button>
+
                             <Button variant="primary" onClick={onSubmit}>
                                 Save
                             </Button>
