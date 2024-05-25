@@ -33,7 +33,7 @@ export default function TeamListSettings({}) {
     if (maxteams == 0) return <AnimatePresence></AnimatePresence>;
 
     teams.sort((a, b) => {
-        return a.team_order - b.order;
+        return a.team_order - b.team_order;
     });
     for (let i = 0; i < maxteams; i++) {
         let team = teams[i];
