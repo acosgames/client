@@ -301,6 +301,28 @@ const components = {
             },
         },
     },
+    Checkbox: {
+        baseStyle: {
+            control: {
+                _checked: {
+                    _disabled: {
+                        color: "gray.50",
+                    },
+                },
+            },
+            label: {
+                color: "gray.0",
+                _checked: {
+                    _disabled: {
+                        color: "gray.50",
+                    },
+                },
+                _disabled: {
+                    color: "gray.20",
+                },
+            },
+        },
+    },
     Tooltip: {
         baseStyle: {
             bgColor: "gray.700",
@@ -399,11 +421,11 @@ const components = {
                     _hover: {
                         color: "gray.10",
                         borderBottom: "2px solid",
-                        borderBottomColor: "brand.300",
+                        borderBottomColor: "gray.0",
                     },
                     _selected: {
                         color: "brand.300 !important",
-                        borderColor: "brand.300",
+                        borderColor: "brand.300 !important",
                         borderBottom: "2px solid",
                         zIndex: "2",
                     },

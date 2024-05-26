@@ -275,7 +275,7 @@ function GameTabs({}) {
                     <GameLeaderboard game_slug={game_slug} />
                 </TabPanel>
                 <TabPanel w="100%"></TabPanel>
-                <TabPanel w="100%">
+                <TabPanel w={["100%", "100%", "100%", "100%", "1000px"]}>
                     <GameActiveAchievements />
                 </TabPanel>
                 <TabPanel>

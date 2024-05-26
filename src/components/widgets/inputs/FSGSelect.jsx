@@ -30,11 +30,13 @@ function FSGSelect(props) {
 
     // let value = (props.group && props[props.group]) || props.value;
 
-    let value = useBucketSelector(btFormFields, (form) =>
-        form[props.group] && form[props.group][props.name]
-            ? form[props.group][props.name]
-            : null
-    );
+    let value = props.useValue
+        ? props.useValue(props.name)
+        : useBucketSelector(btFormFields, (form) =>
+              form[props.group] && form[props.group][props.name]
+                  ? form[props.group][props.name]
+                  : null
+          );
     value = value || "";
 
     return (
@@ -46,7 +48,13 @@ function FSGSelect(props) {
                 fontWeight="bold"
             >
                 <HStack>
-                    <Text>{props.title}</Text>
+                    <Text
+                        color={props.titleColor || "gray.10"}
+                        fontSize={props.titleFontSize || "1.4rem"}
+                        fontWeight={props.titleFontWeight || "500"}
+                    >
+                        {props.title}
+                    </Text>
                     {props.required && (
                         <Text display="inline-block" color="red.800">
                             *
@@ -68,7 +76,9 @@ function FSGSelect(props) {
                     //         props.rules
                     //     );
                     // }
-                    props.onChange(e);
+                    if (props.onChange) props.onChange(e);
+                    if (props.useTarget)
+                        props.useTarget(props.name, e.target.value);
                 }}
                 placeholder={props.placeholder}
                 w={props.w || props.width}
@@ -99,6 +109,11 @@ function FSGSelect(props) {
                 bgColor="gray.800"
             /> */}
 
+            {props.helperText && (
+                <Text as="span" fontSize="1.2rem" color="gray.100">
+                    {props.helperText}
+                </Text>
+            )}
             {/* <FormHelperText>{props.helpText}</FormHelperText> */}
         </FormControl>
     );

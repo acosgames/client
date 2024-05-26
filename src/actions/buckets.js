@@ -159,6 +159,18 @@ export const btReplays = bucket({});
 export const btPortraitBottomRef = bucket(null);
 
 export const btFormFields = bucket({});
+export const btAchievementForm = bucket({});
 
 export const btExperience = bucket({});
 export const btRankingUpdate = bucket({});
+
+export const btShowCreateAchievement = bucket(false);
+
+export const btIsChooseAchievementIcon = bucket(false);
+export const btAchievementIconBottomRef = bucket(null);
+export const btAchievementRange = bucket([1, 100]);
+export const btAchievementObserver = bucket(null);
+export const btAchievementSort = bucket(null);
+export const btAchievementIconId = bucket(
+    Math.floor(Math.random() * (100 - 1 + 1) + 1)
+);

@@ -1,4 +1,4 @@
-import { HStack, Input, Switch, Text } from "@chakra-ui/react";
+import { HStack, Input, Switch, Text, VStack } from "@chakra-ui/react";
 import {
     FormControl,
     FormLabel,
@@ -29,56 +29,73 @@ export default function FSGSwitch(props) {
     }, []);
 
     // let value = (props.group && props[props.group]) || props.value;
-    let value = useBucketSelector(btFormFields, (form) =>
-        form[props.group] && form[props.group][props.name]
-            ? form[props.group][props.name]
-            : null
-    );
+    let value = props.useValue
+        ? props.useValue(props.name)
+        : useBucketSelector(btFormFields, (form) =>
+              form[props.group] && form[props.group][props.name]
+                  ? form[props.group][props.name]
+                  : null
+          );
     value = value || "";
 
+    let DirectionComponent = VStack;
+    if (props.horizontal) {
+        DirectionComponent = HStack;
+    }
     return (
         <FormControl as="fieldset" mb="0">
-            <FormLabel
-                as="legend"
-                fontSize="xs"
-                color="gray.100"
-                fontWeight="bold"
+            <DirectionComponent
+                w="100%"
+                justifyContent={"center"}
+                alignItems={"center"}
             >
-                <HStack>
-                    <Text color={"gray.10"} fontSize="1.4rem" fontWeight="500">
-                        {props.title}
-                    </Text>
-                    {props.required && (
-                        <Text display="inline-block" color="red.500">
-                            *
+                <FormLabel
+                    as="legend"
+                    fontSize="xs"
+                    color="gray.100"
+                    fontWeight="bold"
+                >
+                    <HStack>
+                        <Text
+                            color={"gray.10"}
+                            fontSize="1.4rem"
+                            fontWeight="500"
+                        >
+                            {props.title}
                         </Text>
-                    )}
-                </HStack>
-            </FormLabel>
-            <Switch
-                id={props.id}
-                size={props.size || "lg"}
-                name={props.name}
-                ref={props.ref || inputRef}
-                placeholder={props.placeholder}
-                value={value || false}
-                isChecked={value || false}
-                onChange={(e) => {
-                    if (props.rules && props.group) {
-                        updateGameField(
-                            props.name,
-                            e.target.checked,
-                            props.rules,
-                            props.group,
-                            props.error
-                        );
-                    }
-                    props.onChange(e);
-                }}
-                onFocus={props.onFocus}
-                disabled={props.disabled}
-            />
-            {/* <Input
+                        {props.required && (
+                            <Text display="inline-block" color="red.500">
+                                *
+                            </Text>
+                        )}
+                    </HStack>
+                </FormLabel>
+                <Switch
+                    id={props.id}
+                    size={props.size || "lg"}
+                    name={props.name}
+                    ref={props.ref || inputRef}
+                    placeholder={props.placeholder}
+                    value={value || false}
+                    isChecked={value || false}
+                    onChange={(e) => {
+                        // if (props.rules && props.group) {
+                        //     updateGameField(
+                        //         props.name,
+                        //         e.target.checked,
+                        //         props.rules,
+                        //         props.group,
+                        //         props.error
+                        //     );
+                        // }
+                        if (props.onChange) props.onChange(e);
+                        if (props.useTarget)
+                            props.useTarget(props.name, e.target.checked);
+                    }}
+                    onFocus={props.onFocus}
+                    disabled={props.disabled}
+                />
+                {/* <Input
                 name={props.name}
                 id={props.id}
                 ref={props.ref || inputRef}
@@ -93,7 +110,7 @@ export default function FSGSwitch(props) {
                 disabled={props.disabled}
                 bgColor="gray.800"
             /> */}
-
+            </DirectionComponent>
             <FormHelperText>{props.helpText}</FormHelperText>
         </FormControl>
     );

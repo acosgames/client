@@ -42,6 +42,7 @@ import TabDeployment from "./TabPublishing";
 import TabGameSettings from "./TabGameSettings";
 import { FiExternalLink } from "react-icons/fi";
 import { notif } from "../../../layout/components/ToastMessage";
+import TabStatsAndAchievements from "./TabStatsAndAchievements";
 
 const ChakraSimpleBar = chakra(SimpleBar);
 
@@ -272,7 +273,9 @@ export default function DevGamePage({}) {
                         <TabPanel>
                             <TabGameSettings />
                         </TabPanel>
-                        <TabPanel></TabPanel>
+                        <TabPanel>
+                            <TabStatsAndAchievements />
+                        </TabPanel>
                     </TabPanels>
                 </Tabs>
             </VStack>

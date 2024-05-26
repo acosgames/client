@@ -19,6 +19,13 @@ function FSGTextInput(props) {
 
     const inputRef = useRef();
 
+    let formValue = props.useValue
+        ? props.useValue(props.name)
+        : useBucketSelector(btFormFields, (form) =>
+              form[props.group] && form[props.group][props.name]
+                  ? form[props.group][props.name]
+                  : null
+          );
     useEffect(() => {
         if (props.focus) {
             setTimeout(() => {
@@ -26,12 +33,6 @@ function FSGTextInput(props) {
             }, props.focusDelay || 300);
         }
     }, []);
-
-    let formValue = useBucketSelector(btFormFields, (form) =>
-        form[props.group] && form[props.group][props.name]
-            ? form[props.group][props.name]
-            : null
-    );
     let value =
         typeof formValue !== "undefined" ? formValue : props.value || "";
 
@@ -41,8 +42,8 @@ function FSGTextInput(props) {
                 <HStack>
                     <Text
                         color={props.titleColor || "gray.10"}
-                        fontSize="1.4rem"
-                        fontWeight="500"
+                        fontSize={props.titleFontSize || "1.4rem"}
+                        fontWeight={props.titleFontWeight || "500"}
                     >
                         {props.title}
                     </Text>
@@ -75,10 +76,22 @@ function FSGTextInput(props) {
                 borderRadius={props.borderRadius || "8px"}
                 onKeyDown={props.onKeyDown}
                 onChange={(e) => {
-                    if (props.rules && props.group) {
-                        // updateGameField(props.name, e.target.value, props.rules, props.group, props.error);
-                    }
-                    props.onChange(e);
+                    // if (props.rules && props.group) {
+                    // updateGameField(props.name, e.target.value, props.rules, props.group, props.error);
+                    // }
+                    // props.onChange(e);
+                    let fixedValue = e.target.value;
+                    if (props.uppercase) fixedValue = fixedValue.toUpperCase();
+                    if (props.regex)
+                        fixedValue = fixedValue.replace(props.regex, "");
+                    if (props.float)
+                        fixedValue = fixedValue
+                            .replace(/[^0-9.]/g, "")
+                            .replace(/(\..*?)\..*/g, "$1");
+
+                    if (props.onChange) props.onChange(e);
+                    if (props.useTarget)
+                        props.useTarget(props.name, fixedValue);
                 }}
                 onFocus={props.onFocus}
                 disabled={props.disabled}

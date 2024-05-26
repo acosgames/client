@@ -24,6 +24,8 @@ import {
     btScreenRect,
     btScreenResized,
 } from "../actions/buckets.js";
+import ChooseAchievementIcon from "./components/user/ChooseAchievementIcon.jsx";
+import { EditAchievement } from "../pages/Developer/DevGamePage/ModalEditAchievement.jsx";
 
 function Layout({ children }) {
     const disclosure = useDisclosure();
@@ -78,6 +80,7 @@ function Layout({ children }) {
         >
             <ActivateUserProfile />
             <VersionControl />
+            <EditAchievement />
             <ChoosePortrait />
             <GameInfoCreateDisplayName {...disclosure} />
             <Connection />

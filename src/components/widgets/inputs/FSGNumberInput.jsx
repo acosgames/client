@@ -18,12 +18,20 @@ import { btFormFields } from "../../../actions/buckets";
 // import fs from 'flatstore';
 
 export default function FSGNumberInput(props) {
-    let value = useBucketSelector(btFormFields, (form) =>
-        form[props.group] && form[props.group][props.name]
-            ? form[props.group][props.name]
-            : null
-    );
-    value = value == null || typeof value === "undefined" ? 0 : value;
+    // let value = useBucketSelector(btFormFields, (form) =>
+    //     form[props.group] && form[props.group][props.name]
+    //         ? form[props.group][props.name]
+    //         : null
+    // );
+    // value = value == null || typeof value === "undefined" ? 0 : value;
+
+    let formValue = props.useValue
+        ? props.useValue(props.name)
+        : useBucketSelector(btFormFields, (form) =>
+              form[props.group] && form[props.group][props.name]
+                  ? form[props.group][props.name]
+                  : null
+          );
 
     return (
         <FormControl as="fieldset" mb="0">
@@ -50,14 +58,16 @@ export default function FSGNumberInput(props) {
             </FormLabel>
 
             <NumberInput
+                allowMouseWheel
                 // defaultValue={2}
-                min={props.min}
-                max={props.max}
+                min={props.min || Number.MIN_SAFE_INTEGER}
+                max={props.max || Number.MAX_SAFE_INTEGER}
                 name={props.name}
                 id={props.id}
                 placeholder={props.placeholder}
-                maxLength={props.maxLength}
-                value={value}
+                // maxLength={props.maxLength}
+                step={props.step}
+                value={formValue}
                 size={props.size || "md"}
                 onChange={(e) => {
                     // if (props.rules && props.group) {
@@ -69,7 +79,33 @@ export default function FSGNumberInput(props) {
                     //         props.error
                     //     );
                     // }
-                    props.onChange({ target: { name: props.name, value: e } });
+                    if (props.integer) {
+                        e = e
+                            .replace("e", "")
+                            .replace(".", "")
+                            .replace("+", "")
+                            .replace(/([0-9]+)(\-)/g, "$1")
+                            .replace(/(\-)+\-/g, "$1");
+                    }
+
+                    if (props.float) {
+                        e = e
+                            .replace("e", "")
+                            // .replace(".", "")
+                            .replace("+", "")
+                            .replace(/([0-9]+)(\-)/g, "$1")
+                            .replace(/(\-)+\-/g, "$1");
+
+                        let parts = e.split(".");
+                        if (parts.length > 1) {
+                            e = parts[0];
+                            parts.shift();
+                            e += "." + parts.join("");
+                        }
+                    }
+                    // props.onChange({ target: { name: props.name, value: e } });
+                    if (props.onChange) props.onChange(e);
+                    if (props.useTarget) props.useTarget(props.name, e);
                 }}
                 disabled={props.disabled}
                 bgColor={props.bgColor || "gray.950"}
