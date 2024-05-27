@@ -326,7 +326,8 @@ const components = {
     Tooltip: {
         baseStyle: {
             bgColor: "gray.700",
-            color: "gray.100",
+            color: "gray.0",
+            fontSize: "1.4rem",
             top: "1rem",
             p: "1rem",
         },

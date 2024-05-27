@@ -15,10 +15,10 @@ import {
     VStack,
 } from "@chakra-ui/react";
 
-import QueuePanel from "./components/queue/QueuePanel.jsx";
-import SocialPanel from "./components/social/SocialPanel.jsx";
-import UserPanel from "./components/userpanel/UserPanel.jsx";
-import ChatPanel from "./components/chat/ChatPanel.jsx";
+import QueuePanel from "../components/queue/QueuePanel.jsx";
+import SocialPanel from "../components/social/SocialPanel.jsx";
+import UserPanel from "../components/userpanel/UserPanel.jsx";
+import ChatPanel from "../components/chat/ChatPanel.jsx";
 
 import { GoDotFill } from "react-icons/go";
 import config from "../config";

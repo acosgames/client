@@ -6,6 +6,8 @@ import { getWithExpiry, setWithExpiry } from "./cache";
 
 import config from "../config";
 import {
+    btAchievementForm,
+    btAchievementIconId,
     btDevClientBundles,
     btDevClientImagesById,
     btDevClients,
@@ -21,6 +23,7 @@ import {
     btLoadedDevGame,
     btLoadingGames,
 } from "./buckets";
+import { validate } from "shared/util/validation.mjs";
 
 // fs.set('devgameimages', []);
 // fs.set('devgame', {});
@@ -435,6 +438,67 @@ export async function updateGameAPIKey() {
             newGame?.apikey
         }${process.env.NODE_ENV === "development" ? " --local" : ""}`;
         btDevGame.set(newGame);
+    } catch (e) {
+        console.error(e);
+
+        if (e.response) {
+            const { response } = e;
+            const data = response.data;
+            btDevGameError.set([data]);
+        }
+    }
+    return null;
+}
+
+export async function createOrEditAchievement() {
+    try {
+        let achievement = btAchievementForm.get();
+        let devgame = btDevGame.get();
+
+        let errors = validate("manage-achievements", achievement);
+        if (errors.length > 0) {
+            btDevGameError.set(errors);
+            return null;
+        }
+
+        let game = {
+            game_slug: devgame.game_slug,
+        };
+
+        if (achievement.achievement_award) {
+            delete achievement.achievement_award;
+        }
+
+        if (achievement.stat_name1) {
+            delete achievement.stat_name1;
+        }
+
+        if (achievement.stat_name2) {
+            delete achievement.stat_name2;
+        }
+
+        if (achievement.stat_name3) {
+            delete achievement.stat_name3;
+        }
+
+        let achievement_icon = btAchievementIconId.get();
+
+        achievement.achievement_icon = achievement_icon;
+
+        let response = await POST("/api/v1/dev/createoredit/achievement", {
+            game,
+            achievement,
+        });
+        let updatedAchievement = response.data;
+
+        //let imageResponse = await uploadImages();
+        //let gameWithImages = response.data;
+
+        //console.log(gameWithImages);
+
+        btDevGameError.set([]);
+        console.log(updatedAchievement);
+        return updatedAchievement;
     } catch (e) {
         console.error(e);
 

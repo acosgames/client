@@ -5,13 +5,13 @@ import RightBar from "./RightBar.jsx";
 import SimpleBar from "simplebar-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ActivateUserProfile from "../components/widgets/ActivateUserProfile.jsx";
+// import ActivateUserProfile from "../components/widgets/ActivateUserProfile.jsx";
 import VersionControl from "../components/widgets/VersionControl.jsx";
 
-import ChoosePortrait from "./components/user/ChoosePortrait.jsx";
-import GameInfoCreateDisplayName from "./components/user/GameInfoCreateDisplayName.jsx";
-import Connection from "../components/games/Connection.jsx";
-import { ToastMessage } from "./components/ToastMessage.jsx";
+import ChoosePortrait from "../components/user/ChoosePortrait.jsx";
+import GameInfoCreateDisplayName from "../components/user/GameInfoCreateDisplayName.jsx";
+import Connection from "../components/widgets/Connection.jsx";
+import { ToastMessage } from "../components/ToastMessage.jsx";
 
 import GameScreen from "../pages/GameScreen/GameScreen.jsx";
 import { getGamePanel } from "../actions/room.js";
@@ -24,8 +24,9 @@ import {
     btScreenRect,
     btScreenResized,
 } from "../actions/buckets.js";
-import ChooseAchievementIcon from "./components/user/ChooseAchievementIcon.jsx";
+import ChooseAchievementIcon from "../components/user/ChooseAchievementIcon.jsx";
 import { EditAchievement } from "../pages/Developer/DevGamePage/ModalEditAchievement.jsx";
+import ActivateUserProfile from "../components/user/ActivateUserProfile.jsx";
 
 function Layout({ children }) {
     const disclosure = useDisclosure();

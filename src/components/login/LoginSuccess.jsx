@@ -3,7 +3,7 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { btRefPath, btNotif } from "../../actions/buckets";
 import { useBucket } from "../../actions/bucket";
-import { notif } from "../../layout/components/ToastMessage";
+import { notif } from "../ToastMessage";
 
 function LoginSuccess(props) {
     const navigate = useNavigate();

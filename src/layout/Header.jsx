@@ -7,8 +7,8 @@ import {
     //Link,
     useParams,
 } from "react-router-dom";
-import NavForUser from "../components/login/NavForUser";
-import NavForGuest from "../components/login/NavForGuest";
+// import NavForUser from "../components/login/NavForUser";
+// import NavForGuest from "../components/login/NavForGuest";
 
 /*
 background: linear-gradient(153.32deg, rgba(255, 255, 255, 0.3) -65.62%, rgba(255, 255, 255, 0.1) 83.28%);

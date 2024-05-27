@@ -8,12 +8,15 @@ import {
     btAchievementForm,
     btIsChooseAchievementIcon,
     btShowCreateAchievement,
+    btAchievements,
+    btEditAchievement,
 } from "../../../actions/buckets";
 import { FaRandom } from "react-icons/fa";
 import { useBucket, useBucketSelector } from "../../../actions/bucket";
 import {
     Box,
     Button,
+    Grid,
     HStack,
     Icon,
     IconButton,
@@ -31,10 +34,13 @@ import {
 } from "@chakra-ui/react";
 import FSGTextInput from "../../../components/widgets/inputs/FSGTextInput";
 import { useEffect } from "react";
-import ChooseAchievementIcon from "../../../layout/components/user/ChooseAchievementIcon";
+import ChooseAchievementIcon from "../../../components/user/ChooseAchievementIcon";
 import FSGSelect from "../../../components/widgets/inputs/FSGSelect";
 import FSGNumberInput from "../../../components/widgets/inputs/FSGNumberInput";
-import { updateGameField } from "../../../actions/devgame";
+import {
+    createOrEditAchievement,
+    updateGameField,
+} from "../../../actions/devgame";
 import FSGSwitch from "../../../components/widgets/inputs/FSGSwitch";
 
 export function EditAchievement({}) {
@@ -43,15 +49,19 @@ export function EditAchievement({}) {
     const rules = schema[group];
     let formGroup = useBucket(btAchievementForm);
 
+    let editAchievement = useBucket(btEditAchievement);
+
+    let isUpdate = editAchievement?.achievement_slug;
+
     let all_required = useBucketSelector(
         btAchievementForm,
         (form) => form["all_required"]
     );
 
-    let within_one_match = useBucketSelector(
-        btAchievementForm,
-        (form) => form["within_one_match"]
-    );
+    // let within_one_match = useBucketSelector(
+    //     btAchievementForm,
+    //     (form) => form["within_one_match"]
+    // );
     let show = useBucket(btShowCreateAchievement);
 
     formGroup = formGroup || {};
@@ -65,6 +75,88 @@ export function EditAchievement({}) {
         btAchievementForm.assign({ [id]: value });
     };
 
+    useEffect(() => {
+        if (editAchievement) {
+            btAchievementForm.assign({ ...editAchievement });
+        }
+    }, [isUpdate]);
+
+    useEffect(() => {
+        let form = btAchievementForm.get();
+        if (!Number.isInteger(Number.parseInt(form?.times_in_a_row))) {
+            btAchievementForm.assign({ times_in_a_row: 0 });
+        }
+
+        let stats = btDevGame.get()?.stats || [];
+        let statMap = {};
+        stats.map((s) => (statMap[s.stat_slug] = s));
+
+        let needsUpdate = false;
+        if (
+            form?.stat_slug1 &&
+            form?.goal1_valueTYPE != statMap[form.stat_slug1]?.valueTYPE
+        ) {
+            form.goal1_valueTYPE = statMap[form.stat_slug1]?.valueTYPE;
+            needsUpdate = true;
+        }
+
+        if (
+            form?.stat_slug2 &&
+            form?.goal2_valueTYPE != statMap[form.stat_slug2]?.valueTYPE
+        ) {
+            form.goal2_valueTYPE = statMap[form.stat_slug2]?.valueTYPE;
+            needsUpdate = true;
+        }
+
+        if (
+            form?.stat_slug3 &&
+            form?.goal3_valueTYPE != statMap[form.stat_slug3]?.valueTYPE
+        ) {
+            form.goal3_valueTYPE = statMap[form.stat_slug3]?.valueTYPE;
+            needsUpdate = true;
+        }
+
+        if (needsUpdate) {
+            btAchievementForm.assign({
+                goal1_valueTYPE: form.goal1_valueTYPE,
+                goal2_valueTYPE: form.goal2_valueTYPE,
+                goal3_valueTYPE: form.goal3_valueTYPE,
+            });
+        }
+
+        if (!form?.achievement_award) {
+            if (form?.award_xp) {
+                btAchievementForm.assign({ achievement_award: "award_xp" });
+            }
+            if (form?.award_gamepoints) {
+                btAchievementForm.assign({
+                    achievement_award: "award_gamepoints",
+                });
+            }
+            if (form?.award_badge) {
+                btAchievementForm.assign({ achievement_award: "award_badge" });
+            }
+            if (form?.award_item) {
+                btAchievementForm.assign({ achievement_award: "award_item" });
+            }
+        }
+    });
+
+    const onClose = () => {
+        btShowCreateAchievement.set(false);
+        btEditAchievement.set(null);
+        btAchievementForm.set({});
+    };
+    const onSubmit = async () => {
+        let gameFull = await createOrEditAchievement();
+
+        if (gameFull?.achievements) {
+            btAchievements.set(gameFull.achievements);
+        }
+
+        // onClose();
+    };
+
     return (
         <Modal
             borderRadius="8px"
@@ -73,7 +165,7 @@ export function EditAchievement({}) {
             zIndex={15}
             isOpen={show}
             onClose={(e) => {
-                btShowCreateAchievement.set(false);
+                onClose();
                 // onClose(e);
             }}
         >
@@ -84,7 +176,13 @@ export function EditAchievement({}) {
                 maxWidth="50rem"
                 bgColor="gray.800"
             >
-                <ChooseAchievementIcon />
+                <ChooseAchievementIcon
+                    id={
+                        btAchievementForm?.achievement_icon
+                            ? btAchievementForm?.achievement_icon
+                            : null
+                    }
+                />
                 <ModalHeader
                     color="gray.0"
                     fontWeight={"600"}
@@ -114,6 +212,7 @@ export function EditAchievement({}) {
                                 name="achievement_slug"
                                 id="achievement_slug"
                                 title="Slug"
+                                disabled={isUpdate ? true : false}
                                 maxLength="60"
                                 uppercase={true}
                                 required={rules["achievement_slug"].required}
@@ -202,7 +301,7 @@ export function EditAchievement({}) {
                                     useTarget={useTarget}
                                 />
 
-                                <FSGSwitch
+                                {/* <FSGSwitch
                                     type="boolean"
                                     name="within_one_match"
                                     id="within_one_match"
@@ -218,27 +317,34 @@ export function EditAchievement({}) {
                                     useValue={useValue}
                                     useTarget={useTarget}
                                 />
-                                {within_one_match && (
-                                    <FSGTextInput
-                                        rules={group}
-                                        group={group}
-                                        name={`times_in_a_row`}
-                                        id={`times_in_a_row`}
-                                        title={"Repeat for X matches in a row"}
-                                        maxLength="3"
-                                        required={
-                                            rules[`times_in_a_row`].required
-                                        }
-                                        useValue={useValue}
-                                        useTarget={useTarget}
-                                    />
-                                )}
+                                {within_one_match && ( */}
+                                <FSGNumberInput
+                                    rules={group}
+                                    group={group}
+                                    name={`times_in_a_row`}
+                                    id={`times_in_a_row`}
+                                    integer={true}
+                                    min={0}
+                                    max={1000}
+                                    title={"Repeat for X matches in a row"}
+                                    helperText={
+                                        "0=infinite matches to reach goal"
+                                    }
+                                    maxLength="3"
+                                    required={rules[`times_in_a_row`].required}
+                                    useValue={useValue}
+                                    useTarget={useTarget}
+                                />
+                                {/* )} */}
                             </Box>
                             <Box
                                 w="100%"
                                 borderBottom="1px solid"
                                 borderBottomColor="gray.500"
                             ></Box>
+                            <Box w="100%">
+                                <StatAwardInput />
+                            </Box>
                         </VStack>
                     </HStack>
                 </ModalBody>
@@ -246,16 +352,114 @@ export function EditAchievement({}) {
                 <ModalFooter>
                     <Button
                         bgColor="blue.500"
-                        fontColor="gray.0"
+                        color="gray.0"
                         fontWeight="500"
                         fontSize="1.6rem"
                         p="2rem"
+                        onClick={() => {
+                            onSubmit();
+                        }}
                     >
-                        Create
+                        {isUpdate ? "Update" : "Create"}
                     </Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
+    );
+}
+
+function StatAwardInput({}) {
+    let achievement_award = useBucketSelector(
+        btAchievementForm,
+        (form) => form["achievement_award"]
+    );
+
+    const group = "manage-achievement";
+
+    const rules = schema[group];
+
+    const useValue = (id) => {
+        let value = btAchievementForm.get((form) => form[id]);
+        return value;
+    };
+
+    const useTarget = (id, value) => {
+        btAchievementForm.assign({ [id]: value });
+    };
+
+    const renderAwardInput = () => {
+        switch (achievement_award) {
+            case "award_item":
+                return <></>;
+            case "award_xp":
+                return (
+                    <FSGNumberInput
+                        rules={group}
+                        group={group}
+                        name={`award_xp`}
+                        id={`award_xp`}
+                        title={"XP Amount"}
+                        titleFontSize="1.2rem"
+                        titleColor="gray.20"
+                        step={1}
+                        integer={true}
+                        required={rules[`award_xp`].required}
+                        useValue={useValue}
+                        useTarget={useTarget}
+                    />
+                );
+            case "award_gamepoints":
+                return (
+                    <FSGNumberInput
+                        rules={group}
+                        group={group}
+                        name={`award_gamepoints`}
+                        id={`award_gamepoints`}
+                        title={"Points Amount"}
+                        titleFontSize="1.2rem"
+                        titleColor="gray.20"
+                        step={1}
+                        integer={true}
+                        required={rules[`award_gamepoints`].required}
+                        useValue={useValue}
+                        useTarget={useTarget}
+                    />
+                );
+            case "award_badge":
+                return <></>;
+        }
+
+        return <></>;
+    };
+
+    return (
+        <>
+            <FSGSelect
+                title={"Awards"}
+                rules={group}
+                group={group}
+                id={"achievement_award"}
+                name={"achievement_award"}
+                color="gray.100"
+                placeholder={""}
+                w="100%"
+                // value={goalValue}
+                options={[
+                    <option value="-1"> -- </option>,
+                    <option disabled value="award_item">
+                        Item
+                    </option>,
+                    <option value="award_xp">XP</option>,
+                    <option value="award_gamepoints">Game Points</option>,
+                    <option disabled value="award_badge">
+                        Badge
+                    </option>,
+                ]}
+                useValue={useValue}
+                useTarget={useTarget}
+            />
+            {renderAwardInput()}
+        </>
     );
 }
 
@@ -435,7 +639,7 @@ function EditAchievementIcon({}) {
     };
 
     useEffect(() => {
-        generateAchievementIcon();
+        if (achievementIconId == null) generateAchievementIcon();
     }, []);
     return (
         <VStack spacing="0">

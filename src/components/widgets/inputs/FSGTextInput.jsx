@@ -102,8 +102,12 @@ function FSGTextInput(props) {
                 bgColor={props.bgColor || "gray.950"}
             />
 
-            <FormHelperText display={props.helpText ? "block" : "none"}>
-                {props.helpText}
+            <FormHelperText
+                fontSize="1.2rem"
+                color="gray.50"
+                display={props.helperText ? "block" : "none"}
+            >
+                {props.helperText}
             </FormHelperText>
         </FormControl>
     );

@@ -111,7 +111,9 @@ export default function FSGSwitch(props) {
                 bgColor="gray.800"
             /> */}
             </DirectionComponent>
-            <FormHelperText>{props.helpText}</FormHelperText>
+            <FormHelperText fontSize="1.2rem" color="gray.50">
+                {props.helperText}
+            </FormHelperText>
         </FormControl>
     );
 }

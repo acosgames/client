@@ -33,6 +33,8 @@ export default function FSGNumberInput(props) {
                   : null
           );
 
+    if (typeof formValue === "undefined" || formValue == null) formValue = 0;
+
     return (
         <FormControl as="fieldset" mb="0">
             <FormLabel
@@ -60,8 +62,16 @@ export default function FSGNumberInput(props) {
             <NumberInput
                 allowMouseWheel
                 // defaultValue={2}
-                min={props.min || Number.MIN_SAFE_INTEGER}
-                max={props.max || Number.MAX_SAFE_INTEGER}
+                min={
+                    typeof props.min === "undefined"
+                        ? Number.MIN_SAFE_INTEGER
+                        : props.min
+                }
+                max={
+                    typeof props.max === "undefined"
+                        ? Number.MAX_SAFE_INTEGER
+                        : props.max
+                }
                 name={props.name}
                 id={props.id}
                 placeholder={props.placeholder}
@@ -124,7 +134,9 @@ export default function FSGNumberInput(props) {
                 </NumberInputStepper>
             </NumberInput>
 
-            <FormHelperText>{props.helpText}</FormHelperText>
+            <FormHelperText fontSize="1.2rem" color="gray.50">
+                {props.helperText}
+            </FormHelperText>
         </FormControl>
     );
 }

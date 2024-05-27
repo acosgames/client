@@ -114,7 +114,9 @@ function FSGSelect(props) {
                     {props.helperText}
                 </Text>
             )}
-            {/* <FormHelperText>{props.helpText}</FormHelperText> */}
+            <FormHelperText fontSize="1.2rem" color="gray.50">
+                {props.helperText}
+            </FormHelperText>
         </FormControl>
     );
 }

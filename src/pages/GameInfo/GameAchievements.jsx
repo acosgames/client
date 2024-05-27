@@ -1,18 +1,26 @@
 import { Grid, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 
-import AchievementPanel from "../../layout/components/achievement/AchievementPanel.jsx";
+import AchievementPanel from "../../components/achievement/AchievementPanel.jsx";
+import { useBucket } from "../../actions/bucket.js";
+import { btGame } from "../../actions/buckets.js";
 
 export function GameActiveAchievements({}) {
-    let achievements = [];
-    for (let i = 35; i <= 36; i++) {
-        achievements.push(
+    let game = useBucket(btGame);
+
+    let elemAchievements = [];
+    let gameAchievements = game?.achievements || [];
+
+    for (let i = 0; i < gameAchievements.length; i++) {
+        elemAchievements.push(
             <AchievementPanel
                 key={"achievement" + i}
                 index={i}
-                name={"Top Dawg"}
-                desc={"Win 5 Games"}
-                value={Math.floor(Math.random() * 6)}
-                maxValue={5}
+                achievement={gameAchievements[i]}
+                progress={gameAchievements[i]}
+                // name={"Top Dawg"}
+                // desc={"Win 5 Games"}
+                // value={Math.floor(Math.random() * 6)}
+                // maxValue={5}
             />
         );
     }
@@ -43,7 +51,7 @@ export function GameActiveAchievements({}) {
                 gap="2rem"
                 mb={{ lg: "26px" }}
             >
-                {achievements}
+                {elemAchievements}
             </Grid>
         </VStack>
     );

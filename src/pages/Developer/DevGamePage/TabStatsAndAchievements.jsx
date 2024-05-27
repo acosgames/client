@@ -13,12 +13,15 @@ import {
     Image,
     Spinner,
     Text,
+    Tooltip,
     VStack,
 } from "@chakra-ui/react";
 import { useBucket } from "../../../actions/bucket";
 import {
+    btAchievementForm,
     btAchievementIconId,
     btDevGame,
+    btEditAchievement,
     btFormFields,
     btIsChooseAchievementIcon,
     btShowCreateAchievement,
@@ -29,16 +32,21 @@ import config from "../../../config";
 
 import schema from "shared/model/schema.json";
 import { MdEdit } from "react-icons/md";
-import { FaRandom } from "react-icons/fa";
+import { FaCopy, FaRandom } from "react-icons/fa";
 import { useEffect } from "react";
+import AchievementPanel from "../../../components/achievement/AchievementPanel";
 
 export default function TabStatsAndAchievements({}) {
     let devgame = useBucket(btDevGame);
+
+    let achievements = devgame.achievements || [];
 
     let stats = devgame?.stats;
     if (!stats) {
         return <></>;
     }
+
+    const onSubmit = () => {};
     return (
         <Grid
             templateColumns={{ sm: "1fr", md: "1fr", lg: "0.3fr 0.7fr " }}
@@ -63,29 +71,105 @@ export default function TabStatsAndAchievements({}) {
                     </VStack>
                 </CardBody>
             </Card>
-            <Card w="100%" pb="2rem">
-                <CardHeader>
-                    <Heading as="h3" fontSize="1.8rem">
-                        Achievements
-                    </Heading>
-                </CardHeader>
-                <CardBody>
-                    <VStack gap="2rem">
-                        <Button
-                            bgColor="blue.500"
-                            fontColor="gray.0"
-                            fontWeight="500"
-                            fontSize="1.6rem"
-                            p="2rem"
-                            onClick={() => {
-                                btShowCreateAchievement.set(true);
-                            }}
-                        >
-                            Create New
-                        </Button>
-                    </VStack>
-                </CardBody>
-            </Card>
+            <Box w="100%">
+                <Card w="100%" pb="0rem">
+                    <CardHeader>
+                        <Heading as="h3" fontSize="1.8rem">
+                            Achievements
+                        </Heading>
+                    </CardHeader>
+                    <CardBody>
+                        <VStack gap="2rem">
+                            <Button
+                                bgColor="blue.500"
+                                color="gray.0"
+                                fontWeight="500"
+                                fontSize="1.6rem"
+                                p="2rem"
+                                onClick={() => {
+                                    btShowCreateAchievement.set(true);
+                                    btAchievementIconId.set(null);
+                                }}
+                            >
+                                Create New
+                            </Button>
+                        </VStack>
+                    </CardBody>
+                </Card>
+                <Grid
+                    width="100%"
+                    templateColumns={{
+                        // sm: "repeat(2, 0.25fr)",
+                        lg: "0.5fr  0.5fr",
+                    }}
+                    gap="2rem"
+                    mb={{ lg: "26px" }}
+                >
+                    {achievements.map((a, i) => (
+                        <Box w="auto" position="relative">
+                            <Tooltip label="Edit" placement="top">
+                                <IconButton
+                                    position="absolute"
+                                    w="2rem"
+                                    h="2rem"
+                                    top="0.5rem"
+                                    right="0.5rem"
+                                    zIndex="3"
+                                    color="gray.20"
+                                    icon={<MdEdit color="gray.20" />}
+                                    onClick={() => {
+                                        btAchievementForm.set({});
+                                        btShowCreateAchievement.set(true);
+                                        btEditAchievement.set(a);
+                                        btAchievementIconId.set(
+                                            a?.achievement_icon
+                                        );
+                                    }}
+                                ></IconButton>
+                            </Tooltip>
+                            <Tooltip label="Copy" placement="top">
+                                <IconButton
+                                    position="absolute"
+                                    w="2rem"
+                                    h="2rem"
+                                    top="0.5rem"
+                                    right="3.5rem"
+                                    zIndex="3"
+                                    color="gray.20"
+                                    icon={
+                                        <FaCopy
+                                            color="gray.20"
+                                            fontSize="1.4rem"
+                                        />
+                                    }
+                                    onClick={() => {
+                                        btAchievementForm.set({});
+                                        btShowCreateAchievement.set(true);
+                                        let newForm = { ...a };
+                                        if (newForm?.achievement_slug) {
+                                            delete newForm.achievement_slug;
+                                        }
+                                        btAchievementForm.assign(newForm);
+                                        btAchievementIconId.set(
+                                            a?.achievement_icon
+                                        );
+                                    }}
+                                ></IconButton>
+                            </Tooltip>
+                            <AchievementPanel
+                                key={"achievement-" + i}
+                                index={i}
+                                achievement={a}
+                                progress={{}}
+                                // name={a.achievement_name}
+                                // desc={a.achievement_description}
+                                // value={Math.floor(Math.random() * 6)}
+                                // maxValue={5}
+                            />
+                        </Box>
+                    ))}
+                </Grid>
+            </Box>
         </Grid>
     );
 }

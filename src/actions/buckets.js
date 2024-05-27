@@ -165,7 +165,9 @@ export const btExperience = bucket({});
 export const btRankingUpdate = bucket({});
 
 export const btShowCreateAchievement = bucket(false);
+export const btEditAchievement = bucket(null);
 
+export const btAchievements = bucket([]);
 export const btIsChooseAchievementIcon = bucket(false);
 export const btAchievementIconBottomRef = bucket(null);
 export const btAchievementRange = bucket([1, 100]);

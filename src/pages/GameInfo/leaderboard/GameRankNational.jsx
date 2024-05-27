@@ -28,7 +28,7 @@ import {
 import { PlayerRanking } from "./PlayerRank";
 import { RankingList } from "./RankingList";
 import { LeaderboardHeading } from "./LeaderboardHeading";
-import ChooseCountry from "../../../layout/components/user/ChooseCountry";
+import ChooseCountry from "../../../components/user/ChooseCountry";
 import {
     btCountryChanged,
     btDefaultCountry,
