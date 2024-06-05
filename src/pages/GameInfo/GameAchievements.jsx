@@ -46,7 +46,10 @@ export function GameActiveAchievements({}) {
                 width="100%"
                 templateColumns={{
                     // sm: "repeat(2, 0.25fr)",
-                    lg: "0.5fr  0.5fr",
+                    sm: "0.5fr 0.5fr",
+                    md: "0.5fr 0.5fr",
+                    lg: "0.333fr 0.333fr 0.333fr",
+                    xl: "0.25fr 0.25fr 0.25fr 0.25fr",
                 }}
                 gap="2rem"
                 mb={{ lg: "26px" }}

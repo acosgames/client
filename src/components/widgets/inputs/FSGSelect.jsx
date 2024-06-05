@@ -3,6 +3,7 @@ import {
     FormControl,
     FormLabel,
     FormHelperText,
+    FormErrorMessage,
 } from "@chakra-ui/form-control";
 import { updateGameField } from "../../../actions/devgame";
 import { useEffect, useRef } from "react";
@@ -30,6 +31,8 @@ function FSGSelect(props) {
 
     // let value = (props.group && props[props.group]) || props.value;
 
+    let errors = props.useErrors ? props.useErrors(props.name) : [];
+    errors = errors || [];
     let value = props.useValue
         ? props.useValue(props.name)
         : useBucketSelector(btFormFields, (form) =>
@@ -66,6 +69,7 @@ function FSGSelect(props) {
             <Select
                 id={props.id}
                 name={props.name}
+                isInvalid={errors.length > 0}
                 ref={props.ref || inputRef}
                 value={value}
                 onChange={(e) => {
@@ -114,9 +118,21 @@ function FSGSelect(props) {
                     {props.helperText}
                 </Text>
             )}
-            <FormHelperText fontSize="1.2rem" color="gray.50">
-                {props.helperText}
-            </FormHelperText>
+            {errors.length > 0 ? (
+                errors.map((error) => (
+                    <FormHelperText
+                        key={"error-" + props.name + "-" + error}
+                        fontSize="1.2rem"
+                        color="red.300"
+                    >
+                        {error}
+                    </FormHelperText>
+                ))
+            ) : (
+                <FormHelperText fontSize="1.2rem" color="gray.50">
+                    {props.helperText}
+                </FormHelperText>
+            )}
         </FormControl>
     );
 }

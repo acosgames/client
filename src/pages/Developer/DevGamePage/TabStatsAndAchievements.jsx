@@ -37,8 +37,8 @@ import { useEffect } from "react";
 import AchievementPanel from "../../../components/achievement/AchievementPanel";
 
 export default function TabStatsAndAchievements({}) {
-    let devgame = useBucket(btDevGame);
-
+    // let devgame = useBucket(btDevGame);
+    let devgame = btDevGame.get();
     let achievements = devgame.achievements || [];
 
     let stats = devgame?.stats;
@@ -100,13 +100,17 @@ export default function TabStatsAndAchievements({}) {
                     width="100%"
                     templateColumns={{
                         // sm: "repeat(2, 0.25fr)",
-                        lg: "0.5fr  0.5fr",
+                        lg: "0.333fr  0.333fr 0.333fr",
                     }}
                     gap="2rem"
                     mb={{ lg: "26px" }}
                 >
                     {achievements.map((a, i) => (
-                        <Box w="auto" position="relative">
+                        <Box
+                            key={"dev-achievement-panel-" + a.achievement_slug}
+                            w="auto"
+                            position="relative"
+                        >
                             <Tooltip label="Edit" placement="top">
                                 <IconButton
                                     position="absolute"

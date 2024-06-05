@@ -1,12 +1,13 @@
 import { POST, GET, POSTFORM } from "./http";
 
-import { validateSimple, validateField } from "shared/util/validation.mjs";
+// import * as validation from "../../../shared/util/validation.mjs";
 // import { genShortId } from 'shared/util/idgen.js';
 import { getWithExpiry, setWithExpiry } from "./cache";
 
 import config from "../config";
 import {
     btAchievementForm,
+    btAchievementFormErrors,
     btAchievementIconId,
     btDevClientBundles,
     btDevClientImagesById,
@@ -23,7 +24,13 @@ import {
     btLoadedDevGame,
     btLoadingGames,
 } from "./buckets";
-import { validate } from "shared/util/validation.mjs";
+import {
+    validate,
+    validateField,
+    validateSimple,
+} from "shared/util/validation.mjs";
+import { notif } from "../components/ToastMessage";
+import { Text } from "@chakra-ui/react";
 
 // fs.set('devgameimages', []);
 // fs.set('devgame', {});
@@ -455,31 +462,17 @@ export async function createOrEditAchievement() {
         let achievement = btAchievementForm.get();
         let devgame = btDevGame.get();
 
-        let errors = validate("manage-achievements", achievement);
-        if (errors.length > 0) {
-            btDevGameError.set(errors);
+        let results = validate("manage-achievement", achievement);
+        if (results.length > 0) {
+            let errorMap = {};
+            results.map((result) => (errorMap[result.key] = result.errors));
+            btAchievementFormErrors.set(errorMap);
             return null;
         }
 
         let game = {
             game_slug: devgame.game_slug,
         };
-
-        if (achievement.achievement_award) {
-            delete achievement.achievement_award;
-        }
-
-        if (achievement.stat_name1) {
-            delete achievement.stat_name1;
-        }
-
-        if (achievement.stat_name2) {
-            delete achievement.stat_name2;
-        }
-
-        if (achievement.stat_name3) {
-            delete achievement.stat_name3;
-        }
 
         let achievement_icon = btAchievementIconId.get();
 
@@ -489,7 +482,7 @@ export async function createOrEditAchievement() {
             game,
             achievement,
         });
-        let updatedAchievement = response.data;
+        let updatedGame = response.data;
 
         //let imageResponse = await uploadImages();
         //let gameWithImages = response.data;
@@ -497,8 +490,9 @@ export async function createOrEditAchievement() {
         //console.log(gameWithImages);
 
         btDevGameError.set([]);
-        console.log(updatedAchievement);
-        return updatedAchievement;
+        btDevGame.set(updatedGame);
+        console.log(updatedGame);
+        return updatedGame;
     } catch (e) {
         console.error(e);
 
@@ -643,7 +637,7 @@ export async function updateGameField(name, value, group) {
 export async function updateClientField(name, value) {
     let client = fs.get("devclient");
 
-    let errors = validateSimple("game_client", client);
+    let errors = validation.validateSimple("game_client", client);
     if (errors.length > 0) {
         fs.set("devclienterror", errors);
         return client;
@@ -659,7 +653,7 @@ export async function updateClientField(name, value) {
 export async function updateServerField(name, value) {
     let server = fs.get("devserver");
 
-    let errors = validateSimple("game_server", server);
+    let errors = validation.validateSimple("game_server", server);
     if (errors.length > 0) {
         fs.set("devservererror", errors);
         return server;
@@ -677,7 +671,7 @@ export async function createClient(progressCB) {
         let game = btDevGame.get();
         let newClient = fs.get("devclient");
 
-        let errors = validateSimple("game_client", newClient);
+        let errors = validation.validateSimple("game_client", newClient);
         if (errors.length > 0) {
             fs.set("devclienterror", errors);
             return newClient;
@@ -713,7 +707,7 @@ export async function createServer(progressCB) {
         let game = btDevGame.get();
         let newServer = fs.get("devserver");
 
-        let errors = validateSimple("game_server", newServer);
+        let errors = validation.validateSimple("game_server", newServer);
         if (errors.length > 0) {
             fs.set("devservererror", errors);
             return newServer;
@@ -763,7 +757,7 @@ export async function createGame(progressCB) {
     try {
         let newGame = btDevGame.get();
 
-        let errors = validateSimple("create-game_info", newGame);
+        let errors = validation.validateSimple("create-game_info", newGame);
         if (errors.length > 0) {
             fs.set("devgameerror", errors);
             return null;

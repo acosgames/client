@@ -11,6 +11,7 @@ import {
     FormControl,
     FormLabel,
     FormHelperText,
+    FormErrorMessage,
 } from "@chakra-ui/form-control";
 import { updateGameField } from "../../../actions/devgame";
 import { useBucketSelector } from "../../../actions/bucket";
@@ -25,6 +26,8 @@ export default function FSGNumberInput(props) {
     // );
     // value = value == null || typeof value === "undefined" ? 0 : value;
 
+    let errors = props.useErrors ? props.useErrors(props.name) : [];
+    errors = errors || [];
     let formValue = props.useValue
         ? props.useValue(props.name)
         : useBucketSelector(btFormFields, (form) =>
@@ -61,6 +64,7 @@ export default function FSGNumberInput(props) {
 
             <NumberInput
                 allowMouseWheel
+                isInvalid={errors.length > 0}
                 // defaultValue={2}
                 min={
                     typeof props.min === "undefined"
@@ -133,10 +137,21 @@ export default function FSGNumberInput(props) {
                     <NumberDecrementStepper />
                 </NumberInputStepper>
             </NumberInput>
-
-            <FormHelperText fontSize="1.2rem" color="gray.50">
-                {props.helperText}
-            </FormHelperText>
+            {errors.length > 0 ? (
+                errors.map((error) => (
+                    <FormHelperText
+                        key={"error-" + props.name + "-" + error}
+                        fontSize="1.2rem"
+                        color="red.300"
+                    >
+                        {error}
+                    </FormHelperText>
+                ))
+            ) : (
+                <FormHelperText fontSize="1.2rem" color="gray.50">
+                    {props.helperText}
+                </FormHelperText>
+            )}
         </FormControl>
     );
 }

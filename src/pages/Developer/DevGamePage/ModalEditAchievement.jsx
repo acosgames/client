@@ -10,6 +10,8 @@ import {
     btShowCreateAchievement,
     btAchievements,
     btEditAchievement,
+    btDevGameError,
+    btAchievementFormErrors,
 } from "../../../actions/buckets";
 import { FaRandom } from "react-icons/fa";
 import { useBucket, useBucketSelector } from "../../../actions/bucket";
@@ -33,7 +35,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import FSGTextInput from "../../../components/widgets/inputs/FSGTextInput";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ChooseAchievementIcon from "../../../components/user/ChooseAchievementIcon";
 import FSGSelect from "../../../components/widgets/inputs/FSGSelect";
 import FSGNumberInput from "../../../components/widgets/inputs/FSGNumberInput";
@@ -42,15 +44,26 @@ import {
     updateGameField,
 } from "../../../actions/devgame";
 import FSGSwitch from "../../../components/widgets/inputs/FSGSwitch";
+import { notif } from "../../../components/ToastMessage";
+
+const useValue = (id) => {
+    return useBucketSelector(btAchievementForm, (form) => form[id]);
+};
+
+const useTarget = (id, value) => {
+    btAchievementForm.assign({ [id]: value });
+};
+
+const useErrors = (id) => {
+    return useBucketSelector(btAchievementFormErrors, (form) => form[id]);
+};
 
 export function EditAchievement({}) {
     const group = "manage-achievement";
 
     const rules = schema[group];
-    let formGroup = useBucket(btAchievementForm);
-
+    // let formGroup = useBucket(btAchievementForm);
     let editAchievement = useBucket(btEditAchievement);
-
     let isUpdate = editAchievement?.achievement_slug;
 
     let all_required = useBucketSelector(
@@ -58,22 +71,15 @@ export function EditAchievement({}) {
         (form) => form["all_required"]
     );
 
+    let [loading, setLoading] = useState(false);
+
     // let within_one_match = useBucketSelector(
     //     btAchievementForm,
     //     (form) => form["within_one_match"]
     // );
     let show = useBucket(btShowCreateAchievement);
 
-    formGroup = formGroup || {};
-
-    const useValue = (id) => {
-        let value = btAchievementForm.get((form) => form[id]);
-        return value;
-    };
-
-    const useTarget = (id, value) => {
-        btAchievementForm.assign({ [id]: value });
-    };
+    // formGroup = formGroup || {};
 
     useEffect(() => {
         if (editAchievement) {
@@ -148,13 +154,51 @@ export function EditAchievement({}) {
         btAchievementForm.set({});
     };
     const onSubmit = async () => {
+        setLoading(true);
         let gameFull = await createOrEditAchievement();
 
+        if (!gameFull) {
+            let errorResults = btAchievementFormErrors.get();
+
+            notif({
+                status: "error",
+                title: "Error",
+                description: "Fix the errors and submit again.",
+            });
+
+            setLoading(false);
+            return;
+        }
         if (gameFull?.achievements) {
             btAchievements.set(gameFull.achievements);
         }
 
-        // onClose();
+        let achievement = btAchievementForm.get();
+        let errors = btDevGameError.get();
+        if (errors.length > 0) {
+            notif({
+                status: "error",
+                title: "Error",
+                description: data.map((error) => (
+                    <Text as="span" color="red.800">
+                        {error}
+                    </Text>
+                )),
+            });
+        } else {
+            notif({
+                title: `Successfully ${
+                    isUpdate ? "updated" : "created"
+                } achievement.`,
+                description: `Achievement: ${achievement?.achievement_name}`,
+                status: "success",
+                isClosable: true,
+                duration: 4000,
+            });
+        }
+
+        setLoading(false);
+        onClose();
     };
 
     return (
@@ -218,6 +262,7 @@ export function EditAchievement({}) {
                                 required={rules["achievement_slug"].required}
                                 useValue={useValue}
                                 useTarget={useTarget}
+                                useErrors={useErrors}
                             />
 
                             <FSGTextInput
@@ -230,6 +275,7 @@ export function EditAchievement({}) {
                                 required={rules["achievement_name"].required}
                                 useValue={useValue}
                                 useTarget={useTarget}
+                                useErrors={useErrors}
                             />
 
                             <FSGTextInput
@@ -245,6 +291,7 @@ export function EditAchievement({}) {
                                 }
                                 useValue={useValue}
                                 useTarget={useTarget}
+                                useErrors={useErrors}
                             />
 
                             <VStack
@@ -299,6 +346,7 @@ export function EditAchievement({}) {
                                     required={rules["all_required"].required}
                                     useValue={useValue}
                                     useTarget={useTarget}
+                                    useErrors={useErrors}
                                 />
 
                                 {/* <FSGSwitch
@@ -316,6 +364,7 @@ export function EditAchievement({}) {
                                     }
                                     useValue={useValue}
                                     useTarget={useTarget}
+useErrors={useErrors}
                                 />
                                 {within_one_match && ( */}
                                 <FSGNumberInput
@@ -334,6 +383,7 @@ export function EditAchievement({}) {
                                     required={rules[`times_in_a_row`].required}
                                     useValue={useValue}
                                     useTarget={useTarget}
+                                    useErrors={useErrors}
                                 />
                                 {/* )} */}
                             </Box>
@@ -360,7 +410,15 @@ export function EditAchievement({}) {
                             onSubmit();
                         }}
                     >
-                        {isUpdate ? "Update" : "Create"}
+                        {loading && (
+                            <Spinner
+                                width="2rem"
+                                height="2rem"
+                                color="gray.0"
+                                size={"sm"}
+                            />
+                        )}
+                        {!loading && (isUpdate ? "Update" : "Create")}
                     </Button>
                 </ModalFooter>
             </ModalContent>
@@ -377,15 +435,6 @@ function StatAwardInput({}) {
     const group = "manage-achievement";
 
     const rules = schema[group];
-
-    const useValue = (id) => {
-        let value = btAchievementForm.get((form) => form[id]);
-        return value;
-    };
-
-    const useTarget = (id, value) => {
-        btAchievementForm.assign({ [id]: value });
-    };
 
     const renderAwardInput = () => {
         switch (achievement_award) {
@@ -406,6 +455,7 @@ function StatAwardInput({}) {
                         required={rules[`award_xp`].required}
                         useValue={useValue}
                         useTarget={useTarget}
+                        useErrors={useErrors}
                     />
                 );
             case "award_gamepoints":
@@ -423,6 +473,7 @@ function StatAwardInput({}) {
                         required={rules[`award_gamepoints`].required}
                         useValue={useValue}
                         useTarget={useTarget}
+                        useErrors={useErrors}
                     />
                 );
             case "award_badge":
@@ -445,18 +496,37 @@ function StatAwardInput({}) {
                 w="100%"
                 // value={goalValue}
                 options={[
-                    <option value="-1"> -- </option>,
-                    <option disabled value="award_item">
+                    <option key="awards_option-award_none" value="-1">
+                        {" "}
+                        --{" "}
+                    </option>,
+                    <option
+                        key="awards_option-award_item"
+                        disabled
+                        value="award_item"
+                    >
                         Item
                     </option>,
-                    <option value="award_xp">XP</option>,
-                    <option value="award_gamepoints">Game Points</option>,
-                    <option disabled value="award_badge">
+                    <option key="awards_option-award_xp" value="award_xp">
+                        XP
+                    </option>,
+                    <option
+                        key="awards_option-award_gamepoints"
+                        value="award_gamepoints"
+                    >
+                        Game Points
+                    </option>,
+                    <option
+                        key="awards_option-award_badge"
+                        disabled
+                        value="award_badge"
+                    >
                         Badge
                     </option>,
                 ]}
                 useValue={useValue}
                 useTarget={useTarget}
+                useErrors={useErrors}
             />
             {renderAwardInput()}
         </>
@@ -475,15 +545,6 @@ function StatGoalInput({ title, name, id }) {
         (form) => form[name],
         () => false
     );
-
-    const useValue = (id) => {
-        let value = btAchievementForm.get((form) => form[id]);
-        return value;
-    };
-
-    const useTarget = (id, value) => {
-        btAchievementForm.assign({ [id]: value });
-    };
 
     const goalOptions = (index) => {
         let options = stats.map((stat) => (
@@ -526,6 +587,7 @@ function StatGoalInput({ title, name, id }) {
                 required={rules[`goal${index}_valueINT`].required}
                 useValue={useValue}
                 useTarget={useTarget}
+                useErrors={useErrors}
             />
         );
     };
@@ -546,6 +608,7 @@ function StatGoalInput({ title, name, id }) {
                 required={rules[`goal${index}_valueFLOAT`].required}
                 useValue={useValue}
                 useTarget={useTarget}
+                useErrors={useErrors}
             />
         );
     };
@@ -564,6 +627,7 @@ function StatGoalInput({ title, name, id }) {
                 required={rules[`goal${index}_valueSTRING`].required}
                 useValue={useValue}
                 useTarget={useTarget}
+                useErrors={useErrors}
             />
         );
     };
@@ -617,6 +681,7 @@ function StatGoalInput({ title, name, id }) {
                 options={goalOptions(id)}
                 useValue={useValue}
                 useTarget={useTarget}
+                useErrors={useErrors}
             />
             <Box ml="1rem" mb="1rem">
                 {renderGoalValues(id)}

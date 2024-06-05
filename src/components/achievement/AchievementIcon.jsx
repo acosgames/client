@@ -1,4 +1,4 @@
-import { Box, Button, Image } from "@chakra-ui/react";
+import { Box, Button, Image, VStack } from "@chakra-ui/react";
 import config from "../../config/index.js";
 export default function AchievementIcon({ index, percent }) {
     // <Image
@@ -11,13 +11,25 @@ export default function AchievementIcon({ index, percent }) {
     //                 top="1rem"
     //             />
 
-    let color = "black";
-    if (percent >= 100) color = "green";
-    else if (percent > 0) color = "orange";
+    let color = "gray.100";
+    if (percent >= 100) color = "brand.500";
+    else if (percent > 0) color = "brand.600";
 
     return (
-        <Box w="9rem" h="9rem" position="relative" zIndex="1">
-            <Image
+        <VStack
+            w="7rem"
+            h="7rem"
+            position="relative"
+            zIndex="1"
+            borderRadius={"8px"}
+            bgColor="gray.1000"
+            border="2px solid"
+            borderColor={color}
+            mb="1rem"
+            justifyContent={"center"}
+            alignItems={"center"}
+        >
+            {/* <Image
                 w="9rem"
                 h="9rem"
                 minW="9rem"
@@ -28,14 +40,14 @@ export default function AchievementIcon({ index, percent }) {
                 left="0"
                 zIndex="-1"
                 src={`${config.https.cdn}icons/achievements/panel-${color}-medium.webp`}
-            />
+            /> */}
             <Image
-                position="relative"
-                top="1rem"
-                left="1rem"
-                w="7rem"
-                h="7rem"
-                minW="7rem"
+                // position="relative"
+                // top="1rem"
+                // left="1rem"
+                w="9rem"
+                h="9rem"
+                minW="9rem"
                 transition="all 0.3s ease"
                 transform="scale(1)"
                 _groupHover={{
@@ -46,6 +58,6 @@ export default function AchievementIcon({ index, percent }) {
                     index || 1
                 }-white-medium.webp`}
             />
-        </Box>
+        </VStack>
     );
 }

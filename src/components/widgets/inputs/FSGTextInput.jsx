@@ -3,6 +3,7 @@ import {
     FormControl,
     FormLabel,
     FormHelperText,
+    FormErrorMessage,
 } from "@chakra-ui/form-control";
 // import { updateGameField } from '../../../actions/devgame';
 import { useEffect, useRef } from "react";
@@ -18,6 +19,9 @@ function FSGTextInput(props) {
     // }
 
     const inputRef = useRef();
+
+    let errors = props.useErrors ? props.useErrors(props.name) : [];
+    errors = errors || [];
 
     let formValue = props.useValue
         ? props.useValue(props.name)
@@ -67,6 +71,7 @@ function FSGTextInput(props) {
                 maxLength={props.maxLength}
                 value={value || ""}
                 size={props.size}
+                isInvalid={errors.length > 0}
                 width={props.width}
                 border={props.border}
                 height={props.height}
@@ -102,13 +107,21 @@ function FSGTextInput(props) {
                 bgColor={props.bgColor || "gray.950"}
             />
 
-            <FormHelperText
-                fontSize="1.2rem"
-                color="gray.50"
-                display={props.helperText ? "block" : "none"}
-            >
-                {props.helperText}
-            </FormHelperText>
+            {errors.length > 0 ? (
+                errors.map((error) => (
+                    <FormHelperText
+                        fontSize="1.2rem"
+                        color="red.300"
+                        key={"error-" + props.name + "-" + error}
+                    >
+                        {error}
+                    </FormHelperText>
+                ))
+            ) : (
+                <FormHelperText fontSize="1.2rem" color="gray.50">
+                    {props.helperText}
+                </FormHelperText>
+            )}
         </FormControl>
     );
 }

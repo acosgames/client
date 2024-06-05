@@ -6,6 +6,7 @@ import {
     HStack,
     Card,
     CardBody,
+    Box,
 } from "@chakra-ui/react";
 import config from "../../config/index.js";
 import AchievementIcon from "./AchievementIcon.jsx";
@@ -47,29 +48,29 @@ export default function AchievementPanel({
     else if (percent > 0) color = "brand.900";
 
     return (
-        <Card w="100%" mt="0">
-            <CardBody pt="0.5rem">
-                <HStack spacing="0" pr="0.5rem">
+        <Card w="100%" mt="0" height="250px">
+            <CardBody pt="1.5rem" display="flex" flexDir={"column"}>
+                <VStack spacing="0" pr="0.5rem">
                     <AchievementIcon
                         index={achievement_icon}
                         percent={percent}
                     />
-                    <VStack alignItems={"flex-start"}>
+                    <VStack alignItems={"center"} mb="0.5rem">
                         <Heading
                             as="h4"
                             fontSize="1.4rem"
-                            fontWeight="bold"
-                            color={"gray.10"}
-                            textAlign={"left"}
+                            fontWeight="500"
+                            color={"gray.0"}
+                            textAlign={"center"}
                         >
                             {achievement_name}
                         </Heading>
                         <Heading
                             as="h5"
-                            fontSize="1.4rem"
+                            fontSize="1.2rem"
                             fontWeight={"normal"}
-                            color={"gray.30"}
-                            textAlign={"left"}
+                            color={"gray.10"}
+                            textAlign={"center"}
                             // whiteSpace={"nowrap"}
                             overflow={"hidden"}
                             textOverflow={"ellipsis"}
@@ -78,14 +79,15 @@ export default function AchievementPanel({
                             {achievement_description}
                         </Heading>
                     </VStack>
-                </HStack>
+                </VStack>
                 <VStack
+                    flex="1"
                     px="0rem"
                     mt="0.5rem"
                     w="100%"
+                    spacing="0"
                     justifyContent={"flex-end"}
                 >
-                    <AchievementExperienceBar percent={percent} />
                     <AmountRemaining
                         achievement={achievement}
                         progress={progress}
@@ -93,6 +95,8 @@ export default function AchievementPanel({
                         maxValue={maxValue}
                         percent={percent}
                     />
+                    <Box h="1rem"></Box>
+                    <AchievementExperienceBar percent={percent} />
                 </VStack>
             </CardBody>
         </Card>
@@ -282,7 +286,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
             <Heading
                 as="h6"
                 fontSize="1.2rem"
-                fontWeight="500"
+                fontWeight="300"
                 color={"gray.20"}
             >
                 Completed
@@ -301,16 +305,16 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                     <Heading
                         as="h6"
                         fontSize="1.2rem"
-                        fontWeight="500"
-                        color={"gray.20"}
+                        fontWeight="300"
+                        color={"gray.50"}
                     >
-                        <Text as="span">{achievement.stat_name1}</Text>{" "}
+                        <Text as="span" pr="0.5rem">
+                            {achievement.stat_name1}
+                        </Text>{" "}
                         {achievement.goal1_valueTYPE == 4 && (
-                            <Text as="span">
-                                ({achievement.goal1_valueSTRING}){" "}
-                            </Text>
+                            <>({achievement.goal1_valueSTRING}) </>
                         )}
-                        <Text as="span" fontWeight="bold">
+                        <Text as="span" fontWeight="500" color="gray.30">
                             {achievement.goal1_valueTYPE == 0 ||
                             achievement.goal1_valueTYPE == 4
                                 ? progress.stat1_valueINT || 0
@@ -328,16 +332,16 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                     <Heading
                         as="h6"
                         fontSize="1.2rem"
-                        fontWeight="500"
-                        color={"gray.20"}
+                        fontWeight="300"
+                        color={"gray.50"}
                     >
-                        <Text as="span">{achievement.stat_name2}</Text>{" "}
+                        <Text as="span" pr="0.5rem">
+                            {achievement.stat_name2}
+                        </Text>{" "}
                         {achievement.goal2_valueTYPE == 4 && (
-                            <Text as="span">
-                                ({achievement.goal2_valueSTRING}){" "}
-                            </Text>
+                            <>({achievement.goal2_valueSTRING}) </>
                         )}
-                        <Text as="span" fontWeight="bold">
+                        <Text as="span" fontWeight="500" color="gray.30">
                             {achievement.goal2_valueTYPE == 0 ||
                             achievement.goal2_valueTYPE == 4
                                 ? progress.stat2_valueINT || 0
@@ -355,16 +359,16 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                     <Heading
                         as="h6"
                         fontSize="1.2rem"
-                        fontWeight="500"
-                        color={"gray.20"}
+                        fontWeight="300"
+                        color={"gray.50"}
                     >
-                        <Text as="span">{achievement.stat_name3}</Text>{" "}
+                        <Text as="span" pr="0.5rem">
+                            {achievement.stat_name3}
+                        </Text>{" "}
                         {achievement.goal3_valueTYPE == 4 && (
-                            <Text as="span">
-                                ({achievement.goal3_valueSTRING}){" "}
-                            </Text>
+                            <>({achievement.goal3_valueSTRING}) </>
                         )}
-                        <Text as="span" fontWeight="bold">
+                        <Text as="span" fontWeight="500" color="gray.30">
                             {achievement.goal3_valueTYPE == 0 ||
                             achievement.goal3_valueTYPE == 4
                                 ? progress.stat3_valueINT || 0
@@ -383,9 +387,38 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
 
     value = Math.min(value, maxValue);
 
+    if (achievement.goal1_valueTYPE == 2) {
+        return (
+            <>
+                <Heading
+                    as="h6"
+                    fontSize="1.2rem"
+                    fontWeight="300"
+                    color={"gray.50"}
+                >
+                    <Text as="span">Best: </Text>
+                    <Text as="span" fontWeight="500" color="gray.20">
+                        {value}
+                    </Text>
+                </Heading>
+                <Heading
+                    as="h6"
+                    fontSize="1.2rem"
+                    fontWeight="300"
+                    color={"gray.50"}
+                >
+                    <Text as="span">Goal: </Text>
+                    <Text as="span" fontWeight="500">
+                        {maxValue}
+                    </Text>
+                </Heading>
+            </>
+        );
+    }
+
     return (
-        <Heading as="h6" fontSize="1.2rem" fontWeight="500" color={"gray.20"}>
-            <Text as="span" fontWeight="bold">
+        <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
+            <Text as="span" fontWeight="500" color="gray.20">
                 {value}
             </Text>{" "}
             of {maxValue}

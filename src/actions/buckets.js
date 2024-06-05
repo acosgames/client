@@ -160,6 +160,7 @@ export const btPortraitBottomRef = bucket(null);
 
 export const btFormFields = bucket({});
 export const btAchievementForm = bucket({});
+export const btAchievementFormErrors = bucket({});
 
 export const btExperience = bucket({});
 export const btRankingUpdate = bucket({});
