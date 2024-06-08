@@ -1,10 +1,48 @@
-import { Box, HStack, Progress } from "@chakra-ui/react";
+import { Box, Button, Heading, HStack, Progress, Text } from "@chakra-ui/react";
+import { useState } from "react";
 
-export default function AchievementExperienceBar({ percent, status }) {
+export default function AchievementExperienceBar({ percent, achievement }) {
+    // let [claimed, setClaimed] = useState(false);
+
+    let completed = achievement?.completed || null;
+    let claimed = achievement?.claimed || null;
     let color = "yellow";
     if (percent >= 100) color = "green";
 
-    if (percent >= 100) return <></>;
+    if (percent >= 100) {
+        if (!claimed)
+            return (
+                <Button
+                    height="2rem"
+                    w="10rem"
+                    borderRadius="4px"
+                    display={"block"}
+                    fontSize={"xxs"}
+                    bgColor={"gray.800"}
+                    transform="skew(-15deg)"
+                    boxShadow="3px 3px 0 var(--chakra-colors-brand-600)"
+                    _hover={{
+                        boxShadow: "5px 3px 0 var(--chakra-colors-brand-600)",
+                    }}
+                    onClick={() => {}}
+                >
+                    <Text as="span" color="gray.0" transform="skew(15deg)">
+                        Claim!
+                    </Text>
+                </Button>
+            );
+        return (
+            <Heading
+                as="h6"
+                fontSize="1.4rem"
+                fontWeight="600"
+                color={"brand.50"}
+            >
+                Completed!
+            </Heading>
+        );
+    }
+
     return (
         <HStack
             position="relative"
@@ -20,7 +58,7 @@ export default function AchievementExperienceBar({ percent, status }) {
                 // colorScheme="green"
                 variant={color}
                 w="100%"
-                height="0.75rem"
+                height="1rem"
             />
             <Box
                 width="0.2rem"

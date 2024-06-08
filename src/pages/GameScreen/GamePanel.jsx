@@ -244,7 +244,7 @@ function GameIFrame(props) {
         // }
 
         let roomStatus = getRoomStatus(room_slug);
-        let offsetRatio = !isLoaded ? 0.1 : 1;
+        let offsetRatio = 1; // !isLoaded ? 0.1 : 1;
 
         if (isLoaded) {
             if (

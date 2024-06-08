@@ -100,9 +100,10 @@ export default function TabStatsAndAchievements({}) {
                     width="100%"
                     templateColumns={{
                         // sm: "repeat(2, 0.25fr)",
-                        lg: "0.333fr  0.333fr 0.333fr",
+                        // lg: "0.333fr  0.333fr 0.333fr",
+                        lg: "1fr",
                     }}
-                    gap="2rem"
+                    gap="0rem"
                     mb={{ lg: "26px" }}
                 >
                     {achievements.map((a, i) => (
@@ -116,8 +117,8 @@ export default function TabStatsAndAchievements({}) {
                                     position="absolute"
                                     w="2rem"
                                     h="2rem"
-                                    top="0.5rem"
-                                    right="0.5rem"
+                                    top="0rem"
+                                    right="-1rem"
                                     zIndex="3"
                                     color="gray.20"
                                     icon={<MdEdit color="gray.20" />}
@@ -131,13 +132,13 @@ export default function TabStatsAndAchievements({}) {
                                     }}
                                 ></IconButton>
                             </Tooltip>
-                            <Tooltip label="Copy" placement="top">
+                            <Tooltip label="Duplicate" placement="top">
                                 <IconButton
                                     position="absolute"
                                     w="2rem"
                                     h="2rem"
-                                    top="0.5rem"
-                                    right="3.5rem"
+                                    top="2.5rem"
+                                    right="-1rem"
                                     zIndex="3"
                                     color="gray.20"
                                     icon={

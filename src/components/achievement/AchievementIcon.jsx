@@ -17,15 +17,14 @@ export default function AchievementIcon({ index, percent }) {
 
     return (
         <VStack
-            w="7rem"
-            h="7rem"
+            w="6rem"
+            h="6rem"
             position="relative"
             zIndex="1"
             borderRadius={"8px"}
             bgColor="gray.1000"
             border="2px solid"
             borderColor={color}
-            mb="1rem"
             justifyContent={"center"}
             alignItems={"center"}
         >
@@ -45,9 +44,9 @@ export default function AchievementIcon({ index, percent }) {
                 // position="relative"
                 // top="1rem"
                 // left="1rem"
-                w="9rem"
-                h="9rem"
-                minW="9rem"
+                w="7rem"
+                h="7rem"
+                minW="7rem"
                 transition="all 0.3s ease"
                 transform="scale(1)"
                 _groupHover={{

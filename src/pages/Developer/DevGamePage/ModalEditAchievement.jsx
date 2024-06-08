@@ -163,7 +163,9 @@ export function EditAchievement({}) {
             notif({
                 status: "error",
                 title: "Error",
-                description: "Fix the errors and submit again.",
+                description:
+                    "Fix the errors and submit again." +
+                    JSON.stringify(errorResults),
             });
 
             setLoading(false);
@@ -245,9 +247,9 @@ export function EditAchievement({}) {
                     h="100%"
                 >
                     <HStack w="100%" alignItems={"flex-start"} spacing="2rem">
-                        <Box w="20%">
+                        {/* <Box w="20%">
                             <EditAchievementIcon />
-                        </Box>
+                        </Box> */}
 
                         <VStack gap="0.5rem" w="100%">
                             <FSGTextInput
@@ -567,6 +569,9 @@ function StatGoalInput({ title, name, id }) {
             <option key="statgoal-option-played" value="ACOS_PLAYED">
                 Matches Played
             </option>,
+            <option key="statgoal-option-wins" value="ACOS_PLAYTIME">
+                Play Time
+            </option>,
         ];
 
         return [...nullOption, ...options];
@@ -641,7 +646,7 @@ function StatGoalInput({ title, name, id }) {
             case 2:
                 return <>{valueFLOAT(index)}</>;
             case 3:
-                return <>{valueFLOAT(index)}</>;
+                return <>{valueINT(index, "Time (seconds)")}</>;
             case 4:
                 return (
                     <>
@@ -658,6 +663,8 @@ function StatGoalInput({ title, name, id }) {
         if (!stat && (goalValue == "ACOS_WINS" || goalValue == "ACOS_PLAYED")) {
             return valueOptions(index, 0);
         }
+        if (!stat && goalValue == "ACOS_PLAYTIME")
+            return valueOptions(index, 3);
         return valueOptions(index, stat?.valueTYPE);
     };
 

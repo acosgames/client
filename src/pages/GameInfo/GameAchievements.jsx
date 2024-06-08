@@ -27,7 +27,7 @@ export function GameActiveAchievements({}) {
 
     return (
         <VStack
-            pt="2rem"
+            pt="4rem"
             pb="10rem"
             h="100%"
             w={["100%", "100%", "100%", "100%", "1000px"]}
@@ -40,16 +40,18 @@ export function GameActiveAchievements({}) {
                 fontSize={["2.4rem", "2.4rem", "3rem"]}
                 fontWeight={"600"}
             >
-                Achievements
+                Season Achievements
             </Heading>
             <Grid
+                mt="2rem"
                 width="100%"
                 templateColumns={{
                     // sm: "repeat(2, 0.25fr)",
-                    sm: "0.5fr 0.5fr",
-                    md: "0.5fr 0.5fr",
-                    lg: "0.333fr 0.333fr 0.333fr",
-                    xl: "0.25fr 0.25fr 0.25fr 0.25fr",
+                    // sm: "0.5fr 0.5fr",
+                    // md: "0.5fr 0.5fr",
+                    // lg: "0.333fr 0.333fr 0.333fr",
+                    lg: "1fr",
+                    xl: "0.5fr 0.5fr",
                 }}
                 gap="2rem"
                 mb={{ lg: "26px" }}

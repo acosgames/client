@@ -474,9 +474,9 @@ export async function createOrEditAchievement() {
             game_slug: devgame.game_slug,
         };
 
-        let achievement_icon = btAchievementIconId.get();
+        // let achievement_icon = btAchievementIconId.get();
 
-        achievement.achievement_icon = achievement_icon;
+        // achievement.achievement_icon = achievement_icon;
 
         let response = await POST("/api/v1/dev/createoredit/achievement", {
             game,
@@ -489,7 +489,7 @@ export async function createOrEditAchievement() {
 
         //console.log(gameWithImages);
 
-        btDevGameError.set([]);
+        btAchievementFormErrors.set([]);
         btDevGame.set(updatedGame);
         console.log(updatedGame);
         return updatedGame;
@@ -499,7 +499,7 @@ export async function createOrEditAchievement() {
         if (e.response) {
             const { response } = e;
             const data = response.data;
-            btDevGameError.set([data]);
+            btAchievementFormErrors.set([data]);
         }
     }
     return null;
