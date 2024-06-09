@@ -38,6 +38,7 @@ import {
     btChatToggle,
     btDuplicateTabs,
     btExperience,
+    btGame,
     btHistory,
     btJoinQueues,
     btLatency,
@@ -1043,6 +1044,27 @@ async function wsIncomingMessage(message) {
             btExperience.set(msg.payload);
             let level = msg.payload.level + msg.payload.points / 1000;
             btUser.assign({ level });
+            return;
+        case "achievements":
+            console.log("[Achievements]:", msg);
+
+            let achievements = msg.payload;
+            let game_slug = msg.game_slug;
+
+            let game = btGame.get();
+            if (game.game_slug == game_slug) {
+                for (let a of game.achievements) {
+                    if (a.achievement_slug in achievements) {
+                        Object.assign(a, achievements[a.achievement_slug]);
+                    }
+                }
+            }
+
+            btGame.assign({ achievements: game.achievements });
+
+            // btExperience.set(msg.payload);
+            // let level = msg.payload.level + msg.payload.points / 1000;
+            // btUser.assign({ level });
             return;
         case "rankings":
             console.log("[rankings]:", msg);

@@ -132,7 +132,7 @@ export default function QueueMessage({
                             // height="1.6rem"
                             display={"block"}
                             fontSize={"xxs"}
-                            bgColor={"gray.800"}
+                            bgColor={"gray.1000"}
                             transform="skew(-15deg)"
                             cursor={queued ? "default" : "pointer"}
                             boxShadow={

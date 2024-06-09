@@ -5,7 +5,7 @@ import { memo, useEffect, useRef } from "react";
 import { calculateGameSize } from "../../util/helper";
 import OverlayEvents from "./OverlayScreens/OverlayEvents.jsx";
 import { AnimatePresence, motion } from "framer-motion";
-import ModalGameOver from "./OverlayScreens/ModalGameOver";
+import { ModalGameOver } from "./OverlayScreens/ModalGameOver";
 import { useBucket, useBucketSelector } from "../../actions/bucket";
 import {
     btGamePanels,

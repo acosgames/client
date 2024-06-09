@@ -577,6 +577,7 @@ const components = {
         baseStyle: {
             filledTrack: {
                 bg: "brand.300",
+                transition: "all 1s ease",
             },
         },
         variants: {

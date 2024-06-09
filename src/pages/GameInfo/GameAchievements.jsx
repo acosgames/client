@@ -2,7 +2,12 @@ import { Grid, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 
 import AchievementPanel from "../../components/achievement/AchievementPanel.jsx";
 import { useBucket } from "../../actions/bucket.js";
-import { btGame } from "../../actions/buckets.js";
+import { btAchievementAward, btGame } from "../../actions/buckets.js";
+import {
+    OverlayFrame,
+    XPLineItems,
+    XPProgress,
+} from "../GameScreen/OverlayScreens/ModalGameOver.jsx";
 
 export function GameActiveAchievements({}) {
     let game = useBucket(btGame);
@@ -34,6 +39,7 @@ export function GameActiveAchievements({}) {
             display={"flex"}
             flexDir="column"
         >
+            <AwardChooser />
             <Heading
                 as="h2"
                 color="gray.0"
@@ -59,5 +65,40 @@ export function GameActiveAchievements({}) {
                 {elemAchievements}
             </Grid>
         </VStack>
+    );
+}
+
+function AwardChooser({}) {
+    let award = useBucket(btAchievementAward);
+
+    if (award?.type == "award_xp") {
+        return <AwardXP xp={award} />;
+    }
+}
+
+function AwardXP({ xp }) {
+    return (
+        <OverlayFrame
+            title={"Experience"}
+            bgColor="gray.900"
+            onActionClick={() => {
+                // gamepanel.showGameover = false;
+                // gamepanel.closeOverlay = true;
+                // updateGamePanel(gamepanel);
+                btAchievementAward.set(null);
+            }}
+            actionTitle={"Close"}
+            // duration={6}
+        >
+            <VStack my="4rem" mx="0rem">
+                <XPProgress {...xp} />
+                <XPLineItems
+                    hideTotal={true}
+                    experience={xp.experience}
+                    points={xp.points}
+                    level={xp.level}
+                />
+            </VStack>
+        </OverlayFrame>
     );
 }

@@ -7,20 +7,21 @@ import {
     Card,
     CardBody,
     Box,
+    Spinner,
 } from "@chakra-ui/react";
 import config from "../../config/index.js";
 import AchievementIcon from "./AchievementIcon.jsx";
 import AchievementExperienceBar from "./AchievementExperienceBar.jsx";
 
 function AchievementReward({ achievement, percent }) {
-    let opacity = 0.5;
+    let opacity = 0.3;
     let color = "gray.400";
     if (percent >= 100) {
         color = "gray.0";
         opacity = 1;
     } else if (percent > 0) {
         color = "gray.100";
-        opacity = 0.75;
+        opacity = 0.5;
     }
 
     const renderReward = () => {
@@ -393,8 +394,8 @@ function calculateStatProgress(
         case 3:
         case 4: {
             //string count
-            let value = stat_valueINT || 0;
             let maxValue = goal_valueINT;
+            let value = Math.min(stat_valueINT || 0, maxValue);
             let percent = (value / maxValue) * 100;
             return { value, maxValue, percent };
         }
@@ -402,8 +403,8 @@ function calculateStatProgress(
         case 2: {
             //average
             //time
-            let value = stat_valueFLOAT || 0;
             let maxValue = goal_valueFLOAT;
+            let value = Math.min(stat_valueFLOAT || 0, maxValue);
             let percent = (value / maxValue) * 100;
             return { value, maxValue, percent };
         }
@@ -442,10 +443,19 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                         >
                             {achievement.goal1_valueTYPE == 0 ||
                             achievement.goal1_valueTYPE == 4
-                                ? progress.stat1_valueINT || 0
+                                ? Math.min(
+                                      progress.stat1_valueINT || 0,
+                                      achievement.goal1_valueINT
+                                  )
                                 : achievement.goal1_valueTYPE == 3
-                                ? (progress.stat1_valueINT || 0) + "s"
-                                : progress.stat1_valueFLOAT || 0}
+                                ? Math.min(
+                                      progress.stat1_valueINT || 0,
+                                      achievement.goal1_valueINT
+                                  ) + "s"
+                                : Math.min(
+                                      progress.stat1_valueFLOAT || 0,
+                                      achievement.goal1_valueFLOAT
+                                  )}
                         </Text>{" "}
                         /{" "}
                         {achievement.goal1_valueTYPE == 0 ||
@@ -476,10 +486,19 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                         >
                             {achievement.goal2_valueTYPE == 0 ||
                             achievement.goal2_valueTYPE == 4
-                                ? progress.stat2_valueINT || 0
+                                ? Math.min(
+                                      progress.stat2_valueINT || 0,
+                                      achievement.goal2_valueINT
+                                  )
                                 : achievement.goal2_valueTYPE == 3
-                                ? (progress.stat2_valueINT || 0) + "s"
-                                : progress.stat2_valueFLOAT || 0}
+                                ? Math.min(
+                                      progress.stat2_valueINT || 0,
+                                      achievement.goal2_valueINT
+                                  ) + "s"
+                                : Math.min(
+                                      progress.stat2_valueFLOAT || 0,
+                                      achievement.goal2_valueFLOAT
+                                  )}
                         </Text>{" "}
                         /{" "}
                         {achievement.goal2_valueTYPE == 0 ||
@@ -510,10 +529,19 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                         >
                             {achievement.goal3_valueTYPE == 0 ||
                             achievement.goal3_valueTYPE == 4
-                                ? progress.stat3_valueINT || 0
+                                ? Math.min(
+                                      progress.stat3_valueINT || 0,
+                                      achievement.goal3_valueINT
+                                  )
                                 : achievement.goal3_valueTYPE == 3
-                                ? (progress.stat3_valueINT || 0) + "s"
-                                : progress.stat3_valueFLOAT || 0}
+                                ? Math.min(
+                                      progress.stat3_valueINT || 0,
+                                      achievement.goal3_valueINT
+                                  ) + "s"
+                                : Math.min(
+                                      progress.stat3_valueFLOAT || 0,
+                                      achievement.goal3_valueFLOAT
+                                  )}
                         </Text>{" "}
                         /{" "}
                         {achievement.goal3_valueTYPE == 0 ||
@@ -568,7 +596,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                 color={"gray.50"}
             >
                 <Text as="span" fontWeight="500" color="gray.20">
-                    {value + "s"}
+                    {Math.min(value, maxValue) + "s"}
                 </Text>{" "}
                 / {maxValue + "s"}
             </Heading>
@@ -578,7 +606,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
     return (
         <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
             <Text as="span" fontWeight="500" color="gray.20">
-                {value}
+                {Math.min(value, maxValue)}
             </Text>{" "}
             / {maxValue}
         </Heading>

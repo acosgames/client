@@ -87,7 +87,7 @@ function JoinButton({ handleJoin, inQueue }) {
             transform={["skewX(-15deg)"]}
             className={"cta " + (inQueue ? "queued" : "")}
             zIndex={2}
-            bgColor={inQueue ? "gray.900" : "gray.800"}
+            bgColor={inQueue ? "gray.1000" : "gray.1000"}
             //   mt="1rem"
             px="3rem"
             pr="2rem"

@@ -23,7 +23,7 @@ import PregameTimer from "./PregameTimer";
 import { BottomHalf, TopHalf, Vs } from "./Vs";
 import CompactPlayer from "./CompactPlayer";
 import { AnimatePresence, motion } from "framer-motion";
-import ModalGameOver from "./ModalGameOver";
+import { ModalGameOver } from "./ModalGameOver";
 import { useBucket, useBucketSelector } from "../../../actions/bucket";
 import { btGamePanels, btTimeleft } from "../../../actions/buckets";
 

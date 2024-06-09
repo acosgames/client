@@ -465,7 +465,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                     boxShadow="3px 3px 0 var(--chakra-colors-brand-600)"
                                     // border="4px solid"
                                     // borderColor="brand.300"
-                                    bgColor={"gray.800"}
+                                    bgColor={"gray.1000"}
                                     py="2rem"
                                     color="white"
                                     fontSize="lg"

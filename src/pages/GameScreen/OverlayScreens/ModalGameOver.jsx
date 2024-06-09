@@ -5,6 +5,8 @@ import {
     Heading,
     Icon,
     Image,
+    ModalOverlay,
+    Portal,
     Progress,
     Text,
     VStack,
@@ -50,7 +52,7 @@ let ChakraSimpleBar = chakra(SimpleBar);
 
 let btGameoverScreen = bucket(0);
 
-export default function ModalGameOver({ gamepanelid }) {
+export function ModalGameOver({ gamepanelid }) {
     let showGameover = useBucketSelector(
         btGamePanels,
         (gamepanels) => gamepanels[gamepanelid]?.showGameover
@@ -347,7 +349,7 @@ function Screen2({ gamepanelid }) {
     );
 }
 
-function XPLineItems({ experience, points, level }) {
+export function XPLineItems({ experience, points, level, hideTotal }) {
     console.log(experience);
 
     return (
@@ -372,23 +374,29 @@ function XPLineItems({ experience, points, level }) {
                     </MotionHStack>
                 );
             })}
+            {!hideTotal && (
+                <MotionHStack
+                    w="100%"
+                    key={"experience-total"}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                        duration: 0.3,
+                        delay: 0.4 * experience.length,
+                    }}
+                >
+                    <Text as="span" fontWeight={"bold"} fontSize="1.4rem">
+                        Total
+                    </Text>
+                    <Box flex="1"></Box>
+                    <Text as="span" fontWeight="bold" fontSize="1.4rem">
+                        {points} <Text as="span">XP</Text>
+                    </Text>
+                </MotionHStack>
+            )}
             <MotionHStack
                 w="100%"
-                key={"experience-total"}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3, delay: 0.4 * experience.length }}
-            >
-                <Text as="span" fontWeight={"bold"} fontSize="1.4rem">
-                    Total
-                </Text>
-                <Box flex="1"></Box>
-                <Text as="span" fontWeight="bold" fontSize="1.4rem">
-                    {points} <Text as="span">XP</Text>
-                </Text>
-            </MotionHStack>
-            <MotionHStack
-                w="100%"
+                mt="1rem"
                 justifyContent="center"
                 alignItems="center"
                 key={"experience-level"}
@@ -413,7 +421,7 @@ function XPLineItems({ experience, points, level }) {
 
 let xpTimeout = 0;
 
-function XPProgress({
+export function XPProgress({
     previousPoints,
     previousLevel,
     points,
@@ -797,39 +805,32 @@ function GameCancelled({ gamepanelid }) {
     );
 }
 
-function OverlayFrame({
+export function OverlayFrame({
     title,
     children,
     onActionClick,
     actionTitle,
     hideAction,
     duration,
+    bgColor,
     gamepanelid,
 }) {
     let scrollRef = useRef();
 
-    let gamepanel = getGamePanel(gamepanelid);
-    if (!gamepanel) return <></>;
+    let gamepanel = getGamePanel(gamepanelid || 0);
+    // if (!gamepanel) return <></>;
 
     let gamestate = gamepanel.gamestate;
     let players = gamestate.players;
 
-    // let [show, setShow] = useState(true);
-
-    const onClose = (e) => {
-        gamepanel.showGameover = false;
-        btGamePanels.assign({ [gamepanelid]: gamepanel });
-    };
-
     let [bgWidth, bgHeight] = btGameScreenSize.get() || [0, 0];
 
-    // let localPlayer = btUser.get();
-    // let shortid = localPlayer.shortid;
-    // if (shortid in players) {
-    //     localPlayer = players[shortid];
-    // }
+    var w = window.innerWidth;
 
-    // if (!localPlayer) return <></>;
+    var h = window.innerHeight;
+
+    if (bgWidth == 0) bgWidth = w;
+    if (bgHeight == 0) bgHeight = h;
 
     return (
         <motion.div
@@ -842,9 +843,17 @@ function OverlayFrame({
             style={{
                 width: "100%",
                 height: "100%",
-                position: "absolute",
+                position: gamepanelid ? "absolute" : "fixed",
+                backgroundColor: "rgba(0,0,0,0.5)",
+                top: "0%",
                 zIndex: 112,
                 filter: "drop-shadow(0 0 20px black)",
+            }}
+            onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                onActionClick(e);
             }}
         >
             <MotionVStack
@@ -860,7 +869,11 @@ function OverlayFrame({
                 transition={{
                     duraton: 1,
                 }}
-                bgColor="rgba(0,0,0,0.9)"
+                bgColor={bgColor || "rgba(0,0,0,0.9)"}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }}
             >
                 <VStack
                     width="100%"
@@ -931,7 +944,7 @@ function OverlayFrame({
                                 borderRadius="4px"
                                 display={hideAction ? "none" : "block"}
                                 fontSize={"xxs"}
-                                bgColor={"gray.800"}
+                                bgColor={"gray.1000"}
                                 transform="skew(-15deg)"
                                 boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
                                 _hover={{

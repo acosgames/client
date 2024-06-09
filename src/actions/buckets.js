@@ -177,3 +177,6 @@ export const btAchievementSort = bucket(null);
 export const btAchievementIconId = bucket(
     Math.floor(Math.random() * (100 - 1 + 1) + 1)
 );
+
+export const btClaimingAchievement = bucket(false);
+export const btAchievementAward = bucket(false);
