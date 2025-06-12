@@ -58,7 +58,7 @@ const colors = {
         800: "rgb(80,80,80)",
         900: "rgb(90,90,90)",
     },
-    brand: {
+    alt: {
         50: "#8affb9",
         75: "#71ffa3",
         100: "#68fb9a",
@@ -71,6 +71,20 @@ const colors = {
         900: "#f1ed62",
         1000: "#ffe449",
         1100: "#ffd639",
+    },
+    brand: {
+        50: "#def2ff",
+        75: "#b6e3ff",
+        100: "#8fd4fe",
+        200: "#59a7d8",
+        300: "#4ca2d8",
+        400: "#409ed8",
+        500: "#2d96d8",
+        600: "#2c96d8",
+        700: "#2192d8",
+        900: "#178ed8",
+        1000: "#0d8ad8",
+        1100: "#0085d8",
     },
     blues: {
         50: "#e9ebfd",
@@ -455,7 +469,7 @@ const components = {
                     cursor: "pointer",
                     _selected: {
                         cursor: "auto",
-                        color: "brand.300",
+                        color: "brand.100",
                     },
                     as: "span",
                     letterSpacing: "0px",

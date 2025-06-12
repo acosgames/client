@@ -1,7 +1,7 @@
 import { useSyncExternalStore, useRef, useCallback } from "react";
 
 export const compareStringified = (a, b) =>
-    JSON.stringify(a) === JSON.stringify(b);
+    JSON.stringify(a) !== JSON.stringify(b);
 
 export const bucket = (initialState) => {
     let subscribers = new Set();
@@ -23,9 +23,26 @@ export const bucket = (initialState) => {
         newBucket.store = { state: toValue };
         newBucket.emit();
     };
+    newBucket.cset = (toValue) => {
+        if (typeof toValue === "function") {
+            toValue = toValue(newBucket.get());
+        }
+        newBucket.store = { state: structuredClone(toValue) };
+        newBucket.emit();
+    };
     newBucket.assign = (toValue) => {
         newBucket.store = {
             state: Object.assign({}, newBucket.store.state, toValue),
+        };
+        newBucket.emit();
+    };
+    newBucket.cassign = (toValue) => {
+        newBucket.store = {
+            state: Object.assign(
+                {},
+                newBucket.store.state,
+                structuredClone(toValue)
+            ),
         };
         newBucket.emit();
     };
@@ -91,4 +108,29 @@ export function useBucketSelector(bucket, selector, comparator) {
         getSnapshot
     );
     return newState;
+}
+
+export function useBucketSelectorX(bucket, selector, comparator) {
+    let currentStore = useRef(selector(bucket._get().state));
+    const getSnapshot = () => selector(bucket._get().state);
+    let newState = useSyncExternalStore(
+        useCallback(
+            (cb) =>
+                bucket.subscribe((store) => {
+                    const nextState = selector(store.state); //selector(store.state || {});
+                    if (
+                        comparator &&
+                        comparator(currentStore.current, nextState)
+                    )
+                        return;
+                    if (!comparator && currentStore.current === nextState)
+                        return;
+                    currentStore.current = structuredClone(nextState);
+                    cb();
+                }),
+            []
+        ),
+        getSnapshot
+    );
+    return [newState];
 }

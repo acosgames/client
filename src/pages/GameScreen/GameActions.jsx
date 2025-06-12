@@ -34,7 +34,7 @@ export default function GameActions() {
     const mode = room.mode;
 
     let gamestate = gamepanel.gamestate;
-    let events = gamestate?.events || {};
+    let events = gamestate?.room?.events || {};
     let roomStatus = getRoomStatus(room_slug);
     let isGameover =
         roomStatus == "GAMEOVER" ||
@@ -68,8 +68,7 @@ export default function GameActions() {
     };
 
     const handleJoin = async () => {
-        if (room.maxplayers == 1)
-            btShowLoadingBox.assign({ [gamepanel.id]: true });
+        if (room.maxplayers == 1) btShowLoadingBox.assign({ [gamepanel.id]: true });
 
         btDisplayMode.set("none");
         clearRoom(room_slug);
@@ -145,10 +144,9 @@ export default function GameActions() {
 
                         bgColor={"gray.1000"}
                         transform="skew(-15deg)"
-                        boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
+                        boxShadow="3px 3px 0 var(--chakra-colors-alt-300)"
                         _hover={{
-                            boxShadow:
-                                "5px 3px 0 var(--chakra-colors-brand-300)",
+                            boxShadow: "5px 3px 0 var(--chakra-colors-alt-300)",
                         }}
                         onClick={handleJoin}
                     >

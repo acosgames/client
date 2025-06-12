@@ -395,8 +395,8 @@ export function isNextTeam(gamepanel, userid) {
     if (!gamestate) return;
 
     userid = userid || local?.id;
-    let next = gamestate?.next;
-    let nextid = next?.id;
+    let nextid = gamestate?.room?.next;
+    // let nextid = next?.id;
     let room = gamestate.room;
 
     if (room?.status == "pregame") return true;

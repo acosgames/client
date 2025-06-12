@@ -40,7 +40,7 @@ export default function GameHeader({}) {
     if (game.preview_images && game.preview_images.length > 0)
         imgUrl = `${config.https.cdn}g/${game.game_slug}/preview/${game.preview_images}`;
 
-    let bgImgUrl = config.https.cdn + "images/bg/gamepage-bg1.jpg";
+    let bgImgUrl = config.https.cdn + "images/bg/gamepage-bg4.jpg";
 
     let queue = {};
     for (let i = 0; i < queues.length; i++) {
@@ -59,7 +59,10 @@ export default function GameHeader({}) {
             transformOrigin={"center"}
             minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}
             w={["100%"]}
-            backgroundImage={`url(${bgImgUrl})`}
+            backgroundImage={` linear-gradient(
+          rgba(0, 0, 0, 0.8), 
+          rgba(0, 0, 0, 0.8)
+        ), url(${bgImgUrl})`}
             backgroundPosition={"center"}
             backgroundSize={"cover"}
             justifyContent={"center"}
@@ -124,25 +127,19 @@ function GameHeaderDesktop({ game, imgUrl }) {
                     // pt="3rem"
                     // pl={['0', '0', '3rem', '6rem', '12rem']}
                     alignItems={["center", "center", "center", "center"]}
-                    templateColumns={[
-                        "100%",
-                        "100%",
-                        "100%",
-                        "80% 20%",
-                        "80% 20%",
-                    ]}
+                    templateColumns={["100%", "100%", "100%"]}
                 >
                     <GridItem
                         w={["100%"]}
-                        display={["flex", "flex", "flex", "none"]}
+                        display={["flex", "flex", "flex"]}
                         justifyContent={"center"}
                         pt="3rem"
                         pb="1rem"
                     >
                         <Box
                             position="relative"
-                            w={["12rem", "12rem", "12rem"]}
-                            h={["12rem", "12rem", "12rem"]}
+                            w={["16rem"]}
+                            h={["16rem", "16rem", "16rem"]}
                             className="gameinfo-image"
                         >
                             <MemoImage imgUrl={imgUrl} />
@@ -150,12 +147,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                     </GridItem>
 
                     <GridItem
-                        alignItems={[
-                            "center",
-                            "center",
-                            "center",
-                            "flex-start",
-                        ]}
+                        alignItems={["center", "center", "center"]}
                         justifyContent={"flex-start"}
                         // spacing={["1rem", "1rem"]}
                         mb="1rem"
@@ -163,26 +155,15 @@ function GameHeaderDesktop({ game, imgUrl }) {
                         w={["auto", "auto", "auto", "100%", "100%"]}
                     >
                         <VStack
-                            alignItems={[
-                                "center",
-                                "center",
-                                "center",
-                                "flex-start",
-                            ]}
+                            alignItems={["center", "center", "center"]}
                             spacing={["0rem", "0rem", "0rem", "0rem"]}
                         >
                             <Heading
                                 color="gray.0"
-                                fontSize={[
-                                    "3rem",
-                                    "3rem",
-                                    "3rem",
-                                    "3.4rem",
-                                    "4rem",
-                                ]}
+                                fontSize={["3rem", "3rem", "3rem", "3.4rem", "4rem"]}
                                 lineHeight={["4rem", "3rem", "3rem", "4rem"]}
                                 textTransform={"uppercase"}
-                                letterSpacing={"1px"}
+                                letterSpacing={"0px"}
                                 whiteSpace={"nowrap"}
                                 overflow="hidden"
                                 position="relative"
@@ -191,12 +172,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 h={["4rem", "3rem", "3rem", "4rem"]}
                                 pr="1rem"
                                 title={game.name}
-                                textAlign={[
-                                    "center",
-                                    "center",
-                                    "center",
-                                    "left",
-                                ]}
+                                textAlign={["center", "center", "center"]}
                                 transformOrigin="center"
                             >
                                 {game.name || "    "}
@@ -204,14 +180,9 @@ function GameHeaderDesktop({ game, imgUrl }) {
 
                             <Box>
                                 <Text
-                                    color="gray.20"
+                                    color="brand.75"
                                     as="span"
-                                    fontSize={[
-                                        "1.2rem",
-                                        "1.2rem",
-                                        "1.2rem",
-                                        "1.4rem",
-                                    ]}
+                                    fontSize={["1.2rem", "1.2rem", "1.2rem", "1.4rem"]}
                                     pt="0"
                                     fontWeight={"400"}
                                     mr="0.25rem"
@@ -221,16 +192,11 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 <Link to={"/profile/" + game.displayname}>
                                     <Text
                                         as="span"
-                                        fontSize={[
-                                            "1.2rem",
-                                            "1.2rem",
-                                            "1.2rem",
-                                            "1.4rem",
-                                        ]}
-                                        color="brand.200"
+                                        fontSize={["1.2rem", "1.2rem", "1.2rem", "1.4rem"]}
+                                        color="brand.75"
                                         letterSpacing={"1px"}
                                         pt="0"
-                                        fontWeight={"500"}
+                                        fontWeight={"600"}
                                     >
                                         {game.displayname || "Loading..."}
                                     </Text>
@@ -241,34 +207,21 @@ function GameHeaderDesktop({ game, imgUrl }) {
                             pt="1rem"
                             w="100%"
                             flex="1"
-                            justify={[
-                                "center",
-                                "center",
-                                "center",
-                                "flex-start",
-                            ]}
+                            justify={["center", "center", "center"]}
                             align={"center"}
                         >
                             {hasOpenSource && (
                                 <GameInfoTag
-                                    to={
-                                        "https://github.com/acosgames/" +
-                                        game.game_slug
-                                    }
+                                    to={"https://github.com/acosgames/" + game.game_slug}
                                     title="view code"
                                 />
                             )}
-                            {hasMultiplayerTopScore && (
-                                <GameInfoTag title="highscore" />
-                            )}
+                            {hasMultiplayerTopScore && <GameInfoTag title="highscore" />}
                             {hasTeams && <GameInfoTag title="teams" />}
                             <GameInfoTag title="replays" />
 
                             <Box ml="1rem">
-                                <IconButton
-                                    color="brand.300"
-                                    icon={<FaHeart />}
-                                />
+                                <IconButton color="red.600" icon={<FaHeart />} />
                             </Box>
                             <VStack spacing="0" ml="1rem">
                                 <GameMenu game={game} />
@@ -280,27 +233,17 @@ function GameHeaderDesktop({ game, imgUrl }) {
                         <HStack
                             px={["1rem", "1rem", "1rem", 0]}
                             w="100%"
-                            mt="4rem"
+                            mt="2rem"
                             gap="4rem"
-                            justifyContent={[
-                                "center",
-                                "center",
-                                "center",
-                                "flex-start",
-                            ]}
+                            justifyContent={["center", "center", "center"]}
                         >
-                            <HStack
+                            {/* <HStack
                                 borderRadius="8px"
                                 p="1rem"
                                 gap="1rem"
-                                bgColor="rgba(0,0,0,0.5)"
+                                bgColor="rgba(0,0,0,0.8)"
                             >
-                                <Icon
-                                    as={FaRegClock}
-                                    color="gray.10"
-                                    width="3rem"
-                                    height="3rem"
-                                />
+                                <Icon as={FaRegClock} color="gray.10" width="3rem" height="3rem" />
                                 <VStack alignItems={"flex-start"} gap="0">
                                     <Heading
                                         as="span"
@@ -322,20 +265,15 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                         </Text>
                                     </Heading>
                                 </VStack>
-                            </HStack>
+                            </HStack> */}
 
                             <HStack
                                 borderRadius="8px"
                                 p="1rem"
                                 gap="1rem"
-                                bgColor="rgba(0,0,0,0.5)"
+                                bgColor="rgba(0,0,0,0.8)"
                             >
-                                <Icon
-                                    as={FaUsers}
-                                    color="gray.10"
-                                    width="3rem"
-                                    height="3rem"
-                                />
+                                <Icon as={FaUsers} color="gray.10" width="3rem" height="3rem" />
                                 <VStack alignItems={"flex-start"} gap="0">
                                     <Heading
                                         as="span"
@@ -360,7 +298,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                             </HStack>
                         </HStack>
                     </GridItem>
-                    <GridItem>
+                    {/* <GridItem>
                         <HStack
                             w={["100%", "100%", "100%", "100%"]}
                             display={["none", "none", "none", "flex"]}
@@ -368,26 +306,14 @@ function GameHeaderDesktop({ game, imgUrl }) {
                         >
                             <Box
                                 position="relative"
-                                w={[
-                                    "12rem",
-                                    "12rem",
-                                    "12rem",
-                                    "20rem",
-                                    "24rem",
-                                ]}
-                                h={[
-                                    "12rem",
-                                    "12rem",
-                                    "12rem",
-                                    "20rem",
-                                    "24rem",
-                                ]}
+                                w={["12rem", "12rem", "12rem", "20rem", "24rem"]}
+                                h={["12rem", "12rem", "12rem", "20rem", "24rem"]}
                                 className="gameinfo-image"
                             >
                                 <MemoImage imgUrl={imgUrl} />
                             </Box>
                         </HStack>
-                    </GridItem>
+                    </GridItem> */}
                 </Grid>
             </HStack>
         </HStack>

@@ -93,7 +93,7 @@ export default function ChatPanel({}) {
                     border="1px solid"
                     zIndex="2"
                     borderColor="gray.925"
-                    bgColor="gray.900"
+                    // bgColor="gray.900"
                     pt="0.25rem"
                     // boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
                 >
@@ -128,8 +128,7 @@ function ChatMessages({ scrollRef }) {
     let messages = getChatMessages("chat");
 
     useEffect(() => {
-        if (scrollRef.current)
-            scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
+        if (scrollRef.current) scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
     });
 
     if (!messages) return <></>;

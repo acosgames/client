@@ -22,13 +22,7 @@ import { useState } from "react";
 
 const ChakraLink = chakra(Link);
 import { motion } from "framer-motion";
-export default function ChatMessage({
-    portraitid,
-    countrycode,
-    displayname,
-    timestamp,
-    message,
-}) {
+export default function ChatMessage({ portraitid, countrycode, displayname, timestamp, message }) {
     let [showTime, setShowTime] = useState(false);
 
     let filename = `assorted-${portraitid || 1}-thumbnail.webp`;
@@ -149,16 +143,30 @@ export default function ChatMessage({
                     spacing="0"
                     pl="0.5rem"
                 >
-                    <VStack>
+                    <VStack position="relative">
                         {/* <ChakraLink to={"/profile/" + username}> */}
                         <Image
                             display="inline-block"
                             src={`${config.https.cdn}images/portraits/${filename}`}
                             loading="lazy"
                             verticalAlign={"middle"}
-                            borderRadius={"8px"}
+                            borderRadius={"50%"}
                             width={["5rem"]}
                             minWidth="5rem"
+                        />
+
+                        <Image
+                            src={`${config.https.cdn}images/country/${countrycode}.svg`}
+                            // mt="0.5rem"
+                            borderColor="gray.100"
+                            borderRadius="3px"
+                            w="1.8rem"
+                            h="1.35rem"
+                            filter="opacity(0.9)"
+                            position="absolute"
+                            top="-0.25rem"
+                            right="-0.25rem"
+                            zIndex="3"
                         />
 
                         {/* </ChakraLink> */}
@@ -178,7 +186,7 @@ export default function ChatMessage({
                                 as="span"
                                 fontSize="1.2rem"
                                 fontWeight="500"
-                                color="gray.50"
+                                color="gray.0"
                                 pr="0.5rem"
                                 lineHeight="2rem"
                                 overflow="hidden"
@@ -189,7 +197,7 @@ export default function ChatMessage({
                                 {displayname}
                             </Text>
 
-                            <Image
+                            {/* <Image
                                 src={`${config.https.cdn}images/country/${countrycode}.svg`}
                                 // mt="0.5rem"
                                 // ml="0.25rem"
@@ -200,7 +208,7 @@ export default function ChatMessage({
                                 w="1.8rem"
                                 h="1.35rem"
                                 filter="opacity(0.8)"
-                            />
+                            /> */}
                             <Box flex="1" h="2rem" w="0.1rem"></Box>
                             {/* </ChakraLink> */}
                             <Text
@@ -211,7 +219,7 @@ export default function ChatMessage({
                                 // alignSelf="flex-end"
                                 // justifySelf={"flex-end"}
                                 fontSize="1rem"
-                                fontWeight="light"
+                                fontWeight="400"
                                 color="gray.100"
                                 // height="1rem"
                                 // lineHeight={"1rem"}
@@ -240,7 +248,7 @@ export default function ChatMessage({
                                 fontSize="1.2rem"
                                 fontWeight="medium"
                                 lineHeight="1.5rem"
-                                color="gray.0"
+                                color="brand.75"
                                 wordBreak={"break-word"}
                                 pr="1.5rem"
                                 pb="0.5rem"
@@ -281,12 +289,7 @@ function ChatMessageMenu() {
                 //   "drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200))"
                 // }
             />
-            <MenuList
-                zIndex={3}
-                borderColor="gray.900"
-                bgColor="gray.975"
-                fontSize="1.2rem"
-            >
+            <MenuList zIndex={3} borderColor="gray.900" bgColor="gray.975" fontSize="1.2rem">
                 <MenuOptionGroup
                     color="gray.0"
                     fontWeight={"500"}

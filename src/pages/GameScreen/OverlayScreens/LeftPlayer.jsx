@@ -4,11 +4,7 @@ import config from "../../../config";
 import ratingconfig from "../../../actions/ratingconfig";
 import { FaCheck } from "react-icons/fa";
 import { motion } from "framer-motion";
-import {
-    btGamePanels,
-    btScreenResized,
-    btUser,
-} from "../../../actions/buckets";
+import { btGamePanels, btScreenResized, btUser } from "../../../actions/buckets";
 import { useBucket, useBucketSelector } from "../../../actions/bucket";
 
 const MotionHStack = motion(HStack);
@@ -39,24 +35,27 @@ export default function LeftPlayer({
             position="relative"
             justifyContent={"center"}
             spacing="0"
-            initial={initial || { x: isLeft ? "-50vw" : "50vw" }}
+            initial={initial || { x: isLeft ? "-20vw" : "20vw" }}
             animate={animate || { x: 0 }}
-            transition={transition || { duration: 0.3, delay: 0.4 }}
+            transition={transition || { duration: 0.3, delay: 0.1 }}
             overflow="hidden"
             zIndex="1"
-            boxShadow={
-                user.displayname == player.displayname && !ignoreLocal
-                    ? isLeft
-                        ? "0 0 10px var(--chakra-colors-gray-100)"
-                        : "0 0 10px var(--chakra-colors-gray-500)"
-                    : "gray.1200"
-            }
+            // boxShadow={
+            //     user.displayname == player.displayname && !ignoreLocal
+            //         ? isLeft
+            //             ? "0 0 10px var(--chakra-colors-gray-100)"
+            //             : "0 0 10px var(--chakra-colors-gray-500)"
+            //         : "gray.1200"
+            // }
         >
             <Image
                 display="inline-block"
                 src={`${config.https.cdn}images/portraits/${filename}`}
                 loading="lazy"
                 maxHeight="100%"
+                borderRadius={"50%"}
+                // borderRadiusTopLeft={"50%"}
+                // borderRadiusBottomLeft={"50%"}
                 height={["9rem"]}
                 position="relative"
                 zIndex="2"
@@ -73,37 +72,27 @@ export default function LeftPlayer({
                     minHeight="5rem"
                     p="1rem"
                     spacing="0"
-                    bgColor="gray.1200"
+                    bgColor="gray.600"
                 >
                     <Text
                         as="span"
                         pr="1rem"
                         textAlign={"center"}
-                        color={
-                            user.displayname == player.displayname
-                                ? "brand.900"
-                                : "gray.0"
-                        }
+                        color={"gray.10"}
+                        // color={user.displayname == player.displayname ? "brand.900" : "gray.0"}
                         fontWeight="400"
                         fontSize={["1.4rem", "1.8rem", "1.8rem", "2rem"]}
-                        letterSpacing={"-1px"}
+                        letterSpacing={"0px"}
                         fontStyle="italic"
                         maxW={["20rem", "22rem", "25rem", "30rem"]}
                         overflow="hidden"
                         whiteSpace={"nowrap"}
                         textOverflow={"ellipsis"}
-                        textShadow={
-                            "0 2px 3px var(--chakra-colors-gray-900),0 2px 6px var(--chakra-colors-gray-900)"
-                        }
+                        textShadow={"0 1px 4px var(--chakra-colors-gray-900)"}
                     >
                         {player.displayname}
                     </Text>
-                    <HStack
-                        spacing="1rem"
-                        justifyContent={"flex-start"}
-                        width="2rem"
-                        minW="2rem"
-                    >
+                    <HStack spacing="1rem" justifyContent={"flex-start"} width="2rem" minW="2rem">
                         <Image
                             src={`${config.https.cdn}images/country/${player.countrycode}.svg`}
                             borderColor="gray.100"
@@ -136,10 +125,7 @@ export default function LeftPlayer({
                             textTransform="uppercase"
                             fontSize="2.2rem"
                             color="gray.10"
-                            textShadow={`2px 2px 2px var(--chakra-colors-gray-200),
-                        -2px 2px 2px var(--chakra-colors-gray-200),
-                        2px -2px 2px var(--chakra-colors-gray-200),
-                        -2px -2px 2px var(--chakra-colors-gray-200)`}
+                            textShadow={`-2px -2px 2px var(--chakra-colors-gray-500)`}
                             fontWeight="bold"
                             letterSpacing="0px"
                             textAlign="center"
@@ -160,12 +146,7 @@ export default function LeftPlayer({
                             {player.rating}
                         </Text>
                     </VStack>
-                    <VStack
-                        flex="1"
-                        w="100%"
-                        alignItems="flex-end"
-                        justifyContent={"center"}
-                    >
+                    <VStack flex="1" w="100%" alignItems="flex-end" justifyContent={"center"}>
                         <Icon
                             display={player.ready ? "block" : "none"}
                             as={FaCheck}
@@ -174,7 +155,7 @@ export default function LeftPlayer({
                             mr="1rem"
                             // mr="2rem"
                             filter={
-                                "drop-shadow(0 0 4px var(--chakra-colors-brand-100)) drop-shadow(0 0 1px var(--chakra-colors-brand-100))"
+                                "drop-shadow(0 0 1px var(--chakra-colors-brand-100)) drop-shadow(0 0 1px var(--chakra-colors-brand-800))"
                             }
                         />
                     </VStack>

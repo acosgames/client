@@ -355,7 +355,7 @@ export function addRoom(msg) {
     gamepanel = reserveGamePanel();
     gamepanel.room = msg.room;
     if (msg.room.isReplay) {
-        gamepanel.gamestate = msg.payload[0].payload;
+        gamepanel.gamestate = msg.payload[1].payload;
         gamepanel.room.history = msg.payload;
     } else {
         gamepanel.gamestate = msg.payload;
@@ -450,20 +450,20 @@ export function processsRoomStatus(gamepanel) {
         return "NOTEXIST";
     }
 
-    if (gamestate?.events?.gameover) {
+    if (gamestate?.room?.events?.gameover) {
         return "GAMEOVER";
     }
-    if (gamestate?.events?.gamecancelled) {
+    if (gamestate?.room?.events?.gamecancelled) {
         return "GAMECANCELLED";
     }
-    if (gamestate?.events?.gameerror) {
+    if (gamestate?.room?.events?.gameerror) {
         return "GAMEERROR";
     }
-    if (gamestate?.events?.error) {
+    if (gamestate?.room?.events?.error) {
         return "ERROR";
     }
 
-    if (gamestate?.events?.noshow) {
+    if (gamestate?.room?.events?.noshow) {
         return "NOSHOW";
     }
 
@@ -484,13 +484,13 @@ export function isNextTeam(gamepanel, userid) {
     if (!gamestate) return;
 
     userid = userid || local?.id;
-    let next = gamestate?.next;
-    let nextid = next?.id;
+    // let nextid = next?.id;
     let room = gamestate.room;
 
     if (room?.status == "pregame") return true;
 
-    if (!next || !nextid) return false;
+    let nextid = gamestate?.room?.next_id;
+    if (!nextid) return false;
 
     if (!gamestate.state) return false;
 
@@ -541,13 +541,13 @@ export function isUserNext(gamestate, userid) {
     if (!gamestate) return false;
 
     // userid = userid || user.shortid;
-    let next = gamestate?.next;
-    let nextid = next?.id;
+    // let nextid = next?.id;
     let room = gamestate.room;
 
     if (room?.status != "gamestart") return false;
 
-    if (!next || !nextid) return false;
+    let nextid = gamestate?.room?.next_id;
+    if (!nextid) return false;
 
     if (!gamestate.state) return false;
 

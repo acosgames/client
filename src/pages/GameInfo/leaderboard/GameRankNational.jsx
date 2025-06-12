@@ -21,10 +21,7 @@ import {
 import { Link } from "react-router-dom";
 
 import { useEffect, useMemo } from "react";
-import {
-    findGameRankGlobal,
-    findGameRankNational,
-} from "../../../actions/game";
+import { findGameRankGlobal, findGameRankNational } from "../../../actions/game";
 import { PlayerRanking } from "./PlayerRank";
 import { RankingList } from "./RankingList";
 import { LeaderboardHeading } from "./LeaderboardHeading";
@@ -46,9 +43,7 @@ export default function GameRankNational({ game_slug, countrycode }) {
 
     countrycode = countryChanged?.value || countrycode || "US";
 
-    return (
-        <GameRankNationalView game_slug={game_slug} countrycode={countrycode} />
-    );
+    return <GameRankNationalView game_slug={game_slug} countrycode={countrycode} />;
 }
 
 function GameRankNationalView({ game_slug, countrycode }) {
@@ -82,12 +77,7 @@ function GameRankNationalView({ game_slug, countrycode }) {
 
         if (!leaderboard || leaderboard.length == 0) {
             return (
-                <Text
-                    fontSize="1.6rem"
-                    align="center"
-                    display={"block"}
-                    color="gray.10"
-                >
+                <Text fontSize="1.6rem" align="center" w="100%" display={"block"} color="gray.10">
                     No rankings found.
                 </Text>
             );
@@ -125,9 +115,7 @@ function GameRankNationalView({ game_slug, countrycode }) {
     return (
         <Box w="100%" maxW={["100%", "100%"]} pt="0" pb="2rem">
             <VStack w="100%" spacing="0" alignItems={"flex-start"}>
-                <LeaderboardHeading
-                    subtitle={(game?.season || "Season 0") + " "}
-                >
+                <LeaderboardHeading subtitle={(game?.season || "Season 0") + " "}>
                     National Leaderboard
                 </LeaderboardHeading>
                 <VStack
@@ -142,13 +130,7 @@ function GameRankNationalView({ game_slug, countrycode }) {
                     borderRadius="8px"
                     w="30rem"
                 >
-                    <Text
-                        pl="0"
-                        as="span"
-                        fontSize="1.2rem"
-                        color="gray.50"
-                        fontWeight="500"
-                    >
+                    <Text pl="0" as="span" fontSize="1.2rem" color="gray.50" fontWeight="500">
                         By Country
                     </Text>
                     <ChooseCountry />

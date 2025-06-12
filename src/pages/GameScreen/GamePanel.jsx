@@ -51,14 +51,8 @@ import {
 
 function GamePanel(props) {
     let key = "gamepanel/" + props.id;
-    let gamepanel = useBucketSelector(
-        btGamePanels,
-        (bucket) => bucket[props.id]
-    );
-    let loaded = useBucketSelector(
-        btShowLoadingBox,
-        (bucket) => bucket[props.id]
-    );
+    let gamepanel = useBucketSelector(btGamePanels, (bucket) => bucket[props.id]);
+    let loaded = useBucketSelector(btShowLoadingBox, (bucket) => bucket[props.id]);
 
     // const isBack = useBackButton(() => {
     //     if (gamepanel.isPrimary && gamepanel.room.isReplay) {
@@ -158,9 +152,7 @@ function GameIFrame(props) {
     };
 
     const onResize = () => {
-        let showLoading = btShowLoadingBox.get(
-            (bucket) => bucket[gamepanel.id]
-        );
+        let showLoading = btShowLoadingBox.get((bucket) => bucket[gamepanel.id]);
         if (!gamescreenRef?.current || !iframeRef?.current) {
             // console.log("NOT FOUND - gamescreenRef or iframeRef or loadingBox");
             return;
@@ -179,9 +171,7 @@ function GameIFrame(props) {
         // let windowHeight = isFullscreen ? window.screen.height : gamewrapperRef.current.offsetHeight;
 
         var w =
-            window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth;
+            window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
         var h =
             window.innerHeight ||
@@ -238,7 +228,7 @@ function GameIFrame(props) {
 
         if (gamepanel.isPrimary && gamepanel?.room?.isReplay) {
             if (windowHeight > h - 40) {
-                windowHeight = h - 40;
+                // windowHeight = h - 40;
             }
         }
         // }
@@ -291,7 +281,7 @@ function GameIFrame(props) {
 
         let oldHeight = gamescreenRef.current.style.height;
 
-        if (screentype == "3") {
+        if (!screentype || screentype == "3") {
             gamescreenRef.current.style.width = bgWidth + "px";
             gamescreenRef.current.style.height = bgHeight + "px";
             scale = bgWidth / screenwidth;
@@ -443,11 +433,7 @@ function GameIFrame(props) {
                     position="absolute"
                     bottom="1rem"
                     right="1rem"
-                    display={
-                        props.isFullScreen || displayMode == "theatre"
-                            ? "block"
-                            : "none"
-                    }
+                    display={props.isFullScreen || displayMode == "theatre" ? "block" : "none"}
                 >
                     <IconButton
                         fontSize={"2rem"}

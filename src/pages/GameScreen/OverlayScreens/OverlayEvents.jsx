@@ -1,14 +1,4 @@
-import {
-    Box,
-    Grid,
-    GridItem,
-    HStack,
-    Heading,
-    Icon,
-    Image,
-    Text,
-    VStack,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, HStack, Heading, Icon, Image, Text, VStack } from "@chakra-ui/react";
 import config from "../../../config";
 import {
     getGamePanel,
@@ -45,8 +35,7 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
 
     let gamepanel = getGamePanel(gamepanelid);
 
-    if (!showPregameOverlay || !gamepanel)
-        return <AnimatePresence></AnimatePresence>;
+    if (!showPregameOverlay || !gamepanel) return <AnimatePresence></AnimatePresence>;
 
     if (gamepanel.room.maxplayers == 1) {
         return <AnimatePresence></AnimatePresence>;
@@ -62,7 +51,7 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
     timeleft = Math.ceil(timeleft / 1000);
 
     let gamestate = gamepanel.gamestate;
-    let events = gamestate?.events;
+    let events = gamestate?.room?.events;
     let players = gamestate.players;
     let teams = gamestate.teams;
 
@@ -168,14 +157,7 @@ const MotionBox = motion(Box);
 // );
 const MotionVStack = motion(VStack);
 function OverlayGameOver({ gamepanel, players, teams, status }) {
-    return (
-        <ModalGameOver
-            gamepanel={gamepanel}
-            players={players}
-            teams={teams}
-            status={status}
-        />
-    );
+    return <ModalGameOver gamepanel={gamepanel} players={players} teams={teams} status={status} />;
     return (
         <MotionVStack
             position="relative"
@@ -224,24 +206,10 @@ function OverlayGameOver({ gamepanel, players, teams, status }) {
 function OverlayPregame({ gamepanel, players, teams, status }) {
     let room = gamepanel?.room;
     if (room && room.maxplayers > 2) {
-        return (
-            <PregameFFA
-                gamepanel={gamepanel}
-                players={players}
-                teams={teams}
-                status={status}
-            />
-        );
+        return <PregameFFA gamepanel={gamepanel} players={players} teams={teams} status={status} />;
     }
     if (Object.keys(players).length == 2) {
-        return (
-            <PregameVs2
-                gamepanel={gamepanel}
-                players={players}
-                teams={teams}
-                status={status}
-            />
-        );
+        return <PregameVs2 gamepanel={gamepanel} players={players} teams={teams} status={status} />;
     }
 
     return <HStack></HStack>;
@@ -253,10 +221,7 @@ function PregameFFA({ gamepanel, players, teams, status }) {
     let rightPlayer = playersList[1];
 
     let imgUrl = config.https.cdn + "placeholder.png";
-    if (
-        gamepanel.room.preview_images &&
-        gamepanel.room.preview_images.length > 0
-    )
+    if (gamepanel.room.preview_images && gamepanel.room.preview_images.length > 0)
         imgUrl = `${config.https.cdn}g/${gamepanel.room.game_slug}/preview/${gamepanel.room.preview_images}`;
 
     const MotionImage = motion(Image);
@@ -274,7 +239,7 @@ function PregameFFA({ gamepanel, players, teams, status }) {
             // bgColor="rgba(0,0,0,0.9)"
             filter="opacity(0)"
             animation="fadeIn 0.3s forwards"
-            bg={`url("${config.https.cdn}acos-logo-generated-3.png") top 3rem left, linear-gradient(to bottom, var(--chakra-colors-gray-900), var(--chakra-colors-gray-1000))`}
+            bg={`url("${config.https.cdn}acos-logo-2025.webp") top 3rem left, linear-gradient(to bottom, var(--chakra-colors-gray-900), var(--chakra-colors-gray-1000))`}
         >
             <PregameTimer gamepanel={gamepanel} status={status} />
             <CompetitiveHeading />
@@ -344,21 +309,12 @@ function PregameVs2({ gamepanel, players, teams, status }) {
                 h="50%"
                 zIndex="5"
                 justifyContent={["center", "center", "center", "center"]}
-                alignItems={[
-                    "flex-start",
-                    "flex-start",
-                    "flex-start",
-                    "center",
-                ]}
+                alignItems={["flex-start", "flex-start", "flex-start", "center"]}
                 // pl={["1rem", "1rem", "4rem", "4rem"]}
                 // pb={["4rem", "4rem", "4rem", "4rem"]}
                 pl={["1rem", "10%", "2rem", "0"]}
             >
-                <LeftPlayer
-                    shortid={leftPlayer}
-                    isLeft={true}
-                    gamepanelid={gamepanel.id}
-                />
+                <LeftPlayer shortid={leftPlayer} isLeft={true} gamepanelid={gamepanel.id} />
             </VStack>
             <Vs status={status} />
             <VStack
@@ -400,31 +356,70 @@ function GameName({ name }) {
 }
 function CompetitiveHeading({}) {
     return (
-        <MotionBox
-            position="absolute"
-            bottom="0"
-            left="0"
-            zIndex="1"
-            // transform="translate(-50%,0)"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.1 }}
-        >
-            <Heading
-                as="h1"
-                color="gray.60"
-                letterSpacing={"-2px"}
-                lineHeight="5rem"
-                fontSize={["5rem"]}
-                fontWeight="500"
-                fontStyle={"italic"}
-                background="linear-gradient(to bottom,  var(--chakra-colors-gray-30) 60%, var(--chakra-colors-gray-800))"
-                backgroundClip="text"
-                // textFillColor="transparent"
-                className="versusText"
-                pr="1rem"
+        <>
+            <MotionBox
+                position="absolute"
+                width="100%"
+                height="100%"
+                bottom="0%"
+                left="0%"
+                zIndex="1"
+                // transform="translate(-50%,0)"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.02 }}
             >
-                COMPETITIVE
-            </Heading>
-        </MotionBox>
+                <Heading
+                    as="h1"
+                    color="gray.60"
+                    letterSpacing={"-2px"}
+                    lineHeight="10rem"
+                    fontSize={["800%"]}
+                    fontWeight="500"
+                    fontStyle={"italic"}
+                    background="linear-gradient(to bottom,  var(--chakra-colors-gray-30) 60%, var(--chakra-colors-gray-800))"
+                    backgroundClip="text"
+                    // textFillColor="transparent"
+                    transform="rotate(-30deg)"
+                    className="versusText"
+                    pr="1rem"
+                    position="absolute"
+                    width="100%"
+                    height="10rem"
+                    textAlign={"center"}
+                    left="0"
+                    top="calc(50% - 5rem)"
+                    display="block"
+                >
+                    COMPETITIVE
+                </Heading>
+            </MotionBox>
+
+            {/* <MotionBox
+                position="absolute"
+                top="50%"
+                right="5%"
+                zIndex="1"
+                // transform="translate(-50%,0)"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.05 }}
+            >
+                <Heading
+                    as="h1"
+                    color="gray.60"
+                    letterSpacing={"-2px"}
+                    lineHeight="3rem"
+                    fontSize={["3rem"]}
+                    fontWeight="500"
+                    fontStyle={"italic"}
+                    background="linear-gradient(to bottom,  var(--chakra-colors-gray-30) 60%, var(--chakra-colors-gray-800))"
+                    backgroundClip="text"
+                    // textFillColor="transparent"
+                    className="versusText"
+                    pr="1rem"
+                >
+                    COMPETITIVE
+                </Heading>
+            </MotionBox> */}
+        </>
     );
 }

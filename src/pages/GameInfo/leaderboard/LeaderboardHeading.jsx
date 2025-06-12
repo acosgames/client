@@ -12,12 +12,7 @@ export function LeaderboardHeading({ subtitle, caption, children }) {
             // bgColor="gray.875"
             // bg="linear-gradient(to right, var(--chakra-colors-gray-1200) 75%, var(--chakra-colors-gray-875))"
         >
-            <Heading
-                fontSize={["2.4rem"]}
-                fontWeight="700"
-                color="gray.0"
-                lineHeight={"3.2rem"}
-            >
+            <Heading fontSize={["2.4rem"]} fontWeight="700" color="gray.0" lineHeight={"3.2rem"}>
                 {children}
             </Heading>
             {subtitle && (
@@ -49,7 +44,31 @@ export function LeaderboardHeading({ subtitle, caption, children }) {
     );
 }
 
+function indicator(i) {
+    i = Math.abs(i);
+    const cent = i % 100;
+    if (cent >= 10 && cent <= 20) return "th";
+    const dec = i % 10;
+    if (dec === 1) return "st";
+    if (dec === 2) return "nd";
+    if (dec === 3) return "rd";
+    return "th";
+}
+
 export function TopRankNumber({ rank }) {
+    if (rank > 4) {
+        return <Text as="span">{rank}</Text>;
+    }
+    return (
+        <>
+            <Text as="span" fontSize="1.6rem">
+                {rank}
+            </Text>
+            <Text as="span" fontSize="1rem" pl="0.1rem" position="relative" bottom="0.1rem">
+                {indicator(rank)}
+            </Text>
+        </>
+    );
     if (rank == 1)
         return (
             <>

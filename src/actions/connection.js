@@ -25,12 +25,7 @@ import {
     updateGamePanel,
     updateRoomStatus,
 } from "./room";
-import {
-    addGameQueue,
-    clearGameQueues,
-    getJoinQueues,
-    onQueueStats,
-} from "./queue";
+import { addGameQueue, clearGameQueues, getJoinQueues, onQueueStats } from "./queue";
 // import { findGameLeaderboard, findGameLeaderboardHighscore } from "./game";
 import { addChatMessage } from "./chat";
 import { GET } from "./http";
@@ -91,28 +86,23 @@ export function timerLoop(cb) {
 
     for (let i = 0; i < gamepanels.length; i++) {
         let gamepanel = gamepanels[i];
-        if (
-            gamepanel.available ||
-            !gamepanel.gamestate ||
-            !gamepanel.loaded ||
-            !gamepanel.active
-        )
+        if (gamepanel.available || !gamepanel.gamestate || !gamepanel.loaded || !gamepanel.active)
             continue;
 
         let gamestate = gamepanel.gamestate || {};
 
-        let timer = gamestate.timer;
-        if (!timer) {
-            continue;
-        }
+        // let timer = gamestate.timer;
+        // if (!timer) {
+        //     continue;
+        // }
 
-        let deadline = timer.end;
+        let deadline = gamestate?.room?.timeend;
         if (!deadline) continue;
 
         if (
-            gamestate?.events?.gameover ||
-            gamestate?.events?.gamecancelled ||
-            gamestate?.events?.gameerror
+            gamestate?.room?.events?.gameover ||
+            gamestate?.room?.events?.gamecancelled ||
+            gamestate?.room?.events?.gameerror
         )
             continue;
 
@@ -196,20 +186,14 @@ export function sendFrameMessage(msg) {
 export function sendPauseMessage(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
     if (gamepanel && gamepanel.iframe?.current) {
-        gamepanel.iframe.current.contentWindow.postMessage(
-            { type: "pause" },
-            "*"
-        );
+        gamepanel.iframe.current.contentWindow.postMessage({ type: "pause" }, "*");
     }
 }
 
 export function sendUnpauseMessage(room_slug) {
     let gamepanel = findGamePanelByRoom(room_slug);
     if (gamepanel && gamepanel.iframe?.current) {
-        gamepanel.iframe.current.contentWindow.postMessage(
-            { type: "unpause" },
-            "*"
-        );
+        gamepanel.iframe.current.contentWindow.postMessage({ type: "unpause" }, "*");
     }
 }
 
@@ -258,11 +242,9 @@ export async function refreshGameState(room_slug) {
 }
 
 export function getFrameByEvent(event) {
-    return Array.from(document.getElementsByTagName("iframe")).filter(
-        (iframe) => {
-            return iframe.contentWindow === event.source;
-        }
-    )[0];
+    return Array.from(document.getElementsByTagName("iframe")).filter((iframe) => {
+        return iframe.contentWindow === event.source;
+    })[0];
 }
 
 export function replayPrevIndex(room_slug) {
@@ -309,8 +291,8 @@ export function replayNextIndex(room_slug) {
     let merged = gamepanel.gamestate;
     let copy = JSON.parse(JSON.stringify(history[nextId].payload));
 
-    if (merged?.events) {
-        merged.events = {};
+    if (merged?.room?.events) {
+        merged.room.events = {};
     }
     delta.merge(merged, copy);
 
@@ -318,7 +300,7 @@ export function replayNextIndex(room_slug) {
 
     // merged = { room_slug: history[nextId].room_slug, ...merged };
 
-    if (merged?.timer?.seconds) {
+    if (merged?.room?.timesec) {
         if (history.length > nextId + 1) {
             let nextHistory = history[nextId + 1];
             let nextCopy = JSON.parse(JSON.stringify(nextHistory.payload));
@@ -328,37 +310,35 @@ export function replayNextIndex(room_slug) {
             let nextUpdated = nextMerged.room.updated;
             let currentUpdated = merged.room.updated;
 
-            if (gamepanel.room.timerSequence != merged?.timer?.sequence) {
+            if (gamepanel.room.updated != merged?.room?.updated) {
                 let now = Date.now();
-                gamepanel.room.timerSequence = merged?.timer?.sequence || 0;
-                gamepanel.room.timerStarted = merged?.room?.updated || 0;
-                gamepanel.room.timerEnd = now + merged.timer.seconds * 1000;
+                // gamepanel.room.timerSequence = merged?.timer?.sequence || 0;
+                gamepanel.room.starttime = merged?.room?.starttime || 0;
+                gamepanel.room.endtime = now + merged?.room?.timesec * 1000;
             }
 
             replayTimerTriggerNext(room_slug, nextUpdated - currentUpdated);
         }
     }
 
-    merged.timer.end = gamepanel.room.timerEnd;
+    merged.room.timeend = gamepanel.room.endtime;
 
     let players = merged?.players;
     merged.local = players[gamepanel.room.replayFollow];
 
     gamepanel.room.replayIndex = gamepanel.room.replayIndex + 1;
-    gamepanel.gamestate = merged;
+    gamepanel.gamestate = structuredClone(merged);
     updateGamePanel(gamepanel);
     updateRoomStatus(room_slug);
 
-    if (iframe?.current?.contentWindow)
-        iframe.current.contentWindow.postMessage(merged, "*");
+    if (iframe?.current?.contentWindow) iframe.current.contentWindow.postMessage(merged, "*");
 }
 
 export function replayJumpToIndex(room_slug, startIndex) {
     let gamepanel = findGamePanelByRoom(room_slug);
     let iframe = gamepanel.iframe;
 
-    if (!iframe || !iframe.current || !iframe.current.contentWindow)
-        return false;
+    if (!iframe || !iframe.current || !iframe.current.contentWindow) return false;
 
     let history = gamepanel.room.history;
     if (!(history || history.length == 0)) {
@@ -366,10 +346,7 @@ export function replayJumpToIndex(room_slug, startIndex) {
         return false;
     }
 
-    if (
-        startIndex < gamepanel.room.replayStartIndex ||
-        startIndex >= history.length
-    ) {
+    if (startIndex < gamepanel.room.replayStartIndex || startIndex >= history.length) {
         return false;
     }
 
@@ -377,26 +354,25 @@ export function replayJumpToIndex(room_slug, startIndex) {
     }
 
     let merged = {};
-    gamepanel.room.timerSequence = -1;
-    gamepanel.room.timerEnd = 0;
-    for (let i = 0; i <= startIndex; i++) {
+    // gamepanel.room.timerSequence = -1;
+    // gamepanel.room.timeend = 0;
+    for (let i = 1; i <= startIndex; i++) {
         //skip first one if it has room metadata
         if (history[i].payload.gameid) {
             continue;
         }
 
         let copy = JSON.parse(JSON.stringify(history[i].payload));
-        if ("events" in merged) merged.events = {};
+        if ("events" in merged) merged.room.events = {};
         if ("action" in merged) {
             merged.action = [];
         }
 
         delta.merge(merged, copy);
 
-        if (gamepanel.room.timerSequence != merged?.timer?.sequence) {
-            gamepanel.room.timerSequence = merged?.timer?.sequence || 0;
-            gamepanel.room.timerEnd =
-                Date.now() + (merged?.timer?.seconds * 1000 || 0);
+        if (gamepanel.room.updated != merged?.room?.updated) {
+            // gamepanel.room.timerSequence = merged?.timer?.sequence || 0;
+            gamepanel.room.endtime = Date.now() + (merged?.room?.timesec * 1000 || 0);
         }
     }
 
@@ -411,16 +387,22 @@ export function replayJumpToIndex(room_slug, startIndex) {
         let nextUpdated = nextMerged.room.updated;
         let currentUpdated = merged.room.updated;
 
+        if (gamepanel.room.updated != merged?.room?.updated) {
+            let now = Date.now();
+            // gamepanel.room.timerSequence = merged?.timer?.sequence || 0;
+            gamepanel.room.starttime = merged?.room?.starttime || 0;
+            gamepanel.room.endtime = now + merged?.room?.timesec * 1000;
+        }
+
         replayTimerTriggerNext(room_slug, nextUpdated - currentUpdated);
     }
 
-    merged.timer.end = gamepanel.room.timerEnd;
+    merged.room.timeend = gamepanel.room.timeend;
 
     let players = merged?.players;
     if (!gamepanel.room.replayFollow) {
         let playerIds = Object.keys(players);
-        let randomPlayerId =
-            playerIds[Math.floor(Math.random() * playerIds.length)];
+        let randomPlayerId = playerIds[Math.floor(Math.random() * playerIds.length)];
 
         merged.local = players[randomPlayerId];
 
@@ -436,11 +418,13 @@ export function replayJumpToIndex(room_slug, startIndex) {
         }-medium.webp`;
     }
 
+    merged.room.timeend = gamepanel.room.endtime;
+
     gamepanel.room.replayIndex = startIndex;
-    gamepanel.gamestate = merged;
+    gamepanel.gamestate = structuredClone(merged);
     updateGamePanel(gamepanel);
     updateRoomStatus(room_slug);
-    iframe.current.contentWindow.postMessage(merged, "*");
+    if (iframe?.current?.contentWindow) iframe.current.contentWindow.postMessage(merged, "*");
 }
 
 export function replaySendGameStart(room_slug) {
@@ -467,6 +451,7 @@ export function replaySendGameStart(room_slug) {
 
     gamepanel.room.replayStarted = true;
     gamepanel.room.replayStartIndex = replayStartIndex;
+    gamepanel.room.timeend = Date.now() + (gamepanel.room.timesec || 0);
     //gamepanel.gamestate = merged;
     //updateGamePanel(gamepanel);
 
@@ -533,9 +518,9 @@ export async function recvFrameMessage(evt) {
     // console.time('ActionLoop');
 
     action.room_slug = room_slug;
-    if (gamestate && gamestate.timer)
-        action.timeseq = gamestate.timer.sequence || 0;
-    else action.timeseq = 0;
+    // if (gamestate && gamestate.timer)
+    //     action.timeseq = gamestate.timer.sequence || 0;
+    // else action.timeseq = 0;
     // if (action.payload && action.payload.cell) {
     //     action.payload.cell = 100;
     // }
@@ -659,8 +644,7 @@ export async function wsRejoinQueues() {
     let user = btUser.get();
 
     let jqs = joinqueues.queues || [];
-    if (jqs.length > 0 && user)
-        wsJoinQueues(joinqueues.queues, joinqueues.owner);
+    if (jqs.length > 0 && user) wsJoinQueues(joinqueues.queues, joinqueues.owner);
 }
 
 export async function wsJoinQueues(queues, owner, attempt) {
@@ -717,9 +701,7 @@ export async function wsJoinGame(mode, game_slug) {
     }
 
     if (!game_slug) {
-        console.error(
-            "Game [" + game_slug + "] is invalid.  Something went wrong."
-        );
+        console.error("Game [" + game_slug + "] is invalid.  Something went wrong.");
         return;
     }
 
@@ -733,11 +715,7 @@ export async function wsJoinGame(mode, game_slug) {
     };
     let byteLen = await wsSend(action);
 
-    console.log(
-        "[Outgoing] Joining " + mode + ":",
-        "[" + byteLen + " bytes]",
-        action
-    );
+    console.log("[Outgoing] Joining " + mode + ":", "[" + byteLen + " bytes]", action);
 
     sendPing(ws);
 }
@@ -749,20 +727,14 @@ export async function wsSpectateGame(game_slug) {
     }
 
     if (!game_slug) {
-        console.error(
-            "Game [" + game_slug + "] is invalid.  Something went wrong."
-        );
+        console.error("Game [" + game_slug + "] is invalid.  Something went wrong.");
         return;
     }
 
     let action = { type: "spectate", payload: { game_slug } };
     let byteLen = await wsSend(action);
 
-    console.log(
-        "[Outgoing] Spectating [" + game_slug + "]:",
-        "[" + byteLen + " bytes]",
-        action
-    );
+    console.log("[Outgoing] Spectating [" + game_slug + "]:", "[" + byteLen + " bytes]", action);
     // console.timeEnd('ActionLoop');
 }
 
@@ -1028,9 +1000,7 @@ async function wsIncomingMessage(message) {
     let buffer = await message.data;
     let msg = ACOSEncoder.decode(buffer);
     if (!msg) {
-        console.error(
-            "Error: Unable to decode buffer of size " + buffer.byteLength
-        );
+        console.error("Error: Unable to decode buffer of size " + buffer.byteLength);
         return;
     }
 
@@ -1070,11 +1040,7 @@ async function wsIncomingMessage(message) {
             console.log("[rankings]:", msg);
             btRankingUpdate.set(msg.payload);
         case "queueStats":
-            console.log(
-                "[queueStats]:",
-                "[" + buffer.byteLength + " bytes]",
-                msg
-            );
+            console.log("[queueStats]:", "[" + buffer.byteLength + " bytes]", msg);
             onQueueStats(msg);
             return;
         case "pong":
@@ -1128,19 +1094,13 @@ async function wsIncomingMessage(message) {
                 "[" + buffer.byteLength + " bytes]",
                 JSON.parse(JSON.stringify(msg, null, 2))
             );
-            if (
-                msg.payload &&
-                Array.isArray(msg.payload) &&
-                msg.payload.length > 0
-            ) {
+            if (msg.payload && Array.isArray(msg.payload) && msg.payload.length > 0) {
                 if (!msg.payload || msg.payload.length == 0) {
                     console.log("No rooms found.");
                     return;
                 }
 
-                let multiplayerRoom = msg.payload.find(
-                    (roomInfo) => roomInfo.room.maxplayers > 1
-                );
+                let multiplayerRoom = msg.payload.find((roomInfo) => roomInfo.room.maxplayers > 1);
 
                 if (multiplayerRoom) {
                     addRooms([multiplayerRoom]);
@@ -1271,9 +1231,7 @@ async function wsIncomingMessage(message) {
     }
 
     if (msg.payload) {
-        let gamepanel = findGamePanelByRoom(
-            msg.room_slug || msg.room.room_slug
-        );
+        let gamepanel = findGamePanelByRoom(msg.room_slug || msg.room.room_slug);
         let room = gamepanel?.room;
         let gamestate = gamepanel?.gamestate; //JSON.parse(JSON.stringify(gamepanel?.gamestate));
         if (!gamestate) return;
@@ -1286,16 +1244,13 @@ async function wsIncomingMessage(message) {
             // getRoom(msg.room_slug);
             //UPDATE PLAYER STATS FOR THIS GAME
             if (room?.mode == "rank" && msg?.payload?._played) {
-                let player_stat = btPlayerStats.get(
-                    (bucket) => bucket[room.game_slug]
-                );
+                let player_stat = btPlayerStats.get((bucket) => bucket[room.game_slug]);
                 // let player_stat = player_stats[room.game_slug]
                 if (player_stat) {
                     if (msg.payload._win) player_stat.win = msg.payload._win;
                     if (msg.payload._loss) player_stat.loss = msg.payload._loss;
                     if (msg.payload._tie) player_stat.tie = msg.payload._tie;
-                    if (msg.payload._played)
-                        player_stat.played = msg.payload._played;
+                    if (msg.payload._played) player_stat.played = msg.payload._played;
                     // if (msg.payload.rating)
                     //     player_stat.rating = player.rating;
                     // if (player.ratingTxt)
@@ -1309,15 +1264,15 @@ async function wsIncomingMessage(message) {
             updateGamePanel(gamepanel);
             return;
         } else {
-            if (msg.payload?.timer?.end) {
+            if (msg.payload?.room?.timeend) {
                 let latency = btLatency.get() || 0;
                 let offsetTime = btOffsetTime.get() || 0;
                 let extra = 30; //for time between WS and gameserver
-                msg.payload.timer.end += -offsetTime - latency / 2 - extra;
+                msg.payload.room.timeend += -offsetTime - latency / 2 - extra;
             }
 
             gamestate.action = {};
-            gamestate.events = {};
+            gamestate.room.events = {};
 
             let deltaState = JSON.parse(JSON.stringify(msg.payload));
             let mergedState = JSON.parse(JSON.stringify(msg.payload));
@@ -1326,7 +1281,7 @@ async function wsIncomingMessage(message) {
 
             mergedState.delta = deltaState;
 
-            gamepanel.gamestate = mergedState;
+            gamepanel.gamestate = structuredClone(mergedState);
             console.log("[FULL GAMESTATE]", mergedState);
 
             if (gamepanel.gamestate.players) {
@@ -1374,9 +1329,7 @@ async function postIncomingMessage(msg) {
             if (room.mode == "rank") {
                 let player = msg.payload.players[user.shortid];
 
-                let player_stat = btPlayerStats.get(
-                    (bucket) => bucket[room.game_slug]
-                );
+                let player_stat = btPlayerStats.get((bucket) => bucket[room.game_slug]);
                 // let player_stat = player_stats[room.game_slug] || {};
                 if (player_stat) {
                     if (player.rating) player_stat.rating = player.rating;

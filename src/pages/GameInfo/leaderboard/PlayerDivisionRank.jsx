@@ -1,13 +1,4 @@
-import {
-    HStack,
-    Center,
-    Heading,
-    Box,
-    Text,
-    chakra,
-    Image,
-    VStack,
-} from "@chakra-ui/react";
+import { HStack, Center, Heading, Box, Text, chakra, Image, VStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import config from "../../../config";
 import { TopRankNumber } from "./LeaderboardHeading";
@@ -17,6 +8,7 @@ const ChakraLink = chakra(Link);
 export function PlayerDivisionRank({
     index,
     displayname,
+    prevRank,
     rank,
     countrycode,
     isLocalPlayer,
@@ -47,11 +39,7 @@ export function PlayerDivisionRank({
                 _hover: {
                     bgColor: "gray.950",
                 },
-                bgColor: isLocalPlayer
-                    ? "gray.600"
-                    : index % 2 == 0
-                    ? "gray.900"
-                    : "gray.875",
+                bgColor: isLocalPlayer ? "gray.600" : index % 2 == 0 ? "gray.900" : "gray.875",
 
                 // borderRadius: "12px",
                 // transform: 'skew(-20deg)'
@@ -75,19 +63,28 @@ export function PlayerDivisionRank({
                             : rank == 3
                             ? "orange.300"
                             : isLocalPlayer
-                            ? "brand.50"
+                            ? "brand.75"
                             : "gray.0"
                     }
                     fontWeight={"500"}
-                    fontSize={[
-                        "1.4rem",
-                        "1.4rem",
-                        "1.6rem",
-                        "1.6rem",
-                        "1.8rem",
-                    ]}
+                    fontSize={["1.4rem", "1.4rem", "1.6rem", "1.6rem", "1.8rem"]}
                     position="relative"
                 >
+                    {prevRank == rank && (
+                        <Box
+                            position="absolute"
+                            left="50%"
+                            top="-3.6rem"
+                            transform="translateX(-50%)"
+                            width="2px"
+                            height="3rem"
+                            bgColor="gray.50"
+                            borderRadius="1px"
+                            zIndex="0"
+                            // borderRight="1px solid var(--chakra-colors-gray-1200)"
+                            // borderLeft="1px solid var(--chakra-colors-gray-1200)"
+                        ></Box>
+                    )}
                     <TopRankNumber rank={rank} />
                 </Text>
             </Center>
@@ -103,13 +100,26 @@ export function PlayerDivisionRank({
                         position="relative"
                     >
                         <Image
+                            src={`${config.https.cdn}images/country/${countrycode}.svg`}
+                            // mt="0.5rem"
+                            borderColor="gray.100"
+                            borderRadius="3px"
+                            width="1.75rem"
+                            // height="1.75rem"
+                            filter="opacity(0.9)"
+                            position="absolute"
+                            top="-0.1rem"
+                            right="-0.7rem"
+                            // zIndex="2"
+                        />
+                        <Image
                             src={`${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`}
                             loading="lazy"
                             w={["5rem", "5rem", "5rem", "5rem"]}
                             h={["5rem", "5rem", "5rem", "5rem"]}
                             minW={["5rem", "5rem", "5rem", "5rem"]}
-                            border="1px solid var(--chakra-colors-gray-1200)"
-                            borderRadius={"8px"}
+                            // border="1px solid var(--chakra-colors-gray-1200)"
+                            borderRadius={"50%"}
                             transition="transform 0.1s ease"
                             // borderRadius={'5px'}
                         />
@@ -120,34 +130,16 @@ export function PlayerDivisionRank({
                         whiteSpace={"nowrap"}
                         overflow={"hidden"}
                         textOverflow={"ellipsis"}
-                        pl="0.5rem"
+                        pl="1.5rem"
                         fontSize={["1.4rem", "1.4rem", "1.6rem", "1.6rem"]}
                         lineHeight={"3rem"}
                         to={"/profile/" + displayname}
                         display="block"
                         textAlign="left"
-                        color={isLocalPlayer ? "brand.50" : "gray.0"}
+                        color={isLocalPlayer ? "brand.75" : "gray.0"}
                         // textShadow={'1px 1px 6px var(--chakra-colors-gray-100)'}
                     >
                         {displayname}
-                    </ChakraLink>
-                    <ChakraLink
-                        zIndex={"1"}
-                        w="2.5rem"
-                        minW="2.5rem"
-                        to={"/profile/" + displayname}
-                        display="block"
-                        position="relative"
-                    >
-                        <Image
-                            src={`${config.https.cdn}images/country/${countrycode}.svg`}
-                            // mt="0.5rem"
-                            display="inline-block"
-                            verticalAlign={"middle"}
-                            // borderRadius="5px"
-                            w="2rem"
-                            minW="2rem"
-                        />
                     </ChakraLink>
                 </HStack>
             </Box>
@@ -168,7 +160,7 @@ export function PlayerDivisionRank({
                         lineHeight="1.8rem"
                         fontSize={["1.4rem", "1.4rem", "1.4rem"]}
                         fontWeight={"500"}
-                        color={isLocalPlayer ? "brand.50" : "gray.0"}
+                        color={isLocalPlayer ? "brand.75" : "gray.0"}
                     >
                         {win || 0}-{tie || 0}-{loss || 0}
                     </Text>

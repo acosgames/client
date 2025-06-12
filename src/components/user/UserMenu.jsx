@@ -24,6 +24,8 @@ import { Link } from "react-router-dom";
 import { logout } from "../../actions/person";
 import { btIsCreateDisplayName, btUser } from "../../actions/buckets";
 import { useBucket } from "../../actions/bucket";
+import { FaSave } from "react-icons/fa";
+import { RiProfileFill } from "react-icons/ri";
 
 export default function UserMenu({ game }) {
     // let player_stat = player_stats[game.game_slug];
@@ -37,6 +39,8 @@ export default function UserMenu({ game }) {
     const signIn = () => {
         btIsCreateDisplayName.set(true);
     };
+
+    const toProfile = () => {};
 
     return (
         <Menu placement="bottom">
@@ -57,14 +61,27 @@ export default function UserMenu({ game }) {
                 fontSize="1.2rem"
                 pb="0"
                 pt="0"
+                py="2rem"
             >
                 <MenuItem
                     display={user && !user.email ? "block" : "none"}
                     fontSize="1.4rem"
-                    icon={
-                        <Icon as={FiLogOut} fontSize="2rem" color="brand.300" />
-                    }
+                    icon={<Icon as={RiProfileFill} fontSize="1.4rem" color="brand.100" />}
                     color="gray.0"
+                    px="2rem"
+                    bgColor="transparent"
+                    _hover={{ bgColor: "gray.300" }}
+                    onClick={toProfile}
+                >
+                    Profile
+                </MenuItem>
+
+                <MenuItem
+                    display={user && !user.email ? "block" : "none"}
+                    fontSize="1.4rem"
+                    icon={<Icon as={FaSave} fontSize="1.4rem" color="brand.100" />}
+                    color="gray.0"
+                    px="2rem"
                     bgColor="transparent"
                     _hover={{ bgColor: "gray.300" }}
                     onClick={signIn}
@@ -74,10 +91,9 @@ export default function UserMenu({ game }) {
 
                 <MenuItem
                     fontSize="1.4rem"
-                    icon={
-                        <Icon as={FiLogOut} fontSize="2rem" color="brand.300" />
-                    }
+                    icon={<Icon as={FiLogOut} fontSize="1.4rem" color="brand.100" />}
                     color="gray.0"
+                    px="2rem"
                     bgColor="transparent"
                     _hover={{ bgColor: "gray.300" }}
                     onClick={logout}

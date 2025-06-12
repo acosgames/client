@@ -66,13 +66,7 @@ function Footer({}) {
         height="auto"
       /> */}
 
-            <VStack
-                alignItems={"flex-start"}
-                spacing="1rem"
-                color="gray.0"
-                pb="2rem"
-                zIndex="2"
-            >
+            <VStack alignItems={"flex-start"} spacing="1rem" color="gray.0" pb="2rem" zIndex="1">
                 <Text
                     as="span"
                     role="group"
@@ -260,12 +254,7 @@ function Footer({}) {
                 </Text>
             </VStack>
 
-            <VStack
-                display={["flex", "flex"]}
-                spacing="5rem"
-                mb="2rem"
-                color="gray.0"
-            >
+            <VStack display={["flex", "flex"]} spacing="5rem" mb="2rem" color="gray.0">
                 <HStack
                     w="100%"
                     spacing="1.4rem"

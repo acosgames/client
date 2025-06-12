@@ -43,8 +43,8 @@ export default function QueuePanel({}) {
                 border="1px solid"
                 zIndex="2"
                 borderColor="gray.925"
-                bgColor="gray.900"
-                boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
+                // bgColor="gray.900"
+                // boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
             >
                 <ChakraSimpleBar
                     boxSizing="border-box"
@@ -59,7 +59,7 @@ export default function QueuePanel({}) {
                     }}
                     scrollableNodeProps={{ ref: scrollRef }}
                 >
-                    <VStack w="100%" pb="1rem" pt="1rem">
+                    <VStack w="100%" pb="1rem" pt="0rem">
                         <NoActiveQueues />
                         <RenderQueues />
                     </VStack>
@@ -78,11 +78,7 @@ function NoActiveQueues() {
         <Box
             pt="1rem"
             textAlign={"center"}
-            display={
-                queues.length > 0 || queueStatsKeys.length > 1
-                    ? "none"
-                    : "block"
-            }
+            display={queues.length > 0 || queueStatsKeys.length > 1 ? "none" : "block"}
         >
             <Text as="span">No active queues</Text>
             <Text as="p" fontSize="1.2rem">

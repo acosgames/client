@@ -22,6 +22,7 @@ export default function UserName({}) {
             textOverflow={"ellipsis"}
             display="block"
             pl="0.5rem"
+            pr="0.5rem"
             float="left"
         >
             {user.displayname}

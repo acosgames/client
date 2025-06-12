@@ -7,6 +7,8 @@ import { IconButton } from "@chakra-ui/react";
 import { MdCancel } from "react-icons/md";
 import { useBucket } from "../../actions/bucket";
 import {
+    btHideDrawer,
+    btIsMobile,
     btPrimaryGamePanel,
     btQueueStats,
     btQueues,
@@ -20,7 +22,7 @@ let searchMessagees = [
     // "There are $ingame players in game.",
     "There are $queue players in queue(s).",
 ];
-export default function Searching({}) {
+export default function Searching({ isHeader }) {
     let [message, setMessage] = useState(searchMessagees[0]);
 
     let primaryId = useBucket(btPrimaryGamePanel);
@@ -32,6 +34,9 @@ export default function Searching({}) {
         intervalCount = intervalCount % searchMessagees.length;
         setMessage(searchMessagees[intervalCount]);
     };
+
+    let hideDrawer = useBucket(btHideDrawer);
+    let isMobile = useBucket(btIsMobile);
 
     //   useEffect(() => {
     //     intervalHandle = setInterval(intervalLoop, 5000);
@@ -48,6 +53,9 @@ export default function Searching({}) {
             }
         }
     });
+
+    // if (isHeader && isMobile) return <></>;
+
     if (!queues || queues.length == 0) {
         return <></>;
     }
@@ -72,11 +80,20 @@ export default function Searching({}) {
 
     return (
         <VStack
-            w="100%"
+            w={isHeader ? "100%" : "100%"}
+            maxW={isHeader ? "40rem" : "100%"}
             py="1rem"
+            h="7rem"
             justifyContent="center"
-            position="relative"
-            bgColor="gray.700"
+            // top={"0"}
+            // right={isHeader ? "50%" : "0"}
+            zIndex={isHeader ? 4 : 0}
+            position={"relative"}
+            background={
+                isHeader
+                    ? "linear-gradient(to right, rgba(0,0,0,0) 1%, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0.95) 70%, rgba(0,0,0,0) 99%)"
+                    : "gray.700"
+            }
             onClick={() => {}}
         >
             <IconButton
@@ -102,11 +119,7 @@ export default function Searching({}) {
                 filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) "
             />
             as={}
-            <HStack
-                className="queue-searching"
-                justifyContent={"center"}
-                spacing="0"
-            >
+            <HStack className="queue-searching" justifyContent={"center"} spacing="0">
                 <Text
                     as="span"
                     pr="1rem"
@@ -127,7 +140,7 @@ export default function Searching({}) {
                 display={window.innerHeight <= 400 ? "none" : "inline-block"}
                 as="span"
                 fontSize="1.2rem"
-                color="brand.900"
+                color="alt.900"
             >
                 {message}
             </Text>

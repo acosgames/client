@@ -25,13 +25,9 @@ import config from "../config";
 import { useEffect, useState } from "react";
 import GameActions from "../pages/GameScreen/GameActions.jsx";
 import { getGamePanel } from "../actions/room.js";
-import GameBar from "../pages/GameScreen/GameBar.jsx";
+import GameBar from "./GameBar.jsx";
 import { useBucket } from "../actions/bucket.js";
-import {
-    btHideDrawer,
-    btIsMobile,
-    btPrimaryGamePanel,
-} from "../actions/buckets.js";
+import { btHideDrawer, btIsMobile, btPrimaryGamePanel, btQueues } from "../actions/buckets.js";
 function RightBar({ layoutRef }) {
     return (
         // <VStack
@@ -58,19 +54,26 @@ function Lobby({ layoutRef }) {
             if (isMobile) {
                 layoutRef.current.style.width = "100%";
             } else {
-                layoutRef.current.style.width = hideDrawer
-                    ? "100%"
-                    : "calc(100% - 30rem)";
+                layoutRef.current.style.width = hideDrawer ? "100%" : "calc(100% - 30rem)";
             }
+    });
+
+    const onBodyClick = (e) => {
+        if (isMobile && !hideDrawer) toggleRightbar();
+    };
+    useEffect(() => {
+        layoutRef.current.addEventListener("click", onBodyClick);
+
+        return () => {
+            layoutRef.current.removeEventListener("click", onBodyClick);
+        };
     });
     const toggleRightbar = () => {
         if (layoutRef && layoutRef.current)
             if (isMobile) {
                 layoutRef.current.style.width = "100%";
             } else {
-                layoutRef.current.style.width = hideDrawer
-                    ? "calc(100% - 30rem)"
-                    : "100%";
+                layoutRef.current.style.width = hideDrawer ? "calc(100% - 30rem)" : "100%";
             }
         btHideDrawer.set(!btHideDrawer.get());
     };
@@ -110,34 +113,43 @@ function Lobby({ layoutRef }) {
                     // onClick={onSubmit}
                     role="group"
                     position="absolute"
-                    bottom="1.5rem"
-                    right={"30rem"}
+                    top="0.5rem"
+                    right={"30.5rem"}
                     transition="all 0.3s ease"
-                    bgColor="rgba(0,0,0,0)"
+                    // bgColor="rgba(0,0,0,1)"
+                    // bgColor="gray.1200"
                     // py="1.5rem"
                     // px="0.5rem"
-                    p="0"
-                    borderRadius="0"
+                    // p="0"
+                    // borderRadius="0"
                     borderTopLeftRadius="8px"
                     borderBottomLeftRadius="8px"
                     zIndex="1"
                     // icon={<GoDotFill size="0.8rem" />}
-                    // width="2.8rem"
-                    // isRound="false"
+                    width="4rem"
+                    height="4rem"
+                    // isRound="true"
+                    borderRadius={"50%"}
                     color={hideDrawer ? "brand.50" : "brand.50"}
-                    opacity={"0.5"}
+                    // opacity={"0.75"}
                     _hover={{
                         color: "gray.0",
-                        bgColor: "gray.925",
+                        border: "2px solid",
+                        borderColor: "brand.75",
+                        // bgColor: "gray.100",
                         opacity: "1",
                     }}
+                    display={!isMobile || !hideDrawer ? "none" : "flex"}
                     onClick={toggleRightbar}
                 >
+                    <ShowDrawerButtonRing />
                     <Image
                         alt={"A cup of skill logo"}
-                        src={`${config.https.cdn}ACOS-logo-generated-3.png`}
+                        src={`${config.https.cdn}acos-logo-2025.png`}
                         h={["2rem"]}
-                        maxHeight={"100%"}
+                        w={["2rem"]}
+                        // maxHeight={"100%"}
+                        // mr="1rem"
                     />
                 </Button>
                 <UserPanel />
@@ -151,6 +163,21 @@ function Lobby({ layoutRef }) {
                 {/* </Box> */}
             </VStack>
         </>
+    );
+}
+
+function ShowDrawerButtonRing() {
+    let hideDrawer = useBucket(btHideDrawer);
+    let isMobile = useBucket(btIsMobile);
+    let queues = useBucket(btQueues);
+    if (!isMobile || !queues || queues.length == 0) return <></>;
+    return (
+        <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     );
 }
 
@@ -182,22 +209,17 @@ function DefaultTabs({}) {
                 setTabIndex(tabIndex);
             }}
         >
-            <TabList
-                pb="0"
-                overflow="auto"
-                bg="transparent"
-                justifyContent={"center"}
-            >
+            <TabList pb="0" overflow="auto" bg="transparent" justifyContent={"center"}>
                 <Tab
                     fontSize="1.2rem"
                     fontWeight="600"
                     borderBottom="none"
                     color="gray.200"
                     _hover={{ borderBottom: "none" }}
-                    _selected={{ color: "brand.300", borderBottom: "none" }}
+                    _selected={{ color: "gray.10", borderBottom: "none" }}
                     textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
                 >
-                    Logs
+                    Chat
                 </Tab>
                 <Tab
                     fontSize="1.2rem"
@@ -205,12 +227,12 @@ function DefaultTabs({}) {
                     borderBottom="none"
                     color="gray.200"
                     _hover={{ borderBottom: "none" }}
-                    _selected={{ color: "brand.300", borderBottom: "none" }}
+                    _selected={{ color: "gray.10", borderBottom: "none" }}
                     textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
                 >
                     Queue
                 </Tab>
-                <Tab
+                {/* <Tab
                     fontSize="1.2rem"
                     fontWeight="600"
                     bg="transparent"
@@ -221,7 +243,7 @@ function DefaultTabs({}) {
                     textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
                 >
                     Social
-                </Tab>
+                </Tab> */}
             </TabList>
             <TabPanels
                 w="100%"

@@ -13,91 +13,6 @@ import config from "../../config/index.js";
 import AchievementIcon from "./AchievementIcon.jsx";
 import AchievementExperienceBar from "./AchievementExperienceBar.jsx";
 
-function AchievementReward({ achievement, percent }) {
-    let opacity = 0.3;
-    let color = "gray.400";
-    if (percent >= 100) {
-        color = "gray.0";
-        opacity = 1;
-    } else if (percent > 0) {
-        color = "gray.100";
-        opacity = 0.5;
-    }
-
-    const renderReward = () => {
-        if (typeof achievement.award_xp !== "undefined") {
-            return (
-                <VStack
-                    spacing="0"
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    w="100%"
-                    pt="0.5rem"
-                >
-                    <Text
-                        as="span"
-                        fontWeight="bold"
-                        fontSize="1.8rem"
-                        lineHeight="1rem"
-                        color="yellow.100"
-                        pl="0.25rem"
-                    >
-                        XP
-                    </Text>
-                    <Text
-                        as="span"
-                        fontWeight="600"
-                        fontSize="1.4rem"
-                        color="gray.0"
-                    >
-                        {achievement.award_xp}
-                    </Text>
-                </VStack>
-            );
-        }
-        return <></>;
-    };
-
-    return (
-        <VStack
-            // w="6rem"
-            // h="6rem"
-            mr="1rem"
-            position="relative"
-            zIndex="1"
-            borderRadius={"8px"}
-            bgColor="gray.1000"
-            border="2px solid"
-            borderColor={"gray.300"}
-            spacing="0"
-            justifyContent={"center"}
-            alignItems={"center"}
-            p="0.5rem"
-        >
-            <VStack opacity={opacity}>
-                <Text
-                    as="span"
-                    // position="absolute"
-                    // top="-0.5rem"
-                    fontSize="1.2rem"
-                    color={color}
-                    fontWeight="500"
-                    lineHeight="1rem"
-                    // bgColor="gray.1000"
-                    // borderRadius={"8px"}
-                    pb="0.5rem"
-                    borderBottom="1px solid"
-                    borderBottomColor="gray.700"
-                    // textShadow="0 0 5px black"
-                >
-                    REWARD
-                </Text>
-                {renderReward()}
-            </VStack>
-        </VStack>
-    );
-}
-
 export default function AchievementPanel({
     achievement,
     progress,
@@ -123,10 +38,7 @@ export default function AchievementPanel({
 
     let color = "gray.20";
 
-    let { value, maxValue, percent } = calculateAchievementProgress(
-        achievement,
-        progress
-    );
+    let { value, maxValue, percent } = calculateAchievementProgress(achievement, progress);
 
     // let percent = (value / maxValue) * 100;
     // percent = 100;
@@ -137,12 +49,7 @@ export default function AchievementPanel({
     return (
         <Card w="100%" mt="0">
             <CardBody p="1rem" display="flex" flexDir={"row"}>
-                <HStack
-                    spacing="0"
-                    w="100%"
-                    className="hstack-all"
-                    alignItems={"flex-start"}
-                >
+                <HStack spacing="0" w="100%" className="hstack-all" alignItems={"flex-start"}>
                     {/* <AchievementIcon
                         index={achievement_icon}
                         percent={percent}
@@ -175,7 +82,7 @@ export default function AchievementPanel({
                                 </Heading>
                                 <Heading
                                     as="h5"
-                                    fontSize="1.2rem"
+                                    fontSize="1.4rem"
                                     fontWeight={"normal"}
                                     color={"gray.40"}
                                     textAlign={"left"}
@@ -209,19 +116,94 @@ export default function AchievementPanel({
                         </HStack>
                         <Box flex="1"></Box>
                         <Box pl="1rem" pr="1rem" w="100%">
-                            <AchievementExperienceBar
-                                achievement={achievement}
-                                percent={percent}
-                            />
+                            <AchievementExperienceBar achievement={achievement} percent={percent} />
                         </Box>
                     </VStack>
-                    <AchievementReward
-                        achievement={achievement}
-                        percent={percent}
-                    />
+                    <AchievementReward achievement={achievement} percent={percent} />
                 </HStack>
             </CardBody>
         </Card>
+    );
+}
+
+function AchievementReward({ achievement, percent }) {
+    let opacity = 0.2;
+    let color = "gray.30";
+    if (percent >= 100) {
+        color = "gray.0";
+        opacity = 1;
+    } else if (percent > 0) {
+        color = "gray.100";
+        opacity = 0.4;
+    }
+
+    const renderReward = () => {
+        if (typeof achievement.award_xp !== "undefined") {
+            return (
+                <VStack
+                    spacing="0"
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    w="100%"
+                    pt="0.5rem"
+                >
+                    <Text
+                        as="span"
+                        fontWeight="bold"
+                        fontSize="1.8rem"
+                        lineHeight="1rem"
+                        color="brand.100"
+                        pl="0.25rem"
+                    >
+                        XP
+                    </Text>
+                    <Text as="span" fontWeight="600" fontSize="1.4rem" color="gray.0">
+                        {achievement.award_xp}
+                    </Text>
+                </VStack>
+            );
+        }
+        return <></>;
+    };
+
+    return (
+        <VStack
+            w="6rem"
+            // h="6rem"
+            overflow="hidden"
+            mr="1rem"
+            position="relative"
+            zIndex="1"
+            borderRadius={"8px"}
+            bgColor="gray.1000"
+            // border="2px solid"
+            // borderColor={"gray.300"}
+            spacing="0"
+            justifyContent={"center"}
+            alignItems={"center"}
+            p="1.5rem"
+        >
+            <VStack opacity={opacity}>
+                {/* <Text
+                    as="span"
+                    // position="absolute"
+                    // top="-0.5rem"
+                    fontSize="1.2rem"
+                    color={color}
+                    fontWeight="500"
+                    lineHeight="1rem"
+                    // bgColor="gray.1000"
+                    // borderRadius={"8px"}
+                    pb="0.5rem"
+                    // borderBottom="1px solid"
+                    // borderBottomColor="gray.700"
+                    // textShadow="0 0 5px black"
+                >
+                    REWARD
+                </Text> */}
+                {renderReward()}
+            </VStack>
+        </VStack>
     );
 }
 
@@ -326,10 +308,7 @@ function calculateAchievementProgress(achievement, progress) {
 
     if (!all_required) {
         //sum all the stat values, they should be of same type
-        value = status.reduce(
-            (total, curr) => (curr === false ? total : total + curr.value),
-            0
-        );
+        value = status.reduce((total, curr) => (curr === false ? total : total + curr.value), 0);
         //use the largest max goal of the stats
         maxValue = status.reduce(
             (total, curr) => (curr.maxValue >= total ? curr.maxValue : total),
@@ -341,10 +320,7 @@ function calculateAchievementProgress(achievement, progress) {
     } else {
         //sum all the stat values, they should be of same type
         value = status.reduce(
-            (total, curr) =>
-                curr === false
-                    ? total
-                    : total + Math.min(curr.value, curr.maxValue),
+            (total, curr) => (curr === false ? total : total + Math.min(curr.value, curr.maxValue)),
             0
         );
         //use the largest max goal of the stats
@@ -425,28 +401,14 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
         return (
             <>
                 {achievement.stat_slug1 && (
-                    <Heading
-                        as="h6"
-                        fontSize="1.2rem"
-                        fontWeight="300"
-                        color={"gray.50"}
-                    >
+                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
                         <Text as="span">{achievement.stat_name1}</Text>{" "}
                         {achievement.goal1_valueTYPE == 4 && (
                             <>({achievement.goal1_valueSTRING}) </>
                         )}
-                        <Text
-                            pl="0.5rem"
-                            as="span"
-                            fontWeight="500"
-                            color="gray.20"
-                        >
-                            {achievement.goal1_valueTYPE == 0 ||
-                            achievement.goal1_valueTYPE == 4
-                                ? Math.min(
-                                      progress.stat1_valueINT || 0,
-                                      achievement.goal1_valueINT
-                                  )
+                        <Text pl="0.5rem" as="span" fontWeight="500" color="gray.20">
+                            {achievement.goal1_valueTYPE == 0 || achievement.goal1_valueTYPE == 4
+                                ? Math.min(progress.stat1_valueINT || 0, achievement.goal1_valueINT)
                                 : achievement.goal1_valueTYPE == 3
                                 ? Math.min(
                                       progress.stat1_valueINT || 0,
@@ -458,8 +420,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                                   )}
                         </Text>{" "}
                         /{" "}
-                        {achievement.goal1_valueTYPE == 0 ||
-                        achievement.goal1_valueTYPE == 4
+                        {achievement.goal1_valueTYPE == 0 || achievement.goal1_valueTYPE == 4
                             ? achievement.goal1_valueINT || 0
                             : achievement.goal1_valueTYPE == 3
                             ? achievement.goal1_valueINT + "s"
@@ -468,28 +429,14 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                 )}
 
                 {achievement.stat_slug2 && (
-                    <Heading
-                        as="h6"
-                        fontSize="1.2rem"
-                        fontWeight="300"
-                        color={"gray.50"}
-                    >
+                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
                         <Text as="span">{achievement.stat_name2}</Text>{" "}
                         {achievement.goal2_valueTYPE == 4 && (
                             <>({achievement.goal2_valueSTRING}) </>
                         )}
-                        <Text
-                            pl="0.5rem"
-                            as="span"
-                            fontWeight="500"
-                            color="gray.20"
-                        >
-                            {achievement.goal2_valueTYPE == 0 ||
-                            achievement.goal2_valueTYPE == 4
-                                ? Math.min(
-                                      progress.stat2_valueINT || 0,
-                                      achievement.goal2_valueINT
-                                  )
+                        <Text pl="0.5rem" as="span" fontWeight="500" color="gray.20">
+                            {achievement.goal2_valueTYPE == 0 || achievement.goal2_valueTYPE == 4
+                                ? Math.min(progress.stat2_valueINT || 0, achievement.goal2_valueINT)
                                 : achievement.goal2_valueTYPE == 3
                                 ? Math.min(
                                       progress.stat2_valueINT || 0,
@@ -501,8 +448,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                                   )}
                         </Text>{" "}
                         /{" "}
-                        {achievement.goal2_valueTYPE == 0 ||
-                        achievement.goal2_valueTYPE == 4
+                        {achievement.goal2_valueTYPE == 0 || achievement.goal2_valueTYPE == 4
                             ? achievement.goal2_valueINT || 0
                             : achievement.goal2_valueTYPE == 3
                             ? achievement.goal2_valueINT + "s"
@@ -511,28 +457,14 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                 )}
 
                 {achievement.stat_slug3 && (
-                    <Heading
-                        as="h6"
-                        fontSize="1.2rem"
-                        fontWeight="300"
-                        color={"gray.50"}
-                    >
+                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
                         <Text as="span">{achievement.stat_name3}</Text>{" "}
                         {achievement.goal3_valueTYPE == 4 && (
                             <>({achievement.goal3_valueSTRING}) </>
                         )}
-                        <Text
-                            pl="0.5rem"
-                            as="span"
-                            fontWeight="500"
-                            color="gray.20"
-                        >
-                            {achievement.goal3_valueTYPE == 0 ||
-                            achievement.goal3_valueTYPE == 4
-                                ? Math.min(
-                                      progress.stat3_valueINT || 0,
-                                      achievement.goal3_valueINT
-                                  )
+                        <Text pl="0.5rem" as="span" fontWeight="500" color="gray.20">
+                            {achievement.goal3_valueTYPE == 0 || achievement.goal3_valueTYPE == 4
+                                ? Math.min(progress.stat3_valueINT || 0, achievement.goal3_valueINT)
                                 : achievement.goal3_valueTYPE == 3
                                 ? Math.min(
                                       progress.stat3_valueINT || 0,
@@ -544,8 +476,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                                   )}
                         </Text>{" "}
                         /{" "}
-                        {achievement.goal3_valueTYPE == 0 ||
-                        achievement.goal3_valueTYPE == 4
+                        {achievement.goal3_valueTYPE == 0 || achievement.goal3_valueTYPE == 4
                             ? achievement.goal3_valueINT || 0
                             : achievement.goal3_valueTYPE == 3
                             ? achievement.goal3_valueINT + "s"
@@ -561,23 +492,13 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
     if (achievement.goal1_valueTYPE == 2) {
         return (
             <>
-                <Heading
-                    as="h6"
-                    fontSize="1.2rem"
-                    fontWeight="300"
-                    color={"gray.50"}
-                >
+                <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
                     <Text as="span">Best: </Text>
                     <Text as="span" fontWeight="500" color="gray.20">
                         {value}
                     </Text>
                 </Heading>
-                <Heading
-                    as="h6"
-                    fontSize="1.2rem"
-                    fontWeight="300"
-                    color={"gray.50"}
-                >
+                <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
                     <Text as="span">Goal: </Text>
                     <Text as="span" fontWeight="500">
                         {maxValue}
@@ -589,12 +510,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
 
     if (achievement.goal1_valueTYPE == 3) {
         return (
-            <Heading
-                as="h6"
-                fontSize="1.2rem"
-                fontWeight="300"
-                color={"gray.50"}
-            >
+            <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
                 <Text as="span" fontWeight="500" color="gray.20">
                     {Math.min(value, maxValue) + "s"}
                 </Text>{" "}

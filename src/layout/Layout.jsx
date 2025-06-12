@@ -15,7 +15,7 @@ import { ToastMessage } from "../components/ToastMessage.jsx";
 
 import GameScreen from "../pages/GameScreen/GameScreen.jsx";
 import { getGamePanel } from "../actions/room.js";
-import GameBar from "../pages/GameScreen/GameBar.jsx";
+import GameBar from "./GameBar.jsx";
 import { useBucket } from "../actions/bucket.js";
 import {
     btHideDrawer,

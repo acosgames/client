@@ -14,14 +14,14 @@ import {
     VStack,
 } from "@chakra-ui/react";
 
-import Scoreboard from "./Scoreboard/Scoreboard";
-import SocialPanel from "../../components/social/SocialPanel.jsx";
-import ChatPanel from "../../components/chat/ChatPanel.jsx";
+import Scoreboard from "../pages/GameScreen/Scoreboard/Scoreboard.jsx";
+import SocialPanel from "../components/social/SocialPanel.jsx";
+import ChatPanel from "../components/chat/ChatPanel.jsx";
 
 import { useState } from "react";
 
-import QueuePanel from "../../components/queue/QueuePanel.jsx";
-import { getPrimaryGamePanel } from "../../actions/room";
+import QueuePanel from "../components/queue/QueuePanel.jsx";
+import { getPrimaryGamePanel } from "../actions/room.js";
 
 export default function GameBar({ layoutRef }) {
     let [tabIndex, setTabIndex] = useState(
@@ -46,19 +46,14 @@ export default function GameBar({ layoutRef }) {
                 setTabIndex(tabIndex);
             }}
         >
-            <TabList
-                pb="0"
-                overflow="auto"
-                bg="transparent"
-                justifyContent={"center"}
-            >
+            <TabList pb="0" overflow="auto" bg="transparent" justifyContent={"center"}>
                 <Tab
                     fontSize="1.2rem"
                     fontWeight="600"
                     borderBottom="none"
                     color="gray.200"
                     _hover={{ borderBottom: "none" }}
-                    _selected={{ color: "brand.300", borderBottom: "none" }}
+                    _selected={{ color: "gray.10", borderBottom: "none" }}
                     textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
                 >
                     Scoreboard
@@ -69,12 +64,12 @@ export default function GameBar({ layoutRef }) {
                     borderBottom="none"
                     color="gray.200"
                     _hover={{ borderBottom: "none" }}
-                    _selected={{ color: "brand.300", borderBottom: "none" }}
+                    _selected={{ color: "gray.10", borderBottom: "none" }}
                     textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
                 >
                     {room.maxplayers == 1 ? "Queue" : "Logs"}
                 </Tab>
-                <Tab
+                {/* <Tab
                     fontSize="1.2rem"
                     fontWeight="600"
                     bg="transparent"
@@ -85,7 +80,7 @@ export default function GameBar({ layoutRef }) {
                     textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
                 >
                     Social
-                </Tab>
+                </Tab> */}
             </TabList>
             <TabPanels
                 w="100%"

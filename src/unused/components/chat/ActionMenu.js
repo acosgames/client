@@ -45,7 +45,7 @@ function ActionMenu(props) {
     const mode = room.mode;
 
     let gamestate = gamepanel.gamestate; // fs.get('gamestate') || {};//-events-gameover');
-    let events = gamestate?.events || {};
+    let events = gamestate?.room?.events || {};
     let roomStatus = getRoomStatus(room_slug);
     let isGameover =
         roomStatus == "GAMEOVER" ||

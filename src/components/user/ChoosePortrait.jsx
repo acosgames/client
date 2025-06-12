@@ -270,7 +270,7 @@ function RenderPortraits({ min, max, onSelect }) {
 function RenderPortrait({ portraitid, onSelect }) {
     let screenResized = useBucket(btScreenResized);
 
-    let filenameMany = `${config.https.cdn}images/portraits/assorted-${portraitid}-thumbnail.webp`;
+    let filenameMany = `${config.https.cdn}images/portraits/assorted-${portraitid}-medium.webp`;
     let filenameFew = `${config.https.cdn}images/portraits/assorted-${portraitid}-medium.webp`;
 
     let filename = filenameMany;

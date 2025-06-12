@@ -12,18 +12,10 @@ import {
     Icon,
     VStack,
 } from "@chakra-ui/react";
-import {
-    BsArrowsFullscreen,
-    RiLayoutRightLine,
-    IoTimeOutline,
-} from "@react-icons";
+import { BsArrowsFullscreen, RiLayoutRightLine, IoTimeOutline } from "@react-icons";
 
 import { joinGame } from "../../../actions/game";
-import {
-    replayNextIndex,
-    replayPrevIndex,
-    wsLeaveGame,
-} from "../../../actions/connection";
+import { replayNextIndex, replayPrevIndex, wsLeaveGame } from "../../../actions/connection";
 import {
     clearPrimaryGamePanel,
     clearRoom,
@@ -77,7 +69,7 @@ function GameActions(props) {
     const mode = room.mode;
 
     let gamestate = gamepanel.gamestate || {}; //-events-gameover');
-    let events = gamestate?.events || {};
+    let events = gamestate?.room?.events || {};
     let roomStatus = getRoomStatus(room_slug);
     let isGameover =
         roomStatus == "GAMEOVER" ||
@@ -119,8 +111,7 @@ function GameActions(props) {
     };
 
     const handleJoin = async () => {
-        if (room.maxplayers == 1)
-            btShowLoadingBox.assign({ [gamepanel.id]: true });
+        if (room.maxplayers == 1) btShowLoadingBox.assign({ [gamepanel.id]: true });
 
         btDisplayMode.set("none");
         clearRoom(room_slug);
@@ -215,8 +206,8 @@ function GameActions(props) {
                         // height="1.6rem"
                         fontSize={"xxs"}
                         bgColor="brand.500"
-                        _hover={{ bg: "brand.600" }}
-                        _active={{ bg: "brand.900" }}
+                        _hover={{ bg: "alt.300" }}
+                        _active={{ bg: "alt.300" }}
                         onClick={handleJoin}
                     >
                         Play Again

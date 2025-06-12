@@ -131,9 +131,9 @@ export async function recvFrameMessage(evt) {
     // console.time('ActionLoop');
 
     action.room_slug = room_slug;
-    if (gamestate && gamestate.timer)
-        action.timeseq = gamestate.timer.sequence || 0;
-    else action.timeseq = 0;
+    // if (gamestate && gamestate.timer)
+    // action.timeseq = gamestate.timer.sequence || 0;
+    // else action.timeseq = 0;
     // if (action.payload && action.payload.cell) {
     //     action.payload.cell = 100;
     // }

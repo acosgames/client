@@ -7,6 +7,7 @@ import {
     //Link,
     useParams,
 } from "react-router-dom";
+import Searching from "../components/queue/Searching";
 // import NavForUser from "../components/login/NavForUser";
 // import NavForGuest from "../components/login/NavForGuest";
 
@@ -47,7 +48,7 @@ function Header({}) {
                 w={["100%", "100%", "100%", "100%", "1000px"]}
                 width={["100%"]}
             >
-                <HStack
+                {/* <HStack
                     //pl={["24rem", "23rem"]}
                     pr={["2rem", "2rem", "2rem"]}
                     pl="0"
@@ -62,15 +63,16 @@ function Header({}) {
                         <Link to="/" className="" onClick={(e) => {}}>
                             <Image
                                 alt={"A cup of skill logo"}
-                                src={`${config.https.cdn}ACOS-logo-generated-3.png`}
+                                src={`${config.https.cdn}acos-logo-2025.png`}
                                 h={["2rem", "2rem", "3rem"]}
                                 maxHeight={"100%"}
                             />
                         </Link>
                     </Box>
-                </HStack>
+                </HStack> */}
                 <HStack
                     w="100%"
+                    pl="1rem"
                     justifyContent={"space-between"}
                     display={["flex", "flex"]}
                 >
@@ -100,6 +102,7 @@ function Header({}) {
                             </Heading>
                         </Link>
                     </HStack>
+                    {/* <Searching isHeader={true} /> */}
                 </HStack>
             </HStack>
         </HStack>

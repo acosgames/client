@@ -104,12 +104,7 @@ function MainMenuChakra(props) {
     const gamepanel = getPrimaryGamePanel();
     // const isPrimary = getPrimaryGamePanel();http://localhost:8000/join/test-game-1+rank
 
-    if (
-        gamepanel &&
-        gamepanel.isPrimary &&
-        !gamepanel.room.isReplay &&
-        !gamepanel.available
-    ) {
+    if (gamepanel && gamepanel.isPrimary && !gamepanel.room.isReplay && !gamepanel.available) {
         return <></>;
     }
     return (
@@ -149,10 +144,7 @@ function MainMenuChakra(props) {
                     width="100%"
                     maxW={["1000px"]}
                 >
-                    <HStack
-                        spacing={["2rem", "2rem", "4rem"]}
-                        justifyContent={"center"}
-                    >
+                    <HStack spacing={["2rem", "2rem", "4rem"]} justifyContent={"center"}>
                         <Box>
                             <Link
                                 to="/"
@@ -160,10 +152,7 @@ function MainMenuChakra(props) {
                                 onClick={(e) => {
                                     // if (gamepanel?.isPrimary)
                                     //     e.preventDefault();
-                                    if (
-                                        gamepanel?.isPrimary &&
-                                        gamepanel?.room?.isReplay
-                                    ) {
+                                    if (gamepanel?.isPrimary && gamepanel?.room?.isReplay) {
                                         //clearRoom('REPLAY/' + gamepanel.room.game_slug);
                                         setPrimaryGamePanel();
                                         // gamepanel.available = true;
@@ -173,7 +162,7 @@ function MainMenuChakra(props) {
                             >
                                 <Image
                                     alt={"A cup of skill logo"}
-                                    src={`${config.https.cdn}acos-logo-standalone4.png`}
+                                    src={`${config.https.cdn}acos-logo-2025.webp`}
                                     h={["1.8rem", "1.8rem", "3rem"]}
                                     maxHeight={"90%"}
                                 />
@@ -200,13 +189,7 @@ function MainMenuChakra(props) {
                                 {loggedIn != "LURKER" && <NavForUser />}
                                 {loggedIn == "LURKER" && <NavForGuest />}
                             </Box>
-                            <Box
-                                p="0"
-                                pl="1rem"
-                                m="0"
-                                height="100%"
-                                lineHeight={"100%"}
-                            >
+                            <Box p="0" pl="1rem" m="0" height="100%" lineHeight={"100%"}>
                                 <ActionMenu />
                             </Box>
 

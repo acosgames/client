@@ -35,7 +35,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { calculateGameSize } from "../../util/helper";
 
 import { RenderPlayers } from "../GameScreen/Scoreboard/Scoreboard";
-import { useBucket, useBucketSelector } from "../../actions/bucket";
+import { bucket, useBucket, useBucketSelector, useBucketSelectorX } from "../../actions/bucket";
 import {
     btGame,
     btGamePanels,
@@ -58,7 +58,7 @@ function GameInfoReplay({ game_slug }) {
                         cursor={"pointer"}
                         _selected={{
                             cursor: "auto",
-                            color: "brand.600",
+                            color: "brand.100",
                         }}
                         // letterSpacing={"2px"}
                         fontWeight={"bold"}
@@ -99,8 +99,8 @@ function GameInfoReplayContent({ game_slug }) {
     // let game = useBucket(btGame);
 
     let room_slug = useBucketSelector(btReplay, (bucket) => bucket[game_slug]);
-    let replay = useBucketSelector(btReplays, (bucket) => bucket[game_slug]);
-    let primaryGamePanel = getPrimaryGamePanel(); // useBucket(btPrimaryGamePanel);
+    // let replayFiles = useBucketSelector(btReplay, (bucket) => bucket[game_slug]);
+    // let primaryGamePanel = getPrimaryGamePanel(); // useBucket(btPrimaryGamePanel);
     let screenResized = useBucket(btScreenResized);
     let isMobile = btIsMobile.get(); // useBucket(btIsMobile);
 
@@ -109,24 +109,25 @@ function GameInfoReplayContent({ game_slug }) {
     let ref = useRef();
 
     useEffect(() => {
-        if (!game_slug || typeof filename !== "undefined") return;
+        if (!game_slug || room_slug) return;
 
         findGameReplays(game_slug);
-    }, [game_slug, filename]);
+    }, [game_slug, room_slug]);
 
-    if (!room_slug || typeof filename !== "undefined") {
+    if (!room_slug) {
         return <></>;
     }
 
-    if (typeof primaryGamePanel !== "undefined" && primaryGamePanel != null)
-        return <></>;
+    let gamepanel = findGamePanelByRoom(room_slug);
+    if (!gamepanel) return <></>;
+    // if (typeof primaryGamePanel !== "undefined" && primaryGamePanel != null) return <></>;
     // let randomReplay = props.replays[Math.floor(Math.random() * props.replays.length)];
 
     // if (!replay) {
     //     return <></>
     // }
 
-    let replaySettings = replay[0];
+    let replaySettings = gamepanel.room;
     if (!replaySettings) return <></>;
 
     let h = window.innerHeight - 100;
@@ -152,7 +153,7 @@ function GameInfoReplayContent({ game_slug }) {
 
     return (
         <VStack
-            pb="10rem"
+            pb="20rem"
             w="100%"
             spacing="0"
             filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))"
@@ -163,6 +164,7 @@ function GameInfoReplayContent({ game_slug }) {
                 w="100%"
                 alignItems={"center"}
                 pb="2rem"
+                pt="1rem"
                 // _after={{
                 //     content: '""',
                 //     display: "block",
@@ -174,21 +176,11 @@ function GameInfoReplayContent({ game_slug }) {
                 //     background: "brand.600",
                 // }}
             >
-                <Heading
-                    as="h2"
-                    color="gray.0"
-                    fontSize={["2.4rem", "2.4rem", "4rem"]}
-                    fontWeight={"600"}
-                >
+                <Heading as="h2" color="gray.0" fontSize={["2rem", "2rem"]} fontWeight={"400"}>
                     Match #123
                 </Heading>
             </VStack>
-            <HStack
-                w="90%"
-                spacing="0"
-                justifyContent={"center"}
-                alignItems={"flex-start"}
-            >
+            <HStack w="90%" spacing="0" justifyContent={"center"} alignItems={"flex-start"}>
                 {/* <Text as="h3" fontWeight={'bold'} color="white">Watch Replay</Text> */}
                 <Box
                     width={[`${bgWidth}px`]}
@@ -196,6 +188,7 @@ function GameInfoReplayContent({ game_slug }) {
                     position="relative"
                     ref={ref}
                     scrollSnapStop={"start"}
+                    left="-1rem"
                 >
                     <Box
                         width={[`${bgWidth}px`]}
@@ -207,10 +200,7 @@ function GameInfoReplayContent({ game_slug }) {
                         borderRadius="8px"
                         scrollSnapStop={"start"}
                     >
-                        <EmbeddedGamePanel
-                            key="replay-panel"
-                            room_slug={room_slug}
-                        />
+                        <EmbeddedGamePanel key="replay-panel" room_slug={room_slug} />
                     </Box>
                     {/* <svg xmlns="http://www.w3.org/2000/svg" style={{
                         position: 'absolute', left: '10px', bottom: '-15px', fill: 'var(--chakra-colors-gray-1200)'
@@ -233,9 +223,10 @@ function GameInfoReplayContent({ game_slug }) {
                         //borderRightRadius={'12px'}
 
                         position="relative"
-                        left="-1rem"
-                        pl="2rem"
-                        h="100%"
+                        // left="-1rem"
+                        // ml="2rem"
+                        // pl="2rem"
+                        // h="100%"
                         w="calc(100% + 2rem)"
                         flex="1"
                         justifyContent={"flex-end"}
@@ -282,7 +273,7 @@ function ReplayInfoPanel({ room_slug }) {
                     fontSize="1.2rem"
                     color="gray.200"
                     _selected={{
-                        color: "brand.600",
+                        color: "gray.10",
                         bg: "gray.1200",
                         border: "0px solid",
                         borderColor: "gray.1200",
@@ -294,7 +285,7 @@ function ReplayInfoPanel({ room_slug }) {
                     fontSize="1.2rem"
                     color="gray.200"
                     _selected={{
-                        color: "brand.600",
+                        color: "gray.10",
                         bg: "gray.1200",
                         border: "0px solid",
                         borderColor: "gray.1200",
@@ -310,7 +301,11 @@ function ReplayInfoPanel({ room_slug }) {
                         {/* <PlayersList room_slug={room_slug} /> */}
                     </Box>
                 </TabPanel>
-                <TabPanel></TabPanel>
+                <TabPanel>
+                    <Box w="100%" h="100%" flex="1">
+                        &nbsp;
+                    </Box>
+                </TabPanel>
             </TabPanels>
         </Tabs>
     );
@@ -328,10 +323,7 @@ function PlayersList({ room_slug }) {
 }
 
 function PlayersFFA({ gamepanelid }) {
-    let gamepanel = useBucketSelector(
-        btGamePanels,
-        (bucket) => bucket[gamepanelid]
-    );
+    let gamepanel = useBucketSelector(btGamePanels, (bucket) => bucket[gamepanelid]);
     let gamestate = gamepanel.gamestate;
     if (!gamestate || !gamestate.players) return <></>;
     let players = gamestate.players;
@@ -491,14 +483,9 @@ function ReplayControls({ room_slug }) {
                             btReplay.assign({ navigated: true });
 
                             navigate(
-                                `/ g / ${
-                                    gamepanel.room.game_slug
-                                } / replays / ${gamepanel.room.mode} / ${
+                                `/g/${gamepanel.room.game_slug}/replays/${gamepanel.room.mode}/${
                                     gamepanel.room.version
-                                } / ${gamepanel.room.filename.replace(
-                                    ".json",
-                                    ""
-                                )}`
+                                }/${gamepanel.room.room_slug.replace(".json", "")}`
                             );
                         }}
                     >
@@ -525,8 +512,8 @@ function ReplayPosition({ gamepanel }) {
 
     let history = gamepanel?.room.history || [];
 
-    let startIndex = 0;
-    for (let i = 0; i < history.length; i++) {
+    let startIndex = 1;
+    for (let i = 1; i < history.length; i++) {
         let h = history[i];
         if (h.payload.room.status == "gamestart") {
             startIndex = i;

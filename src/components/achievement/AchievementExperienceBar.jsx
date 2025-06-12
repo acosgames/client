@@ -1,24 +1,11 @@
-import {
-    Box,
-    Button,
-    Heading,
-    HStack,
-    Progress,
-    Text,
-    Spinner,
-    Icon,
-} from "@chakra-ui/react";
+import { Box, Button, Heading, HStack, Progress, Text, Spinner, Icon } from "@chakra-ui/react";
 import { useState } from "react";
 import { claimAchievement } from "../../actions/game";
 import { useBucket } from "../../actions/bucket";
 import { btClaimingAchievement } from "../../actions/buckets";
 import { FaCheck } from "react-icons/fa";
 
-export default function AchievementExperienceBar({
-    game_slug,
-    percent,
-    achievement,
-}) {
+export default function AchievementExperienceBar({ game_slug, percent, achievement }) {
     // let [claimed, setClaimed] = useState(false);
     let isClaiming = useBucket(btClaimingAchievement);
 
@@ -38,38 +25,25 @@ export default function AchievementExperienceBar({
                     fontSize={"xxs"}
                     bgColor={"gray.1000"}
                     transform="skew(-15deg)"
-                    boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
+                    boxShadow="3px 3px 0 var(--chakra-colors-brand-100)"
                     _hover={{
-                        boxShadow: "6px 4px 0 var(--chakra-colors-brand-300)",
+                        boxShadow: "6px 4px 0 var(--chakra-colors-brand-100)",
                     }}
                     _active={{
-                        boxShadow: "6px 4px 0 var(--chakra-colors-brand-300)",
+                        boxShadow: "6px 4px 0 var(--chakra-colors-brand-100)",
                     }}
                     onClick={() => {
-                        claimAchievement(
-                            achievement?.game_slug,
-                            achievement?.achievement_slug
-                        );
+                        claimAchievement(achievement?.game_slug, achievement?.achievement_slug);
                     }}
                 >
-                    <Heading
-                        as="span"
-                        fontSize="1.4rem"
-                        color="gray.0"
-                        transform="skew(15deg)"
-                    >
+                    <Heading as="span" fontSize="1.4rem" color="gray.0" transform="skew(15deg)">
                         {isClaiming && <Spinner size="sm" />}
                         {!isClaiming && "Claim!"}
                     </Heading>
                 </Button>
             );
         return (
-            <Heading
-                as="h6"
-                fontSize="1.4rem"
-                fontWeight="600"
-                color={"brand.300"}
-            >
+            <Heading as="h6" fontSize="1.4rem" fontWeight="600" color={"brand.300"}>
                 <Icon as={FaCheck} height="1.2rem" mr="0.25rem" /> COMPLETED
             </Heading>
         );

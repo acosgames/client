@@ -76,10 +76,7 @@ export function ModalGameOver({ gamepanelid }) {
 
 function ScreenChooser({ gamepanelid }) {
     let screen = useBucket(btGameoverScreen);
-    let gamestatus = useBucketSelector(
-        btGameStatus,
-        (bucket) => bucket[gamepanelid]
-    );
+    let gamestatus = useBucketSelector(btGameStatus, (bucket) => bucket[gamepanelid]);
     /* 
         Screen 1:
             - Win / Lose / Forfeit / Crash
@@ -174,7 +171,7 @@ function Screen3({ gamepanelid }) {
     }
 
     let prevRanking = { ...player };
-    prevRanking.rating = 3400;
+    prevRanking.rating = 2000;
 
     let ratingDiff = ranking.rating - prevRanking.rating;
     let rankDiff = ranking.rank - prevRanking.rank;
@@ -229,12 +226,10 @@ function Screen3({ gamepanelid }) {
                         <>
                             <MotionText
                                 initial={{
-                                    opacity:
-                                        prevClassString != classString ? 0 : 1,
+                                    opacity: prevClassString != classString ? 0 : 1,
                                 }}
                                 animate={{
-                                    opacity:
-                                        prevClassString != classString ? 1 : 0,
+                                    opacity: prevClassString != classString ? 1 : 0,
                                 }}
                                 transition={{ delay: 1, duration: 2 }}
                                 as="span"
@@ -246,19 +241,15 @@ function Screen3({ gamepanelid }) {
                                     position="relative"
                                     top="0.25rem"
                                     as={FaArrowRight}
-                                    color={
-                                        ratingDiff > 0 ? "brand.50" : "red.300"
-                                    }
+                                    color={ratingDiff > 0 ? "alt.50" : "red.300"}
                                 />
                             </MotionText>
                             <MotionText
                                 initial={{
-                                    opacity:
-                                        prevClassString != classString ? 0 : 1,
+                                    opacity: prevClassString != classString ? 0 : 1,
                                 }}
                                 animate={{
-                                    opacity:
-                                        prevClassString != classString ? 1 : 0,
+                                    opacity: prevClassString != classString ? 1 : 0,
                                 }}
                                 transition={{ delay: 1, duration: 2 }}
                                 as="span"
@@ -294,7 +285,7 @@ function Screen3({ gamepanelid }) {
                             as="span"
                             display="block"
                             fontSize="1.8rem"
-                            color={ratingDiff > 0 ? "brand.300" : "red.500"}
+                            color={ratingDiff > 0 ? "alt.300" : "red.500"}
                         >
                             {classChangeStatus}
                         </MotionText>
@@ -339,11 +330,7 @@ function Screen2({ gamepanelid }) {
         >
             <VStack my="4rem" mx="2rem">
                 <XPProgress {...xp} />
-                <XPLineItems
-                    experience={xp.experience}
-                    points={xp.points}
-                    level={xp.level}
-                />
+                <XPLineItems experience={xp.experience} points={xp.points} level={xp.level} />
             </VStack>
         </OverlayFrame>
     );
@@ -421,13 +408,7 @@ export function XPLineItems({ experience, points, level, hideTotal }) {
 
 let xpTimeout = 0;
 
-export function XPProgress({
-    previousPoints,
-    previousLevel,
-    points,
-    level,
-    experience,
-}) {
+export function XPProgress({ previousPoints, previousLevel, points, level, experience }) {
     // let userLevel = useBucketSelector(btUser, (user) => user.level);
 
     // let previousPct = (previousPoints / 1000) * 100;
@@ -483,7 +464,7 @@ export function XPProgress({
                 >
                     <VStack
                         h="1rem"
-                        bgColor="brand.300"
+                        bgColor="alt.300"
                         width={previousPct + "%"}
                         // initial={{ width: previousPct + "%" }}
                         // animate={{ width: previousPct + "%" }}
@@ -493,9 +474,9 @@ export function XPProgress({
                     <MotionVStack
                         key={"xp-progress-" + currentLevel}
                         h="1rem"
-                        bgColor="brand.600"
+                        bgColor="alt.600"
                         position={"absolute"}
-                        borderRight="1px solid var(--chakra-colors-brand-900)"
+                        borderRight="1px solid var(--chakra-colors-alt-900)"
                         left={previousPct + "%"}
                         top="0"
                         initial={{ width: "0%" }}
@@ -511,13 +492,7 @@ export function XPProgress({
                     {currentLevel + 1}
                 </Text>
             </HStack>
-            <HStack
-                w="100%"
-                justifyContent={"flex-end"}
-                pr="5rem"
-                color="gray.50"
-                fontSize="1rem"
-            >
+            <HStack w="100%" justifyContent={"flex-end"} pr="5rem" color="gray.50" fontSize="1rem">
                 <NumberIncrease
                     key={"xp-number-increase-" + currentLevel}
                     start={prevPoints}
@@ -531,15 +506,7 @@ export function XPProgress({
     );
 }
 
-function NumberIncrease({
-    start,
-    end,
-    duration,
-    ease,
-    fontSize,
-    lineHeight,
-    color,
-}) {
+function NumberIncrease({ start, end, duration, ease, fontSize, lineHeight, color }) {
     const ref = useRef(null);
 
     const isInView = useInView(ref, {
@@ -550,9 +517,7 @@ function NumberIncrease({
     const [_, animate] = useAnimate();
     const startingValue = useMotionValue(start);
 
-    const currentValue = useTransform(startingValue, (value) =>
-        Math.round(value).toLocaleString()
-    );
+    const currentValue = useTransform(startingValue, (value) => Math.round(value).toLocaleString());
 
     useEffect(() => {
         if (isInView) {
@@ -662,9 +627,9 @@ function Screen1({ gamepanelid }) {
     };
 
     useEffect(() => {
-        screen1Timeout = setTimeout(() => {
-            btGameoverScreen.set(1);
-        }, 3000);
+        // screen1Timeout = setTimeout(() => {
+        //     btGameoverScreen.set(1);
+        // }, 3000);
 
         return () => {
             if (screen1Timeout) clearTimeout(screen1Timeout);
@@ -725,26 +690,39 @@ function RenderPlayerSimple({
                     top: "-1px",
                     left: "-1px",
                     border: team ? "1px solid" : "none",
-                    borderRadius: "8px",
+                    borderRadius: "50%",
                     borderColor: team ? team.color : "",
                     zIndex: 1,
                     opacity: 0.5,
                 }}
             >
                 <Image
+                    src={`${config.https.cdn}images/country/${countrycode}.svg`}
+                    // mt="0.5rem"
+                    borderColor="gray.100"
+                    borderRadius="3px"
+                    width="1.75rem"
+                    // height="1.75rem"
+                    filter="opacity(0.9)"
+                    position="absolute"
+                    top="-0.1rem"
+                    right="-0.7rem"
+                    zIndex="2"
+                />
+                <Image
                     display="inline-block"
                     src={`${config.https.cdn}images/portraits/${filename}`}
                     loading="lazy"
                     w={"5rem"}
                     h={"5rem"}
-                    borderRadius={"8px"}
+                    borderRadius={"50%"}
                     // mb="1rem"
                     position="relative"
-                    zIndex="2"
+                    zIndex=""
                     // transform="skew(15deg)"
                 />
             </Box>
-            <VStack spacing="0" ml="0.5rem" alignItems={"flex-start"}>
+            <VStack spacing="0" ml="1rem" alignItems={"flex-start"}>
                 <HStack>
                     <Text
                         as="span"
@@ -756,18 +734,18 @@ function RenderPlayerSimple({
                         overflow="hidden"
                         whiteSpace={"nowrap"}
                         textOverflow={"ellipsis"}
-                        textShadow={team ? "0 0 8px " + team.color : ""}
+                        // textShadow={team ? "0 0 8px " + team.color : ""}
                     >
                         {displayname}
                     </Text>
-                    <Image
+                    {/* <Image
                         src={`${config.https.cdn}images/country/${countrycode}.svg`}
                         // mt="0.5rem"
                         borderColor="gray.100"
                         borderRadius="0px"
                         width="1.75rem"
                         filter="opacity(0.8)"
-                    />
+                    /> */}
                 </HStack>
                 <Text
                     as="span"
@@ -843,7 +821,7 @@ export function OverlayFrame({
             style={{
                 width: "100%",
                 height: "100%",
-                position: gamepanelid ? "absolute" : "fixed",
+                position: "absolute",
                 backgroundColor: "rgba(0,0,0,0.5)",
                 top: "0%",
                 zIndex: 112,
@@ -857,7 +835,7 @@ export function OverlayFrame({
             }}
         >
             <MotionVStack
-                w={["90%", "70%", "60%", "50%"]}
+                w={["90%", "70%", "70%", "70%"]}
                 position="absolute"
                 top={bgHeight / 2}
                 left="50%"
@@ -948,16 +926,11 @@ export function OverlayFrame({
                                 transform="skew(-15deg)"
                                 boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
                                 _hover={{
-                                    boxShadow:
-                                        "5px 3px 0 var(--chakra-colors-brand-300)",
+                                    boxShadow: "5px 3px 0 var(--chakra-colors-brand-300)",
                                 }}
                                 onClick={onActionClick}
                             >
-                                <Text
-                                    as="span"
-                                    color="gray.0"
-                                    transform="skew(15deg)"
-                                >
+                                <Text as="span" color="gray.0" transform="skew(15deg)">
                                     {actionTitle}{" "}
                                     {typeof duration !== "undefined" ? (
                                         <Text

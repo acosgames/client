@@ -54,10 +54,18 @@ export default function UserPanel() {
     return (
         <>
             <UserFrame />
-            {!isMobile && <Searching />}
+
             <Routes>
-                <Route path="/g/:game_slug" element={<PlayNowButton />} />
-                <Route path="/*" element={<></>} />
+                <Route
+                    path="/g/:game_slug"
+                    element={
+                        <>
+                            {<Searching />}
+                            <PlayNowButton />
+                        </>
+                    }
+                />
+                <Route path="/*" element={<>{<Searching />}</>} />
             </Routes>
         </>
     );
@@ -122,10 +130,10 @@ function UserFrame() {
         >
             <IsNextIndicator gamepanelid={primaryId} />
             <VStack
-                bgColor="gray.900"
+                // bgColor="gray.900"
                 borderRadius={"8px"}
                 w="100%"
-                boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
+                // boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
             >
                 <HStack
                     w="100%"
@@ -144,11 +152,7 @@ function UserFrame() {
                             spacing="1rem"
                             justifyContent={"flex-start"}
                         >
-                            <VStack
-                                alignItems={"flex-start"}
-                                flex={["1", ""]}
-                                spacing="0.25rem"
-                            >
+                            <VStack alignItems={"flex-start"} flex={["1", ""]} spacing="0.25rem">
                                 <HStack
                                     alignItems={"center"}
                                     spacing="0.5rem"
@@ -156,7 +160,7 @@ function UserFrame() {
                                     // justifyContent={"center"}
                                 >
                                     <UserName />
-                                    <UserFlag />
+                                    {/* <UserFlag /> */}
                                 </HStack>
 
                                 <HStack spacing="0.5rem">
@@ -247,8 +251,7 @@ let menuButtonPaths = {
 function WebMenu({}) {
     const location = useLocation();
 
-    const isActive = (currentpath) =>
-        location.pathname.indexOf(currentpath) > -1;
+    const isActive = (currentpath) => location.pathname.indexOf(currentpath) > -1;
 
     location.pathname.indexOf("/player/create");
 
@@ -267,19 +270,13 @@ function WebMenu({}) {
                 color={"gray.0"}
                 role="group"
                 _hover={{ color: "brand.300" }}
+                onClick={async () => {
+                    if (!(await validateLogin())) return false;
+                }}
             >
-                <RLink
-                    to={"/games"}
-                    display="flex"
-                    flexDirection={"column"}
-                    alignItems={"center"}
-                >
+                <RLink to={"/games"} display="flex" flexDirection={"column"} alignItems={"center"}>
                     <Icon as={GiGamepad} fontSize="3rem" />
-                    <Text
-                        as="span"
-                        fontSize={"1.2rem"}
-                        _groupHover={{ color: "gray.0" }}
-                    >
+                    <Text as="span" fontSize={"1.2rem"} _groupHover={{ color: "gray.0" }}>
                         Sign In
                     </Text>
                 </RLink>
