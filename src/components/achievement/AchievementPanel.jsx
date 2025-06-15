@@ -168,13 +168,13 @@ function AchievementReward({ achievement, percent }) {
 
     return (
         <VStack
-            w="6rem"
-            // h="6rem"
+            w="7rem"
+            h="7rem"
             overflow="hidden"
             mr="1rem"
             position="relative"
             zIndex="1"
-            borderRadius={"8px"}
+            borderRadius={"50%"}
             bgColor="gray.1000"
             // border="2px solid"
             // borderColor={"gray.300"}
@@ -213,17 +213,17 @@ function calculateAchievementProgress(achievement, progress) {
         goal1_valueTYPE,
         goal1_valueINT,
         goal1_valueFLOAT,
-        goal1_valueSTRING,
+        // goal1_valueSTRING,
         stat_slug2,
         goal2_valueTYPE,
         goal2_valueINT,
         goal2_valueFLOAT,
-        goal2_valueSTRING,
+        // goal2_valueSTRING,
         stat_slug3,
         goal3_valueTYPE,
         goal3_valueINT,
         goal3_valueFLOAT,
-        goal3_valueSTRING,
+        // goal3_valueSTRING,
         all_required,
         times_in_a_row,
     } = achievement;
@@ -231,13 +231,13 @@ function calculateAchievementProgress(achievement, progress) {
     let {
         stat1_valueINT,
         stat1_valueFLOAT,
-        stat1_valueSTRING,
+        // stat1_valueSTRING,
         stat2_valueINT,
         stat2_valueFLOAT,
-        stat2_valueSTRING,
+        // stat2_valueSTRING,
         stat3_valueINT,
         stat3_valueFLOAT,
-        stat3_valueSTRING,
+        // stat3_valueSTRING,
         played,
     } = progress;
 
@@ -262,10 +262,10 @@ function calculateAchievementProgress(achievement, progress) {
             goal1_valueTYPE,
             goal1_valueINT,
             goal1_valueFLOAT,
-            goal1_valueSTRING,
+            // goal1_valueSTRING,
             stat1_valueINT,
             stat1_valueFLOAT,
-            stat1_valueSTRING,
+            // stat1_valueSTRING,
             times_in_a_row,
             played
         );
@@ -277,10 +277,10 @@ function calculateAchievementProgress(achievement, progress) {
             goal2_valueTYPE,
             goal2_valueINT,
             goal2_valueFLOAT,
-            goal2_valueSTRING,
+            // goal2_valueSTRING,
             stat2_valueINT,
             stat2_valueFLOAT,
-            stat2_valueSTRING,
+            // stat2_valueSTRING,
             times_in_a_row,
             played
         );
@@ -292,10 +292,10 @@ function calculateAchievementProgress(achievement, progress) {
             goal3_valueTYPE,
             goal3_valueINT,
             goal3_valueFLOAT,
-            goal3_valueSTRING,
+            // goal3_valueSTRING,
             stat3_valueINT,
             stat3_valueFLOAT,
-            stat3_valueSTRING,
+            // stat3_valueSTRING,
             times_in_a_row,
             played
         );
@@ -344,10 +344,10 @@ function calculateStatProgress(
     goal_valueTYPE,
     goal_valueINT,
     goal_valueFLOAT,
-    goal_valueSTRING,
+    // goal_valueSTRING,
     stat_valueINT,
     stat_valueFLOAT,
-    stat_valueSTRING,
+    // stat_valueSTRING,
     times_in_a_row,
     played
 ) {
@@ -398,89 +398,168 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
         Number.isInteger(achievement.times_in_a_row) &&
         achievement.times_in_a_row == 0
     ) {
+        let cur1, target1, cur2, target2, cur3, target3;
+        let complete1, complete2, complete3;
+        if (achievement.stat_slug1) {
+            cur1 =
+                achievement.goal1_valueTYPE == 0
+                    ? Math.min(progress.stat1_valueINT || 0, achievement.goal1_valueINT)
+                    : achievement.goal1_valueTYPE == 3
+                    ? Math.min(progress.stat1_valueINT || 0, achievement.goal1_valueINT)
+                    : Math.min(progress.stat1_valueFLOAT || 0, achievement.goal1_valueFLOAT);
+
+            target1 =
+                achievement.goal1_valueTYPE == 0
+                    ? achievement.goal1_valueINT || 0
+                    : achievement.goal1_valueTYPE == 3
+                    ? achievement.goal1_valueINT
+                    : achievement.goal1_valueFLOAT || 0;
+            complete1 = cur1 / target1 >= 1.0;
+
+            if (achievement.goal1_valueTYPE == 3) {
+                cur1 = cur1 + "s";
+                target1 = target1 + "s";
+            }
+        }
+
+        if (achievement.stat_slug2) {
+            cur2 =
+                achievement.goal2_valueTYPE == 0
+                    ? Math.min(progress.stat2_valueINT || 0, achievement.goal2_valueINT)
+                    : achievement.goal2_valueTYPE == 3
+                    ? Math.min(progress.stat2_valueINT || 0, achievement.goal2_valueINT)
+                    : Math.min(progress.stat2_valueFLOAT || 0, achievement.goal2_valueFLOAT);
+
+            target2 =
+                achievement.goal2_valueTYPE == 0
+                    ? achievement.goal2_valueINT || 0
+                    : achievement.goal2_valueTYPE == 3
+                    ? achievement.goal2_valueINT
+                    : achievement.goal2_valueFLOAT || 0;
+            complete2 = cur2 / target2 >= 1.0;
+
+            if (achievement.goal2_valueTYPE == 3) {
+                cur2 = cur2 + "s";
+                target2 = target2 + "s";
+            }
+        }
+
+        if (achievement.stat_slug3) {
+            cur3 =
+                achievement.goal3_valueTYPE == 0
+                    ? Math.min(progress.stat3_valueINT || 0, achievement.goal3_valueINT)
+                    : achievement.goal3_valueTYPE == 3
+                    ? Math.min(progress.stat3_valueINT || 0, achievement.goal3_valueINT)
+                    : Math.min(progress.stat3_valueFLOAT || 0, achievement.goal3_valueFLOAT);
+
+            target3 =
+                achievement.goal3_valueTYPE == 0
+                    ? achievement.goal3_valueINT || 0
+                    : achievement.goal3_valueTYPE == 3
+                    ? achievement.goal3_valueINT
+                    : achievement.goal3_valueFLOAT || 0;
+            complete3 = cur3 / target3 >= 1.0;
+
+            if (achievement.goal3_valueTYPE == 3) {
+                cur3 = cur3 + "s";
+                target3 = target3 + "s";
+            }
+        }
         return (
             <>
                 {achievement.stat_slug1 && (
                     <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
-                        <Text as="span">{achievement.stat_name1}</Text>{" "}
-                        {achievement.goal1_valueTYPE == 4 && (
-                            <>({achievement.goal1_valueSTRING}) </>
-                        )}
-                        <Text pl="0.5rem" as="span" fontWeight="500" color="gray.20">
-                            {achievement.goal1_valueTYPE == 0 || achievement.goal1_valueTYPE == 4
-                                ? Math.min(progress.stat1_valueINT || 0, achievement.goal1_valueINT)
-                                : achievement.goal1_valueTYPE == 3
-                                ? Math.min(
-                                      progress.stat1_valueINT || 0,
-                                      achievement.goal1_valueINT
-                                  ) + "s"
-                                : Math.min(
-                                      progress.stat1_valueFLOAT || 0,
-                                      achievement.goal1_valueFLOAT
-                                  )}
+                        <Text as="span">{achievement.stat_name1}</Text>
+                        <Text
+                            px="0.5rem"
+                            as="span"
+                            fontWeight="500"
+                            color={complete2 ? "brand.100" : "gray.20"}
+                        >
+                            {cur1}
+                        </Text>
+                        /
+                        <Text
+                            pl="0.5rem"
+                            as="span"
+                            fontWeight="500"
+                            color={complete1 ? "brand.100" : "gray.50"}
+                        >
+                            {target1}
                         </Text>{" "}
-                        /{" "}
-                        {achievement.goal1_valueTYPE == 0 || achievement.goal1_valueTYPE == 4
-                            ? achievement.goal1_valueINT || 0
-                            : achievement.goal1_valueTYPE == 3
-                            ? achievement.goal1_valueINT + "s"
-                            : achievement.goal1_valueFLOAT || 0}
+                        <Text
+                            display="inline-block"
+                            w="1rem"
+                            visibility={complete1 ? "visible" : "hidden"}
+                            color={complete1 ? "brand.100" : ""}
+                            as="span"
+                        >
+                            ✔
+                        </Text>
                     </Heading>
                 )}
 
                 {achievement.stat_slug2 && (
                     <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
-                        <Text as="span">{achievement.stat_name2}</Text>{" "}
-                        {achievement.goal2_valueTYPE == 4 && (
-                            <>({achievement.goal2_valueSTRING}) </>
-                        )}
-                        <Text pl="0.5rem" as="span" fontWeight="500" color="gray.20">
-                            {achievement.goal2_valueTYPE == 0 || achievement.goal2_valueTYPE == 4
-                                ? Math.min(progress.stat2_valueINT || 0, achievement.goal2_valueINT)
-                                : achievement.goal2_valueTYPE == 3
-                                ? Math.min(
-                                      progress.stat2_valueINT || 0,
-                                      achievement.goal2_valueINT
-                                  ) + "s"
-                                : Math.min(
-                                      progress.stat2_valueFLOAT || 0,
-                                      achievement.goal2_valueFLOAT
-                                  )}
+                        <Text as="span">{achievement.stat_name2}</Text>
+                        <Text
+                            px="0.5rem"
+                            as="span"
+                            fontWeight="500"
+                            color={complete2 ? "brand.100" : "gray.20"}
+                        >
+                            {cur2}
+                        </Text>
+                        /
+                        <Text
+                            pl="0.5rem"
+                            as="span"
+                            fontWeight="500"
+                            color={complete2 ? "brand.100" : "gray.50"}
+                        >
+                            {target2}
                         </Text>{" "}
-                        /{" "}
-                        {achievement.goal2_valueTYPE == 0 || achievement.goal2_valueTYPE == 4
-                            ? achievement.goal2_valueINT || 0
-                            : achievement.goal2_valueTYPE == 3
-                            ? achievement.goal2_valueINT + "s"
-                            : achievement.goal2_valueFLOAT || 0}
+                        <Text
+                            display="inline-block"
+                            w="1rem"
+                            visibility={complete2 ? "visible" : "hidden"}
+                            color={complete2 ? "brand.100" : ""}
+                            as="span"
+                        >
+                            ✔
+                        </Text>
                     </Heading>
                 )}
 
                 {achievement.stat_slug3 && (
                     <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
-                        <Text as="span">{achievement.stat_name3}</Text>{" "}
-                        {achievement.goal3_valueTYPE == 4 && (
-                            <>({achievement.goal3_valueSTRING}) </>
-                        )}
-                        <Text pl="0.5rem" as="span" fontWeight="500" color="gray.20">
-                            {achievement.goal3_valueTYPE == 0 || achievement.goal3_valueTYPE == 4
-                                ? Math.min(progress.stat3_valueINT || 0, achievement.goal3_valueINT)
-                                : achievement.goal3_valueTYPE == 3
-                                ? Math.min(
-                                      progress.stat3_valueINT || 0,
-                                      achievement.goal3_valueINT
-                                  ) + "s"
-                                : Math.min(
-                                      progress.stat3_valueFLOAT || 0,
-                                      achievement.goal3_valueFLOAT
-                                  )}
+                        <Text as="span">{achievement.stat_name3}</Text>
+                        <Text
+                            px="0.5rem"
+                            as="span"
+                            fontWeight="500"
+                            color={complete3 ? "brand.100" : "gray.20"}
+                        >
+                            {cur3}
+                        </Text>
+                        /
+                        <Text
+                            pl="0.5rem"
+                            as="span"
+                            fontWeight="500"
+                            color={complete3 ? "brand.100" : "gray.50"}
+                        >
+                            {target3}
                         </Text>{" "}
-                        /{" "}
-                        {achievement.goal3_valueTYPE == 0 || achievement.goal3_valueTYPE == 4
-                            ? achievement.goal3_valueINT || 0
-                            : achievement.goal3_valueTYPE == 3
-                            ? achievement.goal3_valueINT + "s"
-                            : achievement.goal3_valueFLOAT || 0}
+                        <Text
+                            display="inline-block"
+                            w="1rem"
+                            visibility={complete3 ? "visible" : "hidden"}
+                            color={complete3 ? "brand.100" : ""}
+                            as="span"
+                        >
+                            ✔
+                        </Text>
                     </Heading>
                 )}
             </>
@@ -490,15 +569,27 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
     value = Math.min(value, maxValue);
 
     if (achievement.goal1_valueTYPE == 2) {
+        let cur = Math.min(value, maxValue);
+        let completed = cur / maxValue >= 1.0;
         return (
             <>
-                <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
+                <Heading
+                    as="h6"
+                    fontSize="1.2rem"
+                    fontWeight="300"
+                    color={completed ? "brand.100" : "gray.20"}
+                >
                     <Text as="span">Best: </Text>
                     <Text as="span" fontWeight="500" color="gray.20">
                         {value}
                     </Text>
                 </Heading>
-                <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
+                <Heading
+                    as="h6"
+                    fontSize="1.2rem"
+                    fontWeight="300"
+                    color={completed ? "brand.100" : "gray.20"}
+                >
                     <Text as="span">Goal: </Text>
                     <Text as="span" fontWeight="500">
                         {maxValue}
@@ -509,12 +600,31 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
     }
 
     if (achievement.goal1_valueTYPE == 3) {
+        let cur = Math.min(value, maxValue);
+        let completed = cur / maxValue >= 1.0;
         return (
             <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
-                <Text as="span" fontWeight="500" color="gray.20">
-                    {Math.min(value, maxValue) + "s"}
+                <Text as="span" fontWeight="500" color={completed ? "brand.100" : "gray.20"}>
+                    {cur + "s"}
                 </Text>{" "}
-                / {maxValue + "s"}
+                /{" "}
+                <Text
+                    pl="0.5rem"
+                    as="span"
+                    fontWeight="500"
+                    color={completed ? "brand.100" : "gray.50"}
+                >
+                    {maxValue + "s"}
+                </Text>{" "}
+                <Text
+                    display="inline-block"
+                    w="1rem"
+                    visibility={completed ? "visible" : "hidden"}
+                    color={completed ? "brand.100" : ""}
+                    as="span"
+                >
+                    ✔
+                </Text>
             </Heading>
         );
     }

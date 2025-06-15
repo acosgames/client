@@ -22,13 +22,13 @@ function Header({}) {
 
     return (
         <HStack
-            // position="fixed"
+            position="fixed"
             top="0"
             left="0"
             w="100%"
-            height={["6.4rem", "6.4rem", "7rem"]}
+            height={["5rem"]}
             // width={["100%", "calc(100% - 27rem)", "calc(100% - 30rem)"]}
-            zIndex={"99"}
+            zIndex={"100"}
             // background={[
             //   "transparent",
             //   "linear-gradient(153.32deg, rgba(255, 255, 255, 0.3) -65.62%, rgba(255, 255, 255, 0.1) 83.28%)",
@@ -36,8 +36,8 @@ function Header({}) {
             bgColor={"gray.975"}
             boxShadow={[
                 "initial",
-                "0px 4px 24px -1px rgba(0,0,0,.2)",
-                "0 1px 2px black, 0 2px 20px black",
+                "0px 4px 6px -1px rgba(0,0,0,.2)",
+                "0 1px 2px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.3)",
             ]}
             // backdropFilter={["initial", "blur(15px)"]}
             justifyContent={"center"}
@@ -45,10 +45,10 @@ function Header({}) {
         >
             <HStack
                 px={["1rem", "1rem", "1rem", "3rem"]}
-                w={["100%", "100%", "100%", "100%", "1000px"]}
+                w={["100%", "100%", "100%", "100%"]}
                 width={["100%"]}
             >
-                {/* <HStack
+                <HStack
                     //pl={["24rem", "23rem"]}
                     pr={["2rem", "2rem", "2rem"]}
                     pl="0"
@@ -69,7 +69,7 @@ function Header({}) {
                             />
                         </Link>
                     </Box>
-                </HStack> */}
+                </HStack>
                 <HStack
                     w="100%"
                     pl="1rem"
@@ -82,11 +82,11 @@ function Header({}) {
                                 as="h4"
                                 color="gray.0"
                                 fontWeight="bold"
-                                fontSize={["1.2rem", "1.6rem", "2rem"]}
+                                fontSize={["1.2rem", "1.6rem", "1.6rem"]}
                                 transition={"all 0.3s ease"}
-                                _hover={{ color: "brand.300" }}
+                                _hover={{ color: "brand.100" }}
                             >
-                                Games
+                                Browse
                             </Heading>
                         </Link>
                         <Link to="/dev" className="">
@@ -94,9 +94,9 @@ function Header({}) {
                                 as="h4"
                                 color="gray.0"
                                 fontWeight="bold"
-                                fontSize={["1.2rem", "1.6rem", "2rem"]}
+                                fontSize={["1.2rem", "1.6rem", "1.6rem"]}
                                 transition={"all 0.3s ease"}
-                                _hover={{ color: "brand.300" }}
+                                _hover={{ color: "brand.100" }}
                             >
                                 Develop
                             </Heading>

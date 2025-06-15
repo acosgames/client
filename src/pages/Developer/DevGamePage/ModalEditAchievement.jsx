@@ -39,10 +39,7 @@ import { useEffect, useState } from "react";
 import ChooseAchievementIcon from "../../../components/user/ChooseAchievementIcon";
 import FSGSelect from "../../../components/widgets/inputs/FSGSelect";
 import FSGNumberInput from "../../../components/widgets/inputs/FSGNumberInput";
-import {
-    createOrEditAchievement,
-    updateGameField,
-} from "../../../actions/devgame";
+import { createOrEditAchievement, updateGameField } from "../../../actions/devgame";
 import FSGSwitch from "../../../components/widgets/inputs/FSGSwitch";
 import { notif } from "../../../components/ToastMessage";
 
@@ -66,10 +63,7 @@ export function EditAchievement({}) {
     let editAchievement = useBucket(btEditAchievement);
     let isUpdate = editAchievement?.achievement_slug;
 
-    let all_required = useBucketSelector(
-        btAchievementForm,
-        (form) => form["all_required"]
-    );
+    let all_required = useBucketSelector(btAchievementForm, (form) => form["all_required"]);
 
     let [loading, setLoading] = useState(false);
 
@@ -98,26 +92,17 @@ export function EditAchievement({}) {
         stats.map((s) => (statMap[s.stat_slug] = s));
 
         let needsUpdate = false;
-        if (
-            form?.stat_slug1 &&
-            form?.goal1_valueTYPE != statMap[form.stat_slug1]?.valueTYPE
-        ) {
+        if (form?.stat_slug1 && form?.goal1_valueTYPE != statMap[form.stat_slug1]?.valueTYPE) {
             form.goal1_valueTYPE = statMap[form.stat_slug1]?.valueTYPE;
             needsUpdate = true;
         }
 
-        if (
-            form?.stat_slug2 &&
-            form?.goal2_valueTYPE != statMap[form.stat_slug2]?.valueTYPE
-        ) {
+        if (form?.stat_slug2 && form?.goal2_valueTYPE != statMap[form.stat_slug2]?.valueTYPE) {
             form.goal2_valueTYPE = statMap[form.stat_slug2]?.valueTYPE;
             needsUpdate = true;
         }
 
-        if (
-            form?.stat_slug3 &&
-            form?.goal3_valueTYPE != statMap[form.stat_slug3]?.valueTYPE
-        ) {
+        if (form?.stat_slug3 && form?.goal3_valueTYPE != statMap[form.stat_slug3]?.valueTYPE) {
             form.goal3_valueTYPE = statMap[form.stat_slug3]?.valueTYPE;
             needsUpdate = true;
         }
@@ -163,9 +148,7 @@ export function EditAchievement({}) {
             notif({
                 status: "error",
                 title: "Error",
-                description:
-                    "Fix the errors and submit again." +
-                    JSON.stringify(errorResults),
+                description: "Fix the errors and submit again." + JSON.stringify(errorResults),
             });
 
             setLoading(false);
@@ -189,9 +172,7 @@ export function EditAchievement({}) {
             });
         } else {
             notif({
-                title: `Successfully ${
-                    isUpdate ? "updated" : "created"
-                } achievement.`,
+                title: `Successfully ${isUpdate ? "updated" : "created"} achievement.`,
                 description: `Achievement: ${achievement?.achievement_name}`,
                 status: "success",
                 isClosable: true,
@@ -240,12 +221,7 @@ export function EditAchievement({}) {
                     Create Achievement
                 </ModalHeader>
                 <ModalCloseButton top="1rem" right="1rem" />
-                <ModalBody
-                    overflow="hidden"
-                    position="relative"
-                    w="100%"
-                    h="100%"
-                >
+                <ModalBody overflow="hidden" position="relative" w="100%" h="100%">
                     <HStack w="100%" alignItems={"flex-start"} spacing="2rem">
                         {/* <Box w="20%">
                             <EditAchievementIcon />
@@ -288,9 +264,7 @@ export function EditAchievement({}) {
                                 id="achievement_description"
                                 title="Description"
                                 maxLength="120"
-                                required={
-                                    rules["achievement_description"].required
-                                }
+                                required={rules["achievement_description"].required}
                                 useValue={useValue}
                                 useTarget={useTarget}
                                 useErrors={useErrors}
@@ -305,30 +279,13 @@ export function EditAchievement({}) {
                                 alignItems={"flex-start"}
                                 spacing="2rem"
                             >
-                                <Text
-                                    as="span"
-                                    display="block"
-                                    fontSize="1.8rem"
-                                    color="gray.0"
-                                >
+                                <Text as="span" display="block" fontSize="1.8rem" color="gray.0">
                                     Goals
                                 </Text>
 
-                                <StatGoalInput
-                                    id={1}
-                                    title="Stat #1"
-                                    name="stat_slug1"
-                                />
-                                <StatGoalInput
-                                    id={2}
-                                    title="Stat #2"
-                                    name="stat_slug2"
-                                />
-                                <StatGoalInput
-                                    id={3}
-                                    title="Stat #3"
-                                    name="stat_slug3"
-                                />
+                                <StatGoalInput id={1} title="Stat #1" name="stat_slug1" />
+                                <StatGoalInput id={2} title="Stat #2" name="stat_slug2" />
+                                <StatGoalInput id={3} title="Stat #3" name="stat_slug3" />
                             </VStack>
                             <Box mt="1rem">
                                 <FSGSwitch
@@ -337,11 +294,7 @@ export function EditAchievement({}) {
                                     id="all_required"
                                     rules={group}
                                     group={group}
-                                    title={
-                                        all_required
-                                            ? "All Goals Required"
-                                            : "Any of the Goals"
-                                    }
+                                    title={all_required ? "All Goals Required" : "Any of the Goals"}
                                     min="0"
                                     horizontal={true}
                                     max="1"
@@ -378,9 +331,7 @@ useErrors={useErrors}
                                     min={0}
                                     max={1000}
                                     title={"Repeat for X matches in a row"}
-                                    helperText={
-                                        "0=infinite matches to reach goal"
-                                    }
+                                    helperText={"0=infinite matches to reach goal"}
                                     maxLength="3"
                                     required={rules[`times_in_a_row`].required}
                                     useValue={useValue}
@@ -413,12 +364,7 @@ useErrors={useErrors}
                         }}
                     >
                         {loading && (
-                            <Spinner
-                                width="2rem"
-                                height="2rem"
-                                color="gray.0"
-                                size={"sm"}
-                            />
+                            <Spinner width="2rem" height="2rem" color="gray.0" size={"sm"} />
                         )}
                         {!loading && (isUpdate ? "Update" : "Create")}
                     </Button>
@@ -502,27 +448,16 @@ function StatAwardInput({}) {
                         {" "}
                         --{" "}
                     </option>,
-                    <option
-                        key="awards_option-award_item"
-                        disabled
-                        value="award_item"
-                    >
+                    <option key="awards_option-award_item" disabled value="award_item">
                         Item
                     </option>,
                     <option key="awards_option-award_xp" value="award_xp">
                         XP
                     </option>,
-                    <option
-                        key="awards_option-award_gamepoints"
-                        value="award_gamepoints"
-                    >
+                    <option key="awards_option-award_gamepoints" value="award_gamepoints">
                         Game Points
                     </option>,
-                    <option
-                        key="awards_option-award_badge"
-                        disabled
-                        value="award_badge"
-                    >
+                    <option key="awards_option-award_badge" disabled value="award_badge">
                         Badge
                     </option>,
                 ]}
@@ -550,10 +485,7 @@ function StatGoalInput({ title, name, id }) {
 
     const goalOptions = (index) => {
         let options = stats.map((stat) => (
-            <option
-                key={"statgoal-option-" + stat.stat_slug}
-                value={stat.stat_slug}
-            >
+            <option key={"statgoal-option-" + stat.stat_slug} value={stat.stat_slug}>
                 {stat.stat_name}
             </option>
         ));
@@ -563,15 +495,18 @@ function StatGoalInput({ title, name, id }) {
                 {" "}
                 --{" "}
             </option>,
-            <option key="statgoal-option-wins" value="ACOS_WINS">
-                Match Wins
-            </option>,
-            <option key="statgoal-option-played" value="ACOS_PLAYED">
-                Matches Played
-            </option>,
-            <option key="statgoal-option-wins" value="ACOS_PLAYTIME">
-                Play Time
-            </option>,
+            // <option key="statgoal-option-wins" value="ACOS_WINS">
+            //     Match Wins
+            // </option>,
+            // <option key="statgoal-option-played" value="ACOS_PLAYED">
+            //     Matches Played
+            // </option>,
+            // <option key="statgoal-option-playtime" value="ACOS_PLAYTIME">
+            //     Play Time
+            // </option>,
+            // <option key="statgoal-option-score" value="ACOS_SCORE">
+            //     Score
+            // </option>,
         ];
 
         return [...nullOption, ...options];
@@ -618,24 +553,24 @@ function StatGoalInput({ title, name, id }) {
         );
     };
 
-    const valueSTRING = (index, title) => {
-        return (
-            <FSGTextInput
-                rules={group}
-                group={group}
-                name={`goal${index}_valueSTRING`}
-                id={`goal${index}_valueSTRING`}
-                titleFontSize="1.2rem"
-                titleColor="gray.20"
-                title={title || "Match String"}
-                maxLength="60"
-                required={rules[`goal${index}_valueSTRING`].required}
-                useValue={useValue}
-                useTarget={useTarget}
-                useErrors={useErrors}
-            />
-        );
-    };
+    // const valueSTRING = (index, title) => {
+    //     return (
+    //         <FSGTextInput
+    //             rules={group}
+    //             group={group}
+    //             name={`goal${index}_valueSTRING`}
+    //             id={`goal${index}_valueSTRING`}
+    //             titleFontSize="1.2rem"
+    //             titleColor="gray.20"
+    //             title={title || "Match String"}
+    //             maxLength="60"
+    //             required={rules[`goal${index}_valueSTRING`].required}
+    //             useValue={useValue}
+    //             useTarget={useTarget}
+    //             useErrors={useErrors}
+    //         />
+    //     );
+    // };
 
     const valueOptions = (index, type) => {
         switch (type) {
@@ -647,13 +582,13 @@ function StatGoalInput({ title, name, id }) {
                 return <>{valueFLOAT(index)}</>;
             case 3:
                 return <>{valueINT(index, "Time (seconds)")}</>;
-            case 4:
-                return (
-                    <>
-                        {valueSTRING(index)}
-                        {valueINT(index, "Match Count")}
-                    </>
-                );
+            // case 4:
+            //     return (
+            //         <>
+            //             {valueSTRING(index)}
+            //             {valueINT(index, "Match Count")}
+            //         </>
+            //     );
         }
     };
 
@@ -663,8 +598,8 @@ function StatGoalInput({ title, name, id }) {
         if (!stat && (goalValue == "ACOS_WINS" || goalValue == "ACOS_PLAYED")) {
             return valueOptions(index, 0);
         }
-        if (!stat && goalValue == "ACOS_PLAYTIME")
-            return valueOptions(index, 3);
+        if (!stat && goalValue == "ACOS_SCORE") return valueOptions(index, 0);
+        if (!stat && goalValue == "ACOS_PLAYTIME") return valueOptions(index, 3);
         return valueOptions(index, stat?.valueTYPE);
     };
 
@@ -748,18 +683,8 @@ function EditAchievementIcon({}) {
                         btIsChooseAchievementIcon.set(true);
                     }}
                     fallback={
-                        <VStack
-                            w="100%"
-                            h="100%"
-                            alignItems={"center"}
-                            justifyContent={"center"}
-                        >
-                            <Spinner
-                                width="3rem"
-                                height="3rem"
-                                color="brand.50"
-                                size={"sm"}
-                            />
+                        <VStack w="100%" h="100%" alignItems={"center"} justifyContent={"center"}>
+                            <Spinner width="3rem" height="3rem" color="brand.50" size={"sm"} />
                         </VStack>
                     }
                     display="inline-block"

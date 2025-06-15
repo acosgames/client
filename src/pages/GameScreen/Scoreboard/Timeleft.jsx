@@ -1,6 +1,6 @@
 import { Box, Heading, HStack, Text, Tooltip } from "@chakra-ui/react";
 import { useBucket } from "react-bucketjs";
-import { btTimeleft, btTimeleftUpdated } from "../actions/buckets";
+// import { btTimeleft, btTimeleftUpdated } from "../actions/buckets";
 
 function Timeleft(props) {
     let timeleftUpdated = useBucket(btTimeleftUpdated);
@@ -76,12 +76,7 @@ function Timeleft(props) {
                 position="relative"
             >
                 <HStack spacing="0" display={hour > 0 ? "flex" : "none"}>
-                    <Heading
-                        fontSize="2rem"
-                        as="span"
-                        className="digitaltimer"
-                        color={textColor}
-                    >
+                    <Heading fontSize="2rem" as="span" className="digitaltimer" color={textColor}>
                         {hour < 10 ? "0" + hour : hour}
                     </Heading>
                 </HStack>
@@ -94,11 +89,7 @@ function Timeleft(props) {
                 >
                     :
                 </Heading>
-                <HStack
-                    spacing="0"
-                    visibility={min >= 0 ? "visible" : "hidden"}
-                    w="2.25rem"
-                >
+                <HStack spacing="0" visibility={min >= 0 ? "visible" : "hidden"} w="2.25rem">
                     <Heading
                         as="span"
                         className="digitaltimer"
@@ -110,12 +101,7 @@ function Timeleft(props) {
                         {min < 10 ? "0" + min : min}
                     </Heading>
                 </HStack>
-                <Heading
-                    as="span"
-                    px="0.25rem"
-                    fontSize="2rem"
-                    color={textColor}
-                >
+                <Heading as="span" px="0.25rem" fontSize="2rem" color={textColor}>
                     :
                 </Heading>
                 <HStack spacing="0" w="2rem">

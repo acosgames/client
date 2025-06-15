@@ -1,11 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-    useNavigate,
-    useLocation,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
 import { Box, Center, VStack } from "@chakra-ui/layout";
 import { chakra } from "@chakra-ui/react";
@@ -50,10 +44,7 @@ function PageRoutes() {
             <Route path="/login/success" element={<LoginSuccess />} />
             <Route path="/" element={<GamesPage />} />
             <Route path="/games" element={<GamesPage />} />
-            <Route
-                path="/g/:game_slug/:mode/:room_slug"
-                element={<GameScreen />}
-            />
+            <Route path="/g/:game_slug/:mode/:room_slug" element={<GameScreen />} />
             <Route path="/g/:game_slug" element={<GamePage />} />
             <Route path="/about" element={<IndexPage />} />
             <Route exact path="/dev/login" element={<DevLogin />} />
@@ -71,9 +62,7 @@ function App({}) {
     const onResize = () => {
         // let screenWidth = window.screen.width;
         let screenWidth =
-            window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth;
+            window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
         let screenHeight = window.screen.height;
         let isMobileCheck = screenWidth < 500;
@@ -139,7 +128,7 @@ function App({}) {
                     <Box w="100%" className="gameeinfo-container">
                         <Box w="100%" m={"0 auto"} position="relative">
                             <VStack
-                                spacing="1rem"
+                                // spacing="1rem"
                                 alignItems={"flex-start"}
                                 position="relative"
                             >

@@ -46,8 +46,7 @@ export default function GameScreen({ layoutRef }) {
 
     // let elems = [];
 
-    if (typeof primaryId === "undefined" || !primary)
-        return <AnimatePresence></AnimatePresence>;
+    if (typeof primaryId === "undefined" || !primary) return <AnimatePresence></AnimatePresence>;
 
     // elems.push(
 
@@ -72,9 +71,7 @@ export default function GameScreen({ layoutRef }) {
                     style={{
                         backgroundColor: "var(--chakra-colors-gray-925)",
                         width:
-                            hideDrawer || (!hideDrawer && isMobile)
-                                ? "100%"
-                                : "calc(100% - 30rem)",
+                            hideDrawer || (!hideDrawer && isMobile) ? "100%" : "calc(100% - 30rem)",
                         height: "100%",
                         display: "flex",
                         position: "fixed",
@@ -93,7 +90,7 @@ export default function GameScreen({ layoutRef }) {
                         // left="0"
                         // zIndex="110"
                         width={"100%"}
-                        h={[`100%`]}
+                        // h={[`100%`]}
                         scrollSnapStop={"start"}
                         display="flex"
                         flexDir="row"
@@ -116,13 +113,7 @@ export default function GameScreen({ layoutRef }) {
     );
 }
 
-function DisplayGamePanel({
-    layoutRef,
-    hideDrawer,
-    isMobile,
-    primary,
-    primaryId,
-}) {
+function DisplayGamePanel({ layoutRef, hideDrawer, isMobile, primary, primaryId }) {
     let showGameover = useBucketSelector(
         btGamePanels,
         (gamepanels) => gamepanels[primaryId]?.showGameover
@@ -137,13 +128,7 @@ function DisplayGamePanel({
         : window.innerWidth - (hideDrawer || isMobile)
         ? 0
         : 300;
-    let { bgWidth, bgHeight } = calculateGameSize(
-        w,
-        h,
-        primary.room.resow,
-        primary.room.resoh,
-        1
-    );
+    let { bgWidth, bgHeight } = calculateGameSize(w, h, primary.room.resow, primary.room.resoh, 1);
 
     useEffect(() => {
         btGameScreenSize.set([bgWidth, bgHeight]);
@@ -163,11 +148,7 @@ function DisplayGamePanel({
             filter={showGameover ? "blur(3px)" : "blur(0)"}
             // transition="filter 0.3s ease-out"
         >
-            <GamePanel
-                id={primary.id}
-                canvasRef={ref}
-                hideDrawer={hideDrawer}
-            />
+            <GamePanel id={primary.id} canvasRef={ref} hideDrawer={hideDrawer} />
         </Box>
     );
 }

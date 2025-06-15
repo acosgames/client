@@ -23,6 +23,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { memo } from "react";
 import { useBucket } from "../../actions/bucket";
 import { btGame, btQueues } from "../../actions/buckets";
+import GameInfoReplay from "./GameInfoReplay";
 
 export default function GameHeader({}) {
     let game = useBucket(btGame);
@@ -33,8 +34,8 @@ export default function GameHeader({}) {
         return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;
     }
 
-    if (game_slug != game.game_slug)
-        return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;
+    // if (game_slug != game.game_slug)
+    //     return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;
 
     let imgUrl = config.https.cdn + "placeholder.png";
     if (game.preview_images && game.preview_images.length > 0)
@@ -105,7 +106,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
     const MotionHeading = motion(Heading);
     const MotionBox = motion(Box);
     return (
-        <HStack
+        <VStack
             alignItems="center"
             justifyContent={"center"}
             spacing="2rem"
@@ -316,7 +317,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                     </GridItem> */}
                 </Grid>
             </HStack>
-        </HStack>
+        </VStack>
     );
 }
 

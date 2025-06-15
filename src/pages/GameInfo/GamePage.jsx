@@ -1,16 +1,7 @@
 import "./GamePage.scss";
 import { useEffect, useRef, useState } from "react";
 
-import {
-    VStack,
-    HStack,
-    Tabs,
-    TabList,
-    Tab,
-    TabPanels,
-    TabPanel,
-    chakra,
-} from "@chakra-ui/react";
+import { VStack, HStack, Tabs, TabList, Tab, TabPanels, TabPanel, chakra } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { loadUserGameData } from "../../actions/person.js";
 
@@ -44,7 +35,7 @@ export default function GamePage({}) {
     }, [user, game_slug]);
 
     return (
-        <VStack w="100%" spacing="0" padding="0">
+        <VStack w="100%" spacing="0" padding="0" pt="4rem">
             <GameHeader />
             <GameTabs />
         </VStack>
@@ -65,10 +56,7 @@ function GameTabs({}) {
         // if (tablistRef?.current) myObserver.observe(tablistRef.current);
         onResize();
 
-        if (
-            scrollRef.current &&
-            scrollRef.current.scrollWidth > scrollRef.current.clientWidth
-        ) {
+        if (scrollRef.current && scrollRef.current.scrollWidth > scrollRef.current.clientWidth) {
             scrollRef.current.addEventListener("wheel", onScroll);
         }
 
@@ -132,23 +120,18 @@ function GameTabs({}) {
             alignItems={"center"}
             flexDir={"column"}
             p="0"
-            // defaultIndex={1}
+            defaultIndex={tabIndex}
             ref={targetRef}
             value={tabIndex}
             onChange={handleTabsChange}
         >
-            <VStack
-                w="100%"
-                justifyContent={"center"}
-                alignItems={"center"}
-                bgColor="gray.1000"
-            >
+            <VStack w="100%" justifyContent={"center"} alignItems={"center"} bgColor="gray.1000">
                 <TabList
                     onClick={executeScroll}
                     // w="100%"
                     // bgColor="gray.650"
                     className="gamepage-tablist"
-                    w={["100%", "100%", "100%", "100%", "1000px"]}
+                    w={["100%", "100%", "100%", "100%", "100%"]}
                     p="0"
                     gap="0"
                     spacing="0"
@@ -205,7 +188,7 @@ function GameTabs({}) {
                             >
                                 Leaderboard
                             </Tab>
-                            <Tab
+                            {/* <Tab
                                 onClick={(e) => {
                                     e.target.scrollIntoView({
                                         behavior: "smooth",
@@ -215,7 +198,7 @@ function GameTabs({}) {
                                 }}
                             >
                                 Tournaments
-                            </Tab>
+                            </Tab> */}
                             {/* <Tab>Private Server</Tab> */}
                             <Tab
                                 onClick={(e) => {
@@ -226,7 +209,7 @@ function GameTabs({}) {
                                     handleTabsChange(3);
                                 }}
                             >
-                                Achievements
+                                Challenges
                             </Tab>
                             <Tab
                                 onClick={(e) => {
@@ -239,7 +222,7 @@ function GameTabs({}) {
                             >
                                 Career
                             </Tab>
-                            <Tab
+                            {/* <Tab
                                 onClick={(e) => {
                                     e.target.scrollIntoView({
                                         behavior: "smooth",
@@ -249,7 +232,7 @@ function GameTabs({}) {
                                 }}
                             >
                                 Store
-                            </Tab>
+                            </Tab> */}
                             <Tab
                                 onClick={(e) => {
                                     e.target.scrollIntoView({
@@ -266,7 +249,7 @@ function GameTabs({}) {
                     </ChakraSimpleBar>
                 </TabList>
             </VStack>
-            <TabPanels w={["100%", "100%", "100%", "100%", "1000px"]}>
+            <TabPanels w={["100%", "100%", "100%", "100%", "100%"]}>
                 <TabPanel w="100%">
                     <GameInfoReplay game_slug={game_slug} />
                 </TabPanel>
@@ -274,14 +257,14 @@ function GameTabs({}) {
                 <TabPanel w="100%">
                     <GameLeaderboard game_slug={game_slug} />
                 </TabPanel>
-                <TabPanel w="100%"></TabPanel>
+                {/* <TabPanel w="100%"></TabPanel> */}
                 <TabPanel w={["100%", "100%", "100%", "100%", "1000px"]}>
                     <GameActiveAchievements />
                 </TabPanel>
                 <TabPanel>
                     <GameStats />
                 </TabPanel>
-                <TabPanel w="100%"></TabPanel>
+                {/* <TabPanel w="100%"></TabPanel> */}
                 {/* <TabPanel w="100%"></TabPanel> */}
                 <TabPanel w="100%">
                     <GameDescription />

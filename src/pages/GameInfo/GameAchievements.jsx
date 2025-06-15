@@ -46,7 +46,7 @@ export function GameActiveAchievements({}) {
                 fontSize={["2.4rem", "2.4rem", "3rem"]}
                 fontWeight={"600"}
             >
-                Season Achievements
+                Complete the Challenges
             </Heading>
             <Grid
                 mt="2rem"

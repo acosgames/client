@@ -43,8 +43,8 @@ export default function AchievementExperienceBar({ game_slug, percent, achieveme
                 </Button>
             );
         return (
-            <Heading as="h6" fontSize="1.4rem" fontWeight="600" color={"brand.300"}>
-                <Icon as={FaCheck} height="1.2rem" mr="0.25rem" /> COMPLETED
+            <Heading as="h6" fontSize="1.4rem" fontWeight="600" color={"brand.100"}>
+                {/* <Icon as={FaCheck} height="1.2rem" mr="0.25rem" /> COMPLETED */}✔ COMPLETED
             </Heading>
         );
     }

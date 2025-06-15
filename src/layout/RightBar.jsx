@@ -65,7 +65,7 @@ function Lobby({ layoutRef }) {
         layoutRef.current.addEventListener("click", onBodyClick);
 
         return () => {
-            layoutRef.current.removeEventListener("click", onBodyClick);
+            layoutRef?.current?.removeEventListener("click", onBodyClick);
         };
     });
     const toggleRightbar = () => {
@@ -124,22 +124,44 @@ function Lobby({ layoutRef }) {
                     // borderRadius="0"
                     borderTopLeftRadius="8px"
                     borderBottomLeftRadius="8px"
-                    zIndex="1"
+                    zIndex="2"
                     // icon={<GoDotFill size="0.8rem" />}
                     width="4rem"
                     height="4rem"
                     // isRound="true"
-                    borderRadius={"50%"}
+                    // borderRadius={"50%"}
                     color={hideDrawer ? "brand.50" : "brand.50"}
                     // opacity={"0.75"}
+                    // zIndex="2"
+                    borderRadius="50%"
+                    // border: "1px solid white",
+
+                    background="rgba(255, 255, 255, 0.02)"
+                    // borderRadius="16px"
+                    boxShadow="0 4px 30px rgba(0, 0, 0, 0.1)"
+                    backdropFilter="blur(5px)"
+                    border="1px solid rgba(255, 255, 255, 0.02)"
                     _hover={{
-                        color: "gray.0",
-                        border: "2px solid",
-                        borderColor: "brand.75",
+                        // color: "gray.0",
+                        // border: "2px solid",
+                        // borderColor: "brand.75",
                         // bgColor: "gray.100",
                         opacity: "1",
+                        transform: "scale(1.1)",
                     }}
                     display={!isMobile || !hideDrawer ? "none" : "flex"}
+                    // _before={{
+                    //     content: "''",
+                    //     width: "4rem",
+                    //     height: "4rem",
+                    //     // backdropFilter: "blur(5px)",
+
+                    //     // bgColor: "rgba(255,255,255,1)",
+                    //     position: "absolute",
+                    //     top: "0",
+                    //     left: "0",
+                    //     zIndex: "1",
+                    // }}
                     onClick={toggleRightbar}
                 >
                     <ShowDrawerButtonRing />

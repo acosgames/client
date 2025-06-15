@@ -1,6 +1,8 @@
 import {
     Box,
     Button,
+    Grid,
+    GridItem,
     Heading,
     HStack,
     Icon,
@@ -49,8 +51,21 @@ import EmbeddedGamePanel from "../GameScreen/EmbeddedGamePanel";
 
 function GameInfoReplay({ game_slug }) {
     return (
-        <Box w="100%" h="100%" p="0" pt="2rem" px={["1rem"]}>
+        <Box
+            w="100%"
+            h="100%"
+            p="0"
+            pt="5rem"
+            //  pt="2rem"
+        >
             <Tabs variant="unstyled" isLazy>
+                <TabPanels>
+                    <TabPanel p="0">
+                        <GameInfoReplayContent game_slug={game_slug} />
+                    </TabPanel>
+                    <TabPanel></TabPanel>
+                </TabPanels>
+
                 <TabList border="0" justifyContent={"center"}>
                     <Tab
                         as="span"
@@ -83,13 +98,6 @@ function GameInfoReplay({ game_slug }) {
                         LIVE
                     </Tab>
                 </TabList>
-
-                <TabPanels>
-                    <TabPanel p="0">
-                        <GameInfoReplayContent game_slug={game_slug} />
-                    </TabPanel>
-                    <TabPanel></TabPanel>
-                </TabPanels>
             </Tabs>
         </Box>
     );
@@ -136,7 +144,7 @@ function GameInfoReplayContent({ game_slug }) {
     else if (window.innerWidth < 800) w -= 150;
     // else if (window.innerWidth < 900)
     // w -= w * 0.6;
-    else w -= w * 0.6;
+    else w -= w * 0.55;
     let { bgWidth, bgHeight } = calculateGameSize(
         w,
         h,
@@ -152,129 +160,53 @@ function GameInfoReplayContent({ game_slug }) {
     }
 
     return (
-        <VStack
-            pb="20rem"
-            w="100%"
-            spacing="0"
-            filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))"
-        >
-            <VStack
-                // ml="1rem"
-                //  mb="2rem"
+        <VStack w="100%" spacing="0">
+            <Grid
+                templateColumns={["100%", "70% 30%"]}
+                aspectRatio={[
+                    `${gamepanel?.room?.resoh} / ${gamepanel?.room?.resow}`,
+
+                    `${gamepanel?.room?.resow} / ${gamepanel?.room?.resoh * 0.9}`,
+                ]}
+                gap="0rem"
                 w="100%"
-                alignItems={"center"}
-                pb="2rem"
-                pt="1rem"
-                // _after={{
-                //     content: '""',
-                //     display: "block",
-                //     clipPath:
-                //         "polygon(0% 0%, 100% 0%, 93.846% 100%, 6.154% 100%, 0% 0%)",
-                //     width: "65px",
-                //     height: "5px",
-                //     margin: "0.5rem 0 0",
-                //     background: "brand.600",
-                // }}
             >
-                <Heading as="h2" color="gray.0" fontSize={["2rem", "2rem"]} fontWeight={"400"}>
-                    Match #123
-                </Heading>
-            </VStack>
-            <HStack w="90%" spacing="0" justifyContent={"center"} alignItems={"flex-start"}>
-                {/* <Text as="h3" fontWeight={'bold'} color="white">Watch Replay</Text> */}
-                <Box
-                    width={[`${bgWidth}px`]}
-                    h={[`${bgHeight}px`]}
-                    position="relative"
-                    ref={ref}
-                    scrollSnapStop={"start"}
-                    left="-1rem"
-                >
-                    <Box
-                        width={[`${bgWidth}px`]}
-                        h={[`${bgHeight}px`]}
-                        // borderRadius={'12px'}
-                        overflow="hidden"
-                        // border="3px solid"
-                        // borderColor="gray.1200"
-                        borderRadius="8px"
-                        scrollSnapStop={"start"}
-                    >
-                        <EmbeddedGamePanel key="replay-panel" room_slug={room_slug} />
-                    </Box>
-                    {/* <svg xmlns="http://www.w3.org/2000/svg" style={{
-                        position: 'absolute', left: '10px', bottom: '-15px', fill: 'var(--chakra-colors-gray-1200)'
-                    }}
-                        width="30"
-                        height="15"
-                        viewBox="0 0 65 1">
-                        <path d="M968,5630h65l-4,5H972Z" transform="translate(-968 -5630)"></path>
-                    </svg> */}
-                </Box>
-
-                <VStack
-                    display={["none", "none", "flex"]}
-                    h={[`${bgHeight}px`]}
-                    maxW="26rem"
-                    flex="1"
-                >
-                    {/* <Heading as="h5" fontSize="1.6rem" color="brand.600">Replay <Text as="span" color="gray.10">/SAHdh1</Text></Heading> */}
+                <GridItem>
+                    <EmbeddedGamePanel
+                        key="replay-panel"
+                        room_slug={room_slug}
+                        prioritizeWidth={true}
+                    />
+                </GridItem>
+                <GridItem>
                     <VStack
-                        //borderRightRadius={'12px'}
-
+                        w="100%"
                         position="relative"
-                        // left="-1rem"
-                        // ml="2rem"
-                        // pl="2rem"
-                        // h="100%"
-                        w="calc(100% + 2rem)"
+                        bgColor="gray.1000"
                         flex="1"
                         justifyContent={"flex-end"}
-                        bgColor="gray.1200"
                         borderRadius="4px"
                         spacing="0"
+                        pt="1rem"
                     >
                         <ReplayInfoPanel room_slug={room_slug} />
-
                         <ReplayControls room_slug={room_slug} />
                     </VStack>
-                </VStack>
-            </HStack>
-            <VStack
-                width={[`${bgWidth}px`]}
-                maxH={[`${bgHeight}px`]}
-                display={["flex", "flex", "none"]}
-            >
-                {/* <Heading as="h5" fontSize="1.6rem" color="brand.600">Replay <Text as="span" color="gray.10">/SAHdh1</Text></Heading> */}
-                <VStack
-                    borderRightRadius={"12px"}
-                    position="relative"
-                    left="0rem"
-                    h="100%"
-                    w="100%"
-                    flex="1"
-                    justifyContent={"flex-end"}
-                    bgColor="gray.1200"
-                    spacing="0"
-                >
-                    <ReplayControls room_slug={room_slug} />
-                    <ReplayInfoPanel room_slug={room_slug} />
-                </VStack>
-            </VStack>
+                </GridItem>
+            </Grid>
         </VStack>
     );
 }
 
 function ReplayInfoPanel({ room_slug }) {
     return (
-        <Tabs w="100%" h="100%" variant="unstyled">
-            <TabList justifyContent={"center"} bgColor="gray.1200">
+        <Tabs w="100%" variant="unstyled">
+            <TabList justifyContent={"center"}>
                 <Tab
                     fontSize="1.2rem"
                     color="gray.200"
                     _selected={{
                         color: "gray.10",
-                        bg: "gray.1200",
                         border: "0px solid",
                         borderColor: "gray.1200",
                     }}
@@ -286,7 +218,6 @@ function ReplayInfoPanel({ room_slug }) {
                     color="gray.200"
                     _selected={{
                         color: "gray.10",
-                        bg: "gray.1200",
                         border: "0px solid",
                         borderColor: "gray.1200",
                     }}

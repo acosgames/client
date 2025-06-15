@@ -130,7 +130,7 @@ export function RenderPlayers({ room_slug }) {
                     </Text>
                 </HStack> */}
                 <AnimatePresence>
-                    <RenderTeams gamepanelid={id} players={players} teams={teams} />
+                    <RenderTeams gamepanel={primary} players={players} teams={teams} />
                 </AnimatePresence>
             </VStack>
         );
@@ -184,7 +184,11 @@ export function RenderPlayers({ room_slug }) {
             <AnimatePresence>
                 {/* <LayoutGroup> */}
                 {playerElems.map((player) => (
-                    <RenderPlayer gamepanelid={id} key={player.displayname} {...player} />
+                    <RenderPlayer
+                        gamepanel={primary}
+                        key={primary.room.replayId + player.displayname}
+                        {...player}
+                    />
                 ))}
                 {/* </LayoutGroup> */}
             </AnimatePresence>
@@ -202,11 +206,11 @@ const sortTeamByScore = (teams) => (a, b) => {
     return teamB.score - teamA.score;
 };
 
-function RenderTeams({ gamepanelid, players }) {
+function RenderTeams({ gamepanel, players }) {
     // let teamList = Object.keys(teams);
     let teamElems = [];
 
-    let teams = useBucketSelector(btGamePanels, (panels) => panels[gamepanelid]?.gamestate?.teams);
+    let teams = useBucketSelector(btGamePanels, (panels) => panels[gamepanel.id]?.gamestate?.teams);
 
     // let isUpdated = useBucketSelector(btGamePanels, (panels) => Date.now());
 
@@ -232,8 +236,8 @@ function RenderTeams({ gamepanelid, players }) {
 
         teamElems.push(
             <RenderTeam
-                gamepanelid={gamepanelid}
-                key={"renderteams-" + team_slug}
+                gamepanel={gamepanel}
+                key={"renderteams-" + team_slug + gamepanel.room.replayId}
                 team={team}
                 players={players}
             />
@@ -243,7 +247,7 @@ function RenderTeams({ gamepanelid, players }) {
     return teamElems;
 }
 
-function RenderTeam({ gamepanelid, players, team }) {
+function RenderTeam({ gamepanel, players, team }) {
     let playerElems = [];
 
     team.players.sort((a, b) => {
@@ -264,8 +268,8 @@ function RenderTeam({ gamepanelid, players, team }) {
         let player = players[shortid];
         playerElems.push(
             <RenderPlayer
-                gamepanelid={gamepanelid}
-                key={"renderteam-player-" + shortid}
+                gamepanel={gamepanel}
+                key={gamepanel.room.replayId + "renderteam-player-" + shortid}
                 shortid={shortid}
                 {...player}
                 team={team}

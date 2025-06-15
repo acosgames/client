@@ -63,10 +63,7 @@ export default function TabStatsAndAchievements({}) {
                 <CardBody>
                     <VStack gap="2rem">
                         {stats.map((stat) => (
-                            <StatDisplay
-                                key={"stat-display-" + stat.stat_slug}
-                                {...stat}
-                            />
+                            <StatDisplay key={"stat-display-" + stat.stat_slug} {...stat} />
                         ))}
                     </VStack>
                 </CardBody>
@@ -126,9 +123,7 @@ export default function TabStatsAndAchievements({}) {
                                         btAchievementForm.set({});
                                         btShowCreateAchievement.set(true);
                                         btEditAchievement.set(a);
-                                        btAchievementIconId.set(
-                                            a?.achievement_icon
-                                        );
+                                        btAchievementIconId.set(a?.achievement_icon);
                                     }}
                                 ></IconButton>
                             </Tooltip>
@@ -141,12 +136,7 @@ export default function TabStatsAndAchievements({}) {
                                     right="-1rem"
                                     zIndex="3"
                                     color="gray.20"
-                                    icon={
-                                        <FaCopy
-                                            color="gray.20"
-                                            fontSize="1.4rem"
-                                        />
-                                    }
+                                    icon={<FaCopy color="gray.20" fontSize="1.4rem" />}
                                     onClick={() => {
                                         btAchievementForm.set({});
                                         btShowCreateAchievement.set(true);
@@ -155,9 +145,7 @@ export default function TabStatsAndAchievements({}) {
                                             delete newForm.achievement_slug;
                                         }
                                         btAchievementForm.assign(newForm);
-                                        btAchievementIconId.set(
-                                            a?.achievement_icon
-                                        );
+                                        btAchievementIconId.set(a?.achievement_icon);
                                     }}
                                 ></IconButton>
                             </Tooltip>
@@ -203,9 +191,9 @@ function StatDisplay({
         case 3:
             typeName = "Time";
             break;
-        case 4:
-            typeName = "String Count";
-            break;
+        // case 4:
+        //     typeName = "String Count";
+        //     break;
     }
     return (
         <VStack
@@ -228,12 +216,7 @@ function StatDisplay({
                 <Text py="0.25rem" as="span" fontWeight="300" color="gray.10">
                     {stat_desc}
                 </Text>
-                <Text
-                    as="span"
-                    fontSize="1.3rem"
-                    fontWeight="400"
-                    color="gray.50"
-                >
+                <Text as="span" fontSize="1.3rem" fontWeight="400" color="gray.50">
                     {typeName}
                 </Text>
                 <HStack>
@@ -242,12 +225,7 @@ function StatDisplay({
                         disabled={true}
                         defaultChecked={isactive ? true : false}
                     ></Checkbox>
-                    <Text
-                        as="span"
-                        color="gray.50"
-                        fontSize="1.2rem"
-                        fontWeight="400"
-                    >
+                    <Text as="span" color="gray.50" fontSize="1.2rem" fontWeight="400">
                         Active
                     </Text>
                 </HStack>
@@ -257,12 +235,7 @@ function StatDisplay({
                         isDisabled={true}
                         defaultChecked={scoreboard == 1 ? true : false}
                     ></Checkbox>
-                    <Text
-                        as="span"
-                        color="gray.50"
-                        fontSize="1.2rem"
-                        fontWeight="400"
-                    >
+                    <Text as="span" color="gray.50" fontSize="1.2rem" fontWeight="400">
                         Scoreboard
                     </Text>
                 </HStack>

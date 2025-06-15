@@ -84,7 +84,11 @@ function GamePanel(props) {
         // <Portal containerRef={gamepanel.draggableRef}>
         <>
             <LoadingBox id={gamepanel.id} />
-            <GameIFrame gamepanel={gamepanel} canvasRef={props.canvasRef} />
+            <GameIFrame
+                gamepanel={gamepanel}
+                canvasRef={props.canvasRef}
+                prioritizeWidth={props.prioritizeWidth}
+            />
         </>
 
         // </Portal>
@@ -167,9 +171,6 @@ function GameIFrame(props) {
         timestamp = now;
 
         let isFullscreen = checkFullScreen();
-        // let windowWidth = isFullscreen ? window.screen.width : gamewrapperRef.current.offsetWidth;
-        // let windowHeight = isFullscreen ? window.screen.height : gamewrapperRef.current.offsetHeight;
-
         var w =
             window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
@@ -187,51 +188,19 @@ function GameIFrame(props) {
 
         let roomPanelRef = document.querySelector(".actionpanel-wrapper");
         let layoutMode = btLayoutMode.get();
-        // if (roomPanelRef) {
-        //     if (layoutMode == 'bottom') {
-        //         windowHeight = h - roomPanelRef.offsetHeight;
-        //     } else {
-        //         windowWidth = w - roomPanelRef.offsetWidth;
-        //     }
-        // } else {
 
-        // }
-        // if (roomPanelRef) {
         if (!gamepanel.isPrimary && gamepanel?.canvasRef?.current) {
             windowWidth = gamepanel.canvasRef.current.offsetWidth;
             windowHeight = gamepanel.canvasRef.current.offsetHeight;
-            // console.log("Rendering IFrame", "embedded");
-        } else if (layoutMode == "bottom") {
-            // if (screentype == '1') {
-            // windowWidth += roomPanelRef.current.offsetWidth;
-            // windowHeight += 50;
-            let scoreboardExpanded = btScoreboardExpanded.get();
-            if (!scoreboardExpanded) {
-                if (windowHeight > h - 40) {
-                    // windowHeight = h - 40;
-                }
-            } else if (windowHeight > h * 0.6) {
-                // windowHeight = (h * 0.6);
-            }
-            // console.log("Rendering IFrame", "bottom");
-            // }
-        } else if (layoutMode == "off") {
-        } else {
-            if (h >= 992) {
-                // windowWidth -= 400;
-            } else {
-                // windowWidth -= 300;
-            }
-            // windowWidth -= 240;
-            // console.log("Rendering IFrame", "right", windowWidth, windowHeight, resow, resoh, isLoaded);
         }
 
-        if (gamepanel.isPrimary && gamepanel?.room?.isReplay) {
-            if (windowHeight > h - 40) {
-                // windowHeight = h - 40;
-            }
+        if (windowHeight > document.documentElement.clientHeight) {
+            windowHeight = document.documentElement.clientHeight;
         }
-        // }
+
+        if (windowWidth > document.documentElement.clientWidth) {
+            windowWidth = document.documentElement.clientWidth;
+        }
 
         let roomStatus = getRoomStatus(room_slug);
         let offsetRatio = 1; // !isLoaded ? 0.1 : 1;
@@ -256,29 +225,11 @@ function GameIFrame(props) {
             windowHeight,
             resow,
             resoh,
-            offsetRatio
+            offsetRatio,
+            props.prioritizeWidth
         );
 
-        // windowWidth *= offsetRatio;
-        // windowHeight *= offsetRatio;
-
-        // let bgWidth = 0;
-        // let bgHeight = 0;
         let scale = 1;
-        // let wsteps = (windowWidth / resow);
-        // let hsteps = (windowHeight / resoh);
-        // let steps = 0;
-
-        // if (wsteps < hsteps) {
-        //     steps = wsteps
-        // }
-        // else {
-        //     steps = hsteps
-        // }
-
-        // bgWidth = (steps * resow);
-        // bgHeight = (steps * resoh);
-
         let oldHeight = gamescreenRef.current.style.height;
 
         if (!screentype || screentype == "3") {
@@ -372,7 +323,7 @@ function GameIFrame(props) {
                 // filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
 
                 className={"gameResizer"}
-                bgColor={"gray.925"}
+                // bgColor={"gray.925"}
             >
                 {/* <LoadingBox isDoneLoading={gamepanel.loaded} /> */}
                 <VStack
@@ -392,10 +343,11 @@ function GameIFrame(props) {
                         ref={gamescreenRef}
                         className="gamescreenRef"
                         key={"gamescreenRef-" + gamepanel.id}
-                        height="100%"
+                        // height="100%"
                         position="relative"
-                        boxShadow={"0px 12px 24px rgba(0,0,0,0.2)"}
+                        // boxShadow={"0px 12px 24px rgba(0,0,0,0.2)"}
                         alignSelf="center"
+                        filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))"
                     >
                         {/* <ScaleFade initialScale={1} in={gamepanel.loaded} width="100%" height="100%" position="relative"> */}
 

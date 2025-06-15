@@ -19,7 +19,8 @@ export function calculateGameSize(
     windowHeight,
     resow,
     resoh,
-    offsetRatio
+    offsetRatio,
+    prioritizeWidth
 ) {
     offsetRatio = offsetRatio || 1;
 
@@ -33,7 +34,7 @@ export function calculateGameSize(
     let hsteps = windowHeight / resoh;
     let steps = 0;
 
-    if (wsteps < hsteps) {
+    if (wsteps < hsteps || (prioritizeWidth && windowHeight > windowWidth)) {
         steps = wsteps;
     } else {
         steps = hsteps;

@@ -57,14 +57,10 @@ export default function GamesPage({}) {
                 p={["1rem", "1rem", "1rem"]}
                 px={["1rem", "1rem", "1rem", "3rem"]}
                 position="relative"
+                mt="5rem"
             >
                 {/* <EggDoodad /> */}
-                <VStack
-                    w="100%"
-                    spacing="1rem"
-                    alignItems={"flex-start"}
-                    position="relative"
-                >
+                <VStack w="100%" spacing="1rem" alignItems={"flex-start"} position="relative">
                     <MultiplayerList />
 
                     <SinglePlayerList />
@@ -111,14 +107,8 @@ function MultiplayerList() {
                     </Text>{" "}
                     Games
                 </Heading>
-                <Heading
-                    as="h4"
-                    color="gray.50"
-                    fontSize="1.8rem"
-                    fontWeight="medium"
-                >
-                    Battle against players from around the world and improve
-                    yourself.
+                <Heading as="h4" color="gray.50" fontSize="1.8rem" fontWeight="medium">
+                    Battle against players from around the world and improve yourself.
                 </Heading>
                 <GameList list={rankList} />
             </VStack>
@@ -202,12 +192,7 @@ function SinglePlayerList() {
                     </Text>{" "}
                     Games
                 </Heading>
-                <Heading
-                    as="h4"
-                    color="gray.50"
-                    fontSize="1.8rem"
-                    fontWeight="medium"
-                >
+                <Heading as="h4" color="gray.50" fontSize="1.8rem" fontWeight="medium">
                     Break the daily, monthly, or all-time highscore records.
                 </Heading>
                 <GameList list={soloList} />
@@ -241,10 +226,7 @@ function GameListItem({ game }) {
     let gameType = "FFA";
     if (game.maxteams == 0) {
         gameType = "FFA";
-    } else if (
-        game.maxteams == 1 &&
-        game.maxplayers != (game.teams && game.teams[0].maxplayers)
-    ) {
+    } else if (game.maxteams == 1 && game.maxplayers != (game.teams && game.teams[0].maxplayers)) {
         gameType = "Royale";
     } else if (game.maxteams == 1) {
         gameType = "FFA";
@@ -271,10 +253,7 @@ function GameListItem({ game }) {
     return (
         <Box display="inline-block" w="100%">
             <VStack alignItems={"flex-start"} spacing={"0.5rem"} w="100%">
-                <ChakraLink
-                    to={"/g/" + game.game_slug}
-                    className="game-item-image-link"
-                >
+                <ChakraLink to={"/g/" + game.game_slug} className="game-item-image-link">
                     <Image w="100%" h="auto" alt={gameName} src={imgUrl} />
                 </ChakraLink>
                 <VStack alignItems={"flex-start"} spacing="0.5rem" width="100%">
@@ -282,13 +261,7 @@ function GameListItem({ game }) {
                         as="h5"
                         color="gray.0"
                         fontWeight="bold"
-                        fontSize={[
-                            "1.2rem",
-                            "1.2rem",
-                            "1.2rem",
-                            "1.2rem",
-                            "1.4rem",
-                        ]}
+                        fontSize={["1.2rem", "1.2rem", "1.2rem", "1.2rem", "1.4rem"]}
                         textOverflow={"ellipsis"}
                         overflow="hidden"
                         maxWidth={["100%"]}
@@ -297,11 +270,7 @@ function GameListItem({ game }) {
                     >
                         {game.name}
                     </Heading>
-                    <HStack
-                        alignItems={"flex-start"}
-                        w="100%"
-                        spacing={["0.5rem"]}
-                    >
+                    <HStack alignItems={"flex-start"} w="100%" spacing={["0.5rem"]}>
                         <Text
                             fontSize={["1rem", "1.2rem", "1.2rem"]}
                             fontWeight={"medium"}

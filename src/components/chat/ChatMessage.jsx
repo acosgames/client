@@ -124,14 +124,17 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                 // bgColor="gray.1000"
                 // mx={["0.125rem", "0.25rem"]}
                 // px={["0.25rem", "0.5rem"]}
-                py="0.5rem"
+                pt="0.5rem"
                 mb="0.5rem"
                 justifyContent={"flex-start"}
                 alignItems={"flex-start"}
                 onClick={onClick}
                 // border="1px solid"
                 // borderColor="gray.750"
-                bgColor="gray.750"
+                _hover={{
+                    bgColor: "gray.900",
+                }}
+                // bgColor="gray.750"
                 borderRadius={"8px"}
                 // borderTopLeftRadius={"0"}
                 // clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
@@ -151,8 +154,8 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                             loading="lazy"
                             verticalAlign={"middle"}
                             borderRadius={"50%"}
-                            width={["5rem"]}
-                            minWidth="5rem"
+                            width={["3rem"]}
+                            minWidth="3rem"
                         />
 
                         <Image
@@ -160,8 +163,8 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                             // mt="0.5rem"
                             borderColor="gray.100"
                             borderRadius="3px"
-                            w="1.8rem"
-                            h="1.35rem"
+                            w="1.5rem"
+                            h="1.1rem"
                             filter="opacity(0.9)"
                             position="absolute"
                             top="-0.25rem"
@@ -186,7 +189,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                                 as="span"
                                 fontSize="1.2rem"
                                 fontWeight="500"
-                                color="gray.0"
+                                color="brand.200"
                                 pr="0.5rem"
                                 lineHeight="2rem"
                                 overflow="hidden"
@@ -215,11 +218,12 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                                 // pr="2rem"
                                 as="span"
                                 textAlign={"center"}
+                                lineHeight={"2rem"}
                                 display={"block"}
                                 // alignSelf="flex-end"
                                 // justifySelf={"flex-end"}
                                 fontSize="1rem"
-                                fontWeight="400"
+                                fontWeight="300"
                                 color="gray.100"
                                 // height="1rem"
                                 // lineHeight={"1rem"}
@@ -236,7 +240,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                             // p="1rem"
                             // py="0.5rem"
                             p="0"
-                            pt="0.5rem"
+                            pt="0rem"
                             // pb="1rem"
                             // bgColor="gray.900"
                             borderRadius={"8px"}
@@ -248,7 +252,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                                 fontSize="1.2rem"
                                 fontWeight="medium"
                                 lineHeight="1.5rem"
-                                color="brand.75"
+                                color="gray.10"
                                 wordBreak={"break-word"}
                                 pr="1.5rem"
                                 pb="0.5rem"

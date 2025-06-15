@@ -603,23 +603,22 @@ function Screen1({ gamepanelid }) {
                 </>
             );
         } else {
+            let playerRanks = findPlayerRanks(players);
+            let winningPlayer = playerRanks?.rankOne;
+
             return (
                 <>
-                    {teamRanks.rankOne.map((teamid) => {
-                        let team = teams[teamid];
-                        return team.players.map((shortid) => {
-                            let player = players[shortid];
+                    {playerRanks.rankOne.map((shortid) => {
+                        let player = players[shortid];
 
-                            return (
-                                <RenderPlayerSimple
-                                    gamepanelid={gamepanelid}
-                                    key={"renderteam-player-" + shortid}
-                                    shortid={shortid}
-                                    {...player}
-                                    team={team}
-                                />
-                            );
-                        });
+                        return (
+                            <RenderPlayerSimple
+                                gamepanelid={gamepanelid}
+                                key={"renderteam-player-" + shortid}
+                                shortid={shortid}
+                                {...player}
+                            />
+                        );
                     })}
                 </>
             );

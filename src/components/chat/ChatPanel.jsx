@@ -22,8 +22,8 @@ import SimpleBar from "simplebar-react";
 import { getChatMessages } from "../../actions/chat.js";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useBucket } from "../../actions/bucket.js";
-import { btChat } from "../../actions/buckets.js";
+import { useBucket, useBucketSelector } from "../../actions/bucket.js";
+import { btChannel, btChat, btChatUpdated } from "../../actions/buckets.js";
 export default function ChatPanel({}) {
     let timeHandle = 0;
     const scrollBarHideDelay = 2000;
@@ -124,8 +124,14 @@ export default function ChatPanel({}) {
 }
 
 function ChatMessages({ scrollRef }) {
-    let chat = useBucket(btChat);
-    let messages = getChatMessages("chat");
+    // let chat = useBucket(btChat);
+    // let messages = getChatMessages("chat");
+    let messages = useBucketSelector(btChannel, (bucket) => bucket?.chat);
+    let updated = useBucket(btChatUpdated);
+    // let messageCount = useBucketSelector(
+    //     btChannel,
+    //     (bucket) => bucket["chat"]?.length || [].length
+    // );
 
     useEffect(() => {
         if (scrollRef.current) scrollRef.current.scrollTo(0, scrollRef.current.scrollHeight);
@@ -145,7 +151,7 @@ function ChatMessages({ scrollRef }) {
             justifyContent={"flex-end"}
         >
             <AnimatePresence>
-                {messages.map((msg) => (
+                {messages?.map((msg) => (
                     <ChatMessage
                         key={msg.displayname + "-msg-" + msg.timestamp}
                         portraitid={msg.portraitid}

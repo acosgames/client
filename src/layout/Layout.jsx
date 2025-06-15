@@ -39,9 +39,7 @@ function Layout({ children }) {
 
     const onResize = (e) => {
         var width =
-            window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth;
+            window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
         const currentIsMoble = btIsMobile.get();
 
@@ -72,13 +70,7 @@ function Layout({ children }) {
     }, []);
 
     return (
-        <VStack
-            id="root-container"
-            w={["100%"]}
-            h={["100%"]}
-            position="relative"
-            spacing="0"
-        >
+        <VStack id="root-container" w={["100%"]} h={["100%"]} position="relative" spacing="0">
             <ActivateUserProfile />
             <VersionControl />
             <EditAchievement />
@@ -132,10 +124,7 @@ function DesktopLayout({ children }) {
 
     const onResize = (e) => {
         if (layoutRef.current)
-            btScreenRect.set([
-                layoutRef.current.clientWidth,
-                layoutRef.current.clientHeight,
-            ]);
+            btScreenRect.set([layoutRef.current.clientWidth, layoutRef.current.clientHeight]);
         btScreenResized.set(true);
     };
 
@@ -156,6 +145,7 @@ function DesktopLayout({ children }) {
                 // pr={["0", "0", "30rem", "30rem"]}
                 transition="all 0.3s ease"
             >
+                <Header />
                 <Box
                     w={["100%"]}
                     overflow="hidden"
@@ -185,7 +175,6 @@ function DesktopLayout({ children }) {
                         scrollableNodeProps={{ ref: scrollRef }}
                     >
                         <ScrollToTop scrollRef={scrollRef} />
-                        <Header />
 
                         {/* <HStack
               spacing="0"
@@ -194,12 +183,7 @@ function DesktopLayout({ children }) {
               position={"relative"}
               alignItems={"flex-start"}
             > */}
-                        <Box
-                            key="content"
-                            w="100%"
-                            h="100%"
-                            possition="relative"
-                        >
+                        <Box key="content" w="100%" h="100%" possition="relative">
                             {children}
                         </Box>
                         {/* <RightBar /> */}

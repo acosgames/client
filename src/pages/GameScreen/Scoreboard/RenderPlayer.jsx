@@ -11,13 +11,12 @@ import { compareStringified, useBucketSelector } from "../../../actions/bucket";
 
 const HStackMotion = motion(HStack);
 
-function IsNextIndicator({ gamepanelid, shortid }) {
-    let gamepanel = useBucketSelector(
+function IsNextIndicator({ gamepanel, shortid, team }) {
+    let onNextId = useBucketSelector(
         btGamePanels,
-        (bucket) => bucket[gamepanelid]?.gamestate?.room?.next_id
+        (bucket) => bucket[gamepanel.id]?.gamestate?.room?.next_id
     );
-    let primary = getGamePanel(gamepanelid);
-    let isNext = isUserNext(primary.gamestate, shortid);
+    let isNext = isUserNext(gamepanel.gamestate, shortid);
     return (
         <Box
             display={isNext ? "block" : "none"}
@@ -26,20 +25,40 @@ function IsNextIndicator({ gamepanelid, shortid }) {
             position="absolute"
             // left="-1.2rem"
             // top="50%"
-            bottom="0"
-            left="0"
-            width="0.8rem"
-            h="0.8rem"
+            bottom="-0.2rem"
+            right="-0.2rem"
+            width="4rem"
+            h="4rem"
             // transform="translate(0,-50%)"
             zIndex={99}
-            bgColor="brand.100"
+            bgColor={team ? team.color : "gray.1050"}
+            clipPath="polygon(100% calc(100% - 10px), 100% 100%, calc(100% - 10px) 100%)"
+            // _before={
+            //     isNext
+            //         ? {
+            //               content: "''",
+            //               position: "absolute",
+            //               width: "2rem",
+            //               height: "2rem",
+            //               bottom: "0",
+            //               right: "0",
+            //               backgroundColor: team ? team.color : "gray.1050",
+            //               zIndex: "10",
+            //               clipPath:
+            //                   "polygon(100% calc(100% - 10px), 100% 100%, calc(100% - 10px) 100%)",
+            //           }
+            //         : {}
+            // }
+            // clipPath={
+            //     "polygon(100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 0)"
+            // }
         >
             {/* <IoMdArrowDropright fontSize="3rem" w="2rem" h="2rem" /> */}
         </Box>
     );
 }
 export default function RenderPlayer({
-    gamepanelid,
+    gamepanel,
     shortid,
     displayname,
     portraitid,
@@ -50,7 +69,7 @@ export default function RenderPlayer({
 }) {
     let score = useBucketSelector(
         btGamePanels,
-        (panels) => panels[gamepanelid]?.gamestate?.players[shortid]?.score
+        (panels) => panels[gamepanel.id]?.gamestate?.players[shortid]?.score
     );
 
     // let { displayname, portraitid, rating, countrycode, score } = player;
@@ -62,7 +81,7 @@ export default function RenderPlayer({
     let isLocalPlayer =
         localPlayer?.displayname == displayname || localPlayer?.displayname == displayname;
     // let primary = getPrimaryGamePanel();
-    let gamepanel = getGamePanel(gamepanelid);
+    // let gamepanel = getGamePanel(gamepanel.id);
 
     let isNext = isUserNext(gamepanel.gamestate, shortid);
 
@@ -74,35 +93,21 @@ export default function RenderPlayer({
             position="relative"
             // px="0.5rem"
             bgColor={isNext ? "gray.600" : "gray.900"}
-            p="1rem"
+            // p="1rem"
+            overflow="hidden"
             w="100%"
             // initial={{ opacity: 0, scale: 0 }}
             // animate={{ opacity: 1, scale: 1 }}
             // exit={{ opacity: 0, scale: 0 }}
             // layout
             // style={{ width: "100%", filter: isNext ? gamepanel.room.isReplay ? 'drop-shadow(0 0 2px rgba(255,255,255,0.2))' : 'drop-shadow(0 0 2px rgba(255,255,255,0.6))' : '' }}
-            _before={
-                team
-                    ? {
-                          content: "''",
-                          position: "absolute",
-                          width: "2rem",
-                          height: "2rem",
-                          bottom: "0",
-                          right: "0",
-                          backgroundColor: team ? team.color : "gray.1050",
-                          zIndex: "10",
-                          clipPath:
-                              "polygon(100% calc(100% - 10px), 100% 100%, calc(100% - 10px) 100%)",
-                      }
-                    : {}
-            }
         >
-            <IsNextIndicator gamepanelid={gamepanelid} shortid={shortid} />
+            <IsNextIndicator gamepanel={gamepanel} shortid={shortid} team={team} />
             <HStack
                 w="100%"
                 // mx="0.5rem"
                 // mr="1rem"
+
                 spacing="0rem"
                 justifyContent={"flex-start"}
                 alignItems={"flex-start"}
@@ -120,7 +125,12 @@ export default function RenderPlayer({
                 //         : ""
                 // } //, "
             >
-                <Box position="relative" w={`${avatarSize}rem`} h={`${avatarSize}rem`}>
+                <Box
+                    position="relative"
+                    w={`${avatarSize}rem`}
+                    h={`${avatarSize}rem`}
+                    aspectRatio={1}
+                >
                     <Image
                         src={`${config.https.cdn}images/country/${countrycode}.svg`}
                         // mt="0.5rem"
@@ -135,6 +145,7 @@ export default function RenderPlayer({
                         zIndex="3"
                     />
                     <Image
+                        aspectRatio={1}
                         display="inline-block"
                         src={`${config.https.cdn}images/portraits/${filename}`}
                         loading="lazy"
@@ -158,22 +169,27 @@ export default function RenderPlayer({
                     justifyContent={"flex-start"}
                     spacing="0.25rem"
                     // pr="0.5rem"
+                    overflow="hidden"
                     flex="1"
                     // transform="skew(15deg)"
                 >
                     <HStack
                         w="100%"
                         // bgColor={gamepanel.room.isReplay ? "gray.1050" : "gray.1200"}
+
                         pl="1rem"
                     >
                         <Text
                             as="span"
-                            textAlign={"center"}
+                            // textAlign={"center"}
                             color={isLocalPlayer ? "gray.0" : "gray.40"}
                             fontWeight="500"
                             fontSize={gamepanel.room.isReplay ? "1.2rem" : ["1.4rem"]}
                             lineHeight={"1.4rem"}
-                            maxW={["19rem"]}
+                            // maxW={["19rem"]}
+                            display="block"
+                            width="100%"
+                            maxWidth="100%"
                             overflow="hidden"
                             whiteSpace={"nowrap"}
                             textOverflow={"ellipsis"}
