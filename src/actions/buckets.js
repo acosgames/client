@@ -1,10 +1,12 @@
 import { bucket } from "./bucket";
 
-export const btLeaderboard = bucket([]);
+export const btLeaderboard = bucket({});
 
 export const btUser = bucket(null);
 export const btGames = bucket({});
 export const btGame = bucket({});
+
+export const btLeaderboardFilters = bucket({});
 
 export const btNationalRankings = bucket({});
 export const btRankings = bucket({});
@@ -100,9 +102,7 @@ export const btDisplayName = bucket(null);
 export const btLoadingProfile = bucket(false);
 export const btLoadingUser = bucket(false);
 export const btLoginFrom = bucket("game");
-export const btPortraitId = bucket(
-    Math.floor(Math.random() * (2104 - 1 + 1) + 1)
-);
+export const btPortraitId = bucket(Math.floor(Math.random() * (2104 - 1 + 1) + 1));
 
 export const btJustCreatedName = bucket(false);
 export const btCheckingUserLogin = bucket(true);
@@ -174,9 +174,7 @@ export const btAchievementIconBottomRef = bucket(null);
 export const btAchievementRange = bucket([1, 100]);
 export const btAchievementObserver = bucket(null);
 export const btAchievementSort = bucket(null);
-export const btAchievementIconId = bucket(
-    Math.floor(Math.random() * (100 - 1 + 1) + 1)
-);
+export const btAchievementIconId = bucket(Math.floor(Math.random() * (100 - 1 + 1) + 1));
 
 export const btClaimingAchievement = bucket(false);
 export const btAchievementAward = bucket(false);

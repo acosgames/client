@@ -5,7 +5,7 @@ import { TopRankNumber } from "./LeaderboardHeading";
 
 const ChakraLink = chakra(Link);
 
-export function PlayerDivisionRank({
+export default function DivisionSoloPlayerRow({
     index,
     displayname,
     prevRank,
@@ -13,11 +13,11 @@ export function PlayerDivisionRank({
     countrycode,
     isLocalPlayer,
     portraitid,
-    rating,
-    winrating,
-    win,
-    loss,
-    tie,
+    score,
+    // winrating,
+    // win,
+    // loss,
+    // tie,
 }) {
     return (
         <HStack
@@ -51,23 +51,29 @@ export function PlayerDivisionRank({
                 textAlign="center"
                 p="0"
                 pl="1.5rem"
+                position="relative"
+                borderTopRightRadius={"1rem"}
+                borderBottomRightRadius={"1rem"}
+                bgColor={
+                    rank == 1 ? "yellow.200" : rank == 2 ? "gray.20" : rank == 3 ? "orange.200" : ""
+                }
             >
                 <Text
                     as="h6"
                     textAlign={"center"}
                     color={
                         rank == 1
-                            ? "yellow.300"
+                            ? "gray.1000"
                             : rank == 2
-                            ? "gray.50"
+                            ? "gray.1000"
                             : rank == 3
-                            ? "orange.300"
+                            ? "gray.1000"
                             : isLocalPlayer
                             ? "brand.75"
                             : "gray.0"
                     }
                     fontWeight={"500"}
-                    fontSize={["1.4rem", "1.4rem", "1.6rem", "1.6rem", "1.8rem"]}
+                    fontSize={["1.6rem"]}
                     position="relative"
                 >
                     {prevRank == rank && (
@@ -144,55 +150,17 @@ export function PlayerDivisionRank({
                 </HStack>
             </Box>
             <VStack spacing={0} alignItems={"flex-end"}>
-                <HStack
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    h="100%"
-                    px={["0", "1rem"]}
-                    overflow={"hidden"}
-                >
-                    <Text
-                        zIndex={"1"}
-                        as="h6"
-                        display="inline-block"
-                        textAlign={"center"}
-                        width={["9rem", "9rem", "9rem"]}
-                        lineHeight="1.8rem"
-                        fontSize={["1.4rem", "1.4rem", "1.4rem"]}
-                        fontWeight={"500"}
-                        color={isLocalPlayer ? "brand.75" : "gray.0"}
-                    >
-                        {win || 0}-{tie || 0}-{loss || 0}
-                    </Text>
-                </HStack>
-                {/* <Text
-          position="relative"
-          top={[0, 0, "0.1rem"]}
-          as="h6"
-          color={isLocalPlayer ? "brand.50" : "gray.50"}
-          fontWeight={"400"}
-          lineHeight="1.8rem"
-          fontSize={["1.2rem", "1.2rem", "1.2rem"]}
-          display={["none", "flex"]}
-          pr={["0.5rem", "0.5rem", "0.5rem", "1rem"]}
-        >
-          {(winrating || 0).toFixed(2)}
-        </Text> */}
                 <Text
                     zIndex={"1"}
                     as="h6"
                     display="inline-block"
-                    width={["9rem", "9rem", "9rem"]}
-                    textAlign={"center"}
-                    fontSize={["1.2rem"]}
+                    width={["4.5rem", "4.5rem", "6rem"]}
+                    lineHeight="1.6rem"
+                    fontSize={["2.2rem"]}
                     fontWeight={"500"}
-                    height="1rem"
-                    pt="0.5rem"
-                    mr={["0", "1rem"]}
-                    color={"gray.150"}
+                    color={isLocalPlayer ? "brand.75" : "gray.0"}
                 >
-                    {(winrating || 0).toFixed(2)}
-                    {/* {rating} */}
+                    {score}
                 </Text>
             </VStack>
         </HStack>

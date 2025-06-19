@@ -298,7 +298,7 @@ const components = {
 
                     clipPath:
                         "polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)",
-                    bgColor: "gray.775",
+                    bgColor: "gray.900",
                     borderRadius: "8px",
                     zIndex: -1,
                 },
@@ -459,6 +459,7 @@ const components = {
             subtabs: {
                 root: {
                     w: "100%",
+                    maxW: "1000px",
                 },
                 tabpanel: {
                     padding: "0",

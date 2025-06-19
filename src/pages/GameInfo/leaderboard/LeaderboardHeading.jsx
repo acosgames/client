@@ -6,22 +6,28 @@ export function LeaderboardHeading({ subtitle, caption, children }) {
             w="100%"
             alignItems={"flex-start"}
             pt="2rem"
-            pb="2rem"
+            // pb="2rem"
             pl="2rem"
             spacing="0"
             // bgColor="gray.875"
             // bg="linear-gradient(to right, var(--chakra-colors-gray-1200) 75%, var(--chakra-colors-gray-875))"
         >
-            <Heading fontSize={["2.4rem"]} fontWeight="700" color="gray.0" lineHeight={"3.2rem"}>
+            <Heading
+                fontSize={["2.4rem"]}
+                fontWeight="400"
+                letterSpacing={"1px"}
+                color="gray.0"
+                lineHeight={"3.2rem"}
+            >
                 {children}
             </Heading>
             {subtitle && (
                 <Text
                     as="h3"
-                    color="gray.50"
-                    fontSize={["1.4rem", "1.4rem", "1.4rem"]}
-                    fontWeight={"500"}
-                    lineHeight="2rem"
+                    color="brand.50"
+                    fontSize={["1.8rem"]}
+                    fontWeight={"400"}
+                    lineHeight="2.6rem"
                 >
                     {subtitle}
                 </Text>
@@ -29,13 +35,14 @@ export function LeaderboardHeading({ subtitle, caption, children }) {
             {caption && (
                 <Text
                     as="h4"
-                    color="gray.0"
+                    color="brand.100"
                     fontSize={["1.6rem", "1.6rem", "1.6rem"]}
-                    fontWeight={"600"}
+                    fontWeight={"400"}
                     // bgColor="gray.300"
                     // borderRadius={"2rem"}
                     // p="1rem"
                     py="0.5rem"
+                    pb="1rem"
                 >
                     {caption}
                 </Text>
@@ -61,7 +68,7 @@ export function TopRankNumber({ rank }) {
     }
     return (
         <>
-            <Text as="span" fontSize="1.6rem">
+            <Text as="span" fontSize="2rem">
                 {rank}
             </Text>
             <Text as="span" fontSize="1rem" pl="0.1rem" position="relative" bottom="0.1rem">

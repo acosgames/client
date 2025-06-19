@@ -170,6 +170,7 @@ function AchievementReward({ achievement, percent }) {
         <VStack
             w="7rem"
             h="7rem"
+            minW="7rem"
             overflow="hidden"
             mr="1rem"
             position="relative"

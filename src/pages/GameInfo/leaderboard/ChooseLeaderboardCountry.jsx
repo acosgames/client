@@ -1,13 +1,18 @@
 import { Box, Image, Text, VStack } from "@chakra-ui/react";
 import Select from "react-select";
 
-import config from "../../config";
+import config from "../../../config";
 
 import cc2 from "shared/model/countrycode2.json";
-import { getCountry } from "../../actions/person";
-import { useEffect } from "react";
-import { btCountryChanged, btDefaultCountry, btUser } from "../../actions/buckets";
-import { useBucket } from "../../actions/bucket";
+import { getCountry } from "../../../actions/person";
+import { useEffect, useState } from "react";
+import {
+    btCountryChanged,
+    btDefaultCountry,
+    btLeaderboardFilters,
+    btUser,
+} from "../../../actions/buckets";
+import { useBucket, useBucketSelector } from "../../../actions/bucket";
 
 let flagSrc = `${config.https.cdn}images/country`;
 
@@ -35,38 +40,29 @@ function updateCountryLabels() {
 
 // updateCountryLabels();
 
-export default function ChooseCountry({ bgColor, noCountry, overrideDefaultCountry }) {
-    let countryChanged = useBucket(btCountryChanged);
-    let defaultCountry = useBucket(btDefaultCountry);
+export default function ChooseLeaderboardCountry({
+    onChange,
+    bgColor,
+    noCountry,
+    overrideDefaultCountry,
+}) {
+    let filterValue = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.country);
     let user = btUser.get() || {};
 
-    defaultCountry = overrideDefaultCountry || user?.countrycode || defaultCountry;
-
-    if (noCountry && countryList[0].value != "EARTH") {
-        countryList.unshift({ label: "Earth", value: "EARTH" });
-    }
-    useEffect(() => {
-        if (!defaultCountry) getCountry();
-    }, []);
-    // let filename = "assorted-"  + "-original.webp";
-
-    if (!defaultCountry) {
-        return <Text as="span">Identifying country...</Text>;
-    } else {
-        defaultCountry =
-            countryList.find((cntry) => cntry.value == defaultCountry) || countryList[0];
-    }
-
-    countryChanged = countryChanged || defaultCountry;
+    countryList.unshift({ label: "Earth", value: "EARTH" });
+    filterValue = filterValue || "EARTH";
 
     return (
         <VStack p="0" spacing="0" w="100%" position="relative" zIndex="1">
             <Select
                 onChange={(e) => {
                     console.log("Country changed:", e);
-                    btCountryChanged.set(e);
+
+                    onChange({ country: e.value });
+                    btLeaderboardFilters.assign({ country: e });
                 }}
-                value={countryChanged}
+                value={filterValue}
+                options={countryList}
                 styles={{
                     container: (baseStyles, state) => ({
                         ...baseStyles,
@@ -104,11 +100,15 @@ export default function ChooseCountry({ bgColor, noCountry, overrideDefaultCount
                     }),
                     menu: (styles) => ({
                         // backgroundColor: 'var(--chakra-colors-gray-800)',
-                        backgroundColor: bgColor ? bgColor : "var(--chakra-colors-gray-600)",
+                        backgroundColor: bgColor ? bgColor : "var(--chakra-colors-gray-900)",
                         width: "100%",
+                        padding: 0,
+                        margin: 0,
                         position: "absolute",
                         zIndex: "3",
-                        top: "3.3rem",
+                        top: "4rem",
+                        borderRadius: "1rem",
+                        filter: "drop-shadow(0 .375rem .5rem rgba(0,0,0,.65))",
                     }),
                     input: (styles) => ({
                         ...styles,
@@ -120,7 +120,7 @@ export default function ChooseCountry({ bgColor, noCountry, overrideDefaultCount
                     control: (baseStyles, styles) => ({
                         padding: "0",
                         borderRadius: "8px",
-                        background: bgColor ? bgColor : "var(--chakra-colors-gray-600)",
+                        background: bgColor ? bgColor : "var(--chakra-colors-gray-1200)",
                     }),
 
                     indicatorsContainer: (styles) => ({
@@ -139,19 +139,18 @@ export default function ChooseCountry({ bgColor, noCountry, overrideDefaultCount
                     singleValue: (styles, { data }) => ({
                         ...styles,
                         color: "var(--chakra-colors-gray-10)",
-                        fontSize: "1.2rem",
+                        fontSize: "1.8rem",
                         padding: "0.5rem",
                         marginBottom: "0.1rem",
-                        backgroundColor: bgColor ? bgColor : "var(--chakra-colors-gray-900)",
+                        backgroundColor: bgColor ? bgColor : "var(--chakra-colors-gray-1200)",
                         // borderBottom: '1px solid',
                         // borderBottomColor: 'var(--chakra-colors-gray-800)',
                         position: "relative",
                         paddingLeft: "4rem",
-                        background: `url(${flagSrc}/${data.value}.svg) no-repeat left 0rem center transparent`,
+                        background: `url(${flagSrc}/${data.value}.svg) no-repeat left 0rem center var(--chakra-colors-gray-1200)`,
                         backgroundSize: data.value == "EARTH" ? "28px 28px" : "",
                     }),
                 }}
-                options={countryList}
             />
         </VStack>
     );

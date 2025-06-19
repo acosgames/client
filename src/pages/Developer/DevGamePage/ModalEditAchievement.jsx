@@ -599,6 +599,7 @@ function StatGoalInput({ title, name, id }) {
             return valueOptions(index, 0);
         }
         if (!stat && goalValue == "ACOS_SCORE") return valueOptions(index, 0);
+        if (!stat && goalValue == "ACOS_RATING") return valueOptions(index, 0);
         if (!stat && goalValue == "ACOS_PLAYTIME") return valueOptions(index, 3);
         return valueOptions(index, stat?.valueTYPE);
     };

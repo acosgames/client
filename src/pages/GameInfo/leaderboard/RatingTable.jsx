@@ -1,9 +1,9 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
 
 import ratingconfig from "../../../actions/ratingconfig";
-import { PlayerRanking } from "./PlayerRank";
+import { RatingPlayerRow } from "./RatingPlayerRow";
 import { btGame, btPlayerStats, btUser } from "../../../actions/buckets";
-export function RankingList({ type, playerRank, total, leaderboard }) {
+export function RatingTable({ type, playerRank, total, leaderboard }) {
     let game = btGame.get();
     let user = btUser.get();
     let player_stats = btPlayerStats.get();
@@ -24,7 +24,7 @@ export function RankingList({ type, playerRank, total, leaderboard }) {
             let ratingFormatted = ratingTxt.toUpperCase();
             let flagCode = null;
             elems.push(
-                <PlayerRanking
+                <RatingPlayerRow
                     key={"rankings-" + type + "-" + displayname}
                     index={index++}
                     prevRank={prevRank}

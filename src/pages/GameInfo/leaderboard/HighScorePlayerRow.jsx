@@ -5,7 +5,7 @@ import { TopRankNumber } from "./LeaderboardHeading";
 
 const ChakraLink = chakra(Link);
 
-export function PlayerRanking({
+export function HighScorePlayerRow({
     index,
     displayname,
     rank,
@@ -14,10 +14,7 @@ export function PlayerRanking({
     isLocalPlayer,
     portraitid,
     ratingFormatted,
-    rating,
-    win,
-    loss,
-    tie,
+    score,
     total,
 }) {
     return (
@@ -42,6 +39,7 @@ export function PlayerRanking({
                 height: "100%",
                 top: "0",
                 left: "0",
+                zIndex: -1,
                 _hover: {
                     bgColor: "gray.950",
                 },
@@ -57,23 +55,29 @@ export function PlayerRanking({
                 textAlign="center"
                 p="0"
                 pl="1.5rem"
+                position="relative"
+                borderTopRightRadius={"1rem"}
+                borderBottomRightRadius={"1rem"}
+                bgColor={
+                    rank == 1 ? "yellow.200" : rank == 2 ? "gray.20" : rank == 3 ? "orange.200" : ""
+                }
             >
                 <Text
                     as="h6"
                     textAlign={"center"}
                     color={
                         rank == 1
-                            ? "yellow.200"
+                            ? "gray.1000"
                             : rank == 2
-                            ? "gray.20"
+                            ? "gray.1000"
                             : rank == 3
-                            ? "orange.200"
+                            ? "gray.1000"
                             : isLocalPlayer
                             ? "brand.75"
                             : "gray.0"
                     }
                     fontWeight={"500"}
-                    fontSize={["1.4rem", "1.4rem", "1.6rem", "1.6rem", "1.8rem"]}
+                    fontSize={["1.6rem"]}
                     position="relative"
                 >
                     {prevRank == rank && (
@@ -138,7 +142,7 @@ export function PlayerRanking({
                         />
                     </ChakraLink>
                     <ChakraLink
-                        zIndex={"1"}
+                        // zIndex={"1"}
                         minWidth="0"
                         whiteSpace={"nowrap"}
                         overflow={"hidden"}
@@ -167,78 +171,17 @@ export function PlayerRanking({
                 </HStack>
             </Box>
             <VStack spacing={0} gap="0" alignItems={"flex-end"}>
-                <HStack
-                    justifyContent={"center"}
-                    alignItems={"center"}
-                    h="100%"
-                    px={["0", "1rem"]}
-                    p="0"
-                    // overflow={"hidden"}
-                >
-                    <Text
-                        position="relative"
-                        top={[0, 0, "0.1rem"]}
-                        as="h6"
-                        color={isLocalPlayer ? "brand.75" : "gray.30"}
-                        fontWeight={"400"}
-                        lineHeight="1.6rem"
-                        // width="50px"
-                        display={["none", "flex"]}
-                        alignItems={"flex-start"}
-                        fontSize={["1.1rem", "1.1rem", "1.2rem"]}
-                        // display="flex"
-                        pr={["0.5rem", "0.5rem", "0.5rem", "1rem"]}
-                    >
-                        <Text
-                            lineHeight="1.6rem"
-                            height="1.6rem"
-                            as="span"
-                            width="34px"
-                            display={["inline-block"]}
-                        >
-                            Class&nbsp;
-                        </Text>
-                        <Text
-                            as="span"
-                            display={["block"]}
-                            lineHeight="1.6rem"
-                            width="16px"
-                            textAlign={"center"}
-                            fontWeight="400"
-                            fontSize={["1.4rem", "1.4rem", "1.6rem"]}
-                        >
-                            {ratingFormatted}
-                        </Text>
-                    </Text>
-                    <Text
-                        zIndex={"1"}
-                        as="h6"
-                        display="inline-block"
-                        width={["4.5rem", "4.5rem", "6rem"]}
-                        lineHeight="1.6rem"
-                        fontSize={["1.6rem", "1.6rem", "1.8rem"]}
-                        fontWeight={"500"}
-                        color={isLocalPlayer ? "brand.75" : "gray.0"}
-                    >
-                        {rating}
-                    </Text>
-                </HStack>
                 <Text
-                    zIndex={"1"}
+                    // zIndex={"1"}
                     as="h6"
                     display="inline-block"
                     width={["4.5rem", "4.5rem", "6rem"]}
-                    fontSize={["1.4rem"]}
-                    textAlign={"left"}
-                    letterSpacing={"-1px"}
+                    lineHeight="1.6rem"
+                    fontSize={["2.2rem"]}
                     fontWeight={"500"}
-                    height="1rem"
-                    pt="0.2rem"
-                    mr={["0", "1rem"]}
-                    color={"gray.150"}
+                    color={isLocalPlayer ? "brand.75" : "gray.0"}
                 >
-                    {/* {(win || 0) + (tie || 0) + (loss || 0)} */}
-                    {win || 0}-{tie || 0}-{loss || 0}
+                    {score}
                 </Text>
             </VStack>
         </HStack>

@@ -1,8 +1,9 @@
 import { Box, HStack, Text } from "@chakra-ui/react";
 
+import ratingconfig from "../../../actions/ratingconfig";
+import { HighScorePlayerRow } from "./HighScorePlayerRow";
 import { btGame, btPlayerStats, btUser } from "../../../actions/buckets";
-import { PlayerDivisionRank } from "./PlayerDivisionRank";
-export function RankingDivisionList({ playerRank, total, leaderboard }) {
+export function HighScoreTable({ type, playerRank, total, leaderboard }) {
     let game = btGame.get();
     let user = btUser.get();
     let player_stats = btPlayerStats.get();
@@ -16,33 +17,28 @@ export function RankingDivisionList({ playerRank, total, leaderboard }) {
         let prevRank = 0;
         for (let player of leaderboard) {
             rank = player.rank;
-
             let isLocalPlayer = user?.displayname == player.displayname;
-            // let isPast5Rank = rank == 10 && (playerGameStats && playerGameStats.ranking > 10);
+            let isPast5Rank = rank == 10 && playerGameStats && playerGameStats.ranking > 10;
             let displayname = player.displayname || player.value;
             // let ratingTxt = ratingconfig.ratingToRank(Number.parseInt(player.rating));
             // let ratingFormatted = ratingTxt.toUpperCase();
             let flagCode = null;
             elems.push(
-                <PlayerDivisionRank
-                    key={"rankings-division-" + displayname}
-                    prevRank={prevRank}
+                <HighScorePlayerRow
+                    key={"rankings-" + type + "-" + displayname}
                     index={index++}
+                    prevRank={prevRank}
                     rank={player.rank}
                     flagCode={flagCode}
-                    rating={player.rating}
+                    score={player.highscore}
                     displayname={displayname}
                     isLocalPlayer={isLocalPlayer}
                     portraitid={player.portraitid}
-                    winrating={player.winrating}
+                    // ratingFormatted={ratingFormatted}
                     countrycode={player.countrycode}
-                    win={player.win}
-                    loss={player.loss}
-                    tie={player.tie}
                     total={total}
                 />
             );
-
             prevRank = rank;
         }
         return elems;
@@ -69,8 +65,8 @@ export function RankingDivisionList({ playerRank, total, leaderboard }) {
                     color={"gray.100"}
                     fontSize="xs"
                     w={["70%", "70%", "60%", "60%"]}
-                    pl="1.5rem"
                     // pl={["5rem", "5rem", "7rem", "7rem"]}
+                    pl="1rem"
                 >
                     Player
                 </Text>
@@ -83,7 +79,7 @@ export function RankingDivisionList({ playerRank, total, leaderboard }) {
                     textAlign="right"
                     pr={["1rem", "1rem", "2.5rem"]}
                 >
-                    Win Rating
+                    Highscore
                 </Text>
             </HStack>
             {renderRankings()}
