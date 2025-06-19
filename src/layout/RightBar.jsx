@@ -170,6 +170,7 @@ function Lobby({ layoutRef }) {
                         src={`${config.https.cdn}acos-logo-2025.png`}
                         h={["2rem"]}
                         w={["2rem"]}
+                        minW={"2rem"}
                         // maxHeight={"100%"}
                         // mr="1rem"
                     />
