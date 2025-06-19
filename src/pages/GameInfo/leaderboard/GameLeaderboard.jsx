@@ -16,6 +16,7 @@ import {
     btCountryChanged,
     btGame,
     btLeaderboard,
+    btLeaderboardFilters,
     btLoading,
     btUser,
 } from "../../../actions/buckets";
@@ -133,16 +134,17 @@ export function LeaderboardTable({
     if (type == "stat") {
         defaultStatSlug = is_solo ? "ACOS_SCORE" : "ACOS_SCORE";
     }
-    let [config, setConfig] = useState({
-        game_slug,
-        type,
-        countrycode,
-        division_id,
-        is_solo,
-        aggregate,
-        stat_slug: defaultStatSlug,
-    });
 
+    // let [config, setConfig] = useState({
+    //     game_slug,
+    //     type,
+    //     countrycode,
+    //     division_id,
+    //     is_solo,
+    //     aggregate,
+    //     stat_slug: defaultStatSlug,
+    // });
+    let config = useBucket(btLeaderboardFilters);
     let key = createRedisKey(config);
 
     let ranking = useBucketSelector(btLeaderboard, (r) => r[key]);
@@ -153,20 +155,19 @@ export function LeaderboardTable({
     let user = btUser.get();
     let game = btGame.get();
 
+    //initialize
     useEffect(() => {
-        let g = btGame.get();
-        if (g) findLeaderboard(config);
-    }, [
-        config?.game_slug,
-        config?.countrycode,
-        config?.type,
-        config?.stat_slug,
-        config?.division_id,
-        config?.monthly,
-        config?.is_solo,
-        config?.aggregate,
-        config?.season,
-    ]);
+        btLeaderboardFilters.set({
+            title,
+            game_slug,
+            type,
+            countrycode,
+            caption,
+            division_id,
+            aggregate,
+            is_solo,
+        });
+    }, []);
 
     const renderContent = () => {
         if (!game || loading) {
@@ -269,7 +270,7 @@ export function LeaderboardTable({
         <Box w="100%" maxW={["100%", "100%"]} pt="0" pb="2rem">
             <VStack w="100%" spacing="0" alignItems={"center"}>
                 <LeaderboardHeading caption={caption}>{title}</LeaderboardHeading>
-                <LeaderboardFilters config={config} setConfig={setConfig} />
+                <LeaderboardFilters />
                 {renderContent()}
             </VStack>
         </Box>

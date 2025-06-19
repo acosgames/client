@@ -6,7 +6,7 @@ export function LeaderboardHeading({ subtitle, caption, children }) {
             w="100%"
             alignItems={"flex-start"}
             pt="2rem"
-            // pb="2rem"
+            pb="1rem"
             pl="2rem"
             spacing="0"
             // bgColor="gray.875"

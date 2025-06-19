@@ -16,7 +16,8 @@ import { useBucket, useBucketSelector } from "../../../actions/bucket";
 
 let flagSrc = `${config.https.cdn}images/country`;
 
-let countryList = structuredClone(cc2);
+let countryOptions = structuredClone(cc2);
+countryOptions.unshift({ label: "Earth", value: "EARTH" });
 
 function updateCountryLabels() {
     for (let i = 0; i < cc2.length; i++) {
@@ -46,23 +47,27 @@ export default function ChooseLeaderboardCountry({
     noCountry,
     overrideDefaultCountry,
 }) {
-    let filterValue = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.country);
+    let filterValue = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.countrycode);
     let user = btUser.get() || {};
 
-    countryList.unshift({ label: "Earth", value: "EARTH" });
-    filterValue = filterValue || "EARTH";
+    let optionsMap = {};
+    countryOptions.map((option) => {
+        optionsMap[option.value] = option;
+    });
+
+    let currentValue = optionsMap[filterValue] || countryOptions[0];
 
     return (
-        <VStack p="0" spacing="0" w="100%" position="relative" zIndex="1">
+        <VStack p="0" spacing="0" w="100%" position="relative">
             <Select
                 onChange={(e) => {
                     console.log("Country changed:", e);
 
-                    onChange({ country: e.value });
-                    btLeaderboardFilters.assign({ country: e });
+                    // onChange({ countrycode: e.value });
+                    btLeaderboardFilters.assign({ countrycode: e.value });
                 }}
-                value={filterValue}
-                options={countryList}
+                value={currentValue}
+                options={countryOptions}
                 styles={{
                     container: (baseStyles, state) => ({
                         ...baseStyles,
@@ -78,7 +83,7 @@ export default function ChooseLeaderboardCountry({
                             borderBottomColor: "var(--chakra-colors-gray-800)",
                             position: "relative",
                             paddingLeft: "5rem",
-                            zIndex: "1",
+                            // zIndex: "1",
                             background: `url(${flagSrc}/${data.value}.svg) no-repeat left 1rem center var(--chakra-colors-gray-900)`,
                             backgroundSize: data.value == "EARTH" ? "34px 34px" : "",
                             ":hover": {
@@ -105,7 +110,7 @@ export default function ChooseLeaderboardCountry({
                         padding: 0,
                         margin: 0,
                         position: "absolute",
-                        zIndex: "3",
+                        zIndex: "99999",
                         top: "4rem",
                         borderRadius: "1rem",
                         filter: "drop-shadow(0 .375rem .5rem rgba(0,0,0,.65))",
@@ -139,7 +144,7 @@ export default function ChooseLeaderboardCountry({
                     singleValue: (styles, { data }) => ({
                         ...styles,
                         color: "var(--chakra-colors-gray-10)",
-                        fontSize: "1.8rem",
+                        fontSize: "1.4rem",
                         padding: "0.5rem",
                         marginBottom: "0.1rem",
                         backgroundColor: bgColor ? bgColor : "var(--chakra-colors-gray-1200)",

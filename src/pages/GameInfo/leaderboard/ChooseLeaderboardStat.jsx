@@ -5,7 +5,7 @@ import { useBucketSelector } from "../../../actions/bucket";
 import { btGame, btLeaderboardFilters } from "../../../actions/buckets";
 
 export default function ChooseLeaderboardStat({ onChange }) {
-    let leaderboardStat = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.stat);
+    let leaderboardStat = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.stat_slug);
     // let leaderboardStatSlug = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.stat);
 
     let game = btGame.get();
@@ -21,16 +21,16 @@ export default function ChooseLeaderboardStat({ onChange }) {
     });
     // let user = btUser.get() || {};
 
-    let currentValue = leaderboardStat || { label: "Match Score", value: "ACOS_SCORE" };
+    let currentValue = statMap[leaderboardStat] || { label: "Match Score", value: "ACOS_SCORE" };
     return (
-        <VStack p="0" spacing="0" w="100%" position="relative" zIndex="1">
+        <VStack p="0" spacing="0" w="100%" position="relative">
             <Select
                 onChange={(e) => {
                     console.log("Country changed:", e);
 
-                    onChange({ stat_slug: e.value });
-                    let stat = statMap[e.value];
-                    btLeaderboardFilters.assign({ stat });
+                    // onChange({ stat_slug: e.value });
+                    // let stat = statMap[e.value];
+                    btLeaderboardFilters.assign({ stat_slug: e.value });
                 }}
                 value={currentValue}
                 styles={{
@@ -81,7 +81,7 @@ export default function ChooseLeaderboardStat({ onChange }) {
                         overflow: "hidden",
                         width: "100%",
                         position: "absolute",
-                        zIndex: "99999",
+                        zIndex: "9999",
                         top: "4rem",
                         filter: "drop-shadow(0 .375rem .5rem rgba(0,0,0,.65))",
                     }),
@@ -115,13 +115,14 @@ export default function ChooseLeaderboardStat({ onChange }) {
                     singleValue: (styles, { data }) => ({
                         ...styles,
                         color: "var(--chakra-colors-gray-10)",
-                        fontSize: "1.8rem",
+                        fontSize: "1.4rem",
                         // fontWeight: "500",
                         padding: "0.5rem",
                         marginBottom: "0.1rem",
                         backgroundColor: "var(--chakra-colors-gray-900)",
                         // borderBottom: '1px solid',
                         // borderBottomColor: 'var(--chakra-colors-gray-800)',
+                        zIndex: 1,
                         position: "relative",
                         paddingLeft: "1rem",
                         background: "transparent",

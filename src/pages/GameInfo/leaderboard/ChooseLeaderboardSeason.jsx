@@ -16,6 +16,7 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
     const now = new Date(); // 2009-11-10
     const month = now.toLocaleString("default", { month: "long" });
     const monthLabel = "Monthly (" + month + ")";
+
     if (hasMonthly) {
         options.push({
             value: -1,
@@ -44,12 +45,45 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
     });
     // let user = btUser.get() || {};
 
-    let currentValue = filterValue;
+    let currentValue = optionsMap[filterValue] || options[0];
+
     // if (!currentValue) {
     //     if (hasMonthly) {
     //         currentValue = { label: monthLabel, value: -1 };
     //     } else currentValue = { label: "Season " + season, value: season };
     // }
+
+    const onSelectChange = (e) => {
+        console.log("Season changed:", e);
+
+        // let newValue = {};
+        // if (e.value == -2) {
+        //     newValue = {
+        //         alltime: e.value,
+        //         monthly: false,
+        //         season: null,
+        //     };
+        // } else if (e.value == -1) {
+        //     newValue = {
+        //         monthly: true,
+        //         season: null,
+        //     };
+        // } else {
+        //     newValue = {
+        //         season: e.value,
+        //         monthly: false,
+        //     };
+        // }
+        // let season = optionsMap[e.value];
+        btLeaderboardFilters.assign({ season: e.value });
+        // btLeaderboardFilters.assign({ season: e, monthly: false });
+    };
+
+    useEffect(() => {
+        if (!options.find((option) => option.value == currentValue?.value)) {
+            onSelectChange(options[0]);
+        }
+    }, [filterValue]);
 
     useEffect(() => {
         let currentValue = filterValue;
@@ -58,35 +92,13 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                 currentValue = { label: monthLabel, value: -1 };
             } else currentValue = { label: "Season " + season, value: season };
 
-            btLeaderboardFilters.assign({ season: currentValue });
+            btLeaderboardFilters.assign({ season: currentValue.value });
         }
     }, []);
     return (
-        <VStack p="0" spacing="0" w="100%" position="relative" zIndex="2">
+        <VStack p="0" spacing="0" w="100%" position="relative">
             <Select
-                onChange={(e) => {
-                    console.log("Season changed:", e);
-
-                    if (e.value == -2) {
-                        onChange({
-                            alltime: e.value,
-                            monthly: false,
-                            season: null,
-                        });
-                    } else if (e.value == -1) {
-                        onChange({
-                            monthly: true,
-                            season: null,
-                        });
-                    } else {
-                        onChange({
-                            season: e.value,
-                            monthly: false,
-                        });
-                    }
-                    // let season = optionsMap[e.value];
-                    btLeaderboardFilters.assign({ season: e });
-                }}
+                onChange={onSelectChange}
                 value={currentValue}
                 styles={{
                     container: (baseStyles, state) => ({
@@ -109,8 +121,8 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                             // backgroundSize: data.value == "EARTH" ? "34px 34px" : "",
                             ":hover": {
                                 ...styles[":hover"],
-                                color: "var(--chakra-colors-gray-10)",
-                                backgroundColor: "var(--chakra-colors-gray-875)",
+                                color: "var(--chakra-colors-gray-0)",
+                                backgroundColor: "var(--chakra-colors-brand-600)",
                             },
                         };
                     },
@@ -136,7 +148,7 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                         overflow: "hidden",
                         width: "100%",
                         position: "absolute",
-                        zIndex: "99999",
+                        zIndex: "9999",
                         top: "4rem",
                         filter: "drop-shadow(0 .375rem .5rem rgba(0,0,0,.65))",
                     }),
@@ -170,13 +182,14 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                     singleValue: (styles, { data }) => ({
                         ...styles,
                         color: "var(--chakra-colors-gray-10)",
-                        fontSize: "1.8rem",
+                        fontSize: "1.4rem",
                         // fontWeight: "500",
                         padding: "0.5rem",
                         marginBottom: "0.1rem",
                         backgroundColor: "var(--chakra-colors-gray-900)",
                         // borderBottom: '1px solid',
                         // borderBottomColor: 'var(--chakra-colors-gray-800)',
+                        zIndex: 1,
                         position: "relative",
                         paddingLeft: "1rem",
                         background: "transparent",

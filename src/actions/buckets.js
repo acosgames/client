@@ -6,7 +6,11 @@ export const btUser = bucket(null);
 export const btGames = bucket({});
 export const btGame = bucket({});
 
-export const btLeaderboardFilters = bucket({});
+export const btLeaderboardFilters = bucket({
+    country: { label: "Earth", value: "EARTH" },
+    stat: { label: "Match Score", value: "ACOS_SCORE" },
+    season: { label: "All Time", value: -2 },
+});
 
 export const btNationalRankings = bucket({});
 export const btRankings = bucket({});

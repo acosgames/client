@@ -213,7 +213,6 @@ export function createRedisKey(config) {
 export async function findLeaderboard(config) {
     try {
         btLoading.assign({ leaderboardAPI: true });
-        let { game_slug, type, season, division_id, monthly } = config;
         let key = createRedisKey(config);
 
         let cachedRanking = getWithExpiry(key);
