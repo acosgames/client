@@ -20,7 +20,7 @@ export function RatingTable({ type, playerRank, total, leaderboard }) {
             let isLocalPlayer = user?.displayname == player.displayname;
             let isPast5Rank = rank == 10 && playerGameStats && playerGameStats.ranking > 10;
             let displayname = player.displayname || player.value;
-            let ratingTxt = ratingconfig.ratingToRank(Number.parseInt(player.rating));
+            let ratingTxt = ratingconfig.ratingToRank(Number.parseInt(player?.rating || 0));
             let ratingFormatted = ratingTxt.toUpperCase();
             let flagCode = null;
             elems.push(

@@ -2,7 +2,7 @@ import { Box, Image, Text, VStack } from "@chakra-ui/react";
 import Select from "react-select";
 
 import { useBucketSelector } from "../../../actions/bucket";
-import { btGame, btLeaderboardFilters } from "../../../actions/buckets";
+import { btGame, btLeaderboard, btLeaderboardFilters } from "../../../actions/buckets";
 import { useEffect } from "react";
 
 export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonthly }) {
@@ -91,7 +91,6 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
             if (hasMonthly) {
                 currentValue = { label: monthLabel, value: -1 };
             } else currentValue = { label: "Season " + season, value: season };
-
             btLeaderboardFilters.assign({ season: currentValue.value });
         }
     }, []);

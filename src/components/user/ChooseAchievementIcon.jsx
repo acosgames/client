@@ -80,14 +80,14 @@ function ChooseAchievementIcon(props) {
     const observer = new IntersectionObserver(
         ([entry]) => {
             if (entry.isIntersecting) {
-                console.log("ENTER");
+                // console.log("ENTER");
                 let achievementIconRange = btAchievementRange.get() || [1, 100];
                 let min = 1;
                 let max = Math.min(100, achievementIconRange[1] + 100);
                 btAchievementRange.set([min, max]);
                 return;
             }
-            console.log("LEAVE");
+            // console.log("LEAVE");
         },
         {
             root: null,
@@ -156,12 +156,7 @@ function ChooseAchievementIcon(props) {
                         Choose Icon
                     </ModalHeader>
                     <ModalCloseButton top="1rem" right="1rem" />
-                    <ModalBody
-                        overflow="hidden"
-                        position="relative"
-                        w="100%"
-                        h="100%"
-                    >
+                    <ModalBody overflow="hidden" position="relative" w="100%" h="100%">
                         <VStack
                             w="100%"
                             h="70vh"
@@ -221,9 +216,7 @@ function ChooseAchievementIcon(props) {
                                             ]}
                                             gap="0.5rem"
                                         >
-                                            <RenderAchievementIcons
-                                                onSelect={onSelect}
-                                            />
+                                            <RenderAchievementIcons onSelect={onSelect} />
                                             <Box
                                                 height="1rem"
                                                 width="1rem"

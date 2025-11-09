@@ -2,7 +2,7 @@ import { Box, Image, Text, VStack } from "@chakra-ui/react";
 import Select from "react-select";
 
 import { useBucketSelector } from "../../../actions/bucket";
-import { btGame, btLeaderboardFilters } from "../../../actions/buckets";
+import { btGame, btLeaderboard, btLeaderboardFilters } from "../../../actions/buckets";
 
 export default function ChooseLeaderboardStat({ onChange }) {
     let leaderboardStat = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.stat_slug);
@@ -21,7 +21,10 @@ export default function ChooseLeaderboardStat({ onChange }) {
     });
     // let user = btUser.get() || {};
 
-    let currentValue = statMap[leaderboardStat] || { label: "Match Score", value: "ACOS_SCORE" };
+    let currentValue = statMap[leaderboardStat] || {
+        label: "Matches Played",
+        value: "ACOS_PLAYED",
+    };
     return (
         <VStack p="0" spacing="0" w="100%" position="relative">
             <Select

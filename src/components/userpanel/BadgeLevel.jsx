@@ -3,7 +3,7 @@ import { HStack, Heading, Icon, Image, Text } from "@chakra-ui/react";
 import { btUser } from "../../actions/buckets.js";
 import { useBucket, useBucketSelector } from "../../actions/bucket.js";
 export default function BadgeLevel({}) {
-    let userLevel = useBucketSelector(btUser, (user) => user.level);
+    let userLevel = useBucketSelector(btUser, (user) => user?.level) || 0;
     let level = Math.trunc(userLevel || 1);
     return (
         <HStack

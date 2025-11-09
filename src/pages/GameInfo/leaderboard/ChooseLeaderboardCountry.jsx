@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import {
     btCountryChanged,
     btDefaultCountry,
+    btLeaderboard,
     btLeaderboardFilters,
     btUser,
 } from "../../../actions/buckets";
@@ -64,6 +65,7 @@ export default function ChooseLeaderboardCountry({
                     console.log("Country changed:", e);
 
                     // onChange({ countrycode: e.value });
+
                     btLeaderboardFilters.assign({ countrycode: e.value });
                 }}
                 value={currentValue}

@@ -2,7 +2,13 @@ import { Text, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 import ChooseLeaderboardStat from "./ChooseLeaderboardStat";
 import { useBucket } from "../../../actions/bucket";
-import { btCountryChanged, btGame, btLeaderboardFilters } from "../../../actions/buckets";
+import {
+    btCountryChanged,
+    btGame,
+    btLeaderboard,
+    btLeaderboardFilters,
+    btUser,
+} from "../../../actions/buckets";
 import ChooseCountry from "../../../components/user/ChooseCountry";
 import ChooseLeaderboardSeason from "./ChooseLeaderboardSeason";
 import ChooseLeaderboardCountry from "./ChooseLeaderboardCountry";
@@ -11,22 +17,31 @@ import { findLeaderboard } from "../../../actions/game";
 export default function LeaderboardFilters() {
     let filters = [];
     let config = useBucket(btLeaderboardFilters);
-
+    // let key = createRedisKey(config);
     //on change call API
     useEffect(() => {
         let g = btGame.get();
+        let user = btUser.get();
+
+        if (!config?.game_slug && g?.game_slug) {
+            config.game_slug = g.game_slug;
+        }
+        if (config.type == null) {
+            if (user?.displayname && g?.division_id) {
+                config.type = g.maxplayers == 1 ? "divisionsolo" : "divisionmulti";
+                config.division_id = g?.division_id;
+            } else if (user?.displayname) config.type = "rank";
+        }
+
+        if (config?.type == "rank" && config?.season < 0) {
+            config.season = g?.season || 0;
+        }
+
+        if (config?.type == "stat" && !config?.stat_slug) config.stat_slug = "ACOS_PLAYED";
+
+        btLeaderboard.set({ leaderboard: [], total: 0 });
         if (g) findLeaderboard(config);
-    }, [
-        config?.game_slug,
-        config?.countrycode,
-        config?.type,
-        config?.stat_slug,
-        config?.division_id,
-        config?.monthly,
-        config?.is_solo,
-        config?.aggregate,
-        config?.season,
-    ]);
+    }, [JSON.stringify(config)]);
 
     if (config?.type == "rank" || config?.type == "score" || config?.type == "stat") {
         // const onCountryFilterChange = ({ countrycode }) => {

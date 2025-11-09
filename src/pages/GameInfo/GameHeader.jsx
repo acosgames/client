@@ -30,9 +30,9 @@ export default function GameHeader({}) {
 
     let { game_slug } = useParams();
     let queues = useBucket(btQueues);
-    if (!game) {
-        return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;
-    }
+    // if (!game) {
+    //     return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;
+    // }
 
     // if (game_slug != game.game_slug)
     //     return <Box minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}></Box>;

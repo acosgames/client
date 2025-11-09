@@ -460,6 +460,9 @@ const components = {
                 root: {
                     w: "100%",
                     maxW: "1000px",
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDir: "column",
                 },
                 tabpanel: {
                     padding: "0",
@@ -477,9 +480,12 @@ const components = {
                     fontWeight: "bold",
                     textTransform: "uppercase",
                     fontSize: ["1.2rem", "1.2rem", "1.4rem"],
+                    bgColor: "gray.100",
                 },
                 tablist: {
                     pt: "2rem",
+                    width: "auto",
+                    borderRadius: "1rem",
                 },
             },
             brand: {

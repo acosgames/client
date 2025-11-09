@@ -42,11 +42,11 @@ function GameInfoJoinButton(props) {
             ([entry]) => {
                 if (!game_slug) return;
                 if (entry.isIntersecting) {
-                    console.log("ENTER");
+                    // console.log("ENTER");
                     btJoinButtonVisible.set(true);
                     return;
                 }
-                console.log("LEAVE");
+                // console.log("LEAVE");
                 btJoinButtonVisible.set(false);
             },
             {

@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { getUser } from "../../actions/person";
 
 function ActivateUserProfile(props) {
-  useEffect(() => {
-    getUser();
-  }, []);
-  return <></>;
+    useLayoutEffect(() => {
+        getUser();
+    }, []);
+    return <></>;
 }
 
 export default ActivateUserProfile;

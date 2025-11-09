@@ -30,7 +30,7 @@ export default function GamePage({}) {
     useEffect(() => {
         let game = btGame.get();
         if (game && game.game_slug == game_slug) return;
-
+        console.log(game_slug, user);
         loadUserGameData(game_slug);
     }, [user, game_slug]);
 

@@ -86,7 +86,7 @@ export async function findGame(game_slug) {
 
         btGames.assign({ [game_slug]: game });
         btGame.set(game);
-        btGameFound.set(true);
+        // btGameFound.set(true);
 
         return game;
     } catch (e) {
@@ -217,7 +217,7 @@ export async function findLeaderboard(config) {
 
         let cachedRanking = getWithExpiry(key);
         if (cachedRanking) {
-            btLeaderboard.assign({ [key]: cachedRanking });
+            btLeaderboard.set(cachedRanking);
             btLoading.assign({ leaderboardAPI: false });
             return true;
         }
@@ -236,10 +236,10 @@ export async function findLeaderboard(config) {
         let leaderboard = combineLeaderboards(result.leaderboard, result.localboard);
         let total = result.total;
 
-        btLeaderboard.assign({ [key]: { leaderboard, total } });
+        btLeaderboard.set({ leaderboard, total });
         setWithExpiry(key, { leaderboard, total }, 10);
 
-        btGameFound.set(true);
+        // btGameFound.set(true);
         return true;
     } catch (e) {
         console.error(e);
@@ -506,7 +506,7 @@ export async function findGamePerson(game_slug) {
         btGame.set(result.game);
         btGames.assign({ [game_slug]: result.game });
 
-        btGameFound.set(true);
+        // btGameFound.set(true);
     } catch (e) {
         console.error(e);
     }

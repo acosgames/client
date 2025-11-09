@@ -2,7 +2,7 @@ import { Box, HStack, Progress } from "@chakra-ui/react";
 import { useBucket, useBucketSelector } from "../../actions/bucket";
 import { btUser } from "../../actions/buckets";
 export default function ExperienceBar({}) {
-    let userLevel = useBucketSelector(btUser, (user) => user.level);
+    let userLevel = useBucketSelector(btUser, (user) => user?.level) || 0;
     let level = userLevel || 1;
     let percent = (level - Math.trunc(level)) * 100;
 
@@ -15,13 +15,7 @@ export default function ExperienceBar({}) {
             clipPath="polygon(0 70%, 100% 0, 100% 100%, 0 100%)"
             top="-0.5rem"
         >
-            <Progress
-                value={percent}
-                size="xs"
-                colorScheme="green"
-                w="100%"
-                height="1rem"
-            />
+            <Progress value={percent} size="xs" colorScheme="green" w="100%" height="1rem" />
             <Box
                 width="0.2rem"
                 height="100%"

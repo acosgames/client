@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 
 import { Box, Center, VStack } from "@chakra-ui/layout";
@@ -27,6 +27,7 @@ import {
 import DevLogin from "./pages/Developer/DevLogin.jsx";
 import DevManager from "./pages/Developer/index.jsx";
 import DevGamePage from "./pages/Developer/DevGamePage";
+import { getUser } from "./actions/person.js";
 
 function PageRoutes() {
     // const history = useNavigate();
@@ -53,6 +54,8 @@ function PageRoutes() {
         </Routes>
     );
 }
+
+getUser();
 
 function App({}) {
     // const primary = getGamePanel(primaryId);

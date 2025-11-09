@@ -5,8 +5,10 @@ import StatPlayerRow from "./StatPlayerRow.jsx";
 import { btGame, btLeaderboardFilters, btPlayerStats, btUser } from "../../../actions/buckets";
 import { useBucketSelector } from "../../../actions/bucket";
 export function StatTable({ type, playerRank, total, leaderboard }) {
-    let leaderboardStat = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.stat);
+    let stat_slug = useBucketSelector(btLeaderboardFilters, (bucket) => bucket?.stat_slug);
     let game = btGame.get();
+
+    let stat = game?.stats?.find((stat) => stat.stat_slug == stat_slug);
     let user = btUser.get();
     let player_stats = btPlayerStats.get();
     let playerGameStats = player_stats[game.game_slug];
@@ -81,7 +83,7 @@ export function StatTable({ type, playerRank, total, leaderboard }) {
                     textAlign="right"
                     pr={["1rem", "1rem", "2.5rem"]}
                 >
-                    {leaderboardStat?.label || "Played Time"}
+                    {stat?.stat_name || "Played Time"}
                 </Text>
             </HStack>
             {renderRankings()}

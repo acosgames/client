@@ -79,14 +79,14 @@ function ChoosePortrait(props) {
     const observer = new IntersectionObserver(
         ([entry]) => {
             if (entry.isIntersecting) {
-                console.log("ENTER");
+                // console.log("ENTER");
                 let portraitRange = btPortraitRange.get() || [1, 100];
                 let min = 1;
                 let max = Math.min(2104, portraitRange[1] + 100);
                 btPortraitRange.set([min, max]);
                 return;
             }
-            console.log("LEAVE");
+            // console.log("LEAVE");
         },
         {
             root: null,
@@ -97,8 +97,7 @@ function ChoosePortrait(props) {
     useEffect(() => {
         btPortraitObserver.set(true);
         setTimeout(() => {
-            if (bottomBoundaryRef.current)
-                observer.observe(bottomBoundaryRef.current);
+            if (bottomBoundaryRef.current) observer.observe(bottomBoundaryRef.current);
         });
 
         return () => {
@@ -156,12 +155,7 @@ function ChoosePortrait(props) {
                         Choose your Champion
                     </ModalHeader>
                     <ModalCloseButton top="1rem" right="1rem" />
-                    <ModalBody
-                        overflow="hidden"
-                        position="relative"
-                        w="100%"
-                        h="100%"
-                    >
+                    <ModalBody overflow="hidden" position="relative" w="100%" h="100%">
                         <VStack
                             w="100%"
                             h="70vh"
@@ -221,9 +215,7 @@ function ChoosePortrait(props) {
                                             ]}
                                             gap="0.5rem"
                                         >
-                                            <RenderPortraits
-                                                onSelect={onSelect}
-                                            />
+                                            <RenderPortraits onSelect={onSelect} />
                                             <Box
                                                 height="1rem"
                                                 width="1rem"

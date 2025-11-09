@@ -46,13 +46,16 @@ function ContentContainer({ children }) {
     );
 }
 
-export default function GameLeaderboard({ game_slug }) {
+export default function GameLeaderboard({}) {
     let user = btUser.get();
-    let game = btGame.get();
+    let game = useBucket(btGame);
+
+    if (!game) return <></>;
+    let game_slug = game?.game_slug;
 
     return (
         // <Box w="100%" h="100%" p="0" pt="2rem" px={["1rem"]} bgColor="gray.925">
-        <Tabs variant="subtabs" isLazy>
+        <Tabs defaultIndex={0} variant="subtabs" isLazy={true}>
             <TabList border="0" justifyContent={"center"}>
                 {game?.division_name && <Tab>Division</Tab>}
                 {/* <Tab>National Rank</Tab> */}
@@ -120,6 +123,17 @@ export default function GameLeaderboard({ game_slug }) {
     );
 }
 
+export function LeaderboardLoading() {
+    let loading = useBucketSelector(btLoading, (l) => l.leaderboardAPI);
+
+    if (!loading) return <></>;
+    return (
+        <Box w="100%" px="10%" py="3rem">
+            <Progress w="100%" size="lg" isIndeterminate />
+        </Box>
+    );
+}
+
 export function LeaderboardTable({
     title,
     game_slug,
@@ -144,11 +158,8 @@ export function LeaderboardTable({
     //     aggregate,
     //     stat_slug: defaultStatSlug,
     // });
-    let config = useBucket(btLeaderboardFilters);
-    let key = createRedisKey(config);
 
-    let ranking = useBucketSelector(btLeaderboard, (r) => r[key]);
-    let loading = useBucketSelector(btLoading, (l) => l.leaderboardAPI);
+    let ranking = useBucket(btLeaderboard);
 
     let leaderboard = ranking?.leaderboard;
     let total = ranking?.total || 0;
@@ -170,14 +181,6 @@ export function LeaderboardTable({
     }, []);
 
     const renderContent = () => {
-        if (!game || loading) {
-            return (
-                <Box w="100%" px="10%" py="3rem">
-                    <Progress w="100%" size="lg" isIndeterminate />
-                </Box>
-            );
-        }
-
         if (!leaderboard || leaderboard.length == 0) {
             return (
                 <Text fontSize="1.6rem" align="center" w="100%" display={"block"} color="gray.10">
@@ -203,7 +206,7 @@ export function LeaderboardTable({
             }
         }
 
-        if (config?.type == "rank") {
+        if (type == "rank") {
             return (
                 <>
                     <RatingTable
@@ -216,7 +219,7 @@ export function LeaderboardTable({
             );
         }
 
-        if (config?.type == "score") {
+        if (type == "score") {
             return (
                 <>
                     <HighScoreTable
@@ -229,7 +232,7 @@ export function LeaderboardTable({
             );
         }
 
-        if (config?.type == "stat") {
+        if (type == "stat") {
             return (
                 <>
                     <StatTable
@@ -242,7 +245,7 @@ export function LeaderboardTable({
             );
         }
 
-        if (config?.type == "divisionmulti") {
+        if (type == "divisionmulti") {
             return (
                 <>
                     <DivisionMultiTable
@@ -253,7 +256,7 @@ export function LeaderboardTable({
                 </>
             );
         }
-        if (config?.type == "divisionsolo") {
+        if (type == "divisionsolo") {
             return (
                 <>
                     <DivisionSoloTable
@@ -271,6 +274,7 @@ export function LeaderboardTable({
             <VStack w="100%" spacing="0" alignItems={"center"}>
                 <LeaderboardHeading caption={caption}>{title}</LeaderboardHeading>
                 <LeaderboardFilters />
+                <LeaderboardLoading />
                 {renderContent()}
             </VStack>
         </Box>
