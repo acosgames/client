@@ -5,7 +5,7 @@ import { getUser } from "./person";
 import { wsJoinRankedGame, wsJoinBetaGame } from "./connection";
 import { addRoom } from "./room";
 import ACOSEncoder from "acos-json-encoder/encoder";
-import ACOSDictionary from "shared/model/acos-dictionary.json";
+import ACOSDictionary from 'shared/model/acos-dictionary.json';
 ACOSEncoder.createDefaultDict(ACOSDictionary);
 
 import delta from "acos-json-delta";

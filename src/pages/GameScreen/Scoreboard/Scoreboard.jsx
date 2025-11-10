@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, memo } from "react";
 import SimpleBar from "simplebar-react";
 import { findGamePanelByRoom, getPrimaryGamePanel } from "../../../actions/room";
 
-// import ratingconfig from "shared/util/ratingconfig";
+// import ratingconfig from 'shared/util/ratingconfig';
 // import config from "../../../config";
 
 import { motion, AnimatePresence } from "framer-motion";

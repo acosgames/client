@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useBucket, useBucketSelector } from "../../../actions/bucket";
 import { btDevGame, btFormFields } from "../../../actions/buckets";
-import schema from "shared/model/schema.json";
+import schema from 'shared/model/schema.json';
 
 import { AnimatePresence, motion } from "framer-motion";
 import TeamDefinitionRow from "./TeamDefinitionRow";

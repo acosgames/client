@@ -28,7 +28,7 @@ import {
     validate,
     validateField,
     validateSimple,
-} from "shared/util/validation.mjs";
+} from 'shared/util/validation.mjs';
 import { notif } from "../components/ToastMessage";
 import { Text } from "@chakra-ui/react";
 

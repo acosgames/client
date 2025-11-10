@@ -8,7 +8,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import schema from "shared/model/schema.json";
+import schema from 'shared/model/schema.json';
 import { useBucket } from "../../../actions/bucket";
 import { btDevGame } from "../../../actions/buckets";
 import FSGNumberInput from "../../../components/widgets/inputs/FSGNumberInput";

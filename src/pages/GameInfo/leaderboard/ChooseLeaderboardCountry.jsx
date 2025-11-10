@@ -3,7 +3,7 @@ import Select from "react-select";
 
 import config from "../../../config";
 
-import cc2 from "shared/model/countrycode2.json";
+import cc2 from 'shared/model/countrycode2.json';
 import { getCountry } from "../../../actions/person";
 import { useEffect, useState } from "react";
 import {

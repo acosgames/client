@@ -1,7 +1,7 @@
 import { MdEdit } from "react-icons/md";
 import config from "../../../config";
 
-import schema from "shared/model/schema.json";
+import schema from 'shared/model/schema.json';
 import {
     btAchievementIconId,
     btDevGame,

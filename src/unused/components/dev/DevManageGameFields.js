@@ -10,7 +10,7 @@ import {
 } from "../../actions/devgame";
 import fs from "flatstore";
 
-import errorMessage from "shared/model/errorcodes";
+import errorMessage from 'shared/model/errorcodes';
 import Markdown from "../../../components/widgets/inputs/Markdown";
 // import ReactMarkdown from 'react-markdown';
 // import remarkGfm from 'remark-gfm';
@@ -32,7 +32,7 @@ import FSGSubmit from "../../../components/widgets/inputs/FSGSubmit";
 import { Select, useToast } from "@chakra-ui/react";
 import DevManageGameEnvironment from "./DevManageGameEnvironment";
 
-import schema from "shared/model/schema.json";
+import schema from 'shared/model/schema.json';
 import DevManageGameGithub from "./DevManageGameGithub";
 import FSGDelete from "../../../components/widgets/inputs/FSGDelete";
 import DevManageGameDelete from "./DevManageGameDelete";

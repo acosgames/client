@@ -17,7 +17,7 @@ import {
     Markdown,
     MarkdownPreview,
 } from "../../../components/widgets/inputs/Markdown";
-import schema from "shared/model/schema.json";
+import schema from 'shared/model/schema.json';
 import { useBucket, useBucketSelector } from "../../../actions/bucket";
 import { btDevGame, btFormFields } from "../../../actions/buckets";
 

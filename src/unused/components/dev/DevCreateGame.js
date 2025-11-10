@@ -7,11 +7,11 @@ import {
 } from "../../actions/devgame";
 import fs from "flatstore";
 
-import errorMessage from "shared/model/errorcodes";
+import errorMessage from 'shared/model/errorcodes';
 import FSGTextInput from "../../../components/widgets/inputs/FSGTextInput";
 import FSGSubmit from "../../../components/widgets/inputs/FSGSubmit";
 import { Divider, Heading } from "@chakra-ui/layout";
-import schema from "shared/model/schema.json";
+import schema from 'shared/model/schema.json';
 import { Text, VStack, useToast, Box, Spacer } from "@chakra-ui/react";
 import FSGGroup from "../../../components/widgets/inputs/FSGGroup";
 import DevCreateGameTemplates from "./DevCreateGameTemplates";

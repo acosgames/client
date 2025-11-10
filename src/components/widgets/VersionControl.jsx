@@ -1,4 +1,4 @@
-import versions from "shared/model/versions.json";
+import versions from 'shared/model/versions.json';
 
 import { useEffect } from "react";
 import { useToast } from "@chakra-ui/react";

@@ -30,7 +30,7 @@ import FSGTextInput from "../../../components/widgets/inputs/FSGTextInput";
 
 import config from "../../../config";
 
-import schema from "shared/model/schema.json";
+import schema from 'shared/model/schema.json';
 import { MdEdit } from "react-icons/md";
 import { FaCopy, FaRandom } from "react-icons/fa";
 import { useEffect } from "react";

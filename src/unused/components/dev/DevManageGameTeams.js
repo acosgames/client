@@ -13,7 +13,7 @@ import FSGNumberInput from "../../../components/widgets/inputs/FSGNumberInput";
 import FSGColorPicker from "../../../components/widgets/inputs/FSGColorPicker";
 import { useEffect, useRef, useState } from "react";
 
-import schema from "shared/model/schema.json";
+import schema from 'shared/model/schema.json';
 import FSGTextInput from "../../../components/widgets/inputs/FSGTextInput";
 
 import {

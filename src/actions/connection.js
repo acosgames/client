@@ -2,7 +2,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 // import { encode, decode, defaultDict } from 'acos-json-encoder';
 // const { encode, decode, defaultDict } = require('acos-json-encoder');
 import ACOSEncoder from "acos-json-encoder"; // '../util/encoder';
-import ACOSDictionary from "shared/model/acos-dictionary.json";
+import ACOSDictionary from 'shared/model/acos-dictionary.json';
 ACOSEncoder.createDefaultDict(ACOSDictionary);
 
 // const encode = ACOSEncoder.encode;

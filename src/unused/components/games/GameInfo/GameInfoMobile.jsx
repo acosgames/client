@@ -42,7 +42,7 @@ import GameInfoJoinButton from "./GameInfoJoinButton";
 import { findQueue } from "../../../actions/queue";
 import GameInfoLeaderboard from "./GameInfoLeaderboard";
 import GameInfoReplay from "./GameInfoReplay";
-import ratingconfig from "shared/util/ratingconfig";
+import ratingconfig from 'shared/util/ratingconfig';
 
 fs.set("loadingGameInfo", true);
 function GameInfo2(props) {
