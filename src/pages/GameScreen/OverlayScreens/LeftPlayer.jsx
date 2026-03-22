@@ -43,9 +43,9 @@ export default function LeftPlayer({
             // boxShadow={
             //     user.displayname == player.displayname && !ignoreLocal
             //         ? isLeft
-            //             ? "0 0 10px var(--chakra-colors-gray-100)"
-            //             : "0 0 10px var(--chakra-colors-gray-500)"
-            //         : "gray.1200"
+            //             ? "0 0 10px var(--chakra-colors-primary-100)"
+            //             : "0 0 10px var(--chakra-colors-primary-500)"
+            //         : "primary.1200"
             // }
         >
             <Image
@@ -72,14 +72,14 @@ export default function LeftPlayer({
                     minHeight="5rem"
                     p="1rem"
                     spacing="0"
-                    bgColor="gray.600"
+                    bgColor="primary.600"
                 >
                     <Text
                         as="span"
                         pr="1rem"
                         textAlign={"center"}
-                        color={"gray.10"}
-                        // color={user.displayname == player.displayname ? "brand.900" : "gray.0"}
+                        color={"primary.10"}
+                        // color={user.displayname == player.displayname ? "brand.900" : "primary.0"}
                         fontWeight="400"
                         fontSize={["1.4rem", "1.8rem", "1.8rem", "2rem"]}
                         letterSpacing={"0px"}
@@ -88,14 +88,14 @@ export default function LeftPlayer({
                         overflow="hidden"
                         whiteSpace={"nowrap"}
                         textOverflow={"ellipsis"}
-                        textShadow={"0 1px 4px var(--chakra-colors-gray-900)"}
+                        textShadow={"0 1px 4px var(--chakra-colors-primary-900)"}
                     >
                         {player.displayname}
                     </Text>
                     <HStack spacing="1rem" justifyContent={"flex-start"} width="2rem" minW="2rem">
                         <Image
                             src={`${config.https.cdn}images/country/${player.countrycode}.svg`}
-                            borderColor="gray.100"
+                            borderColor="primary.100"
                             borderRadius="0px"
                             width="2rem"
                             filter="opacity(0.8)"
@@ -109,7 +109,7 @@ export default function LeftPlayer({
                     spacing="0rem"
                     alignSelf={"flex-start"}
                     justifyContent={"flex-start"}
-                    bgColor="gray.1050"
+                    bgColor="primary.1050"
                     pb="0.5rem"
                 >
                     <VStack
@@ -124,8 +124,8 @@ export default function LeftPlayer({
                             as="span"
                             textTransform="uppercase"
                             fontSize="2.2rem"
-                            color="gray.10"
-                            textShadow={`-2px -2px 2px var(--chakra-colors-gray-500)`}
+                            color="primary.10"
+                            textShadow={`-2px -2px 2px var(--chakra-colors-primary-500)`}
                             fontWeight="bold"
                             letterSpacing="0px"
                             textAlign="center"
@@ -138,7 +138,7 @@ export default function LeftPlayer({
                         </Text>
                         <Text
                             as="span"
-                            color="gray.100"
+                            color="primary.100"
                             p="0.25rem"
                             fontWeight="500"
                             fontSize="1.2rem"

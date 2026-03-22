@@ -31,7 +31,7 @@ function IsNextIndicator({ gamepanel, shortid, team }) {
             h="4rem"
             // transform="translate(0,-50%)"
             zIndex={99}
-            bgColor={team ? team.color : "gray.1050"}
+            bgColor={team ? team.color : "primary.1050"}
             clipPath="polygon(100% calc(100% - 10px), 100% 100%, calc(100% - 10px) 100%)"
             // _before={
             //     isNext
@@ -42,7 +42,7 @@ function IsNextIndicator({ gamepanel, shortid, team }) {
             //               height: "2rem",
             //               bottom: "0",
             //               right: "0",
-            //               backgroundColor: team ? team.color : "gray.1050",
+            //               backgroundColor: team ? team.color : "primary.1050",
             //               zIndex: "10",
             //               clipPath:
             //                   "polygon(100% calc(100% - 10px), 100% 100%, calc(100% - 10px) 100%)",
@@ -92,7 +92,7 @@ export default function RenderPlayer({
             key={"motion-" + name}
             position="relative"
             // px="0.5rem"
-            bgColor={isNext ? "gray.600" : "gray.900"}
+            bgColor={isNext ? "primary.600" : "primary.900"}
             // p="1rem"
             overflow="hidden"
             w="100%"
@@ -111,7 +111,7 @@ export default function RenderPlayer({
                 spacing="0rem"
                 justifyContent={"flex-start"}
                 alignItems={"flex-start"}
-                // bgColor={gamepanel.room.isReplay ? 'gray.1050' : "gray.1200"}
+                // bgColor={gamepanel.room.isReplay ? 'primary.1050' : "primary.1200"}
                 // borderRadius="8px"
                 borderRightRadius={"0"}
                 // overflow="hidden"
@@ -134,7 +134,7 @@ export default function RenderPlayer({
                     <Image
                         src={`${config.https.cdn}images/country/${countrycode}.svg`}
                         // mt="0.5rem"
-                        borderColor="gray.100"
+                        borderColor="primary.100"
                         borderRadius="3px"
                         width="1.5rem"
                         // height="1.75rem"
@@ -175,14 +175,14 @@ export default function RenderPlayer({
                 >
                     <HStack
                         w="100%"
-                        // bgColor={gamepanel.room.isReplay ? "gray.1050" : "gray.1200"}
+                        // bgColor={gamepanel.room.isReplay ? "primary.1050" : "primary.1200"}
 
                         pl="1rem"
                     >
                         <Text
                             as="span"
                             // textAlign={"center"}
-                            color={isLocalPlayer ? "gray.0" : "gray.40"}
+                            color={isLocalPlayer ? "primary.0" : "primary.40"}
                             fontWeight="500"
                             fontSize={gamepanel.room.isReplay ? "1.2rem" : ["1.4rem"]}
                             lineHeight={"1.4rem"}
@@ -200,8 +200,8 @@ export default function RenderPlayer({
                         </Text>
                     </HStack>
                     <HStack
-                        // bgColor={gamepanel.room.isReplay ? 'gray.1050' : "gray.1200"}
-                        // bgColor="gray.1050"
+                        // bgColor={gamepanel.room.isReplay ? 'primary.1050' : "primary.1200"}
+                        // bgColor="primary.1050"
                         display={gamepanel.room.isReplay ? "flex" : "flex"}
                         spacing="0.5rem"
                         alignSelf={"flex-start"}
@@ -213,11 +213,11 @@ export default function RenderPlayer({
                     >
                         <Text
                             as="span"
-                            color="gray.100"
+                            color="primary.100"
                             fontWeight="500"
                             fontSize="1rem"
                             lineHeight={"1.0rem"}
-                            //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
+                            //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-primary-900)"}
                         >
                             Class {ratingClass}
                         </Text>
@@ -231,11 +231,11 @@ export default function RenderPlayer({
                         alignItems={"center"}
                         pr="2rem"
                         // bgColor={
-                        //     gamepanel.room.isReplay ? "gray.1050" : "gray.1200"
+                        //     gamepanel.room.isReplay ? "primary.1050" : "primary.1200"
                         // }
 
                         // borderTop="1px solid"
-                        // borderTopColor="gray.100"
+                        // borderTopColor="primary.100"
                     >
                         <Text as="span" fontSize={gamepanel.room.isReplay ? "2rem" : "3rem"}>
                             {score}

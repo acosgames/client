@@ -15,7 +15,8 @@ import {
 import { BsArrowsFullscreen, RiLayoutRightLine, IoTimeOutline } from "@react-icons";
 
 import { joinGame } from "../../../actions/game";
-import { replayNextIndex, replayPrevIndex, wsLeaveGame } from "../../../actions/connection";
+import { replayNextIndex, replayPrevIndex } from "../../../actions/replay";
+import {  wsLeaveGame } from "../../../actions/ws";
 import {
     clearPrimaryGamePanel,
     clearRoom,
@@ -140,7 +141,7 @@ function GameActions(props) {
             // h={props.isBottomLayout ? '100%' : '5rem'}
             w={"100%"}
             justify={"center"}
-            // bgColor={'gray.600'}
+            // bgColor={'primary.600'}
             py="0.6rem"
         >
             {/* <HStack alignItems={'center'}>

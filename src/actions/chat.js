@@ -1,4 +1,4 @@
-import { wsSend } from "./connection";
+import { wsSend } from "./ws";
 
 import { getPrimaryGamePanel } from "./room";
 import { btChannel, btChatMessage, btChatUpdated, btGame, btLastChatSent } from "./buckets";

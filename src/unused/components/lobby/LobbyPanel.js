@@ -76,7 +76,7 @@ function LobbyPanel(props) {
             spacing="0"
             justifyContent={'flex-start'}
             alignItems="flex-start"
-            bgColor="gray.1200"
+            bgColor="primary.1200"
             position="relative"
             pb="4rem"
             overflow="hidden">
@@ -90,7 +90,7 @@ function LobbyPanel(props) {
                     // }
                 }}>
 
-                <Text w="100%" as="div" align="center" fontSize="xs" fontWeight={'bold'} color="gray.200" lineHeight={'4rem'}>Lobby</Text>
+                <Text w="100%" as="div" align="center" fontSize="xs" fontWeight={'bold'} color="primary.200" lineHeight={'4rem'}>Lobby</Text>
             </Box>
             <ChatMessages />
 

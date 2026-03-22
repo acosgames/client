@@ -43,7 +43,7 @@ class GameList extends Component {
             <VStack width="100%" align="left" spacing="4rem">
                 <VStack align="left">
                     <Heading as="h1" size="md" pb="0rem" color="white">Ranked Games 4</Heading>
-                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">You'll need skill to reach the top</Heading>
+                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="primary.175">You'll need skill to reach the top</Heading>
                     <Wrap w="100%" spacing={['1.2rem', '2rem', "1.4rem"]} overflow="visible">
                         {
                             rankList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
@@ -53,7 +53,7 @@ class GameList extends Component {
                 <Divider />
                 <VStack align="left" display={soloList.length == 0 ? 'none' : undefined}>
                     <Heading as="h1" size="md" color="white">Solo Highscore</Heading>
-                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Play by yourself against the world</Heading>
+                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="primary.175">Play by yourself against the world</Heading>
                     <Flex w="100%" spacing={['0.6rem', '1rem', "1.4rem"]} overflow="visible">
                         {
                             soloList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
@@ -63,7 +63,7 @@ class GameList extends Component {
                 <Divider display={experimentalList.length == 0 ? 'none' : undefined} />
                 <VStack align="left" display={experimentalList.length == 0 ? 'none' : undefined}>
                     <Heading as="h1" size="md" color="white">Early Access</Heading>
-                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Not yet published, but the devs need your help!</Heading>
+                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="primary.175">Not yet published, but the devs need your help!</Heading>
                     <Flex w="100%" spacing={['0.6rem', '1rem', "1.4rem"]} overflow="visible">
                         {
                             experimentalList.map(game => (<GameListItem key={"gamelistitem-" + game.game_slug} game={game}></GameListItem>))
@@ -81,7 +81,7 @@ class GameList extends Component {
                             </Box>
 
                             <Heading textAlign={['', '', '']} as="h1" fontSize="36px" color="white" fontWeight={'normal'} lineHeight={'5rem'} >Build games using our SDK to launch and play instantly against the world</Heading>
-                            <Heading textAlign={['', '', '']} as="h2" size="md" color="gray.150" fontWeight={'normal'} lineHeight={'3rem'}>Code your server gameplay and client user-interface, then deploy for free.  </Heading>
+                            <Heading textAlign={['', '', '']} as="h2" size="md" color="primary.150" fontWeight={'normal'} lineHeight={'3rem'}>Code your server gameplay and client user-interface, then deploy for free.  </Heading>
 
                             <HStack spacing="3rem" >
                                 <ChLink href={"/dev"}>
@@ -140,7 +140,7 @@ class GameList extends Component {
 
 
                             <Heading as="h1" fontSize="36px" color="white" fontWeight={'normal'} lineHeight={'5rem'} >ACOS Simulator helps guide your game development</Heading>
-                            <Heading as="h2" size="md" color="gray.150" fontWeight={'normal'} lineHeight={'3rem'}>Inspect the networked game state, simulate fake players, configure game settings, rewind and fast forward between states.</Heading>
+                            <Heading as="h2" size="md" color="primary.150" fontWeight={'normal'} lineHeight={'3rem'}>Inspect the networked game state, simulate fake players, configure game settings, rewind and fast forward between states.</Heading>
                             <Center w="100%">
                                 <Box
                                     mt="3rem"
@@ -172,7 +172,7 @@ class GameList extends Component {
                             </Box>
 
                             <Heading textAlign={['', '', '']} as="h1" fontSize="36px" color="white" fontWeight={'normal'} lineHeight={'5rem'} >Join our community and collaborate on open source games and projects</Heading>
-                            <Heading textAlign={['', '', '']} as="h2" size="md" color="gray.150" fontWeight={'normal'} lineHeight={'3rem'}>Learning to code?  We can help you build your first game.  Simply join us on Discord.  Games are built using ReactJS and JavaScript.</Heading>
+                            <Heading textAlign={['', '', '']} as="h2" size="md" color="primary.150" fontWeight={'normal'} lineHeight={'3rem'}>Learning to code?  We can help you build your first game.  Simply join us on Discord.  Games are built using ReactJS and JavaScript.</Heading>
 
                             <HStack spacing="6rem" alignContent={'center'}>
                                 <ChLink isExternal href={"https://github.com/acosgames"}>
@@ -198,8 +198,8 @@ class GameList extends Component {
 
 
                     {/* <Heading mb="0.5rem" as="h1" size="md" color="white" >Join our community</Heading> */}
-                    {/* <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175"></Text>
-                    <Text as="h3" fontWeight={'light'} fontSize="sm" color="gray.175" pb="2rem"></Text> */}
+                    {/* <Text as="h3" fontWeight={'light'} fontSize="sm" color="primary.175"></Text>
+                    <Text as="h3" fontWeight={'light'} fontSize="sm" color="primary.175" pb="2rem"></Text> */}
                     {/* <Grid
                         width="100%"
                         gap={'2rem'}
@@ -218,11 +218,11 @@ class GameList extends Component {
                             w="100%"
                             h="100%"
                             flexDir={"column"}
-                            bgColor="gray.1100"
+                            bgColor="primary.1100"
                             borderRadius="2rem"
-                            color="gray.100"
-                            _hover={{ bgColor: 'gray.800', textDecoration: 'none' }}
-                            _active={{ bgColor: 'gray.600' }}
+                            color="primary.100"
+                            _hover={{ bgColor: 'primary.800', textDecoration: 'none' }}
+                            _active={{ bgColor: 'primary.600' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 8px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'}>
                             <HStack pb="1rem" >
@@ -245,11 +245,11 @@ class GameList extends Component {
                             w="100%"
                             h="100%"
                             flexDir={"column"}
-                            bgColor="gray.1100"
+                            bgColor="primary.1100"
                             borderRadius="2rem"
-                            color="gray.100"
-                            _hover={{ bgColor: 'gray.800' }}
-                            _active={{ bgColor: 'gray.600' }}
+                            color="primary.100"
+                            _hover={{ bgColor: 'primary.800' }}
+                            _active={{ bgColor: 'primary.600' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'} >
                             <Link to="/dev">
@@ -269,11 +269,11 @@ class GameList extends Component {
                             w="100%"
                             h="100%"
                             flexDir={"column"}
-                            bgColor="gray.1100"
+                            bgColor="primary.1100"
                             borderRadius="2rem"
-                            color="gray.100"
-                            _hover={{ bgColor: 'gray.800' }}
-                            _active={{ bgColor: 'gray.600' }}
+                            color="primary.100"
+                            _hover={{ bgColor: 'primary.800' }}
+                            _active={{ bgColor: 'primary.600' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'}
                         >
@@ -291,11 +291,11 @@ class GameList extends Component {
                             w="100%"
                             h="100%"
                             flexDir={"column"}
-                            bgColor="gray.1100"
+                            bgColor="primary.1100"
                             borderRadius="2rem"
-                            color="gray.100"
-                            _hover={{ bgColor: 'gray.800', textDecoration: 'none' }}
-                            _active={{ bgColor: 'gray.600' }}
+                            color="primary.100"
+                            _hover={{ bgColor: 'primary.800', textDecoration: 'none' }}
+                            _active={{ bgColor: 'primary.600' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'}>
                             <Text fontSize="sm" display="flex" fontWeight="bold">
@@ -312,18 +312,18 @@ class GameList extends Component {
                 {/* <Divider /> */}
                 {/* <VStack align="left" justify={"left"}>
                     <Heading as="h1" size="md" color="white">Latest Blogs</Heading>
-                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="gray.175">Read the latest news for ACOS.games</Heading>
+                    <Heading as="h3" size="sm" pb="2rem" fontWeight="light" color="primary.175">Read the latest news for ACOS.games</Heading>
                     <HStack>
 
                         <HStack w={['100%']} spacing="1rem"
                             p="2rem"
                             display="flex"
                             flexDir={"row"}
-                            bgColor="gray.800"
+                            bgColor="primary.800"
                             borderRadius="2rem"
-                            color="gray.100"
-                            _hover={{ bgColor: 'gray.800', textDecoration: 'none' }}
-                            _active={{ bgColor: 'gray.1000' }}
+                            color="primary.100"
+                            _hover={{ bgColor: 'primary.800', textDecoration: 'none' }}
+                            _active={{ bgColor: 'primary.1000' }}
                             boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                             justifyContent="flex-start" alignItems={'flex-start'}
                         >
@@ -343,7 +343,7 @@ class GameList extends Component {
 
                             </Box>
                             <VStack justifyContent={'flex-start'} alignItems="flex-start">
-                                <Text as="span" fontWeight={'light'} fontSize="2xs" display={'block'} lineHeight={'1rem'} color="gray.150">March 29, 2022</Text>
+                                <Text as="span" fontWeight={'light'} fontSize="2xs" display={'block'} lineHeight={'1rem'} color="primary.150">March 29, 2022</Text>
 
                                 <ChLink isExternal textDecoration={"none"} href={'https://medium.com/@JoeOfTex/acos-web-developers-want-to-build-games-too-so-i-made-an-online-platform-to-make-it-easy-d225974fa2d8'} >
                                     <Heading as="h2" fontWeight="bold" fontSize="sm" color="white">Build web games using serverless code, persistent JSON state, and any JavaScript browser framework</Heading>

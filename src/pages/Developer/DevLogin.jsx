@@ -93,7 +93,7 @@ function DevLogin({}) {
             w="100%"
             pt="4rem"
             px="3rem"
-            bgColor="gray.925"
+            bgColor="primary.925"
             // pt="0rem"
             boxShadow={"0px 3px 7px 0px rgba(0, 0, 0, 0.21)"}
             pb="10rem"
@@ -105,7 +105,7 @@ function DevLogin({}) {
             >
                 <Heading variant={"h1"}>Join our Developer Community</Heading>
 
-                <Text as="p" pb={8} w="100%" color="gray.10">
+                <Text as="p" pb={8} w="100%" color="primary.10">
                     Follow the steps below to join our GitHub Organization at{" "}
                     <Link
                         fontWeight="400"
@@ -155,10 +155,10 @@ function DevLogin({}) {
                         p="2rem"
                         w={"100%"}
                         justifyContent="left"
-                        color="gray.0"
-                        bgColor={step1 ? "gray.800" : "gray.900"}
-                        _hover={{ bg: step1 ? "gray.850" : "gray.950" }}
-                        _active={{ bg: step1 ? "gray.900" : "gray.1000" }}
+                        color="primary.0"
+                        bgColor={step1 ? "primary.800" : "primary.900"}
+                        _hover={{ bg: step1 ? "primary.850" : "primary.950" }}
+                        _active={{ bg: step1 ? "primary.900" : "primary.1000" }}
                         leftIcon={<FaGithub size="24px" />}
                     >
                         <Text
@@ -166,7 +166,7 @@ function DevLogin({}) {
                             fontWeight="500"
                             fontSize="1.4rem"
                             ml="1rem"
-                            color="gray.0"
+                            color="primary.0"
                         >
                             Sign in with github
                         </Text>
@@ -200,10 +200,10 @@ function DevLogin({}) {
                             p="2rem"
                             w={"100%"}
                             justifyContent="left"
-                            color="gray.0"
-                            bgColor={step2 ? "gray.800" : "gray.900"}
-                            _hover={{ bg: step2 ? "gray.850" : "gray.950" }}
-                            _active={{ bg: step2 ? "gray.900" : "gray.1000" }}
+                            color="primary.0"
+                            bgColor={step2 ? "primary.800" : "primary.900"}
+                            _hover={{ bg: step2 ? "primary.850" : "primary.950" }}
+                            _active={{ bg: step2 ? "primary.900" : "primary.1000" }}
                             leftIcon={<FiDownload />}
                         >
                             <Text
@@ -211,7 +211,7 @@ function DevLogin({}) {
                                 fontWeight="500"
                                 fontSize="1.4rem"
                                 ml="1rem"
-                                color="gray.0"
+                                color="primary.0"
                             >
                                 Join{" "}
                                 <Text
@@ -245,11 +245,11 @@ function DevLogin({}) {
                                 p="2rem"
                                 w={"full"}
                                 justifyContent="left"
-                                color="gray.0"
-                                bgColor={step3 ? "gray.800" : "gray.900"}
-                                _hover={{ bg: step3 ? "gray.850" : "gray.950" }}
+                                color="primary.0"
+                                bgColor={step3 ? "primary.800" : "primary.900"}
+                                _hover={{ bg: step3 ? "primary.850" : "primary.950" }}
                                 _active={{
-                                    bg: step3 ? "gray.900" : "gray.1000",
+                                    bg: step3 ? "primary.900" : "primary.1000",
                                 }}
                                 leftIcon={<FiDownload />}
                             >
@@ -258,7 +258,7 @@ function DevLogin({}) {
                                     fontWeight="500"
                                     fontSize="1.4rem"
                                     ml="1rem"
-                                    color="gray.0"
+                                    color="primary.0"
                                 >
                                     Accept{" "}
                                     <Text
@@ -294,10 +294,10 @@ function DevLogin({}) {
                             p="2rem"
                             w={"100%"}
                             justifyContent="left"
-                            color="gray.0"
-                            bgColor={step3 ? "gray.800" : "gray.900"}
-                            _hover={{ bg: step3 ? "gray.850" : "gray.950" }}
-                            _active={{ bg: step3 ? "gray.900" : "gray.1000" }}
+                            color="primary.0"
+                            bgColor={step3 ? "primary.800" : "primary.900"}
+                            _hover={{ bg: step3 ? "primary.850" : "primary.950" }}
+                            _active={{ bg: step3 ? "primary.900" : "primary.1000" }}
                             leftIcon={<FiRefreshCw />}
                         >
                             <Text
@@ -305,7 +305,7 @@ function DevLogin({}) {
                                 fontWeight="500"
                                 fontSize="1.4rem"
                                 ml="1rem"
-                                color="gray.0"
+                                color="primary.0"
                             >
                                 Re-authenticate to access
                             </Text>
@@ -326,7 +326,7 @@ function DevStep({ completed, number, title }) {
                 fontSize="xl"
                 as={completed ? FiCheckSquare : FiSquare}
             />
-            <Heading as="h3" fontWeight="600" fontSize="1.6rem" color="gray.70">
+            <Heading as="h3" fontWeight="600" fontSize="1.6rem" color="primary.70">
                 Step {number}:
             </Heading>
             <Heading
@@ -334,7 +334,7 @@ function DevStep({ completed, number, title }) {
                 as="h3"
                 fontWeight="500"
                 fontSize="1.6rem"
-                color="gray.10"
+                color="primary.10"
             >
                 {title}
             </Heading>

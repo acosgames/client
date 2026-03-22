@@ -102,24 +102,24 @@ function GameInfoActions(game) {
                     boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
                     height="4.5rem"
                     minWidth="4.5rem"
-                    bgColor="gray.1200"
+                    bgColor="primary.1200"
                     borderRadius="2rem"
                     textAlign={"center"}
                     //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                     onClick={onShareClick}
 
                 >
-                    <HStack spacing="2px" color={"gray.100"} lineHeight={'4.5rem'} justifyContent="center" alignItems={"center"}>
+                    <HStack spacing="2px" color={"primary.100"} lineHeight={'4.5rem'} justifyContent="center" alignItems={"center"}>
                         <IoShareSocial size="2.3rem" />
                     </HStack>
 
-                    {/* <Text color="gray.100" fontWeight={"bold"} lineHeight="1.4rem" fontSize={['xxs', 'xxs', 'xs']}></Text> */}
+                    {/* <Text color="primary.100" fontWeight={"bold"} lineHeight="1.4rem" fontSize={['xxs', 'xxs', 'xs']}></Text> */}
                 </Button>
 
                 <HStack w='100px' spacing="0.5rem"
                     p="1rem"
                     height="4.5rem"
-                    bgColor="gray.1200"
+                    bgColor="primary.1200"
                     borderRadius="2rem"
                     boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
                     //boxShadow={`inset 0 1px 1px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
@@ -127,11 +127,11 @@ function GameInfoActions(game) {
                 >
 
                     <Tooltip label="Great!">
-                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsUp />} onClick={onLike} color={liked ? 'brand.100' : 'gray.100'} />
+                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsUp />} onClick={onLike} color={liked ? 'brand.100' : 'primary.100'} />
                     </Tooltip>
-                    <Text color="gray.100" fontSize={'xs'} fontWeight={"bold"} px="0.5rem">{votes}</Text>
+                    <Text color="primary.100" fontSize={'xs'} fontWeight={"bold"} px="0.5rem">{votes}</Text>
                     <Tooltip label="Bad!">
-                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsDown />} onClick={onDislike} color={disliked ? 'red.300' : 'gray.100'} />
+                        <IconButton width="2.4rem" height="2.4rem" icon={<FaThumbsDown />} onClick={onDislike} color={disliked ? 'red.300' : 'primary.100'} />
                     </Tooltip>
                 </HStack>
                 {/* <HStack spacing="0" pr="1rem" alignContent={'center'} alignItems={'center'}>
@@ -142,7 +142,7 @@ function GameInfoActions(game) {
                 <Box
                     p="1rem"
                     height="4.5rem"
-                    bgColor="gray.1200"
+                    bgColor="primary.1200"
                     borderRadius="2rem"
                     boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
                 //boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 20%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
@@ -151,7 +151,7 @@ function GameInfoActions(game) {
 
                     <Tooltip label="Discuss issues on GitHub">
                         <Link _hover={{ textDecor: 'none' }} textDecoration={'none'} target="_blank" href={`https://github.com/acosgames/${game.game_slug}/issues`} height="1.4rem">
-                            <HStack h="100%" w="100%" spacing="4px" color="gray.100" alignItems={"center"} justifyContent="center">
+                            <HStack h="100%" w="100%" spacing="4px" color="primary.100" alignItems={"center"} justifyContent="center">
 
                                 <Icon height="3rem" as={FaGithub} />
 
@@ -176,7 +176,7 @@ function GameInfoActions(game) {
                             p="1rem"
                             minWidth="4.5rem"
                             height="4.5rem"
-                            bgColor="gray.1200"
+                            bgColor="primary.1200"
                             borderRadius="2rem"
                             textAlign={"center"}
                             boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 7%), inset 0 2px 2px 0 rgb(0 0 0 / 15%), inset 0 0 3px 5px rgb(0 0 0 / 2%), 2px 2px 4px 0 rgb(0 0 0 / 12%)`}
@@ -184,14 +184,14 @@ function GameInfoActions(game) {
                         >
 
 
-                            <HStack spacing="2px" color={"gray.100"} lineHeight={'4.5rem'} justifyContent="center" alignItems={"center"}>
+                            <HStack spacing="2px" color={"primary.100"} lineHeight={'4.5rem'} justifyContent="center" alignItems={"center"}>
                                 <Icon size="2.3rem" as={IoWarningSharp} p="0" />
                             </HStack>
 
 
                             {/* <HStack spacing="0.2rem" alignContent={'center'}>
                                 <Icon as={IoWarningSharp} fontSize="1.6rem" />
-                                <Text as="span" fontSize="xs" color="gray.500">{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
+                                <Text as="span" fontSize="xs" color="primary.500">{report > 0 ? 'REPORTED' : 'REPORT'}</Text>
                             </HStack> */}
 
                         </MenuButton>

@@ -198,10 +198,10 @@ export function EditAchievement({}) {
         >
             <ModalOverlay zIndex={14} />
             <ModalContent
-                bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
+                bg="linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))"
                 borderRadius="8px"
                 maxWidth="50rem"
-                bgColor="gray.800"
+                bgColor="primary.800"
             >
                 <ChooseAchievementIcon
                     id={
@@ -211,7 +211,7 @@ export function EditAchievement({}) {
                     }
                 />
                 <ModalHeader
-                    color="gray.0"
+                    color="primary.0"
                     fontWeight={"600"}
                     textAlign={"center"}
                     fontSize="1.6rem"
@@ -273,13 +273,13 @@ export function EditAchievement({}) {
                             <VStack
                                 w="100%"
                                 borderTop="1px solid"
-                                borderTopColor="gray.500"
+                                borderTopColor="primary.500"
                                 mt="0.5rem"
                                 pt="1rem"
                                 alignItems={"flex-start"}
                                 spacing="2rem"
                             >
-                                <Text as="span" display="block" fontSize="1.8rem" color="gray.0">
+                                <Text as="span" display="block" fontSize="1.8rem" color="primary.0">
                                     Goals
                                 </Text>
 
@@ -343,7 +343,7 @@ useErrors={useErrors}
                             <Box
                                 w="100%"
                                 borderBottom="1px solid"
-                                borderBottomColor="gray.500"
+                                borderBottomColor="primary.500"
                             ></Box>
                             <Box w="100%">
                                 <StatAwardInput />
@@ -355,7 +355,7 @@ useErrors={useErrors}
                 <ModalFooter>
                     <Button
                         bgColor="blue.500"
-                        color="gray.0"
+                        color="primary.0"
                         fontWeight="500"
                         fontSize="1.6rem"
                         p="2rem"
@@ -364,7 +364,7 @@ useErrors={useErrors}
                         }}
                     >
                         {loading && (
-                            <Spinner width="2rem" height="2rem" color="gray.0" size={"sm"} />
+                            <Spinner width="2rem" height="2rem" color="primary.0" size={"sm"} />
                         )}
                         {!loading && (isUpdate ? "Update" : "Create")}
                     </Button>
@@ -397,7 +397,7 @@ function StatAwardInput({}) {
                         id={`award_xp`}
                         title={"XP Amount"}
                         titleFontSize="1.2rem"
-                        titleColor="gray.20"
+                        titleColor="primary.20"
                         step={1}
                         integer={true}
                         required={rules[`award_xp`].required}
@@ -415,7 +415,7 @@ function StatAwardInput({}) {
                         id={`award_gamepoints`}
                         title={"Points Amount"}
                         titleFontSize="1.2rem"
-                        titleColor="gray.20"
+                        titleColor="primary.20"
                         step={1}
                         integer={true}
                         required={rules[`award_gamepoints`].required}
@@ -439,7 +439,7 @@ function StatAwardInput({}) {
                 group={group}
                 id={"achievement_award"}
                 name={"achievement_award"}
-                color="gray.100"
+                color="primary.100"
                 placeholder={""}
                 w="100%"
                 // value={goalValue}
@@ -521,7 +521,7 @@ function StatGoalInput({ title, name, id }) {
                 id={`goal${index}_valueINT`}
                 title={title || "Integer Value"}
                 titleFontSize="1.2rem"
-                titleColor="gray.20"
+                titleColor="primary.20"
                 step={1}
                 integer={true}
                 required={rules[`goal${index}_valueINT`].required}
@@ -542,7 +542,7 @@ function StatGoalInput({ title, name, id }) {
                 title={title || "Float Value"}
                 titleFontSize="1.2rem"
                 step={1}
-                titleColor="gray.20"
+                titleColor="primary.20"
                 maxLength="10"
                 float={true}
                 required={rules[`goal${index}_valueFLOAT`].required}
@@ -561,7 +561,7 @@ function StatGoalInput({ title, name, id }) {
     //             name={`goal${index}_valueSTRING`}
     //             id={`goal${index}_valueSTRING`}
     //             titleFontSize="1.2rem"
-    //             titleColor="gray.20"
+    //             titleColor="primary.20"
     //             title={title || "Match String"}
     //             maxLength="60"
     //             required={rules[`goal${index}_valueSTRING`].required}
@@ -609,7 +609,7 @@ function StatGoalInput({ title, name, id }) {
             w="100%"
             alignItems={"flex-start"}
             borderBottom="1px solid"
-            borderBottomColor="gray.300"
+            borderBottomColor="primary.300"
         >
             <FSGSelect
                 title={title}
@@ -617,7 +617,7 @@ function StatGoalInput({ title, name, id }) {
                 group={group}
                 id={name}
                 name={name}
-                color="gray.100"
+                color="primary.100"
                 placeholder={""}
                 w="100%"
                 value={goalValue}
@@ -666,13 +666,13 @@ function EditAchievementIcon({}) {
                 <Box position="absolute" bottom="0" right="0">
                     <Icon
                         fontSize="2rem"
-                        color="gray.0"
+                        color="primary.0"
                         p="0.25rem"
                         as={MdEdit}
                         position="relative"
                         zIndex="2"
                         _groupHover={{
-                            color: "gray.0",
+                            color: "primary.0",
                         }}
                         onClick={() => {
                             btIsChooseAchievementIcon.set(true);

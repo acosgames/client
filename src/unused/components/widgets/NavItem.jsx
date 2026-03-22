@@ -32,9 +32,9 @@ function NavItem({ icon, url, title, description, active, navSize, isExternal })
             <Menu placement="right">
                 <CLink
                     as={!isExternal ? SLink : CLink}
-                    backgroundColor={active ? "gray.700" : 'gray.1200'}
+                    backgroundColor={active ? "primary.700" : 'primary.1200'}
                     p={3}
-                    _hover={{ textDecor: 'none', backgroundColor: "gray.800", color: 'gray.150' }}
+                    _hover={{ textDecor: 'none', backgroundColor: "primary.800", color: 'primary.150' }}
                     w={[null, null, '100%']}
                     to={!isExternal ? url : undefined}
                     href={isExternal ? url : undefined}
@@ -42,12 +42,12 @@ function NavItem({ icon, url, title, description, active, navSize, isExternal })
                 >
                     <MenuButton w="100%">
                         <HStack spacing="1rem">
-                            <Icon as={icon} fontSize="sm" color={active ? "gray.100" : "gray.100"} />
+                            <Icon as={icon} fontSize="sm" color={active ? "primary.100" : "primary.100"} />
                             <Text
                                 ml={2}
                                 display={['none', 'none', 'flex']}
-                                color={active ? "gray.100" : "gray.100"}
-                                _hover={{ color: "gray.150" }}
+                                color={active ? "primary.100" : "primary.100"}
+                                _hover={{ color: "primary.150" }}
                                 fontSize="xs"
                             >
                                 {title}

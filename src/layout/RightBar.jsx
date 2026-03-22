@@ -101,11 +101,11 @@ function Lobby({ layoutRef }) {
                 transition="all 0.3s ease"
                 h={["100vh", "100vh"]}
                 zIndex={1001}
-                bgColor="gray.925"
-                // borderLeft={["0", "1px solid var(--chakra-colors-gray-950)"]}
+                bgColor="primary.925"
+                // borderLeft={["0", "1px solid var(--chakra-colors-primary-950)"]}
                 // boxShadow={[
-                //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
-                //   "0px 0 20px 0px var(--chakra-colors-gray-600)",
+                //   "0px 0 20px 0px var(--chakra-colors-primary-600)",
+                //   "0px 0 20px 0px var(--chakra-colors-primary-600)",
                 // ]}
                 spacing="0rem"
             >
@@ -117,7 +117,7 @@ function Lobby({ layoutRef }) {
                     right={"30.5rem"}
                     transition="all 0.3s ease"
                     // bgColor="rgba(0,0,0,1)"
-                    // bgColor="gray.1200"
+                    // bgColor="primary.1200"
                     // py="1.5rem"
                     // px="0.5rem"
                     // p="0"
@@ -142,10 +142,10 @@ function Lobby({ layoutRef }) {
                     backdropFilter="blur(5px)"
                     border="1px solid rgba(255, 255, 255, 0.02)"
                     _hover={{
-                        // color: "gray.0",
+                        // color: "primary.0",
                         // border: "2px solid",
                         // borderColor: "brand.75",
-                        // bgColor: "gray.100",
+                        // bgColor: "primary.100",
                         opacity: "1",
                         transform: "scale(1.1)",
                     }}
@@ -237,10 +237,10 @@ function DefaultTabs({}) {
                     fontSize="1.2rem"
                     fontWeight="600"
                     borderBottom="none"
-                    color="gray.200"
+                    color="primary.200"
                     _hover={{ borderBottom: "none" }}
-                    _selected={{ color: "gray.10", borderBottom: "none" }}
-                    textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
+                    _selected={{ color: "primary.10", borderBottom: "none" }}
+                    textShadow="0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200),0 0 3px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200)"
                 >
                     Chat
                 </Tab>
@@ -248,10 +248,10 @@ function DefaultTabs({}) {
                     fontSize="1.2rem"
                     fontWeight="600"
                     borderBottom="none"
-                    color="gray.200"
+                    color="primary.200"
                     _hover={{ borderBottom: "none" }}
-                    _selected={{ color: "gray.10", borderBottom: "none" }}
-                    textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
+                    _selected={{ color: "primary.10", borderBottom: "none" }}
+                    textShadow="0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200),0 0 3px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200)"
                 >
                     Queue
                 </Tab>
@@ -260,10 +260,10 @@ function DefaultTabs({}) {
                     fontWeight="600"
                     bg="transparent"
                     borderBottom="none"
-                    color="gray.200"
+                    color="primary.200"
                     _hover={{ borderBottom: "none" }}
                     _selected={{ color: "brand.300", borderBottom: "none" }}
-                    textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
+                    textShadow="0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200),0 0 3px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200)"
                 >
                     Social
                 </Tab> */}

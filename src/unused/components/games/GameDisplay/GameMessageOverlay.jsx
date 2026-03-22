@@ -116,7 +116,7 @@ function GameMessageOverlay(props) {
                     <Box w="150px">
                         <Text
                             as="span"
-                            color={player.ready ? "white" : "gray.500"}
+                            color={player.ready ? "white" : "primary.500"}
                         >
                             {player?.name || "unknown"}
                         </Text>
@@ -373,7 +373,7 @@ function GameMessageOverlay(props) {
             transform="translate(-50%, -50%)"
             left="50%"
             top="50%"
-            color="gray.100"
+            color="primary.100"
             // borderRadius={'50%'}
             /* bring your own prefixes */
             p="1rem"

@@ -45,7 +45,7 @@ function FSGTextInput(props) {
             <FormLabel as="legend" display={props.title ? "block" : "none"}>
                 <HStack>
                     <Text
-                        color={props.titleColor || "gray.10"}
+                        color={props.titleColor || "primary.10"}
                         fontSize={props.titleFontSize || "1.4rem"}
                         fontWeight={props.titleFontWeight || "500"}
                     >
@@ -65,7 +65,7 @@ function FSGTextInput(props) {
                 placeholder={props.placeholder}
                 fontWeight={props.fontWeight || "light"}
                 fontSize={props.fontSize || "1.4rem"}
-                color={props.color || "gray.10"}
+                color={props.color || "primary.10"}
                 // pr={props.pr || 0}
                 p={props.p || "1.5rem"}
                 maxLength={props.maxLength}
@@ -104,7 +104,7 @@ function FSGTextInput(props) {
                 _focus={{ ...props._focus }}
                 _focusVisible={{ ...props._focusVisible }}
                 _placeholder={{ ...props._placeholder }}
-                bgColor={props.bgColor || "gray.950"}
+                bgColor={props.bgColor || "primary.950"}
             />
 
             {errors.length > 0 ? (
@@ -118,7 +118,7 @@ function FSGTextInput(props) {
                     </FormHelperText>
                 ))
             ) : (
-                <FormHelperText fontSize="1.2rem" color="gray.50">
+                <FormHelperText fontSize="1.2rem" color="primary.50">
                     {props.helperText}
                 </FormHelperText>
             )}

@@ -31,7 +31,7 @@ export default function SocialPanel({}) {
       px="0.5rem"
       mb="1rem"
 
-      // filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1000)) "
+      // filter="drop-shadow(1px 1px 2px var(--chakra-colors-primary-1000)) "
     >
       <VStack
         width="100%"
@@ -47,14 +47,14 @@ export default function SocialPanel({}) {
         borderRadius={"8px"}
         border="1px solid"
         zIndex="2"
-        borderColor="gray.925"
-        bgColor="gray.900"
-        boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
+        borderColor="primary.925"
+        bgColor="primary.900"
+        boxShadow="inset 0 0px 6px var(--chakra-colors-primary-1000), inset 0 0px 2px var(--chakra-colors-primary-1000), inset 0 0px 4px var(--chakra-colors-primary-1000)"
       >
         <ChakraSimpleBar
           boxSizing="border-box"
           flex="1"
-          // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+          // borderTop={["2px solid var(--chakra-colors-primary-800)"]}
           style={{
             width: "100%",
             height: "auto",
@@ -80,7 +80,7 @@ function SocialTabs({}) {
         <Tab
           fontSize="1.1rem"
           fontWeight="600"
-          color="gray.200"
+          color="primary.200"
           borderBottom="none"
           textTransform={"uppercase"}
           _active={{
@@ -95,7 +95,7 @@ function SocialTabs({}) {
         <Tab
           fontSize="1.1rem"
           fontWeight="600"
-          color="gray.200"
+          color="primary.200"
           borderBottom="none"
           textTransform={"uppercase"}
           _active={{
@@ -110,7 +110,7 @@ function SocialTabs({}) {
         <Tab
           fontSize="1.1rem"
           fontWeight="600"
-          color="gray.200"
+          color="primary.200"
           borderBottom="none"
           textTransform={"uppercase"}
           _active={{
@@ -125,7 +125,7 @@ function SocialTabs({}) {
         <Tab
           fontSize="1.1rem"
           fontWeight="600"
-          color="gray.200"
+          color="primary.200"
           borderBottom="none"
           textTransform={"uppercase"}
           _active={{

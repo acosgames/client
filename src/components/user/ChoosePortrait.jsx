@@ -140,12 +140,12 @@ function ChoosePortrait(props) {
             >
                 <ModalOverlay />
                 <ModalContent
-                    bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
+                    bg="linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))"
                     borderRadius="8px"
-                    bgColor="gray.800"
+                    bgColor="primary.800"
                 >
                     <ModalHeader
-                        color="gray.10"
+                        color="primary.10"
                         fontWeight={"600"}
                         textAlign={"center"}
                         fontSize="1.6rem"
@@ -168,7 +168,7 @@ function ChoosePortrait(props) {
                             px="0.5rem"
                             mb="1rem"
 
-                            // filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1000)) "
+                            // filter="drop-shadow(1px 1px 2px var(--chakra-colors-primary-1000)) "
                         >
                             <VStack
                                 width="100%"
@@ -186,7 +186,7 @@ function ChoosePortrait(props) {
                                 <ChakraSimpleBar
                                     boxSizing="border-box"
                                     flex="1"
-                                    // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+                                    // borderTop={["2px solid var(--chakra-colors-primary-800)"]}
                                     style={{
                                         width: "100%",
                                         height: "auto",
@@ -219,7 +219,7 @@ function ChoosePortrait(props) {
                                             <Box
                                                 height="1rem"
                                                 width="1rem"
-                                                bgColor="gray.900"
+                                                bgColor="primary.900"
                                                 id="page-bottom-boundary"
                                                 ref={bottomBoundaryRef}
                                             ></Box>

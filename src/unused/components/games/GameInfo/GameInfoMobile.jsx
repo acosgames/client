@@ -186,7 +186,7 @@ function GameInfo2(props) {
                             <HStack w="100%">
                                 <VStack flex="1" alignItems={"flex-start"}>
                                     <Heading
-                                        color="gray.50"
+                                        color="primary.50"
                                         fontSize={["xl", "2xl"]}
                                     >
                                         {game.name}
@@ -194,7 +194,7 @@ function GameInfo2(props) {
 
                                     <Box flexGrow={"1"}>
                                         <Text
-                                            color="gray.100"
+                                            color="primary.100"
                                             as="span"
                                             fontSize="xxs"
                                         >
@@ -206,7 +206,7 @@ function GameInfo2(props) {
                                             <Text
                                                 as="span"
                                                 fontSize="xs"
-                                                color="gray.100"
+                                                color="primary.100"
                                             >
                                                 {game.displayname}
                                             </Text>
@@ -214,7 +214,7 @@ function GameInfo2(props) {
                                     </Box>
 
                                     <Text
-                                        color="gray.100"
+                                        color="primary.100"
                                         as="h5"
                                         pt="0.5rem"
                                         fontSize={["xs", "sm"]}
@@ -413,9 +413,9 @@ function GameInfoImage(props) {
                 <Button
                     display={inQueue ? "flex" : "none"}
                     flex="1"
-                    bgColor="gray.800"
-                    _hover={{ bg: "gray.800" }}
-                    _active={{ bg: "gray.800" }}
+                    bgColor="primary.800"
+                    _hover={{ bg: "primary.800" }}
+                    _active={{ bg: "primary.800" }}
                     size="md"
                     mr="0"
                     w="30%"

@@ -78,10 +78,10 @@ function ChatMessages(props) {
     return (
         <VStack spacing="0" p="1rem" pt="0rem" pb="0" w="100%" flex="1" overflow="hidden">
             <VStack w="100%"
-                bgColor="gray.1100"
+                bgColor="primary.1100"
                 borderRadius="2rem"
                 //border="2px solid"
-                borderColor={'gray.175'}
+                borderColor={'primary.175'}
                 // minHeight={"10rem"}
                 // height="100%"
                 flex="1"

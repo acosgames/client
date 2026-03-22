@@ -96,16 +96,16 @@ function Highscores(props) {
     }
     return (
         <Box w="100%" p="1rem"  >
-            <Box w="100%" p="1rem" bgColor="gray.1200" borderRadius={"2rem"}>
+            <Box w="100%" p="1rem" bgColor="primary.1200" borderRadius={"2rem"}>
 
                 <VStack w="100%">
-                    <Text as="h4" fontWeight={'bold'} color="gray.100">Top scores</Text>
+                    <Text as="h4" fontWeight={'bold'} color="primary.100">Top scores</Text>
                     <Table variant='simple' mb={playerRank == -1 ? '1rem' : '0'} width="100%">
                         {/* <Thead>
                         <Tr>
-                            <Th color={'gray.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem" isNumeric>Rank</Th>
-                            <Th color={'gray.100'} fontSize="sm" width="20rem" lineHeight="3rem" height="3rem" >Player</Th>
-                            <Th color={'gray.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem">Highscore</Th>
+                            <Th color={'primary.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem" isNumeric>Rank</Th>
+                            <Th color={'primary.100'} fontSize="sm" width="20rem" lineHeight="3rem" height="3rem" >Player</Th>
+                            <Th color={'primary.100'} fontSize="sm" width="10rem" lineHeight="3rem" height="3rem">Highscore</Th>
                         </Tr>
                     </Thead> */}
                         <Tbody>
@@ -114,8 +114,8 @@ function Highscores(props) {
                     </Table>
 
 
-                    <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="gray.100" fontWeight={'300'}>
-                        <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.100">{playerRank || -1}</Text> of {lbCount}
+                    <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="xs" color="primary.100" fontWeight={'300'}>
+                        <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="primary.100">{playerRank || -1}</Text> of {lbCount}
                             {/* in
                         <Text as="span" > Highscore</Text>  */}
                         </Text>

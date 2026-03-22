@@ -55,7 +55,7 @@ function DevMyGames(props) {
             elems.push(
                 <VStack key={"dev-nogames-found"} spacing="2rem">
                     <Heading size="2xl">No games found.</Heading>
-                    <Heading color="gray.400" size="lg">Are you ready to create a game?</Heading>
+                    <Heading color="primary.400" size="lg">Are you ready to create a game?</Heading>
                     <Box mt="2rem">
                         <Link to="/dev/game/create/">
                             <HStack>

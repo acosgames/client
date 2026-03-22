@@ -2,6 +2,28 @@ export function removeWithExpiry(key) {
     localStorage.removeItem(key)
 }
 
+export function createRedisKey(config) {
+    // if (config?.redisKey) return config?.redisKey;
+    let key = ["lb"];
+    if (!config?.type) config.type = "rank";
+    key.push(config.type);
+
+    if (config?.game_slug) key.push(config.game_slug);
+    if (config?.countrycode) key.push(config.countrycode);
+    if (typeof config?.season === "number") key.push("S" + config.season);
+    if (config?.division_id) key.push(config.division_id);
+    if (config?.stat_slug) key.push(config.stat_slug);
+
+    if (config?.monthly) {
+        let now = new Date();
+        key.push(now.getUTCFullYear() + "" + now.getUTCMonth());
+    }
+
+    config.redisKey = key.join("/");
+    return config.redisKey;
+}
+
+
 export function setWithExpiry(key, value, ttl) {
     const now = new Date()
 

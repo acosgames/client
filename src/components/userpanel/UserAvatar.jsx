@@ -34,7 +34,7 @@ export default function UserAvatar({}) {
             <Image
                 src={`${config.https.cdn}images/country/${user.countrycode}.svg`}
                 // mt="0.5rem"
-                borderColor="gray.100"
+                borderColor="primary.100"
                 borderRadius="3px"
                 width="1.75rem"
                 // height="1.75rem"

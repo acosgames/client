@@ -133,12 +133,12 @@ function GameInfo2(props) {
 
                             <HStack w="100%" height="100%">
                                 <VStack alignItems={'flex-start'} spacing="0">
-                                    <Heading color="gray.50" fontSize={['xl', '2xl']} lineHeight={['2rem', '2rem', '3rem']}>{game.name}</Heading>
+                                    <Heading color="primary.50" fontSize={['xl', '2xl']} lineHeight={['2rem', '2rem', '3rem']}>{game.name}</Heading>
 
 
                                     <Box>
-                                        <Text color="gray.100" as="span" fontSize="xs" pt="0">By </Text>
-                                        <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="gray.100" pt="0">{game.displayname}</Text></Link>
+                                        <Text color="primary.100" as="span" fontSize="xs" pt="0">By </Text>
+                                        <Link to={'/profile/' + game.displayname}><Text as="span" fontSize="xs" color="primary.100" pt="0">{game.displayname}</Text></Link>
                                     </Box>
 
                                     <Wrap width="100%" pt="1rem" flex="1" justifyContent={'flex-start'} alignItems={"flex-end"}>
@@ -157,7 +157,7 @@ function GameInfo2(props) {
                                         }
                                         <GameInfoTag title="replays" />
                                     </Wrap>
-                                    {/* <Text color="gray.100" as="h5" pt="0.5rem" fontSize={['xs', 'sm']} fontWeight="400">{game.shortdesc}</Text> */}
+                                    {/* <Text color="primary.100" as="h5" pt="0.5rem" fontSize={['xs', 'sm']} fontWeight="400">{game.shortdesc}</Text> */}
 
                                 </VStack>
 
@@ -264,9 +264,9 @@ function GameInfoImage(props) {
                 <Button
                     display={inQueue ? 'flex' : 'none'}
                     flex="1"
-                    bgColor='gray.800'
-                    _hover={{ bg: "gray.800" }}
-                    _active={{ bg: "gray.800" }}
+                    bgColor='primary.800'
+                    _hover={{ bg: "primary.800" }}
+                    _active={{ bg: "primary.800" }}
                     size="md"
                     mr="0"
                     w="30%"

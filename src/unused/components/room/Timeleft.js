@@ -65,7 +65,7 @@ function TimeleftDisplay(props) {
         nextColor = 'brand.900'
     } else if (roomStatus != 'GAME' && roomStatus != 'LOADING') {
         nextText = 'GG';
-        nextColor = 'gray.200'
+        nextColor = 'primary.200'
     }
 
     if (gamepanel?.room?.isReplay) {
@@ -90,12 +90,12 @@ function TimeleftDisplay(props) {
                 px="0rem"
                 py="1rem"
                 cursor="pointer"
-                //bgColor={isNext ? 'gray.700' : ""}
+                //bgColor={isNext ? 'primary.700' : ""}
                 borderRadius="2rem"
-                // bgColor="gray.700"
+                // bgColor="primary.700"
                 // border="2px solid"
-                bgColor="gray.1200"
-                // borderColor={isNext ? 'brand.1000' : 'yellow.800'}//"gray.175"
+                bgColor="primary.1200"
+                // borderColor={isNext ? 'brand.1000' : 'yellow.800'}//"primary.175"
                 width="15rem"
                 spacing="0"
                 fontSize='xl'

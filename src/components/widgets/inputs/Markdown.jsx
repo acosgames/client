@@ -45,7 +45,7 @@ export function Markdown(props) {
         <FormControl as="fieldset" mb="0">
             <FormLabel as="legend">
                 <Text
-                    color={props.titleColor || "gray.10"}
+                    color={props.titleColor || "primary.10"}
                     fontSize="1.4rem"
                     fontWeight="500"
                 >
@@ -79,8 +79,8 @@ export function Markdown(props) {
                         rehypePlugins: [[rehypeSanitize]],
                     }}
                     style={{
-                        backgroundColor: "var(--chakra-colors-gray-950)",
-                        color: "gray.10",
+                        backgroundColor: "var(--chakra-colors-primary-950)",
+                        color: "primary.10",
                         fontSize: "1.4rem",
                     }}
                 />

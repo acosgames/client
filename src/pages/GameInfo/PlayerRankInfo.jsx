@@ -95,12 +95,12 @@ function PlayerRankInfo({}) {
             textTransform="uppercase"
             display={played >= 10 ? "block" : "none"}
             fontSize="3.6rem"
-            color="gray.10"
+            color="primary.10"
             // textShadow='0 8px 9px var(--chakra-colors-brand-300) 0px -2px 20px var(--chakra-colors-brand-600)'
-            textShadow={`2px 2px 2px var(--chakra-colors-gray-900),
-                        -2px 2px 2px var(--chakra-colors-gray-900),
-                        2px -2px 2px var(--chakra-colors-gray-900),
-                        -2px -2px 2px var(--chakra-colors-gray-900)`}
+            textShadow={`2px 2px 2px var(--chakra-colors-primary-900),
+                        -2px 2px 2px var(--chakra-colors-primary-900),
+                        2px -2px 2px var(--chakra-colors-primary-900),
+                        -2px -2px 2px var(--chakra-colors-primary-900)`}
             fontWeight="bold"
             letterSpacing="0px"
             textAlign="center"
@@ -117,7 +117,7 @@ function PlayerRankInfo({}) {
           display={played < 10 ? "inline-block" : "none"}
           as={AiOutlineCloseCircle}
           width={"auto"}
-          color="gray.10"
+          color="primary.10"
           height={["3rem"]}
         />
       </>
@@ -136,14 +136,14 @@ function PlayerRankInfo({}) {
 
     //             <Text
     //                 display={played >= 10 ? 'block' : 'none'}
-    //                 color="gray.50"
+    //                 color="primary.50"
     //                 fontSize={['xxs', 'xxs', 'xxs',]}
     //                 fontWeight="bold"
     //                 lineHeight={'1.6rem'}
     //                 pr={'1rem'}
     //                 align="center">{stats.rating} </Text>
     //             <Text
-    //                 color="gray.50"
+    //                 color="primary.50"
     //                 display={played < 10 ? 'block' : 'none'}
     //                 fontSize={['xxs', 'xxs', 'xxs']}
     //                 pl="0.5rem"
@@ -153,7 +153,7 @@ function PlayerRankInfo({}) {
     //     <Icon
     //         as={AiOutlineCloseCircle}
     //         width={'auto'}
-    //         color="gray.200"
+    //         color="primary.200"
     //         height={["4.8rem", "4.8rem", "4.8rem"]}
     //     />
     //     {/* <Image

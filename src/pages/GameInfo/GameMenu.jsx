@@ -98,23 +98,23 @@ export default function GameMenu({ game }) {
         icon={<BsThreeDotsVertical fontSize="2rem" color="white" />}
         variant="unstyled"
         filter={
-          "drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200))"
+          "drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200))"
         }
       />
       <MenuList
-        zIndex={3}
-        borderColor="gray.600"
-        bgColor="gray.700"
-        bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
+        zIndex={10}
+        borderColor="primary.600"
+        bgColor="primary.700"
+        bg="linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))"
         fontSize="1.2rem"
         pb="0"
       >
         <MenuItem
           fontSize="1.4rem"
           icon={<Icon as={IoShareSocial} fontSize="2rem" color="brand.300" />}
-          color="gray.10"
+          color="primary.10"
           bgColor="transparent"
-          _hover={{ bgColor: "gray.300" }}
+          _hover={{ bgColor: "primary.300" }}
           onClick={onShareClick}
         >
           Invite Friends
@@ -122,9 +122,9 @@ export default function GameMenu({ game }) {
         <MenuItem
           fontSize="1.4rem"
           icon={<Icon as={FaGithub} fontSize="2rem" color="brand.300" />}
-          color="gray.10"
+          color="primary.10"
           bgColor="transparent"
-          _hover={{ bgColor: "gray.300" }}
+          _hover={{ bgColor: "primary.300" }}
           as="a"
           href={`https://github.com/acosgames/${game.game_slug}/issues`}
           target="_blank"
@@ -138,33 +138,33 @@ export default function GameMenu({ game }) {
             w="100%"
             as={IconButton}
             _hover={{
-              bgColor: "gray.300",
+              bgColor: "primary.300",
             }}
             aria-label="Options"
             // icon={<IoWarningSharp fontSize="2rem" color="white" />}
             variant="unstyled"
             // filter={
-            //   "drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200))"
+            //   "drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200))"
             // }
           >
             <HStack w="100%" justifyContent={"center"} alignItems={"center"}>
               <HStack w="100%" justifyContent={"center"} alignItems={"center"}>
-                <Icon as={IoWarningSharp} fontSize="1.4rem" color="gray.20" />
+                <Icon as={IoWarningSharp} fontSize="1.4rem" color="primary.20" />
                 <Heading
                   as="span"
                   fontWeight="500"
-                  color="gray.20"
+                  color="primary.20"
                   fontSize="1.2rem"
                 >
                   Report
                 </Heading>
               </HStack>
               <HStack flex="1" justifyContent={"flex-end"} pr="0.5rem">
-                <Icon as={FaChevronRight} fontSize="1.2rem" color="gray.20" />
+                <Icon as={FaChevronRight} fontSize="1.2rem" color="primary.20" />
               </HStack>
             </HStack>
           </MenuButton>
-          <MenuList pt="0" pb="0" mt="0" bgColor="gray.700">
+          <MenuList pt="0" pb="0" mt="0" bgColor="primary.700">
             <MenuOptionGroup
               height="3rem"
               color="brand.600"
@@ -177,9 +177,9 @@ export default function GameMenu({ game }) {
             >
               <MenuItemOption
                 value="1"
-                color={player_stat.report == 1 ? "red.300" : "gray.10"}
-                bgColor="gray.700"
-                _hover={{ bgColor: "gray.800" }}
+                color={player_stat.report == 1 ? "red.300" : "primary.10"}
+                bgColor="primary.700"
+                _hover={{ bgColor: "primary.800" }}
                 onClick={() => {
                   onReport(1);
                 }}
@@ -188,9 +188,9 @@ export default function GameMenu({ game }) {
               </MenuItemOption>
               <MenuItemOption
                 value="2"
-                color={player_stat.report == 2 ? "red.300" : "gray.10"}
-                bgColor="gray.700"
-                _hover={{ bgColor: "gray.800" }}
+                color={player_stat.report == 2 ? "red.300" : "primary.10"}
+                bgColor="primary.700"
+                _hover={{ bgColor: "primary.800" }}
                 onClick={() => {
                   onReport(2);
                 }}
@@ -199,9 +199,9 @@ export default function GameMenu({ game }) {
               </MenuItemOption>
               <MenuItemOption
                 value="3"
-                color={player_stat.report == 3 ? "red.300" : "gray.10"}
-                bgColor="gray.700"
-                _hover={{ bgColor: "gray.800" }}
+                color={player_stat.report == 3 ? "red.300" : "primary.10"}
+                bgColor="primary.700"
+                _hover={{ bgColor: "primary.800" }}
                 onClick={() => {
                   onReport(3);
                 }}

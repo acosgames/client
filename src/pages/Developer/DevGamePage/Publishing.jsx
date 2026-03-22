@@ -62,7 +62,7 @@ export default function Publishing({}) {
                 <VStack alignItems={"left"} w="100%" spacing="2rem" pb="2rem">
                     <VStack alignItems={"left"} w="100%" spacing="0rem">
                         <Text
-                            color={"gray.10"}
+                            color={"primary.10"}
                             fontSize="1.4rem"
                             fontWeight="500"
                         >
@@ -72,7 +72,7 @@ export default function Publishing({}) {
                             name="version"
                             rules="update-game_info"
                             group={"update-game_info"}
-                            color="gray.100"
+                            color="primary.100"
                             onChange={onUpdateVersion}
                             placeholder={""}
                             w="100%"
@@ -83,7 +83,7 @@ export default function Publishing({}) {
                         <Text
                             mt="0.5rem"
                             as="span"
-                            color="gray.50"
+                            color="primary.50"
                             fontWeight={"400"}
                             fontSize="1.2rem"
                         >
@@ -96,7 +96,7 @@ export default function Publishing({}) {
 
                     <VStack alignItems={"left"} w="100%" spacing="0rem">
                         <Text
-                            color={"gray.10"}
+                            color={"primary.10"}
                             fontSize="1.4rem"
                             fontWeight="500"
                         >
@@ -106,7 +106,7 @@ export default function Publishing({}) {
                             name="visible"
                             rules="update-game_info"
                             group={"update-game_info"}
-                            color="gray.100"
+                            color="primary.100"
                             onChange={onUpdateVisibility}
                             placeholder={""}
                             w="100%"

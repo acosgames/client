@@ -91,7 +91,7 @@ function DevLogin(props) {
 
                 <HStack>
                     <Icon color={step1 ? 'yellow.500' : 'green.500'} fontSize="xl" as={step1 ? FiSquare : FiCheckSquare} />
-                    <Heading as="h3" size="md" color="gray.400">Step 1:</Heading>
+                    <Heading as="h3" size="md" color="primary.400">Step 1:</Heading>
                     <Heading as="h3" size="md" color="white">Login to GitHub to begin</Heading>
                 </HStack>
                 <a href="/login/github?ref=/dev" w="full">
@@ -100,9 +100,9 @@ function DevLogin(props) {
                         disabled={!step1}
                         w={'full'}
                         justifyContent="left"
-                        bgColor={step1 ? "brand.500" : 'gray.600'}
-                        _hover={{ bg: step1 ? "brand.600" : 'gray.700' }}
-                        _active={{ bg: step1 ? "brand.900" : 'gray.900' }}
+                        bgColor={step1 ? "brand.500" : 'primary.600'}
+                        _hover={{ bg: step1 ? "brand.600" : 'primary.700' }}
+                        _active={{ bg: step1 ? "brand.900" : 'primary.900' }}
                         leftIcon={<FaGithub
                             size="24px" />}>
 
@@ -116,7 +116,7 @@ function DevLogin(props) {
                     </Box>
                     <HStack pt="2rem">
                         <Icon color={!sentInvite ? 'yellow.500' : 'green.500'} fontSize="xl" as={!sentInvite ? FiSquare : FiCheckSquare} />
-                        <Heading as="h3" size="md" color="gray.400">Step 2:</Heading>
+                        <Heading as="h3" size="md" color="primary.400">Step 2:</Heading>
                         <Heading as="h3" size="md" color="white">Request invite to acosgames organization</Heading>
                     </HStack>
 
@@ -125,16 +125,16 @@ function DevLogin(props) {
                         onClick={onInvite}
                         w={"full"}
                         justifyContent={"left"}
-                        bgColor={step2 ? "brand.600" : 'gray.600'}
-                        _hover={{ bg: step2 ? "brand.700" : 'gray.700' }}
-                        _active={{ bg: step2 ? "brand.900" : 'gray.900' }}
+                        bgColor={step2 ? "brand.600" : 'primary.600'}
+                        _hover={{ bg: step2 ? "brand.700" : 'primary.700' }}
+                        _active={{ bg: step2 ? "brand.900" : 'primary.900' }}
                         leftIcon={<FiDownload />} >
                         <Text fontSize="sm" ml="4rem">Send GitHub invite for 'acosgames' organization</Text>
                     </Button>
 
                     <HStack pt="2rem">
                         <Icon color={!acceptInvite ? 'yellow.500' : 'green.500'} fontSize="xl" as={!acceptInvite ? FiSquare : FiCheckSquare} />
-                        <Heading as="h3" size="md" color="gray.400">Step 3:</Heading>
+                        <Heading as="h3" size="md" color="primary.400">Step 3:</Heading>
                         <Heading as="h3" size="md" color="white">Accept invite to acosgames organization</Heading>
                     </HStack>
                     <a target="_blank" href="https://github.com/orgs/acosgames/invitation" w="full">
@@ -146,9 +146,9 @@ function DevLogin(props) {
                             //disabled={acceptInvite}
                             w={"full"}
                             justifyContent={"left"}
-                            bgColor={step3 ? "brand.600" : 'gray.600'}
-                            _hover={{ bg: step3 ? "brand.700" : 'gray.700' }}
-                            _active={{ bg: step3 ? "brand.900" : 'gray.900' }}
+                            bgColor={step3 ? "brand.600" : 'primary.600'}
+                            _hover={{ bg: step3 ? "brand.700" : 'primary.700' }}
+                            _active={{ bg: step3 ? "brand.900" : 'primary.900' }}
                             leftIcon={<FiDownload />} >
                             <Text fontSize="sm" ml="4rem">Accept invite to 'acosgames' organization</Text>
                         </Button>
@@ -156,7 +156,7 @@ function DevLogin(props) {
 
                     <HStack pt="2rem">
                         <Icon color={'yellow.500'} fontSize="xl" as={FiSquare} />
-                        <Heading as="h3" size="md" color="gray.400">Step 4:</Heading>
+                        <Heading as="h3" size="md" color="primary.400">Step 4:</Heading>
                         <Heading as="h3" size="md" color="white">Re-login to get access</Heading>
                     </HStack>
                     <Link href="/login/github?ref=/dev">

@@ -244,7 +244,7 @@ function TopSection() {
                                 </Heading>
                                 <Text
                                     as="p"
-                                    color={"gray.50"}
+                                    color={"primary.50"}
                                     fontSize={["1.6rem", "2rem", "2.4rem"]}
                                     fontWeight={"400"}
                                     lineHeight={"3.12rem"}
@@ -267,11 +267,11 @@ function TopSection() {
                                                 transition={"all 0.2s ease"}
                                                 _hover={{
                                                     bgColor: "brand.300",
-                                                    color: "gray.900",
+                                                    color: "primary.900",
                                                     borderColor: "brand.300",
                                                 }}
                                                 // border="1px solid"
-                                                // borderColor={"gray.100"}
+                                                // borderColor={"primary.100"}
                                                 display="inline-block"
                                                 p={"13px 25px"}
                                             >
@@ -283,22 +283,22 @@ function TopSection() {
                                         <Link href="game.html">
                                             <Text
                                                 as="span"
-                                                color="gray.20"
+                                                color="primary.20"
                                                 borderRadius={"16px"}
                                                 bgColor="transparent"
                                                 border="2px solid"
-                                                borderColor="gray.1000"
+                                                borderColor="primary.1000"
                                                 transition={"all 0.2s ease"}
                                                 // textShadow={
-                                                //   "0.25rem 0.25rem 1rem var(--chakra-colors-gray-1000)"
+                                                //   "0.25rem 0.25rem 1rem var(--chakra-colors-primary-1000)"
                                                 // }
                                                 _hover={{
-                                                    bgColor: "gray.1000",
-                                                    color: "gray.0",
-                                                    borderColor: "gray.1000",
+                                                    bgColor: "primary.1000",
+                                                    color: "primary.0",
+                                                    borderColor: "primary.1000",
                                                 }}
                                                 // border="1px solid"
-                                                // borderColor={"gray.100"}
+                                                // borderColor={"primary.100"}
                                                 display="inline-block"
                                                 p={"13px 25px"}
                                             >

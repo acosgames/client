@@ -34,7 +34,7 @@ function GameInfoLeaderboard(props) {
         <Box pt="3rem" pb="3rem" width="100%">
             <Tabs w="100%" variant="enclosed">
                 <TabList
-                    bgColor="gray.900"
+                    bgColor="primary.900"
                     borderRadius="4px"
                     borderBottom="0"
                     justifyContent={"center"}
@@ -44,10 +44,10 @@ function GameInfoLeaderboard(props) {
                         pt="1rem"
                         pb="1rem"
                         fontSize="sm"
-                        color="gray.700"
+                        color="primary.700"
                         fontWeight="bold"
                         _focus={{ outline: "none" }}
-                        _selected={{ fontSize: "sm", color: "gray.100" }}
+                        _selected={{ fontSize: "sm", color: "primary.100" }}
                     >
                         Rankings
                     </Tab>
@@ -55,13 +55,13 @@ function GameInfoLeaderboard(props) {
                         pt="1rem"
                         pb="1rem"
                         fontSize="sm"
-                        color="gray.700"
+                        color="primary.700"
                         fontWeight="bold"
                         _focus={{ outline: "none" }}
                         _selected={{
                             fontWeight: "bold",
                             fontSize: "sm",
-                            color: "gray.100",
+                            color: "primary.100",
                         }}
                     >
                         Top Scores

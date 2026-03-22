@@ -36,7 +36,7 @@ export default function AchievementPanel({
     // let value = 1;
     // let maxValue = 1;
 
-    let color = "gray.20";
+    let color = "primary.20";
 
     let { value, maxValue, percent } = calculateAchievementProgress(achievement, progress);
 
@@ -75,7 +75,7 @@ export default function AchievementPanel({
                                     as="h4"
                                     fontSize="1.6rem"
                                     fontWeight="600"
-                                    color={"gray.0"}
+                                    color={"primary.0"}
                                     textAlign={"left"}
                                 >
                                     {achievement_name}
@@ -84,7 +84,7 @@ export default function AchievementPanel({
                                     as="h5"
                                     fontSize="1.4rem"
                                     fontWeight={"normal"}
-                                    color={"gray.40"}
+                                    color={"primary.40"}
                                     textAlign={"left"}
                                     // whiteSpace={"nowrap"}
                                     overflow={"hidden"}
@@ -128,12 +128,12 @@ export default function AchievementPanel({
 
 function AchievementReward({ achievement, percent }) {
     let opacity = 0.2;
-    let color = "gray.30";
+    let color = "primary.30";
     if (percent >= 100) {
-        color = "gray.0";
+        color = "primary.0";
         opacity = 1;
     } else if (percent > 0) {
-        color = "gray.100";
+        color = "primary.100";
         opacity = 0.4;
     }
 
@@ -157,7 +157,7 @@ function AchievementReward({ achievement, percent }) {
                     >
                         XP
                     </Text>
-                    <Text as="span" fontWeight="600" fontSize="1.4rem" color="gray.0">
+                    <Text as="span" fontWeight="600" fontSize="1.4rem" color="primary.0">
                         {achievement.award_xp}
                     </Text>
                 </VStack>
@@ -176,9 +176,9 @@ function AchievementReward({ achievement, percent }) {
             position="relative"
             zIndex="1"
             borderRadius={"50%"}
-            bgColor="gray.1000"
+            bgColor="primary.1000"
             // border="2px solid"
-            // borderColor={"gray.300"}
+            // borderColor={"primary.300"}
             spacing="0"
             justifyContent={"center"}
             alignItems={"center"}
@@ -193,11 +193,11 @@ function AchievementReward({ achievement, percent }) {
                     color={color}
                     fontWeight="500"
                     lineHeight="1rem"
-                    // bgColor="gray.1000"
+                    // bgColor="primary.1000"
                     // borderRadius={"8px"}
                     pb="0.5rem"
                     // borderBottom="1px solid"
-                    // borderBottomColor="gray.700"
+                    // borderBottomColor="primary.700"
                     // textShadow="0 0 5px black"
                 >
                     REWARD
@@ -469,13 +469,13 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
         return (
             <>
                 {achievement.stat_slug1 && (
-                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
+                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"primary.50"}>
                         <Text as="span">{achievement.stat_name1}</Text>
                         <Text
                             px="0.5rem"
                             as="span"
                             fontWeight="500"
-                            color={complete2 ? "brand.100" : "gray.20"}
+                            color={complete2 ? "brand.100" : "primary.20"}
                         >
                             {cur1}
                         </Text>
@@ -484,7 +484,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                             pl="0.5rem"
                             as="span"
                             fontWeight="500"
-                            color={complete1 ? "brand.100" : "gray.50"}
+                            color={complete1 ? "brand.100" : "primary.50"}
                         >
                             {target1}
                         </Text>{" "}
@@ -501,13 +501,13 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                 )}
 
                 {achievement.stat_slug2 && (
-                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
+                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"primary.50"}>
                         <Text as="span">{achievement.stat_name2}</Text>
                         <Text
                             px="0.5rem"
                             as="span"
                             fontWeight="500"
-                            color={complete2 ? "brand.100" : "gray.20"}
+                            color={complete2 ? "brand.100" : "primary.20"}
                         >
                             {cur2}
                         </Text>
@@ -516,7 +516,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                             pl="0.5rem"
                             as="span"
                             fontWeight="500"
-                            color={complete2 ? "brand.100" : "gray.50"}
+                            color={complete2 ? "brand.100" : "primary.50"}
                         >
                             {target2}
                         </Text>{" "}
@@ -533,13 +533,13 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                 )}
 
                 {achievement.stat_slug3 && (
-                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
+                    <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"primary.50"}>
                         <Text as="span">{achievement.stat_name3}</Text>
                         <Text
                             px="0.5rem"
                             as="span"
                             fontWeight="500"
-                            color={complete3 ? "brand.100" : "gray.20"}
+                            color={complete3 ? "brand.100" : "primary.20"}
                         >
                             {cur3}
                         </Text>
@@ -548,7 +548,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                             pl="0.5rem"
                             as="span"
                             fontWeight="500"
-                            color={complete3 ? "brand.100" : "gray.50"}
+                            color={complete3 ? "brand.100" : "primary.50"}
                         >
                             {target3}
                         </Text>{" "}
@@ -578,10 +578,10 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                     as="h6"
                     fontSize="1.2rem"
                     fontWeight="300"
-                    color={completed ? "brand.100" : "gray.20"}
+                    color={completed ? "brand.100" : "primary.20"}
                 >
                     <Text as="span">Best: </Text>
-                    <Text as="span" fontWeight="500" color="gray.20">
+                    <Text as="span" fontWeight="500" color="primary.20">
                         {value}
                     </Text>
                 </Heading>
@@ -589,7 +589,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                     as="h6"
                     fontSize="1.2rem"
                     fontWeight="300"
-                    color={completed ? "brand.100" : "gray.20"}
+                    color={completed ? "brand.100" : "primary.20"}
                 >
                     <Text as="span">Goal: </Text>
                     <Text as="span" fontWeight="500">
@@ -604,8 +604,8 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
         let cur = Math.min(value, maxValue);
         let completed = cur / maxValue >= 1.0;
         return (
-            <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
-                <Text as="span" fontWeight="500" color={completed ? "brand.100" : "gray.20"}>
+            <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"primary.50"}>
+                <Text as="span" fontWeight="500" color={completed ? "brand.100" : "primary.20"}>
                     {cur + "s"}
                 </Text>{" "}
                 /{" "}
@@ -613,7 +613,7 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
                     pl="0.5rem"
                     as="span"
                     fontWeight="500"
-                    color={completed ? "brand.100" : "gray.50"}
+                    color={completed ? "brand.100" : "primary.50"}
                 >
                     {maxValue + "s"}
                 </Text>{" "}
@@ -631,8 +631,8 @@ function AmountRemaining({ value, maxValue, percent, achievement, progress }) {
     }
 
     return (
-        <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"gray.50"}>
-            <Text as="span" fontWeight="500" color="gray.20">
+        <Heading as="h6" fontSize="1.2rem" fontWeight="300" color={"primary.50"}>
+            <Text as="span" fontWeight="500" color="primary.20">
                 {Math.min(value, maxValue)}
             </Text>{" "}
             / {maxValue}

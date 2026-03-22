@@ -29,7 +29,7 @@ export function HighScorePlayerRow({
                 total > 100 && index == 9 ? "2px solid" : index % 2 == 0 ? "1px solid" : "1px solid"
             }
             borderBottomColor={
-                total > 100 && index == 9 ? "gray.100" : index % 2 == 0 ? "gray.925" : "gray.925"
+                total > 100 && index == 9 ? "primary.100" : index % 2 == 0 ? "primary.925" : "primary.925"
             }
             role="group"
             _before={{
@@ -41,9 +41,9 @@ export function HighScorePlayerRow({
                 left: "0",
                 zIndex: -1,
                 _hover: {
-                    bgColor: "gray.950",
+                    bgColor: "primary.950",
                 },
-                bgColor: isLocalPlayer ? "gray.600" : index % 2 == 0 ? "gray.900" : "gray.875",
+                bgColor: isLocalPlayer ? "primary.600" : index % 2 == 0 ? "primary.900" : "primary.875",
 
                 // borderRadius: "12px",
                 // transform: 'skew(-20deg)'
@@ -59,7 +59,7 @@ export function HighScorePlayerRow({
                 borderTopRightRadius={"1rem"}
                 borderBottomRightRadius={"1rem"}
                 bgColor={
-                    rank == 1 ? "yellow.200" : rank == 2 ? "gray.20" : rank == 3 ? "orange.200" : ""
+                    rank == 1 ? "yellow.200" : rank == 2 ? "primary.20" : rank == 3 ? "orange.200" : ""
                 }
             >
                 <Text
@@ -67,14 +67,14 @@ export function HighScorePlayerRow({
                     textAlign={"center"}
                     color={
                         rank == 1
-                            ? "gray.1000"
+                            ? "primary.1000"
                             : rank == 2
-                            ? "gray.1000"
+                            ? "primary.1000"
                             : rank == 3
-                            ? "gray.1000"
+                            ? "primary.1000"
                             : isLocalPlayer
                             ? "brand.75"
-                            : "gray.0"
+                            : "primary.0"
                     }
                     fontWeight={"500"}
                     fontSize={["1.6rem"]}
@@ -88,11 +88,11 @@ export function HighScorePlayerRow({
                             transform="translateX(-50%)"
                             width="2px"
                             height="3rem"
-                            bgColor="gray.50"
+                            bgColor="primary.50"
                             borderRadius="1px"
                             zIndex="0"
-                            // borderRight="1px solid var(--chakra-colors-gray-1200)"
-                            // borderLeft="1px solid var(--chakra-colors-gray-1200)"
+                            // borderRight="1px solid var(--chakra-colors-primary-1200)"
+                            // borderLeft="1px solid var(--chakra-colors-primary-1200)"
                         ></Box>
                     )}
                     <Box position="relative" zIndex="1">
@@ -114,7 +114,7 @@ export function HighScorePlayerRow({
                         <Image
                             src={`${config.https.cdn}images/country/${countrycode}.svg`}
                             // mt="0.5rem"
-                            borderColor="gray.100"
+                            borderColor="primary.100"
                             borderRadius="3px"
                             width="1.75rem"
                             // height="1.75rem"
@@ -130,7 +130,7 @@ export function HighScorePlayerRow({
                             w={["5rem", "5rem", "5rem", "5rem"]}
                             h={["5rem", "5rem", "5rem", "5rem"]}
                             minW={["5rem", "5rem", "5rem", "5rem"]}
-                            // border="1px solid var(--chakra-colors-gray-1200)"
+                            // border="1px solid var(--chakra-colors-primary-1200)"
                             borderRadius={"50%"}
                             transition="transform 0.1s ease"
                             // transform="scale(1)"
@@ -153,8 +153,8 @@ export function HighScorePlayerRow({
                         to={"/profile/" + displayname}
                         display="block"
                         textAlign="left"
-                        color={isLocalPlayer ? "brand.75" : "gray.0"}
-                        // textShadow={'1px 1px 6px var(--chakra-colors-gray-100)'}
+                        color={isLocalPlayer ? "brand.75" : "primary.0"}
+                        // textShadow={'1px 1px 6px var(--chakra-colors-primary-100)'}
                     >
                         {displayname}
                     </ChakraLink>
@@ -179,7 +179,7 @@ export function HighScorePlayerRow({
                     lineHeight="1.6rem"
                     fontSize={["2.2rem"]}
                     fontWeight={"500"}
-                    color={isLocalPlayer ? "brand.75" : "gray.0"}
+                    color={isLocalPlayer ? "brand.75" : "primary.0"}
                 >
                     {score}
                 </Text>

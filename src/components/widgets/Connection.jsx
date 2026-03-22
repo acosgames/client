@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 
 import {
-  wsConnect,
   attachToFrame,
   detachFromFrame,
-  reconnect,
 } from "../../actions/connection";
 import { useBucket } from "../../actions/bucket";
 import { btLoggedIn } from "../../actions/buckets";
+import { reconnect } from "../../actions/ws";
 
 function Connection({}) {
   let loggedIn = useBucket(btLoggedIn);

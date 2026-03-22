@@ -14,15 +14,15 @@ export function TopHalf() {
             // top="-50%"
             // transform="skewY(45deg)"
             // overflow="hidden"
-            // bgColor="gray.950"
-            // bg={`url("${config.https.cdn}acos-logo-2025-transparent.png") bottom 10px left, linear-gradient(to bottom, var(--chakra-colors-gray-750) 90%, var(--chakra-colors-gray-900))`}
+            // bgColor="primary.950"
+            // bg={`url("${config.https.cdn}acos-logo-2025-transparent.png") bottom 10px left, linear-gradient(to bottom, var(--chakra-colors-primary-750) 90%, var(--chakra-colors-primary-900))`}
             // transform={"translate(-300vw, 0) skewY(-30deg)"}
             // opacity="0.5"
             animation={"fromLeft 0.6s forwards 0s"}
             _before={{
                 w: "1000px",
                 h: "1000px",
-                bgColor: "gray.700",
+                bgColor: "primary.700",
                 borderRadius: "50%",
                 content: "''",
                 position: "absolute",
@@ -33,7 +33,7 @@ export function TopHalf() {
                 // left: "50%",
             }}
         >
-            {/* <LineSpawner direction={"left"} bgColor="gray.1000" /> */}
+            {/* <LineSpawner direction={"left"} bgColor="primary.1000" /> */}
         </Box>
     );
 }
@@ -49,15 +49,15 @@ export function BottomHalf() {
             // transform="skewY(-30deg)"
             // transform={"translate(300vw, 0) skewY(-30deg)"}
             animation={"fromRight 0.6s forwards 0s"}
-            // bgColor="gray.1000"
+            // bgColor="primary.1000"
             // opacity="0.5"
 
             // overflow="hidden"
-            // bgColor={`var(--chakra-colors-gray-1000)`}
+            // bgColor={`var(--chakra-colors-primary-1000)`}
             _before={{
                 w: "1000px",
                 h: "1000px",
-                bgColor: "gray.600",
+                bgColor: "primary.600",
                 borderRadius: "50%",
                 content: "''",
                 position: "absolute",
@@ -68,7 +68,7 @@ export function BottomHalf() {
             }}
         >
             {" "}
-            {/* <LineSpawner direction={"right"} bgColor="gray.900" /> */}
+            {/* <LineSpawner direction={"right"} bgColor="primary.900" /> */}
         </Box>
     );
 }
@@ -86,8 +86,8 @@ function VsLine({ status }) {
             animate={{ x: "-50%", y: "-50%", rotate: -30, width: "120vw" }}
             transition={{ delay: 0.6 }}
             // transform="translate(-50%,-50%) rotate(330deg)"
-            // bgColor="gray.50"
-            bg="linear-gradient(to right, var(--chakra-colors-gray-150),  var(--chakra-colors-gray-10), var(--chakra-colors-gray-150))"
+            // bgColor="primary.50"
+            bg="linear-gradient(to right, var(--chakra-colors-primary-150),  var(--chakra-colors-primary-10), var(--chakra-colors-primary-150))"
             // boxShadow={status != 'starting' ? "0 0 20px var(--chakra-colors-brand-900)" : "0 0 40px var(--chakra-colors-red-500)"}
         ></MotionBox>
     );
@@ -107,10 +107,10 @@ export function Vs({ status }) {
             top="50%"
             left="50%"
             transform="translate(-50%,-50%)"
-            // textShadow={"2px 2px 0px var(--chakra-colors-gray-0)"}
+            // textShadow={"2px 2px 0px var(--chakra-colors-primary-0)"}
             // background="linear-gradient(to top, #eee, #333)"
             fontSize={["3rem", "3rem", "4rem"]}
-            //   bgColor="gray.900"
+            //   bgColor="primary.900"
             borderRadius={"8px"}
             h="15rem"
             w="10rem"
@@ -132,25 +132,25 @@ export function Vs({ status }) {
                     w={["8rem", "8rem", "8rem"]}
                     h={["8rem", "8rem", "8rem"]}
                     borderRadius={"50%"}
-                    bgColor="gray.50"
+                    bgColor="primary.50"
                     border="1px solid"
-                    borderColor="gray.600"
+                    borderColor="primary.600"
                     bg="linear-gradient(to top right, #999, #ddd, #fff)"
-                    // boxShadow="0px 0px 10px var(--chakra-colors-gray-100)"
+                    // boxShadow="0px 0px 10px var(--chakra-colors-primary-100)"
                 ></Box> */}
                 <Text
                     as="span"
                     position="relative"
                     top="0"
                     left="0rem"
-                    // background="linear-gradient(to top, var(--chakra-colors-gray-10), var(--chakra-colors-gray-200))"
+                    // background="linear-gradient(to top, var(--chakra-colors-primary-10), var(--chakra-colors-primary-200))"
                     // backgroundClip="text"
                     // textFillColor="transparent"
                     // className="versusText"
                     // color="brand.600"
                     fontWeight="500"
-                    color="gray.100"
-                    // textShadow="0px 0px 40px var(--chakra-colors-gray-0), 0px 0px 40px var(--chakra-colors-gray-0), 0px 0px 10px var(--chakra-colors-gray-0)"
+                    color="primary.100"
+                    // textShadow="0px 0px 40px var(--chakra-colors-primary-0), 0px 0px 40px var(--chakra-colors-primary-0), 0px 0px 10px var(--chakra-colors-primary-0)"
                 >
                     V
                 </Text>
@@ -160,9 +160,9 @@ export function Vs({ status }) {
                     top="0"
                     left="0rem"
                     fontWeight="500"
-                    color="gray.100"
-                    // textShadow="0px 0px 40px var(--chakra-colors-gray-0), 0px 0px 40px var(--chakra-colors-gray-0), 0px 0px 10px var(--chakra-colors-gray-0)"
-                    // background="linear-gradient(to bottom, var(--chakra-colors-gray-10), var(--chakra-colors-gray-200))"
+                    color="primary.100"
+                    // textShadow="0px 0px 40px var(--chakra-colors-primary-0), 0px 0px 40px var(--chakra-colors-primary-0), 0px 0px 10px var(--chakra-colors-primary-0)"
+                    // background="linear-gradient(to bottom, var(--chakra-colors-primary-10), var(--chakra-colors-primary-200))"
                     // backgroundClip="text"
                     // textFillColor="transparent"
                     // className="versusText"

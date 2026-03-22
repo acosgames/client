@@ -45,7 +45,7 @@ export default function GameStats({}) {
                 </Text>
                 <Heading
                     as="h2"
-                    color="gray.0"
+                    color="primary.0"
                     fontSize={["2.4rem", "2.4rem", "3rem"]}
                     fontWeight={"600"}
                 >
@@ -61,7 +61,7 @@ export default function GameStats({}) {
                         flexWrap="wrap"
                         h="19rem"
                         px="3rem"
-                        // bgColor="gray.875"
+                        // bgColor="primary.875"
                         // borderRadius="12px"
                         // border="1px solid #27313f"
                         // overflow="hidden"
@@ -71,9 +71,9 @@ export default function GameStats({}) {
                         <PlayerRankInfo />
                         <ActionBarItem title={"WINS"} value={player_stat.win || 0}>
                             <Box
-                                // bgColor="gray.1200"
+                                // bgColor="primary.1200"
                                 //  border="3px solid"
-                                //   borderColor="gray.700"
+                                //   borderColor="primary.700"
                                 //    borderRadius="50%"
                                 height="4rem"
                                 w="4rem"
@@ -97,9 +97,9 @@ export default function GameStats({}) {
 
                         <ActionBarItem title={"BATTLES"} value={player_stat.played || 0}>
                             <Box
-                                // bgColor="gray.1200"
+                                // bgColor="primary.1200"
                                 // border="3px solid"
-                                // borderColor="gray.700"
+                                // borderColor="primary.700"
                                 // borderRadius="50%"
                                 height="4rem"
                                 w="4rem"

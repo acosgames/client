@@ -29,11 +29,11 @@ function FSGCopyText(props) {
             borderRadius={props.borderRadius}
             readOnly
             size="xs"
-            color={props.color || "gray.100"}
-            bgColor={props.bgColor || "gray.800"}
-            borderColor={props.borderColor || "gray.800"}
-            outlineColor={props.outlineColor || "gray.800"}
-            _hover={{ borderColor: "gray.800" }}
+            color={props.color || "primary.100"}
+            bgColor={props.bgColor || "primary.800"}
+            borderColor={props.borderColor || "primary.800"}
+            outlineColor={props.outlineColor || "primary.800"}
+            _hover={{ borderColor: "primary.800" }}
         />
     );
 }

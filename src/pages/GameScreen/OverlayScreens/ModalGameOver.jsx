@@ -459,7 +459,7 @@ export function XPProgress({ previousPoints, previousLevel, points, level, exper
                     position="relative"
                     width="100%"
                     h="1rem"
-                    bgColor="gray.400"
+                    bgColor="primary.400"
                     spacing="0.4rem"
                 >
                     <VStack
@@ -492,7 +492,7 @@ export function XPProgress({ previousPoints, previousLevel, points, level, exper
                     {currentLevel + 1}
                 </Text>
             </HStack>
-            <HStack w="100%" justifyContent={"flex-end"} pr="5rem" color="gray.50" fontSize="1rem">
+            <HStack w="100%" justifyContent={"flex-end"} pr="5rem" color="primary.50" fontSize="1rem">
                 <NumberIncrease
                     key={"xp-number-increase-" + currentLevel}
                     start={prevPoints}
@@ -532,7 +532,7 @@ function NumberIncrease({ start, end, duration, ease, fontSize, lineHeight, colo
         <LazyMotion features={domAnimation}>
             <MotionText
                 as="span"
-                color={color || "gray.20"}
+                color={color || "primary.20"}
                 lineHeight={lineHeight || "1.4rem"}
                 fontSize={fontSize || "1.2rem"}
                 ref={ref}
@@ -559,7 +559,7 @@ function Screen1({ gamepanelid }) {
             <>
                 <Heading
                     as="h3"
-                    color="gray.0"
+                    color="primary.0"
                     fontSize="2rem"
                     fontWeight="500"
                     textShadow={"0 0 8px " + winningTeam.color}
@@ -673,7 +673,7 @@ function RenderPlayerSimple({
     let ratingClass = ratingConfig.ratingToRank(rating);
     return (
         <HStack
-            // bgColor={gamepanel.room.isReplay ? "gray.1050" : "gray.1200"}
+            // bgColor={gamepanel.room.isReplay ? "primary.1050" : "primary.1200"}
             pl="1rem"
         >
             <Box
@@ -698,7 +698,7 @@ function RenderPlayerSimple({
                 <Image
                     src={`${config.https.cdn}images/country/${countrycode}.svg`}
                     // mt="0.5rem"
-                    borderColor="gray.100"
+                    borderColor="primary.100"
                     borderRadius="3px"
                     width="1.75rem"
                     // height="1.75rem"
@@ -726,7 +726,7 @@ function RenderPlayerSimple({
                     <Text
                         as="span"
                         textAlign={"left"}
-                        color={"gray.0"}
+                        color={"primary.0"}
                         fontWeight="500"
                         fontSize={["1.6rem"]}
                         maxW={["19rem"]}
@@ -740,7 +740,7 @@ function RenderPlayerSimple({
                     {/* <Image
                         src={`${config.https.cdn}images/country/${countrycode}.svg`}
                         // mt="0.5rem"
-                        borderColor="gray.100"
+                        borderColor="primary.100"
                         borderRadius="0px"
                         width="1.75rem"
                         filter="opacity(0.8)"
@@ -748,10 +748,10 @@ function RenderPlayerSimple({
                 </HStack>
                 <Text
                     as="span"
-                    color="gray.100"
+                    color="primary.100"
                     fontWeight="500"
                     fontSize="1.1rem"
-                    //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
+                    //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-primary-900)"}
                 >
                     Class {ratingClass}
                 </Text>
@@ -774,7 +774,7 @@ function GameCancelled({ gamepanelid }) {
             actionTitle={"Close"}
         >
             <VStack my="4rem" w="100%" justifyContent={"center"}>
-                <Text as="span" fontSize="1.6rem" color="gray.0">
+                <Text as="span" fontSize="1.6rem" color="primary.0">
                     No XP
                 </Text>
             </VStack>
@@ -883,7 +883,7 @@ export function OverlayFrame({
                             as="h5"
                             fontWeight="600"
                             fontSize={["3rem"]}
-                            color="gray.0"
+                            color="primary.0"
                             textShadow="0 0 4px black, 0 0 8px black, 0 0 8px black"
                         >
                             {title}
@@ -892,7 +892,7 @@ export function OverlayFrame({
                         <ChakraSimpleBar
                             boxSizing="border-box"
                             flex="1"
-                            // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+                            // borderTop={["2px solid var(--chakra-colors-primary-800)"]}
                             style={{
                                 width: "100%",
                                 height: "auto",
@@ -921,7 +921,7 @@ export function OverlayFrame({
                                 borderRadius="4px"
                                 display={hideAction ? "none" : "block"}
                                 fontSize={"xxs"}
-                                bgColor={"gray.1000"}
+                                bgColor={"primary.1000"}
                                 transform="skew(-15deg)"
                                 boxShadow="3px 3px 0 var(--chakra-colors-brand-300)"
                                 _hover={{
@@ -929,13 +929,13 @@ export function OverlayFrame({
                                 }}
                                 onClick={onActionClick}
                             >
-                                <Text as="span" color="gray.0" transform="skew(15deg)">
+                                <Text as="span" color="primary.0" transform="skew(15deg)">
                                     {actionTitle}{" "}
                                     {typeof duration !== "undefined" ? (
                                         <Text
                                             ml="0.5rem"
                                             as="span"
-                                            color="gray.200"
+                                            color="primary.200"
                                             fontSize="1rem"
                                         >
                                             {"("}

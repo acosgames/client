@@ -42,7 +42,7 @@ function LoadingBox(props) {
       w="100%"
       h="100%"
       zIndex={1000}
-      bgColor={"gray.900"}
+      bgColor={"primary.900"}
       display="flex"
       justifyContent={"center"}
       alignItems={"center"}

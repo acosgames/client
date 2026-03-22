@@ -42,7 +42,7 @@ export function GameActiveAchievements({}) {
             <AwardChooser />
             <Heading
                 as="h2"
-                color="gray.0"
+                color="primary.0"
                 fontSize={["2.4rem", "2.4rem", "3rem"]}
                 fontWeight={"600"}
             >
@@ -80,7 +80,7 @@ function AwardXP({ xp }) {
     return (
         <OverlayFrame
             title={"Experience"}
-            bgColor="gray.900"
+            bgColor="primary.900"
             onActionClick={() => {
                 // gamepanel.showGameover = false;
                 // gamepanel.closeOverlay = true;

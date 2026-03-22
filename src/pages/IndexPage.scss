@@ -1,6 +1,6 @@
 
 .banner-section {
-    background-color: var(--chakra-colors-gray-800);
+    background-color: var(--chakra-colors-primary-800);
 }
 .banner-section::before, .banner-section::after {
     position: absolute;
@@ -134,7 +134,7 @@ img {
 }
 
 .banner-section .btn-item a span, .banner-section .btn-item a i {
-    color: var(--chakra-colors-gray-900);
+    color: var(--chakra-colors-primary-900);
     font-weight: 600;
     transition: all .5s ease;
     width:100%;
@@ -171,7 +171,7 @@ img {
     visibility: visible;
     opacity: 1;
     transition: all .5s;
-    color: var(--chakra-colors-gray-0);
+    color: var(--chakra-colors-primary-0);
 }
 
 
@@ -330,14 +330,14 @@ img {
   .box-items .single-item {
     width: 14.5rem;
     height: 14.9rem;
-    border: 1px solid var(--chakra-colors-gray-700);
+    border: 1px solid var(--chakra-colors-primary-700);
     transition: 0.3s all;
   }
   .box-items .single-item.active-item {
     background: var(--chakra-colors-brand-500);
   }
   .box-items .single-item:hover {
-    background: var(--chakra-colors-gray-500);
+    background: var(--chakra-colors-primary-500);
     opacity: 0.3;
   }
 
@@ -356,7 +356,7 @@ h3 span {
 .display-one 
     {
         /* font-family: var(--head-font); */
-        color: var(--chakra-colors-gray-0);
+        color: var(--chakra-colors-primary-0);
         font-weight: 700;
         padding: 0;
         margin: 0;
@@ -376,7 +376,7 @@ h3 span {
 p {
     margin: 0;
     /* font-family: var(--body-font); */
-    color: var(--chakra-colors-gray-20);
+    color: var(--chakra-colors-primary-20);
     font-size: 1.6rem;
     font-weight: 400;
     line-height: 24px;
@@ -394,7 +394,7 @@ p {
 }
 
 .box-style.btn-box:hover {
-    color: var(--chakra-colors-gray-0);
+    color: var(--chakra-colors-primary-0);
     background-color: var(--chakra-colors-brand-500);
 }
 

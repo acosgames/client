@@ -1,6 +1,6 @@
 import { Box, Button, Heading, HStack, Progress, Text, Spinner, Icon } from "@chakra-ui/react";
 import { useState } from "react";
-import { claimAchievement } from "../../actions/game";
+import { claimAchievement } from "../../actions/achievement";
 import { useBucket } from "../../actions/bucket";
 import { btClaimingAchievement } from "../../actions/buckets";
 import { FaCheck } from "react-icons/fa";
@@ -23,7 +23,7 @@ export default function AchievementExperienceBar({ game_slug, percent, achieveme
                     borderRadius="4px"
                     display={"block"}
                     fontSize={"xxs"}
-                    bgColor={"gray.1000"}
+                    bgColor={"primary.1000"}
                     transform="skew(-15deg)"
                     boxShadow="3px 3px 0 var(--chakra-colors-brand-100)"
                     _hover={{
@@ -36,7 +36,7 @@ export default function AchievementExperienceBar({ game_slug, percent, achieveme
                         claimAchievement(achievement?.game_slug, achievement?.achievement_slug);
                     }}
                 >
-                    <Heading as="span" fontSize="1.4rem" color="gray.0" transform="skew(15deg)">
+                    <Heading as="span" fontSize="1.4rem" color="primary.0" transform="skew(15deg)">
                         {isClaiming && <Spinner size="sm" />}
                         {!isClaiming && "Claim!"}
                     </Heading>
@@ -53,7 +53,7 @@ export default function AchievementExperienceBar({ game_slug, percent, achieveme
         <HStack
             position="relative"
             width="100%"
-            bgColor="gray.400"
+            bgColor="primary.400"
             spacing="0rem"
             borderRadius="0.5rem"
         >
@@ -72,7 +72,7 @@ export default function AchievementExperienceBar({ game_slug, percent, achieveme
                 position="absolute"
                 top="0"
                 left="20%"
-                bgColor="gray.700"
+                bgColor="primary.700"
             ></Box>
             <Box
                 width="0.2rem"
@@ -80,7 +80,7 @@ export default function AchievementExperienceBar({ game_slug, percent, achieveme
                 position="absolute"
                 top="0"
                 left="40%"
-                bgColor="gray.700"
+                bgColor="primary.700"
             ></Box>
             <Box
                 width="0.2rem"
@@ -88,7 +88,7 @@ export default function AchievementExperienceBar({ game_slug, percent, achieveme
                 position="absolute"
                 top="0"
                 left="60%"
-                bgColor="gray.700"
+                bgColor="primary.700"
             ></Box>
             <Box
                 width="0.2rem"
@@ -96,7 +96,7 @@ export default function AchievementExperienceBar({ game_slug, percent, achieveme
                 position="absolute"
                 top="0"
                 left="80%"
-                bgColor="gray.700"
+                bgColor="primary.700"
             ></Box>
             {/* <Box width="0.4rem" height="100%" position="absolute" top="0" left="20%" ></Box> */}
         </HStack>

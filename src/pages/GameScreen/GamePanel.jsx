@@ -17,7 +17,7 @@ import {
 
 import { useEffect, useRef, useState } from "react";
 
-import { replaySendGameStart, sendLoadMessage } from "../../actions/connection";
+import { sendLoadMessage } from "../../actions/connection";
 import config from "../../config";
 // import { BsArrowsFullscreen, } from 'react-icons/bs';
 import { CgMinimizeAlt } from "react-icons/cg";
@@ -323,7 +323,7 @@ function GameIFrame(props) {
                 // filter={isOpen ? 'opacity(1)' : 'opacity(0)'}
 
                 className={"gameResizer"}
-                // bgColor={"gray.925"}
+                // bgColor={"primary.925"}
             >
                 {/* <LoadingBox isDoneLoading={gamepanel.loaded} /> */}
                 <VStack
@@ -347,7 +347,7 @@ function GameIFrame(props) {
                         position="relative"
                         // boxShadow={"0px 12px 24px rgba(0,0,0,0.2)"}
                         alignSelf="center"
-                        filter="drop-shadow(5px 5px 10px var(--chakra-colors-gray-1200))"
+                        filter="drop-shadow(5px 5px 10px var(--chakra-colors-primary-1200))"
                     >
                         {/* <ScaleFade initialScale={1} in={gamepanel.loaded} width="100%" height="100%" position="relative"> */}
 
@@ -390,7 +390,7 @@ function GameIFrame(props) {
                     <IconButton
                         fontSize={"2rem"}
                         colorScheme={"clear"}
-                        icon={<CgMinimizeAlt color="gray.300" />}
+                        icon={<CgMinimizeAlt color="primary.300" />}
                         onClick={() => {
                             if (props.displayMode == "theatre") {
                                 btDisplayMode.set("none");

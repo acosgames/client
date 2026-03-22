@@ -20,7 +20,6 @@ import {
     btLoading,
     btUser,
 } from "../../../actions/buckets";
-import { createRedisKey, findLeaderboard } from "../../../actions/game";
 import { useBucket, useBucketSelector } from "../../../actions/bucket";
 import { useEffect, useState } from "react";
 import { RatingTable } from "./RatingTable";
@@ -54,7 +53,7 @@ export default function GameLeaderboard({}) {
     let game_slug = game?.game_slug;
 
     return (
-        // <Box w="100%" h="100%" p="0" pt="2rem" px={["1rem"]} bgColor="gray.925">
+        // <Box w="100%" h="100%" p="0" pt="2rem" px={["1rem"]} bgColor="primary.925">
         <Tabs defaultIndex={0} variant="subtabs" isLazy={true}>
             <TabList border="0" justifyContent={"center"}>
                 {game?.division_name && <Tab>Division</Tab>}
@@ -183,7 +182,7 @@ export function LeaderboardTable({
     const renderContent = () => {
         if (!leaderboard || leaderboard.length == 0) {
             return (
-                <Text fontSize="1.6rem" align="center" w="100%" display={"block"} color="gray.10">
+                <Text fontSize="1.6rem" align="center" w="100%" display={"block"} color="primary.10">
                     No rankings found.
                 </Text>
             );
@@ -191,7 +190,7 @@ export function LeaderboardTable({
 
         if (total == 0) {
             return (
-                <Text fontSize="1.6rem" align="center" color="gray.10">
+                <Text fontSize="1.6rem" align="center" color="primary.10">
                     No rankings yet.
                 </Text>
             );

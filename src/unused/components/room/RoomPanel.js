@@ -144,7 +144,7 @@ function RoomPanel(props) {
             spacing="0"
             justifyContent={'flex-start'}
             alignItems="flex-start"
-            bgColor="gray.1100"
+            bgColor="primary.1100"
             position="relative"
         >
             <Box position="absolute" height="4rem" top="0" right="0" zIndex="1000">

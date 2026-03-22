@@ -1,12 +1,12 @@
 import { Box, Button, Header, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { downloadGameReplay, findGameReplays } from "../../../actions/game";
 import EmbeddedGamePanel from "../GameDisplay/EmbeddedGamePanel";
 import fs from 'flatstore';
 import { replayNextIndex, replayPrevIndex, sendPauseMessage, sendUnpauseMessage } from "../../../actions/connection";
 import { clearRoom, findGamePanelByRoom, setPrimaryGamePanel } from "../../../actions/room";
 import { BiSkipPrevious, BiSkipNext, BiExpand } from '@react-icons';
 import { useNavigate, useParams } from "react-router-dom";
+import { findGameReplays } from "../../../../actions/replay";
 
 
 function GameInfoReplay(props) {

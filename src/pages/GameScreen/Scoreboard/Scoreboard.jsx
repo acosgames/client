@@ -45,16 +45,16 @@ export default function Scoreboard({}) {
                 borderRadius={"8px"}
                 border="1px solid"
                 zIndex="2"
-                borderColor="gray.925"
-                // bgColor="gray.900"
-                // boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
+                borderColor="primary.925"
+                // bgColor="primary.900"
+                // boxShadow="inset 0 0px 6px var(--chakra-colors-primary-1000), inset 0 0px 2px var(--chakra-colors-primary-1000), inset 0 0px 4px var(--chakra-colors-primary-1000)"
             >
                 <ChakraSimpleBar
                     boxSizing="border-box"
                     flex="1"
                     w="100%"
                     p="0"
-                    // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+                    // borderTop={["2px solid var(--chakra-colors-primary-800)"]}
                     style={{
                         width: "100%",
                         height: "auto",
@@ -110,7 +110,7 @@ export function RenderPlayers({ room_slug }) {
                     display={primary.room.isReplay ? "none" : "block"}
                     as="h5"
                     fontSize="1.4rem"
-                    color="gray.10"
+                    color="primary.10"
                     fontWeight="300"
                     pt="0.5rem"
                 >
@@ -120,7 +120,7 @@ export function RenderPlayers({ room_slug }) {
                     <Box h="1px" flex="1"></Box>
                     <Text
                         as="span"
-                        color="gray.75"
+                        color="primary.75"
                         fontWeight="200"
                         fontSize="1rem"
                         letterSpacing={"1px"}
@@ -175,7 +175,7 @@ export function RenderPlayers({ room_slug }) {
                 display={primary.room.isReplay ? "none" : "block"}
                 as="h5"
                 fontSize="1.5rem"
-                color="gray.20"
+                color="primary.20"
                 fontWeight="600"
                 pt="0.5rem"
             >
@@ -290,15 +290,15 @@ function RenderTeam({ gamepanel, players, team }) {
         >
             <Text
                 w="100%"
-                // bgColor="gray.1200"
+                // bgColor="primary.1200"
                 pl="0.5rem"
                 as="span"
                 fontWeight="300"
                 lineHeight={"1.4rem"}
                 pb="0.5rem"
-                // color="gray.10"
+                // color="primary.10"
                 fontSize="1.6rem"
-                color="gray.10"
+                color="primary.10"
                 borderBottom={`2px solid ${team.color}`}
 
                 // color={team.color}

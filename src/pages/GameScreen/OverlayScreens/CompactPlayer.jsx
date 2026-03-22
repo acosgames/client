@@ -94,7 +94,7 @@ export default function CompactPlayer({ player, index, delay }) {
                     minW="5rem"
                     h="5rem"
                     mr="0rem"
-                    bgColor="gray.1000"
+                    bgColor="primary.1000"
                     justifyContent={"center"}
                     alignItems={"center"}
                 >
@@ -103,12 +103,12 @@ export default function CompactPlayer({ player, index, delay }) {
                         textTransform="uppercase"
                         // display={played >= 10 ? 'block' : 'none'}
                         fontSize="2.4rem"
-                        color="gray.10"
+                        color="primary.10"
                         // textShadow='0 8px 9px var(--chakra-colors-brand-300) 0px -2px 20px var(--chakra-colors-brand-600)'
-                        textShadow={`2px 2px 2px var(--chakra-colors-gray-200),
-                        -2px 2px 2px var(--chakra-colors-gray-200),
-                        2px -2px 2px var(--chakra-colors-gray-200),
-                        -2px -2px 2px var(--chakra-colors-gray-200)`}
+                        textShadow={`2px 2px 2px var(--chakra-colors-primary-200),
+                        -2px 2px 2px var(--chakra-colors-primary-200),
+                        2px -2px 2px var(--chakra-colors-primary-200),
+                        -2px -2px 2px var(--chakra-colors-primary-200)`}
                         fontWeight="bold"
                         letterSpacing="0px"
                         textAlign="center"
@@ -121,12 +121,12 @@ export default function CompactPlayer({ player, index, delay }) {
                     </Text>
                     <Text
                         as="span"
-                        color="gray.100"
-                        // bgColor="gray.600"
+                        color="primary.100"
+                        // bgColor="primary.600"
                         p="0.25rem"
                         fontWeight="500"
                         fontSize="1.2rem"
-                        //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
+                        //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-primary-900)"}
                     >
                         {player.rating}
                     </Text>
@@ -136,7 +136,7 @@ export default function CompactPlayer({ player, index, delay }) {
                     h="5rem"
                     w="25rem"
                     pr="1rem"
-                    bgColor="gray.1100"
+                    bgColor="primary.1100"
                 >
                     <Text
                         ml="0.5rem"
@@ -144,7 +144,7 @@ export default function CompactPlayer({ player, index, delay }) {
                         as="span"
                         // pl="1rem"
                         textAlign={"left"}
-                        color="gray.0"
+                        color="primary.0"
                         fontWeight="400"
                         fontSize={["1.6rem", "2rem", "2rem", "2.6rem"]}
                         letterSpacing={"-1px"}
@@ -154,7 +154,7 @@ export default function CompactPlayer({ player, index, delay }) {
                         whiteSpace={"nowrap"}
                         textOverflow={"ellipsis"}
                         // textShadow={
-                        //     "0 2px 3px var(--chakra-colors-gray-900),0 2px 6px var(--chakra-colors-gray-900)"
+                        //     "0 2px 3px var(--chakra-colors-primary-900),0 2px 6px var(--chakra-colors-primary-900)"
                         // }
                     >
                         {player.displayname}
@@ -165,7 +165,7 @@ export default function CompactPlayer({ player, index, delay }) {
                         // pl="0.5rem"
                         justifyContent={"flex-start"}
                         // w="20rem"
-                        // bgColor="gray.800"
+                        // bgColor="primary.800"
                         mt="1rem"
                         width="2rem"
                         minW="2rem"
@@ -174,7 +174,7 @@ export default function CompactPlayer({ player, index, delay }) {
                         <Image
                             src={`${config.https.cdn}images/country/${player.countrycode}.svg`}
                             // mt="0.5rem"
-                            borderColor="gray.100"
+                            borderColor="primary.100"
                             borderRadius="0px"
                             width="2rem"
                             filter="opacity(0.8)"

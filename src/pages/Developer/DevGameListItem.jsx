@@ -59,12 +59,12 @@ export default function DevGameListItem({
                             display="flex"
                             flexDir={"column"}
                             alignItems={"center"}
-                            bgColor="gray.1000"
+                            bgColor="primary.1000"
                             p="0.75rem"
                             borderRadius="2rem"
                         >
                             <Icon
-                                color="gray.10"
+                                color="primary.10"
                                 w="1.5rem"
                                 h="1.5rem"
                                 as={MdEdit}
@@ -80,7 +80,7 @@ export default function DevGameListItem({
                         alignItems={"center"}
                     >
                         <Icon w="1.5rem" h="1.5rem" as={FaGithub} />
-                        <Text as="span" fontSize="1rem" color="gray.100">
+                        <Text as="span" fontSize="1rem" color="primary.100">
                             Github
                         </Text>
                     </ChLink>
@@ -97,7 +97,7 @@ export default function DevGameListItem({
                         // alignItems={"center"}
                     >
                         <Icon w="1.5rem" h="1.5rem" as={FiExternalLink} />
-                        <Text as="span" fontSize="1rem" color="gray.100">
+                        <Text as="span" fontSize="1rem" color="primary.100">
                             Public
                         </Text>
                     </Link>
@@ -126,7 +126,7 @@ export default function DevGameListItem({
                                         align={["left", "left"]}
                                         fontSize="2rem"
                                         fontWeight="500"
-                                        color="gray.10"
+                                        color="primary.10"
                                     >
                                         {name}
                                     </Heading>
@@ -135,7 +135,7 @@ export default function DevGameListItem({
                                         align={["left", "left"]}
                                         fontSize="1.4rem"
                                         fontWeight="500"
-                                        color="gray.50"
+                                        color="primary.50"
                                     >
                                         {game_slug}
                                     </Heading>
@@ -149,7 +149,7 @@ export default function DevGameListItem({
                         fontSize="1.4rem"
                         spacing="1rem"
                         flexDir="column"
-                        color="gray.100"
+                        color="primary.100"
                     >
                         <HStack>
                             {/* <Icon as={FiUsers} /> */}

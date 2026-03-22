@@ -56,7 +56,7 @@ const NavLink = ({ children }) => (
         rounded={"md"}
         _hover={{
             textDecoration: "none",
-            bg: useColorModeValue("gray.200", "gray.700"),
+            bg: useColorModeValue("primary.200", "primary.700"),
         }}
         href={"#"}
     >
@@ -120,7 +120,7 @@ function MainMenuChakra(props) {
             justifyContent={"center"}
             // overflow="hidden"
             px={["0.5rem", "1rem", "5rem"]}
-            bgColor={"gray.800"}
+            bgColor={"primary.800"}
         >
             <Box
                 zIndex="1000"
@@ -178,7 +178,7 @@ function MainMenuChakra(props) {
 
                     {/* <GameActions /> */}
 
-                    {/* <Icon as={IoTimeOutline} fontSize='xxs' color={'gray.200'}></Icon> */}
+                    {/* <Icon as={IoTimeOutline} fontSize='xxs' color={'primary.200'}></Icon> */}
 
                     <Flex alignItems={"center"} height="100%">
                         <Stack direction={"row"} spacing={0} height="100%">

@@ -76,7 +76,7 @@ export default function ChatPanel({}) {
                 // pt="0.5rem"
                 // px="0.5rem"
                 mb="1rem"
-                // filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1000)) "
+                // filter="drop-shadow(1px 1px 2px var(--chakra-colors-primary-1000)) "
             >
                 <VStack
                     className="chatpanel"
@@ -92,15 +92,15 @@ export default function ChatPanel({}) {
                     // borderRadius={"8px"}
                     border="1px solid"
                     zIndex="2"
-                    borderColor="gray.925"
-                    // bgColor="gray.900"
+                    borderColor="primary.925"
+                    // bgColor="primary.900"
                     pt="0.25rem"
-                    // boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
+                    // boxShadow="inset 0 0px 6px var(--chakra-colors-primary-1000), inset 0 0px 2px var(--chakra-colors-primary-1000), inset 0 0px 4px var(--chakra-colors-primary-1000)"
                 >
                     <ChakraSimpleBar
                         boxSizing="border-box"
                         // flex="1"
-                        // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+                        // borderTop={["2px solid var(--chakra-colors-primary-800)"]}
                         style={{
                             width: "100%",
                             height: "auto",
@@ -144,7 +144,7 @@ function ChatMessages({ scrollRef }) {
             // height="100%"
             width="100%"
             // pl="2rem"
-            // bgColor="gray.900"
+            // bgColor="primary.900"
             px={["0.25rem", "0.5rem"]}
             pt="0.25rem"
             spacing="0rem"

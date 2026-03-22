@@ -163,7 +163,7 @@ function DevManageGameEnvironment(props) {
     return (
         <VStack alignItems={"left"} w="100%">
             {/* <Center> */}
-            <Text as="span" fontSize="xs" fontWeight={"light"} color="gray.100">
+            <Text as="span" fontSize="xs" fontWeight={"light"} color="primary.100">
                 Run this command in your{" "}
                 <Text as={"span"} fontWeight={"light"}>
                     "{props.devgame.game_slug}"
@@ -175,10 +175,10 @@ function DevManageGameEnvironment(props) {
                 <FSGCopyText
                     value={deployCmd}
                     copyRef={copyRef}
-                    color={"gray.100"}
+                    color={"primary.100"}
                     fontSize={"xs"}
                     fontWeight={"light"}
-                    bgColor={"gray.700"}
+                    bgColor={"primary.700"}
                     maxWidth={"100%"}
                     onFocus={(e) => {
                         e.target.select();
@@ -218,11 +218,11 @@ function DevManageGameEnvironment(props) {
                     </Tooltip>
                 </Center>
             </HStack>
-            {/* <VStack pt={'2rem'} fontSize={'xxs'} color={'gray.200'} alignItems={'left'} justifyContent={'left'} w="100%">
+            {/* <VStack pt={'2rem'} fontSize={'xxs'} color={'primary.200'} alignItems={'left'} justifyContent={'left'} w="100%">
                 <Text fontSize="xxs" fontWeight={'bold'}>Screen Size Configuration</Text>
                 
                 <HStack w="100%">
-                    <Select isReadOnly fontSize={'xxs'} color="gray.200" id="screenType" onChange={onSelectViewport} value={selected}>
+                    <Select isReadOnly fontSize={'xxs'} color="primary.200" id="screenType" onChange={onSelectViewport} value={selected}>
                         <option value="1">Full Screen</option>
                         <option value="2">Fixed Resolution</option>
                         <option value="3">Scaled Resolution</option>
@@ -233,7 +233,7 @@ function DevManageGameEnvironment(props) {
 
                             <Box>
                                 <Center>
-                                    <Icon fontSize="24px" as={IoHelpCircleSharp} color="gray.200" />
+                                    <Icon fontSize="24px" as={IoHelpCircleSharp} color="primary.200" />
                                 </Center>
                             </Box>
 
@@ -258,7 +258,7 @@ function DevManageGameEnvironment(props) {
                 <HStack alignItems={'center'} justifyContent={'center'}>
 
                     <VStack display={displayResolution ? 'flex' : 'none'}>
-                        <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="gray.200" as="label" htmlFor="resolution">Resolution</FormLabel>
+                        <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="primary.200" as="label" htmlFor="resolution">Resolution</FormLabel>
                         <Input
                             readOnly
                             type="text"
@@ -267,12 +267,12 @@ function DevManageGameEnvironment(props) {
                             placeholder="16:9"
                             size="30"
                             onChange={onResoChange}
-                            color="gray.400"
+                            color="primary.400"
                             value={resolution}
                         />
                     </VStack>
                     <VStack display={displayWidthHeight ? 'flex' : 'none'}>
-                        <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="gray.200" as="label" htmlFor="maxwidth">Width (px)</FormLabel>
+                        <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="primary.200" as="label" htmlFor="maxwidth">Width (px)</FormLabel>
                         <Input
                             readOnly
                             type="text"
@@ -280,14 +280,14 @@ function DevManageGameEnvironment(props) {
                             id="maxwidth"
                             placeholder="1920"
                             size="30"
-                            color="gray.400"
+                            color="primary.400"
                             onChange={onWidthChange}
                             value={maxwidth}
                         />
 
                     </VStack>
                     <VStack display={displayWidthHeight ? 'flex' : 'none'}>
-                        <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="gray.200" as="label" htmlFor="maxheight">Height (px)</FormLabel>
+                        <FormLabel fontSize="xxs" fontWeight={'bold'} m="0" color="primary.200" as="label" htmlFor="maxheight">Height (px)</FormLabel>
                         <Input
 
                             type="text"
@@ -295,7 +295,7 @@ function DevManageGameEnvironment(props) {
                             id="maxheight"
                             disabled
                             size="30"
-                            color="gray.400"
+                            color="primary.400"
                             value={maxheight}
                         />
                     </VStack>

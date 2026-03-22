@@ -107,20 +107,20 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                     }),
                     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
                         return {
-                            color: "var(--chakra-colors-gray-50)",
+                            color: "var(--chakra-colors-primary-50)",
                             fontSize: "1.2rem",
                             padding: "1rem",
-                            backgroundColor: "var(--chakra-colors-gray-900)",
+                            backgroundColor: "var(--chakra-colors-primary-900)",
                             // borderBottom: "1px solid",
-                            // borderBottomColor: "var(--chakra-colors-gray-800)",
+                            // borderBottomColor: "var(--chakra-colors-primary-800)",
                             position: "relative",
                             paddingLeft: "2rem",
                             zIndex: "1",
-                            background: ` var(--chakra-colors-gray-900)`,
+                            background: ` var(--chakra-colors-primary-900)`,
                             // backgroundSize: data.value == "EARTH" ? "34px 34px" : "",
                             ":hover": {
                                 ...styles[":hover"],
-                                color: "var(--chakra-colors-gray-0)",
+                                color: "var(--chakra-colors-primary-0)",
                                 backgroundColor: "var(--chakra-colors-brand-600)",
                             },
                         };
@@ -129,20 +129,20 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                         ...styles,
                         padding: 0,
 
-                        // background: 'var(--chakra-colors-gray-900)',
+                        // background: 'var(--chakra-colors-primary-900)',
                     }),
                     placeholder: (styles) => ({
-                        color: "var(--chakra-colors-gray-10)",
+                        color: "var(--chakra-colors-primary-10)",
 
                         fontSize: "1.2rem",
                     }),
                     menu: (styles) => ({
-                        backgroundColor: "var(--chakra-colors-gray-900)",
+                        backgroundColor: "var(--chakra-colors-primary-900)",
                         // ...styles,
                         // background:
-                        // "linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))",
+                        // "linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))",
                         borderRadius: "1rem",
-                        border: "1px solid var(--chakra-colors-gray-800)",
+                        border: "1px solid var(--chakra-colors-primary-800)",
 
                         overflow: "hidden",
                         width: "100%",
@@ -153,8 +153,8 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                     }),
                     input: (styles) => ({
                         ...styles,
-                        color: "var(--chakra-colors-gray-10)",
-                        // background: "var(--chakra-colors-gray-600)",
+                        color: "var(--chakra-colors-primary-10)",
+                        // background: "var(--chakra-colors-primary-600)",
 
                         // fontSize: '1.6rem',
                         // paddingLeft: '4rem',
@@ -162,7 +162,7 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                     control: (baseStyles, styles) => ({
                         padding: "0",
                         borderRadius: "8px",
-                        // background: "var(--chakra-colors-gray-600)",
+                        // background: "var(--chakra-colors-primary-600)",
                     }),
 
                     indicatorsContainer: (styles) => ({
@@ -170,24 +170,24 @@ export default function ChooseLeaderboardSeason({ onChange, hasAllTime, hasMonth
                         position: "absolute",
                         top: 0,
                         right: "0px",
-                        color: "var(--chakra-colors-gray-10)",
+                        color: "var(--chakra-colors-primary-10)",
                         ":hover": {
-                            color: "var(--chakra-colors-gray-10)",
+                            color: "var(--chakra-colors-primary-10)",
                         },
                         ":active": {
-                            color: "var(--chakra-colors-gray-10)",
+                            color: "var(--chakra-colors-primary-10)",
                         },
                     }),
                     singleValue: (styles, { data }) => ({
                         ...styles,
-                        color: "var(--chakra-colors-gray-10)",
+                        color: "var(--chakra-colors-primary-10)",
                         fontSize: "1.4rem",
                         // fontWeight: "500",
                         padding: "0.5rem",
                         marginBottom: "0.1rem",
-                        backgroundColor: "var(--chakra-colors-gray-900)",
+                        backgroundColor: "var(--chakra-colors-primary-900)",
                         // borderBottom: '1px solid',
-                        // borderBottomColor: 'var(--chakra-colors-gray-800)',
+                        // borderBottomColor: 'var(--chakra-colors-primary-800)',
                         zIndex: 1,
                         position: "relative",
                         paddingLeft: "1rem",

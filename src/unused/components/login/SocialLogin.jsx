@@ -50,7 +50,7 @@ function SocialLoginSimple(props) {
 
     return (
         <VStack>
-            {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Or, login to save your temporary account</Heading> */}
+            {/* <Heading color="primary.300" pt={'0rem'} pb={'0.5rem'} size="sm">Or, login to save your temporary account</Heading> */}
 
             <Heading
                 pt="0"
@@ -73,7 +73,7 @@ function SocialLoginSimple(props) {
             <Heading
                 pt="0"
                 mt="0"
-                color="gray.100"
+                color="primary.100"
                 fontSize="xs"
                 pb="1rem"
                 fontWeight={"light"}
@@ -81,7 +81,7 @@ function SocialLoginSimple(props) {
                 By signing in, you agree to our{" "}
                 <Link to="/privacy">Privacy Policy</Link>
             </Heading>
-            {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
+            {/* <Heading color="primary.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
 
             <VStack w="100%" maxWidth="22rem">
                 <FacebookLoginButton
@@ -249,10 +249,10 @@ function SocialLogin(props) {
                         <FSGTextInput
                             onChange={onChange}
                             maxLength="32"
-                            titleColor="gray.100"
+                            titleColor="primary.100"
                             // title="Pick Name"
                             borderRadius="2rem"
-                            bgColor="gray.1200"
+                            bgColor="primary.1200"
                             height="4rem"
                             focus={true}
                             onFocus={(e) => {
@@ -293,7 +293,7 @@ function SocialLogin(props) {
                     <Heading
                         pt="0"
                         mt="0"
-                        color="gray.100"
+                        color="primary.100"
                         fontSize="2xs"
                         pb="1rem"
                         fontWeight={"light"}
@@ -301,7 +301,7 @@ function SocialLogin(props) {
                         By signing in, you agree to our{" "}
                         <Link to="/privacy">Privacy Policy</Link>
                     </Heading>
-                    {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
+                    {/* <Heading color="primary.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
 
                     <VStack w="100%" maxWidth="22rem">
                         <FacebookLoginButton

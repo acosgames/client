@@ -28,7 +28,7 @@ export default function GameDescription({}) {
                     <Heading
                         fontSize={["2.4rem"]}
                         fontWeight="700"
-                        color="gray.0"
+                        color="primary.0"
                         lineHeight={"3.2rem"}
                     >
                         GAME DESCRIPTION

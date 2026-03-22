@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useParams } from "react-router-dom";
 import { findGamePanelByRoom, setPrimaryGamePanel } from "../../../actions/room";
-import { downloadGameReplay } from "../../../actions/game";
+import { downloadGameReplay } from "../../../../actions/replay";
 
 
 export default function GameReplayDesktop(props) {

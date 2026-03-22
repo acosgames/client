@@ -28,7 +28,7 @@ export default function ActionBarItem({
         // ml={mr || ["0", "0", "1rem"]}
         //
       >
-        {/* <WrapItem color="gray.0" h="6rem"> */}
+        {/* <WrapItem color="primary.0" h="6rem"> */}
         <VStack
           //   transform={["scale(0.60)", "scale(0.7)", "scale(0.75)", "scale(1)"]}
           h={["4rem"]}
@@ -39,7 +39,7 @@ export default function ActionBarItem({
           {children}
         </VStack>
         {/* </WrapItem> */}
-        {/* <WrapItem color="gray.0" alignSelf={"center"}> */}
+        {/* <WrapItem color="primary.0" alignSelf={"center"}> */}
         <VStack spacing="0" alignItems={"center"} justifyContent={"center"}>
           <Heading
             as="h6"
@@ -54,7 +54,7 @@ export default function ActionBarItem({
           </Heading>
           <Heading
             as="h5"
-            color="gray.0"
+            color="primary.0"
             fontWeight="700"
             w="100%"
             maxW="10rem"

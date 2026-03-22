@@ -51,11 +51,11 @@ export default function DevImageUploadBox({
             w="100%"
             h="100%"
             bgColor="rgba(0,0,0,0.5)"
-            border="4px dashed var(--chakra-colors-gray-1200)"
+            border="4px dashed var(--chakra-colors-primary-1200)"
             alignItems={"center"}
             justifyContent={"center"}
             _hover={{
-              bgColor: "gray.1200",
+              bgColor: "primary.1200",
             }}
             onClick={(e) => {
               onImageUpdate(index);
@@ -83,7 +83,7 @@ export default function DevImageUploadBox({
             bgColor="rgba(0,0,0,0.5)"
             cursor={"pointer"}
             _hover={{
-              bgColor: "gray.1200",
+              bgColor: "primary.1200",
             }}
             // className="imageremove"
             onClick={(e) => {

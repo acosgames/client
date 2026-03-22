@@ -55,12 +55,12 @@ export default function FSGSwitch(props) {
                 <FormLabel
                     as="legend"
                     fontSize="xs"
-                    color="gray.100"
+                    color="primary.100"
                     fontWeight="bold"
                 >
                     <HStack>
                         <Text
-                            color={"gray.10"}
+                            color={"primary.10"}
                             fontSize="1.4rem"
                             fontWeight="500"
                         >
@@ -111,7 +111,7 @@ export default function FSGSwitch(props) {
                 onChange={props.onChange}
                 onFocus={props.onFocus}
                 disabled={props.disabled}
-                bgColor="gray.800"
+                bgColor="primary.800"
             /> */}
             </DirectionComponent>
             {errors.length > 0 ? (
@@ -125,7 +125,7 @@ export default function FSGSwitch(props) {
                     </FormHelperText>
                 ))
             ) : (
-                <FormHelperText fontSize="1.2rem" color="gray.50">
+                <FormHelperText fontSize="1.2rem" color="primary.50">
                     {props.helperText}
                 </FormHelperText>
             )}

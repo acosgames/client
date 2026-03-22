@@ -96,14 +96,14 @@ function NotifySwitch(props) {
                         onClick={onNotifyClick}
                         icon={<Icon
                             as={NotifIcon}
-                            color={checked ? 'white' : "gray.400"}
+                            color={checked ? 'white' : "primary.400"}
                             fontSize="md" />}
                         width={['1.8rem', '2.4rem', "3rem"]}
                         height={['1.8rem', '2.4rem', "3rem"]}
                         isRound="true" />
 
                     {/* <VStack>
-                    <Text as="span" color="gray.300" fontSize="10px"></Text>
+                    <Text as="span" color="primary.300" fontSize="10px"></Text>
                     
                     <Switch colorScheme={'green'} id={'switch-notif'} size="sm" onChange={onScaleChange} isChecked={checked} />
                 </VStack> */}
@@ -120,7 +120,7 @@ function QueueButton(props) {
             p="0.5rem"
             mr="1rem"
             height="3rem"
-            bgColor={props.bgColor || 'gray.600'}
+            bgColor={props.bgColor || 'primary.600'}
             display='flex'
             justifyContent={'center'}
             justifyItems={'center'}
@@ -169,7 +169,7 @@ function InviteToPlayButton(props) {
                     onClick={onShareClick}
                     icon={<Icon
                         as={IoPersonAddSharp}
-                        color={checked ? 'white' : "gray.400"}
+                        color={checked ? 'white' : "primary.400"}
                         fontSize={['xs', 'xs', "md"]} />}
                     // icon={<IoPersonAddSharp />}
                     width={['1.8rem', '2.4rem', "3rem"]}
@@ -270,7 +270,7 @@ function QueuePanel(props) {
     let games = btGames.get() || {};
 
 
-    // <Button ref={btnRef} bg="gray.900" onClick={onClick} variant='outline'>
+    // <Button ref={btnRef} bg="primary.900" onClick={onClick} variant='outline'>
     //                 </Button>
 
     return (
@@ -289,14 +289,14 @@ function QueuePanel(props) {
                 alignContent="center"
                 // transform='translateX(-50%)'
                 // left="50%"
-                // bgColor="gray.1000"
+                // bgColor="primary.1000"
                 zIndex={99}
             >
 
                 <HStack
                     borderRadius={'30px'}
                     position="relative"
-                    bgColor={'gray.900'}
+                    bgColor={'primary.900'}
                     // boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 28%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 25%)`}
                     height={["4.0rem"]}
                     w="100%"
@@ -346,19 +346,19 @@ function QueuePanel(props) {
                                 <PopoverHeader
                                     h="3rem"
                                     lineHeight={'3rem'}
-                                    bgColor="gray.800"
+                                    bgColor="primary.800"
                                     pt="0">
                                     <Text h="3rem"
                                         lineHeight={'3rem'}
                                         as="span"
                                         fontSize="sm"
                                         fontWeight="bolder"
-                                        color="gray.150"
+                                        color="primary.150"
                                     >
                                         Queues
                                     </Text>
                                 </PopoverHeader>
-                                <PopoverBody bgColor={'gray.900'}>
+                                <PopoverBody bgColor={'primary.900'}>
                                     <VStack divider={<Divider />} spacing="0.2rem">
                                         {
                                             gameList.map(game_slug => {
@@ -382,7 +382,7 @@ function QueuePanel(props) {
                                     </VStack>
                                 </PopoverBody>
                                 {/* <PopoverFooter>
-                                    <PlayerCount color="gray.300" />
+                                    <PlayerCount color="primary.300" />
                                 </PopoverFooter> */}
                             </PopoverContent>
                         </Popover>
@@ -400,12 +400,12 @@ function QueuePanel(props) {
                         display={['none', 'none', 'flex']}
                     >
 
-                        <Text fontSize="xxs" color="gray.200">In {queues.length} queues</Text>
-                        <PlayerCount fontSize="xxs" color="gray.400" />
+                        <Text fontSize="xxs" color="primary.200">In {queues.length} queues</Text>
+                        <PlayerCount fontSize="xxs" color="primary.400" />
                     </VStack> */}
                     <Box w="6rem">
                         <Tooltip label="Leave Queue" placement="top">
-                            <IconButton float="right" mr="1rem" bgColor={'gray.800'} onClick={onCancel} icon={<IoCloseSharp />} size="sm" isRound="true" />
+                            <IconButton float="right" mr="1rem" bgColor={'primary.800'} onClick={onCancel} icon={<IoCloseSharp />} size="sm" isRound="true" />
                         </Tooltip>
                     </Box>
                 </HStack>

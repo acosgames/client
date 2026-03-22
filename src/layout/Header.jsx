@@ -33,7 +33,7 @@ function Header({}) {
             //   "transparent",
             //   "linear-gradient(153.32deg, rgba(255, 255, 255, 0.3) -65.62%, rgba(255, 255, 255, 0.1) 83.28%)",
             // ]}
-            bgColor={"gray.975"}
+            bgColor={"primary.975"}
             boxShadow={[
                 "initial",
                 "0px 4px 6px -1px rgba(0,0,0,.2)",
@@ -80,7 +80,7 @@ function Header({}) {
                         <Link to="/games" className="">
                             <Heading
                                 as="h4"
-                                color="gray.0"
+                                color="primary.0"
                                 fontWeight="bold"
                                 fontSize={["1.2rem", "1.6rem", "1.6rem"]}
                                 transition={"all 0.3s ease"}
@@ -92,7 +92,7 @@ function Header({}) {
                         <Link to="/dev" className="">
                             <Heading
                                 as="h4"
-                                color="gray.0"
+                                color="primary.0"
                                 fontWeight="bold"
                                 fontSize={["1.2rem", "1.6rem", "1.6rem"]}
                                 transition={"all 0.3s ease"}

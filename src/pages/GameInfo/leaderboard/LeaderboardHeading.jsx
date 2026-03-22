@@ -9,14 +9,14 @@ export function LeaderboardHeading({ subtitle, caption, children }) {
             pb="1rem"
             pl="2rem"
             spacing="0"
-            // bgColor="gray.875"
-            // bg="linear-gradient(to right, var(--chakra-colors-gray-1200) 75%, var(--chakra-colors-gray-875))"
+            // bgColor="primary.875"
+            // bg="linear-gradient(to right, var(--chakra-colors-primary-1200) 75%, var(--chakra-colors-primary-875))"
         >
             <Heading
                 fontSize={["2.4rem"]}
                 fontWeight="400"
                 letterSpacing={"1px"}
-                color="gray.0"
+                color="primary.0"
                 lineHeight={"3.2rem"}
             >
                 {children}
@@ -24,7 +24,7 @@ export function LeaderboardHeading({ subtitle, caption, children }) {
             {subtitle && (
                 <Text
                     as="h3"
-                    color="brand.50"
+                    color="primary.70"
                     fontSize={["1.8rem"]}
                     fontWeight={"400"}
                     lineHeight="2.6rem"
@@ -35,10 +35,10 @@ export function LeaderboardHeading({ subtitle, caption, children }) {
             {caption && (
                 <Text
                     as="h4"
-                    color="brand.100"
+                    color="primary.60"
                     fontSize={["1.6rem", "1.6rem", "1.6rem"]}
                     fontWeight={"400"}
-                    // bgColor="gray.300"
+                    // bgColor="primary.300"
                     // borderRadius={"2rem"}
                     // p="1rem"
                     py="0.5rem"

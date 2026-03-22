@@ -47,12 +47,12 @@ function FSGSelect(props) {
             <FormLabel
                 as="legend"
                 fontSize="xs"
-                color="gray.100"
+                color="primary.100"
                 fontWeight="bold"
             >
                 <HStack>
                     <Text
-                        color={props.titleColor || "gray.10"}
+                        color={props.titleColor || "primary.10"}
                         fontSize={props.titleFontSize || "1.4rem"}
                         fontWeight={props.titleFontWeight || "500"}
                     >
@@ -87,7 +87,7 @@ function FSGSelect(props) {
                 placeholder={props.placeholder}
                 w={props.w || props.width}
                 h={props.h || props.width || "3rem"}
-                bgColor={props.bgColor || "gray.950"}
+                bgColor={props.bgColor || "primary.950"}
                 fontSize={props.fontSize || "1.4rem"}
                 borderRadius={props.borderRadius || "8px"}
                 // defaultValue={props.defaultValue}
@@ -110,11 +110,11 @@ function FSGSelect(props) {
                 onChange={props.onChange}
                 onFocus={props.onFocus}
                 disabled={props.disabled}
-                bgColor="gray.800"
+                bgColor="primary.800"
             /> */}
 
             {props.helperText && (
-                <Text as="span" fontSize="1.2rem" color="gray.100">
+                <Text as="span" fontSize="1.2rem" color="primary.100">
                     {props.helperText}
                 </Text>
             )}
@@ -129,7 +129,7 @@ function FSGSelect(props) {
                     </FormHelperText>
                 ))
             ) : (
-                <FormHelperText fontSize="1.2rem" color="gray.50">
+                <FormHelperText fontSize="1.2rem" color="primary.50">
                     {props.helperText}
                 </FormHelperText>
             )}

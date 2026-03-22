@@ -42,7 +42,7 @@ export default function PregameTimer({ gamepanel, status }) {
       border="0"
       // borderTop="1px solid"
       // borderBottom="1px solid"
-      // borderColor="gray.500"
+      // borderColor="primary.500"
       _before={{
         content: "''",
         position: "absolute",
@@ -50,7 +50,7 @@ export default function PregameTimer({ gamepanel, status }) {
         height: "1px",
         bottom: 0,
         left: 0,
-        bg: "linear-gradient(to right, var(--chakra-colors-gray-1200),  var(--chakra-colors-gray-10), var(--chakra-colors-gray-1200))",
+        bg: "linear-gradient(to right, var(--chakra-colors-primary-1200),  var(--chakra-colors-primary-10), var(--chakra-colors-primary-1200))",
       }}
       // borderRadius={"8px"}
       // textAlign={"center"}
@@ -71,7 +71,7 @@ export default function PregameTimer({ gamepanel, status }) {
       <Text
         ml="1rem"
         as="span"
-        color="gray.20"
+        color="primary.20"
         fontSize={["1.2rem", "1.4rem", "1.4rem", "1.4rem"]}
         fontWeight="500"
         minW="0"
@@ -87,13 +87,13 @@ export default function PregameTimer({ gamepanel, status }) {
         whiteSpace={"nowrap"}
         fontSize="1.2rem"
         lineHeight="2.4rem"
-        color="gray.20"
+        color="primary.20"
       >
         {gamestatus == "pregame" ? "Waiting for players" : "Starting in"}
       </Text>
       <Box w="5rem" minW="5rem" height="2rem" textAlign={"left"}>
         <Text
-          color="gray.0"
+          color="primary.0"
           lineHeight={"2rem"}
           fontWeight={"500"}
           as="h3"

@@ -25,7 +25,7 @@ import { useEffect, useRef } from "react";
 import { getUser, login } from "../../actions/person";
 import { joinGame } from "../../actions/game";
 import { getLastJoinType, setLastJoinType } from "../../actions/room";
-import { validateLogin } from "../../actions/connection";
+import { validateLogin } from "../../actions/person";
 
 import { useOnScreen, useVisibility2 } from "../../layout/Hooks";
 import { useParams } from "react-router-dom";
@@ -106,12 +106,13 @@ function JoinButton({ handleJoin }) {
             transform={["skewX(-15deg)"]}
             className={"cta " + (queue.game_slug ? "queued" : "")}
             zIndex={2}
-            bgColor={queue.game_slug ? "gray.1000" : "gray.1000"}
+            bgColor={queue.game_slug ? "gray.700" : "primary.150"}
             mt="1rem"
             px="3rem"
             pr="2rem"
             py="3rem"
             _hover={{
+                bgColor: queue.game_slug ? "gray.700" : "primary.90",
                 filter: "none",
             }}
         >
@@ -124,14 +125,16 @@ function JoinButton({ handleJoin }) {
                     {queue.game_slug ? "Searching" : "Play Now"}
                 </Text>
                 <Text
-                    color="gray.20"
+                    color="primary.25"
                     as="p"
+                    p="0"
                     pl="0.5rem"
+                    lineHeight="1.2rem"
                     textAlign={"left"}
-                    fontWeight={"bold"}
+                    fontWeight={""}
                     fontSize="1.4rem"
                 >
-                    Ranked Game
+                    Competitive Match
                 </Text>
             </VStack>
             <Text className="arrows" as="span" display="inline-block">

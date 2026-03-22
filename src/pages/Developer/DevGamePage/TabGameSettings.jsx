@@ -33,13 +33,13 @@ export default function TabGameSettings({}) {
                                 fontWeight="400"
                                 as="p"
                                 w="100%"
-                                color="gray.50"
+                                color="primary.50"
                             >
                                 Note: These settings are configured in{" "}
                                 <Text
                                     as="span"
                                     fontWeight="500"
-                                    color="gray.20"
+                                    color="primary.20"
                                 >
                                     game-settings.json
                                 </Text>
@@ -115,7 +115,7 @@ function GameSettings({}) {
                 </Heading>
             </CardHeader>
             <CardBody>
-                <Box borderTop="1px dotted var(--chakra-colors-gray-700)"></Box>
+                <Box borderTop="1px dotted var(--chakra-colors-primary-700)"></Box>
                 <SettingRow title={"Screen Type"} value={screenTypeName} />
                 {showResolution && (
                     <>

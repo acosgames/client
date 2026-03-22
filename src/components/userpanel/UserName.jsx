@@ -8,7 +8,7 @@ export default function UserName({}) {
     return (
         <Text
             as="span"
-            color="gray.0"
+            color="primary.0"
             fontWeight={"500"}
             fontSize="1.6rem"
             // width={["13rem", "17rem"]}

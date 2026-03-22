@@ -34,12 +34,12 @@ export default function ScoreboardMulti(props) {
             let header = (
                 <Thead key={'teamplayerheader-' + team.name} >
                     <Tr
-                        // bgColor="gray.1000" 
+                        // bgColor="primary.1000" 
 
                         spacing="0" width="100%" justifyContent={'center'} alignItems={'center'}
                         // borderRight={'0.5rem solid ' + team.color}
                         borderLeft={'0.3rem solid'}
-                        borderLeftColor={isTeamNext ? 'gray.100' : 'transparent'}
+                        borderLeftColor={isTeamNext ? 'primary.100' : 'transparent'}
                     >
                         <Th textAlign={'center'} borderBottom="0" px="0.5rem" width="4rem" p="0" pt="0.5rem" borderLeft="0.5rem solid transparent" height="2rem" >
                             <Text color={team.color} align="center" fontSize="sm" fontWeight={'bold'} >{team.score}</Text>
@@ -49,7 +49,7 @@ export default function ScoreboardMulti(props) {
                         </Th>
                         <Th borderBottom="0" w="6rem" p="0" pt="0.5rem"
                             borderLeft={'0.3rem solid'}
-                            borderLeftColor={isTeamNext ? 'gray.100' : 'transparent'}>
+                            borderLeftColor={isTeamNext ? 'primary.100' : 'transparent'}>
                             <Text color={team.color} align="center" fontSize="2xs">Score</Text>
                         </Th>
                     </Tr>
@@ -86,13 +86,13 @@ export default function ScoreboardMulti(props) {
             ))
 
             teamElems.push(<Box w="100%"
-                // bgColor="gray.1000"
+                // bgColor="primary.1000"
                 key={'teamspacer-' + team.name} pb="1rem"
                 //borderRight={'0.5rem solid ' + team.color}
                 borderLeft={'0.3rem solid'}
-                borderLeftColor={isTeamNext ? 'gray.100' : 'transparent'}
+                borderLeftColor={isTeamNext ? 'primary.100' : 'transparent'}
             ></Box >)
-            // teamElems.push(<Box w="100%" bgColor="gray.900" key={'teamspacer2-' + team.name} pb="0.5rem"></Box>)
+            // teamElems.push(<Box w="100%" bgColor="primary.900" key={'teamspacer2-' + team.name} pb="0.5rem"></Box>)
         }
 
         // teamElems.pop();
@@ -101,19 +101,19 @@ export default function ScoreboardMulti(props) {
         let header = (
             <Thead key={'allplayerheader-'} >
                 <Tr
-                    // bgColor="gray.1000" 
+                    // bgColor="primary.1000" 
 
                     spacing="0" width="100%" justifyContent={'center'} alignItems={'center'}
                 // borderRight={'0.5rem solid ' + team.color}
                 >
                     <Th textAlign={'center'} borderBottom="0" px="0.5rem" width="4rem" p="0" pt="0.5rem" borderLeft="0.5rem solid transparent" height="2rem" >
-                        <Text align="center" color="gray.100" fontSize="xxs" fontWeight={'bold'} >#</Text>
+                        <Text align="center" color="primary.100" fontSize="xxs" fontWeight={'bold'} >#</Text>
                     </Th>
                     <Th borderBottom="0" p="0" pt="0.5rem" >
-                        <Text align="left" color="gray.100" fontSize="xxs" fontWeight={'bold'} >Name</Text>
+                        <Text align="left" color="primary.100" fontSize="xxs" fontWeight={'bold'} >Name</Text>
                     </Th>
                     <Th borderBottom="0" w="6rem" p="0" pt="0.5rem">
-                        <Text align="center" color="gray.100" fontSize="xxs" >Score</Text>
+                        <Text align="center" color="primary.100" fontSize="xxs" >Score</Text>
                     </Th>
                 </Tr>
             </Thead>
@@ -121,9 +121,9 @@ export default function ScoreboardMulti(props) {
 
         // teamElems.push(
         //     <HStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} key={'playerheader'}>
-        //         <Text as="span" w='4rem' align="center" fontSize="xxs" color="gray.200">#</Text>
-        //         <Text as="span" w='13rem' align="left" fontSize="xxs" color="gray.200">Name</Text>
-        //         <Text as="span" w='6rem' align="center" fontSize="xxs" color="gray.200">Score</Text>
+        //         <Text as="span" w='4rem' align="center" fontSize="xxs" color="primary.200">#</Text>
+        //         <Text as="span" w='13rem' align="left" fontSize="xxs" color="primary.200">Name</Text>
+        //         <Text as="span" w='6rem' align="center" fontSize="xxs" color="primary.200">Score</Text>
         //     </HStack>
         // );
 
@@ -189,8 +189,8 @@ function ScoreboardPlayersMulti(props) {
 
                 borderBottom="0"
                 borderLeft={'0.3rem solid'}
-                borderLeftColor={props.isNext ? 'gray.100' : 'transparent'}
-            //bgColor="gray.1000"
+                borderLeftColor={props.isNext ? 'primary.100' : 'transparent'}
+            //bgColor="primary.1000"
             >
                 <HStack px="0.5rem" width="4rem" justifyContent={'center'} alignItems={'center'} height="1.6rem" >
                     <Image
@@ -212,12 +212,12 @@ function ScoreboardPlayersMulti(props) {
                     lineHeight="2.5rem"
                     align="left"
                     fontSize="xxs"
-                    color={player.ingame === false ? 'gray.175' : "white"}
+                    color={player.ingame === false ? 'primary.175' : "white"}
                     whiteSpace="nowrap"
                     overflow="hidden"
                     textOverflow={'ellipsis'}
                     maxHeight="2.5rem"
-                //bgColor="gray.1000"
+                //bgColor="primary.1000"
                 >
                     {displayname}
                 </Text>
@@ -227,17 +227,17 @@ function ScoreboardPlayersMulti(props) {
                 pt="0.5rem"
                 borderBottom="0"
             // borderRight={'0.5rem solid ' + props?.team?.color}
-            //bgColor="gray.900"
+            //bgColor="primary.900"
             >
-                <Text w='6rem' align="center" fontSize="xxs" lineHeight="1.6rem" color={player.ingame === false ? 'gray.175' : "gray.100"}>{player.score}</Text>
+                <Text w='6rem' align="center" fontSize="xxs" lineHeight="1.6rem" color={player.ingame === false ? 'primary.175' : "primary.100"}>{player.score}</Text>
             </Td>
         </Tr>
         // <HStack width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={props.isNext ? 'bold' : ''} key={"player-rank-" + player.name}
         //     borderRight={'0.5rem solid ' + props?.team?.color}
         //     borderLeft={'0.5rem solid'}
-        //     borderLeftColor={props.isNext ? 'gray.100' : 'transparent'}
+        //     borderLeftColor={props.isNext ? 'primary.100' : 'transparent'}
         //     height="1.6rem">
-        //     {/* <Text w='3rem' align="center" fontSize="xxs" color="gray.100"></Text> */}
+        //     {/* <Text w='3rem' align="center" fontSize="xxs" color="primary.100"></Text> */}
 
 
 

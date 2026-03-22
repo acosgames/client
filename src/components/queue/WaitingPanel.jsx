@@ -28,7 +28,7 @@ export default function WaitingPanel({}) {
           w="100%"
           borderTop="0"
           borderBottom="0"
-          bgColor="gray.800"
+          bgColor="primary.800"
           borderRadius="0.5rem"
         >
           <AccordionButton
@@ -42,7 +42,7 @@ export default function WaitingPanel({}) {
                 as="h4"
                 fontWeight={"bold"}
                 fontSize="1.6rem"
-                color="gray.0"
+                color="primary.0"
                 flex="1"
                 textAlign={"left"}
                 pl="1rem"
@@ -62,14 +62,14 @@ export default function WaitingPanel({}) {
                 justifyContent={"center"}
                 width="2.4rem"
                 height="2.4rem"
-                // border="2px solid var(--chakra-colors-gray-900)"
+                // border="2px solid var(--chakra-colors-primary-900)"
                 // boxShadow={
                 //   "inset 0.2em 0.2em 0.2em 0 rgba(255,255,255,0.2), inset -0.2em -0.2em 0.2em 0 rgba(0,0,0,0.2)"
                 // }
               >
                 <Text
                   as="span"
-                  color="gray.0"
+                  color="primary.0"
                   fontWeight="bold"
                   fontSize="1.4rem"
                   display="inline-block"
@@ -79,7 +79,7 @@ export default function WaitingPanel({}) {
                   3
                 </Text>
               </VStack>
-              <AccordionIcon position="relative" top="0.3rem" color="gray.50" />
+              <AccordionIcon position="relative" top="0.3rem" color="primary.50" />
             </HStack>
           </AccordionButton>
           <Box
@@ -104,7 +104,7 @@ export default function WaitingPanel({}) {
 function NoQueues() {
   return (
     <Box fontSize="1.4rem">
-      <Text as="span" color="gray.50">
+      <Text as="span" color="primary.50">
         no players in queue
       </Text>
     </Box>
@@ -123,12 +123,12 @@ function GamesWithQueue({ isOpen }) {
       spacing="0"
       position="relative"
       overflow="hidden"
-      bgColor="gray.800"
+      bgColor="primary.800"
     >
       <ChakraSimpleBar
         boxSizing="border-box"
         maxHeight={!isOpen ? "20rem" : "0%"}
-        borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+        borderTop={["2px solid var(--chakra-colors-primary-800)"]}
         style={{
           width: "100%",
           height: "auto",
@@ -168,7 +168,7 @@ function GameQueue() {
       width="100%"
       justifyContent={"flex-start"}
       alignItems={"center"}
-      bgColor="gray.1100"
+      bgColor="primary.1100"
       p="0.5rem"
       borderRadius={"8px"}
     >
@@ -201,7 +201,7 @@ function GameQueue() {
         >
           Advanced Tic Tac Toe
         </Text>
-        <Text as="span" fontSize="1rem" fontWeight={"medium"} color="gray.20">
+        <Text as="span" fontSize="1rem" fontWeight={"medium"} color="primary.20">
           <Text as="span" fontWeight="bold">
             2
           </Text>{" "}
@@ -213,9 +213,9 @@ function GameQueue() {
             fontWeight={"bold"}
             // lineHeight="2rem"
             display="inline-block"
-            bgColor="gray.900"
+            bgColor="primary.900"
             borderRadius="0.8rem"
-            color="gray.0"
+            color="primary.0"
             py="0rem"
             px="1rem"
             // h="2rem"
@@ -234,7 +234,7 @@ function GameQueue() {
             transition={"all 0.2s ease"}
             _hover={{
               borderColor: "brand.300",
-              color: "gray.900",
+              color: "primary.900",
               bgColor: "brand.300",
             }}
           >
@@ -246,14 +246,14 @@ function GameQueue() {
             height="3rem"
             bgColor="yellow.400"
             border="0"
-            color="gray.700"
+            color="primary.700"
             borderRadius={"2rem"}
             fontSize="1rem"
             fontWeight="bold"
             transition={"all 0.2s ease"}
             _hover={{
               //   borderColor: "brand.300",
-              color: "gray.900",
+              color: "primary.900",
               bgColor: "brand.300",
             }}
           >

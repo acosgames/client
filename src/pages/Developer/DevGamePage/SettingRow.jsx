@@ -10,11 +10,11 @@ export default function SettingRow({ title, value, fontSize, hideBorder }) {
             pr="3rem"
             pt="0.25rem"
             borderBottom={
-                !hideBorder ? "1px dotted var(--chakra-colors-gray-700)" : ""
+                !hideBorder ? "1px dotted var(--chakra-colors-primary-700)" : ""
             }
         >
             <Text
-                color={"gray.50"}
+                color={"primary.50"}
                 fontSize={fontSize || "1.6rem"}
                 fontWeight="400"
             >
@@ -25,7 +25,7 @@ export default function SettingRow({ title, value, fontSize, hideBorder }) {
                 as="span"
                 fontSize={fontSize || "1.6rem"}
                 fontWeight="500"
-                color={"gray.50"}
+                color={"primary.50"}
             >
                 {value}
             </Text>

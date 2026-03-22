@@ -13,7 +13,7 @@ function FSGGroup(props) {
                 // ml="0rem"
                 pl="1rem"
                 // pr="0.4rem"
-                bgColor="gray.900"
+                bgColor="primary.900"
                 borderRadius="4px"
                 align={props.align}
                 w="auto"
@@ -22,7 +22,7 @@ function FSGGroup(props) {
                 pb={props.hpb || "1rem"}
                 fontSize={props.hfontSize || "2xl"}
                 fontWeight={props.hfontWeight || "700"}
-                color={props.hcolor || "gray.100"}>
+                color={props.hcolor || "primary.100"}>
                 {props.title}
             </Text>
             <VStack
@@ -31,7 +31,7 @@ function FSGGroup(props) {
                 pr={props.pr || ['1rem', '2rem', "3rem"]}
                 pt={props.pt || "1rem"}
                 pb={props.pb || "1rem"}
-                // divider={<StackDivider borderColor='gray.700' ml="-3rem" mr="-3rem" mt="2rem" mb="`2rem" />}
+                // divider={<StackDivider borderColor='primary.700' ml="-3rem" mr="-3rem" mt="2rem" mb="`2rem" />}
                 // border={`1px solid #000`}
                 // borderColor="#171c26"
                 spacing={props.spacing || "2rem"}

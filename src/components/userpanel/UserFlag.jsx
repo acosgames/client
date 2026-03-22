@@ -10,7 +10,7 @@ export default function UserFlag({ flag }) {
         <Image
             src={`${config.https.cdn}images/country/${user.countrycode}.svg`}
             // border="2px solid"
-            // borderColor="gray.100"
+            // borderColor="primary.100"
             // borderRadius="0px"
             height={["1.2rem"]}
             mb="0.25rem"

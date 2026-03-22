@@ -29,7 +29,7 @@ export default function PlayerSettings({}) {
                 </Heading>
             </CardHeader>
             <CardBody>
-                <Box borderTop="1px dotted var(--chakra-colors-gray-700)"></Box>
+                <Box borderTop="1px dotted var(--chakra-colors-primary-700)"></Box>
                 <SettingRow title={"Min Players"} value={devgame?.minplayers} />
                 <SettingRow title={"Max Players"} value={devgame?.maxplayers} />
             </CardBody>

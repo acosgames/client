@@ -14,7 +14,7 @@ export default function ScoreboardTimer(props) {
 
     return (
         <VStack
-            //bgColor="gray.1100"
+            //bgColor="primary.1100"
             width={props.isBottomLayout ? '100%' : ['30rem', '30rem', '30rem']}//, '40rem']}
             height={['4rem']}
             spacing="0"

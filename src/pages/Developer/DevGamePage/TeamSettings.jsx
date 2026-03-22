@@ -36,7 +36,7 @@ export default function TeamSettings({}) {
                 </Heading>
             </CardHeader>
             <CardBody>
-                <Box borderTop="1px dotted var(--chakra-colors-gray-700)"></Box>
+                <Box borderTop="1px dotted var(--chakra-colors-primary-700)"></Box>
                 <SettingRow title={"Min Teams"} value={devgame?.minteams} />
                 <SettingRow title={"Max Teams"} value={devgame?.maxteams} />
             </CardBody>

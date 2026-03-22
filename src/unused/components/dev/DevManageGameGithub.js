@@ -26,12 +26,12 @@ function DevManageGameGithub(props) {
 
     return (
         <VStack w="100%" alignItems={"flex-start"}>
-            <Text as="span" fontSize="xs" fontWeight={"light"} color="gray.100">
+            <Text as="span" fontSize="xs" fontWeight={"light"} color="primary.100">
                 Clone your{" "}
                 <Link
                     target="_blank"
                     fontWeight={"light"}
-                    color="gray.100"
+                    color="primary.100"
                     fontSize="sm"
                     href={githubURL}
                 >
@@ -39,18 +39,18 @@ function DevManageGameGithub(props) {
                 </Link>{" "}
                 to get started
             </Text>
-            {/* <Link target="_blank" fontWeight={'light'} color="gray.100" fontSize="sm" href={githubURL}>{githubURL}</Link> */}
+            {/* <Link target="_blank" fontWeight={'light'} color="primary.100" fontSize="sm" href={githubURL}>{githubURL}</Link> */}
             {/* <Text>
-                <Link target="_blank" color="gray.300" fontSize="xs" href="https://sdk.acos.games/#start-from-an-existing-game-template"><Icon as={FaExternalLinkAlt} color="white" fontSize="xs" /> Instructions to start from existing game template</Link>
+                <Link target="_blank" color="primary.300" fontSize="xs" href="https://sdk.acos.games/#start-from-an-existing-game-template"><Icon as={FaExternalLinkAlt} color="white" fontSize="xs" /> Instructions to start from existing game template</Link>
             </Text> */}
             <HStack w="100%">
                 <FSGCopyText
                     value={cloneCmd}
                     copyRef={copyRef}
-                    color={"gray.100"}
+                    color={"primary.100"}
                     fontSize={"xs"}
                     fontWeight={"light"}
-                    bgColor={"gray.700"}
+                    bgColor={"primary.700"}
                     maxWidth={"500px"}
                     onFocus={(e) => {
                         e.target.select();

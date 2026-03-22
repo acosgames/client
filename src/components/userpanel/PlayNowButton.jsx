@@ -1,6 +1,6 @@
 import { Button, Text, VStack } from "@chakra-ui/react";
 import { getPrimaryGamePanel, setLastJoinType } from "../../actions/room";
-import { validateLogin } from "../../actions/connection";
+import { validateLogin } from "../../actions/person";
 import { joinGame } from "../../actions/game";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -88,7 +88,7 @@ function JoinButton({ handleJoin, inQueue }) {
             transform={["skewX(-15deg)"]}
             className={"cta " + (inQueue ? "queued" : "")}
             zIndex={2}
-            bgColor={inQueue ? "gray.1000" : "gray.1000"}
+            bgColor={inQueue ? "primary.1000" : "primary.1000"}
             //   mt="1rem"
             px="3rem"
             pr="2rem"
@@ -106,7 +106,7 @@ function JoinButton({ handleJoin, inQueue }) {
                     {inQueue ? "Queued" : "Play Now"}
                 </Text>
                 <Text
-                    color="gray.20"
+                    color="primary.20"
                     as="p"
                     pl="0.5rem"
                     textAlign={"left"}

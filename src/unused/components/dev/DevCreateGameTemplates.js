@@ -25,8 +25,8 @@ function GameNone(props) {
         <VStack>
 
             <Radio value='0'>
-                <Box w="118px" h="118px" border="1px solid" borderColor="gray.600">
-                    <Icon as={IoCloseSharp} w={'118px'} h={'118px'} color='gray.600' />
+                <Box w="118px" h="118px" border="1px solid" borderColor="primary.600">
+                    <Icon as={IoCloseSharp} w={'118px'} h={'118px'} color='primary.600' />
                 </Box>
                 No Template
             </Radio>

@@ -50,14 +50,14 @@ function ChatPanel(props) {
             as={AiFillCloseCircle}
             filter={"drop-shadow(0px -12px 24px rgba(0,0,0,0.2))"}
             fontSize="2rem"
-            color={"gray.400"}
+            color={"primary.400"}
         />
     ) : (
         <Icon
             as={BsChatDotsFill}
             filter={"drop-shadow(0px -12px 24px rgba(0,0,0,0.2))"}
             fontSize="2rem"
-            color={"gray.100"}
+            color={"primary.100"}
         />
     );
     let mobileIcon = toggle ? (
@@ -65,14 +65,14 @@ function ChatPanel(props) {
             as={AiFillCloseCircle}
             filter={"drop-shadow(0px -12px 24px rgba(0,0,0,0.2))"}
             fontSize="2rem"
-            color={"gray.400"}
+            color={"primary.400"}
         />
     ) : (
         <Icon
             as={BsChatDotsFill}
             filter={"drop-shadow(0px -12px 24px rgba(0,0,0,0.2))"}
             fontSize="2rem"
-            color={"gray.100"}
+            color={"primary.100"}
         />
     );
 
@@ -103,7 +103,7 @@ function ChatPanel(props) {
             minHeight={!isBottomLayout ? "100%" : ""}
             position="relative"
             borderLeft="1px solid"
-            borderLeftColor="gray.800"
+            borderLeftColor="primary.800"
         >
             <VStack
                 transition="width 0.3s ease, height 0.3s ease"
@@ -116,7 +116,7 @@ function ChatPanel(props) {
                 spacing="0"
                 mt="0"
                 borderLeft="2px solid"
-                borderLeftColor="gray.900"
+                borderLeftColor="primary.900"
             >
                 <Scoreboard toggle={toggle} layoutMode={layoutMode} />
                 <ChatView toggle={toggle} layoutMode={layoutMode} />
@@ -263,7 +263,7 @@ function ChatHeader(props) {
     return (
         <HStack
             pl={"1rem"}
-            bgColor="gray.800"
+            bgColor="primary.800"
             width={
                 props.isBottomLayout ? "100%" : ["24.0rem", "24rem", "28.0rem"]
             }
@@ -411,7 +411,7 @@ function ChatMessage(props) {
 
     return (
         <Box
-            bgColor="gray.700"
+            bgColor="primary.700"
             borderRadius="2rem"
             p={["0.2rem", "0.2rem", "0.5rem"]}
             my="0.0rem"
@@ -485,13 +485,13 @@ function ChatSend(props) {
                 pr={"3rem"}
                 height={["3rem", "3rem", "4rem"]}
                 border="0"
-                bgColor="gray.900"
-                color="gray.100"
+                bgColor="primary.900"
+                color="primary.100"
                 fontSize="xs"
                 placeholder="Type a message..."
                 autoComplete="off"
-                _focus={{ outline: "gray.100", bgColor: "black" }}
-                _placeholder={{ color: "gray.175" }}
+                _focus={{ outline: "primary.100", bgColor: "black" }}
+                _placeholder={{ color: "primary.175" }}
                 value={chatMessage || ""}
                 onChange={inputChange}
                 onKeyUp={(e) => {

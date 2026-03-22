@@ -27,14 +27,14 @@ export default function ScoreboardSolo(props) {
         <VStack spacing="0" width="100%" justifyContent={'center'} alignItems={'center'} fontWeight={isNext ? 'bold' : ''} key={"player-rank-" + player.name}
 
         >
-            {/* <Text w='3rem' align="center" fontSize="xxs" color="gray.100"></Text> */}
+            {/* <Text w='3rem' align="center" fontSize="xxs" color="primary.100"></Text> */}
             {/* <Text
                 w='100%'
                 align="center"
                 pr="1rem"
                 pl="1rem"
                 fontSize="sm"
-                color={player.ingame === false ? 'gray.175' : "white"}
+                color={player.ingame === false ? 'primary.175' : "white"}
                 whiteSpace="nowrap"
                 overflow="hidden"
                 textOverflow={'ellipsis'}
@@ -45,8 +45,8 @@ export default function ScoreboardSolo(props) {
             >
                 {player.name}
             </Text> */}
-            <Text as="span" align="center" fontWeight="light" fontSize="lg" color="gray.100">Score</Text>
-            <Text lineHeight='3rem' height="3rem" w='6rem' align="center" fontSize="4xl" color={player.ingame === false ? 'gray.175' : "gray.100"}>{player.score}</Text>
+            <Text as="span" align="center" fontWeight="light" fontSize="lg" color="primary.100">Score</Text>
+            <Text lineHeight='3rem' height="3rem" w='6rem' align="center" fontSize="4xl" color={player.ingame === false ? 'primary.175' : "primary.100"}>{player.score}</Text>
         </VStack>
     )
 }

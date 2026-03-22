@@ -29,7 +29,7 @@ function updateCountryLabels() {
                 <img
                     src={flagSrc + cc.value + ".svg"}
                     // border="2px solid"
-                    borderColor="gray.100"
+                    borderColor="primary.100"
                     borderRadius="0px"
                     height={["1.4rem"]}
                     loading="lazy"
@@ -77,37 +77,37 @@ export default function ChooseLeaderboardCountry({
                     }),
                     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
                         return {
-                            color: "var(--chakra-colors-gray-50)",
+                            color: "var(--chakra-colors-primary-50)",
                             fontSize: "1.2rem",
                             padding: "1rem",
-                            backgroundColor: "var(--chakra-colors-gray-900)",
+                            backgroundColor: "var(--chakra-colors-primary-900)",
                             borderBottom: "1px solid",
-                            borderBottomColor: "var(--chakra-colors-gray-800)",
+                            borderBottomColor: "var(--chakra-colors-primary-800)",
                             position: "relative",
                             paddingLeft: "5rem",
                             // zIndex: "1",
-                            background: `url(${flagSrc}/${data.value}.svg) no-repeat left 1rem center var(--chakra-colors-gray-900)`,
+                            background: `url(${flagSrc}/${data.value}.svg) no-repeat left 1rem center var(--chakra-colors-primary-900)`,
                             backgroundSize: data.value == "EARTH" ? "34px 34px" : "",
                             ":hover": {
                                 ...styles[":hover"],
-                                color: "var(--chakra-colors-gray-10)",
-                                backgroundColor: "var(--chakra-colors-gray-875)",
+                                color: "var(--chakra-colors-primary-10)",
+                                backgroundColor: "var(--chakra-colors-primary-875)",
                             },
                         };
                     },
                     valueContainer: (styles) => ({
                         ...styles,
                         padding: 0,
-                        // background: 'var(--chakra-colors-gray-900)',
+                        // background: 'var(--chakra-colors-primary-900)',
                     }),
                     placeholder: (styles) => ({
-                        color: "var(--chakra-colors-gray-10)",
+                        color: "var(--chakra-colors-primary-10)",
 
                         fontSize: "1.2rem",
                     }),
                     menu: (styles) => ({
-                        // backgroundColor: 'var(--chakra-colors-gray-800)',
-                        backgroundColor: bgColor ? bgColor : "var(--chakra-colors-gray-900)",
+                        // backgroundColor: 'var(--chakra-colors-primary-800)',
+                        backgroundColor: bgColor ? bgColor : "var(--chakra-colors-primary-900)",
                         width: "100%",
                         padding: 0,
                         margin: 0,
@@ -119,15 +119,15 @@ export default function ChooseLeaderboardCountry({
                     }),
                     input: (styles) => ({
                         ...styles,
-                        color: "var(--chakra-colors-gray-10)",
-                        background: bgColor ? bgColor : "var(--chakra-colors-gray-600)",
+                        color: "var(--chakra-colors-primary-10)",
+                        background: bgColor ? bgColor : "var(--chakra-colors-primary-600)",
                         // fontSize: '1.6rem',
                         // paddingLeft: '4rem',
                     }),
                     control: (baseStyles, styles) => ({
                         padding: "0",
                         borderRadius: "8px",
-                        background: bgColor ? bgColor : "var(--chakra-colors-gray-1200)",
+                        background: bgColor ? bgColor : "var(--chakra-colors-primary-1200)",
                     }),
 
                     indicatorsContainer: (styles) => ({
@@ -135,26 +135,26 @@ export default function ChooseLeaderboardCountry({
                         position: "absolute",
                         top: 0,
                         right: "0px",
-                        color: "var(--chakra-colors-gray-10)",
+                        color: "var(--chakra-colors-primary-10)",
                         ":hover": {
-                            color: "var(--chakra-colors-gray-10)",
+                            color: "var(--chakra-colors-primary-10)",
                         },
                         ":active": {
-                            color: "var(--chakra-colors-gray-10)",
+                            color: "var(--chakra-colors-primary-10)",
                         },
                     }),
                     singleValue: (styles, { data }) => ({
                         ...styles,
-                        color: "var(--chakra-colors-gray-10)",
+                        color: "var(--chakra-colors-primary-10)",
                         fontSize: "1.4rem",
                         padding: "0.5rem",
                         marginBottom: "0.1rem",
-                        backgroundColor: bgColor ? bgColor : "var(--chakra-colors-gray-1200)",
+                        backgroundColor: bgColor ? bgColor : "var(--chakra-colors-primary-1200)",
                         // borderBottom: '1px solid',
-                        // borderBottomColor: 'var(--chakra-colors-gray-800)',
+                        // borderBottomColor: 'var(--chakra-colors-primary-800)',
                         position: "relative",
                         paddingLeft: "4rem",
-                        background: `url(${flagSrc}/${data.value}.svg) no-repeat left 0rem center var(--chakra-colors-gray-1200)`,
+                        background: `url(${flagSrc}/${data.value}.svg) no-repeat left 0rem center var(--chakra-colors-primary-1200)`,
                         backgroundSize: data.value == "EARTH" ? "28px 28px" : "",
                     }),
                 }}

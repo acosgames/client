@@ -67,7 +67,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
     //             // ml="0.25rem"
     //             display="inline-block"
     //             verticalAlign={"middle"}
-    //             borderColor="gray.100"
+    //             borderColor="primary.100"
     //             borderRadius="4px"
     //             w="3rem"
     //             h="1.8rem"
@@ -78,7 +78,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
     //             as="span"
     //             fontSize="1.4rem"
     //             fontWeight="600"
-    //             color="gray.30"
+    //             color="primary.30"
     //             // lineHeight="2rem"
     //             // overflow="hidden"
     //             // textOverflow={"ellipsis"}
@@ -98,7 +98,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
     //             fontSize="1.2rem"
     //             lineHeight={"1rem"}
     //             fontWeight="medium"
-    //             color="gray.0"
+    //             color="primary.0"
     //             wordBreak={"break-all"}
     //             // width="100%"
     //           >
@@ -121,7 +121,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
             <VStack
                 w="100%"
                 spacing="0"
-                // bgColor="gray.1000"
+                // bgColor="primary.1000"
                 // mx={["0.125rem", "0.25rem"]}
                 // px={["0.25rem", "0.5rem"]}
                 pt="0.5rem"
@@ -130,11 +130,11 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                 alignItems={"flex-start"}
                 onClick={onClick}
                 // border="1px solid"
-                // borderColor="gray.750"
+                // borderColor="primary.750"
                 _hover={{
-                    bgColor: "gray.900",
+                    bgColor: "primary.900",
                 }}
-                // bgColor="gray.750"
+                // bgColor="primary.750"
                 borderRadius={"8px"}
                 // borderTopLeftRadius={"0"}
                 // clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
@@ -161,7 +161,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                         <Image
                             src={`${config.https.cdn}images/country/${countrycode}.svg`}
                             // mt="0.5rem"
-                            borderColor="gray.100"
+                            borderColor="primary.100"
                             borderRadius="3px"
                             w="1.5rem"
                             h="1.1rem"
@@ -206,7 +206,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                                 // ml="0.25rem"
                                 display="inline-block"
                                 verticalAlign={"middle"}
-                                borderColor="gray.100"
+                                borderColor="primary.100"
                                 borderRadius="2px"
                                 w="1.8rem"
                                 h="1.35rem"
@@ -224,7 +224,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                                 // justifySelf={"flex-end"}
                                 fontSize="1rem"
                                 fontWeight="300"
-                                color="gray.100"
+                                color="primary.100"
                                 // height="1rem"
                                 // lineHeight={"1rem"}
                                 position="relative"
@@ -242,7 +242,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                             p="0"
                             pt="0rem"
                             // pb="1rem"
-                            // bgColor="gray.900"
+                            // bgColor="primary.900"
                             borderRadius={"8px"}
                         >
                             <Text
@@ -252,7 +252,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                                 fontSize="1.2rem"
                                 fontWeight="medium"
                                 lineHeight="1.5rem"
-                                color="gray.10"
+                                color="primary.10"
                                 wordBreak={"break-word"}
                                 pr="1.5rem"
                                 pb="0.5rem"
@@ -262,7 +262,7 @@ export default function ChatMessage({ portraitid, countrycode, displayname, time
                             </Text>
                         </VStack>
                     </VStack>
-                    {/* <Text fontSize="1rem" fontWeight="bold" color="gray.200">
+                    {/* <Text fontSize="1rem" fontWeight="bold" color="primary.200">
           {msgTime}
         </Text> */}
                 </HStack>
@@ -277,7 +277,7 @@ function ChatMessageMenu() {
             <MenuButton
                 as={IconButton}
                 aria-label="Options"
-                color="gray.100"
+                color="primary.100"
                 icon={<BsThreeDotsVertical fontSize="1.5rem" />}
                 variant="unstyled"
                 height="2rem"
@@ -287,15 +287,15 @@ function ChatMessageMenu() {
                 px="0.25rem"
                 // pl="0.5rem"
                 _hover={{
-                    color: "gray.0",
+                    color: "primary.0",
                 }}
                 // filter={
-                //   "drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200))"
+                //   "drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200))"
                 // }
             />
-            <MenuList zIndex={3} borderColor="gray.900" bgColor="gray.975" fontSize="1.2rem">
+            <MenuList zIndex={3} borderColor="primary.900" bgColor="primary.975" fontSize="1.2rem">
                 <MenuOptionGroup
-                    color="gray.0"
+                    color="primary.0"
                     fontWeight={"500"}
                     title="Get Involved"
                     type="checkbox"
@@ -309,9 +309,9 @@ function ChatMessageMenu() {
                         //     color="brand.300"
                         //   />
                         // }
-                        color="gray.0"
-                        bgColor="gray.975"
-                        _hover={{ bgColor: "gray.800" }}
+                        color="primary.0"
+                        bgColor="primary.975"
+                        _hover={{ bgColor: "primary.800" }}
                         // onClick={onShareClick}
                     >
                         Invite Friends
@@ -321,9 +321,9 @@ function ChatMessageMenu() {
                         // icon={
                         //   <Icon as={FaGithub} fontSize="2rem" color="brand.300" />
                         // }
-                        color="gray.0"
-                        bgColor="gray.975"
-                        _hover={{ bgColor: "gray.800" }}
+                        color="primary.0"
+                        bgColor="primary.975"
+                        _hover={{ bgColor: "primary.800" }}
                         as="a"
                         // href={`https://github.com/acosgames/${game.game_slug}/issues`}
                         target="_blank"

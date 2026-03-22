@@ -35,7 +35,7 @@ function GameInfoTop10Highscores(props) {
             elems.push(
                 <Tr key={tag + '-leaderboard-hs-' + player.value}>
                     <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'primary.300' : undefined}>
                         <HStack width="auto" justifyContent={'flex-end'} spacing="1rem">
                             {player.rank == 1 && (<Icon as={GiLaurelsTrophy} color='gold' />)}
                             {player.rank == 2 && (<Icon as={GiLaurelsTrophy} color='silver' />)}
@@ -50,7 +50,7 @@ function GameInfoTop10Highscores(props) {
                         </HStack>
                     </Td>
                     <Td borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'primary.300' : undefined}>
                         <Link to={'/profile/' + player.value}>
                             <Text
                                 fontSize="xs"
@@ -64,7 +64,7 @@ function GameInfoTop10Highscores(props) {
                     </Td>
                     <Td
                         borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.300' : undefined}>
+                        borderBottomColor={isPast5Rank ? 'primary.300' : undefined}>
                         <Text
                             fontSize="xs"
                             fontWeight={isLocalPlayer ? 'bold' : 'normal'}
@@ -104,13 +104,13 @@ function GameInfoTop10Highscores(props) {
                 >
                     <Thead fontSize="xs">
                         <Tr
-                        //borderBottomColor="gray.600"
+                        //borderBottomColor="primary.600"
                         >
-                            <Th color={'gray.100'} width="5rem" lineHeight="1rem" height="1rem">
+                            <Th color={'primary.100'} width="5rem" lineHeight="1rem" height="1rem">
                                 <HStack width="100%" justifyContent={'flex-end'} spacing="1rem"><Text fontSize="2xs">Rank</Text></HStack>
                             </Th>
-                            <Th color={'gray.100'} width="20rem" lineHeight="1rem" height="1rem" fontSize="2xs">Player</Th>
-                            <Th color={'gray.100'} width="10rem" lineHeight="1rem" height="1rem" fontSize="2xs">Score</Th>
+                            <Th color={'primary.100'} width="20rem" lineHeight="1rem" height="1rem" fontSize="2xs">Player</Th>
+                            <Th color={'primary.100'} width="10rem" lineHeight="1rem" height="1rem" fontSize="2xs">Score</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
@@ -118,9 +118,9 @@ function GameInfoTop10Highscores(props) {
                     </Tbody>
                 </Table>
 
-                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="sm" color="gray.200" fontWeight='300'>
+                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="sm" color="primary.200" fontWeight='300'>
                     <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>
-                        Rank <Text as="span" fontWeight='bold' color="gray.200">{playerRank || -1}</Text> of {lbCount}
+                        Rank <Text as="span" fontWeight='bold' color="primary.200">{playerRank || -1}</Text> of {lbCount}
                     </Text>
                 </Box>
 

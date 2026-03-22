@@ -38,9 +38,9 @@ export default function ChatSend({}) {
             width={"100%"}
             spacing="0"
             m="0"
-            // bgColor="gray.950"
+            // bgColor="primary.950"
             // mt="0.25rem"
-            // borderTop={["2px solid var(--chakra-colors-gray-800)"]}
+            // borderTop={["2px solid var(--chakra-colors-primary-800)"]}
         >
             <QuickChat />
 
@@ -56,20 +56,20 @@ export default function ChatSend({}) {
                 pl="4rem"
                 height={["3.5rem", "3.5rem", "3.5rem"]}
                 border="0"
-                bgColor="gray.800"
-                color="gray.10"
+                bgColor="primary.800"
+                color="primary.10"
                 fontSize="1.2rem"
                 placeholder="Send a message"
                 autoComplete="off"
                 shadow={""}
                 _focusVisible={{
                     outline: "0px solid",
-                    outlineColor: "gray.700",
+                    outlineColor: "primary.700",
                     //   borderTop: "1px solid",
-                    //   borderTopColor: "gray.700",
-                    bgColor: "gray.800",
+                    //   borderTopColor: "primary.700",
+                    bgColor: "primary.800",
                 }}
-                _placeholder={{ color: "gray.100", fontSize: "1.2rem" }}
+                _placeholder={{ color: "primary.100", fontSize: "1.2rem" }}
                 value={chatMessage || ""}
                 onChange={inputChange}
                 onKeyUp={(e) => {
@@ -95,7 +95,7 @@ export default function ChatSend({}) {
                     icon={<IoSend size="1.6rem" />}
                     width="2.8rem"
                     isRound="true"
-                    color="gray.20"
+                    color="primary.20"
                     _hover={{
                         color: "brand.500",
                     }}

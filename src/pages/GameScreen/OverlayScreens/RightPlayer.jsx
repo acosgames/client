@@ -24,7 +24,7 @@ export default function RightPlayer({ player }) {
             spacing="0"
             transform={"translate(100vw, 0)"}
             animation={"fromRightNoSkew 0.6s forwards 0.2s"}
-            //   bgColor="gray.875"
+            //   bgColor="primary.875"
             borderRadius="12px"
             overflow="hidden"
             zIndex="1"
@@ -35,7 +35,7 @@ export default function RightPlayer({ player }) {
                     // px="1rem"
                     pr="1rem"
                     textAlign={"center"}
-                    color="gray.0"
+                    color="primary.0"
                     fontWeight="600"
                     fontSize={["1.6rem", "1.8rem", "1.8rem", "1.8rem"]}
                     maxW={["20rem", "22rem", "20rem", "25rem"]}
@@ -43,7 +43,7 @@ export default function RightPlayer({ player }) {
                     whiteSpace={"nowrap"}
                     textOverflow={"ellipsis"}
                     textShadow={
-                        "0 2px 3px var(--chakra-colors-gray-900),0 2px 6px var(--chakra-colors-gray-900)"
+                        "0 2px 3px var(--chakra-colors-primary-900),0 2px 6px var(--chakra-colors-primary-900)"
                     }
                 >
                     {player.displayname}
@@ -70,7 +70,7 @@ export default function RightPlayer({ player }) {
                         <Image
                             src={`${config.https.cdn}images/country/${player.countrycode}.svg`}
                             // mt="0.5rem"
-                            borderColor="gray.100"
+                            borderColor="primary.100"
                             borderRadius="0px"
                             width="4rem"
                             filter="opacity(0.8)"
@@ -83,21 +83,21 @@ export default function RightPlayer({ player }) {
                     >
                         <Text
                             as="span"
-                            color="gray.100"
+                            color="primary.100"
                             fontWeight="600"
                             fontSize="1.6rem"
                             lineHeight={"1.3rem"}
-                            //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
+                            //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-primary-900)"}
                         >
                             Class {ratingClass}
                         </Text>
                         <Text
                             as="span"
-                            color="gray.100"
+                            color="primary.100"
                             fontWeight="500"
                             fontSize="1.2rem"
                             lineHeight={"1.3rem"}
-                            //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-gray-900)"}
+                            //   textShadow={"0 2px 3px black,0 2px 6px var(--chakra-colors-primary-900)"}
                         >
                             {player.rating}
                         </Text>

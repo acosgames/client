@@ -39,7 +39,7 @@ function Sidebar(props) {
             h="100%"
             marginTop="0"
             id="wrapper-sidebar"
-            bgColor={'gray.1200'}
+            bgColor={'primary.1200'}
             // boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
             // borderRadius={navSize == "small" ? "15px" : "30px"}
             w={['4rem', '4rem', '18rem']}

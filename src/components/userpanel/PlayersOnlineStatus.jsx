@@ -13,7 +13,7 @@ export default function PlayersOnlineStatus({}) {
           "inset 0.2em 0.2em 0.2em 0 rgba(255,255,255,0.2), inset -0.2em -0.2em 0.2em 0 rgba(0,0,0,0.2)"
         }
       />
-      <Text as="span" color="gray.0" fontWeight={"light"} fontSize="1rem">
+      <Text as="span" color="primary.0" fontWeight={"light"} fontSize="1rem">
         25 online
       </Text>
     </HStack>

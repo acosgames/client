@@ -44,10 +44,10 @@ function GameInfoTop10(props) {
             let ratingImageFile = ratingTxt.replace(/ /ig, '');
 
             elems.push(
-                <Tr key={tag + '-leaderboard-' + player.value} lineHeight="4rem" height="4rem" borderColor="gray.100" >
+                <Tr key={tag + '-leaderboard-' + player.value} lineHeight="4rem" height="4rem" borderColor="primary.100" >
                     <Td isNumeric borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.800' : 'gray.600'}
-                    // bgColor="gray.600"
+                        borderBottomColor={isPast5Rank ? 'primary.800' : 'primary.600'}
+                    // bgColor="primary.600"
                     >
                         <HStack width="auto" justifyContent={'flex-end'} spacing="1rem">
                             {player.rank == 1 && (<Icon as={GiLaurelsTrophy} color='gold' />)}
@@ -64,8 +64,8 @@ function GameInfoTop10(props) {
                         </HStack>
                     </Td>
                     <Td borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.800' : 'gray.600'}
-                    // bgColor="gray.400"
+                        borderBottomColor={isPast5Rank ? 'primary.800' : 'primary.600'}
+                    // bgColor="primary.400"
                     >
 
                         <Link to={'/profile/' + player.value}>
@@ -81,8 +81,8 @@ function GameInfoTop10(props) {
                     </Td>
                     <Td
                         borderBottom={isPast5Rank ? '2px solid' : undefined}
-                        borderBottomColor={isPast5Rank ? 'gray.800' : 'gray.600'}
-                    // bgColor="gray.100"
+                        borderBottomColor={isPast5Rank ? 'primary.800' : 'primary.600'}
+                    // bgColor="primary.100"
                     >
                         <HStack>
                             <Image
@@ -131,21 +131,21 @@ function GameInfoTop10(props) {
                 >
                     <Thead >
                         <Tr
-                        //borderBottomColor="gray.600"
+                        //borderBottomColor="primary.600"
                         >
-                            <Th color={'gray.100'} width="5rem" lineHeight="1rem" height="1rem">
+                            <Th color={'primary.100'} width="5rem" lineHeight="1rem" height="1rem">
                                 <HStack width="100%" justifyContent={'flex-end'} spacing="1rem"><Text fontSize="2xs">Rank</Text></HStack>
                             </Th>
-                            <Th color={'gray.100'} width="20rem" lineHeight="1rem" height="1rem" fontSize="2xs">Player</Th>
-                            <Th color={'gray.100'} width="10rem" lineHeight="1rem" height="1rem" fontSize="2xs">Rating</Th>
+                            <Th color={'primary.100'} width="20rem" lineHeight="1rem" height="1rem" fontSize="2xs">Player</Th>
+                            <Th color={'primary.100'} width="10rem" lineHeight="1rem" height="1rem" fontSize="2xs">Rating</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         {renderRankings()}
                     </Tbody>
                 </Table>
-                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="sm" color="gray.200" fontWeight='300'>
-                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="gray.200">{playerRank || -1}</Text> of {lbCount}
+                <Box w="100%" display={playerRank == -1 ? 'none' : 'block'} lineHeight="3rem" height="3rem" pt="1rem" fontSize="sm" color="primary.200" fontWeight='300'>
+                    <Text align='center' display={lbCount > 0 ? 'block' : 'none'}>Rank <Text as="span" fontWeight='bold' color="primary.200">{playerRank || -1}</Text> of {lbCount}
                         {/* in
                         <Text as="span" > Rankings</Text> */}
                     </Text>

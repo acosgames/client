@@ -49,12 +49,12 @@ export function RatingTable({ type, playerRank, total, leaderboard }) {
 
     return (
         <>
-            <HStack w="100%" spacing="1rem" py="1rem" bgColor="gray.1200">
+            <HStack w="100%" spacing="1rem" py="1rem" bgColor="primary.1200">
                 <Text
                     w={["5rem", "5rem", "6rem", "6rem"]}
                     as="span"
                     p="0"
-                    color={"gray.100"}
+                    color={"primary.20"}
                     fontSize="xs"
                     textAlign={"right"}
                 >
@@ -65,7 +65,7 @@ export function RatingTable({ type, playerRank, total, leaderboard }) {
                     minW="0"
                     flex="1"
                     p="0"
-                    color={"gray.100"}
+                    color={"primary.20"}
                     fontSize="xs"
                     w={["70%", "70%", "60%", "60%"]}
                     // pl={["5rem", "5rem", "7rem", "7rem"]}
@@ -77,7 +77,7 @@ export function RatingTable({ type, playerRank, total, leaderboard }) {
                     justifySelf="flex-end"
                     as="span"
                     p="0"
-                    color={"gray.100"}
+                    color={"primary.20"}
                     fontSize="xs"
                     textAlign="right"
                     pr={["1rem", "1rem", "2.5rem"]}
@@ -91,7 +91,7 @@ export function RatingTable({ type, playerRank, total, leaderboard }) {
                     fontSize="1.6rem"
                     align="center"
                     display={total > 0 ? "block" : "none"}
-                    color="gray.10"
+                    color="primary.10"
                 >
                     Rank{" "}
                     <Text as="span" fontWeight="500" color="brand.100">
@@ -108,7 +108,7 @@ export function RatingTable({ type, playerRank, total, leaderboard }) {
                     fontSize="1.6rem"
                     align="center"
                     display={total > 0 ? "block" : "none"}
-                    color="gray.10"
+                    color="primary.10"
                 >
                     Play games to be listed
                 </Text>

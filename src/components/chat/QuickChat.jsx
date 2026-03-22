@@ -134,7 +134,7 @@ function ChatChoices({ category, onClickChatMessage }) {
             position="absolute"
             bottom="0"
             left="8rem"
-            bgColor="gray.900"
+            bgColor="primary.900"
             borderRadius="8px"
         >
             {quickMessages[category].map((msg) => (
@@ -153,20 +153,20 @@ function ChatChoice({ msg, onClickChatMessage }) {
         <Button
             w="100%"
             textAlign={"center"}
-            bg="linear-gradient(to right,var(--chakra-colors-gray-600) 50%, var(--chakra-colors-gray-800))"
-            color="gray.0"
+            bg="linear-gradient(to right,var(--chakra-colors-primary-600) 50%, var(--chakra-colors-primary-800))"
+            color="primary.0"
             borderRadius="8px"
             border="1px solid"
-            borderColor="gray.825"
+            borderColor="primary.825"
             p="1rem"
             py="2rem"
             //   transition="all 0.1s linear"
             //   letterSpacing={"-1px"}
-            textShadow="1px 1px 3px var(--chakra-colors-gray-200)"
+            textShadow="1px 1px 3px var(--chakra-colors-primary-200)"
             justifyContent={"center"}
             _hover={{
                 bg: "brand.300",
-                color: "gray.0",
+                color: "primary.0",
             }}
             onClick={(e) => onClickChatMessage(e, msg)}
         >
@@ -202,11 +202,11 @@ function OrbitButton({ icon, degrees, radius, category, onClickCategory }) {
             width={`${width}px`}
             height={`${height}px`}
             isRound="true"
-            color="gray.0"
-            bgColor="gray.60"
-            bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
+            color="primary.0"
+            bgColor="primary.60"
+            bg="linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))"
             border="2px solid"
-            borderColor="gray.600"
+            borderColor="primary.600"
             _hover={{
                 // bgColor: "brand.500",
                 color: "brand.200",
@@ -215,7 +215,7 @@ function OrbitButton({ icon, degrees, radius, category, onClickCategory }) {
             }}
             _focus={{
                 // bgColor: "brand.500",
-                bg: "linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))",
+                bg: "linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))",
                 color: "brand.200",
                 zIndex: 11,
                 transform: `translate(${x}px, ${y}px) scale(1.2)`,

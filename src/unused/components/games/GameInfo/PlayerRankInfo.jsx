@@ -49,14 +49,14 @@ function PlayerRankInfo(props) {
                 <HStack>
                     <Text
                         display={played >= 10 ? 'block' : 'none'}
-                        color="gray.50"
+                        color="primary.50"
                         fontSize={['xs', 'xs', 'md',]}
                         fontWeight="bold"
                         lineHeight={'1.6rem'}
                         pr={'1rem'}
                         align="center">{stats.rating} </Text>
                     <Text
-                        color="gray.50"
+                        color="primary.50"
                         display={played < 10 ? 'block' : 'none'}
                         fontSize={['xxs', 'xs', 'xs']}
                         pl="0.5rem"

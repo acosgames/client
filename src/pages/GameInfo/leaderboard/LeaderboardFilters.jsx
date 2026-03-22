@@ -12,7 +12,7 @@ import {
 import ChooseCountry from "../../../components/user/ChooseCountry";
 import ChooseLeaderboardSeason from "./ChooseLeaderboardSeason";
 import ChooseLeaderboardCountry from "./ChooseLeaderboardCountry";
-import { findLeaderboard } from "../../../actions/game";
+import { findLeaderboard } from "../../../actions/leaderboard";
 
 export default function LeaderboardFilters() {
     let filters = [];
@@ -62,7 +62,7 @@ export default function LeaderboardFilters() {
                 ml="2rem"
                 px="1rem"
                 py="0.25rem"
-                bgColor="gray.1200"
+                bgColor="primary.1200"
                 spacing="0"
                 alignItems={"flex-start"}
                 borderRadius="8px"
@@ -91,7 +91,7 @@ export default function LeaderboardFilters() {
                     ml="2rem"
                     px="1rem"
                     py="0.25rem"
-                    bgColor="gray.1200"
+                    bgColor="primary.1200"
                     spacing="0"
                     alignItems={"flex-start"}
                     borderRadius="8px"
@@ -124,7 +124,7 @@ export default function LeaderboardFilters() {
                     ml="2rem"
                     px="1rem"
                     py="0.25rem"
-                    bgColor="gray.1200"
+                    bgColor="primary.1200"
                     spacing="0"
                     alignItems={"flex-start"}
                     borderRadius="8px"

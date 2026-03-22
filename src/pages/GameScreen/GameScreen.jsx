@@ -69,7 +69,7 @@ export default function GameScreen({ layoutRef }) {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.7 }}
                     style={{
-                        backgroundColor: "var(--chakra-colors-gray-925)",
+                        backgroundColor: "var(--chakra-colors-primary-925)",
                         width:
                             hideDrawer || (!hideDrawer && isMobile) ? "100%" : "calc(100% - 30rem)",
                         height: "100%",

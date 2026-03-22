@@ -54,14 +54,14 @@ function ChatSend(props) {
                     pr={"3rem"}
                     height={["3rem", "3rem", "3rem"]}
                     border="1px solid"
-                    borderColor="gray.175"
-                    bgColor="gray.1200"
-                    color="gray.100"
+                    borderColor="primary.175"
+                    bgColor="primary.1200"
+                    color="primary.100"
                     fontSize="xs"
                     placeholder="Type a message..."
                     autoComplete="off"
-                    _focus={{ outline: "gray.100", bgColor: "black" }}
-                    _placeholder={{ color: "gray.175" }}
+                    _focus={{ outline: "primary.100", bgColor: "black" }}
+                    _placeholder={{ color: "primary.175" }}
                     value={chatMessage || ""}
                     onChange={inputChange}
                     onKeyUp={(e) => {

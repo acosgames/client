@@ -101,7 +101,7 @@ function GameListItem(props) {
             // borderTopLeftRadius={0}
             // borderBottomLeftRadius={0}
             p={["0.0rem", "0rem"]}
-        //bgColor={"gray.800"}
+        //bgColor={"primary.800"}
         // boxShadow={`inset 0 1px 2px 0 rgb(255 255 255 / 10%), inset 0 2px 2px 0 rgb(0 0 0 / 18%), inset 0 0 3px 5px rgb(0 0 0 / 5%), 2px 2px 4px 0 rgb(0 0 0 / 15%)`}
         // overflow="hidden"
         >
@@ -154,7 +154,7 @@ function GameListItem(props) {
                                 as="h4"
                                 fontSize={['xs', "xs", 'sm']}
                                 fontWeight={'bold'}
-                                color={'gray.50'}
+                                color={'primary.50'}
                                 w={['7rem', "100%"]}
                                 p="0"
                                 py={['0.1rem', "1rem"]}
@@ -188,7 +188,7 @@ function GameListItem(props) {
                     <strong>{gameQueueCount}</strong> player(s) waiting
                 </Text>
             </Link> */}
-                    <VStack width="100%" spacing="0" color="gray.200" alignItems={"flex-start"} justifyContent="flex-start" pb={['0.1rem', "1rem"]}>
+                    <VStack width="100%" spacing="0" color="primary.200" alignItems={"flex-start"} justifyContent="flex-start" pb={['0.1rem', "1rem"]}>
 
                         {/* <Icon fontSize={['2xs', 'xxs', 'xs']} as={IoPeople} /> */}
                         <Text fontSize={['xxs', 'xxs', 'xxs']} fontWeight={'light'}>{abbrevNumber(game.maxplayers)} player game</Text>
@@ -253,9 +253,9 @@ function PlayButton(props) {
                 <Button
                     display={props.inQueue ? 'flex' : 'none'}
                     flex="1"
-                    bgColor='gray.800'
-                    _hover={{ bg: "gray.800" }}
-                    _active={{ bg: "gray.800" }}
+                    bgColor='primary.800'
+                    _hover={{ bg: "primary.800" }}
+                    _active={{ bg: "primary.800" }}
                     size="md"
                     mr="0"
                     w="30%"

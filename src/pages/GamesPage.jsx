@@ -34,7 +34,7 @@ import { findGames, joinGame } from "../actions/game.js";
 import config from "../config";
 import { addJoinQueues, findQueue } from "../actions/queue.js";
 import { setLastJoinType } from "../actions/room.js";
-import { validateLogin } from "../actions/connection.js";
+import { validateLogin } from "../actions/person.js";
 
 import MultiplayerBG1 from "../assets/images/abs-items/object-1.png";
 import MultiplayerBG2 from "../assets/images/abs-items/star.png";
@@ -101,13 +101,13 @@ function MultiplayerList() {
                 h="auto"
                 // pb={["10rem", "10rem", "10rem"]}
             >
-                <Heading as="h1" color="gray.0">
+                <Heading as="h1" color="primary.0">
                     <Text as="span" color="brand.300">
                         Multiplayer
                     </Text>{" "}
                     Games
                 </Heading>
-                <Heading as="h4" color="gray.50" fontSize="1.8rem" fontWeight="medium">
+                <Heading as="h4" color="primary.50" fontSize="1.8rem" fontWeight="medium">
                     Battle against players from around the world and improve yourself.
                 </Heading>
                 <GameList list={rankList} />
@@ -186,13 +186,13 @@ function SinglePlayerList() {
                 pt={["6rem"]}
                 mb={["8rem"]}
             >
-                <Heading as="h1" color="gray.0">
+                <Heading as="h1" color="primary.0">
                     <Text as="span" color="brand.300">
                         Solo
                     </Text>{" "}
                     Games
                 </Heading>
-                <Heading as="h4" color="gray.50" fontSize="1.8rem" fontWeight="medium">
+                <Heading as="h4" color="primary.50" fontSize="1.8rem" fontWeight="medium">
                     Break the daily, monthly, or all-time highscore records.
                 </Heading>
                 <GameList list={soloList} />
@@ -259,7 +259,7 @@ function GameListItem({ game }) {
                 <VStack alignItems={"flex-start"} spacing="0.5rem" width="100%">
                     <Heading
                         as="h5"
-                        color="gray.0"
+                        color="primary.0"
                         fontWeight="bold"
                         fontSize={["1.2rem", "1.2rem", "1.2rem", "1.2rem", "1.4rem"]}
                         textOverflow={"ellipsis"}
@@ -276,9 +276,9 @@ function GameListItem({ game }) {
                             fontWeight={"medium"}
                             lineHeight="2rem"
                             display="inline-block"
-                            bgColor="gray.700"
+                            bgColor="primary.700"
                             borderRadius="0.8rem"
-                            color="gray.40"
+                            color="primary.40"
                             px="0.5rem"
                             h="2rem"
                         >
@@ -298,9 +298,9 @@ function GameListItem({ game }) {
                             fontWeight={"medium"}
                             lineHeight="2rem"
                             display="inline-block"
-                            bgColor="gray.700"
+                            bgColor="primary.700"
                             borderRadius="0.8rem"
-                            color="gray.40"
+                            color="primary.40"
                             px="0.5rem"
                             h="2rem"
                         >

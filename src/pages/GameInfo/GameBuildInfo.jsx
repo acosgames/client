@@ -42,7 +42,7 @@ export default function GameBuildInfo({ game }) {
                 <Heading
                     fontSize={["2.4rem"]}
                     fontWeight="700"
-                    color="gray.0"
+                    color="primary.0"
                     lineHeight={"3.2rem"}
                 >
                     BUILD INFORMATION
@@ -58,7 +58,7 @@ export default function GameBuildInfo({ game }) {
                     <HStack
                         spacing={["1rem", "3rem", "5rem", "6rem"]}
                         // borderBottom="2px dashed"
-                        // borderBottomColor="gray.925"
+                        // borderBottomColor="primary.925"
                     >
                         <BuildInfoLine
                             title="Released"
@@ -72,7 +72,7 @@ export default function GameBuildInfo({ game }) {
                     <HStack
                         spacing={["1rem", "3rem", "5rem", "6rem"]}
                         // borderBottom="2px dashed"
-                        //  borderBottomColor="gray.925"
+                        //  borderBottomColor="primary.925"
                     >
                         <BuildInfoLine
                             title="Published Build"
@@ -108,7 +108,7 @@ function BuildInfoLine({ title, value }) {
             <Text
                 fontSize={["1.4rem", "1.4rem", "1.6rem"]}
                 as="span"
-                color="gray.0"
+                color="primary.0"
                 fontWeight={"600"}
                 w={["10rem", "16rem", "16rem", "20rem"]}
             >
@@ -116,7 +116,7 @@ function BuildInfoLine({ title, value }) {
             </Text>
             <Text
                 as="span"
-                color="gray.10"
+                color="primary.10"
                 fontSize="1.6rem"
                 fontWeight={"400"}
                 w={["10rem", "16rem", "16rem", "20rem"]}

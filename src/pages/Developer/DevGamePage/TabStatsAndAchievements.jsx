@@ -79,7 +79,7 @@ export default function TabStatsAndAchievements({}) {
                         <VStack gap="2rem">
                             <Button
                                 bgColor="blue.500"
-                                color="gray.0"
+                                color="primary.0"
                                 fontWeight="500"
                                 fontSize="1.6rem"
                                 p="2rem"
@@ -117,8 +117,8 @@ export default function TabStatsAndAchievements({}) {
                                     top="0rem"
                                     right="-1rem"
                                     zIndex="3"
-                                    color="gray.20"
-                                    icon={<MdEdit color="gray.20" />}
+                                    color="primary.20"
+                                    icon={<MdEdit color="primary.20" />}
                                     onClick={() => {
                                         btAchievementForm.set({});
                                         btShowCreateAchievement.set(true);
@@ -135,8 +135,8 @@ export default function TabStatsAndAchievements({}) {
                                     top="2.5rem"
                                     right="-1rem"
                                     zIndex="3"
-                                    color="gray.20"
-                                    icon={<FaCopy color="gray.20" fontSize="1.4rem" />}
+                                    color="primary.20"
+                                    icon={<FaCopy color="primary.20" fontSize="1.4rem" />}
                                     onClick={() => {
                                         btAchievementForm.set({});
                                         btShowCreateAchievement.set(true);
@@ -202,7 +202,7 @@ function StatDisplay({
             pb="1rem"
             spacing="0.rem"
             borderBottom="1px solid"
-            borderBottomColor={"gray.600"}
+            borderBottomColor={"primary.600"}
         >
             <HStack spacing="0">
                 <Text as="span" w="5rem" fontWeight="600" textAlign={"center"}>
@@ -213,10 +213,10 @@ function StatDisplay({
                 </Text>
             </HStack>
             <VStack alignItems={"flex-start"} ml="5rem" spacing="0">
-                <Text py="0.25rem" as="span" fontWeight="300" color="gray.10">
+                <Text py="0.25rem" as="span" fontWeight="300" color="primary.10">
                     {stat_desc}
                 </Text>
-                <Text as="span" fontSize="1.3rem" fontWeight="400" color="gray.50">
+                <Text as="span" fontSize="1.3rem" fontWeight="400" color="primary.50">
                     {typeName}
                 </Text>
                 <HStack>
@@ -225,7 +225,7 @@ function StatDisplay({
                         disabled={true}
                         defaultChecked={isactive ? true : false}
                     ></Checkbox>
-                    <Text as="span" color="gray.50" fontSize="1.2rem" fontWeight="400">
+                    <Text as="span" color="primary.50" fontSize="1.2rem" fontWeight="400">
                         Active
                     </Text>
                 </HStack>
@@ -235,7 +235,7 @@ function StatDisplay({
                         isDisabled={true}
                         defaultChecked={scoreboard == 1 ? true : false}
                     ></Checkbox>
-                    <Text as="span" color="gray.50" fontSize="1.2rem" fontWeight="400">
+                    <Text as="span" color="primary.50" fontSize="1.2rem" fontWeight="400">
                         Scoreboard
                     </Text>
                 </HStack>

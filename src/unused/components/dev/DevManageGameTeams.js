@@ -281,16 +281,16 @@ function DevGameTeamDefinition(props) {
             pt="2rem"
             pb="2rem"
             transition={"background 0.3s ease"}
-            bgColor={active ? "gray.600" : ""}
-            _hover={{ bgColor: "gray.700" }}
+            bgColor={active ? "primary.600" : ""}
+            _hover={{ bgColor: "primary.700" }}
             borderTop={"1px solid"}
-            borderTopColor={"gray.600"}
+            borderTopColor={"primary.600"}
         >
             {/* <Text as="h5" color={'white'}>{props?.team?.team_name}</Text> */}
             <Grid
                 templateColumns="80% 20%"
                 gap={"3rem"}
-                bgColor={props.isOdd ? "gray.900" : ""}
+                bgColor={props.isOdd ? "primary.900" : ""}
                 w="100%"
             >
                 {/* <HStack    > */}
@@ -301,12 +301,12 @@ function DevGameTeamDefinition(props) {
                         alignContent="center"
                     >
                         <IconButton
-                            color={isUpActive ? "gray.300" : "gray.600"}
+                            color={isUpActive ? "primary.300" : "primary.600"}
                             _hover={{
-                                color: isUpActive ? "white" : "gray.600",
+                                color: isUpActive ? "white" : "primary.600",
                             }}
                             _active={{
-                                color: isUpActive ? "gray.100" : "gray.600",
+                                color: isUpActive ? "primary.100" : "primary.600",
                             }}
                             onClick={() => {
                                 if (!isUpActive) return;
@@ -326,17 +326,17 @@ function DevGameTeamDefinition(props) {
                             {props.team_order}
                         </Text>
                         <IconButton
-                            color={isDownActive ? "gray.300" : "gray.600"}
+                            color={isDownActive ? "primary.300" : "primary.600"}
                             cursor={isDownActive ? "pointer" : ""}
                             onClick={() => {
                                 if (!isDownActive) return;
                                 onChangeOrder(1);
                             }}
                             _hover={{
-                                color: isDownActive ? "white" : "gray.600",
+                                color: isDownActive ? "white" : "primary.600",
                             }}
                             _active={{
-                                color: isDownActive ? "gray.100" : "gray.600",
+                                color: isDownActive ? "primary.100" : "primary.600",
                             }}
                             icon={<FaArrowCircleDown size="2rem" />}
                             width="2.8rem"

@@ -1,5 +1,5 @@
 import { Box, Button, HStack, Text } from "@chakra-ui/react";
-import { wsLeaveGame } from "../../actions/connection";
+import { wsLeaveGame } from "../../actions/ws";
 import {
     getPrimaryGamePanel,
     getRoomStatus,
@@ -94,8 +94,8 @@ export default function GameActions() {
                 pt="1rem"
                 pb="1.25rem"
                 w="100%"
-                // bg="linear-gradient(to right, var(--chakra-colors-gray-1200), var(--chakra-colors-gray-900))"
-                bgColor="gray.925"
+                // bg="linear-gradient(to right, var(--chakra-colors-primary-1200), var(--chakra-colors-primary-900))"
+                bgColor="primary.925"
                 justifyContent={"center"}
                 alignItems={"center"}
             >
@@ -105,7 +105,7 @@ export default function GameActions() {
                         borderRadius="4px"
                         display={!isGameover ? "block" : "none"}
                         fontSize={"xxs"}
-                        bgColor={"gray.1000"}
+                        bgColor={"primary.1000"}
                         transform="skew(-15deg)"
                         boxShadow="3px 3px 0 var(--chakra-colors-red-600)"
                         _hover={{
@@ -122,7 +122,7 @@ export default function GameActions() {
                         // height="1.6rem"
                         display={isGameover ? "block" : "none"}
                         fontSize={"xxs"}
-                        bgColor={"gray.1000"}
+                        bgColor={"primary.1000"}
                         transform="skew(-15deg)"
                         boxShadow="3px 3px 0 var(--chakra-colors-red-600)"
                         _hover={{
@@ -142,7 +142,7 @@ export default function GameActions() {
                         // _hover={{ bg: "brand.600" }}
                         // _active={{ bg: "brand.900" }}
 
-                        bgColor={"gray.1000"}
+                        bgColor={"primary.1000"}
                         transform="skew(-15deg)"
                         boxShadow="3px 3px 0 var(--chakra-colors-alt-300)"
                         _hover={{

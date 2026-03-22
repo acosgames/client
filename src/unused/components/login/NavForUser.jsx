@@ -63,7 +63,7 @@ function NavForUser(props) {
             // name={props?.user?.displayname}
             width={["3rem"]}
             height={["3rem"]}
-            bgColor="gray.1000"
+            bgColor="primary.1000"
             // bgColor={'blacks.300'}
           >
             {/* <AvatarBadge bg={latencyColor} border="0" top={'-0.3rem'} right={'-0.2rem'} boxSize="1rem" /> */}
@@ -98,14 +98,14 @@ function NavForUser(props) {
                         <Avatar
                             name={props?.user?.displayname}
                             size={'2xl'}
-                            bgColor={'gray.300'}
+                            bgColor={'primary.300'}
 
                         />
                     </Link>
                 </Center> */}
         <Center p="1rem">
           <Link to="/profile">
-            <Text fontSize="md" color="gray.100">
+            <Text fontSize="md" color="primary.100">
               {props?.user?.displayname}
             </Text>
           </Link>
@@ -131,7 +131,7 @@ function NavForUser(props) {
           </Text>
         </HStack>
 
-        {/* <MenuDivider color="gray.500" /> */}
+        {/* <MenuDivider color="primary.500" /> */}
         <Link
           to="/dev"
           width="100%"
@@ -141,7 +141,7 @@ function NavForUser(props) {
         >
           <MenuItem
             fontSize="sm"
-            color="gray.100"
+            color="primary.100"
             fontWeight="400"
             px="2rem"
             py="1rem"
@@ -158,7 +158,7 @@ function NavForUser(props) {
         >
           <MenuItem
             fontSize="sm"
-            color="gray.100"
+            color="primary.100"
             fontWeight="400"
             px="2rem"
             py="1rem"
@@ -167,7 +167,7 @@ function NavForUser(props) {
             Profile
           </MenuItem>
         </Link>
-        <MenuDivider color="gray.500" />
+        <MenuDivider color="primary.500" />
         <Logout />
 
         <LoginTempUser />
@@ -188,12 +188,12 @@ function Logout(props) {
         onClick={() => {
           logout();
         }}
-        color="gray.100"
+        color="primary.100"
         fontWeight="400"
         px="2rem"
         py="1rem"
       >
-        <Icon mr="1.5rem" as={IoExitOutline} color="gray.100" fontSize="2rem" />
+        <Icon mr="1.5rem" as={IoExitOutline} color="primary.100" fontSize="2rem" />
         Logout
       </MenuItem>
       // </Link>
@@ -207,7 +207,7 @@ function Logout(props) {
         onClick={() => {
           logout();
         }}
-        color="gray.100"
+        color="primary.100"
         fontWeight="400"
         px="2rem"
         py="1rem"
@@ -215,7 +215,7 @@ function Logout(props) {
         <Icon
           mr="1.5rem"
           as={AiOutlineDelete}
-          color="gray.100"
+          color="primary.100"
           fontSize="2rem"
         />
         Delete Account
@@ -234,8 +234,8 @@ function LoginTempUser(props) {
 
   return (
     <Link to="/login" width="100%">
-      <MenuItem color="gray.100" px="2rem" py="1rem">
-        <Icon as={GiSaveArrow} color="gray.100" fontSize="2rem" mr="1.5rem" />
+      <MenuItem color="primary.100" px="2rem" py="1rem">
+        <Icon as={GiSaveArrow} color="primary.100" fontSize="2rem" mr="1.5rem" />
         Sign in and save
       </MenuItem>
     </Link>

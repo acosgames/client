@@ -38,7 +38,7 @@ export default function GameBar({ layoutRef }) {
             height="100%"
             overflow="hidden"
             position="relative"
-            bg="gray.925"
+            bg="primary.925"
             index={tabIndex}
             onChange={(tabIndex) => {
                 // console.log(tabIndex);
@@ -51,10 +51,10 @@ export default function GameBar({ layoutRef }) {
                     fontSize="1.2rem"
                     fontWeight="600"
                     borderBottom="none"
-                    color="gray.200"
+                    color="primary.200"
                     _hover={{ borderBottom: "none" }}
-                    _selected={{ color: "gray.10", borderBottom: "none" }}
-                    textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
+                    _selected={{ color: "primary.10", borderBottom: "none" }}
+                    textShadow="0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200),0 0 3px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200)"
                 >
                     Scoreboard
                 </Tab>
@@ -62,10 +62,10 @@ export default function GameBar({ layoutRef }) {
                     fontSize="1.2rem"
                     fontWeight="600"
                     borderBottom="none"
-                    color="gray.200"
+                    color="primary.200"
                     _hover={{ borderBottom: "none" }}
-                    _selected={{ color: "gray.10", borderBottom: "none" }}
-                    textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
+                    _selected={{ color: "primary.10", borderBottom: "none" }}
+                    textShadow="0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200),0 0 3px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200)"
                 >
                     {room.maxplayers == 1 ? "Queue" : "Logs"}
                 </Tab>
@@ -74,10 +74,10 @@ export default function GameBar({ layoutRef }) {
                     fontWeight="600"
                     bg="transparent"
                     borderBottom="none"
-                    color="gray.200"
+                    color="primary.200"
                     _hover={{ borderBottom: "none" }}
                     _selected={{ color: "brand.300", borderBottom: "none" }}
-                    textShadow="0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200),0 0 3px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200), 0 0 2px var(--chakra-colors-gray-1200)"
+                    textShadow="0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200),0 0 3px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200), 0 0 2px var(--chakra-colors-primary-1200)"
                 >
                     Social
                 </Tab> */}

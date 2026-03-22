@@ -46,7 +46,7 @@ function DevManageGameDelete(props) {
 
     return (
         <VStack>
-            <Button height={'3rem'} lineHeight='3rem' bgColor={'red.800'} size="xs" onClick={() => setIsOpen(true)}><Text as="span" color="gray.100">Delete</Text></Button>
+            <Button height={'3rem'} lineHeight='3rem' bgColor={'red.800'} size="xs" onClick={() => setIsOpen(true)}><Text as="span" color="primary.100">Delete</Text></Button>
 
             <AlertDialog
                 isOpen={isOpen}

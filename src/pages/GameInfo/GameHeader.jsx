@@ -56,7 +56,7 @@ export default function GameHeader({}) {
         <VStack
             position="relative"
             // className="section-clip"
-            bgColor="gray.1000"
+            bgColor="primary.1000"
             transformOrigin={"center"}
             minH={["31rem", "31rem", "40rem", "42rem", "42rem"]}
             w={["100%"]}
@@ -75,7 +75,7 @@ export default function GameHeader({}) {
             //     bottom: "-1px",
             //     width: "50%",
             //     clipPath: "polygon(0 0, 100% 100%, 0 100%)",
-            //     backgroundColor: queue.game_slug ? "gray.650" : "gray.650",
+            //     backgroundColor: queue.game_slug ? "primary.650" : "primary.650",
             //     height: ["16px", "16px", "16px"],
             // }}
             // _after={{
@@ -86,7 +86,7 @@ export default function GameHeader({}) {
             //     position: "absolute",
             //     width: "50%",
             //     clipPath: "polygon(0 100%, 100% 0, 100% 100%)",
-            //     backgroundColor: queue.game_slug ? "gray.650" : "gray.650",
+            //     backgroundColor: queue.game_slug ? "primary.650" : "primary.650",
             //     height: ["16px", "16px", "16px"],
             // }}
         >
@@ -160,7 +160,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                             spacing={["0rem", "0rem", "0rem", "0rem"]}
                         >
                             <Heading
-                                color="gray.0"
+                                color="primary.0"
                                 fontSize={["3rem", "3rem", "3rem", "3.4rem", "4rem"]}
                                 lineHeight={["4rem", "3rem", "3rem", "4rem"]}
                                 textTransform={"uppercase"}
@@ -179,7 +179,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 {game.name || "    "}
                             </Heading>
 
-                            <Box>
+                            <Box pt="1rem">
                                 <Text
                                     color="brand.75"
                                     as="span"
@@ -222,7 +222,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                             <GameInfoTag title="replays" />
 
                             <Box ml="1rem">
-                                <IconButton color="red.600" icon={<FaHeart />} />
+                                <IconButton color="primary.150" icon={<FaHeart />} />
                             </Box>
                             <VStack spacing="0" ml="1rem">
                                 <GameMenu game={game} />
@@ -244,13 +244,13 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 gap="1rem"
                                 bgColor="rgba(0,0,0,0.8)"
                             >
-                                <Icon as={FaRegClock} color="gray.10" width="3rem" height="3rem" />
+                                <Icon as={FaRegClock} color="primary.10" width="3rem" height="3rem" />
                                 <VStack alignItems={"flex-start"} gap="0">
                                     <Heading
                                         as="span"
                                         fontSize="1.4rem"
                                         fontWeight="400"
-                                        color="gray.50"
+                                        color="primary.50"
                                     >
                                         Season {game?.season || 0}
                                     </Heading>
@@ -258,7 +258,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                         as="span"
                                         fontSize="1.6rem"
                                         fontWeight="300"
-                                        color="gray.10"
+                                        color="primary.10"
                                     >
                                         Ends in:{" "}
                                         <Text as="span" fontWeight="600">
@@ -274,13 +274,13 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                 gap="1rem"
                                 bgColor="rgba(0,0,0,0.8)"
                             >
-                                <Icon as={FaUsers} color="gray.10" width="3rem" height="3rem" />
+                                <Icon as={FaUsers} color="primary.10" width="3rem" height="3rem" />
                                 <VStack alignItems={"flex-start"} gap="0">
                                     <Heading
                                         as="span"
                                         fontSize="1.4rem"
                                         fontWeight="400"
-                                        color="gray.50"
+                                        color="primary.50"
                                     >
                                         Last Hour
                                     </Heading>
@@ -288,7 +288,7 @@ function GameHeaderDesktop({ game, imgUrl }) {
                                         as="span"
                                         fontSize="1.6rem"
                                         fontWeight="300"
-                                        color="gray.10"
+                                        color="primary.10"
                                     >
                                         Games Played:{" "}
                                         <Text as="span" fontWeight="600">
@@ -360,17 +360,17 @@ function GameInfoTag(props) {
                         // py=".3rem"
                         px="0.5rem"
                         borderRadius="8px"
-                        background="gray.200"
+                        background="primary.800"
                         borderLeft="0.5rem solid"
-                        borderLeftColor="gray.100"
-                        color="gray.0"
-                        textShadow="1px 1px 3px var(--chakra-colors-gray-1200)"
+                        borderLeftColor="primary.300"
+                        color="primary.0"
+                        // textShadow="1px 1px 3px var(--chakra-colors-primary-1200)"
                         fontWeight="500"
                         margin=".25em .1em"
                         fontSize={["1rem", "1rem", "1.2rem"]}
                         position="relative"
                         _hover={{
-                            borderLeftColor: "gray.0",
+                            borderLeftColor: "primary.0",
                         }}
                     >
                         {props.title}
@@ -388,11 +388,11 @@ function GameInfoTag(props) {
                 // py=".3rem"
                 px="0.5rem"
                 borderRadius="8px"
-                background="gray.200"
-                textShadow="1px 1px 3px var(--chakra-colors-gray-1200)"
+                background="primary.800"
+                // textShadow="1px 1px 3px var(--chakra-colors-primary-1200)"
                 // borderLeft="1rem solid"
                 // borderLeftColor="transparent"
-                color="gray.0"
+                color="primary.0"
                 fontWeight="500"
                 margin=".25em .1em"
                 fontSize={["1rem", "1rem", "1.1rem"]}

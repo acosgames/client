@@ -21,8 +21,8 @@ function Footer({}) {
             alignItems={"center"}
             pt={["7rem"]}
             position="relative"
-            bgColor="gray.900"
-            borderTop="2rem solid var(--chakra-colors-gray-1000)"
+            bgColor="primary.900"
+            borderTop="2rem solid var(--chakra-colors-primary-1000)"
             mt="0rem"
             _before={{
                 content: '""',
@@ -31,7 +31,7 @@ function Footer({}) {
                 top: "-1px",
                 width: "50%",
                 clipPath: "polygon(0 0, 100% 0, 0 100%)",
-                backgroundColor: "gray.1000",
+                backgroundColor: "primary.1000",
                 height: ["16px", "16px", "16px"],
             }}
             _after={{
@@ -42,7 +42,7 @@ function Footer({}) {
                 position: "absolute",
                 width: "50%",
                 clipPath: "polygon(100% 0, 0 0, 100% 100%)",
-                backgroundColor: "gray.1000",
+                backgroundColor: "primary.1000",
                 height: ["16px", "16px", "16px"],
             }}
         >
@@ -66,7 +66,7 @@ function Footer({}) {
         height="auto"
       /> */}
 
-            <VStack alignItems={"flex-start"} spacing="1rem" color="gray.0" pb="2rem" zIndex="1">
+            <VStack alignItems={"flex-start"} spacing="1rem" color="primary.0" pb="2rem" zIndex="1">
                 <Text
                     as="span"
                     role="group"
@@ -254,11 +254,11 @@ function Footer({}) {
                 </Text>
             </VStack>
 
-            <VStack display={["flex", "flex"]} spacing="5rem" mb="2rem" color="gray.0">
+            <VStack display={["flex", "flex"]} spacing="5rem" mb="2rem" color="primary.0">
                 <HStack
                     w="100%"
                     spacing="1.4rem"
-                    color="gray.100"
+                    color="primary.100"
                     alignItems={"center"}
                     justifyContent="center"
                 >
@@ -276,13 +276,13 @@ function Footer({}) {
                             // border: "3px solid var(--chakra-colors-brand-300)",
 
                             // color: "brand.300",
-                            // bgColor: "gray.1000",
+                            // bgColor: "primary.1000",
                             _before: { bgColor: "white" },
                         }}
                     >
                         <Icon
                             fontSize="4rem"
-                            color="gray.0"
+                            color="primary.0"
                             as={FaGithub}
                             position="relative"
                             _before={{
@@ -290,7 +290,7 @@ function Footer({}) {
                                 top: "2rem",
                                 left: "3rem",
                                 content: '""',
-                                bgColor: "gray.0",
+                                bgColor: "primary.0",
                                 width: "3rem",
                                 height: "2.5rem",
                                 zIndex: 1,
@@ -298,7 +298,7 @@ function Footer({}) {
                         />
                         <Text
                             as="span"
-                            color="gray.0"
+                            color="primary.0"
                             fontSize="1.4rem"
                             fontWeight="medium"
                             pt="1rem"
@@ -321,7 +321,7 @@ function Footer({}) {
                         _hover={
                             {
                                 // border: "3px solid var(--chakra-colors-brand-300)",
-                                // bgColor: "gray.1000",
+                                // bgColor: "primary.1000",
                                 //   _before: { bgColor: "white" },
                             }
                         }
@@ -337,7 +337,7 @@ function Footer({}) {
                             position="absolute"
                             top="3.4rem"
                             left="5rem"
-                            bgColor="gray.0"
+                            bgColor="primary.0"
                             width="2rem"
                             height="1.7rem"
                             zIndex="1"
@@ -346,7 +346,7 @@ function Footer({}) {
                             as="span"
                             fontSize="1.4rem"
                             fontWeight="medium"
-                            color="gray.0"
+                            color="primary.0"
                             pt="1rem"
                         >
                             Discord
@@ -356,13 +356,13 @@ function Footer({}) {
             </VStack>
             <VStack
                 w="100%"
-                bgColor="gray.900"
+                bgColor="primary.900"
                 py="3rem"
                 // borderTop="2px solid"
-                // borderTopColor="gray.900"
+                // borderTopColor="primary.900"
             >
                 <Text
-                    color="gray.50"
+                    color="primary.50"
                     as="span"
                     textAlign={"center"}
                     fontWeight="medium"

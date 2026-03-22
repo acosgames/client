@@ -50,14 +50,14 @@ export default function UserMenu({ game }) {
                 icon={<BsThreeDotsVertical fontSize="2rem" color="white" />}
                 variant="unstyled"
                 filter={
-                    "drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200))"
+                    "drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200)) drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200))"
                 }
             />
             <MenuList
                 zIndex={3}
-                borderColor="gray.600"
-                bgColor="gray.700"
-                bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
+                borderColor="primary.600"
+                bgColor="primary.700"
+                bg="linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))"
                 fontSize="1.2rem"
                 pb="0"
                 pt="0"
@@ -67,10 +67,10 @@ export default function UserMenu({ game }) {
                     display={user && !user.email ? "block" : "none"}
                     fontSize="1.4rem"
                     icon={<Icon as={RiProfileFill} fontSize="1.4rem" color="brand.100" />}
-                    color="gray.0"
+                    color="primary.0"
                     px="2rem"
                     bgColor="transparent"
-                    _hover={{ bgColor: "gray.300" }}
+                    _hover={{ bgColor: "primary.300" }}
                     onClick={toProfile}
                 >
                     Profile
@@ -80,10 +80,10 @@ export default function UserMenu({ game }) {
                     display={user && !user.email ? "block" : "none"}
                     fontSize="1.4rem"
                     icon={<Icon as={FaSave} fontSize="1.4rem" color="brand.100" />}
-                    color="gray.0"
+                    color="primary.0"
                     px="2rem"
                     bgColor="transparent"
-                    _hover={{ bgColor: "gray.300" }}
+                    _hover={{ bgColor: "primary.300" }}
                     onClick={signIn}
                 >
                     Save Profile
@@ -92,10 +92,10 @@ export default function UserMenu({ game }) {
                 <MenuItem
                     fontSize="1.4rem"
                     icon={<Icon as={FiLogOut} fontSize="1.4rem" color="brand.100" />}
-                    color="gray.0"
+                    color="primary.0"
                     px="2rem"
                     bgColor="transparent"
-                    _hover={{ bgColor: "gray.300" }}
+                    _hover={{ bgColor: "primary.300" }}
                     onClick={logout}
                 >
                     Logout
@@ -103,9 +103,9 @@ export default function UserMenu({ game }) {
                 {/* <MenuItem
           fontSize="1.4rem"
           icon={<Icon as={FaGithub} fontSize="2rem" color="brand.300" />}
-          color="gray.0"
+          color="primary.0"
           bgColor="transparent"
-          _hover={{ bgColor: "gray.300" }}
+          _hover={{ bgColor: "primary.300" }}
           as="a"
           href={`https://github.com/acosgames//issues`}
           target="_blank"

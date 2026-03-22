@@ -76,7 +76,7 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
     //     exit={{ opacity: 0 }}
     //     transition={{ duration: 0.3 }}
     //     style={{
-    //       backgroundColor: "gray.925",
+    //       backgroundColor: "primary.925",
     //       width: "100%",
     //       height: "100%",
     //       position: "absolute",
@@ -106,7 +106,7 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 style={{
-                    backgroundColor: "var(--chakra-colors-gray-925)",
+                    backgroundColor: "var(--chakra-colors-primary-925)",
                     width: "100%",
                     height: "100%",
                     position: "absolute",
@@ -118,7 +118,7 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
                     width={"100%"}
                     height="100%"
                     position="relative"
-                    color="gray.100"
+                    color="primary.100"
                 >
                     <OverlayPregame
                         gamepanel={gamepanel}
@@ -135,14 +135,14 @@ export default function OverlayEvents({ gamepanelid, layoutRef }) {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 style={{
-                    backgroundColor: "var(--chakra-colors-gray-925)",
+                    backgroundColor: "var(--chakra-colors-primary-925)",
                     width: "100%",
                     height: "100%",
                     position: "absolute",
                     zIndex: 111,
                 }}
             >
-                {/* <Box w="100%" h="100%" bgColor="gray.925"></Box> */}
+                {/* <Box w="100%" h="100%" bgColor="primary.925"></Box> */}
             </motion.div>
         </AnimatePresence>
     );
@@ -170,19 +170,19 @@ function OverlayGameOver({ gamepanel, players, teams, status }) {
             border="0"
             borderTop="1px solid"
             borderBottom="1px solid"
-            borderColor="gray.1200"
+            borderColor="primary.1200"
             initial={{ width: 0 }}
             animate={{ width: "90%" }}
             transition={{
                 duraton: 1,
             }}
             opacity="0.95"
-            bg="linear-gradient(to top, var(--chakra-colors-gray-1000), var(--chakra-colors-gray-825))"
+            bg="linear-gradient(to top, var(--chakra-colors-primary-1000), var(--chakra-colors-primary-825))"
         >
             <Heading
                 as="h5"
                 fontSize="3rem"
-                color="gray.0"
+                color="primary.0"
                 textShadow="0 0 4px white, 0 0 4px white"
             >
                 WINNER BY FORFEIT
@@ -239,7 +239,7 @@ function PregameFFA({ gamepanel, players, teams, status }) {
             // bgColor="rgba(0,0,0,0.9)"
             filter="opacity(0)"
             animation="fadeIn 0.3s forwards"
-            bg={`url("${config.https.cdn}acos-logo-2025.webp") top 3rem left, linear-gradient(to bottom, var(--chakra-colors-gray-900), var(--chakra-colors-gray-1000))`}
+            bg={`url("${config.https.cdn}acos-logo-2025.webp") top 3rem left, linear-gradient(to bottom, var(--chakra-colors-primary-900), var(--chakra-colors-primary-1000))`}
         >
             <PregameTimer gamepanel={gamepanel} status={status} />
             <CompetitiveHeading />
@@ -348,7 +348,7 @@ function GameName({ name }) {
             initial={{ opacity: 0, x: "-100%" }}
             animate={{ opacity: 1, x: 0 }}
         >
-            <Text as="span" color="gray.200" fontSize="1.6rem" fontWeight="500">
+            <Text as="span" color="primary.200" fontSize="1.6rem" fontWeight="500">
                 Playing {name || "a game"}
             </Text>
         </MotionBox>
@@ -370,13 +370,13 @@ function CompetitiveHeading({}) {
             >
                 <Heading
                     as="h1"
-                    color="gray.60"
+                    color="primary.60"
                     letterSpacing={"-2px"}
                     lineHeight="10rem"
                     fontSize={["800%"]}
                     fontWeight="500"
                     fontStyle={"italic"}
-                    background="linear-gradient(to bottom,  var(--chakra-colors-gray-30) 60%, var(--chakra-colors-gray-800))"
+                    background="linear-gradient(to bottom,  var(--chakra-colors-primary-30) 60%, var(--chakra-colors-primary-800))"
                     backgroundClip="text"
                     // textFillColor="transparent"
                     transform="rotate(-30deg)"
@@ -405,13 +405,13 @@ function CompetitiveHeading({}) {
             >
                 <Heading
                     as="h1"
-                    color="gray.60"
+                    color="primary.60"
                     letterSpacing={"-2px"}
                     lineHeight="3rem"
                     fontSize={["3rem"]}
                     fontWeight="500"
                     fontStyle={"italic"}
-                    background="linear-gradient(to bottom,  var(--chakra-colors-gray-30) 60%, var(--chakra-colors-gray-800))"
+                    background="linear-gradient(to bottom,  var(--chakra-colors-primary-30) 60%, var(--chakra-colors-primary-800))"
                     backgroundClip="text"
                     // textFillColor="transparent"
                     className="versusText"

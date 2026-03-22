@@ -40,7 +40,7 @@ function Timeleft(props) {
     let greaterThan10 = timeleft >= 10;
     let isEven = timeleft % 2 == 0;
 
-    let textColor = "gray.20";
+    let textColor = "primary.20";
 
     return (
         <HStack
@@ -63,11 +63,11 @@ function Timeleft(props) {
                 py="1.5rem"
                 // mr="4rem"
                 // cursor="pointer"
-                //bgColor={isNext ? 'gray.700' : ""}
+                //bgColor={isNext ? 'primary.700' : ""}
                 borderRadius="1rem"
-                bgColor="gray.900"
+                bgColor="primary.900"
                 border="1px solid"
-                borderColor={"gray.400"} //"gray.175"
+                borderColor={"primary.400"} //"primary.175"
                 width="12rem"
                 spacing="0"
                 fontSize="xl"

@@ -63,10 +63,10 @@ function GameInfoTag(props) {
                         padding='.3rem .8rem .3rem'
                         paddingLeft="0.8rem"
                         borderRadius='4px'
-                        background='gray.800'
+                        background='primary.800'
                         borderLeft="1rem solid"
-                        borderLeftColor="gray.600"
-                        color='gray.100'
+                        borderLeftColor="primary.600"
+                        color='primary.100'
                         fontWeight='900'
                         margin='.25em .1em'
                         fontSize={["1rem", "1rem", "1.2rem"]}
@@ -74,7 +74,7 @@ function GameInfoTag(props) {
                         _hover={{
                             borderLeftColor: 'yellow.100'
                         }}
-                    ><Text as="span" color="gray.125" pr="0.2rem" position="relative" top="0.05rem">#</Text>
+                    ><Text as="span" color="primary.125" pr="0.2rem" position="relative" top="0.05rem">#</Text>
                         {props.title}
                     </Text>
                 </Link>
@@ -90,16 +90,16 @@ function GameInfoTag(props) {
                 padding='.3rem .8rem .3rem'
                 paddingLeft="0.8rem"
                 borderRadius='4px'
-                background='gray.800'
+                background='primary.800'
                 // borderLeft="1rem solid"
                 // borderLeftColor="transparent"
-                color='gray.100'
+                color='primary.100'
                 fontWeight='900'
                 margin='.25em .1em'
                 fontSize={["1rem", "1rem", "1.2rem"]}
                 position="relative"
 
-            ><Text as="span" color="gray.125" pr="0.2rem" position="relative" top="0.05rem">#</Text>
+            ><Text as="span" color="primary.125" pr="0.2rem" position="relative" top="0.05rem">#</Text>
                 {props.title}
             </Text>
         </Box>

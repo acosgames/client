@@ -175,7 +175,7 @@ function DevManageGameFields(props) {
                 <Wrap w="100%">
                     <VStack align="left">
                         <Heading size="lg">Manage Game </Heading>
-                        <Heading as="h5" size="md" color="gray.400">
+                        <Heading as="h5" size="md" color="primary.400">
                             {props.devgame.game_slug}
                         </Heading>
                     </VStack>
@@ -210,7 +210,7 @@ function DevManageGameFields(props) {
                                 name="version"
                                 //rules='update-game_info'
                                 group={"devgame>version"}
-                                color="gray.100"
+                                color="primary.100"
                                 onChange={onUpdateVersion}
                                 placeholder={""}
                                 w="90px"
@@ -226,7 +226,7 @@ function DevManageGameFields(props) {
                             </Text>
                         </Wrap>
                         <Wrap
-                            color="gray.200"
+                            color="primary.200"
                             display={
                                 props.devgame.latest_version > 0
                                     ? "flex"
@@ -238,7 +238,7 @@ function DevManageGameFields(props) {
                                 name="visible"
                                 //rules='update-game_info'
                                 group={"devgame>visible"}
-                                color="gray.100"
+                                color="primary.100"
                                 onChange={onUpdateVisibility}
                                 placeholder={""}
                                 w="150px"

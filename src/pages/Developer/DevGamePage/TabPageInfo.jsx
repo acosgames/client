@@ -148,14 +148,14 @@ function FeaturedImage({}) {
             <CardBody>
                 <VStack spacing="1rem">
                     <DevImageUpload uploadFunc={uploadGameImages} />
-                    <Text fontSize="1.2rem" lineHeight="1.6rem" color="gray.50">
+                    <Text fontSize="1.2rem" lineHeight="1.6rem" color="primary.50">
                         Dimensions: 512x512 pixels
                         <br />
                         Image should be square
                     </Text>
                     {/* <Text
                         fontSize="1.2rem"
-                        color="gray.20"
+                        color="primary.20"
                         textAlign={"left"}
                         // hyphens="auto"
                         // wordBreak={"break-all"}

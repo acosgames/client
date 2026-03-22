@@ -18,14 +18,11 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { downloadGameReplay, findGameReplays } from "../../actions/game";
 
 import {
     replayNextIndex,
     replayPrevIndex,
-    sendPauseMessage,
-    sendUnpauseMessage,
-} from "../../actions/connection";
+} from "../../actions/replay";
 import {
     clearRoom,
     findGamePanelByRoom,
@@ -48,6 +45,7 @@ import {
     btScreenResized,
 } from "../../actions/buckets";
 import EmbeddedGamePanel from "../GameScreen/EmbeddedGamePanel";
+import { findGameReplays } from "../../actions/replay";
 
 function GameInfoReplay({ game_slug }) {
     return (
@@ -69,7 +67,7 @@ function GameInfoReplay({ game_slug }) {
                 <TabList border="0" justifyContent={"center"}>
                     <Tab
                         as="span"
-                        color="gray.200"
+                        color="primary.200"
                         cursor={"pointer"}
                         _selected={{
                             cursor: "auto",
@@ -83,7 +81,7 @@ function GameInfoReplay({ game_slug }) {
                         REPLAY
                     </Tab>
                     <Tab
-                        color="gray.200"
+                        color="primary.200"
                         cursor={"pointer"}
                         _selected={{
                             cursor: "auto",
@@ -106,7 +104,7 @@ function GameInfoReplay({ game_slug }) {
 function GameInfoReplayContent({ game_slug }) {
     // let game = useBucket(btGame);
 
-    let room_slug = useBucketSelector(btReplay, (bucket) => bucket[game_slug]);
+    let room_slug = useBucketSelector(btReplays, (bucket) => bucket[game_slug]);
     // let replayFiles = useBucketSelector(btReplay, (bucket) => bucket[game_slug]);
     // let primaryGamePanel = getPrimaryGamePanel(); // useBucket(btPrimaryGamePanel);
     let screenResized = useBucket(btScreenResized);
@@ -182,7 +180,7 @@ function GameInfoReplayContent({ game_slug }) {
                     <VStack
                         w="100%"
                         position="relative"
-                        bgColor="gray.1000"
+                        bgColor="primary.1000"
                         flex="1"
                         justifyContent={"flex-end"}
                         borderRadius="4px"
@@ -204,22 +202,22 @@ function ReplayInfoPanel({ room_slug }) {
             <TabList justifyContent={"center"}>
                 <Tab
                     fontSize="1.2rem"
-                    color="gray.200"
+                    color="primary.200"
                     _selected={{
-                        color: "gray.10",
+                        color: "primary.10",
                         border: "0px solid",
-                        borderColor: "gray.1200",
+                        borderColor: "primary.1200",
                     }}
                 >
                     Players
                 </Tab>
                 <Tab
                     fontSize="1.2rem"
-                    color="gray.200"
+                    color="primary.200"
                     _selected={{
-                        color: "gray.10",
+                        color: "primary.10",
                         border: "0px solid",
-                        borderColor: "gray.1200",
+                        borderColor: "primary.1200",
                     }}
                 >
                     Logs
@@ -302,7 +300,7 @@ function PlayersTeams({}) {}
 //     return (
 //         <VStack spacing="0.5rem"
 //             w="100%"
-//             bgColor="gray.875"
+//             bgColor="primary.875"
 //             h="100%"
 //             // borderRadius="4px"
 
@@ -322,7 +320,7 @@ function PlayersTeams({}) {}
 //                             whiteSpace={'nowrap'}
 //                             overflow={'hidden'}
 //                             textOverflow={'ellipsis'}
-//                             color="gray.0"
+//                             color="primary.0"
 //                             fontSize={["1.4rem", "1.4rem", "1.2rem", "1.4rem"]}
 //                         >
 //                             {displayname}
@@ -338,17 +336,17 @@ function PlayersTeams({}) {}
 //                     </HStack>
 //                     <HStack flex="1" spacing="0" justifyContent={'flex-end'} h="100%" alignItems={'center'} >
 //                         <HStack h="100%" spacing="0.5rem" px="0.5rem">
-//                             <Text as="span" color="gray.100" fontWeight={'light'} fontSize="1rem" >rating</Text>
-//                             <Text as="span" fontWeight={'normal'} color="gray.10" fontSize="1rem">{rating}</Text>
+//                             <Text as="span" color="primary.100" fontWeight={'light'} fontSize="1rem" >rating</Text>
+//                             <Text as="span" fontWeight={'normal'} color="primary.10" fontSize="1rem">{rating}</Text>
 //                         </HStack>
 
 //                     </HStack>
-//                     <HStack spacing="0" w="100%" h="2rem" bgColor="gray.875" pl="0.5rem" justifyContent={'flex-end'}>
+//                     <HStack spacing="0" w="100%" h="2rem" bgColor="primary.875" pl="0.5rem" justifyContent={'flex-end'}>
 
 //                         <HStack spacing="0" justifyContent={'flex-end'} h="100%" alignItems={'center'} >
 //                             <HStack h="100%" spacing="0.5rem" px="0.5rem">
-//                                 {/* <Text as="span" color="gray.50" fontWeight={'bold'} fontSize="1.2rem">SCORE</Text> */}
-//                                 <Text as="span" fontWeight={'bold'} color="gray.10" fontSize={["1.6rem", "1.6rem", "1.4rem", "1.6rem"]}>{score}</Text>
+//                                 {/* <Text as="span" color="primary.50" fontWeight={'bold'} fontSize="1.2rem">SCORE</Text> */}
+//                                 <Text as="span" fontWeight={'bold'} color="primary.10" fontSize={["1.6rem", "1.6rem", "1.4rem", "1.6rem"]}>{score}</Text>
 //                             </HStack>
 //                         </HStack>
 
@@ -382,7 +380,7 @@ function ReplayControls({ room_slug }) {
                         height="3rem"
                         width="3rem"
                         _hover={{
-                            color: "gray.100",
+                            color: "primary.100",
                         }}
                     />
                 </Button>
@@ -399,7 +397,7 @@ function ReplayControls({ room_slug }) {
                         height="3rem"
                         width="3rem"
                         _hover={{
-                            color: "gray.100",
+                            color: "primary.100",
                         }}
                     />
                 </Button>
@@ -425,7 +423,7 @@ function ReplayControls({ room_slug }) {
                             height="2rem"
                             width="2rem"
                             _hover={{
-                                color: "gray.100",
+                                color: "primary.100",
                             }}
                         />
                     </Button>

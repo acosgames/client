@@ -131,14 +131,14 @@ function DevMyGameListItem(props) {
                             <Wrap pl="1rem">
                                 <HStack pr={["1rem", "2rem", "2rem", "2rem"]}>
                                     <HStack>
-                                        <Icon color="gray.500" as={FiUsers} />
-                                        <Text color="gray.400">
+                                        <Icon color="primary.500" as={FiUsers} />
+                                        <Text color="primary.400">
                                             {props.totalPlays || 0}
                                         </Text>
                                     </HStack>
                                     <HStack>
-                                        <Icon color="gray.500" as={FiHeart} />
-                                        <Text color="gray.400">
+                                        <Icon color="primary.500" as={FiHeart} />
+                                        <Text color="primary.400">
                                             {props.totalVotes || 0}
                                         </Text>
                                     </HStack>
@@ -148,10 +148,10 @@ function DevMyGameListItem(props) {
                                         <Tooltip label="Published Version">
                                             <HStack>
                                                 <Icon
-                                                    color="gray.500"
+                                                    color="primary.500"
                                                     as={IoCode}
                                                 />
-                                                <Text color="gray.400">
+                                                <Text color="primary.400">
                                                     build {version || 0}
                                                 </Text>
                                             </HStack>
@@ -161,10 +161,10 @@ function DevMyGameListItem(props) {
                                         <Tooltip label="Latest Version">
                                             <HStack>
                                                 <Icon
-                                                    color="gray.500"
+                                                    color="primary.500"
                                                     as={IoCodeWorking}
                                                 />
-                                                <Text color="gray.400">
+                                                <Text color="primary.400">
                                                     build{" "}
                                                     {props.latest_version || 0}
                                                 </Text>
@@ -173,8 +173,8 @@ function DevMyGameListItem(props) {
                                     </HStack>
                                 </HStack>
                                 <HStack pr={["1rem", "1rem", "1rem", "1rem"]}>
-                                    <Icon color="gray.500" as={FaGithub} />
-                                    <Text color="gray.400">
+                                    <Icon color="primary.500" as={FaGithub} />
+                                    <Text color="primary.400">
                                         <ChLink
                                             target="_blank"
                                             href={`https://github.com/acosgames/${props.game_slug}/issues`}
@@ -185,8 +185,8 @@ function DevMyGameListItem(props) {
                                 </HStack>
 
                                 <HStack>
-                                    <Icon color="gray.500" as={IoDocument} />
-                                    <Text color="gray.400">
+                                    <Icon color="primary.500" as={IoDocument} />
+                                    <Text color="primary.400">
                                         <Link to={`/g/${props.game_slug}`}>
                                             public page
                                         </Link>
@@ -205,11 +205,11 @@ function DevMyGameListItem(props) {
                 >
                     <VStack justifyContent={"center"}>
                         <Button size="xs" onClick={() => setIsOpen(true)}>
-                            <Text as="span" color="gray.300">
+                            <Text as="span" color="primary.300">
                                 Push to Production
                             </Text>
                         </Button>
-                        <Text fontSize="xs" color="gray.400">
+                        <Text fontSize="xs" color="primary.400">
                             {props.game_slug} - build {props.latest_version}
                         </Text>
 

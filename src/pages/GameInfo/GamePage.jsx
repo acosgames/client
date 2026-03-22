@@ -110,14 +110,14 @@ function GameTabs({}) {
     return (
         <Tabs
             isLazy
-            // bgColor="gray.650"
+            // bgColor="primary.650"
             colorScheme="brand"
             variant="brand"
             w="100%"
             display="flex"
             spacing="0"
-            justifyContent={"center"}
-            alignItems={"center"}
+            justifyContent={"flex-start"}
+            alignItems={"flex-start"}
             flexDir={"column"}
             p="0"
             defaultIndex={tabIndex}
@@ -125,11 +125,11 @@ function GameTabs({}) {
             value={tabIndex}
             onChange={handleTabsChange}
         >
-            <VStack w="100%" justifyContent={"center"} alignItems={"center"} bgColor="gray.1000">
+            <VStack w="100%" justifyContent={"flex-start"} alignItems={"flex-start"} bgColor="primary.1000">
                 <TabList
                     onClick={executeScroll}
                     // w="100%"
-                    // bgColor="gray.650"
+                    // bgColor="primary.650"
                     className="gamepage-tablist"
                     w={["100%", "100%", "100%", "100%", "100%"]}
                     p="0"
@@ -146,7 +146,7 @@ function GameTabs({}) {
                             // height: '100%',
                             // flex: '1',
                             display: "flex",
-                            justifyContent: "center",
+                            justifyContent: "flex-start",
                             overflowX: "scroll",
                             overflowY: "hidden",
                             boxSizing: "border-box",
@@ -157,10 +157,10 @@ function GameTabs({}) {
                             // ref={tablistRef}
                             ref={scrollRef}
                             spacing="0"
-                            width="max-content"
+                            // width="max-content"
                             // width={["auto", "auto", "auto", "auto", "100%"]}
-                            justifyContent={"center"}
-                            alignItems={"center"}
+                            justifyContent={"flex-start"}
+                            alignItems={"flex-start"}
                             px="4rem"
                             height="6.4rem"
                             position={"relative"}

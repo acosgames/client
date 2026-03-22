@@ -35,7 +35,6 @@ import { FaRandom } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 
 import { Link, useLocation } from "react-router-dom";
-import { wsJoinQueues } from "../../actions/connection";
 import { getJoinQueues } from "../../actions/queue";
 import config from "../../config";
 
@@ -250,12 +249,12 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
             >
                 <ModalOverlay />
                 <ModalContent
-                    bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
+                    bg="linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))"
                     borderRadius="8px"
-                    bgColor="gray.800"
+                    bgColor="primary.800"
                 >
                     <ModalHeader
-                        color="gray.10"
+                        color="primary.10"
                         fontWeight={"600"}
                         textAlign={"center"}
                         fontSize="1.6rem"
@@ -269,7 +268,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                     <ModalCloseButton top="1rem" right="1rem" />
                     <ModalBody>
                         <VStack spacing="1rem" w="100%">
-                            {/* <FSGGroup bgColor="gray.1100"> */}
+                            {/* <FSGGroup bgColor="primary.1100"> */}
 
                             <VStack
                                 display={user && !user.email ? "none" : "flex"}
@@ -302,7 +301,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                             >
                                                 <Icon
                                                     fontSize="2rem"
-                                                    color="gray.0"
+                                                    color="primary.0"
                                                     bgColor="rgba(0,0,0,0.5)"
                                                     p="0.25rem"
                                                     borderRadius={"8px"}
@@ -310,7 +309,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                                     position="relative"
                                                     zIndex="2"
                                                     _groupHover={{
-                                                        color: "gray.0",
+                                                        color: "primary.0",
                                                     }}
                                                     onClick={() => {
                                                         btIsChoosePortrait.set(
@@ -356,7 +355,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                                 width={["100%"]}
                                                 transition="all 0.2s ease"
                                                 boxShadow={
-                                                    "0 0 12px var(--chakra-colors-gray-1000)"
+                                                    "0 0 12px var(--chakra-colors-primary-1000)"
                                                 }
                                                 // border='2px solid'
                                                 // borderColor="transparent"
@@ -390,32 +389,32 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                                 name="name"
                                                 onChange={onChange}
                                                 maxLength="32"
-                                                titleColor="gray.100"
+                                                titleColor="primary.100"
                                                 // title="Pick Name"
                                                 borderRadius="8px"
-                                                bgColor="gray.900"
+                                                bgColor="primary.900"
                                                 height="3.5rem"
                                                 focus={true}
                                                 onFocus={(e) => {
                                                     e.target.select();
                                                 }}
                                                 _placeholder={{
-                                                    color: "gray.200",
+                                                    color: "primary.200",
                                                 }}
                                                 _focus={{
                                                     outline: "none",
                                                 }}
                                                 _focusVisible={{
-                                                    border: "2px solid var(--chakra-colors-gray-100)",
+                                                    border: "2px solid var(--chakra-colors-primary-100)",
                                                     boxShadow: "none",
                                                 }}
-                                                color="gray.0"
+                                                color="primary.0"
                                                 fontWeight="500"
                                                 border="2px solid transparent"
                                                 boxShadow="none"
                                                 value={displayname}
                                                 onKeyDown={onKeyDown}
-                                                // boxShadow={'0 0 12px var(--chakra-colors-gray-1000)'}
+                                                // boxShadow={'0 0 12px var(--chakra-colors-primary-1000)'}
                                                 // helpText={'This is a temporary acount, login to make it permanent'}
                                             />
                                             <IconButton
@@ -457,7 +456,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                     // _active={{
                                     //     border: "4px solid",
                                     //     borderColor: "brand.300",
-                                    //     bgColor: 'gray.800',
+                                    //     bgColor: 'primary.800',
                                     // }}
                                     px={"3rem"}
                                     pb="1rem"
@@ -465,7 +464,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                     boxShadow="3px 3px 0 var(--chakra-colors-brand-600)"
                                     // border="4px solid"
                                     // borderColor="brand.300"
-                                    bgColor={"gray.1000"}
+                                    bgColor={"primary.1000"}
                                     py="2rem"
                                     color="white"
                                     fontSize="lg"
@@ -477,7 +476,7 @@ export default function GameInfoCreateDisplayname({ onClose, isOpen, onOpen }) {
                                 />
                             </VStack>
 
-                            {/* <Heading color="gray.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
+                            {/* <Heading color="primary.300" pt={'0rem'} pb={'0.5rem'} size="sm">Save your name and track your stats.</Heading> */}
 
                             <SocialLoginButtons />
                         </VStack>
@@ -513,11 +512,11 @@ function SocialLoginButtons() {
             <Heading
                 pt="0"
                 mt="0"
-                color="gray.10"
+                color="primary.10"
                 fontWeight="400"
                 fontSize="1.4rem"
             >
-                <Text as="span" fontWeight="600" color="gray.10">
+                <Text as="span" fontWeight="600" color="primary.10">
                     Login
                 </Text>{" "}
                 and access more features for free.
@@ -525,7 +524,7 @@ function SocialLoginButtons() {
             <Heading
                 pt="0"
                 mt="0"
-                color="gray.20"
+                color="primary.20"
                 fontSize="1.2rem"
                 pb="1rem"
                 fontWeight={"light"}

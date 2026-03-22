@@ -49,7 +49,7 @@ function Profile(props) {
         <VStack w="100%" spacing="2rem">
             <Flex spacing="2rem" justifyContent={'space-between'} w="100%" alignItems={'center'}>
 
-                <Text color='gray.300' fontWeight={'300'} fontSize="xs">Member since {profile.membersince}</Text>
+                <Text color='primary.300' fontWeight={'300'} fontSize="xs">Member since {profile.membersince}</Text>
                 <Spacer />
                 <Text fontSize="xl">{profile.displayname}</Text>
                 <Spacer />

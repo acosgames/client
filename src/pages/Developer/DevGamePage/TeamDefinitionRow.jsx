@@ -14,14 +14,14 @@ export default function TeamDefinitionRow({ index, team_slug, isOdd }) {
             w="100%"
             p="1rem"
             spacing="1rem"
-            bgColor={isOdd ? "" : "gray.850"}
+            bgColor={isOdd ? "" : "primary.850"}
         >
             <VStack>
                 <Text
                     as="span"
                     fontSize="1.4rem"
                     fontWeight="700"
-                    bgColor="gray.700"
+                    bgColor="primary.700"
                     w="3rem"
                     h="3rem"
                     borderRadius={"8rem"}
@@ -50,7 +50,7 @@ export default function TeamDefinitionRow({ index, team_slug, isOdd }) {
                     as="span"
                     fontSize="1.4rem"
                     fontWeight="400"
-                    color="gray.50"
+                    color="primary.50"
                 >
                     {team?.team_slug}
                 </Text>

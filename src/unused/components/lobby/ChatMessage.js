@@ -22,7 +22,7 @@ function ChatMessage(props) {
 
     return (
         <Box
-            //bgColor="gray.1200"
+            //bgColor="primary.1200"
             //borderRadius="2rem"
             //p={["0.2rem", "0.2rem", "0.5rem"]}
             my="0.0rem"

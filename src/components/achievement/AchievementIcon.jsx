@@ -11,7 +11,7 @@ export default function AchievementIcon({ index, percent }) {
     //                 top="1rem"
     //             />
 
-    let color = "gray.100";
+    let color = "primary.100";
     if (percent >= 100) color = "brand.500";
     else if (percent > 0) color = "brand.600";
 
@@ -22,7 +22,7 @@ export default function AchievementIcon({ index, percent }) {
             position="relative"
             zIndex="1"
             borderRadius={"8px"}
-            bgColor="gray.1000"
+            bgColor="primary.1000"
             border="2px solid"
             borderColor={color}
             justifyContent={"center"}

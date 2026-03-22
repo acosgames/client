@@ -14,18 +14,18 @@ const styles = {
             fontFeatureSettings: '"kern","lig"',
         },
         "html, body": {
-            //color: mode('gray.800', 'whiteAlpha.900')(props),
-            bg: "gray.925",
-            color: "gray.10",
+            //color: mode('primary.800', 'whiteAlpha.900')(props),
+            bg: "primary.925",
+            color: "primary.10",
             fontWeight: 500,
         },
-        body: { fontSize: "1.4rem", color: "gray.20" },
+        body: { fontSize: "1.4rem", color: "primary.20" },
 
         "::selection": {
-            background: "gray.400" /* WebKit/Blink Browsers */,
+            background: "primary.400" /* WebKit/Blink Browsers */,
         },
         "::-moz-selection": {
-            background: "gray.400" /* Gecko Browsers */,
+            background: "primary.400" /* Gecko Browsers */,
         },
     },
 };
@@ -157,6 +157,82 @@ const colors = {
         200: "#222",
         300: "#333",
     },
+    // Facebook-reminiscent blue — 150 ≈ #1877F2 (classic Facebook blue)
+    primary: {
+        0: "#f0f7ff",
+        10: "#e8f1ff",
+        20: "#d1e3ff",
+        30: "#bbd5fe",
+        40: "#a4c7fd",
+        50: "#8cbafd",
+        60: "#75acfc",
+        70: "#5e9ffb",
+        80: "#4791fa",
+        90: "#3083f9",
+        100: "#2478f5",
+        125: "#1d72ef",
+        150: "#1877f2",
+        175: "#166ee6",
+        200: "#1264d5",
+        300: "#0f59c0",
+        400: "#0d4fab",
+        500: "#0b4596",
+        600: "#093b81",
+        650: "#083674",
+        700: "#073167",
+        750: "#062b5a",
+        775: "#05264f",
+        800: "#042144",
+        825: "#031c39",
+        850: "#02172e",
+        875: "#021223",
+        900: "#010d18",
+        925: "#010a12",
+        950: "#01070d",
+        975: "#010407",
+        1000: "#010305",
+        1050: "#000204",
+        1100: "#000103",
+        1200: "#000002",
+    },
+    // Neutral grays — mirrors the gray palette for semantic use as secondary
+    secondary: {
+        0: "#f7ffff",
+        10: "#ecf5fd",
+        20: "#e0e9f2",
+        30: "#d5dee6",
+        40: "#cad3db",
+        50: "#bfc8d0",
+        60: "#b9c2ca",
+        70: "#b4bdc4",
+        80: "#afb7bf",
+        90: "#a9b2b9",
+        100: "#adb0bc",
+        125: "#a4acb4",
+        150: "#8a9299",
+        175: "#70787f",
+        200: "#5f676e",
+        300: "#555d64",
+        400: "#4c545a",
+        500: "#434a51",
+        600: "#394147",
+        650: "#333740",
+        700: "#31383e",
+        750: "#282f35",
+        775: "#222529",
+        800: "#201f2a",
+        825: "#1b242e",
+        850: "#181e24",
+        875: "#182029",
+        900: "#0f161b",
+        925: "#0b0e13",
+        950: "#090d10",
+        975: "#050506",
+        1000: "#040608",
+        1050: "#000c17",
+        1100: "#000912",
+        1200: "#00060f",
+    },
 };
 
 const fontSizes = {
@@ -179,7 +255,7 @@ const components = {
             container: {
                 padding: "2rem",
                 bgColor: "transparent",
-                color: "gray.0",
+                color: "primary.0",
                 borderRadius: "8px",
                 filter: " drop-shadow(0 .375rem .375rem rgba(0,0,0,.35))",
                 position: "relative",
@@ -195,7 +271,7 @@ const components = {
 
                     clipPath:
                         "polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)",
-                    bgColor: "gray.775",
+                    bgColor: "primary.775",
                     borderRadius: "8px",
                     zIndex: -1,
                 },
@@ -204,14 +280,14 @@ const components = {
                 pt: "0.25rem",
                 fontSize: "1.6rem",
                 fontWeight: "500",
-                color: "gray.0",
+                color: "primary.0",
             },
             description: {
                 pt: "1rem",
-                color: "gray.0",
+                color: "primary.0",
             },
             icon: {
-                color: "gray.0",
+                color: "primary.0",
                 width: "2rem",
                 height: "2rem",
                 mr: "1.5rem",
@@ -251,14 +327,14 @@ const components = {
     Breadcrumb: {
         baseStyle: {
             item: {
-                color: "gray.100",
+                color: "primary.100",
             },
             link: {
-                color: "gray.20",
+                color: "primary.20",
                 fontSize: "1.2rem",
             },
             currentpage: {
-                color: "gray.50",
+                color: "primary.50",
             },
         },
     },
@@ -267,11 +343,11 @@ const components = {
     //         container: {
     //             clipPath:
     //                 "polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)",
-    //             bgColor: "gray.900",
+    //             bgColor: "primary.900",
     //             borderRadius: "8px",
     //             w: "100%",
     //             // border: "1px solid",
-    //             // borderColor: "var(--chakra-colors-gray-800)",
+    //             // borderColor: "var(--chakra-colors-primary-800)",
     //         },
     //     },
     // },
@@ -282,7 +358,7 @@ const components = {
                 w: ["100%", "100%", "100%", "100%", "1000px"],
                 // w: "calc(100% - 2rem)",
                 // border: "1px solid",
-                // borderColor: "var(--chakra-colors-gray-800)",
+                // borderColor: "var(--chakra-colors-primary-800)",
                 filter: " drop-shadow(0 .375rem .375rem rgba(0,0,0,.45))",
                 bgColor: "transparent",
                 position: "relative",
@@ -298,7 +374,7 @@ const components = {
 
                     clipPath:
                         "polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)",
-                    bgColor: "gray.900",
+                    bgColor: "primary.900",
                     borderRadius: "8px",
                     zIndex: -1,
                 },
@@ -320,27 +396,27 @@ const components = {
             control: {
                 _checked: {
                     _disabled: {
-                        color: "gray.50",
+                        color: "primary.50",
                     },
                 },
             },
             label: {
-                color: "gray.0",
+                color: "primary.0",
                 _checked: {
                     _disabled: {
-                        color: "gray.50",
+                        color: "primary.50",
                     },
                 },
                 _disabled: {
-                    color: "gray.20",
+                    color: "primary.20",
                 },
             },
         },
     },
     Tooltip: {
         baseStyle: {
-            bgColor: "gray.700",
-            color: "gray.0",
+            bgColor: "primary.700",
+            color: "primary.0",
             fontSize: "1.4rem",
             top: "1rem",
             p: "1rem",
@@ -351,14 +427,14 @@ const components = {
     },
     Heading: {
         baseStyle: {
-            color: "gray.10",
+            color: "primary.10",
             fontWeight: "600",
         },
         variants: {
             h1: {
                 as: "h1",
                 w: "100%",
-                color: "gray.10",
+                color: "primary.10",
                 fontSize: "3rem",
                 mb: "2rem",
             },
@@ -383,7 +459,7 @@ const components = {
             },
             primary: {
                 bgColor: "brand.500",
-                color: "gray.0",
+                color: "primary.0",
                 borderRadius: "2rem",
                 fontWeight: "500",
                 p: "2rem",
@@ -417,10 +493,10 @@ const components = {
 
                 tablist: {
                     width: "100%",
-                    bgColor: "gray.1000",
+                    bgColor: "primary.1000",
                 },
                 tab: {
-                    color: "gray.40",
+                    color: "primary.40",
                     px: "3rem",
                     py: "2rem",
                     height: "6.4rem",
@@ -431,12 +507,12 @@ const components = {
                     borderTopRadius: "lg",
                     position: "relative",
                     borderBottom: "2px solid",
-                    borderBottomColor: "gray.1200",
+                    borderBottomColor: "primary.1200",
                     whiteSpace: "nowrap",
                     _hover: {
-                        color: "gray.10",
+                        color: "primary.10",
                         borderBottom: "2px solid",
-                        borderBottomColor: "gray.0",
+                        borderBottomColor: "primary.0",
                     },
                     _selected: {
                         color: "brand.300 !important",
@@ -469,18 +545,18 @@ const components = {
                     px: ["1rem", "1rem", "1rem", "2rem"],
                 },
                 tab: {
-                    color: "gray.200",
+                    color: "gray.700",
                     cursor: "pointer",
                     _selected: {
                         cursor: "auto",
-                        color: "brand.100",
+                        color: "primary.80",
                     },
                     as: "span",
                     letterSpacing: "0px",
                     fontWeight: "bold",
                     textTransform: "uppercase",
                     fontSize: ["1.2rem", "1.2rem", "1.4rem"],
-                    bgColor: "gray.100",
+                    // bgColor: "primary.100",
                 },
                 tablist: {
                     pt: "2rem",
@@ -490,16 +566,16 @@ const components = {
             },
             brand: {
                 root: {
-                    // bgColor: "gray.650",
+                    // bgColor: "primary.650",
                 },
                 tabs: {
                     // width: '100%',
                     // overflow: 'auto',
                     // mx: '2rem',
-                    // bgColor: "gray.650",
+                    // bgColor: "primary.650",
                 },
                 tab: {
-                    color: "gray.50",
+                    color: "primary.50",
                     // py: '1rem',
                     // border: '2px solid',
                     // borderColor: 'transparent',
@@ -521,13 +597,13 @@ const components = {
                     whiteSpace: "nowrap",
                     // mb: '-2px',
                     _hover: {
-                        color: "gray.10",
+                        color: "primary.10",
                         borderBottom: "2px solid",
-                        borderBottomColor: "gray.10",
+                        borderBottomColor: "primary.10",
                     },
                     _selected: {
-                        // bg: mode('#fff', 'gray.800')(props),
-                        color: "gray.0 !important",
+                        // bg: mode('#fff', 'primary.800')(props),
+                        color: "primary.0 !important",
                         borderBottom: "2px solid",
                         borderColor: "brand.300 !important",
                         zIndex: "2",
@@ -553,9 +629,9 @@ const components = {
                     // marginBottom: '-1.6rem',
                     paddingBottom: 0,
                     marginBottom: 0,
-                    bgColor: "gray.1000",
+                    bgColor: "primary.1000",
                     // borderBottom: '2px solid',
-                    // borderColor: 'gray.850',
+                    // borderColor: 'primary.850',
                     // position: 'relative',
                     // pt: "4rem",
                     height: "6.4rem",
@@ -568,7 +644,7 @@ const components = {
                     //     left: '3rem',
                     //     width: '100%',
                     //     height: '2px',
-                    //     background: 'linear-gradient(to right, var(--chakra-colors-gray-700), rgba(0,0,0,0))',
+                    //     background: 'linear-gradient(to right, var(--chakra-colors-primary-700), rgba(0,0,0,0))',
                     // }
                 },
                 tabpanels: {
@@ -578,14 +654,14 @@ const components = {
                     display: "flex",
                     w: "100%",
                     spacing: "0",
-                    justifyContent: "center",
+                    justifyContent: "flex-start",
                     alignItems: "flex-start",
                     px: "1rem",
                     padding: "0",
                     paddingTop: "0rem",
                     transition: "all 0.3s ease",
                     minH: "20rem",
-                    bgColor: "gray.925",
+                    bgColor: "primary.925",
                     // border: '2px solid',
                     // borderColor: 'inherit',
                     // borderBottomRadius: 'lg',

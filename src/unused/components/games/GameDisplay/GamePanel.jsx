@@ -449,7 +449,7 @@ function GameIFrame(props) {
           <IconButton
             fontSize={"2rem"}
             colorScheme={"clear"}
-            icon={<CgMinimizeAlt color="gray.300" />}
+            icon={<CgMinimizeAlt color="primary.300" />}
             onClick={() => {
               if (props.displayMode == "theatre") {
                 btDisplayMode.set("none");

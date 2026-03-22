@@ -13,7 +13,7 @@ export default function BadgePoints({}) {
             pl="0rem"
             pr="0.75rem"
             // pt="0.2rem"
-            // bgColor="gray.300"
+            // bgColor="primary.300"
             justifyContent={"center"}
             alignItems={"center"}
             spacing="0rem"
@@ -37,7 +37,7 @@ export default function BadgePoints({}) {
             <Heading
                 as="h6"
                 fontSize="1.2rem"
-                color="gray.10"
+                color="primary.10"
                 lineHeight="1.7rem"
                 fontWeight="500"
                 letterSpacing={"0px"}

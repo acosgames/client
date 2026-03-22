@@ -26,7 +26,7 @@ import UserLevelIcon from "./UserLevelIcon.jsx";
 import { GiGamepad } from "react-icons/gi";
 import UserMenu from "../user/UserMenu.jsx";
 
-import { validateLogin } from "../../actions/connection.js";
+import { validateLogin } from "../../actions/person.js";
 import { useLocation, Link, Routes, Route } from "react-router-dom";
 import Searching from "../queue/Searching.jsx";
 import { useEffect } from "react";
@@ -74,21 +74,21 @@ export default function UserPanel() {
 function UserLogin() {
     return (
         <Box w="100%" height="6rem" position="relative">
-            {/* <Heading as="h4" fontWeight={"bold"} fontSize="1.6rem" color="gray.0">
+            {/* <Heading as="h4" fontWeight={"bold"} fontSize="1.6rem" color="primary.0">
         Enter Player Name
       </Heading> */}
             <Center mt="1rem">
                 <Button
                     // border="2px solid"
                     height="3.5rem"
-                    // bgColor="gray.825"
-                    borderColor="gray.300"
-                    color="gray.0"
+                    // bgColor="primary.825"
+                    borderColor="primary.300"
+                    color="primary.0"
                     w="50%"
                     // transition="all 0.2s ease"
                     // clipPath="polygon(100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 0)"
-                    bgColor="gray.800"
-                    bg="linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))"
+                    bgColor="primary.800"
+                    bg="linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))"
                     borderRadius={"8px"}
                     transition={"all 0.2s ease"}
                     fontWeight={"500"}
@@ -98,13 +98,13 @@ function UserLogin() {
                     }}
                     _hover={{
                         // borderColor: "brand.300",
-                        color: "gray.20",
-                        bg: "gray.900",
+                        color: "primary.20",
+                        bg: "primary.900",
                         // bgColor: "brand.300",
                     }}
                     _focus={{
-                        bg: "gray.900",
-                        // bg: "linear-gradient(to right, var(--chakra-colors-gray-600), var(--chakra-colors-gray-800))",
+                        bg: "primary.900",
+                        // bg: "linear-gradient(to right, var(--chakra-colors-primary-600), var(--chakra-colors-primary-800))",
                     }}
                     // rightIcon={<Icon as={BiLogIn} />}
                 >
@@ -130,10 +130,10 @@ function UserFrame() {
         >
             <IsNextIndicator gamepanelid={primaryId} />
             <VStack
-                // bgColor="gray.900"
+                // bgColor="primary.900"
                 borderRadius={"8px"}
                 w="100%"
-                // boxShadow="inset 0 0px 6px var(--chakra-colors-gray-1000), inset 0 0px 2px var(--chakra-colors-gray-1000), inset 0 0px 4px var(--chakra-colors-gray-1000)"
+                // boxShadow="inset 0 0px 6px var(--chakra-colors-primary-1000), inset 0 0px 2px var(--chakra-colors-primary-1000), inset 0 0px 4px var(--chakra-colors-primary-1000)"
             >
                 <HStack
                     w="100%"
@@ -267,7 +267,7 @@ function WebMenu({}) {
             justifyContent="center"
         >
             <Button
-                color={"gray.0"}
+                color={"primary.0"}
                 role="group"
                 _hover={{ color: "brand.300" }}
                 onClick={async () => {
@@ -276,14 +276,14 @@ function WebMenu({}) {
             >
                 <RLink to={"/games"} display="flex" flexDirection={"column"} alignItems={"center"}>
                     <Icon as={GiGamepad} fontSize="3rem" />
-                    <Text as="span" fontSize={"1.2rem"} _groupHover={{ color: "gray.0" }}>
+                    <Text as="span" fontSize={"1.2rem"} _groupHover={{ color: "primary.0" }}>
                         Sign In
                     </Text>
                 </RLink>
             </Button>
             {/* 
       <Button
-        color={isActive("/profile") ? "brand.100" : "gray.0"}
+        color={isActive("/profile") ? "brand.100" : "primary.0"}
         role="group"
         _hover={{ color: "brand.300" }}
       >
@@ -294,7 +294,7 @@ function WebMenu({}) {
           alignItems={"center"}
         >
           <Icon as={GiGamepad} fontSize="3rem" />
-          <Text as="span" fontSize={"1.2rem"} _groupHover={{ color: "gray.0" }}>
+          <Text as="span" fontSize={"1.2rem"} _groupHover={{ color: "primary.0" }}>
             Profile
           </Text>
         </RLink>

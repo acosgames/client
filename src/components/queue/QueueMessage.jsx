@@ -63,7 +63,7 @@ export default function QueueMessage({
                 width="100%"
                 justifyContent={"flex-start"}
                 alignItems={"center"}
-                //   bgColor="gray.950"
+                //   bgColor="primary.950"
                 p="0.5rem"
                 borderRadius={"8px"}
                 spacing="1rem"
@@ -90,7 +90,7 @@ export default function QueueMessage({
                         as="span"
                         fontSize="1.2rem"
                         fontWeight={"bold"}
-                        color="gray.10"
+                        color="primary.10"
                         wordBreak={"break-all"}
                         height="1.4rem"
                         display="inline-block"
@@ -98,7 +98,7 @@ export default function QueueMessage({
                     >
                         {name}
                     </Text>
-                    <Text as="span" fontSize="1rem" fontWeight={"medium"} color="gray.50">
+                    <Text as="span" fontSize="1rem" fontWeight={"medium"} color="primary.50">
                         <Text as="span" fontWeight="bold">
                             {count}
                         </Text>{" "}
@@ -110,10 +110,10 @@ export default function QueueMessage({
                             fontWeight={"bold"}
                             // lineHeight="2rem"
                             display="inline-block"
-                            bgColor="gray.200"
+                            bgColor="primary.200"
                             borderRadius={"8px"}
-                            textShadow={"1px 1px 3px var(--chakra-colors-gray-1200)"}
-                            color="gray.0"
+                            textShadow={"1px 1px 3px var(--chakra-colors-primary-1200)"}
+                            color="primary.0"
                             py="0rem"
                             px="1rem"
                             // h="2rem"
@@ -125,22 +125,22 @@ export default function QueueMessage({
                             // height="1.6rem"
                             display={"block"}
                             fontSize={"xxs"}
-                            bgColor={"gray.1000"}
+                            bgColor={"primary.1000"}
                             transform="skew(-15deg)"
                             cursor={queued ? "default" : "pointer"}
                             boxShadow={
                                 queued
-                                    ? "3px 3px 0 var(--chakra-colors-gray-1000)"
+                                    ? "3px 3px 0 var(--chakra-colors-primary-1000)"
                                     : "3px 3px 0 var(--chakra-colors-alt-300)"
                             }
                             _hover={{
                                 boxShadow: queued
-                                    ? "3px 3px 0 var(--chakra-colors-gray-1000)"
+                                    ? "3px 3px 0 var(--chakra-colors-primary-1000)"
                                     : "5px 3px 0 var(--chakra-colors-alt-300)",
                             }}
                             _focus={{
                                 boxShadow: queued
-                                    ? "3px 3px 0 var(--chakra-colors-gray-1000)"
+                                    ? "3px 3px 0 var(--chakra-colors-primary-1000)"
                                     : "5px 3px 0 var(--chakra-colors-alt-300)",
                             }}
                             onClick={queued ? () => {} : handleJoin}
@@ -159,14 +159,14 @@ export default function QueueMessage({
               height="3rem"
               bgColor="yellow.400"
               border="0"
-              color="gray.700"
+              color="primary.700"
               borderRadius={"2rem"}
               fontSize="1rem"
               fontWeight="bold"
               transition={"all 0.2s ease"}
               _hover={{
                 //   borderColor: "brand.300",
-                color: "gray.900",
+                color: "primary.900",
                 bgColor: "brand.300",
               }}
             >

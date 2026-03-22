@@ -43,12 +43,12 @@ export default function FSGNumberInput(props) {
             <FormLabel
                 as="legend"
                 fontSize="xs"
-                color="gray.100"
+                color="primary.100"
                 fontWeight="bold"
             >
                 <HStack>
                     <Text
-                        color={props.titleColor || "gray.10"}
+                        color={props.titleColor || "primary.10"}
                         fontSize="1.4rem"
                         fontWeight="500"
                     >
@@ -119,15 +119,15 @@ export default function FSGNumberInput(props) {
                     }
                     // props.onChange({ target: { name: props.name, value: e } });
                     if (props.onChange) props.onChange(e);
-                    if (props.useTarget) props.useTarget(props.name, e);
+                    if (props.useTarget) props.useTarget(props.name, parseInt(e));
                 }}
                 disabled={props.disabled}
-                bgColor={props.bgColor || "gray.950"}
+                bgColor={props.bgColor || "primary.950"}
                 borderRadius={props.borderRadius || "8px"}
-                color={props.color || "gray.10"}
+                color={props.color || "primary.10"}
             >
                 <NumberInputField
-                    color={props.color || "gray.10"}
+                    color={props.color || "primary.10"}
                     p={props.p || "1.5rem"}
                     fontSize={props.fontSize || "1.4rem"}
                     borderRadius={props.borderRadius || "8px"}
@@ -148,7 +148,7 @@ export default function FSGNumberInput(props) {
                     </FormHelperText>
                 ))
             ) : (
-                <FormHelperText fontSize="1.2rem" color="gray.50">
+                <FormHelperText fontSize="1.2rem" color="primary.50">
                     {props.helperText}
                 </FormHelperText>
             )}

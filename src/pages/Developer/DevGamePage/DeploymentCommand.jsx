@@ -38,7 +38,7 @@ export default function DeploymentCommand(props) {
         <VStack alignItems={"left"} w="100%">
             {/* <Center> */}
             <Text
-                color={props.titleColor || "gray.10"}
+                color={props.titleColor || "primary.10"}
                 fontSize="1.4rem"
                 fontWeight="300"
             >
@@ -53,10 +53,10 @@ export default function DeploymentCommand(props) {
                 <FSGCopyText
                     value={devgame.deployCommand}
                     copyRef={copyRef}
-                    color={"gray.20"}
+                    color={"primary.20"}
                     fontSize={"1.3rem"}
                     fontWeight={"light"}
-                    bgColor={"gray.950"}
+                    bgColor={"primary.950"}
                     borderRadius={"8px"}
                     maxWidth={"100%"}
                     onFocus={(e) => {

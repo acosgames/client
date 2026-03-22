@@ -1,6 +1,6 @@
 import { HStack, VStack, Box, Text } from "@chakra-ui/react";
 
-import { wsLeaveQueue } from "../../actions/connection";
+import { wsLeaveQueue } from "../../actions/ws";
 import { useEffect, useState } from "react";
 import { IconButton } from "@chakra-ui/react";
 
@@ -92,7 +92,7 @@ export default function Searching({ isHeader }) {
             background={
                 isHeader
                     ? "linear-gradient(to right, rgba(0,0,0,0) 1%, rgba(0,0,0,0.95) 30%, rgba(0,0,0,0.95) 70%, rgba(0,0,0,0) 99%)"
-                    : "gray.700"
+                    : "primary.700"
             }
             onClick={() => {}}
         >
@@ -106,7 +106,7 @@ export default function Searching({ isHeader }) {
                 title="Cancel"
                 height="3.5rem"
                 isRound="true"
-                color="gray.100"
+                color="primary.100"
                 _hover={{
                     color: "yellow.100",
                 }}
@@ -116,7 +116,7 @@ export default function Searching({ isHeader }) {
                 position="absolute"
                 top="0.75rem"
                 right="1.5rem"
-                filter="drop-shadow(1px 1px 2px var(--chakra-colors-gray-1200)) "
+                filter="drop-shadow(1px 1px 2px var(--chakra-colors-primary-1200)) "
             />
             as={}
             <HStack className="queue-searching" justifyContent={"center"} spacing="0">
@@ -126,7 +126,7 @@ export default function Searching({ isHeader }) {
                     textShadow="0 0 1px var(--chakra-colors-brand-900)"
                     fontSize="1.8rem"
                     fontWeight="500"
-                    color="gray.0"
+                    color="primary.0"
                 >
                     SEARCHING
                 </Text>

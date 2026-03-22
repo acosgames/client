@@ -2,7 +2,7 @@ import { GET, POST } from "./http";
 // import { findDevGames } from './devgame';
 // import history from "./history";
 import { getWithExpiry, setWithExpiry, removeWithExpiry } from "./cache";
-import { disconnect, wsRejoinQueues, wsJoinQueues } from "./connection";
+import { disconnect, wsRejoinQueues, wsJoinQueues } from "./ws";
 import { addGameQueue, addJoinQueues, clearGameQueues, getJoinQueues } from "./queue";
 import { clearRooms, getLastJoinType, getRoomList, getRooms, setLastJoinType } from "./room";
 import { findGame, findGamePerson } from "./game";
@@ -224,6 +224,18 @@ export async function loginComplete() {
     if (isJoiningQueues) {
         wsJoinQueues(joinqueues.queues, joinqueues.owner);
     }
+}
+
+
+export async function validateLogin() {
+    let user = await getUser();
+
+    if (!user && !isUserLoggedIn()) {
+        login();
+
+        return false;
+    }
+    return true;
 }
 
 export function setLoginMode(user) {

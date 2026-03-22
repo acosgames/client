@@ -139,7 +139,7 @@ export default function DevGamePage({}) {
                                 <Text
                                     as="span"
                                     fontSize="1.2rem"
-                                    color="gray.20"
+                                    color="primary.20"
                                     pt="0"
                                 >
                                     Manage Games
@@ -148,7 +148,7 @@ export default function DevGamePage({}) {
                         </BreadcrumbItem>
 
                         <BreadcrumbItem isCurrentPage>
-                            <BreadcrumbLink href="#" color="gray.50">
+                            <BreadcrumbLink href="#" color="primary.50">
                                 {game.name}
                             </BreadcrumbLink>
                         </BreadcrumbItem>
@@ -157,13 +157,13 @@ export default function DevGamePage({}) {
                 <VStack w="100%">
                     <Wrap w="100%">
                         <VStack align="left">
-                            <Heading variant={"h1"} mb="0" color="gray.0">
+                            <Heading variant={"h1"} mb="0" color="primary.0">
                                 {game.name}
                             </Heading>
-                            {/* <Text as="h2" fontSize="2rem" fontWeight="500" color="gray.10">
+                            {/* <Text as="h2" fontSize="2rem" fontWeight="500" color="primary.10">
                 
               </Text> */}
-                            <Text as="span" fontSize="1.4rem" color="gray.50">
+                            <Text as="span" fontSize="1.4rem" color="primary.50">
                                 {game.game_slug}
                             </Text>
                         </VStack>
@@ -179,7 +179,7 @@ export default function DevGamePage({}) {
                             }}
                         >
                             <Icon w="1.5rem" h="1.5rem" as={FiExternalLink} />
-                            <Text as="span" fontSize="1rem" color="gray.100">
+                            <Text as="span" fontSize="1rem" color="primary.100">
                                 Public
                             </Text>
                         </Link>
