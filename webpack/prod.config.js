@@ -13,7 +13,7 @@ const mysql = new MySQL(productionCredentials);
 var ENTRY_FILE = './src/index.js';
 var OUTPUT_PATH = './webpack/builds';
 
-// const UploadFile = require('shared/services/uploadfile');
+// const UploadFile = require('shared/services/uploadfile.js');
 // const upload = new UploadFile();
 
 const { Readable } = require('stream');

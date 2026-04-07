@@ -14,7 +14,7 @@ export default function DevImageUpload({ uploadFunc }) {
 
     const onChange = (imageList, addUpdateIndex) => {
         console.log(imageList, addUpdateIndex);
-        if (uploadFunc) addImages(devgameimages, imageList, uploadFunc);
+        if (uploadFunc) addImages(imageList, uploadFunc);
     };
 
     const drawImageBoxes = (
