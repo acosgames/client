@@ -217,7 +217,8 @@ export function replayNextIndex(room_slug) {
     updateGamePanel(gamepanel);
     updateRoomStatus(room_slug);
 
-    if (iframe?.current?.contentWindow) iframe.current.contentWindow.postMessage(merged, "*");
+    if (iframe?.current?.contentWindow) 
+        iframe.current.contentWindow.postMessage(merged, "*");
 }
 
 export function replayJumpToIndex(room_slug, startIndex) {
@@ -287,8 +288,8 @@ export function replayJumpToIndex(room_slug, startIndex) {
 
     let players = merged?.players;
     if (!gamepanel.room.replayFollow) {
-        let playerIds = Object.keys(players);
-        let randomPlayerId = playerIds[Math.floor(Math.random() * playerIds.length)];
+        // let playerIds = Object.keys(players);
+        let randomPlayerId = Math.floor(Math.random() * players.length);
 
         merged.local = players[randomPlayerId];
 
@@ -297,20 +298,20 @@ export function replayJumpToIndex(room_slug, startIndex) {
         merged.local = players[gamepanel.room.replayFollow];
     }
 
-    for (let shortid in players) {
-        let player = players[shortid];
+    for (let player of players) {
         player.portrait = `${config.https.cdn}images/portraits/assorted-${
             player.portraitid || 1
         }-medium.webp`;
     }
 
-    merged.room.timeend = gamepanel.room.endtime;
+    // merged.room.timeend = gamepanel.room.endtime;
 
     gamepanel.room.replayIndex = startIndex;
     gamepanel.gamestate = structuredClone(merged);
     updateGamePanel(gamepanel);
     updateRoomStatus(room_slug);
-    if (iframe?.current?.contentWindow) iframe.current.contentWindow.postMessage(merged, "*");
+    if (iframe?.current?.contentWindow) 
+        iframe.current.contentWindow.postMessage(merged, "*");
 }
 
 export function replaySendGameStart(room_slug) {
